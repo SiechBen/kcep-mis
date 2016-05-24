@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +45,7 @@ public class FarmerGroup implements Serializable {
     @Size(max = 200)
     @Column(length = 200)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroupId")
+    @OneToMany(mappedBy = "farmerGroupId")
     private List<Person> personList;
 
     public FarmerGroup() {

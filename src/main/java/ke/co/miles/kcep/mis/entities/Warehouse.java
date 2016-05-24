@@ -56,14 +56,14 @@ public class Warehouse implements Serializable {
     private Boolean certified;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouseId")
     private List<Equipment> equipmentList;
-    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @ManyToOne
     private Location locationId;
-    @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @ManyToOne
     private Person personId;
-    @JoinColumn(name = "units_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "units_id", referencedColumnName = "id")
+    @ManyToOne
     private MeasurementUnit unitsId;
 
     public Warehouse() {

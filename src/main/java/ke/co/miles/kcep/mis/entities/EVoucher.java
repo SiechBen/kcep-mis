@@ -58,8 +58,8 @@ public class EVoucher implements Serializable {
     @JoinColumn(name = "input_type_id", referencedColumnName = "id")
     @ManyToOne
     private InputType inputTypeId;
-    @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @ManyToOne
     private Person personId;
 
     public EVoucher() {

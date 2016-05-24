@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "PersonRole.findAll", query = "SELECT p FROM PersonRole p"),
     @NamedQuery(name = "PersonRole.findById", query = "SELECT p FROM PersonRole p WHERE p.id = :id"),
-    @NamedQuery(name = "PersonRole.findByRole", query = "SELECT p FROM PersonRole p WHERE p.role = :role")})
+    @NamedQuery(name = "PersonRole.findByPersonRole", query = "SELECT p FROM PersonRole p WHERE p.personRole = :personRole")})
 public class PersonRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,11 +43,11 @@ public class PersonRole implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Size(max = 45)
-    @Column(length = 45)
-    private String role;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRoleId")
+    @Column(name = "person_role", length = 45)
+    private String personRole;
+    @OneToMany(mappedBy = "personRoleId")
     private List<Training> trainingList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRoleId")
+    @OneToMany(mappedBy = "personRoleId")
     private List<Person> personList;
 
     public PersonRole() {
@@ -66,12 +65,12 @@ public class PersonRole implements Serializable {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getPersonRole() {
+        return personRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPersonRole(String personRole) {
+        this.personRole = personRole;
     }
 
     @XmlTransient

@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,9 +61,9 @@ public class Location implements Serializable {
     private BigDecimal longitude;
     @Column(precision = 9, scale = 7)
     private BigDecimal latitude;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationId")
+    @OneToMany(mappedBy = "locationId")
     private List<Warehouse> warehouseList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationId")
+    @OneToMany(mappedBy = "locationId")
     private List<Person> personList;
 
     public Location() {

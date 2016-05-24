@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,23 +57,23 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name", length = 45)
     private String businessName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<Training> trainingList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<EVoucher> eVoucherList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personId")
+    @OneToMany(mappedBy = "personId")
     private List<Warehouse> warehouseList;
-    @JoinColumn(name = "contact_id1", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Contact contactId1;
-    @JoinColumn(name = "farmer_group_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    @ManyToOne
+    private Contact contactId;
+    @JoinColumn(name = "farmer_group_id", referencedColumnName = "id")
+    @ManyToOne
     private FarmerGroup farmerGroupId;
-    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @ManyToOne
     private Location locationId;
-    @JoinColumn(name = "person_role_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_role_id", referencedColumnName = "id")
+    @ManyToOne
     private PersonRole personRoleId;
 
     public Person() {
@@ -151,12 +150,12 @@ public class Person implements Serializable {
         this.warehouseList = warehouseList;
     }
 
-    public Contact getContactId1() {
-        return contactId1;
+    public Contact getContactId() {
+        return contactId;
     }
 
-    public void setContactId1(Contact contactId1) {
-        this.contactId1 = contactId1;
+    public void setContactId(Contact contactId) {
+        this.contactId = contactId;
     }
 
     public FarmerGroup getFarmerGroupId() {

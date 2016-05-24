@@ -67,11 +67,11 @@ public class Training implements Serializable {
     @Size(max = 200)
     @Column(length = 200)
     private String attendance;
-    @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @ManyToOne
     private Person personId;
-    @JoinColumn(name = "person_role_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "person_role_id", referencedColumnName = "id")
+    @ManyToOne
     private PersonRole personRoleId;
 
     public Training() {

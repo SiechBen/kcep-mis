@@ -18,11 +18,6 @@ import ke.co.miles.kcep.mis.utilities.PersonDetails;
 public class PersonRequests implements PersonRequestsLocal {
 
     @Override
-    public int addPerson(PersonDetails personDetails) throws MilesException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public PersonDetails retrievePerson(int personId) throws MilesException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -42,7 +37,11 @@ public class PersonRequests implements PersonRequestsLocal {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-//<editor-fold defaultstate="collapsed" desc="Create">
+//<editor-fold defaultstate="collapsed" desc="Create">  
+    @Override
+    public int addPerson(PersonDetails personDetails) throws MilesException {
+        
+    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
 //</editor-fold>
