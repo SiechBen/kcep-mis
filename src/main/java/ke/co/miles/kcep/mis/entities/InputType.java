@@ -47,10 +47,10 @@ public class InputType implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String type;
-    @JoinColumn(name = "static_input_id", referencedColumnName = "id")
+    @JoinColumn(name = "static_input", referencedColumnName = "id")
     @ManyToOne
-    private StaticInput staticInputId;
-    @OneToMany(mappedBy = "inputTypeId")
+    private StaticInput staticInput;
+    @OneToMany(mappedBy = "inputType")
     private List<EVoucher> eVoucherList;
 
     public InputType() {
@@ -76,12 +76,12 @@ public class InputType implements Serializable {
         this.type = type;
     }
 
-    public StaticInput getStaticInputId() {
-        return staticInputId;
+    public StaticInput getStaticInput() {
+        return staticInput;
     }
 
-    public void setStaticInputId(StaticInput staticInputId) {
-        this.staticInputId = staticInputId;
+    public void setStaticInput(StaticInput staticInput) {
+        this.staticInput = staticInput;
     }
 
     @XmlTransient

@@ -34,13 +34,13 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
     private Boolean certified;
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private LocationDetails locationId;
+    private LocationDetails location;
     @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private PersonDetails personId;
+    private PersonDetails person;
     @JoinColumn(name = "units_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private MeasurementUnitDetails unitsId;
+    private MeasurementUnitDetails units;
 
     public WarehouseDetails() {
     }
@@ -89,28 +89,28 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
         this.certified = certified;
     }
 
-    public LocationDetails getLocationId() {
-        return locationId;
+    public LocationDetails getLocation() {
+        return location;
     }
 
-    public void setLocationId(LocationDetails locationId) {
-        this.locationId = locationId;
+    public void setLocation(LocationDetails location) {
+        this.location = location;
     }
 
-    public PersonDetails getPersonId() {
-        return personId;
+    public PersonDetails getPerson() {
+        return person;
     }
 
-    public void setPersonId(PersonDetails personId) {
-        this.personId = personId;
+    public void setPerson(PersonDetails person) {
+        this.person = person;
     }
 
-    public MeasurementUnitDetails getUnitsId() {
-        return unitsId;
+    public MeasurementUnitDetails getUnits() {
+        return units;
     }
 
-    public void setUnitsId(MeasurementUnitDetails unitsId) {
-        this.unitsId = unitsId;
+    public void setUnits(MeasurementUnitDetails units) {
+        this.units = units;
     }
 
     @Override

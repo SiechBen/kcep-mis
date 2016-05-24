@@ -40,10 +40,10 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
     private String photo;
     @JoinColumn(name = "input_type_id", referencedColumnName = "id")
     @ManyToOne
-    private InputTypeDetails inputTypeId;
+    private InputTypeDetails inputType;
     @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private PersonDetails personId;
+    private PersonDetails person;
 
     public EVoucherDetails() {
     }
@@ -84,20 +84,20 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
         this.photo = photo;
     }
 
-    public InputTypeDetails getInputTypeId() {
-        return inputTypeId;
+    public InputTypeDetails getInputType() {
+        return inputType;
     }
 
-    public void setInputTypeId(InputTypeDetails inputTypeId) {
-        this.inputTypeId = inputTypeId;
+    public void setInputType(InputTypeDetails inputType) {
+        this.inputType = inputType;
     }
 
-    public PersonDetails getPersonId() {
-        return personId;
+    public PersonDetails getPerson() {
+        return person;
     }
 
-    public void setPersonId(PersonDetails personId) {
-        this.personId = personId;
+    public void setPerson(PersonDetails person) {
+        this.person = person;
     }
 
     @Override

@@ -55,12 +55,12 @@ public class EVoucher implements Serializable {
     @Size(max = 200)
     @Column(length = 200)
     private String photo;
-    @JoinColumn(name = "input_type_id", referencedColumnName = "id")
+    @JoinColumn(name = "input_type", referencedColumnName = "id")
     @ManyToOne
-    private InputType inputTypeId;
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private InputType inputType;
+    @JoinColumn(name = "person", referencedColumnName = "id")
     @ManyToOne
-    private Person personId;
+    private Person person;
 
     public EVoucher() {
     }
@@ -101,20 +101,20 @@ public class EVoucher implements Serializable {
         this.photo = photo;
     }
 
-    public InputType getInputTypeId() {
-        return inputTypeId;
+    public InputType getInputType() {
+        return inputType;
     }
 
-    public void setInputTypeId(InputType inputTypeId) {
-        this.inputTypeId = inputTypeId;
+    public void setInputType(InputType inputType) {
+        this.inputType = inputType;
     }
 
-    public Person getPersonId() {
-        return personId;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

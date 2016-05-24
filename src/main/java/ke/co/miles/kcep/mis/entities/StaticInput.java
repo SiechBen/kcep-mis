@@ -45,7 +45,7 @@ public class StaticInput implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String name;
-    @OneToMany(mappedBy = "staticInputId")
+    @OneToMany(mappedBy = "staticInput")
     private List<InputType> inputTypeList;
 
     public StaticInput() {

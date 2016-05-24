@@ -61,9 +61,9 @@ public class Location implements Serializable {
     private BigDecimal longitude;
     @Column(precision = 9, scale = 7)
     private BigDecimal latitude;
-    @OneToMany(mappedBy = "locationId")
+    @OneToMany(mappedBy = "location")
     private List<Warehouse> warehouseList;
-    @OneToMany(mappedBy = "locationId")
+    @OneToMany(mappedBy = "location")
     private List<Person> personList;
 
     public Location() {

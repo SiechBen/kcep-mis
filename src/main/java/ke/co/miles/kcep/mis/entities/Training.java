@@ -67,12 +67,12 @@ public class Training implements Serializable {
     @Size(max = 200)
     @Column(length = 200)
     private String attendance;
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "person", referencedColumnName = "id")
     @ManyToOne
-    private Person personId;
-    @JoinColumn(name = "person_role_id", referencedColumnName = "id")
+    private Person person;
+    @JoinColumn(name = "person_role", referencedColumnName = "id")
     @ManyToOne
-    private PersonRole personRoleId;
+    private PersonRole personRole;
 
     public Training() {
     }
@@ -137,20 +137,20 @@ public class Training implements Serializable {
         this.attendance = attendance;
     }
 
-    public Person getPersonId() {
-        return personId;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public PersonRole getPersonRoleId() {
-        return personRoleId;
+    public PersonRole getPersonRole() {
+        return personRole;
     }
 
-    public void setPersonRoleId(PersonRole personRoleId) {
-        this.personRoleId = personRoleId;
+    public void setPersonRole(PersonRole personRole) {
+        this.personRole = personRole;
     }
 
     @Override

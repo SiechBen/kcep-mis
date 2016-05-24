@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
     @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
     @NamedQuery(name = "Person.findByNationalId", query = "SELECT p FROM Person p WHERE p.nationalId = :nationalId"),
-    @NamedQuery(name = "Person.findByGender", query = "SELECT p FROM Person p WHERE p.gender = :gender"),
     @NamedQuery(name = "Person.findByBusinessName", query = "SELECT p FROM Person p WHERE p.businessName = :businessName")})
 public class Person implements Serializable {
 
@@ -53,28 +52,30 @@ public class Person implements Serializable {
     @Size(max = 20)
     @Column(name = "national_id", length = 20)
     private String nationalId;
-    private Boolean gender;
     @Size(max = 45)
     @Column(name = "business_name", length = 45)
     private String businessName;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(mappedBy = "person")
     private List<Training> trainingList;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(mappedBy = "person")
     private List<EVoucher> eVoucherList;
-    @OneToMany(mappedBy = "personId")
+    @OneToMany(mappedBy = "person")
     private List<Warehouse> warehouseList;
-    @JoinColumn(name = "contact_id", referencedColumnName = "id")
+    @JoinColumn(name = "contact", referencedColumnName = "id")
     @ManyToOne
-    private Contact contactId;
-    @JoinColumn(name = "farmer_group_id", referencedColumnName = "id")
+    private Contact contact;
+    @JoinColumn(name = "farmer_group", referencedColumnName = "id")
     @ManyToOne
-    private FarmerGroup farmerGroupId;
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private FarmerGroup farmerGroup;
+    @JoinColumn(name = "location", referencedColumnName = "id")
     @ManyToOne
-    private Location locationId;
-    @JoinColumn(name = "person_role_id", referencedColumnName = "id")
+    private Location location;
+    @JoinColumn(name = "person_role", referencedColumnName = "id")
     @ManyToOne
-    private PersonRole personRoleId;
+    private PersonRole personRole;
+    @JoinColumn(name = "sex", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Sex sex;
 
     public Person() {
     }
@@ -105,14 +106,6 @@ public class Person implements Serializable {
 
     public void setNationalId(String nationalId) {
         this.nationalId = nationalId;
-    }
-
-    public Boolean getGender() {
-        return gender;
-    }
-
-    public void setGender(Boolean gender) {
-        this.gender = gender;
     }
 
     public String getBusinessName() {
@@ -150,36 +143,44 @@ public class Person implements Serializable {
         this.warehouseList = warehouseList;
     }
 
-    public Contact getContactId() {
-        return contactId;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setContactId(Contact contactId) {
-        this.contactId = contactId;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
-    public FarmerGroup getFarmerGroupId() {
-        return farmerGroupId;
+    public FarmerGroup getFarmerGroup() {
+        return farmerGroup;
     }
 
-    public void setFarmerGroupId(FarmerGroup farmerGroupId) {
-        this.farmerGroupId = farmerGroupId;
+    public void setFarmerGroup(FarmerGroup farmerGroup) {
+        this.farmerGroup = farmerGroup;
     }
 
-    public Location getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(Location locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public PersonRole getPersonRoleId() {
-        return personRoleId;
+    public PersonRole getPersonRole() {
+        return personRole;
     }
 
-    public void setPersonRoleId(PersonRole personRoleId) {
-        this.personRoleId = personRoleId;
+    public void setPersonRole(PersonRole personRole) {
+        this.personRole = personRole;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     @Override

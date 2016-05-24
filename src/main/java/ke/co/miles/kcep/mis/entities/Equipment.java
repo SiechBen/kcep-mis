@@ -52,9 +52,9 @@ public class Equipment implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String status;
-    @JoinColumn(name = "warehouse_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "warehouse", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Warehouse warehouseId;
+    private Warehouse warehouse;
 
     public Equipment() {
     }
@@ -95,12 +95,12 @@ public class Equipment implements Serializable {
         this.status = status;
     }
 
-    public Warehouse getWarehouseId() {
-        return warehouseId;
+    public Warehouse getWarehouse() {
+        return warehouse;
     }
 
-    public void setWarehouseId(Warehouse warehouseId) {
-        this.warehouseId = warehouseId;
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 
     @Override

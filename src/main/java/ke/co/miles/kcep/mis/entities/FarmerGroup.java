@@ -45,7 +45,7 @@ public class FarmerGroup implements Serializable {
     @Size(max = 200)
     @Column(length = 200)
     private String name;
-    @OneToMany(mappedBy = "farmerGroupId")
+    @OneToMany(mappedBy = "farmerGroup")
     private List<Person> personList;
 
     public FarmerGroup() {

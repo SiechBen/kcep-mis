@@ -49,10 +49,10 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
     private String attendance;
     @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private PersonDetails personId;
+    private PersonDetails person;
     @JoinColumn(name = "person_role_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private PersonRoleDetails personRoleId;
+    private PersonRoleDetails personRole;
 
     public TrainingDetails() {
     }
@@ -117,20 +117,20 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.attendance = attendance;
     }
 
-    public PersonDetails getPersonId() {
-        return personId;
+    public PersonDetails getPerson() {
+        return person;
     }
 
-    public void setPersonId(PersonDetails personId) {
-        this.personId = personId;
+    public void setPerson(PersonDetails person) {
+        this.person = person;
     }
 
-    public PersonRoleDetails getPersonRoleId() {
-        return personRoleId;
+    public PersonRoleDetails getPersonRole() {
+        return personRole;
     }
 
-    public void setPersonRoleId(PersonRoleDetails personRoleId) {
-        this.personRoleId = personRoleId;
+    public void setPersonRole(PersonRoleDetails personRole) {
+        this.personRole = personRole;
     }
 
     @Override

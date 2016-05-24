@@ -45,9 +45,9 @@ public class PersonRole implements Serializable {
     @Size(max = 45)
     @Column(name = "person_role", length = 45)
     private String personRole;
-    @OneToMany(mappedBy = "personRoleId")
+    @OneToMany(mappedBy = "personRole")
     private List<Training> trainingList;
-    @OneToMany(mappedBy = "personRoleId")
+    @OneToMany(mappedBy = "personRole")
     private List<Person> personList;
 
     public PersonRole() {

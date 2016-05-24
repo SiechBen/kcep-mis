@@ -54,17 +54,17 @@ public class Warehouse implements Serializable {
     private Integer capacity;
     private Boolean wrs;
     private Boolean certified;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouseId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouse")
     private List<Equipment> equipmentList;
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @JoinColumn(name = "location", referencedColumnName = "id")
     @ManyToOne
-    private Location locationId;
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Location location;
+    @JoinColumn(name = "person", referencedColumnName = "id")
     @ManyToOne
-    private Person personId;
-    @JoinColumn(name = "units_id", referencedColumnName = "id")
+    private Person person;
+    @JoinColumn(name = "units", referencedColumnName = "id")
     @ManyToOne
-    private MeasurementUnit unitsId;
+    private MeasurementUnit units;
 
     public Warehouse() {
     }
@@ -122,28 +122,28 @@ public class Warehouse implements Serializable {
         this.equipmentList = equipmentList;
     }
 
-    public Location getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(Location locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public Person getPersonId() {
-        return personId;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public MeasurementUnit getUnitsId() {
-        return unitsId;
+    public MeasurementUnit getUnits() {
+        return units;
     }
 
-    public void setUnitsId(MeasurementUnit unitsId) {
-        this.unitsId = unitsId;
+    public void setUnits(MeasurementUnit units) {
+        this.units = units;
     }
 
     @Override

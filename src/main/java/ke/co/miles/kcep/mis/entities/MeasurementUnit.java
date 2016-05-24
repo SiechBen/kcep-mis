@@ -45,7 +45,7 @@ public class MeasurementUnit implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String unit;
-    @OneToMany(mappedBy = "unitsId")
+    @OneToMany(mappedBy = "units")
     private List<Warehouse> warehouseList;
 
     public MeasurementUnit() {

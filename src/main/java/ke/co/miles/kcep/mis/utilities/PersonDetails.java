@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
+import ke.co.miles.kcep.mis.entities.Sex;
 
 /**
  *
@@ -31,23 +32,25 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     private String name;
     @Size(max = 20)
     @Column(name = "national_id", length = 20)
-    private String nationalId;
-    private Boolean gender;
+    private String national;
     @Size(max = 45)
     @Column(name = "business_name", length = 45)
     private String businessName;
     @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private ContactDetails contactId;
+    private ContactDetails contact;
     @JoinColumn(name = "farmer_group_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private FarmerGroupDetails farmerGroupId;
+    private FarmerGroupDetails farmerGroup;
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private LocationDetails locationId;
+    private LocationDetails location;
     @JoinColumn(name = "person_role_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private PersonRoleDetails personRoleId;
+    private PersonRoleDetails personRole;
+    @JoinColumn(name = "sex", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Sex sex;
 
     public PersonDetails() {
     }
@@ -73,19 +76,19 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     }
 
     public String getNationalId() {
-        return nationalId;
+        return national;
     }
 
-    public void setNationalId(String nationalId) {
-        this.nationalId = nationalId;
+    public void setNational(String national) {
+        this.national = national;
     }
 
-    public Boolean getGender() {
-        return gender;
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
-    public void setGender(Boolean gender) {
-        this.gender = gender;
+    public Sex getSex() {
+        return sex;
     }
 
     public String getBusinessName() {
@@ -96,36 +99,36 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         this.businessName = businessName;
     }
 
-    public ContactDetails getContactId() {
-        return contactId;
+    public ContactDetails getContact() {
+        return contact;
     }
 
-    public void setContactId(ContactDetails contactId) {
-        this.contactId = contactId;
+    public void setContact(ContactDetails contact) {
+        this.contact = contact;
     }
 
-    public FarmerGroupDetails getFarmerGroupId() {
-        return farmerGroupId;
+    public FarmerGroupDetails getFarmerGroup() {
+        return farmerGroup;
     }
 
-    public void setFarmerGroupId(FarmerGroupDetails farmerGroupId) {
-        this.farmerGroupId = farmerGroupId;
+    public void setFarmerGroup(FarmerGroupDetails farmerGroup) {
+        this.farmerGroup = farmerGroup;
     }
 
-    public LocationDetails getLocationId() {
-        return locationId;
+    public LocationDetails getLocation() {
+        return location;
     }
 
-    public void setLocationId(LocationDetails locationId) {
-        this.locationId = locationId;
+    public void setLocation(LocationDetails location) {
+        this.location = location;
     }
 
-    public PersonRoleDetails getPersonRoleId() {
-        return personRoleId;
+    public PersonRoleDetails getPersonRole() {
+        return personRole;
     }
 
-    public void setPersonRoleId(PersonRoleDetails personRoleId) {
-        this.personRoleId = personRoleId;
+    public void setPersonRole(PersonRoleDetails personRole) {
+        this.personRole = personRole;
     }
 
     @Override

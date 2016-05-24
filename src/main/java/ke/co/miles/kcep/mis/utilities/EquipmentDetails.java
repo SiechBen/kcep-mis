@@ -38,7 +38,7 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
     private String status;
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Warehouse warehouseId;
+    private Warehouse warehouse;
 
     public EquipmentDetails() {
     }
