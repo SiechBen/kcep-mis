@@ -6,15 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,8 +27,6 @@ public class StaticInputDetails implements Serializable, Comparable<StaticInputD
     @Size(max = 45)
     @Column(length = 45)
     private String name;
-    @OneToMany(mappedBy = "staticInputId")
-    private List<InputTypeDetails> inputTypeList;
 
     public StaticInputDetails() {
     }
@@ -54,15 +49,6 @@ public class StaticInputDetails implements Serializable, Comparable<StaticInputD
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @XmlTransient
-    public List<InputTypeDetails> getInputTypeList() {
-        return inputTypeList;
-    }
-
-    public void setInputTypeList(List<InputTypeDetails> inputTypeList) {
-        this.inputTypeList = inputTypeList;
     }
 
     @Override
