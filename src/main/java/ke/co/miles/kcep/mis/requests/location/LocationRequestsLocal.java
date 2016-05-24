@@ -17,6 +17,20 @@ import ke.co.miles.kcep.mis.utilities.LocationDetails;
 @Local
 public interface LocationRequestsLocal {
 
-    public Location addLocation(LocationDetails location) throws MilesException;
-    
+    /**
+     *
+     * @param locationDetails details of the contact record to be created
+     * @return the created record
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public Location addLocation(LocationDetails locationDetails) throws MilesException;
+
+    /**
+     *
+     * @param locationDetails details of the contact record to be edited
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void editLocation(LocationDetails locationDetails) throws MilesException;
 }

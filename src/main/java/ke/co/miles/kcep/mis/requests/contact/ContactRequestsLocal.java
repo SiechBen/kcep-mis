@@ -20,10 +20,18 @@ public interface ContactRequestsLocal {
     /**
      *
      * @param contactDetails details of the contact record to be created
-     * @return unique identifier of the new record added
+     * @return the created record
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
     public Contact addContact(ContactDetails contactDetails) throws MilesException;
+
+    /**
+     *
+     * @param contactDetails details of the contact record to be edited
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void editContact(ContactDetails contactDetails) throws MilesException;
 
 }
