@@ -63,7 +63,22 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the symbol
+     */
+    public String getSymbol() {
+        return symbol;
+    }
+
+    /**
+     * @param symbol the symbol to set
+     */
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
     private Integer id;
     private String unit;
+    private String symbol;
 
 }

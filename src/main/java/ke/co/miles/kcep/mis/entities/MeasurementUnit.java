@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "MeasurementUnit.findAll", query = "SELECT m FROM MeasurementUnit m"),
     @NamedQuery(name = "MeasurementUnit.findById", query = "SELECT m FROM MeasurementUnit m WHERE m.id = :id"),
-    @NamedQuery(name = "MeasurementUnit.findByUnit", query = "SELECT m FROM MeasurementUnit m WHERE m.unit = :unit")})
+    @NamedQuery(name = "MeasurementUnit.findByUnit", query = "SELECT m FROM MeasurementUnit m WHERE m.unit = :unit"),
+    @NamedQuery(name = "MeasurementUnit.findBySymbol", query = "SELECT m FROM MeasurementUnit m WHERE m.symbol = :symbol")})
 public class MeasurementUnit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +46,9 @@ public class MeasurementUnit implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String unit;
+    @Size(max = 10)
+    @Column(length = 10)
+    private String symbol;
     @OneToMany(mappedBy = "units")
     private List<Warehouse> warehouseList;
 
@@ -69,6 +73,14 @@ public class MeasurementUnit implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     @XmlTransient

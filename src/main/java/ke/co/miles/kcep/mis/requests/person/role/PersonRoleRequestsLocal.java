@@ -59,8 +59,8 @@ public interface PersonRoleRequestsLocal {
 
     /**
      *
-     * @param personRole the person to be converted
-     * @return the details of the converted person
+     * @param personRole the person role to be converted
+     * @return the details of the converted person role
      */
     public PersonRoleDetails convertPersonRoleToPersonRoleDetails(PersonRole personRole);
 
