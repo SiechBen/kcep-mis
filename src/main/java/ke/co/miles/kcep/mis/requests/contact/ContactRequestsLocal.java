@@ -41,4 +41,11 @@ public interface ContactRequestsLocal {
      */
     public void removeContact(int id) throws MilesException;
 
+    /**
+     *
+     * @param contact the contact to be converted to details
+     * @return the details of the converted contact
+     */
+    public ContactDetails convertContactToContactDetails(Contact contact);
+
 }

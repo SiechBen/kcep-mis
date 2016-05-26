@@ -68,6 +68,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
 
+    @Override
     public List<LocationDetails> retrieveLocations() throws MilesException {
         List<Location> locations = new ArrayList<>();
         q = em.createNamedQuery("Location.findAll");
@@ -79,6 +80,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         return convertLocationsToLocationDetailsList(locations);
     }
 
+    @Override
     public LocationDetails retrieveLocation(int id) throws MilesException {
         Location location;
         q = em.createNamedQuery("Location.findById");
@@ -99,6 +101,8 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
         if (locationDetails == null) {
             throw new InvalidArgumentException("error_003_01");
+        } else if (locationDetails.getId() == null ) {
+            throw new InvalidArgumentException("error_003_06");
         } else if (locationDetails.getLongitude() != null) {
             if (locationDetails.getLatitude() == null) {
                 throw new InvalidArgumentException("error_003_02");
@@ -149,7 +153,8 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
-    private LocationDetails convertLocationToLocationDetails(Location location) {
+    @Override
+    public LocationDetails convertLocationToLocationDetails(Location location) {
 
         LocationDetails locationDetails = new LocationDetails(location.getId());
         locationDetails.setCounty(location.getCounty());
@@ -172,4 +177,5 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     }
 
 //</editor-fold>
+    
 }

@@ -6,27 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class MeasurementUnitDetails implements Serializable, Comparable<MeasurementUnitDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String unit;
 
     public MeasurementUnitDetails() {
     }
@@ -77,5 +62,8 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
     public int compareTo(MeasurementUnitDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String unit;
 
 }

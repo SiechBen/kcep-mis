@@ -7,53 +7,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Lob
-    @Size(max = 65535)
-    @Column(length = 65535)
-    private String activity;
-    @Size(max = 45)
-    @Column(name = "start_period", length = 45)
-    private String startPeriod;
-    @Size(max = 45)
-    @Column(name = "end_period", length = 45)
-    private String endPeriod;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String unit;
-    @Size(max = 45)
-    @Column(name = "awp_target", length = 45)
-    private String awpTarget;
-    @Size(max = 45)
-    @Column(name = "programme_target", length = 45)
-    private String programmeTarget;
-    @Size(max = 45)
-    @Column(name = "value_achieved", length = 45)
-    private String valueAchieved;
-    @Size(max = 45)
-    @Column(name = "requested_budget", length = 45)
-    private String requestedBudget;
-    @Size(max = 45)
-    @Column(name = "actual_expenditure", length = 45)
-    private String actualExpenditure;
 
     public ProgrammeDetails() {
     }
@@ -168,5 +127,16 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     public int compareTo(ProgrammeDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String activity;
+    private String startPeriod;
+    private String endPeriod;
+    private String unit;
+    private String awpTarget;
+    private String programmeTarget;
+    private String valueAchieved;
+    private String requestedBudget;
+    private String actualExpenditure;
 
 }

@@ -6,23 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  *
  * @author siech
  */
 public class ContractDetails implements Serializable, Comparable<ContractDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
 
     public ContractDetails() {
     }
@@ -65,4 +54,7 @@ public class ContractDetails implements Serializable, Comparable<ContractDetails
     public int compareTo(ContractDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+
 }

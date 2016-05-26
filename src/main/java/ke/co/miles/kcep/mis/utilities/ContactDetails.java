@@ -6,35 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class ContactDetails implements Serializable, Comparable<ContactDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
-    @Size(max = 45)
-    @Column(length = 45)
-    private String phone;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 45)
-    @Column(length = 45)
-    private String email;
-    @Size(max = 200)
-    @Column(name = "postal_address", length = 200)
-    private String postalAddress;
 
     public ContactDetails() {
     }
@@ -101,5 +78,10 @@ public class ContactDetails implements Serializable, Comparable<ContactDetails> 
     public int compareTo(ContactDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String phone;
+    private String email;
+    private String postalAddress;
 
 }

@@ -7,43 +7,12 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String amount;
-    @Column(name = "date_redeemed")
-    @Temporal(TemporalType.DATE)
-    private Date dateRedeemed;
-    @Size(max = 200)
-    @Column(length = 200)
-    private String photo;
-    @JoinColumn(name = "input_type_id", referencedColumnName = "id")
-    @ManyToOne
-    private InputTypeDetails inputType;
-    @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private PersonDetails person;
 
     public EVoucherDetails() {
     }
@@ -126,5 +95,12 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
     public int compareTo(EVoucherDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String amount;
+    private Date dateRedeemed;
+    private String photo;
+    private InputTypeDetails inputType;
+    private PersonDetails person;
 
 }

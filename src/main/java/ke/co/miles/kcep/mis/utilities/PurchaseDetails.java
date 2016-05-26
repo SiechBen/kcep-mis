@@ -6,54 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class PurchaseDetails implements Serializable, Comparable<PurchaseDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String item;
-    @Size(max = 45)
-    @Column(name = "date_purchased", length = 45)
-    private String datePurchased;
-    @Size(max = 45)
-    @Column(name = "serial_number", length = 45)
-    private String serialNumber;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String description;
-    @Size(max = 45)
-    @Column(name = "target_office", length = 45)
-    private String targetOffice;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String county;
-    @Size(max = 45)
-    @Column(name = "sub_county", length = 45)
-    private String subCounty;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String cost;
-    @Size(max = 45)
-    @Column(name = "lpo_number", length = 45)
-    private String lpoNumber;
-    @Size(max = 300)
-    @Column(length = 300)
-    private String invoice;
 
     public PurchaseDetails() {
     }
@@ -176,4 +134,17 @@ public class PurchaseDetails implements Serializable, Comparable<PurchaseDetails
     public int compareTo(PurchaseDetails o) {
         return this.id.compareTo(o.getId());
     }
+    
+    private Integer id;
+    private String item;
+    private String datePurchased;
+    private String serialNumber;
+    private String description;
+    private String targetOffice;
+    private String county;
+    private String subCounty;
+    private String cost;
+    private String lpoNumber;
+    private String invoice;
+
 }

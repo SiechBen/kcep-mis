@@ -55,7 +55,7 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name", length = 45)
     private String businessName;
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "trainer")
     private List<Training> trainingList;
     @OneToMany(mappedBy = "person")
     private List<EVoucher> eVoucherList;
@@ -73,8 +73,8 @@ public class Person implements Serializable {
     @JoinColumn(name = "person_role", referencedColumnName = "id")
     @ManyToOne
     private PersonRole personRole;
-    @JoinColumn(name = "sex", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "sex", referencedColumnName = "id")
+    @ManyToOne
     private Sex sex;
 
     public Person() {

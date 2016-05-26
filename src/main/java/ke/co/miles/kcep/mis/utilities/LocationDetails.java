@@ -7,38 +7,12 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class LocationDetails implements Serializable, Comparable<LocationDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String county;
-    @Size(max = 45)
-    @Column(name = "sub_county", length = 45)
-    private String subCounty;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String ward;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(precision = 10, scale = 7)
-    private BigDecimal longitude;
-    @Column(precision = 9, scale = 7)
-    private BigDecimal latitude;
 
     public LocationDetails() {
     }
@@ -121,5 +95,12 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
     public int compareTo(LocationDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String county;
+    private String subCounty;
+    private String ward;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
 
 }

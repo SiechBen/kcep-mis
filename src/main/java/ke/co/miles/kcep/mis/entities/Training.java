@@ -52,24 +52,23 @@ public class Training implements Serializable {
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
     private Date startDate;
-    @Size(max = 45)
-    @Column(name = "end_date", length = 45)
-    private String endDate;
-    @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+    @Size(max = 200)
+    @Column(length = 200)
     private String topic;
-    @Size(max = 45)
-    @Column(length = 45)
+    @Size(max = 200)
+    @Column(length = 200)
     private String venue;
-    @Size(max = 45)
-    @Column(name = "number_of_trainees", length = 45)
-    private String numberOfTrainees;
+    @Column(name = "number_of_trainees")
+    private Integer numberOfTrainees;
     @Size(max = 200)
     @Column(length = 200)
     private String attendance;
-    @JoinColumn(name = "person", referencedColumnName = "id")
+    @JoinColumn(name = "trainer", referencedColumnName = "id")
     @ManyToOne
-    private Person person;
+    private Person trainer;
     @JoinColumn(name = "person_role", referencedColumnName = "id")
     @ManyToOne
     private PersonRole personRole;
@@ -97,11 +96,11 @@ public class Training implements Serializable {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -121,11 +120,11 @@ public class Training implements Serializable {
         this.venue = venue;
     }
 
-    public String getNumberOfTrainees() {
+    public Integer getNumberOfTrainees() {
         return numberOfTrainees;
     }
 
-    public void setNumberOfTrainees(String numberOfTrainees) {
+    public void setNumberOfTrainees(Integer numberOfTrainees) {
         this.numberOfTrainees = numberOfTrainees;
     }
 
@@ -137,12 +136,12 @@ public class Training implements Serializable {
         this.attendance = attendance;
     }
 
-    public Person getPerson() {
-        return person;
+    public Person getTrainer() {
+        return trainer;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setTrainer(Person trainer) {
+        this.trainer = trainer;
     }
 
     public PersonRole getPersonRole() {

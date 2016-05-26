@@ -6,41 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class WarehouseDetails implements Serializable, Comparable<WarehouseDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 200)
-    @Column(length = 200)
-    private String name;
-    private Integer capacity;
-    private Boolean wrs;
-    private Boolean certified;
-    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private LocationDetails location;
-    @JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private PersonDetails person;
-    @JoinColumn(name = "units_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private MeasurementUnitDetails units;
 
     public WarehouseDetails() {
     }
@@ -139,5 +110,14 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
     public int compareTo(WarehouseDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String name;
+    private Integer capacity;
+    private Boolean wrs;
+    private Boolean certified;
+    private LocationDetails location;
+    private PersonDetails person;
+    private MeasurementUnitDetails units;
 
 }

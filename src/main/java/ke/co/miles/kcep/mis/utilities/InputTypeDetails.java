@@ -6,32 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class InputTypeDetails implements Serializable, Comparable<InputTypeDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String type;
-    @JoinColumn(name = "static_input_id", referencedColumnName = "id")
-    @ManyToOne
-    private StaticInputDetails staticInputId;
 
     public InputTypeDetails() {
     }
@@ -90,5 +70,9 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
     public int compareTo(InputTypeDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String type;
+    private StaticInputDetails staticInputId;
 
 }

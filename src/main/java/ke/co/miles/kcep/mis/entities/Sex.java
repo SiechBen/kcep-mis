@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +45,7 @@ public class Sex implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String sex;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sex")
+    @OneToMany(mappedBy = "sex")
     private List<Person> personList;
 
     public Sex() {

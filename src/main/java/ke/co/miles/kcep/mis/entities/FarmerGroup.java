@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -42,8 +43,10 @@ public class FarmerGroup implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Size(max = 200)
-    @Column(length = 200)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(nullable = false, length = 200)
     private String name;
     @OneToMany(mappedBy = "farmerGroup")
     private List<Person> personList;
@@ -53,6 +56,11 @@ public class FarmerGroup implements Serializable {
 
     public FarmerGroup(Integer id) {
         this.id = id;
+    }
+
+    public FarmerGroup(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {

@@ -6,50 +6,12 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author siech
  */
 public class PersonDetails implements Serializable, Comparable<PersonDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 200)
-    @Column(length = 200)
-    private String name;
-    @Size(max = 20)
-    @Column(name = "national_id", length = 20)
-    private String national;
-    @Size(max = 45)
-    @Column(name = "business_name", length = 45)
-    private String businessName;
-    @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private ContactDetails contact;
-    @JoinColumn(name = "farmer_group_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private FarmerGroupDetails farmerGroup;
-    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private LocationDetails location;
-    @JoinColumn(name = "person_role_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private PersonRoleDetails personRole;
-    @JoinColumn(name = "sex", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private SexDetail sex;
 
     public PersonDetails() {
     }
@@ -156,5 +118,15 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     public int compareTo(PersonDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String name;
+    private String national;
+    private String businessName;
+    private ContactDetails contact;
+    private FarmerGroupDetails farmerGroup;
+    private LocationDetails location;
+    private PersonRoleDetails personRole;
+    private SexDetail sex;
 
 }

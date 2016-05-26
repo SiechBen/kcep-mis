@@ -6,14 +6,6 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
 import ke.co.miles.kcep.mis.entities.Warehouse;
 
 /**
@@ -21,24 +13,6 @@ import ke.co.miles.kcep.mis.entities.Warehouse;
  * @author siech
  */
 public class EquipmentDetails implements Serializable, Comparable<EquipmentDetails> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String type;
-    @Size(max = 45)
-    @Column(name = "equipment_number", length = 45)
-    private String equipmentNumber;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String status;
-    @JoinColumn(name = "warehouse_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Warehouse warehouse;
 
     public EquipmentDetails() {
     }
@@ -105,5 +79,25 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
     public int compareTo(EquipmentDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    /**
+     * @return the warehouse
+     */
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    /**
+     * @param warehouse the warehouse to set
+     */
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    private Integer id;
+    private String type;
+    private String equipmentNumber;
+    private String status;
+    private Warehouse warehouse;
 
 }

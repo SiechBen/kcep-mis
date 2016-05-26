@@ -20,7 +20,9 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
+import ke.co.miles.kcep.mis.requests.farmergroup.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
@@ -164,36 +166,27 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert"> 
-    private PersonDetails convertPersonToPersonDetails(Person person) {
+    @Override
+    public PersonDetails convertPersonToPersonDetails(Person person) {
 
         ContactDetails contactDetails = null;
         if (person.getContact().getId() != null) {
-            contactDetails = new ContactDetails(person.getContact().getId());
-            contactDetails.setEmail(person.getContact().getEmail());
-            contactDetails.setPhone(person.getContact().getPhone());
-            contactDetails.setPostalAddress(person.getContact().getPostalAddress());
+            contactDetails = contactService.convertContactToContactDetails(person.getContact());
         }
 
         LocationDetails locationDetails = null;
         if (person.getLocation().getId() != null) {
-            locationDetails = new LocationDetails(person.getLocation().getId());
-            locationDetails.setWard(person.getLocation().getWard());
-            locationDetails.setCounty(person.getLocation().getCounty());
-            locationDetails.setLatitude(person.getLocation().getLatitude());
-            locationDetails.setLongitude(person.getLocation().getLongitude());
-            locationDetails.setSubCounty(person.getLocation().getSubCounty());
+            locationDetails = locationService.convertLocationToLocationDetails(person.getLocation());
         }
 
         PersonRoleDetails personRoleDetails = null;
         if (person.getPersonRole().getId() != null) {
-            personRoleDetails = new PersonRoleDetails(person.getPersonRole().getId());
-            personRoleDetails.setPersonRole(person.getPersonRole().getPersonRole());
+            personRoleDetails = personRoleService.convertPersonRoleToPersonRoleDetails(person.getPersonRole());
         }
 
         FarmerGroupDetails farmerGroupDetails = null;
         if (person.getContact().getId() != null) {
-            farmerGroupDetails = new FarmerGroupDetails(person.getFarmerGroup().getId());
-            farmerGroupDetails.setName(person.getFarmerGroup().getName());
+            farmerGroupDetails = farmerGroupService.convertFarmerGroupToFarmerGroupDetails(person.getFarmerGroup());
         }
 
         PersonDetails personDetails = new PersonDetails(person.getId());
@@ -224,5 +217,9 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     ContactRequestsLocal contactService;
     @EJB
     LocationRequestsLocal locationService;
+    @EJB
+    PersonRoleRequestsLocal personRoleService;
+    @EJB
+    FarmerGroupRequestsLocal farmerGroupService;
 
 }

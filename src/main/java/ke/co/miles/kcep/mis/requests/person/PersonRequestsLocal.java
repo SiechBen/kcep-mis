@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.requests.person;
 
 import java.util.List;
 import javax.ejb.Local;
+import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 
@@ -57,5 +58,12 @@ public interface PersonRequestsLocal {
      * the unique identifier is not given
      */
     public void removePerson(int personId) throws MilesException;
+
+    /**
+     * 
+     * @param person the person record
+     * @return the details of the person record
+     */
+    public PersonDetails convertPersonToPersonDetails(Person person);
 
 }

@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,7 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "person_role", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+    @UniqueConstraint(columnNames = {"id"}),
+    @UniqueConstraint(columnNames = {"person_role"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PersonRole.findAll", query = "SELECT p FROM PersonRole p"),
@@ -42,8 +44,10 @@ public class PersonRole implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Size(max = 45)
-    @Column(name = "person_role", length = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "person_role", nullable = false, length = 200)
     private String personRole;
     @OneToMany(mappedBy = "personRole")
     private List<Training> trainingList;
@@ -55,6 +59,11 @@ public class PersonRole implements Serializable {
 
     public PersonRole(Integer id) {
         this.id = id;
+    }
+
+    public PersonRole(Integer id, String personRole) {
+        this.id = id;
+        this.personRole = personRole;
     }
 
     public Integer getId() {

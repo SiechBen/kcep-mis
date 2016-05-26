@@ -32,9 +32,6 @@ public enum SexDetail implements Serializable {
         }
     }
 
-    private final Short id;
-    private final String sex;
-
     public Short getId() {
         return id;
     }
@@ -47,5 +44,8 @@ public enum SexDetail implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Sex[ sex=" + getSex() + " ]";
     }
+
+    private final Short id;
+    private final String sex;
 
 }

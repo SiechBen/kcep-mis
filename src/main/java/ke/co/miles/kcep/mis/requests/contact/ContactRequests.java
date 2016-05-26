@@ -5,6 +5,8 @@
  */
 package ke.co.miles.kcep.mis.requests.contact;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
@@ -43,6 +45,7 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
+
     @Override
     public void editContact(ContactDetails contactDetails) throws MilesException {
 
@@ -75,5 +78,29 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
             throw new InvalidStateException("error_000_01");
         }
     }
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Convert">
+
+    @Override
+    public ContactDetails convertContactToContactDetails(Contact contact) {
+
+        ContactDetails contactDetails = new ContactDetails(contact.getId());
+        contactDetails.setEmail(contact.getEmail());
+        contactDetails.setPhone(contact.getPhone());
+        contactDetails.setPostalAddress(contact.getPostalAddress());
+        return contactDetails;
+
+    }
+
+    private List<ContactDetails> convertContactsToContactDetailsList(List<Contact> contacts) {
+
+        List<ContactDetails> contactDetailsList = new ArrayList<>();
+        contacts.stream().forEach((contact) -> {
+            contactDetailsList.add(convertContactToContactDetails(contact));
+        });
+        return contactDetailsList;
+
+    }
+
 //</editor-fold>
 }
