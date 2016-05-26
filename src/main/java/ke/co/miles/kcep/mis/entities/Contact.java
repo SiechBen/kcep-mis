@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c"),
     @NamedQuery(name = "Contact.findById", query = "SELECT c FROM Contact c WHERE c.id = :id"),
+    @NamedQuery(name = "Contact.findByPersonId", query = "SELECT c FROM Contact c WHERE c.person.id = :personId"),
     @NamedQuery(name = "Contact.findByPhone", query = "SELECT c FROM Contact c WHERE c.phone = :phone"),
     @NamedQuery(name = "Contact.findByEmail", query = "SELECT c FROM Contact c WHERE c.email = :email"),
     @NamedQuery(name = "Contact.findByPostalAddress", query = "SELECT c FROM Contact c WHERE c.postalAddress = :postalAddress")})
@@ -130,5 +131,5 @@ public class Contact implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Contact[ id=" + id + " ]";
     }
-    
+
 }

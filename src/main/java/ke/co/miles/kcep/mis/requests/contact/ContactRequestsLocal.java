@@ -34,4 +34,11 @@ public interface ContactRequestsLocal {
      */
     public void editContact(ContactDetails contactDetails) throws MilesException;
 
+    /**
+     *
+     * @param id the unique identifier of the contact record to remove
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public void removeContact(int id) throws MilesException;
+
 }

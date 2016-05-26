@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
-import ke.co.miles.kcep.mis.entities.Sex;
 
 /**
  *
@@ -50,7 +49,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     private PersonRoleDetails personRole;
     @JoinColumn(name = "sex", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Sex sex;
+    private SexDetail sex;
 
     public PersonDetails() {
     }
@@ -79,15 +78,15 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         return national;
     }
 
-    public void setNational(String national) {
+    public void setNationalId(String national) {
         this.national = national;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(SexDetail sex) {
         this.sex = sex;
     }
 
-    public Sex getSex() {
+    public SexDetail getSex() {
         return sex;
     }
 

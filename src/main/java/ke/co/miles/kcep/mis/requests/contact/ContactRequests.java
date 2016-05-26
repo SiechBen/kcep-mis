@@ -20,6 +20,7 @@ import ke.co.miles.kcep.mis.utilities.ContactDetails;
 @Stateless
 public class ContactRequests extends EntityRequests implements ContactRequestsLocal {
 
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     public Contact addContact(ContactDetails contactDetails) throws MilesException {
 
@@ -40,10 +41,11 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
 
         return contact;
     }
-
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Update">
     @Override
     public void editContact(ContactDetails contactDetails) throws MilesException {
-      
+
         if (contactDetails == null) {
             throw new InvalidArgumentException("error_002_01");
         }
@@ -61,5 +63,17 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
         }
 
     }
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Delete">
 
+    @Override
+    public void removeContact(int id) throws MilesException {
+        Contact contact = em.find(Contact.class, id);
+        try {
+            em.remove(contact);
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+    }
+//</editor-fold>
 }

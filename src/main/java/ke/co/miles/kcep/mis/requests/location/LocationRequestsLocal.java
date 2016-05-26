@@ -33,4 +33,11 @@ public interface LocationRequestsLocal {
      * the details are null or incorrectly specified
      */
     public void editLocation(LocationDetails locationDetails) throws MilesException;
+
+    /**
+     *
+     * @param id the unique identifier of the location record to be removed
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public void removeLocation(int id) throws MilesException;
 }

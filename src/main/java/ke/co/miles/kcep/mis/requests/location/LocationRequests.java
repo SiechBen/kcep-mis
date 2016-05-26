@@ -6,6 +6,8 @@
 package ke.co.miles.kcep.mis.requests.location;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Location;
@@ -21,6 +23,7 @@ import ke.co.miles.kcep.mis.utilities.LocationDetails;
 @Stateless
 public class LocationRequests extends EntityRequests implements LocationRequestsLocal {
 
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     public Location addLocation(LocationDetails locationDetails) throws MilesException {
 
@@ -62,6 +65,34 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         return location;
 
     }
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Read">
+
+    public List<LocationDetails> retrieveLocations() throws MilesException {
+        List<Location> locations = new ArrayList<>();
+        q = em.createNamedQuery("Location.findAll");
+        try {
+            locations = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertLocationsToLocationDetailsList(locations);
+    }
+
+    public LocationDetails retrieveLocation(int id) throws MilesException {
+        Location location;
+        q = em.createNamedQuery("Location.findById");
+        q.setParameter("id", id);
+        try {
+            location = (Location) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertLocationToLocationDetails(location);
+    }
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
     public void editLocation(LocationDetails locationDetails) throws MilesException {
@@ -104,4 +135,41 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
     }
 
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Delete">
+    @Override
+    public void removeLocation(int id) throws MilesException {
+        Location location = em.find(Location.class, id);
+        try {
+            em.remove(location);
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+    }
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Convert">
+
+    private LocationDetails convertLocationToLocationDetails(Location location) {
+
+        LocationDetails locationDetails = new LocationDetails(location.getId());
+        locationDetails.setCounty(location.getCounty());
+        locationDetails.setSubCounty(location.getSubCounty());
+        locationDetails.setWard(location.getWard());
+        locationDetails.setLatitude(location.getLatitude());
+        locationDetails.setLongitude(location.getLongitude());
+        return locationDetails;
+
+    }
+
+    private List<LocationDetails> convertLocationsToLocationDetailsList(List<Location> locations) {
+
+        List<LocationDetails> locationDetailsList = new ArrayList<>();
+        locations.stream().forEach((location) -> {
+            locationDetailsList.add(convertLocationToLocationDetails(location));
+        });
+        return locationDetailsList;
+
+    }
+
+//</editor-fold>
 }
