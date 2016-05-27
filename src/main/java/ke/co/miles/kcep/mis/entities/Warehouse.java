@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @UniqueConstraint(columnNames = {"warehouse_operator"})})
 @XmlRootElement
 @NamedQueries({
-     @NamedQuery(name = "Warehouse.findByWarehouseOperatorId", query = "SELECT w FROM Warehouse w WHERE w.warehouseOperator.id = :warehouseOperatorId"),
-   @NamedQuery(name = "Warehouse.findAll", query = "SELECT w FROM Warehouse w"),
+    @NamedQuery(name = "Warehouse.findByWarehouseOperatorId", query = "SELECT w FROM Warehouse w WHERE w.warehouseOperator.id = :warehouseOperatorId"),
+    @NamedQuery(name = "Warehouse.findAll", query = "SELECT w FROM Warehouse w"),
     @NamedQuery(name = "Warehouse.findById", query = "SELECT w FROM Warehouse w WHERE w.id = :id"),
     @NamedQuery(name = "Warehouse.findByName", query = "SELECT w FROM Warehouse w WHERE w.name = :name"),
     @NamedQuery(name = "Warehouse.findByCapacity", query = "SELECT w FROM Warehouse w WHERE w.capacity = :capacity"),
@@ -173,5 +173,5 @@ public class Warehouse implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Warehouse[ id=" + id + " ]";
     }
-    
+
 }

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e"),
     @NamedQuery(name = "Equipment.findById", query = "SELECT e FROM Equipment e WHERE e.id = :id"),
     @NamedQuery(name = "Equipment.findByType", query = "SELECT e FROM Equipment e WHERE e.type = :type"),
-    @NamedQuery(name = "Equipment.findByEquipmentNumber", query = "SELECT e FROM Equipment e WHERE e.equipmentNumber = :equipmentNumber"),
+    @NamedQuery(name = "Equipment.findByTotalCount", query = "SELECT e FROM Equipment e WHERE e.totalCount = :totalCount"),
     @NamedQuery(name = "Equipment.findByStatus", query = "SELECT e FROM Equipment e WHERE e.status = :status")})
 public class Equipment implements Serializable {
 
@@ -46,9 +46,8 @@ public class Equipment implements Serializable {
     @Size(max = 45)
     @Column(length = 45)
     private String type;
-    @Size(max = 45)
-    @Column(name = "equipment_number", length = 45)
-    private String equipmentNumber;
+    @Column(name = "total_count")
+    private Integer totalCount;
     @Size(max = 45)
     @Column(length = 45)
     private String status;
@@ -79,12 +78,12 @@ public class Equipment implements Serializable {
         this.type = type;
     }
 
-    public String getEquipmentNumber() {
-        return equipmentNumber;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    public void setEquipmentNumber(String equipmentNumber) {
-        this.equipmentNumber = equipmentNumber;
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
     }
 
     public String getStatus() {

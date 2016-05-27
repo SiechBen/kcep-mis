@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.entities.Warehouse;
 import ke.co.miles.kcep.mis.entities.Equipment;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 import ke.co.miles.kcep.mis.utilities.EquipmentDetails;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -40,7 +39,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         Equipment equipment = new Equipment();
         equipment.setType(equipmentDetails.getType());
         equipment.setStatus(equipmentDetails.getStatus());
-        equipment.setEquipmentNumber(equipmentDetails.getEquipmentNumber());
+        equipment.setTotalCount(equipmentDetails.getTotalCount());
         if (equipmentDetails.getWarehouse().getId() != null) {
             equipment.setWarehouse(em.find(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
@@ -106,7 +105,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         equipment.setId(equipmentDetails.getId());
         equipment.setType(equipmentDetails.getType());
         equipment.setStatus(equipmentDetails.getStatus());
-        equipment.setEquipmentNumber(equipmentDetails.getEquipmentNumber());
+        equipment.setTotalCount(equipmentDetails.getTotalCount());
         if (equipmentDetails.getWarehouse().getId() != null) {
             equipment.setWarehouse(em.find(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
@@ -145,7 +144,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         }
 
         EquipmentDetails equipmentDetails = new EquipmentDetails(equipment.getId());
-        equipmentDetails.setEquipmentNumber(equipment.getEquipmentNumber());
+        equipmentDetails.setTotalCount(equipment.getTotalCount());
         equipmentDetails.setWarehouse(warehouseDetails);
         equipmentDetails.setStatus(equipment.getStatus());
         equipmentDetails.setType(equipment.getType());

@@ -36,12 +36,12 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
         this.type = type;
     }
 
-    public String getEquipmentNumber() {
-        return equipmentNumber;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    public void setEquipmentNumber(String equipmentNumber) {
-        this.equipmentNumber = equipmentNumber;
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
     }
 
     public String getStatus() {
@@ -95,8 +95,8 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
 
     private Integer id;
     private String type;
-    private String equipmentNumber;
     private String status;
+    private Integer totalCount;
     private WarehouseDetails warehouse;
 
 }
