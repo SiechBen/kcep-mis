@@ -37,8 +37,8 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         }
 
         MeasurementUnit measurementUnit;
-        q = em.createNamedQuery("MeasurementUnit.findByMeasurementUnit");
-        q.setParameter("measurementUnit", measurementUnitDetails.getUnit());
+        q = em.createNamedQuery("MeasurementUnit.findByUnit");
+        q.setParameter("unit", measurementUnitDetails.getUnit());
         try {
             measurementUnit = (MeasurementUnit) q.getSingleResult();
         } catch (Exception e) {

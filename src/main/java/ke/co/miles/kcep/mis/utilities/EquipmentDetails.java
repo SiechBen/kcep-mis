@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import ke.co.miles.kcep.mis.entities.Warehouse;
 
 /**
  *
@@ -83,14 +82,14 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
     /**
      * @return the warehouse
      */
-    public Warehouse getWarehouse() {
+    public WarehouseDetails getWarehouse() {
         return warehouse;
     }
 
     /**
      * @param warehouse the warehouse to set
      */
-    public void setWarehouse(Warehouse warehouse) {
+    public void setWarehouse(WarehouseDetails warehouse) {
         this.warehouse = warehouse;
     }
 
@@ -98,6 +97,6 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
     private String type;
     private String equipmentNumber;
     private String status;
-    private Warehouse warehouse;
+    private WarehouseDetails warehouse;
 
 }

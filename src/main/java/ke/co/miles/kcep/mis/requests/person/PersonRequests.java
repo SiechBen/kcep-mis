@@ -45,7 +45,19 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throw new InvalidArgumentException("error_001_01");
         }
 
-        Person person = new Person();
+        Person person;
+        q = em.createNamedQuery("Person.findByNationalId");
+        q.setParameter("nationalId", personDetails.getNationalId());
+        try {
+            person = (Person) q.getSingleResult();
+        } catch (Exception e) {
+            person = null;
+        }
+        if (person != null) {
+            throw new InvalidStateException("error_001_02");
+        }
+
+        person = new Person();
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
         person.setBusinessName(personDetails.getBusinessName());
@@ -113,20 +125,35 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         if (personDetails == null) {
             throw new InvalidArgumentException("error_001_01");
         }
+        if (personDetails.getId() == null) {
+            throw new InvalidStateException("error_001_03");
+        }
+
+        Person person;
+        q = em.createNamedQuery("Person.findByNationalId");
+        q.setParameter("nationalId", personDetails.getNationalId());
+        try {
+            person = (Person) q.getSingleResult();
+        } catch (Exception e) {
+            person = null;
+        }
+        if (person != null) {
+            if (!person.getId().equals(personDetails.getId())) {
+                throw new InvalidStateException("error_001_02");
+            }
+        }
 
         contactService.editContact(personDetails.getContact());
         locationService.editLocation(personDetails.getLocation());
 
-        Person person = em.find(Person.class, personDetails.getId());
+        person = em.find(Person.class, personDetails.getId());
         person.setId(personDetails.getId());
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
         person.setBusinessName(personDetails.getBusinessName());
 
-        person
-                .setContact(em.find(Contact.class, personDetails.getContact().getId()));
-        person
-                .setLocation(em.find(Location.class, personDetails.getLocation().getId()));
+        person.setContact(em.find(Contact.class, personDetails.getContact().getId()));
+        person.setLocation(em.find(Location.class, personDetails.getLocation().getId()));
 
         if (personDetails.getSex().getId() != null) {
             person.setSex(em.find(Sex.class, personDetails.getSex().getId()));

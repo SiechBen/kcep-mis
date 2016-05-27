@@ -29,12 +29,12 @@ public interface PersonRequestsLocal {
 
     /**
      *
-     * @param personId unique identifier of the person record to retrieve
+     * @param id unique identifier of the person record to retrieve
      * @return the details of the person record retrieved
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */
-    public PersonDetails retrievePerson(int personId) throws MilesException;
+    public PersonDetails retrievePerson(int id) throws MilesException;
 
     /**
      *
@@ -53,11 +53,11 @@ public interface PersonRequestsLocal {
 
     /**
      *
-     * @param personId unique identifier of the person record to be removed
+     * @param id unique identifier of the person record to be removed
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */
-    public void removePerson(int personId) throws MilesException;
+    public void removePerson(int id) throws MilesException;
 
     /**
      * 
