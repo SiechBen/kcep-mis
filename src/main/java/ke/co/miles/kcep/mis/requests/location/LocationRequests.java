@@ -8,12 +8,15 @@ package ke.co.miles.kcep.mis.requests.location;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 
 /**
@@ -51,10 +54,10 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
         Location location = new Location();
         location.setWard(locationDetails.getWard());
-        location.setCounty(locationDetails.getCounty());
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         location.setSubCounty(locationDetails.getSubCounty());
+        location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
 
         try {
             em.persist(location);
@@ -101,7 +104,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
         if (locationDetails == null) {
             throw new InvalidArgumentException("error_003_01");
-        } else if (locationDetails.getId() == null ) {
+        } else if (locationDetails.getId() == null) {
             throw new InvalidArgumentException("error_003_06");
         } else if (locationDetails.getLongitude() != null) {
             if (locationDetails.getLatitude() == null) {
@@ -126,10 +129,10 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         Location location = em.find(Location.class, locationDetails.getId());
         location.setId(locationDetails.getId());
         location.setWard(locationDetails.getWard());
-        location.setCounty(locationDetails.getCounty());
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         location.setSubCounty(locationDetails.getSubCounty());
+        location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
 
         try {
             em.merge(location);
@@ -157,7 +160,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     public LocationDetails convertLocationToLocationDetails(Location location) {
 
         LocationDetails locationDetails = new LocationDetails(location.getId());
-        locationDetails.setCounty(location.getCounty());
+        locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
         locationDetails.setSubCounty(location.getSubCounty());
         locationDetails.setWard(location.getWard());
         locationDetails.setLatitude(location.getLatitude());
@@ -178,4 +181,6 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
 //</editor-fold>
     
+    @EJB
+    CountyRequestsLocal countyService;
 }

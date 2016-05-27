@@ -29,15 +29,15 @@ public interface PersonRoleRequestsLocal {
 
     /**
      *
-     * @return the list of personRole record details retrieved
+     * @return the list of person role record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PersonRoleDetails> retrievePersonRoles() throws MilesException;
 
     /**
      *
-     * @param id the unique identifier of the personRole record to be retrieved
-     * @return the details of the personRole record retrieved
+     * @param id the unique identifier of the person role record to be retrieved
+     * @return the details of the person role record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public PersonRoleDetails retrievePersonRole(int id) throws MilesException;

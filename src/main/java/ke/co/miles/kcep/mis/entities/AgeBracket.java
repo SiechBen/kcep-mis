@@ -11,14 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,33 +27,31 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "age_bracket", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Sex.findAll", query = "SELECT s FROM Sex s"),
-    @NamedQuery(name = "Sex.findById", query = "SELECT s FROM Sex s WHERE s.id = :id"),
-    @NamedQuery(name = "Sex.findBySex", query = "SELECT s FROM Sex s WHERE s.sex = :sex")})
-public class Sex implements Serializable {
+    @NamedQuery(name = "AgeBracket.findAll", query = "SELECT a FROM AgeBracket a"),
+    @NamedQuery(name = "AgeBracket.findById", query = "SELECT a FROM AgeBracket a WHERE a.id = :id"),
+    @NamedQuery(name = "AgeBracket.findByBracket", query = "SELECT a FROM AgeBracket a WHERE a.bracket = :bracket")})
+public class AgeBracket implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(nullable = false)
     private Short id;
     @Size(max = 45)
     @Column(length = 45)
-    private String sex;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sex")
+    private String bracket;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ageBracket")
     private List<NumberOfFarmers> numberOfFarmersList;
-    @OneToMany(mappedBy = "sex")
-    private List<Person> personList;
 
-    public Sex() {
+    public AgeBracket() {
     }
 
-    public Sex(Short id) {
+    public AgeBracket(Short id) {
         this.id = id;
     }
 
@@ -66,12 +63,12 @@ public class Sex implements Serializable {
         this.id = id;
     }
 
-    public String getSex() {
-        return sex;
+    public String getBracket() {
+        return bracket;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setBracket(String bracket) {
+        this.bracket = bracket;
     }
 
     @XmlTransient
@@ -81,15 +78,6 @@ public class Sex implements Serializable {
 
     public void setNumberOfFarmersList(List<NumberOfFarmers> numberOfFarmersList) {
         this.numberOfFarmersList = numberOfFarmersList;
-    }
-
-    @XmlTransient
-    public List<Person> getPersonList() {
-        return personList;
-    }
-
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
     }
 
     @Override
@@ -102,10 +90,10 @@ public class Sex implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sex)) {
+        if (!(object instanceof AgeBracket)) {
             return false;
         }
-        Sex other = (Sex) object;
+        AgeBracket other = (AgeBracket) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -114,7 +102,7 @@ public class Sex implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Sex[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.AgeBracket[ id=" + id + " ]";
     }
     
 }

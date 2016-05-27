@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -34,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l"),
     @NamedQuery(name = "Location.findById", query = "SELECT l FROM Location l WHERE l.id = :id"),
-    @NamedQuery(name = "Location.findByCounty", query = "SELECT l FROM Location l WHERE l.county = :county"),
     @NamedQuery(name = "Location.findBySubCounty", query = "SELECT l FROM Location l WHERE l.subCounty = :subCounty"),
     @NamedQuery(name = "Location.findByWard", query = "SELECT l FROM Location l WHERE l.ward = :ward"),
     @NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"),
@@ -47,9 +48,6 @@ public class Location implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String county;
     @Size(max = 45)
     @Column(name = "sub_county", length = 45)
     private String subCounty;
@@ -65,6 +63,9 @@ public class Location implements Serializable {
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "location")
     private List<Person> personList;
+    @JoinColumn(name = "county", referencedColumnName = "id")
+    @ManyToOne
+    private County county;
 
     public Location() {
     }
@@ -79,14 +80,6 @@ public class Location implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
     }
 
     public String getSubCounty() {
@@ -137,6 +130,14 @@ public class Location implements Serializable {
 
     public void setPersonList(List<Person> personList) {
         this.personList = personList;
+    }
+
+    public County getCounty() {
+        return county;
+    }
+
+    public void setCounty(County county) {
+        this.county = county;
     }
 
     @Override

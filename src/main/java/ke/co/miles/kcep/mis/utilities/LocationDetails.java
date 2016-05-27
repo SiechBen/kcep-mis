@@ -29,11 +29,11 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
         this.id = id;
     }
 
-    public String getCounty() {
+    public CountyDetails getCounty() {
         return county;
     }
 
-    public void setCounty(String county) {
+    public void setCounty(CountyDetails county) {
         this.county = county;
     }
 
@@ -97,7 +97,7 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
     }
 
     private Integer id;
-    private String county;
+    private CountyDetails county;
     private String subCounty;
     private String ward;
     private BigDecimal longitude;

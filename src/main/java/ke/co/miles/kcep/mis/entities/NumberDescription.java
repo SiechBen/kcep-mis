@@ -28,50 +28,48 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "number_description", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Sex.findAll", query = "SELECT s FROM Sex s"),
-    @NamedQuery(name = "Sex.findById", query = "SELECT s FROM Sex s WHERE s.id = :id"),
-    @NamedQuery(name = "Sex.findBySex", query = "SELECT s FROM Sex s WHERE s.sex = :sex")})
-public class Sex implements Serializable {
+    @NamedQuery(name = "NumberDescription.findAll", query = "SELECT n FROM NumberDescription n"),
+    @NamedQuery(name = "NumberDescription.findById", query = "SELECT n FROM NumberDescription n WHERE n.id = :id"),
+    @NamedQuery(name = "NumberDescription.findByDescription", query = "SELECT n FROM NumberDescription n WHERE n.description = :description")})
+public class NumberDescription implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Short id;
-    @Size(max = 45)
-    @Column(length = 45)
-    private String sex;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sex")
+    private Integer id;
+    @Size(max = 200)
+    @Column(length = 200)
+    private String description;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "numberDescription")
     private List<NumberOfFarmers> numberOfFarmersList;
-    @OneToMany(mappedBy = "sex")
-    private List<Person> personList;
 
-    public Sex() {
+    public NumberDescription() {
     }
 
-    public Sex(Short id) {
+    public NumberDescription(Integer id) {
         this.id = id;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getSex() {
-        return sex;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @XmlTransient
@@ -81,15 +79,6 @@ public class Sex implements Serializable {
 
     public void setNumberOfFarmersList(List<NumberOfFarmers> numberOfFarmersList) {
         this.numberOfFarmersList = numberOfFarmersList;
-    }
-
-    @XmlTransient
-    public List<Person> getPersonList() {
-        return personList;
-    }
-
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
     }
 
     @Override
@@ -102,10 +91,10 @@ public class Sex implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sex)) {
+        if (!(object instanceof NumberDescription)) {
             return false;
         }
-        Sex other = (Sex) object;
+        NumberDescription other = (NumberDescription) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -114,7 +103,7 @@ public class Sex implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Sex[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.NumberDescription[ id=" + id + " ]";
     }
     
 }

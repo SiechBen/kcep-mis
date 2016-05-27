@@ -50,8 +50,8 @@ public class MeasurementUnit implements Serializable {
     @Size(min = 1, max = 45)
     @Column(nullable = false, length = 45)
     private String unit;
-    @Size(max = 10)
-    @Column(length = 10)
+    @Size(max = 20)
+    @Column(length = 20)
     private String symbol;
     @OneToMany(mappedBy = "units")
     private List<Warehouse> warehouseList;

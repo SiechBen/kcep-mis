@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,12 +58,16 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name", length = 45)
     private String businessName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
+    private List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList;
     @OneToMany(mappedBy = "trainer")
     private List<Training> trainingList;
     @OneToMany(mappedBy = "person")
     private List<EVoucher> eVoucherList;
     @OneToOne(mappedBy = "warehouseOperator")
     private Warehouse warehouse;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
+    private List<SampledFarmerData> sampledFarmerDataList;
     @JoinColumn(name = "contact", referencedColumnName = "id")
     @ManyToOne
     private Contact contact;
@@ -78,6 +83,8 @@ public class Person implements Serializable {
     @JoinColumn(name = "sex", referencedColumnName = "id")
     @ManyToOne
     private Sex sex;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
+    private List<CollectionCentre> collectionCentreList;
 
     public Person() {
     }
@@ -119,6 +126,15 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
+    public List<ExtensionAndFieldVisitData> getExtensionAndFieldVisitDataList() {
+        return extensionAndFieldVisitDataList;
+    }
+
+    public void setExtensionAndFieldVisitDataList(List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList) {
+        this.extensionAndFieldVisitDataList = extensionAndFieldVisitDataList;
+    }
+
+    @XmlTransient
     public List<Training> getTrainingList() {
         return trainingList;
     }
@@ -142,6 +158,15 @@ public class Person implements Serializable {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+
+    @XmlTransient
+    public List<SampledFarmerData> getSampledFarmerDataList() {
+        return sampledFarmerDataList;
+    }
+
+    public void setSampledFarmerDataList(List<SampledFarmerData> sampledFarmerDataList) {
+        this.sampledFarmerDataList = sampledFarmerDataList;
     }
 
     public Contact getContact() {
@@ -182,6 +207,15 @@ public class Person implements Serializable {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    @XmlTransient
+    public List<CollectionCentre> getCollectionCentreList() {
+        return collectionCentreList;
+    }
+
+    public void setCollectionCentreList(List<CollectionCentre> collectionCentreList) {
+        this.collectionCentreList = collectionCentreList;
     }
 
     @Override
