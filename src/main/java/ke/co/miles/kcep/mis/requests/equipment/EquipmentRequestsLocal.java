@@ -29,12 +29,12 @@ public interface EquipmentRequestsLocal {
 
     /**
      *
-     * @param equipmentId unique identifier of the equipment record to retrieve
+     * @param id unique identifier of the equipment record to retrieve
      * @return the details of the equipment record retrieved
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */
-    public EquipmentDetails retrieveEquipment(int equipmentId) throws MilesException;
+    public EquipmentDetails retrieveEquipment(int id) throws MilesException;
 
     /**
      *
@@ -54,12 +54,12 @@ public interface EquipmentRequestsLocal {
 
     /**
      *
-     * @param equipmentId unique identifier of the equipment record to be
+     * @param id unique identifier of the equipment record to be
      * removed
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */
-    public void removeEquipment(int equipmentId) throws MilesException;
+    public void removeEquipment(int id) throws MilesException;
 
     /**
      *

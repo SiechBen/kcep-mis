@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
 import java.io.Serializable;
 
 /**
@@ -37,11 +36,11 @@ public class CollectionCentreDetails implements Serializable, Comparable<Collect
         this.operational = operational;
     }
 
-    public Person getWardExtensionOfficer() {
+    public PersonDetails getWardExtensionOfficer() {
         return wardExtensionOfficer;
     }
 
-    public void setWardExtensionOfficer(Person wardExtensionOfficer) {
+    public void setWardExtensionOfficer(PersonDetails wardExtensionOfficer) {
         this.wardExtensionOfficer = wardExtensionOfficer;
     }
 
@@ -74,5 +73,5 @@ public class CollectionCentreDetails implements Serializable, Comparable<Collect
 
     private Integer id;
     private Boolean operational;
-    private Person wardExtensionOfficer;
+    private PersonDetails wardExtensionOfficer;
 }

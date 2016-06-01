@@ -124,8 +124,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
         if (personDetails == null) {
             throw new InvalidArgumentException("error_001_01");
-        }
-        if (personDetails.getId() == null) {
+        } else if (personDetails.getId() == null) {
             throw new InvalidStateException("error_001_03");
         }
 
@@ -212,7 +211,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
         FarmerGroupDetails farmerGroupDetails = null;
-        if (person.getContact().getId() != null) {
+        if (person.getFarmerGroup().getId() != null) {
             farmerGroupDetails = farmerGroupService.convertFarmerGroupToFarmerGroupDetails(person.getFarmerGroup());
         }
 

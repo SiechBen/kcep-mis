@@ -96,6 +96,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         }
 
         Training training = em.find(Training.class, trainingDetails.getId());
+        training.setId(trainingDetails.getId());
         training.setTopic(trainingDetails.getTopic());
         training.setVenue(trainingDetails.getVenue());
         training.setEndDate(trainingDetails.getEndDate());

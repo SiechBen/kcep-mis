@@ -69,11 +69,11 @@ public class ExtensionAndFieldVisitDataDetails implements Serializable, Comparab
         this.fieldVisitsWardLocations = fieldVisitsWardLocations;
     }
 
-    public Person getWardExtensionOfficer() {
+    public PersonDetails getWardExtensionOfficer() {
         return wardExtensionOfficer;
     }
 
-    public void setWardExtensionOfficer(Person wardExtensionOfficer) {
+    public void setWardExtensionOfficer(PersonDetails wardExtensionOfficer) {
         this.wardExtensionOfficer = wardExtensionOfficer;
     }
 
@@ -106,10 +106,10 @@ public class ExtensionAndFieldVisitDataDetails implements Serializable, Comparab
 
     private Integer numberOfPeopleSeekingOrOfferedAdvisoryServices;
     private Integer numberOfFieldVisitsConducted;
+    private PersonDetails wardExtensionOfficer;
     private String natureOfAdvisoryServices;
     private Integer numberOfFarmersVisited;
     private String fieldVisitsWardLocations;
-    private Person wardExtensionOfficer;
     private Integer id;
 
 }

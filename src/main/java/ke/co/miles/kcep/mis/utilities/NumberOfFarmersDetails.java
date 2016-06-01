@@ -14,13 +14,6 @@ import java.io.Serializable;
  */
 public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOfFarmersDetails> {
 
-    private Integer id;
-    private Integer number;
-    private SampledFarmerDataDetails sampledFarmerData;
-    private AgeBracketDetails ageBracket;
-    private NumberDescriptionDetails numberDescription;
-    private Sex sex;
-
     public NumberOfFarmersDetails() {
     }
 
@@ -68,11 +61,11 @@ public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOf
         this.numberDescription = numberDescription;
     }
 
-    public Sex getSex() {
+    public SexDetail getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(SexDetail sex) {
         this.sex = sex;
     }
 
@@ -102,5 +95,12 @@ public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOf
     public int compareTo(NumberOfFarmersDetails o) {
         return this.id.compareTo(getId());
     }
+
+    private Integer id;
+    private Integer number;
+    private SampledFarmerDataDetails sampledFarmerData;
+    private AgeBracketDetails ageBracket;
+    private NumberDescriptionDetails numberDescription;
+    private SexDetail sex;
 
 }

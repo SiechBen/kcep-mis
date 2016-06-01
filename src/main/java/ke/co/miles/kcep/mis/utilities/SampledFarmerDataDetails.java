@@ -53,11 +53,11 @@ public class SampledFarmerDataDetails implements Serializable, Comparable<Sample
         this.postHarvestLosses = postHarvestLosses;
     }
 
-    public Person getWardExtensionOfficer() {
+    public PersonDetails getWardExtensionOfficer() {
         return wardExtensionOfficer;
     }
 
-    public void setWardExtensionOfficer(Person wardExtensionOfficer) {
+    public void setWardExtensionOfficer(PersonDetails wardExtensionOfficer) {
         this.wardExtensionOfficer = wardExtensionOfficer;
     }
 
@@ -90,8 +90,8 @@ public class SampledFarmerDataDetails implements Serializable, Comparable<Sample
 
     private Integer id;
     private Short season;
-    private String productivityPerCropPerFarmer;
     private String postHarvestLosses;
-    private Person wardExtensionOfficer;
+    private PersonDetails wardExtensionOfficer;
+    private String productivityPerCropPerFarmer;
 
 }

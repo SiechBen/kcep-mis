@@ -19,7 +19,7 @@ public interface TrainingRequestsLocal {
 
     /**
      *
-     * @param trainingDetails details of the contact record to be created
+     * @param trainingDetails details of the training record to be created
      * @return the unique identifier of the new record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
@@ -43,7 +43,7 @@ public interface TrainingRequestsLocal {
 
     /**
      *
-     * @param trainingDetails details of the contact record to be edited
+     * @param trainingDetails details of the training record to be edited
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
