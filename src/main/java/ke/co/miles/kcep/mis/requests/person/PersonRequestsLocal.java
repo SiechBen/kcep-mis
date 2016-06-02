@@ -6,10 +6,12 @@
 package ke.co.miles.kcep.mis.requests.person;
 
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
 
 /**
  *
@@ -60,10 +62,20 @@ public interface PersonRequestsLocal {
     public void removePerson(int id) throws MilesException;
 
     /**
-     * 
+     *
      * @param person the person record
      * @return the details of the person record
      */
     public PersonDetails convertPersonToPersonDetails(Person person);
+
+    /**
+     *
+     * @param username the person's username
+     * @param password the person's password
+     * @return the map of person to person role
+     * @throws MilesException when the database is in an incorrect state or when
+     * the login credentials are invalid or non-existent in the database
+     */
+    public Map<PersonDetails, PersonRoleDetails> retrievePerson(String username, String password) throws MilesException;
 
 }

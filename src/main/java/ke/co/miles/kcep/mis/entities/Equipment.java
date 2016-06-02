@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "equipment", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
@@ -41,15 +41,15 @@ public class Equipment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "type", length = 45)
     private String type;
     @Column(name = "total_count")
     private Integer totalCount;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "status", length = 45)
     private String status;
     @JoinColumn(name = "warehouse", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)

@@ -32,7 +32,7 @@ public interface CountyRequestsLocal {
      * @return the list of county record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<CountyDetails> retrieveCountys() throws MilesException;
+    public List<CountyDetails> retrieveCounties() throws MilesException;
 
     /**
      *

@@ -43,7 +43,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setAttendance(trainingDetails.getAttendance());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         training.setTrainer(em.find(Person.class, trainingDetails.getTrainer().getId()));
-        training.setPersonRole(em.find(PersonRole.class, trainingDetails.getPersonRole().getId()));
+        training.setPersonRoleForTrainees(em.find(PersonRole.class, trainingDetails.getPersonRoleForTrainees().getId()));
 
         try {
             em.persist(training);
@@ -104,7 +104,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setAttendance(trainingDetails.getAttendance());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         training.setTrainer(em.find(Person.class, trainingDetails.getTrainer().getId()));
-        training.setPersonRole(em.find(PersonRole.class, trainingDetails.getPersonRole().getId()));
+        training.setPersonRoleForTrainees(em.find(PersonRole.class, trainingDetails.getPersonRoleForTrainees().getId()));
 
         try {
             em.merge(training);
@@ -140,7 +140,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         trainingDetails.setAttendance(training.getAttendance());
         trainingDetails.setNumberOfTrainees(training.getNumberOfTrainees());
         trainingDetails.setTrainer(personService.convertPersonToPersonDetails(training.getTrainer()));
-        trainingDetails.setPersonRole(personRoleService.convertPersonRoleToPersonRoleDetails(training.getPersonRole()));
+        trainingDetails.setPersonRoleForTrainees(personRoleService.convertPersonRoleToPersonRoleDetails(training.getPersonRoleForTrainees()));
 
         return trainingDetails;
 

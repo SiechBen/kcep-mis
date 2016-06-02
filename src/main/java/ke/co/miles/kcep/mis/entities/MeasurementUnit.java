@@ -43,15 +43,15 @@ public class MeasurementUnit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(nullable = false, length = 45)
+    @Column(name = "unit", nullable = false, length = 45)
     private String unit;
     @Size(max = 20)
-    @Column(length = 20)
+    @Column(name = "symbol", length = 20)
     private String symbol;
     @OneToMany(mappedBy = "units")
     private List<Warehouse> warehouseList;

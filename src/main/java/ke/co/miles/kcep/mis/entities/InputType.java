@@ -42,10 +42,10 @@ public class InputType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "type", length = 45)
     private String type;
     @JoinColumn(name = "static_input", referencedColumnName = "id")
     @ManyToOne

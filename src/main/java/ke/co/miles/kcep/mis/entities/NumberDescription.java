@@ -41,10 +41,10 @@ public class NumberDescription implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 200)
-    @Column(length = 200)
+    @Column(name = "description", length = 200)
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "numberDescription")
     private List<NumberOfFarmers> numberOfFarmersList;

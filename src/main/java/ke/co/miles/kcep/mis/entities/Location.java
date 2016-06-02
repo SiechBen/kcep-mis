@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "location", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
@@ -46,18 +47,18 @@ public class Location implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 45)
     @Column(name = "sub_county", length = 45)
     private String subCounty;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "ward", length = 45)
     private String ward;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(precision = 10, scale = 7)
+    @Column(name = "longitude", precision = 10, scale = 7)
     private BigDecimal longitude;
-    @Column(precision = 9, scale = 7)
+    @Column(name = "latitude", precision = 9, scale = 7)
     private BigDecimal latitude;
     @OneToMany(mappedBy = "location")
     private List<Warehouse> warehouseList;
@@ -66,6 +67,8 @@ public class Location implements Serializable {
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
+    private List<CollectionCentre> collectionCentreList;
 
     public Location() {
     }
@@ -138,6 +141,15 @@ public class Location implements Serializable {
 
     public void setCounty(County county) {
         this.county = county;
+    }
+
+    @XmlTransient
+    public List<CollectionCentre> getCollectionCentreList() {
+        return collectionCentreList;
+    }
+
+    public void setCollectionCentreList(List<CollectionCentre> collectionCentreList) {
+        this.collectionCentreList = collectionCentreList;
     }
 
     @Override

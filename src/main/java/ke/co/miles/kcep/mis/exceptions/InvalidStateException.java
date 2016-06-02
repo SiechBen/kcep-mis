@@ -9,10 +9,14 @@ package ke.co.miles.kcep.mis.exceptions;
  *
  * @author siech
  */
-public class InvalidStateException extends MilesException{
-    
+public class InvalidStateException extends MilesException {
+
     public InvalidStateException(String message) {
         super(message);
     }
-    
+
+    public InvalidStateException(String code, String prepend, String append) {
+        super(code, prepend, append);
+    }
+
 }

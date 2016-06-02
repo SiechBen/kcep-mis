@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "age_bracket", catalog = "kcep_mis", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"bracket"}),
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
@@ -40,12 +40,14 @@ public class AgeBracket implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Short id;
-    @Size(max = 45)
-    @Column(length = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "bracket", nullable = false, length = 45)
     private String bracket;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ageBracket")
+    @OneToMany(mappedBy = "ageBracket")
     private List<NumberOfFarmers> numberOfFarmersList;
 
     public AgeBracket() {
@@ -53,6 +55,11 @@ public class AgeBracket implements Serializable {
 
     public AgeBracket(Short id) {
         this.id = id;
+    }
+
+    public AgeBracket(Short id, String bracket) {
+        this.id = id;
+        this.bracket = bracket;
     }
 
     public Short getId() {

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "training", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
@@ -47,7 +47,7 @@ public class Training implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
@@ -56,22 +56,22 @@ public class Training implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @Size(max = 200)
-    @Column(length = 200)
+    @Column(name = "topic", length = 200)
     private String topic;
     @Size(max = 200)
-    @Column(length = 200)
+    @Column(name = "venue", length = 200)
     private String venue;
     @Column(name = "number_of_trainees")
     private Integer numberOfTrainees;
     @Size(max = 200)
-    @Column(length = 200)
+    @Column(name = "attendance", length = 200)
     private String attendance;
     @JoinColumn(name = "trainer", referencedColumnName = "id")
     @ManyToOne
     private Person trainer;
-    @JoinColumn(name = "person_role", referencedColumnName = "id")
+    @JoinColumn(name = "person_role_for_trainees", referencedColumnName = "id")
     @ManyToOne
-    private PersonRole personRole;
+    private PersonRole personRoleForTrainees;
 
     public Training() {
     }
@@ -144,12 +144,12 @@ public class Training implements Serializable {
         this.trainer = trainer;
     }
 
-    public PersonRole getPersonRole() {
-        return personRole;
+    public PersonRole getPersonRoleForTrainees() {
+        return personRoleForTrainees;
     }
 
-    public void setPersonRole(PersonRole personRole) {
-        this.personRole = personRole;
+    public void setPersonRoleForTrainees(PersonRole personRoleForTrainees) {
+        this.personRoleForTrainees = personRoleForTrainees;
     }
 
     @Override

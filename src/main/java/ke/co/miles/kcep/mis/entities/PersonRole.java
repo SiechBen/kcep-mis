@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,17 +43,17 @@ public class PersonRole implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "person_role", nullable = false, length = 200)
     private String personRole;
-    @OneToMany(mappedBy = "personRole")
+    @OneToMany(mappedBy = "personRoleForTrainees")
     private List<Training> trainingList;
-    @OneToMany(mappedBy = "personRole")
-    private List<Person> personList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
+    private List<UserAccount> userAccountList;
 
     public PersonRole() {
     }
@@ -92,12 +93,12 @@ public class PersonRole implements Serializable {
     }
 
     @XmlTransient
-    public List<Person> getPersonList() {
-        return personList;
+    public List<UserAccount> getUserAccountList() {
+        return userAccountList;
     }
 
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
+    public void setUserAccountList(List<UserAccount> userAccountList) {
+        this.userAccountList = userAccountList;
     }
 
     @Override

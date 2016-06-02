@@ -63,7 +63,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    public List<CountyDetails> retrieveCountys() throws MilesException {
+    public List<CountyDetails> retrieveCounties() throws MilesException {
         List<County> countys = new ArrayList<>();
         q = em.createNamedQuery("County.findAll");
         try {
@@ -71,7 +71,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         } catch (Exception e) {
         }
 
-        return convertCountysToCountyDetailsList(countys);
+        return convertCountiesToCountyDetailsList(countys);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 
     }
 
-    private List<CountyDetails> convertCountysToCountyDetailsList(List<County> countys) {
+    private List<CountyDetails> convertCountiesToCountyDetailsList(List<County> countys) {
 
         List<CountyDetails> countyDetailsList = new ArrayList<>();
         countys.stream().forEach((county) -> {

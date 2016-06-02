@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "person", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"}),
     @UniqueConstraint(columnNames = {"national_id"})})
 @XmlRootElement
@@ -47,10 +47,10 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 200)
-    @Column(length = 200)
+    @Column(name = "name", length = 200)
     private String name;
     @Size(max = 20)
     @Column(name = "national_id", length = 20)
@@ -77,12 +77,11 @@ public class Person implements Serializable {
     @JoinColumn(name = "location", referencedColumnName = "id")
     @ManyToOne
     private Location location;
-    @JoinColumn(name = "person_role", referencedColumnName = "id")
-    @ManyToOne
-    private PersonRole personRole;
     @JoinColumn(name = "sex", referencedColumnName = "id")
     @ManyToOne
     private Sex sex;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<UserAccount> userAccountList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
     private List<CollectionCentre> collectionCentreList;
 
@@ -193,20 +192,21 @@ public class Person implements Serializable {
         this.location = location;
     }
 
-    public PersonRole getPersonRole() {
-        return personRole;
-    }
-
-    public void setPersonRole(PersonRole personRole) {
-        this.personRole = personRole;
-    }
-
     public Sex getSex() {
         return sex;
     }
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    @XmlTransient
+    public List<UserAccount> getUserAccountList() {
+        return userAccountList;
+    }
+
+    public void setUserAccountList(List<UserAccount> userAccountList) {
+        this.userAccountList = userAccountList;
     }
 
     @XmlTransient

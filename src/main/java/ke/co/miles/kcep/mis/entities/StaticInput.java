@@ -40,10 +40,10 @@ public class StaticInput implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "name", length = 45)
     private String name;
     @OneToMany(mappedBy = "staticInput")
     private List<InputType> inputTypeList;

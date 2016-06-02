@@ -38,20 +38,21 @@ public class NumberOfFarmers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
+    @Column(name = "number")
     private Integer number;
     @JoinColumn(name = "sampled_farmer_data", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private SampledFarmerData sampledFarmerData;
-    @JoinColumn(name = "age_bracket", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "age_bracket", referencedColumnName = "id")
+    @ManyToOne
     private AgeBracket ageBracket;
     @JoinColumn(name = "number_description", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private NumberDescription numberDescription;
-    @JoinColumn(name = "sex", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "sex", referencedColumnName = "id")
+    @ManyToOne
     private Sex sex;
 
     public NumberOfFarmers() {

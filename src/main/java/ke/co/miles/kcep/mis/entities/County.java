@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,7 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "county", catalog = "kcep_mis", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"name"}),
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
@@ -40,10 +42,12 @@ public class County implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
-    @Size(max = 45)
-    @Column(length = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "name", nullable = false, length = 45)
     private String name;
     @OneToMany(mappedBy = "county")
     private List<Location> locationList;
@@ -53,6 +57,11 @@ public class County implements Serializable {
 
     public County(Integer id) {
         this.id = id;
+    }
+
+    public County(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {

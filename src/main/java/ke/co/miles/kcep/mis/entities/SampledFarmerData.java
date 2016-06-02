@@ -45,8 +45,9 @@ public class SampledFarmerData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
+    @Column(name = "season")
     private Short season;
     @Size(max = 100)
     @Column(name = "productivity_per_crop_per_farmer", length = 100)

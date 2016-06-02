@@ -5,8 +5,12 @@
  */
 package ke.co.miles.kcep.mis.requests.person;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
@@ -14,15 +18,19 @@ import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.FarmerGroup;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.Person;
-import ke.co.miles.kcep.mis.entities.PersonRole;
 import ke.co.miles.kcep.mis.entities.Sex;
+import ke.co.miles.kcep.mis.entities.UserAccount;
+import ke.co.miles.kcep.mis.exceptions.AlgorithmException;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
+import ke.co.miles.kcep.mis.exceptions.LoginException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.access.AccessRequestsLocal;
 import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmergroup.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
+import ke.co.miles.kcep.mis.requests.useraccount.UserAccountRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
@@ -68,9 +76,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         if (personDetails.getSex().getId() != null) {
             person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
         }
-        if (personDetails.getPersonRole().getId() != null) {
-            person.setPersonRole(em.find(PersonRole.class, personDetails.getPersonRole().getId()));
-        }
         if (personDetails.getFarmerGroup().getId() != null) {
             person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
@@ -86,6 +91,48 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
+
+    @Override
+    public Map<PersonDetails, PersonRoleDetails> retrievePerson(String username, String password) throws MilesException {
+        //Method for retrieving person record from the database
+
+        //Checking validity of details
+        if (username == null || username.trim().length() == 0) {
+            throw new InvalidArgumentException("error_015_02");
+        } else if (username.trim().length() > 150) {
+            throw new InvalidArgumentException("error_015_03");
+        } else if (password == null || password.trim().length() == 0) {
+            throw new InvalidArgumentException("error_015_04");
+        } else if (password.trim().length() > 150) {
+            throw new InvalidArgumentException("error_015_05");
+        }
+
+        //Get the hashed password
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            throw new AlgorithmException("error_0016_01");
+        }
+
+        String hashedPassword = accessService.generateSHAPassword(messageDigest, password);
+
+        //Retrieve the user account record from the database
+        UserAccount userAccount;
+        try {
+            userAccount = userAccountService.retrieveUserAccount(username, hashedPassword);
+        } catch (InvalidArgumentException | LoginException e) {
+            throw new LoginException("error_000_01");
+        }
+
+        //Creating and valuating a map of person details to their user group
+        Map<PersonDetails, PersonRoleDetails> personToPersonRoleMap = new HashMap<>();
+        personToPersonRoleMap.put(convertPersonToPersonDetails(userAccount.getPerson()),
+                personRoleService.convertPersonRoleToPersonRoleDetails(userAccount.getPersonRole()));
+
+        //Returning the details list of person record
+        return personToPersonRoleMap;
+    }
 
     @Override
     public PersonDetails retrievePerson(int id) throws MilesException {
@@ -158,10 +205,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
 
         }
-        if (personDetails.getPersonRole().getId() != null) {
-            person.setPersonRole(em.find(PersonRole.class, personDetails.getPersonRole().getId()));
-
-        }
         if (personDetails.getFarmerGroup().getId() != null) {
             person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
@@ -205,11 +248,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             locationDetails = locationService.convertLocationToLocationDetails(person.getLocation());
         }
 
-        PersonRoleDetails personRoleDetails = null;
-        if (person.getPersonRole().getId() != null) {
-            personRoleDetails = personRoleService.convertPersonRoleToPersonRoleDetails(person.getPersonRole());
-        }
-
         FarmerGroupDetails farmerGroupDetails = null;
         if (person.getFarmerGroup().getId() != null) {
             farmerGroupDetails = farmerGroupService.convertFarmerGroupToFarmerGroupDetails(person.getFarmerGroup());
@@ -219,7 +257,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         personDetails.setBusinessName(person.getBusinessName());
         personDetails.setContact(contactDetails);
         personDetails.setLocation(locationDetails);
-        personDetails.setPersonRole(personRoleDetails);
         personDetails.setFarmerGroup(farmerGroupDetails);
         personDetails.setNationalId(person.getNationalId());
         personDetails.setSex(SexDetail.getSexDetail(person.getSex().getId()));
@@ -242,10 +279,14 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @EJB
     ContactRequestsLocal contactService;
     @EJB
+    AccessRequestsLocal accessService;
+    @EJB
     LocationRequestsLocal locationService;
     @EJB
     PersonRoleRequestsLocal personRoleService;
     @EJB
     FarmerGroupRequestsLocal farmerGroupService;
+    @EJB
+    UserAccountRequestsLocal userAccountService;
 
 }

@@ -9,5 +9,9 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <button onclick="loadWindow('/kcep-mis/index')">Login</button>
+        
+        <script src="static/js/actions.js"></script>
+        
     </body>
 </html>

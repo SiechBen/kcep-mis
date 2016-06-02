@@ -41,12 +41,12 @@ public class FarmerGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
-    @Column(nullable = false, length = 200)
+    @Column(name = "name", nullable = false, length = 200)
     private String name;
     @OneToMany(mappedBy = "farmerGroup")
     private List<Person> personList;

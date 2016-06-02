@@ -88,12 +88,12 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.trainer = trainer;
     }
 
-    public PersonRoleDetails getPersonRole() {
-        return personRole;
+    public PersonRoleDetails getPersonRoleForTrainees() {
+        return personRoleForTrainees;
     }
 
-    public void setPersonRole(PersonRoleDetails personRole) {
-        this.personRole = personRole;
+    public void setPersonRoleForTrainees(PersonRoleDetails personRoleForTrainees) {
+        this.personRoleForTrainees = personRoleForTrainees;
     }
 
     @Override
@@ -131,6 +131,6 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
     private Integer numberOfTrainees;
     private String attendance;
     private PersonDetails trainer;
-    private PersonRoleDetails personRole;
+    private PersonRoleDetails personRoleForTrainees;
 
 }

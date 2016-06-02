@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "purchase", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @XmlRootElement
 @NamedQueries({
@@ -46,10 +46,10 @@ public class Purchase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "item", length = 45)
     private String item;
     @Size(max = 45)
     @Column(name = "date_purchased", length = 45)
@@ -58,25 +58,25 @@ public class Purchase implements Serializable {
     @Column(name = "serial_number", length = 45)
     private String serialNumber;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "description", length = 45)
     private String description;
     @Size(max = 45)
     @Column(name = "target_office", length = 45)
     private String targetOffice;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "county", length = 45)
     private String county;
     @Size(max = 45)
     @Column(name = "sub_county", length = 45)
     private String subCounty;
     @Size(max = 45)
-    @Column(length = 45)
+    @Column(name = "cost", length = 45)
     private String cost;
     @Size(max = 45)
     @Column(name = "lpo_number", length = 45)
     private String lpoNumber;
     @Size(max = 300)
-    @Column(length = 300)
+    @Column(name = "invoice", length = 300)
     private String invoice;
 
     public Purchase() {

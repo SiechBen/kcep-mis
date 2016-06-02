@@ -38,9 +38,13 @@ public class CollectionCentre implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
+    @Column(name = "operational")
     private Boolean operational;
+    @JoinColumn(name = "location", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Location location;
     @JoinColumn(name = "ward_extension_officer", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Person wardExtensionOfficer;
@@ -66,6 +70,14 @@ public class CollectionCentre implements Serializable {
 
     public void setOperational(Boolean operational) {
         this.operational = operational;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public Person getWardExtensionOfficer() {

@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(catalog = "kcep_mis", schema = "", uniqueConstraints = {
+@Table(name = "warehouse", catalog = "kcep_mis", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"}),
     @UniqueConstraint(columnNames = {"warehouse_operator"})})
 @XmlRootElement
@@ -49,13 +49,16 @@ public class Warehouse implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 200)
-    @Column(length = 200)
+    @Column(name = "name", length = 200)
     private String name;
+    @Column(name = "capacity")
     private Integer capacity;
+    @Column(name = "wrs")
     private Boolean wrs;
+    @Column(name = "certified")
     private Boolean certified;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouse")
     private List<Equipment> equipmentList;

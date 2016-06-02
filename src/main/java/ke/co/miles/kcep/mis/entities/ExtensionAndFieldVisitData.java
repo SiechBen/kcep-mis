@@ -43,7 +43,7 @@ public class ExtensionAndFieldVisitData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Column(name = "number_of_people_seeking_or_offered_advisory_services")
     private Integer numberOfPeopleSeekingOrOfferedAdvisoryServices;
