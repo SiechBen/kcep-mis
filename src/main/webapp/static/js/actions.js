@@ -1,5 +1,4 @@
 var language = "en";
-
 //<editor-fold defaultstate="collapsed" desc="Document">
 $(document).ready(function () {
 
@@ -516,12 +515,10 @@ $(function () {
      number of fieldsets
      */
     var fieldsetCount = $('.sliding-form').children().length;
-
     /*
      current position of fieldset / navigation link
      */
     var current = 1;
-
     /*
      sum and save the widths of each one of the fieldsets
      set the final sum as the total width of the steps element
@@ -534,17 +531,14 @@ $(function () {
         stepsWidth += $step.width();
     });
     $('#steps').width(stepsWidth);
-
     /*
      to avoid problems in IE, focus the first input of the form
      */
     $('.sliding-form').children(':first').find(':input:first').focus();
-
     /*
      show the navigation bar
      */
     $('#slider-navigation').show();
-
     /*
      when clicking on a navigation link 
      the form slides to the corresponding fieldset
@@ -580,7 +574,6 @@ $(function () {
         });
         e.preventDefault();
     });
-
     /*
      clicking on the tab (on the last input of each fieldset), makes the form
      slide to the next step
@@ -596,7 +589,6 @@ $(function () {
             }
         });
     });
-
     /*
      validates errors on all the fieldsets
      records if the Form has errors in $('.sliding-form').data()
@@ -618,37 +610,31 @@ $(function () {
     function validateStep(step) {
         if (step === fieldsetCount)
             return;
-
         var error = 1;
         var hasError = false;
-
         $('.sliding-form')
                 .children(':nth-child(' + parseInt(step) + ')')
                 .find(':input:not(button)')
                 .each(function () {
                     var $this = $(this);
-
                     if ($this.is($("#admission-year"))) {
                         $.ajax({
-                            url: "/Ocena/checkFacultyMemberRole",
+                            url: "/kcep-mis/checkFacultyMemberRole",
                             type: 'POST',
                             data: "memberRole=" + $("#faculty-member-role").val(),
                             success: function (data) {
                                 if (data !== "") {
                                     if ($("#admission-year").val().trim().length === 0) {
                                         hasError = true;
-
                                         $("#admission-year").css('background-color', '#FFEDEF');
                                         var $link = $('#slider-navigation li:nth-child(' + parseInt(step) + ') a');
                                         $link.parent().find('.error,.checked').remove();
-
                                         var valclass = 'checked';
                                         if (hasError) {
                                             error = -1;
                                             valclass = 'error';
                                         }
                                         $('<span class="' + valclass + '"></span>').insertAfter($link);
-
                                         return error;
                                     } else {
                                         $("#admission-year").css('background-color', '#FFFFFF');
@@ -667,17 +653,14 @@ $(function () {
                         }
                     }
                 });
-
         var $link = $('#slider-navigation li:nth-child(' + parseInt(step) + ') a');
         $link.parent().find('.error,.checked').remove();
-
         var valclass = 'checked';
         if (hasError) {
             error = -1;
             valclass = 'error';
         }
         $('<span class="' + valclass + '"></span>').insertAfter($link);
-
         return error;
     }
 
@@ -814,7 +797,7 @@ function loginUser() {
         if ($("#email").val() !== null || $("#password").val() !== null) {
 
             $.ajax({
-                url: "/Ocena/checkLoginInfo",
+                url: "/kcep-mis/checkLoginInfo",
                 type: "POST",
                 data: "password=" + $("#password").val() + "&username=" + $("#email").val(),
                 success: function (data) {
@@ -822,7 +805,6 @@ function loginUser() {
                     if (data !== "") {
 
                         $("#login-form").submit();
-
                     } else {
                         $("#invalid-login-info").html("<table class=\"table table-responsive table-hover\"><tbody><tr class=\"warning\"><td> <span> Invalid credentials. Contact your administrator </span> </td></tr></tbody></table>");
                     }
@@ -836,6 +818,40 @@ function loginUser() {
     } else {
         $("#invalid-login-info").html("<table class=\"table table-responsive table-hover\"><tbody><tr class=\"warning\"><td> <span> Fill the login details or contact your administrator </span> </td></tr></tbody></table>");
     }
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Person">
+function addPerson() {
+
+  alert($("#person-name").val());
+
+    $.ajax({
+        url: "/kcep-mis/addPerson",
+        type: "POST",
+        data: "name=" + $("#person-name").val() + "&idNumber=" + $("#id-number").val() +
+                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
+                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone-number").val() +
+                "&email=" + $("#email-address").val() + "&businessName=" + $("#business-name").val() +
+                "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
+                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val(),
+        success: function (data) {
+
+            alert(data);
+
+            $("#person-name").val("");
+            $("#id-number").val("");
+            $("#business-name").val("");
+            $("#sex").val("");
+            $("#farmer-group").val("");
+            $("#phone-number").val("");
+            $("#email-address").val("");
+            $("#person-county").val("");
+            $("#person-sub-county").val("");
+            $("#person-ward").val("");
+        },
+        dataType: "HTML"
+    });
 }
 //</editor-fold>
 
@@ -889,7 +905,7 @@ function editInstitution(name, abbreviation, country) {
                 //Send the values to the application server for updating in the database
                 $.ajax({
                     type: "POST",
-                    url: "/Ocena/editInstitution",
+                    url: "/kcep-mis/editInstitution",
                     data: "name=" + name + "&abbreviation=" + abbreviation + "&country=" + country,
                     success: function (data) {
                         //Update institution table
@@ -924,7 +940,7 @@ function removeInstitution(id) {
             "Yes": function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Ocena/removeInstitution",
+                    url: "/kcep-mis/removeInstitution",
                     data: "id=" + id,
                     success: function (data) {
 

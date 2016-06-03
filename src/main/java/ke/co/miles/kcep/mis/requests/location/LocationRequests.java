@@ -57,7 +57,11 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         location.setSubCounty(locationDetails.getSubCounty());
-        location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
+        try {
+            location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
+        } catch (Exception e) {
+            location.setCounty(null);
+        }
 
         try {
             em.persist(location);
@@ -132,8 +136,12 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         location.setSubCounty(locationDetails.getSubCounty());
-        location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
-
+        try {
+            location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
+        } catch (Exception e) {
+            location.setCounty(null);
+        }
+        
         try {
             em.merge(location);
         } catch (Exception e) {
@@ -180,7 +188,6 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     }
 
 //</editor-fold>
-    
     @EJB
     CountyRequestsLocal countyService;
 }

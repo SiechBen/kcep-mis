@@ -4,6 +4,7 @@
     Author     : siech
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -386,6 +387,77 @@
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
+                                Person details
+                            </div>
+                            <div class="panel-body">
+                                <form role="form">
+                                    <div class="form-group">
+                                        Name
+                                        <input id="person-name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Person role
+                                        <select id="person-role" class="form-control">
+                                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
+                                                <option value="${personRole.id}">${personRole.personRole}</option>
+                                            </c:forEach>
+                                        </select>    
+                                    </div><div class="form-group">
+                                        National id number
+                                        <input id="id-number" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Business name
+                                        <input id="business-name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Sex
+                                        <select id="sex" class="form-control">
+                                            <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index"> 
+                                                <option value="${sex.id}">${sex.sex}</option>
+                                            </c:forEach>
+                                        </select> 
+                                    </div>
+                                    <div class="form-group">
+                                        Phone number
+                                        <input id="phone-number" type="phone" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Email address
+                                        <input id="email-address" type="email" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Farmer group
+                                        <select id="farmer-group" class="form-control">
+                                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index"> 
+                                                <option value="${farmerGroup.id}">${farmerGroup.name}</option>
+                                            </c:forEach>
+                                        </select>    
+                                    </div>
+                                    <div class="form-group">
+                                        County
+                                        <select id="person-county" class="form-control">
+                                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                                                <option value="${county.id}">${county.name}</option>
+                                            </c:forEach>
+                                        </select>  
+                                    </div>
+                                    <div class="form-group">
+                                        Sub-county
+                                        <input id="person-sub-county" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        Ward
+                                        <input id="person-ward" class="form-control">
+                                    </div>
+                                    <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save person</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
                                 Number of farmers sampled
                             </div>
                             <!-- /.panel-heading -->
@@ -674,7 +746,7 @@
                                 <form role="form">
                                     <div class="form-group">
                                         Date of training
-                                        <input class="form-control">
+                                        <input type="datetime" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         Trainer
@@ -721,6 +793,7 @@
 
         <!-- Custom Theme JavaScript -->
         <script src="static/js/sb-admin-2.js"></script>
+        <script src="static/js/actions.js"></script>
 
     </body>
 

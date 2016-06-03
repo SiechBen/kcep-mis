@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,11 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.farmergroup.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
+import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.SexDetail;
 
 /**
  *
@@ -43,6 +48,7 @@ public class AccessController extends Controller {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -61,6 +67,9 @@ public class AccessController extends Controller {
         switch (path) {
 
             case "/ward":
+                  request.getSession(true);
+                      
+                availApplicationAttributes();
                 path = "/ward_officer";
                 break;
 
@@ -427,6 +436,51 @@ public class AccessController extends Controller {
             getServletContext().setAttribute("counties", counties);
         }
 
+        //Retrieve the list of person roles
+        LOGGER.log(Level.INFO, "Retrieving the list of person roles");
+        List<PersonRoleDetails> personRoles;
+        try {
+            personRoles = personRoleService.retrievePersonRoles();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during person roles retrieval", ex);
+            return;
+        }
+
+              //Avail the counties in the application scope
+        LOGGER.log(Level.INFO, "Avail the person roles in the application scope");
+        if (personRoles != null) {
+            getServletContext().setAttribute("personRoles", personRoles);
+        }
+        
+        //Retrieve the list of farmer groups
+        LOGGER.log(Level.INFO, "Retrieving the list of farmer groups");
+        List<FarmerGroupDetails> farmerGroups;
+        try {
+            farmerGroups = farmerGroupService.retrieveFarmerGroups();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during farmer groups retrieval", ex);
+            return;
+        }
+
+              //Avail the counties in the application scope
+        LOGGER.log(Level.INFO, "Avail the farmer groups in the application scope");
+        if (farmerGroups != null) {
+            getServletContext().setAttribute("farmerGroups", farmerGroups);
+        }
+
+        //Retrieve the list of sex values
+        LOGGER.log(Level.INFO, "Retrieving the list of sexes");
+        List<SexDetail> sexValues = new ArrayList<>();
+        for (SexDetail value : SexDetail.values()) {
+            sexValues.add(value);
+        }
+
+        //Avail the sex values in the application scope
+        LOGGER.log(Level.INFO, "Avail the sex values in the application scope");
+        if (farmerGroups != null) {
+            getServletContext().setAttribute("sexes", sexValues);
+        }
+
     }
 //</editor-fold>
 
@@ -579,48 +633,13 @@ public class AccessController extends Controller {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
     private static final Logger LOGGER = Logger.getLogger(AccessController.class.getSimpleName());
     @EJB
     private PersonRequestsLocal personService;
+    @EJB
+    private FarmerGroupRequestsLocal farmerGroupService;
+    @EJB
+    private PersonRoleRequestsLocal personRoleService;
     @EJB
     private CountyRequestsLocal countyService;
 }

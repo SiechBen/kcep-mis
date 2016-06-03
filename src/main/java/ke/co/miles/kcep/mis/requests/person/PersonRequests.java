@@ -62,7 +62,9 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             person = null;
         }
         if (person != null) {
-            throw new InvalidStateException("error_001_02");
+            if (person.getNationalId() != null) {
+                throw new InvalidStateException("error_001_02");
+            }
         }
 
         person = new Person();
@@ -73,10 +75,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person.setContact(contactService.addContact(personDetails.getContact()));
         person.setLocation(locationService.addLocation(personDetails.getLocation()));
 
-        if (personDetails.getSex().getId() != null) {
+        if (personDetails.getSex() != null) {
             person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
         }
-        if (personDetails.getFarmerGroup().getId() != null) {
+        if (personDetails.getFarmerGroup() != null) {
             person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
         try {
@@ -184,7 +186,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             person = null;
         }
         if (person != null) {
-            if (!person.getId().equals(personDetails.getId())) {
+            if (person.getNationalId() != null && !person.getId().equals(personDetails.getId())) {
                 throw new InvalidStateException("error_001_02");
             }
         }
@@ -201,11 +203,11 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person.setContact(em.find(Contact.class, personDetails.getContact().getId()));
         person.setLocation(em.find(Location.class, personDetails.getLocation().getId()));
 
-        if (personDetails.getSex().getId() != null) {
+        if (personDetails.getSex() != null) {
             person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
 
         }
-        if (personDetails.getFarmerGroup().getId() != null) {
+        if (personDetails.getFarmerGroup() != null) {
             person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
 
@@ -239,17 +241,17 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public PersonDetails convertPersonToPersonDetails(Person person) {
 
         ContactDetails contactDetails = null;
-        if (person.getContact().getId() != null) {
+        if (person.getContact() != null) {
             contactDetails = contactService.convertContactToContactDetails(person.getContact());
         }
 
         LocationDetails locationDetails = null;
-        if (person.getLocation().getId() != null) {
+        if (person.getLocation() != null) {
             locationDetails = locationService.convertLocationToLocationDetails(person.getLocation());
         }
 
         FarmerGroupDetails farmerGroupDetails = null;
-        if (person.getFarmerGroup().getId() != null) {
+        if (person.getFarmerGroup() != null) {
             farmerGroupDetails = farmerGroupService.convertFarmerGroupToFarmerGroupDetails(person.getFarmerGroup());
         }
 
