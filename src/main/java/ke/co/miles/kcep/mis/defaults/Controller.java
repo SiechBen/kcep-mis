@@ -30,7 +30,7 @@ import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
@@ -154,7 +154,7 @@ public abstract class Controller extends HttpServlet {
         }
 
         //Retrieve the list of person roles
-        List<PersonRoleDetails> personRoles;
+        List<PersonRoleDetail> personRoles;
         try {
             personRoles = personRoleService.retrievePersonRoles();
         } catch (MilesException ex) {

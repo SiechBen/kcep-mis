@@ -1,6 +1,6 @@
 <%-- 
-    Document   : sub_county
-    Created on : Jun 22, 2016, 9:09:59 AM
+    Document   : warehouse_operator
+    Created on : Jun 23, 2016, 9:45:32 AM
     Author     : siech
 --%>
 
@@ -8,9 +8,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:sub_county>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - sub-county desk officer </jsp:attribute>
+<kcep:warehouse_operator>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - warehouse operator </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
     </jsp:attribute>
-</kcep:sub_county>
+</kcep:warehouse_operator>

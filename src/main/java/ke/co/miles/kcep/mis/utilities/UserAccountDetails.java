@@ -58,11 +58,11 @@ public class UserAccountDetails implements Serializable, Comparable<UserAccountD
         this.person = person;
     }
 
-    public PersonRoleDetails getPersonRole() {
+    public PersonRoleDetail getPersonRole() {
         return personRole;
     }
 
-    public void setPersonRole(PersonRoleDetails personRole) {
+    public void setPersonRole(PersonRoleDetail personRole) {
         this.personRole = personRole;
     }
 
@@ -97,6 +97,6 @@ public class UserAccountDetails implements Serializable, Comparable<UserAccountD
     private String username;
     private String password;
     private PersonDetails person;
-    private PersonRoleDetails personRole;
+    private PersonRoleDetail personRole;
 
 }

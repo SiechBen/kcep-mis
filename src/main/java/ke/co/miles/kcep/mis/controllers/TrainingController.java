@@ -37,7 +37,7 @@ import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
@@ -236,9 +236,9 @@ public class TrainingController extends Controller {
                         trainer = null;
                     }
 
-                    PersonRoleDetails categoryOfTrainees = new PersonRoleDetails();
+                    PersonRoleDetail categoryOfTrainees;
                     try {
-                        categoryOfTrainees.setId(Integer.valueOf(String.valueOf(request.getParameter("category-of-trainees"))));
+                        categoryOfTrainees = PersonRoleDetail.getPersonRoleDetail(Integer.valueOf(String.valueOf(request.getParameter("category-of-trainees"))));
                     } catch (Exception e) {
                         categoryOfTrainees = null;
                     }

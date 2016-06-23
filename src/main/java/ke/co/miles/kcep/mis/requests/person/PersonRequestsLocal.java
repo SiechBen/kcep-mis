@@ -11,7 +11,7 @@ import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
 /**
  *
@@ -23,12 +23,12 @@ public interface PersonRequestsLocal {
     /**
      *
      * @param personDetails details of the person record to be created
-     * @param personRoleDetails details of the person role
+     * @param personRoleDetail details of the person role
      * @return unique identifier of the new record added
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addPerson(PersonDetails personDetails, PersonRoleDetails personRoleDetails) throws MilesException;
+    public int addPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail) throws MilesException;
 
     /**
      *
@@ -54,16 +54,16 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the login credentials are invalid or non-existent in the database
      */
-    public Map<PersonDetails, PersonRoleDetails> retrievePerson(String username, String password) throws MilesException;
+    public Map<PersonDetails, PersonRoleDetail> retrievePerson(String username, String password) throws MilesException;
 
     /**
      *
      * @param personDetails details of the person record to be edited
-     * @param personRoleDetails details of the person role
+     * @param personRoleDetail details of the person role
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editPerson(PersonDetails personDetails, PersonRoleDetails personRoleDetails) throws MilesException;
+    public void editPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail) throws MilesException;
 
     /**
      *
@@ -79,5 +79,57 @@ public interface PersonRequestsLocal {
      * @return the details of the person record
      */
     public PersonDetails convertPersonToPersonDetails(Person person);
+
+    /**
+     *
+     * @param subCountyId the unique identifier of the sub-county to which the
+     * farmers belong
+     * @return the list of retrieved farmers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveSubCountyFarmers(int subCountyId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county to which the people
+     * belong
+     * @return the list of retrieved people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveCountyPeople(int countyId) throws MilesException;
+
+    /**
+     *
+     * @param subCountyId the unique identifier of the sub-county to which the
+     * people belong
+     * @return the list of retrieved people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveSubCountyPeople(int subCountyId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county to which the people
+     * belong
+     * @return the list of retrieved people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveRegionPeople(int countyId) throws MilesException;
+
+    /**
+     *
+     * @return the list of retrieved people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveKalroPeople() throws MilesException;
+
+    /**
+     *
+     * @param wardId the unique identifier of the ward to which the people
+     * belong
+     * @return the list of retrieved people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveWardPeople(int wardId) throws MilesException;
 
 }

@@ -8,14 +8,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:genericpage>
-    <jsp:attribute name="title"> KCEP-MIS - KALRO officer </jsp:attribute>
-    <jsp:attribute name="menuitems">
-        <li>
-            <a onclick="loadAjaxWindow('kalro')"><i class="fa fa-table fa-fw"></i> KALRO </a>
-        </li>
-    </jsp:attribute>
-    <jsp:attribute name="content">
+<kcep:kalro>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - KALRO officer </jsp:attribute>
+    <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
             <div class="row">
@@ -207,4 +202,4 @@
         <!-- /#page-wrapper -->
 
     </jsp:attribute>
-</kcep:genericpage>
+</kcep:kalro>

@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "user_account", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "UserAccount.findByPersonRoleIdAndPersonId", query = "SELECT u FROM UserAccount u WHERE u.person.id = :personId AND u.personRole.id = :personRoleId"),
     @NamedQuery(name = "UserAccount.findByUsernameAndPassword", query = "SELECT u FROM UserAccount u WHERE u.username = :username AND u.password = :password"),
     @NamedQuery(name = "UserAccount.findAll", query = "SELECT u FROM UserAccount u"),
     @NamedQuery(name = "UserAccount.findById", query = "SELECT u FROM UserAccount u WHERE u.id = :id"),
@@ -136,5 +137,5 @@ public class UserAccount implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.UserAccount[ id=" + id + " ]";
     }
-    
+
 }

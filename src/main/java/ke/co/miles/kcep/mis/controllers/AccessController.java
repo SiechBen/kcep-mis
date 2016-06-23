@@ -24,7 +24,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.WarehouseRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 
 /**
@@ -73,13 +73,6 @@ public class AccessController extends Controller {
 
                 if (loggedIn) {
                     path = (String) session.getAttribute("home");
-
-                    try {
-                        request.getRequestDispatcher(path).forward(request, response);
-                    } catch (IOException | ServletException ex) {
-                        LOGGER.log(Level.SEVERE, "Request dispatch failed", ex);
-                    }
-
                 }
 
                 break;
@@ -100,7 +93,7 @@ public class AccessController extends Controller {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 //Retrieve the logged in user
-                Map<PersonDetails, PersonRoleDetails> personToPersonRoleMap;
+                Map<PersonDetails, PersonRoleDetail> personToPersonRoleMap;
                 try {
                     personToPersonRoleMap = personService.retrievePerson(username, password);
                 } catch (MilesException ex) {
@@ -114,8 +107,8 @@ public class AccessController extends Controller {
                 }
 
                 PersonDetails person = null;
-                PersonRoleDetails personRole = null;
-                for (Map.Entry<PersonDetails, PersonRoleDetails> entryKey : personToPersonRoleMap.entrySet()) {
+                PersonRoleDetail personRole = null;
+                for (Map.Entry<PersonDetails, PersonRoleDetail> entryKey : personToPersonRoleMap.entrySet()) {
                     person = entryKey.getKey();
                     personRole = entryKey.getValue();
                     break;

@@ -9,8 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
@@ -26,7 +27,7 @@ import ke.co.miles.kcep.mis.requests.access.AccessRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.UserAccountDetails;
 
 /**
@@ -103,6 +104,29 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
+
+    @Override
+    public List<Person> filterPeople(List<Person> people, PersonRoleDetail personRoleDetail) throws MilesException {
+
+        List<Person> filteredPeople = new ArrayList<>();
+        q = em.createNamedQuery("UserAccount.findByPersonRoleIdAndPersonId");
+
+        for (Person person : people) {
+            q.setParameter("personRoleId", personRoleDetail.getId());
+            q.setParameter("personId", person.getId());
+            try {
+                UserAccount userAccount = (UserAccount) q.getSingleResult();
+                filteredPeople.add(person);
+            } catch (NoResultException e) {
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "", e);
+                throw new InvalidStateException("error_000_01");
+            }
+        }
+
+        return filteredPeople;
+
+    }
 
     @Override
     public UserAccountDetails retrieveUserAccount(String username, String hashedPassword) throws MilesException {
@@ -298,19 +322,19 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         //Convert list of faculty to faculty details
         PersonDetails personDetails = personService.convertPersonToPersonDetails(userAccount.getPerson());
 
-        PersonRoleDetails personRoleDetails = personRoleService.convertPersonRoleToPersonRoleDetails(userAccount.getPersonRole());
+        PersonRoleDetail personRoleDetail = personRoleService.convertPersonRoleToPersonRoleDetail(userAccount.getPersonRole());
 
         UserAccountDetails userAccountDetails = new UserAccountDetails(userAccount.getId());
         userAccountDetails.setUsername(userAccount.getUsername());
         userAccountDetails.setPassword(userAccount.getPassword());
-        userAccountDetails.setPersonRole(personRoleDetails);
+        userAccountDetails.setPersonRole(personRoleDetail);
         userAccountDetails.setPerson(personDetails);
 
         //Returning converted faculty details
         return userAccountDetails;
     }
 //</editor-fold>
-
+    private static final Logger LOGGER = Logger.getLogger(UserAccountRequests.class.getSimpleName());
     @EJB
     PersonRequestsLocal personService;
     @EJB

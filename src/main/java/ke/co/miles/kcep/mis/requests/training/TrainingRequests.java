@@ -163,7 +163,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             trainingDetails.setTrainer(trainingService.convertPersonToPersonDetails(training.getTrainer()));
         }
         if (training.getCategoryOfTrainees() != null) {
-            trainingDetails.setCategoryOfTrainees(trainingRoleService.convertPersonRoleToPersonRoleDetails(training.getCategoryOfTrainees()));
+            trainingDetails.setCategoryOfTrainees(trainingRoleService.convertPersonRoleToPersonRoleDetail(training.getCategoryOfTrainees()));
         }
 
         return trainingDetails;

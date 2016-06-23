@@ -33,7 +33,7 @@ import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerSubGroupDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
@@ -66,11 +66,6 @@ public class PersonController extends Controller {
 
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
-//                case "/kalro_people":
-//                case "/region_people":
-//                case "/county_people":
-//                case "/sub_county_people":
-            
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
@@ -93,31 +88,6 @@ public class PersonController extends Controller {
                                     break;
                                 case "/userProfile":
                                     path = "/head_userProfile";
-                                    urlPaths.add(path);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    case "warehouseOperatorSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddPerson");
-                            switch (path) {
-                                case "/people":
-                                    path = "/warehouse_operator_people";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addPerson":
-                                    path = "/warehouse_operator_addPerson";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editPerson":
-                                    path = "/warehouse_operator_editPerson";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/userProfile":
-                                    path = "/warehouse_operator_userProfile";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -288,15 +258,7 @@ public class PersonController extends Controller {
             switch (path) {
 
                 case "/head_people":
-                case "/ward_people":
-                case "/kalro_people":
-                case "/region_people":
-                case "/county_people":
-                case "/sub_county_people":
-                case "/agro_dealer_people":
-                case "/warehouse_operator_people":
 
-                    //Retrieve the list of people
                     List<PersonDetails> people;
                     try {
                         people = personService.retrievePeople();
@@ -305,7 +267,100 @@ public class PersonController extends Controller {
                         return;
                     }
 
-                    //Avail the people in the application scope
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/ward_people":
+
+                    PersonDetails wao = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        people = personService.retrieveWardPeople(wao.getLocation().getWard().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/kalro_people":
+
+                    try {
+                        people = personService.retrieveKalroPeople();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/region_people":
+
+                    PersonDetails regionalCoordinator = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        people = personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/county_people":
+
+                    PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        people = personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/sub_county_people":
+
+                    PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        people = personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/agro_dealer_people":
+
+                    PersonDetails agroDealer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        people = personService.retrieveSubCountyFarmers(agroDealer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
@@ -358,9 +413,9 @@ public class PersonController extends Controller {
                     location.setCounty(county);
                     location.setWard(ward);
 
-                    PersonRoleDetails personRole = new PersonRoleDetails();
+                    PersonRoleDetail personRole;
                     try {
-                        personRole.setId(Integer.valueOf(String.valueOf(request.getParameter("personRole"))));
+                        personRole = PersonRoleDetail.getPersonRoleDetail(Integer.valueOf(String.valueOf(request.getParameter("personRole"))));
                     } catch (Exception e) {
                         personRole = null;
                     }
@@ -431,7 +486,6 @@ public class PersonController extends Controller {
                 case "/county_addPerson":
                 case "/sub_county_addPerson":
                 case "/agro_dealer_addPerson":
-                case "/warehouse_operator_addPerson":
                     break;
 
                 case "/head_userProfile":
@@ -441,7 +495,6 @@ public class PersonController extends Controller {
                 case "/county_userProfile":
                 case "/sub_county_userProfile":
                 case "/agro_dealer_userProfile":
-                case "/warehouse_operator_userProfile":
                     break;
 
                 case "/head_editPerson":
@@ -451,7 +504,6 @@ public class PersonController extends Controller {
                 case "/county_editPerson":
                 case "/sub_county_editPerson":
                 case "/agro_dealer_editPerson":
-                case "/warehouse_operator_editPerson":
 
                     PersonDetails personDetails = new PersonDetails();
                     personDetails = (PersonDetails) session.getAttribute("person");

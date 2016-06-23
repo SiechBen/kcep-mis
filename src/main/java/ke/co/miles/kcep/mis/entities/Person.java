@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "person", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Person.findByWardId", query = "SELECT p FROM Person p WHERE p.location.ward.id = :wardId"),
+    @NamedQuery(name = "Person.findByCountyId", query = "SELECT p FROM Person p WHERE p.location.county.id = :countyId"),
+    @NamedQuery(name = "Person.findBySubCountyId", query = "SELECT p FROM Person p WHERE p.location.subCounty.id = :subCountyId"),
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
     @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
     @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
@@ -195,5 +198,5 @@ public class Person implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Person[ id=" + id + " ]";
     }
-    
+
 }

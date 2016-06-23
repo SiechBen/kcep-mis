@@ -13,7 +13,7 @@ import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
 /**
  *
@@ -24,19 +24,19 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public int addPersonRole(PersonRoleDetails personRoleDetails) throws MilesException {
+    public int addPersonRole(PersonRoleDetail personRoleDetail) throws MilesException {
 
-        if (personRoleDetails == null) {
+        if (personRoleDetail == null) {
             throw new InvalidArgumentException("error_005_01");
-        } else if (personRoleDetails.getPersonRole() == null) {
+        } else if (personRoleDetail.getPersonRole() == null) {
             throw new InvalidArgumentException("error_005_02");
-        } else if (personRoleDetails.getPersonRole().length() > 200) {
+        } else if (personRoleDetail.getPersonRole().length() > 200) {
             throw new InvalidArgumentException("error_005_03");
         }
 
         PersonRole personRole;
         q = em.createNamedQuery("PersonRole.findByPersonRole");
-        q.setParameter("personRole", personRoleDetails.getPersonRole());
+        q.setParameter("personRole", personRoleDetail.getPersonRole());
         try {
             personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         }
 
         personRole = new PersonRole();
-        personRole.setPersonRole(personRoleDetails.getPersonRole());
+        personRole.setPersonRole(personRoleDetail.getPersonRole());
 
         try {
             em.persist(personRole);
@@ -63,7 +63,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    public List<PersonRoleDetails> retrievePersonRoles() throws MilesException {
+    public List<PersonRoleDetail> retrievePersonRoles() throws MilesException {
         List<PersonRole> personRoles = new ArrayList<>();
         q = em.createNamedQuery("PersonRole.findAll");
         try {
@@ -71,11 +71,11 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         } catch (Exception e) {
         }
 
-        return convertPersonRolesToPersonRoleDetailsList(personRoles);
+        return convertPersonRolesToPersonRoleDetailList(personRoles);
     }
 
     @Override
-    public PersonRoleDetails retrievePersonRole(int id) throws MilesException {
+    public PersonRoleDetail retrievePersonRole(int id) throws MilesException {
         PersonRole personRole;
         q = em.createNamedQuery("PersonRole.findById");
         q.setParameter("id", id);
@@ -85,41 +85,41 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
             throw new InvalidStateException("error_000_01");
         }
 
-        return convertPersonRoleToPersonRoleDetails(personRole);
+        return convertPersonRoleToPersonRoleDetail(personRole);
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
-    public void editPersonRole(PersonRoleDetails personRoleDetails) throws MilesException {
+    public void editPersonRole(PersonRoleDetail personRoleDetail) throws MilesException {
 
-        if (personRoleDetails == null) {
+        if (personRoleDetail == null) {
             throw new InvalidArgumentException("error_005_01");
-        } else if (personRoleDetails.getId() == null) {
+        } else if (personRoleDetail.getId() == null) {
             throw new InvalidArgumentException("error_005_05");
-        } else if (personRoleDetails.getPersonRole() == null) {
+        } else if (personRoleDetail.getPersonRole() == null) {
             throw new InvalidArgumentException("error_005_02");
-        } else if (personRoleDetails.getPersonRole().length() > 200) {
+        } else if (personRoleDetail.getPersonRole().length() > 200) {
             throw new InvalidArgumentException("error_005_03");
         }
 
         PersonRole personRole;
         q = em.createNamedQuery("PersonRole.findByPersonRole");
-        q.setParameter("personRole", personRoleDetails.getPersonRole());
+        q.setParameter("personRole", personRoleDetail.getPersonRole());
         try {
             personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
             personRole = null;
         }
         if (personRole != null) {
-            if (personRole.getId().equals(personRoleDetails.getId())) {
+            if (personRole.getId().equals(personRoleDetail.getId())) {
                 throw new InvalidArgumentException("error_005_04");
             }
         }
 
-        personRole = em.find(PersonRole.class, personRoleDetails.getId());
-        personRole.setId(personRoleDetails.getId());
-        personRole.setPersonRole(personRoleDetails.getPersonRole());
+        personRole = em.find(PersonRole.class, personRoleDetail.getId());
+        personRole.setId(personRoleDetail.getId());
+        personRole.setPersonRole(personRoleDetail.getPersonRole());
 
         try {
             em.merge(personRole);
@@ -145,22 +145,21 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public PersonRoleDetails convertPersonRoleToPersonRoleDetails(PersonRole personRole) {
+    public PersonRoleDetail convertPersonRoleToPersonRoleDetail(PersonRole personRole) {
 
-        PersonRoleDetails personRoleDetails = new PersonRoleDetails(personRole.getId());
-        personRoleDetails.setPersonRole(personRole.getPersonRole());
-        return personRoleDetails;
+        PersonRoleDetail personRoleDetail = PersonRoleDetail.getPersonRoleDetail(personRole.getId());
+        return personRoleDetail;
 
     }
 
-    private List<PersonRoleDetails> convertPersonRolesToPersonRoleDetailsList(List<PersonRole> personRoles) {
+    private List<PersonRoleDetail> convertPersonRolesToPersonRoleDetailList(List<PersonRole> personRoles) {
 
-        List<PersonRoleDetails> personRoleDetailsList = new ArrayList<>();
+        List<PersonRoleDetail> personRoleDetailList = new ArrayList<>();
         for (PersonRole personRole : personRoles) {
-            personRoleDetailsList.add(convertPersonRoleToPersonRoleDetails(personRole));
+            personRoleDetailList.add(convertPersonRoleToPersonRoleDetail(personRole));
         }
 
-        return personRoleDetailsList;
+        return personRoleDetailList;
 
     }
 

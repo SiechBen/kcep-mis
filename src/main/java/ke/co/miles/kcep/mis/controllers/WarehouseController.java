@@ -82,6 +82,17 @@ public class WarehouseController extends Controller {
                             urlPaths.add(path);
                         }
                     }
+                } else if (rightsMap.equals("subCountyDeskOfficerSession")) {
+                    if (rightsMaps.get(rightsMap)) {
+                        urlPaths.add("/doAddWarehouse");
+                        if (path.equals("/warehouses")) {
+                            path = "/sub_county_warehouses";
+                            urlPaths.add(path);
+                        } else if (path.equals("/addWarehouse")) {
+                            path = "/sub_county_addWarehouse";
+                            urlPaths.add(path);
+                        }
+                    }
                 }
             }
         }
@@ -94,6 +105,7 @@ public class WarehouseController extends Controller {
 
                 case "/ward_warehouses":
                 case "/head_warehouses":
+                case "/sub_county_warehouses":
                     
                     //Retrieve the list of warehouses
                     List<WarehouseDetails> warehouses;
@@ -112,6 +124,7 @@ public class WarehouseController extends Controller {
                     
                 case "/head_addWarehouse":
                 case "/ward_addWarehouse":
+                case "/sub_county_addWarehouse":
 
                     //Retrieve the list of people
                     List<PersonDetails> people;
