@@ -10,10 +10,10 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Warehouse;
+import ke.co.miles.kcep.mis.entities.WarehouseType;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -21,10 +21,12 @@ import ke.co.miles.kcep.mis.requests.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
+import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
 /**
  *
@@ -42,31 +44,33 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         }
 
         Warehouse warehouse;
-        q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
-        q.setParameter("warehouseOperatorId", warehouseDetails.getWarehouseOperator().getId());
-        try {
-            warehouse = (Warehouse) q.getSingleResult();
-        } catch (Exception e) {
-            warehouse = null;
-        }
-        if (warehouse != null) {
-            throw new InvalidArgumentException("error_008_02");
+        if (warehouseDetails.getWarehouseOperator() != null) {
+            q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
+            q.setParameter("warehouseOperatorId", warehouseDetails.getWarehouseOperator().getId());
+            try {
+                warehouse = (Warehouse) q.getSingleResult();
+            } catch (Exception e) {
+                warehouse = null;
+            }
+            if (warehouse != null) {
+                throw new InvalidArgumentException("error_008_02");
+            }
         }
 
         warehouse = new Warehouse();
-        warehouse.setWrs(warehouseDetails.getWrs());
+        warehouse.setOffersWrs(warehouseDetails.getOffersWrs());
         warehouse.setName(warehouseDetails.getName());
         warehouse.setCapacity(warehouseDetails.getCapacity());
         warehouse.setCertified(warehouseDetails.getCertified());
-
-        if (warehouseDetails.getLocation().getId() != null) {
-            warehouse.setLocation(em.find(Location.class, warehouseDetails.getLocation().getId()));
-        }
-        if (warehouseDetails.getUnits().getId() != null) {
+        warehouse.setLocation(locationService.addLocation(warehouseDetails.getLocation()));
+        if (warehouseDetails.getUnits() != null) {
             warehouse.setUnits(em.find(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
         }
-        if (warehouseDetails.getWarehouseOperator().getId() != null) {
+        if (warehouseDetails.getWarehouseOperator() != null) {
             warehouse.setWarehouseOperator(em.find(Person.class, warehouseDetails.getWarehouseOperator().getId()));
+        }
+        if (warehouseDetails.getWarehouseType() != null) {
+            warehouse.setWarehouseType(em.find(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
@@ -83,10 +87,10 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    public WarehouseDetails retrieveWarehouse(int id) throws MilesException {
+    public WarehouseDetails retrieveWarehouse(int warehouseOperatorId) throws MilesException {
 
-        q = em.createNamedQuery("Warehouse.findById");
-        q.setParameter("id", id);
+        q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
+        q.setParameter("warehouseOperatorId", warehouseOperatorId);
         Warehouse warehouse;
         try {
             warehouse = (Warehouse) q.getSingleResult();
@@ -125,39 +129,36 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         }
 
         Warehouse warehouse;
-        q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
-        q.setParameter("warehouseOperatorId", warehouseDetails.getWarehouseOperator().getId());
-        try {
-            warehouse = (Warehouse) q.getSingleResult();
-        } catch (Exception e) {
-            warehouse = null;
-        }
-        if (warehouse != null) {
-            if (!warehouse.getId().equals(warehouseDetails.getId())) {
-                throw new InvalidArgumentException("error_008_02");
+        if (warehouseDetails.getWarehouseOperator() != null) {
+            q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
+            q.setParameter("warehouseOperatorId", warehouseDetails.getWarehouseOperator().getId());
+            try {
+                warehouse = (Warehouse) q.getSingleResult();
+            } catch (Exception e) {
+                warehouse = null;
+            }
+            if (warehouse != null) {
+                if (!warehouse.getId().equals(warehouseDetails.getId())) {
+                    throw new InvalidArgumentException("error_008_02");
+                }
             }
         }
 
         warehouse = em.find(Warehouse.class, warehouseDetails.getId());
         warehouse.setId(warehouseDetails.getId());
-        warehouse.setWrs(warehouseDetails.getWrs());
+        warehouse.setOffersWrs(warehouseDetails.getOffersWrs());
         warehouse.setName(warehouseDetails.getName());
         warehouse.setCapacity(warehouseDetails.getCapacity());
         warehouse.setCertified(warehouseDetails.getCertified());
-
-        if (warehouseDetails.getLocation()
-                .getId() != null) {
-            warehouse.setLocation(em.find(Location.class, warehouseDetails.getLocation().getId()));
-        }
-
-        if (warehouseDetails.getUnits()
-                .getId() != null) {
+        warehouse.setLocation(locationService.editLocation(warehouseDetails.getLocation()));
+        if (warehouseDetails.getUnits() != null) {
             warehouse.setUnits(em.find(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
         }
-
-        if (warehouseDetails.getWarehouseOperator()
-                .getId() != null) {
+        if (warehouseDetails.getWarehouseOperator() != null) {
             warehouse.setWarehouseOperator(em.find(Person.class, warehouseDetails.getWarehouseOperator().getId()));
+        }
+        if (warehouseDetails.getWarehouseType() != null) {
+            warehouse.setWarehouseType(em.find(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
@@ -190,27 +191,33 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     public WarehouseDetails convertWarehouseToWarehouseDetails(Warehouse warehouse) {
 
         LocationDetails locationDetails = null;
-        if (warehouse.getLocation().getId() != null) {
+        if (warehouse.getLocation() != null) {
             locationDetails = locationService.convertLocationToLocationDetails(warehouse.getLocation());
         }
 
         MeasurementUnitDetails measurementUnitDetails = null;
-        if (warehouse.getUnits().getId() != null) {
+        if (warehouse.getUnits() != null) {
             measurementUnitDetails = measurementUnitService.convertMeasurementUnitToMeasurementUnitDetails(warehouse.getUnits());
         }
 
         PersonDetails warehouseOperatorDetails = null;
-        if (warehouse.getWarehouseOperator().getId() != null) {
+        if (warehouse.getWarehouseOperator() != null) {
             warehouseOperatorDetails = personService.convertPersonToPersonDetails(warehouse.getWarehouseOperator());
+        }
+
+        WarehouseTypeDetails warehouseTypeDetails = null;
+        if (warehouse.getWarehouseType() != null) {
+            warehouseTypeDetails = warehouseTypeService.convertWarehouseTypeToWarehouseTypeDetails(warehouse.getWarehouseType());
         }
 
         WarehouseDetails warehouseDetails = new WarehouseDetails(warehouse.getId());
         warehouseDetails.setWarehouseOperator(warehouseOperatorDetails);
+        warehouseDetails.setWarehouseType(warehouseTypeDetails);
+        warehouseDetails.setOffersWrs(warehouse.getOffersWrs());
         warehouseDetails.setCertified(warehouse.getCertified());
         warehouseDetails.setCapacity(warehouse.getCapacity());
         warehouseDetails.setUnits(measurementUnitDetails);
         warehouseDetails.setName(warehouse.getName());
-        warehouseDetails.setWrs(warehouse.getWrs());
         warehouseDetails.setLocation(locationDetails);
 
         return warehouseDetails;
@@ -218,10 +225,11 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     }
 
     private List<WarehouseDetails> convertWarehousesToWarehouseDetailsList(List<Warehouse> warehouses) {
+
         List<WarehouseDetails> warehouseDetailsList = new ArrayList<>();
-        warehouses.stream().forEach((warehouse) -> {
+        for (Warehouse warehouse : warehouses) {
             warehouseDetailsList.add(convertWarehouseToWarehouseDetails(warehouse));
-        });
+        }
 
         return warehouseDetailsList;
 
@@ -234,6 +242,8 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     LocationRequestsLocal locationService;
     @EJB
     EquipmentRequestsLocal equipmentService;
+    @EJB
+    WarehouseTypeRequestsLocal warehouseTypeService;
     @EJB
     MeasurementUnitRequestsLocal measurementUnitService;
 

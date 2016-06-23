@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,8 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "farmer_group", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "farmer_group", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FarmerGroup.findAll", query = "SELECT f FROM FarmerGroup f"),
@@ -37,19 +36,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FarmerGroup.findByName", query = "SELECT f FROM FarmerGroup f WHERE f.name = :name")})
 public class FarmerGroup implements Serializable {
 
+    @OneToMany(mappedBy = "farmerGroup")
+    private List<Person> personList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
-    @Column(name = "name", nullable = false, length = 200)
+    @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "farmerGroup")
-    private List<Person> personList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
+    private List<FarmerSubGroup> farmerSubGroupList;
 
     public FarmerGroup() {
     }
@@ -80,12 +82,12 @@ public class FarmerGroup implements Serializable {
     }
 
     @XmlTransient
-    public List<Person> getPersonList() {
-        return personList;
+    public List<FarmerSubGroup> getFarmerSubGroupList() {
+        return farmerSubGroupList;
     }
 
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
+    public void setFarmerSubGroupList(List<FarmerSubGroup> farmerSubGroupList) {
+        this.farmerSubGroupList = farmerSubGroupList;
     }
 
     @Override
@@ -111,6 +113,15 @@ public class FarmerGroup implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmerGroup[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
     }
     
 }

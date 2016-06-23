@@ -6,12 +6,35 @@
 package ke.co.miles.kcep.mis.defaults;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
+import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
+import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.CountyDetails;
+import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
+import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
+import ke.co.miles.kcep.mis.utilities.SexDetail;
+import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.WardDetails;
+import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
 /**
  *
@@ -74,6 +97,138 @@ public abstract class Controller extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    protected ResourceBundle bundle;
+    //<editor-fold defaultstate="collapsed" desc="Avail application attributes">
+    protected void availApplicationAttributes() {
 
+        List<WarehouseTypeDetails> warehouseTypes;
+        try {
+            warehouseTypes = warehouseTypeService.retrieveWarehouseTypes();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", e);
+            return;
+        }
+        if (warehouseTypes != null) {
+            getServletContext().setAttribute("warehouseTypes", warehouseTypes);
+        }
+        
+        //Retrieve the list of counties
+        List<CountyDetails> counties;
+        try {
+            counties = countyService.retrieveCounties();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+            return;
+        }
+
+        //Avail the counties in the application scope
+        if (counties != null) {
+            getServletContext().setAttribute("counties", counties);
+        }
+        
+        //Retrieve the list of sub counties
+        List<SubCountyDetails> subCounties;
+        try {
+            subCounties = subCountyService.retrieveSubCounties();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+            return;
+        }
+
+        //Avail the sub-counties in the application scope
+        if (subCounties != null) {
+            getServletContext().setAttribute("subCounties", subCounties);
+        }
+        
+        //Retrieve the list of wards
+        List<WardDetails> wards;
+        try {
+            wards = wardService.retrieveWards();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+            return;
+        }
+
+        //Avail the wards in the application scope
+        if (wards != null) {
+            getServletContext().setAttribute("wards", wards);
+        }
+
+        //Retrieve the list of person roles
+        List<PersonRoleDetails> personRoles;
+        try {
+            personRoles = personRoleService.retrievePersonRoles();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during person roles retrieval", ex);
+            return;
+        }
+
+        //Avail the counties in the application scope
+        if (personRoles != null) {
+            getServletContext().setAttribute("personRoles", personRoles);
+        }
+
+        //Retrieve the list of farmer groups
+        List<FarmerGroupDetails> farmerGroups;
+        try {
+            farmerGroups = farmerGroupService.retrieveFarmerGroups();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during farmer groups retrieval", ex);
+            return;
+        }
+
+        //Avail the counties in the application scope
+        if (farmerGroups != null) {
+            getServletContext().setAttribute("farmerGroups", farmerGroups);
+        }
+
+        //Retrieve the list of sex values
+        List<SexDetail> sexValues = new ArrayList<>();
+        sexValues.addAll(Arrays.asList(SexDetail.values()));
+
+        //Avail the sex values in the application scope
+        getServletContext().setAttribute("sexes", sexValues);
+
+        //Retrieve the list of measurement units
+        List<MeasurementUnitDetails> measurementUnits;
+        try {
+            measurementUnits = measurementUnitService.retrieveMeasurementUnits();
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during measurement units retrieval", ex);
+            return;
+        }
+
+        //Avail the measurement units in the application scope
+        getServletContext().setAttribute("measurementUnits", measurementUnits);
+
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Get file name">
+    protected String getFileName(Part filePart) {
+        final String partHeader = filePart.getHeader("content-disposition");
+//        final String partHeader = filePart.getHeader("Content-Disposition");
+        for (String content : partHeader.split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+
+    private static final Logger LOGGER = Logger.getLogger(Controller.class.getSimpleName());
+    protected ResourceBundle bundle;
+    @EJB
+    private FarmerGroupRequestsLocal farmerGroupService;
+    @EJB
+    private PersonRoleRequestsLocal personRoleService;
+    @EJB
+    private CountyRequestsLocal countyService;
+    @EJB
+    private WardRequestsLocal wardService;
+    @EJB
+    private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private MeasurementUnitRequestsLocal measurementUnitService;
+    @EJB
+    WarehouseTypeRequestsLocal warehouseTypeService;
 }

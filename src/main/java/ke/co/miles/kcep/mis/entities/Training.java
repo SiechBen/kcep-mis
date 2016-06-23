@@ -20,7 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,8 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "training", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "training", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Training.findAll", query = "SELECT t FROM Training t"),
@@ -38,16 +36,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Training.findByStartDate", query = "SELECT t FROM Training t WHERE t.startDate = :startDate"),
     @NamedQuery(name = "Training.findByEndDate", query = "SELECT t FROM Training t WHERE t.endDate = :endDate"),
     @NamedQuery(name = "Training.findByTopic", query = "SELECT t FROM Training t WHERE t.topic = :topic"),
-    @NamedQuery(name = "Training.findByVenue", query = "SELECT t FROM Training t WHERE t.venue = :venue"),
     @NamedQuery(name = "Training.findByNumberOfTrainees", query = "SELECT t FROM Training t WHERE t.numberOfTrainees = :numberOfTrainees"),
-    @NamedQuery(name = "Training.findByAttendance", query = "SELECT t FROM Training t WHERE t.attendance = :attendance")})
+    @NamedQuery(name = "Training.findByAttendanceSheet", query = "SELECT t FROM Training t WHERE t.attendanceSheet = :attendanceSheet")})
 public class Training implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
@@ -56,22 +53,22 @@ public class Training implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date endDate;
     @Size(max = 200)
-    @Column(name = "topic", length = 200)
+    @Column(name = "topic")
     private String topic;
-    @Size(max = 200)
-    @Column(name = "venue", length = 200)
-    private String venue;
     @Column(name = "number_of_trainees")
     private Integer numberOfTrainees;
     @Size(max = 200)
-    @Column(name = "attendance", length = 200)
-    private String attendance;
+    @Column(name = "attendance_sheet")
+    private String attendanceSheet;
+    @JoinColumn(name = "venue", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Location venue;
     @JoinColumn(name = "trainer", referencedColumnName = "id")
     @ManyToOne
     private Person trainer;
-    @JoinColumn(name = "person_role_for_trainees", referencedColumnName = "id")
+    @JoinColumn(name = "category_of_trainees", referencedColumnName = "id")
     @ManyToOne
-    private PersonRole personRoleForTrainees;
+    private PersonRole categoryOfTrainees;
 
     public Training() {
     }
@@ -112,14 +109,6 @@ public class Training implements Serializable {
         this.topic = topic;
     }
 
-    public String getVenue() {
-        return venue;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-
     public Integer getNumberOfTrainees() {
         return numberOfTrainees;
     }
@@ -128,12 +117,20 @@ public class Training implements Serializable {
         this.numberOfTrainees = numberOfTrainees;
     }
 
-    public String getAttendance() {
-        return attendance;
+    public String getAttendanceSheet() {
+        return attendanceSheet;
     }
 
-    public void setAttendance(String attendance) {
-        this.attendance = attendance;
+    public void setAttendanceSheet(String attendanceSheet) {
+        this.attendanceSheet = attendanceSheet;
+    }
+
+    public Location getVenue() {
+        return venue;
+    }
+
+    public void setVenue(Location venue) {
+        this.venue = venue;
     }
 
     public Person getTrainer() {
@@ -144,12 +141,12 @@ public class Training implements Serializable {
         this.trainer = trainer;
     }
 
-    public PersonRole getPersonRoleForTrainees() {
-        return personRoleForTrainees;
+    public PersonRole getCategoryOfTrainees() {
+        return categoryOfTrainees;
     }
 
-    public void setPersonRoleForTrainees(PersonRole personRoleForTrainees) {
-        this.personRoleForTrainees = personRoleForTrainees;
+    public void setCategoryOfTrainees(PersonRole categoryOfTrainees) {
+        this.categoryOfTrainees = categoryOfTrainees;
     }
 
     @Override

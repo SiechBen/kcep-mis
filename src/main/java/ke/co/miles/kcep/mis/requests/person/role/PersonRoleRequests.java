@@ -118,6 +118,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         }
 
         personRole = em.find(PersonRole.class, personRoleDetails.getId());
+        personRole.setId(personRoleDetails.getId());
         personRole.setPersonRole(personRoleDetails.getPersonRole());
 
         try {
@@ -155,13 +156,13 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
     private List<PersonRoleDetails> convertPersonRolesToPersonRoleDetailsList(List<PersonRole> personRoles) {
 
         List<PersonRoleDetails> personRoleDetailsList = new ArrayList<>();
-        personRoles.stream().forEach((personRole) -> {
+        for (PersonRole personRole : personRoles) {
             personRoleDetailsList.add(convertPersonRoleToPersonRoleDetails(personRole));
-        });
+        }
+
         return personRoleDetailsList;
 
     }
 
 //</editor-fold>
-    
 }

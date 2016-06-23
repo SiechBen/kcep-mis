@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,11 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "user_account", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"}),
-    @UniqueConstraint(columnNames = {"username"})})
+@Table(name = "user_account", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "UserAccount.findByUsernameAndPassword", query = "SELECT u FROM UserAccount u WHERE u.username = :username AND u.password = :password"),
     @NamedQuery(name = "UserAccount.findAll", query = "SELECT u FROM UserAccount u"),
     @NamedQuery(name = "UserAccount.findById", query = "SELECT u FROM UserAccount u WHERE u.id = :id"),
     @NamedQuery(name = "UserAccount.findByUsername", query = "SELECT u FROM UserAccount u WHERE u.username = :username"),
@@ -42,22 +40,22 @@ public class UserAccount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
-    @Column(name = "username", nullable = false, length = 150)
+    @Column(name = "username")
     private String username;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 150)
-    @Column(name = "password", nullable = false, length = 150)
+    @Column(name = "password")
     private String password;
-    @JoinColumn(name = "person", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "person", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person person;
-    @JoinColumn(name = "person_role", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "person_role", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PersonRole personRole;
 

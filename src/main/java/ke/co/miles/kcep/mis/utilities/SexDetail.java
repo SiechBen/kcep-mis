@@ -42,7 +42,7 @@ public enum SexDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Sex[ sex=" + getSex() + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Sex[ sex=" + getSex() + " ]";
     }
 
     private final Short id;

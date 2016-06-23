@@ -1,17 +1,17 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<%-- 
+    Document   : index
+    Created on : Jun 4, 2016, 8:08:24 AM
+    Author     : siech
+--%>
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <button onclick="loadWindow('/kcep-mis/index')">Login</button>
-        
-        <script src="static/js/actions.js"></script>
-        
-    </body>
-</html>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
+
+<kcep:genericpage>
+    <jsp:attribute name="title"> KCEP-MIS - view procurement </jsp:attribute>
+    <jsp:attribute name="menuitems"></jsp:attribute>
+    <jsp:attribute name="content">
+
+    </jsp:attribute>
+</kcep:genericpage>

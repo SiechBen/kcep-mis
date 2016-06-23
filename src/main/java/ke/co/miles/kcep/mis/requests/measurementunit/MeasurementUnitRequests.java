@@ -104,7 +104,7 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
             throw new InvalidArgumentException("error_007_02");
         } else if (measurementUnitDetails.getUnit().length() > 200) {
             throw new InvalidArgumentException("error_007_03");
-        }else if (measurementUnitDetails.getSymbol().length() > 20) {
+        } else if (measurementUnitDetails.getSymbol().length() > 20) {
             throw new InvalidArgumentException("error_007_05");
         }
 
@@ -162,9 +162,10 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
     private List<MeasurementUnitDetails> convertMeasurementUnitsToMeasurementUnitDetailsList(List<MeasurementUnit> measurementUnits) {
 
         List<MeasurementUnitDetails> measurementUnitDetailsList = new ArrayList<>();
-        measurementUnits.stream().forEach((measurementUnit) -> {
+        for (MeasurementUnit measurementUnit : measurementUnits) {
             measurementUnitDetailsList.add(convertMeasurementUnitToMeasurementUnitDetails(measurementUnit));
-        });
+        }
+
         return measurementUnitDetailsList;
 
     }

@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
 import java.io.Serializable;
 
 /**
@@ -96,7 +95,7 @@ public class ExtensionAndFieldVisitDataDetails implements Serializable, Comparab
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ExtensionAndFieldVisitData[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ExtensionAndFieldVisitData[ id=" + id + " ]";
     }
 
     @Override

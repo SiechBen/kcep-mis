@@ -23,11 +23,12 @@ public interface PersonRequestsLocal {
     /**
      *
      * @param personDetails details of the person record to be created
+     * @param personRoleDetails details of the person role
      * @return unique identifier of the new record added
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addPerson(PersonDetails personDetails) throws MilesException;
+    public int addPerson(PersonDetails personDetails, PersonRoleDetails personRoleDetails) throws MilesException;
 
     /**
      *
@@ -47,11 +48,22 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @param username the person's username
+     * @param password the person's password
+     * @return the map of person to person role
+     * @throws MilesException when the database is in an incorrect state or when
+     * the login credentials are invalid or non-existent in the database
+     */
+    public Map<PersonDetails, PersonRoleDetails> retrievePerson(String username, String password) throws MilesException;
+
+    /**
+     *
      * @param personDetails details of the person record to be edited
+     * @param personRoleDetails details of the person role
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editPerson(PersonDetails personDetails) throws MilesException;
+    public void editPerson(PersonDetails personDetails, PersonRoleDetails personRoleDetails) throws MilesException;
 
     /**
      *
@@ -67,15 +79,5 @@ public interface PersonRequestsLocal {
      * @return the details of the person record
      */
     public PersonDetails convertPersonToPersonDetails(Person person);
-
-    /**
-     *
-     * @param username the person's username
-     * @param password the person's password
-     * @return the map of person to person role
-     * @throws MilesException when the database is in an incorrect state or when
-     * the login credentials are invalid or non-existent in the database
-     */
-    public Map<PersonDetails, PersonRoleDetails> retrievePerson(String username, String password) throws MilesException;
 
 }

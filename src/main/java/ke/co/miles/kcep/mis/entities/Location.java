@@ -21,8 +21,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -31,14 +29,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "location", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "location", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l"),
     @NamedQuery(name = "Location.findById", query = "SELECT l FROM Location l WHERE l.id = :id"),
-    @NamedQuery(name = "Location.findBySubCounty", query = "SELECT l FROM Location l WHERE l.subCounty = :subCounty"),
-    @NamedQuery(name = "Location.findByWard", query = "SELECT l FROM Location l WHERE l.ward = :ward"),
     @NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"),
     @NamedQuery(name = "Location.findByLatitude", query = "SELECT l FROM Location l WHERE l.latitude = :latitude")})
 public class Location implements Serializable {
@@ -47,19 +42,15 @@ public class Location implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
-    @Column(name = "sub_county", length = 45)
-    private String subCounty;
-    @Size(max = 45)
-    @Column(name = "ward", length = 45)
-    private String ward;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "longitude", precision = 10, scale = 7)
+    @Column(name = "longitude")
     private BigDecimal longitude;
-    @Column(name = "latitude", precision = 9, scale = 7)
+    @Column(name = "latitude")
     private BigDecimal latitude;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venue")
+    private List<Training> trainingList;
     @OneToMany(mappedBy = "location")
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "location")
@@ -67,8 +58,12 @@ public class Location implements Serializable {
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
-    private List<CollectionCentre> collectionCentreList;
+    @JoinColumn(name = "sub_county", referencedColumnName = "id")
+    @ManyToOne
+    private SubCounty subCounty;
+    @JoinColumn(name = "ward", referencedColumnName = "id")
+    @ManyToOne
+    private Ward ward;
 
     public Location() {
     }
@@ -85,22 +80,6 @@ public class Location implements Serializable {
         this.id = id;
     }
 
-    public String getSubCounty() {
-        return subCounty;
-    }
-
-    public void setSubCounty(String subCounty) {
-        this.subCounty = subCounty;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
     public BigDecimal getLongitude() {
         return longitude;
     }
@@ -115,6 +94,15 @@ public class Location implements Serializable {
 
     public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
+    }
+
+    @XmlTransient
+    public List<Training> getTrainingList() {
+        return trainingList;
+    }
+
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
     }
 
     @XmlTransient
@@ -143,13 +131,20 @@ public class Location implements Serializable {
         this.county = county;
     }
 
-    @XmlTransient
-    public List<CollectionCentre> getCollectionCentreList() {
-        return collectionCentreList;
+    public SubCounty getSubCounty() {
+        return subCounty;
     }
 
-    public void setCollectionCentreList(List<CollectionCentre> collectionCentreList) {
-        this.collectionCentreList = collectionCentreList;
+    public void setSubCounty(SubCounty subCounty) {
+        this.subCounty = subCounty;
+    }
+
+    public Ward getWard() {
+        return ward;
+    }
+
+    public void setWard(Ward ward) {
+        this.ward = ward;
     }
 
     @Override

@@ -129,7 +129,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         }
     }
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Convert">
+//<editor-fold defaultstate="collapsed" desc="Convert">
 
     private ExtensionAndFieldVisitDataDetails convertExtensionAndFieldVisitDataToExtensionAndFieldVisitDataDetails(ExtensionAndFieldVisitData extensionAndFieldVisitData) {
 
@@ -149,9 +149,9 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
     private List<ExtensionAndFieldVisitDataDetails> convertExtensionAndFieldVisitDatasToExtensionAndFieldVisitDataDetailsList(List<ExtensionAndFieldVisitData> extensionAndFieldVisitDatas) {
 
         List<ExtensionAndFieldVisitDataDetails> extensionAndFieldVisitDataDetailsList = new ArrayList<>();
-        extensionAndFieldVisitDatas.stream().forEach((extensionAndFieldVisitData) -> {
+        for (ExtensionAndFieldVisitData extensionAndFieldVisitData : extensionAndFieldVisitDatas) {
             extensionAndFieldVisitDataDetailsList.add(convertExtensionAndFieldVisitDataToExtensionAndFieldVisitDataDetails(extensionAndFieldVisitData));
-        });
+        }
         return extensionAndFieldVisitDataDetailsList;
 
     }

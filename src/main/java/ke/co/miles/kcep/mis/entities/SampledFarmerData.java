@@ -20,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -30,8 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "sampled_farmer_data", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "sampled_farmer_data", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SampledFarmerData.findAll", query = "SELECT s FROM SampledFarmerData s"),
@@ -45,19 +43,19 @@ public class SampledFarmerData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Column(name = "season")
     private Short season;
     @Size(max = 100)
-    @Column(name = "productivity_per_crop_per_farmer", length = 100)
+    @Column(name = "productivity_per_crop_per_farmer")
     private String productivityPerCropPerFarmer;
     @Size(max = 100)
-    @Column(name = "post_harvest_losses", length = 100)
+    @Column(name = "post_harvest_losses")
     private String postHarvestLosses;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sampledFarmerData")
     private List<NumberOfFarmers> numberOfFarmersList;
-    @JoinColumn(name = "ward_extension_officer", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "ward_extension_officer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person wardExtensionOfficer;
 

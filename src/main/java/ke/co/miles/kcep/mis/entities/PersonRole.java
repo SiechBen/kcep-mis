@@ -18,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,9 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "person_role", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"}),
-    @UniqueConstraint(columnNames = {"person_role"})})
+@Table(name = "person_role", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PersonRole.findAll", query = "SELECT p FROM PersonRole p"),
@@ -43,14 +40,14 @@ public class PersonRole implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
-    @Column(name = "person_role", nullable = false, length = 200)
+    @Column(name = "person_role")
     private String personRole;
-    @OneToMany(mappedBy = "personRoleForTrainees")
+    @OneToMany(mappedBy = "categoryOfTrainees")
     private List<Training> trainingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
     private List<UserAccount> userAccountList;

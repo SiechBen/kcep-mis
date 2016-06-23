@@ -16,27 +16,29 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.FarmerGroup;
+import ke.co.miles.kcep.mis.entities.FarmerSubGroup;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Sex;
-import ke.co.miles.kcep.mis.entities.UserAccount;
 import ke.co.miles.kcep.mis.exceptions.AlgorithmException;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
-import ke.co.miles.kcep.mis.exceptions.LoginException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.access.AccessRequestsLocal;
 import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
-import ke.co.miles.kcep.mis.requests.farmergroup.FarmerGroupRequestsLocal;
+import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
+import ke.co.miles.kcep.mis.requests.farmer.subgroup.FarmerSubGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.useraccount.UserAccountRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
+import ke.co.miles.kcep.mis.utilities.FarmerSubGroupDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetails;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
+import ke.co.miles.kcep.mis.utilities.UserAccountDetails;
 
 /**
  *
@@ -47,7 +49,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
 //<editor-fold defaultstate="collapsed" desc="Create">  
     @Override
-    public int addPerson(PersonDetails personDetails) throws MilesException {
+    public int addPerson(PersonDetails personDetails, PersonRoleDetails personRoleDetails) throws MilesException {
 
         if (personDetails == null) {
             throw new InvalidArgumentException("error_001_01");
@@ -70,6 +72,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person = new Person();
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
+        person.setDateOfBirth(personDetails.getDateOfBirth());
         person.setBusinessName(personDetails.getBusinessName());
 
         person.setContact(contactService.addContact(personDetails.getContact()));
@@ -81,11 +84,26 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         if (personDetails.getFarmerGroup() != null) {
             person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
+        if (personDetails.getFarmerSubGroup() != null) {
+            person.setFarmerSubGroup(em.find(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
+        }
+
         try {
             em.persist(person);
-            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
+        }
+
+        UserAccountDetails userAccountDetails = new UserAccountDetails();
+        userAccountDetails.setPersonRole(personRoleDetails);
+        userAccountDetails.setPassword(personDetails.getNationalId());
+        userAccountDetails.setPerson(convertPersonToPersonDetails(person));
+        userAccountDetails.setUsername(person.getContact().getEmail().toLowerCase());
+
+        try {
+            userAccountService.addUserAccount(userAccountDetails);
+        } catch (Exception e) {
+            throw e;
         }
 
         return person.getId();
@@ -120,17 +138,16 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         String hashedPassword = accessService.generateSHAPassword(messageDigest, password);
 
         //Retrieve the user account record from the database
-        UserAccount userAccount;
+        UserAccountDetails userAccountDetails;
         try {
-            userAccount = userAccountService.retrieveUserAccount(username, hashedPassword);
-        } catch (InvalidArgumentException | LoginException e) {
-            throw new LoginException("error_000_01");
+            userAccountDetails = userAccountService.retrieveUserAccount(username, hashedPassword);
+        } catch (MilesException e) {
+            throw e;
         }
 
         //Creating and valuating a map of person details to their user group
         Map<PersonDetails, PersonRoleDetails> personToPersonRoleMap = new HashMap<>();
-        personToPersonRoleMap.put(convertPersonToPersonDetails(userAccount.getPerson()),
-                personRoleService.convertPersonRoleToPersonRoleDetails(userAccount.getPersonRole()));
+        personToPersonRoleMap.put(userAccountDetails.getPerson(), userAccountDetails.getPersonRole());
 
         //Returning the details list of person record
         return personToPersonRoleMap;
@@ -169,7 +186,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
     @Override
-    public void editPerson(PersonDetails personDetails) throws MilesException {
+    public void editPerson(PersonDetails personDetails, PersonRoleDetails personRoleDetails) throws MilesException {
 
         if (personDetails == null) {
             throw new InvalidArgumentException("error_001_01");
@@ -198,6 +215,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person.setId(personDetails.getId());
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
+        person.setDateOfBirth(personDetails.getDateOfBirth());
         person.setBusinessName(personDetails.getBusinessName());
 
         person.setContact(em.find(Contact.class, personDetails.getContact().getId()));
@@ -207,15 +225,27 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
 
         }
-        if (personDetails.getFarmerGroup() != null) {
-            person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
+        if (personDetails.getFarmerSubGroup() != null) {
+            person.setFarmerSubGroup(em.find(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
         }
 
         try {
             em.merge(person);
-            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
+        }
+
+        UserAccountDetails userAccountDetails = new UserAccountDetails();
+        userAccountDetails.setId(personDetails.getId());
+        userAccountDetails.setPersonRole(personRoleDetails);
+        userAccountDetails.setPassword(personDetails.getNationalId());
+        userAccountDetails.setPerson(convertPersonToPersonDetails(person));
+        userAccountDetails.setUsername(person.getContact().getEmail().toLowerCase());
+
+        try {
+            userAccountService.editUserAccount(userAccountDetails);
+        } catch (Exception e) {
+            throw e;
         }
 
     }
@@ -255,23 +285,41 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             farmerGroupDetails = farmerGroupService.convertFarmerGroupToFarmerGroupDetails(person.getFarmerGroup());
         }
 
-        PersonDetails personDetails = new PersonDetails(person.getId());
-        personDetails.setBusinessName(person.getBusinessName());
+        FarmerSubGroupDetails farmerSubGroupDetails = null;
+        if (person.getFarmerSubGroup() != null) {
+            farmerSubGroupDetails = farmerSubGroupService.convertFarmerSubGroupToFarmerSubGroupDetails(person.getFarmerSubGroup());
+        }
+
+        PersonDetails personDetails;
+        try {
+            personDetails = new PersonDetails(person.getId());
+        } catch (Exception e) {
+            return null;
+        }
         personDetails.setContact(contactDetails);
+        personDetails.setName(person.getName());
         personDetails.setLocation(locationDetails);
-        personDetails.setFarmerGroup(farmerGroupDetails);
         personDetails.setNationalId(person.getNationalId());
-        personDetails.setSex(SexDetail.getSexDetail(person.getSex().getId()));
+        personDetails.setFarmerGroup(farmerGroupDetails);
+        personDetails.setDateOfBirth(person.getDateOfBirth());
+        personDetails.setFarmerSubGroup(farmerSubGroupDetails);
+        personDetails.setBusinessName(person.getBusinessName());
+        try {
+            personDetails.setSex(SexDetail.getSexDetail(person.getSex().getId()));
+        } catch (Exception e) {
+        }
 
         return personDetails;
 
     }
 
     private List<PersonDetails> convertPeopleToPersonDetailsList(List<Person> people) {
+
         List<PersonDetails> personDetailsList = new ArrayList<>();
-        people.stream().forEach((person) -> {
+        for (Person person : people) {
             personDetailsList.add(convertPersonToPersonDetails(person));
-        });
+
+        }
 
         return personDetailsList;
 
@@ -290,5 +338,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     FarmerGroupRequestsLocal farmerGroupService;
     @EJB
     UserAccountRequestsLocal userAccountService;
+    @EJB
+    FarmerSubGroupRequestsLocal farmerSubGroupService;
 
 }

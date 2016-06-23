@@ -155,9 +155,10 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
     private List<AgeBracketDetails> convertAgeBracketsToAgeBracketDetailsList(List<AgeBracket> ageBrackets) {
 
         List<AgeBracketDetails> ageBracketDetailsList = new ArrayList<>();
-        ageBrackets.stream().forEach((ageBracket) -> {
+        for (AgeBracket ageBracket : ageBrackets) {
             ageBracketDetailsList.add(convertAgeBracketToAgeBracketDetails(ageBracket));
-        });
+
+        }
         return ageBracketDetailsList;
 
     }

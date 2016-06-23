@@ -12,11 +12,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,8 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "programme", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "programme", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Programme.findAll", query = "SELECT p FROM Programme p"),
@@ -38,43 +38,50 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Programme.findByProgrammeTarget", query = "SELECT p FROM Programme p WHERE p.programmeTarget = :programmeTarget"),
     @NamedQuery(name = "Programme.findByValueAchieved", query = "SELECT p FROM Programme p WHERE p.valueAchieved = :valueAchieved"),
     @NamedQuery(name = "Programme.findByRequestedBudget", query = "SELECT p FROM Programme p WHERE p.requestedBudget = :requestedBudget"),
-    @NamedQuery(name = "Programme.findByActualExpenditure", query = "SELECT p FROM Programme p WHERE p.actualExpenditure = :actualExpenditure")})
+    @NamedQuery(name = "Programme.findByActualExpenditure", query = "SELECT p FROM Programme p WHERE p.actualExpenditure = :actualExpenditure"),
+    @NamedQuery(name = "Programme.findByProgrammecol", query = "SELECT p FROM Programme p WHERE p.programmecol = :programmecol")})
 public class Programme implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Lob
     @Size(max = 65535)
-    @Column(name = "activity", length = 65535)
+    @Column(name = "activity")
     private String activity;
     @Size(max = 45)
-    @Column(name = "start_period", length = 45)
+    @Column(name = "start_period")
     private String startPeriod;
     @Size(max = 45)
-    @Column(name = "end_period", length = 45)
+    @Column(name = "end_period")
     private String endPeriod;
     @Size(max = 45)
-    @Column(name = "unit", length = 45)
+    @Column(name = "unit")
     private String unit;
     @Size(max = 45)
-    @Column(name = "awp_target", length = 45)
+    @Column(name = "awp_target")
     private String awpTarget;
     @Size(max = 45)
-    @Column(name = "programme_target", length = 45)
+    @Column(name = "programme_target")
     private String programmeTarget;
     @Size(max = 45)
-    @Column(name = "value_achieved", length = 45)
+    @Column(name = "value_achieved")
     private String valueAchieved;
     @Size(max = 45)
-    @Column(name = "requested_budget", length = 45)
+    @Column(name = "requested_budget")
     private String requestedBudget;
     @Size(max = 45)
-    @Column(name = "actual_expenditure", length = 45)
+    @Column(name = "actual_expenditure")
     private String actualExpenditure;
+    @Size(max = 45)
+    @Column(name = "programmecol")
+    private String programmecol;
+    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private MeasurementUnit measurementUnit;
 
     public Programme() {
     }
@@ -161,6 +168,22 @@ public class Programme implements Serializable {
 
     public void setActualExpenditure(String actualExpenditure) {
         this.actualExpenditure = actualExpenditure;
+    }
+
+    public String getProgrammecol() {
+        return programmecol;
+    }
+
+    public void setProgrammecol(String programmecol) {
+        this.programmecol = programmecol;
+    }
+
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
+    }
+
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     @Override

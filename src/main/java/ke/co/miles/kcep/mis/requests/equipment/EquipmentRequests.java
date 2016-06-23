@@ -155,9 +155,9 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
 
     private List<EquipmentDetails> convertEquipmentListToEquipmentDetailsList(List<Equipment> equipmentList) {
         List<EquipmentDetails> equipmentDetailsList = new ArrayList<>();
-        equipmentList.stream().forEach((equipment) -> {
+        for (Equipment equipment : equipmentList) {
             equipmentDetailsList.add(convertEquipmentToEquipmentDetails(equipment));
-        });
+        }
 
         return equipmentDetailsList;
 

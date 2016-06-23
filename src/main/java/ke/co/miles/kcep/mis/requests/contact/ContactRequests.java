@@ -95,9 +95,10 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
     private List<ContactDetails> convertContactsToContactDetailsList(List<Contact> contacts) {
 
         List<ContactDetails> contactDetailsList = new ArrayList<>();
-        contacts.stream().forEach((contact) -> {
+        for (Contact contact : contacts) {
             contactDetailsList.add(convertContactToContactDetails(contact));
-        });
+
+        }
         return contactDetailsList;
 
     }

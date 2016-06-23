@@ -5,7 +5,7 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
+import ke.co.miles.kcep.mis.utilities.*;
 import java.io.Serializable;
 
 /**
@@ -88,7 +88,7 @@ public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOf
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.NumberOfFarmers[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.NumberOfFarmers[ id=" + id + " ]";
     }
 
     @Override

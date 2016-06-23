@@ -45,10 +45,11 @@ public interface LocationRequestsLocal {
     /**
      *
      * @param locationDetails details of the location record to be edited
+     * @return the location record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editLocation(LocationDetails locationDetails) throws MilesException;
+    public Location editLocation(LocationDetails locationDetails) throws MilesException;
 
     /**
      *

@@ -55,7 +55,7 @@ public class PersonRoleDetails implements Serializable, Comparable<PersonRoleDet
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.PersonRole[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PersonRole[ id=" + id + " ]";
     }
 
     @Override

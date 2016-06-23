@@ -120,7 +120,7 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Programme[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Programme[ id=" + id + " ]";
     }
 
     @Override

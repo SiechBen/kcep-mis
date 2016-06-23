@@ -44,12 +44,12 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
         this.capacity = capacity;
     }
 
-    public Boolean getWrs() {
-        return wrs;
+    public Boolean getOffersWrs() {
+        return offersWrs;
     }
 
-    public void setWrs(Boolean wrs) {
-        this.wrs = wrs;
+    public void setOffersWrs(Boolean offersWrs) {
+        this.offersWrs = offersWrs;
     }
 
     public Boolean getCertified() {
@@ -103,7 +103,7 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Warehouse[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Warehouse[ id=" + id + " ]";
     }
 
     @Override
@@ -111,13 +111,28 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the warehouseType
+     */
+    public WarehouseTypeDetails getWarehouseType() {
+        return warehouseType;
+    }
+
+    /**
+     * @param warehouseType the warehouseType to set
+     */
+    public void setWarehouseType(WarehouseTypeDetails warehouseType) {
+        this.warehouseType = warehouseType;
+    }
+
     private Integer id;
     private String name;
     private Integer capacity;
-    private Boolean wrs;
+    private Boolean offersWrs;
     private Boolean certified;
     private LocationDetails location;
-    private PersonDetails warehouseOperator;
     private MeasurementUnitDetails units;
+    private PersonDetails warehouseOperator;
+    private WarehouseTypeDetails warehouseType;
 
 }

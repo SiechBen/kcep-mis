@@ -55,7 +55,7 @@ public class StaticInputDetails implements Serializable, Comparable<StaticInputD
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.StaticInput[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.StaticInput[ id=" + id + " ]";
     }
 
     @Override

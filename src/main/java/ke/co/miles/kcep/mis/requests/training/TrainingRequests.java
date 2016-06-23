@@ -10,12 +10,14 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.PersonRole;
 import ke.co.miles.kcep.mis.entities.Training;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
@@ -33,17 +35,24 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 
         if (trainingDetails == null) {
             throw new InvalidArgumentException("error_006_01");
+        } else if (trainingDetails.getVenue() == null) {
+            throw new InvalidArgumentException("error_006_02");
         }
 
         Training training = new Training();
         training.setTopic(trainingDetails.getTopic());
-        training.setVenue(trainingDetails.getVenue());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
-        training.setAttendance(trainingDetails.getAttendance());
+        training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
-        training.setTrainer(em.find(Person.class, trainingDetails.getTrainer().getId()));
-        training.setPersonRoleForTrainees(em.find(PersonRole.class, trainingDetails.getPersonRoleForTrainees().getId()));
+        if (trainingDetails.getTrainer() != null) {
+            training.setTrainer(em.find(Person.class, trainingDetails.getTrainer().getId()));
+        }
+        if (trainingDetails.getCategoryOfTrainees() != null) {
+            training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
+        }
+
+        training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
 
         try {
             em.persist(training);
@@ -92,19 +101,28 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         if (trainingDetails == null) {
             throw new InvalidArgumentException("error_006_01");
         } else if (trainingDetails.getId() == null) {
+            throw new InvalidArgumentException("error_006_03");
+        } else if (trainingDetails.getVenue() == null) {
             throw new InvalidArgumentException("error_006_02");
         }
+
+        locationService.editLocation(trainingDetails.getVenue());
 
         Training training = em.find(Training.class, trainingDetails.getId());
         training.setId(trainingDetails.getId());
         training.setTopic(trainingDetails.getTopic());
-        training.setVenue(trainingDetails.getVenue());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
-        training.setAttendance(trainingDetails.getAttendance());
+        training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
-        training.setTrainer(em.find(Person.class, trainingDetails.getTrainer().getId()));
-        training.setPersonRoleForTrainees(em.find(PersonRole.class, trainingDetails.getPersonRoleForTrainees().getId()));
+        if (trainingDetails.getTrainer() != null) {
+            training.setTrainer(em.find(Person.class, trainingDetails.getTrainer().getId()));
+        }
+        if (trainingDetails.getCategoryOfTrainees() != null) {
+            training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
+        }
+
+        training.setVenue(em.find(Location.class, trainingDetails.getVenue().getId()));
 
         try {
             em.merge(training);
@@ -134,13 +152,19 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         TrainingDetails trainingDetails = new TrainingDetails(training.getId());
 
         trainingDetails.setTopic(training.getTopic());
-        trainingDetails.setVenue(training.getVenue());
         trainingDetails.setEndDate(training.getEndDate());
         trainingDetails.setStartDate(training.getStartDate());
-        trainingDetails.setAttendance(training.getAttendance());
+        trainingDetails.setAttendanceSheet(training.getAttendanceSheet());
         trainingDetails.setNumberOfTrainees(training.getNumberOfTrainees());
-        trainingDetails.setTrainer(personService.convertPersonToPersonDetails(training.getTrainer()));
-        trainingDetails.setPersonRoleForTrainees(personRoleService.convertPersonRoleToPersonRoleDetails(training.getPersonRoleForTrainees()));
+        if (training.getVenue() != null) {
+            trainingDetails.setVenue(locationService.convertLocationToLocationDetails(training.getVenue()));
+        }
+        if (training.getTrainer() != null) {
+            trainingDetails.setTrainer(trainingService.convertPersonToPersonDetails(training.getTrainer()));
+        }
+        if (training.getCategoryOfTrainees() != null) {
+            trainingDetails.setCategoryOfTrainees(trainingRoleService.convertPersonRoleToPersonRoleDetails(training.getCategoryOfTrainees()));
+        }
 
         return trainingDetails;
 
@@ -149,17 +173,21 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
     private List<TrainingDetails> convertTrainingsToTrainingDetailsList(List<Training> trainings) {
 
         List<TrainingDetails> trainingDetailsList = new ArrayList<>();
-        trainings.stream().forEach((training) -> {
+        for (Training training : trainings) {
+
             trainingDetailsList.add(convertTrainingToTrainingDetails(training));
-        });
+        }
+
         return trainingDetailsList;
 
     }
 
 //</editor-fold>
     @EJB
-    private PersonRequestsLocal personService;
+    LocationRequestsLocal locationService;
     @EJB
-    private PersonRoleRequestsLocal personRoleService;
+    private PersonRequestsLocal trainingService;
+    @EJB
+    private PersonRoleRequestsLocal trainingRoleService;
 
 }

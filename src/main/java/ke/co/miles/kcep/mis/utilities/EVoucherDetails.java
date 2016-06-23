@@ -45,12 +45,12 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
         this.dateRedeemed = dateRedeemed;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getInputsLogbookPage() {
+        return inputsLogbookPage;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setInputsLogbookPage(String inputsLogbookPage) {
+        this.inputsLogbookPage = inputsLogbookPage;
     }
 
     public InputTypeDetails getInputType() {
@@ -88,7 +88,7 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.EVoucher[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.EVoucher[ id=" + id + " ]";
     }
 
     @Override
@@ -96,10 +96,25 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * @param fileName the fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     private Integer id;
     private String amount;
+    private String fileName;
     private Date dateRedeemed;
-    private String photo;
+    private String inputsLogbookPage;
     private InputTypeDetails inputType;
     private PersonDetails person;
 

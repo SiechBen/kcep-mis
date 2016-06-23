@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-  <Resource id="jdbc/kcep-mis" type="javax.sql.DataSource">#Mon May 23 10:08:20 EAT 2016
-jdbcDriver=com.mysql.jdbc.Driver
-password=complex
-userName=root
-jdbcUrl=jdbc\:mysql\://localhost\:3306/kcep_mis?zeroDateTimeBehavior\=convertToNull
-</Resource>
-</resources>

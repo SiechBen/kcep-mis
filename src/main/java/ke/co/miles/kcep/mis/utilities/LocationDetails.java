@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import ke.co.miles.kcep.mis.entities.SubCounty;
 
 /**
  *
@@ -37,19 +38,19 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
         this.county = county;
     }
 
-    public String getSubCounty() {
+    public SubCountyDetails getSubCounty() {
         return subCounty;
     }
 
-    public void setSubCounty(String subCounty) {
+    public void setSubCounty(SubCountyDetails subCounty) {
         this.subCounty = subCounty;
     }
 
-    public String getWard() {
+    public WardDetails getWard() {
         return ward;
     }
 
-    public void setWard(String ward) {
+    public void setWard(WardDetails ward) {
         this.ward = ward;
     }
 
@@ -88,7 +89,7 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Location[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Location[ id=" + id + " ]";
     }
 
     @Override
@@ -98,8 +99,8 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
 
     private Integer id;
     private CountyDetails county;
-    private String subCounty;
-    private String ward;
+    private SubCountyDetails subCounty;
+    private WardDetails ward;
     private BigDecimal longitude;
     private BigDecimal latitude;
 

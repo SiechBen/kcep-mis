@@ -29,12 +29,13 @@ public interface WarehouseRequestsLocal {
 
     /**
      *
-     * @param id unique identifier of the warehouse record to retrieve
+     * @param warehouseOperatorId unique identifier of the warehouse operator of
+     * the warehouse record to be retrieved
      * @return the details of the warehouse record retrieved
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */
-    public WarehouseDetails retrieveWarehouse(int id) throws MilesException;
+    public WarehouseDetails retrieveWarehouse(int warehouseOperatorId) throws MilesException;
 
     /**
      *
@@ -53,8 +54,7 @@ public interface WarehouseRequestsLocal {
 
     /**
      *
-     * @param id unique identifier of the warehouse record to be
-     * removed
+     * @param id unique identifier of the warehouse record to be removed
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */

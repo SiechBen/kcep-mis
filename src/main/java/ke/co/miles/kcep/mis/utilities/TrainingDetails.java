@@ -53,11 +53,11 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.topic = topic;
     }
 
-    public String getVenue() {
+    public LocationDetails getVenue() {
         return venue;
     }
 
-    public void setVenue(String venue) {
+    public void setVenue(LocationDetails venue) {
         this.venue = venue;
     }
 
@@ -72,12 +72,12 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.numberOfTrainees = numberOfTrainees;
     }
 
-    public String getAttendance() {
-        return attendance;
+    public String getAttendanceSheet() {
+        return attendanceSheet;
     }
 
-    public void setAttendance(String attendance) {
-        this.attendance = attendance;
+    public void setAttendanceSheet(String attendance) {
+        this.attendanceSheet = attendance;
     }
 
     public PersonDetails getTrainer() {
@@ -88,12 +88,12 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.trainer = trainer;
     }
 
-    public PersonRoleDetails getPersonRoleForTrainees() {
-        return personRoleForTrainees;
+    public PersonRoleDetails getCategoryOfTrainees() {
+        return categoryOfTrainees;
     }
 
-    public void setPersonRoleForTrainees(PersonRoleDetails personRoleForTrainees) {
-        this.personRoleForTrainees = personRoleForTrainees;
+    public void setCategoryOfTrainees(PersonRoleDetails categoryOfTrainees) {
+        this.categoryOfTrainees = categoryOfTrainees;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Training[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Training[ id=" + id + " ]";
     }
 
     @Override
@@ -123,14 +123,29 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * @param fileName the fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     private Integer id;
+    private String topic;
     private Date startDate;
     private Date endDate;
-    private String topic;
-    private String venue;
-    private Integer numberOfTrainees;
-    private String attendance;
+    private String fileName;
     private PersonDetails trainer;
-    private PersonRoleDetails personRoleForTrainees;
+    private LocationDetails venue;
+    private String attendanceSheet;
+    private Integer numberOfTrainees;
+    private PersonRoleDetails categoryOfTrainees;
 
 }

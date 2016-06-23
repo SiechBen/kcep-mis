@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,8 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "number_of_farmers", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "number_of_farmers", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "NumberOfFarmers.findAll", query = "SELECT n FROM NumberOfFarmers n"),
@@ -38,17 +36,17 @@ public class NumberOfFarmers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Column(name = "number")
     private Integer number;
-    @JoinColumn(name = "sampled_farmer_data", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "sampled_farmer_data", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private SampledFarmerData sampledFarmerData;
     @JoinColumn(name = "age_bracket", referencedColumnName = "id")
     @ManyToOne
     private AgeBracket ageBracket;
-    @JoinColumn(name = "number_description", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "number_description", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private NumberDescription numberDescription;
     @JoinColumn(name = "sex", referencedColumnName = "id")

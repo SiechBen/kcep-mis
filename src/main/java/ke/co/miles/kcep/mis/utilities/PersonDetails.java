@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -34,14 +35,6 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNationalId() {
-        return national;
-    }
-
-    public void setNationalId(String national) {
-        this.national = national;
     }
 
     public void setSex(SexDetail sex) {
@@ -84,18 +77,38 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         this.location = location;
     }
 
-    public PersonRoleDetails getPersonRole() {
-        return personRole;
+    /**
+     * @return the dateOfBirth
+     */
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setPersonRole(PersonRoleDetails personRole) {
-        this.personRole = personRole;
+    /**
+     * @param dateOfBirth the dateOfBirth to set
+     */
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    /**
+     * @return the nationalId
+     */
+    public String getNationalId() {
+        return nationalId;
+    }
+
+    /**
+     * @param nationalId the nationalId to set
+     */
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -111,22 +124,37 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Person[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Person[ id=" + getId() + " ]";
     }
 
     @Override
     public int compareTo(PersonDetails o) {
-        return this.id.compareTo(o.getId());
+        return this.getId().compareTo(o.getId());
+    }
+
+    /**
+     * @return the farmerSubGroup
+     */
+    public FarmerSubGroupDetails getFarmerSubGroup() {
+        return farmerSubGroup;
+    }
+
+    /**
+     * @param farmerSubGroup the farmerSubGroup to set
+     */
+    public void setFarmerSubGroup(FarmerSubGroupDetails farmerSubGroup) {
+        this.farmerSubGroup = farmerSubGroup;
     }
 
     private Integer id;
     private String name;
-    private String national;
+    private SexDetail sex;
+    private Date dateOfBirth;
+    private String nationalId;
     private String businessName;
     private ContactDetails contact;
-    private FarmerGroupDetails farmerGroup;
     private LocationDetails location;
-    private PersonRoleDetails personRole;
-    private SexDetail sex;
+    private FarmerGroupDetails farmerGroup;
+    private FarmerSubGroupDetails farmerSubGroup;
 
 }

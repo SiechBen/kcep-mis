@@ -1,4 +1,67 @@
 var language = "en";
+//<editor-fold defaultstate="collapsed" desc="Menu">
+$(function () {
+
+    $('#side-menu').metisMenu();
+
+});
+
+//Loads the correct sidebar on window load,
+//collapses the sidebar on window resize.
+// Sets the min-height of #page-wrapper to window size
+$(function () {
+    $(window).bind("load resize", function () {
+        topOffset = 50;
+        width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+        if (width < 768) {
+            $('div.navbar-collapse').addClass('collapse');
+            topOffset = 100; // 2-row-menu
+        } else {
+            $('div.navbar-collapse').removeClass('collapse');
+        }
+
+        height = ((this.window.innerHeight > 0) ? this.window.innerHeight : this.screen.height) - 1;
+        height = height - topOffset;
+        if (height < 1)
+            height = 1;
+        if (height > topOffset) {
+            $("#page-wrapper").css("min-height", (height) + "px");
+        }
+    });
+
+    var url = window.location;
+    var element = $('ul.nav a').filter(function () {
+        return this.href == url || url.href.indexOf(this.href) == 0;
+    }).addClass('active').parent().parent().addClass('in').parent();
+    if (element.is('li')) {
+        element.addClass('active');
+    }
+});
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Override href default functionality">
+//$('a').click(function (event) {
+//    event.preventDefault();
+//    $.ajax({
+//        url: $(this).attr('href'),
+//        success: function (response) {
+//            alert(response);
+//        }
+//    });
+//    return false; //for good measure
+//});
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Date picker, data tables">
+$(function () {
+    $(".data-table").DataTable({
+        responsive: true
+    });
+
+    $(".datefield").datepicker();
+});
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Document">
 $(document).ready(function () {
 
@@ -8,6 +71,7 @@ $(document).ready(function () {
         mode: "both",
         language: language
     });
+
     //<editor-fold defaultstate="collapsed" desc="Button Icons">
     $(".backButton").button({
         text: false,
@@ -501,11 +565,6 @@ $(document).ready(function () {
     });
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Date picker">
-
-    //</editor-fold>
-
-
 });
 //</editor-fold>
 
@@ -619,11 +678,11 @@ $(function () {
                     var $this = $(this);
                     if ($this.is($("#admission-year"))) {
                         $.ajax({
-                            url: "/kcep-mis/checkFacultyMemberRole",
+                            url: "checkFacultyMemberRole",
                             type: 'POST',
                             data: "memberRole=" + $("#faculty-member-role").val(),
-                            success: function (data) {
-                                if (data !== "") {
+                            success: function (response) {
+                                if (response !== "") {
                                     if ($("#admission-year").val().trim().length === 0) {
                                         hasError = true;
                                         $("#admission-year").css('background-color', '#FFEDEF');
@@ -776,11 +835,44 @@ function showMessage(title, message) {
     });
 }
 
+function showError(title, message) {
+    $("#message").html(String(message));
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: title,
+        resizable: false,
+        modal: false,
+        context: $(this),
+        buttons: {
+            "Ok": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Windows">
 function loadWindow(target) {
     window.location = target;
+}
+
+function loadAjaxWindow(target) {
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: null,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
 }
 
 function loadPreviousWindow() {
@@ -793,30 +885,23 @@ function loadPreviousWindow() {
 //<editor-fold defaultstate="collapsed" desc="Login user">
 function loginUser() {
 
-    if ($("#email").val().trim() !== "" || $("#password").val().trim() !== "") {
-        if ($("#email").val() !== null || $("#password").val() !== null) {
+    if ($("#username").val().trim() !== "" || $("#password").val().trim() !== "") {
+        if ($("#username").val() !== null || $("#password").val() !== null) {
 
             $.ajax({
-                url: "/kcep-mis/checkLoginInfo",
+                url: "login",
                 type: "POST",
-                data: "password=" + $("#password").val() + "&username=" + $("#email").val(),
-                success: function (data) {
-
-                    if (data !== "") {
-
-                        $("#login-form").submit();
-                    } else {
-                        $("#invalid-login-info").html("<table class=\"table table-responsive table-hover\"><tbody><tr class=\"warning\"><td> <span> Invalid credentials. Contact your administrator </span> </td></tr></tbody></table>");
-                    }
-
+                data: "username=" + $("#username").val() + "&password=" + $("#password").val(),
+                success: function () {
+                    loadAjaxWindow('home');
+                    return;
+                },
+                error: function (response) {
+                    showError("error_label", response.responseText);
                 },
                 dataType: "HTML"
             });
-        } else {
-            $("#invalid-login-info").html("<table class=\"table table-responsive table-hover\"><tbody><tr class=\"warning\"><td> <span> Fill the login details or contact your administrator </span> </td></tr></tbody></table>");
         }
-    } else {
-        $("#invalid-login-info").html("<table class=\"table table-responsive table-hover\"><tbody><tr class=\"warning\"><td> <span> Fill the login details or contact your administrator </span> </td></tr></tbody></table>");
     }
 }
 //</editor-fold>
@@ -824,144 +909,192 @@ function loginUser() {
 //<editor-fold defaultstate="collapsed" desc="Person">
 function addPerson() {
 
-  alert($("#person-name").val());
-
     $.ajax({
-        url: "/kcep-mis/addPerson",
+        url: "doAddPerson",
         type: "POST",
-        data: "name=" + $("#person-name").val() + "&idNumber=" + $("#id-number").val() +
+        data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
                 "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
-                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone-number").val() +
-                "&email=" + $("#email-address").val() + "&businessName=" + $("#business-name").val() +
+                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
+                "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
                 "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
-                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val(),
-        success: function (data) {
+                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
+                "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
+                "&dateOfBirth=" + $("#date-of-birth").val(),
+        success: function () {
 
-            alert(data);
-
-            $("#person-name").val("");
-            $("#id-number").val("");
-            $("#business-name").val("");
             $("#sex").val("");
+            $("#email").val("");
+            $("#phone").val("");
+            $("#national-id").val("");
+            $("#date-of-birth").val("");
+            $("#person-name").val("");
             $("#farmer-group").val("");
-            $("#phone-number").val("");
-            $("#email-address").val("");
-            $("#person-county").val("");
-            $("#person-sub-county").val("");
             $("#person-ward").val("");
+            $("#postal-address").val("");
+            $("#person-county").val("");
+            $("#business-name").val("");
+            $("#farmer-sub-group").val("");
+            $("#person-sub-county").val("");
+            loadAjaxWindow('people');
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
         },
         dataType: "HTML"
     });
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Institution">
+//<editor-fold defaultstate="collapsed" desc="Training">
+$("#training-form").ajaxForm({
+    success: function () {
+        $("#start-date").val("");
+        $("#end-date").val("");
+        $("#trainer").val("");
+        $("#topic").val("");
+        $("#venue").val("");
+        $("#number-of-trainees").val("");
+        $("#category-of-trainees").val("");
+        $("#attendance-sheet").val("");
+        loadAjaxWindow('training');
+        return;
+    },
+    error: function (response) {
+        showError("error_label", response.responseText);
+    }
+});
+//</editor-fold>
 
-function editInstitution(name, abbreviation, country) {
-//Display the initial values
-    $("#institution-name").val(name);
-    $("#institution-abbreviation").val(abbreviation);
-    $("#country").val(country);
-    $("#institution-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "Edit institution",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Save": function () {
-                //Read in update values
-                var name = $("#institution-name").val();
-                var abbreviation = $("#institution-abbreviation").val();
-                var country = $("#country").val();
-                //Ascertain validity of name
-                if (name === null || name.trim() === "") {
-                    showMessage("Error", "College name is required");
-                    return;
-                } else {
-                    if (name.length > 120) {
-                        showMessage("Error", "College name is longer than 120 characters");
-                        return;
-                    }
-                }
+//<editor-fold defaultstate="collapsed" desc="E-voucher">
+$("#e-voucher-form").ajaxForm({
+    success: function () {
+        $("#e-voucher-amount").val("");
+        $("#e-voucher-input-type").val("");
+        $("#e-voucher-person").val("");
+        $("#date-redeemed").val("");
+        $("#inputs-loogbook-page").val("");
+        loadAjaxWindow('eVouchers');
+        return;
+    },
+    error: function (response) {
+        showError("error_label", response.responseText);
+    }
+});
+//</editor-fold>
 
-                //Ascertain validity of abbreviation
-                if (abbreviation === null || abbreviation.trim() === "") {
-                    showMessage("Error", "The abbreviation is required");
-                    return;
-                } else {
-                    if (abbreviation.length > 20) {
-                        showMessage("Error", "The abbreviation is longer than 20 characters");
-                        return;
-                    }
-                }
+//<editor-fold defaultstate="collapsed" desc="Procurement">
+$("#procurement-form").ajaxForm({
+    success: function () {
+        $("#item").val("");
+        $("#cost").val("");
+        $("#date-purchased").val("");
+        $("#serial-number").val("");
+        $("#description").val("");
+        $("#target-office").val("");
+        $("#procurement-county").val("");
+        $("#procurement-sub-county").val("");
+        $("#lpo-number").val("");
+        $("#invoice-or-receipt").val("");
+        loadAjaxWindow('procurements');
+        return;
+    },
+    error: function (response) {
+        showError("error_label", response.responseText);
+    }
+});
+//</editor-fold>
 
-                //Ascertain validity of country
-                if (country === null) {
-                    showMessage("Error", "Kindly select the country");
-                    return;
-                }
+//<editor-fold defaultstate="collapsed" desc="Warehouse">
+function addWarehouse() {
 
-                //Send the values to the application server for updating in the database
-                $.ajax({
-                    type: "POST",
-                    url: "/kcep-mis/editInstitution",
-                    data: "name=" + name + "&abbreviation=" + abbreviation + "&country=" + country,
-                    success: function (data) {
-                        //Update institution table
-                        $("#content").html(data);
-                        //Clear dialog text fields
-                        $("#institution-name").val("");
-                        $("#institution-abbreviation").val("");
-                        $("#country").val("");
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
+    $.ajax({
+        url: "doAddWarehouse",
+        type: "POST",
+        data: "name=" + $("#warehouse-name").val() + "&warehouseOperator=" + $("#warehouse-operator").val() +
+                "&capacity=" + $("#capacity").val() + "&capacityUnits=" + $("#capacity-units").val() +
+                "&offersWrs=" + $("#offers-wrs").val() + "&certified=" + $("#certified").val() +
+                "&latitude=" + $("#warehouse-latitude").val() + "&longitude=" + $("#warehouse-longitude").val() +
+                "&county=" + $("#warehouse-county").val() + "&subCounty=" + $("#warehouse-sub-county").val() +
+                "&ward=" + $("#warehouse-ward").val() + "&warehouseType=" + $("#warehouse-type").val(),
+        success: function () {
+
+            $("#warehouse-name").val("");
+            $("#warehouse-operator").val("");
+            $("#capacity").val("");
+            $("#capacity-units").val("");
+            $("#offers-wrs").val("");
+            $("#certified").val("");
+            $("#warehouse-latitude").val("");
+            $("#warehouse-longitude").val("");
+            $("#warehouse-county").val("");
+            $("#warehouse-sub-county").val("");
+            $("#warehouse-ward").val("");
+            $("#warehouse-type").val("");
+            loadAjaxWindow('warehouses');
+            return;
         },
-        close: function (event, ui) {
-
-        }
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
     });
 }
+//</editor-fold>
 
-function removeInstitution(id) {
-    $("#message").text("Are you sure you want to remove this institution?");
-    //Confirm record removal request
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "Confirm request",
-        resizable: false,
-        modal: true,
-        context: $(this),
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/kcep-mis/removeInstitution",
-                    data: "id=" + id,
-                    success: function (data) {
+//<editor-fold defaultstate="collapsed" desc="Programme">
+function addProgramme() {
 
-                        //Update institution table
-                        $("#content").html(data);
-                    },
-                    dataType: "HTML"
-                });
-                //Close the dialog 
-                $(this).dialog("close");
-            },
-            "No": function () {
-                //Close the dialog 
-                $(this).dialog("close");
-            }
+    $.ajax({
+        url: "doAddProgramme",
+        type: "POST",
+        data: "activity=" + $("#activity").val() + "&startPeriod=" + $("#start-period").val() +
+                "&endPeriod=" + $("#end-period").val() + "&requestedBudget=" + $("#requested-budget").val() +
+                "&awpTarget=" + $("#awp-target").val() + "&programmeTarget=" + $("#programme-target").val() +
+                "&valueAchieved=" + $("#value-achieved").val() + "&unit=" + $("#unit").val() +
+                "&actualExpenditure=" + $("#actual-expenditure").val(),
+        success: function () {
 
+            $("#activity").val("");
+            $("#start-period").val("");
+            $("#end-period").val("");
+            $("#requested-budget").val("");
+            $("#awp-target").val("");
+            $("#programme-target").val("");
+            $("#value-achieved").val("");
+            $("#unit").val("");
+            $("#actual-expenditure").val("");
+            loadAjaxWindow('programmes');
+            return;
         },
-        close: function (event, ui) {
-
-        }
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
     });
 }
+//</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Equipment">
+function addEquipment() {
+
+    $.ajax({
+        url: "doAddEquipment",
+        type: "POST",
+        data: "equipmentType=" + $("#equipment-type").val() + "&equipmentTotalCount=" + $("#equipment-total-count").val() +
+                "&equipmentStatus=" + $("#equipment-status").val(),
+        success: function () {
+
+            $("#equipment-total-count").val("");
+            $("#equipment-status").val("");
+            $("#equipment-type").val("");
+            loadAjaxWindow('equipment');
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
 //</editor-fold>

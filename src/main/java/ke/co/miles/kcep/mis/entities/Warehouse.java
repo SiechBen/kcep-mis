@@ -21,7 +21,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,9 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "warehouse", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"}),
-    @UniqueConstraint(columnNames = {"warehouse_operator"})})
+@Table(name = "warehouse", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Warehouse.findByWarehouseOperatorId", query = "SELECT w FROM Warehouse w WHERE w.warehouseOperator.id = :warehouseOperatorId"),
@@ -41,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Warehouse.findById", query = "SELECT w FROM Warehouse w WHERE w.id = :id"),
     @NamedQuery(name = "Warehouse.findByName", query = "SELECT w FROM Warehouse w WHERE w.name = :name"),
     @NamedQuery(name = "Warehouse.findByCapacity", query = "SELECT w FROM Warehouse w WHERE w.capacity = :capacity"),
-    @NamedQuery(name = "Warehouse.findByWrs", query = "SELECT w FROM Warehouse w WHERE w.wrs = :wrs"),
+    @NamedQuery(name = "Warehouse.findByOffersWrs", query = "SELECT w FROM Warehouse w WHERE w.offersWrs = :offersWrs"),
     @NamedQuery(name = "Warehouse.findByCertified", query = "SELECT w FROM Warehouse w WHERE w.certified = :certified")})
 public class Warehouse implements Serializable {
 
@@ -49,15 +46,15 @@ public class Warehouse implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 200)
-    @Column(name = "name", length = 200)
+    @Column(name = "name")
     private String name;
     @Column(name = "capacity")
     private Integer capacity;
-    @Column(name = "wrs")
-    private Boolean wrs;
+    @Column(name = "offers_wrs")
+    private Boolean offersWrs;
     @Column(name = "certified")
     private Boolean certified;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouse")
@@ -71,6 +68,9 @@ public class Warehouse implements Serializable {
     @JoinColumn(name = "units", referencedColumnName = "id")
     @ManyToOne
     private MeasurementUnit units;
+    @JoinColumn(name = "warehouse_type", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private WarehouseType warehouseType;
 
     public Warehouse() {
     }
@@ -103,12 +103,12 @@ public class Warehouse implements Serializable {
         this.capacity = capacity;
     }
 
-    public Boolean getWrs() {
-        return wrs;
+    public Boolean getOffersWrs() {
+        return offersWrs;
     }
 
-    public void setWrs(Boolean wrs) {
-        this.wrs = wrs;
+    public void setOffersWrs(Boolean offersWrs) {
+        this.offersWrs = offersWrs;
     }
 
     public Boolean getCertified() {
@@ -150,6 +150,14 @@ public class Warehouse implements Serializable {
 
     public void setUnits(MeasurementUnit units) {
         this.units = units;
+    }
+
+    public WarehouseType getWarehouseType() {
+        return warehouseType;
+    }
+
+    public void setWarehouseType(WarehouseType warehouseType) {
+        this.warehouseType = warehouseType;
     }
 
     @Override

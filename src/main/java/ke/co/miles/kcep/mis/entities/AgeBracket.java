@@ -15,7 +15,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,9 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "age_bracket", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"bracket"}),
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "age_bracket", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AgeBracket.findAll", query = "SELECT a FROM AgeBracket a"),
@@ -40,12 +37,12 @@ public class AgeBracket implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "bracket", nullable = false, length = 45)
+    @Column(name = "bracket")
     private String bracket;
     @OneToMany(mappedBy = "ageBracket")
     private List<NumberOfFarmers> numberOfFarmersList;

@@ -55,7 +55,7 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.MeasurementUnit[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.MeasurementUnit[ id=" + id + " ]";
     }
 
     @Override

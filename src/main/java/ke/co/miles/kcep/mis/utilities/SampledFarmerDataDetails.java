@@ -5,7 +5,7 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
+import ke.co.miles.kcep.mis.utilities.*;
 import java.io.Serializable;
 
 /**
@@ -80,7 +80,7 @@ public class SampledFarmerDataDetails implements Serializable, Comparable<Sample
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SampledFarmerData[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SampledFarmerData[ id=" + id + " ]";
     }
 
     @Override

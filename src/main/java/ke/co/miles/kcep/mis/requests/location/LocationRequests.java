@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.location;
 
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,13 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.Location;
+import ke.co.miles.kcep.mis.entities.SubCounty;
+import ke.co.miles.kcep.mis.entities.Ward;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 
 /**
@@ -53,14 +57,22 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         }
 
         Location location = new Location();
-        location.setWard(locationDetails.getWard());
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
-        location.setSubCounty(locationDetails.getSubCounty());
         try {
             location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
             location.setCounty(null);
+        }
+        try {
+            location.setSubCounty(em.find(SubCounty.class, locationDetails.getSubCounty().getId()));
+        } catch (Exception e) {
+            location.setSubCounty(null);
+        }
+        try {
+            location.setWard(em.find(Ward.class, locationDetails.getWard().getId()));
+        } catch (Exception e) {
+            location.setWard(null);
         }
 
         try {
@@ -104,7 +116,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
-    public void editLocation(LocationDetails locationDetails) throws MilesException {
+    public Location editLocation(LocationDetails locationDetails) throws MilesException {
 
         if (locationDetails == null) {
             throw new InvalidArgumentException("error_003_01");
@@ -132,14 +144,22 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
         Location location = em.find(Location.class, locationDetails.getId());
         location.setId(locationDetails.getId());
-        location.setWard(locationDetails.getWard());
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
-        location.setSubCounty(locationDetails.getSubCounty());
         try {
             location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
             location.setCounty(null);
+        }
+        try {
+            location.setSubCounty(em.find(SubCounty.class, locationDetails.getSubCounty().getId()));
+        } catch (Exception e) {
+            location.setSubCounty(null);
+        }
+        try {
+            location.setWard(em.find(Ward.class, locationDetails.getWard().getId()));
+        } catch (Exception e) {
+            location.setWard(null);
         }
         
         try {
@@ -147,6 +167,8 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
+
+        return location;
 
     }
 
@@ -168,9 +190,9 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     public LocationDetails convertLocationToLocationDetails(Location location) {
 
         LocationDetails locationDetails = new LocationDetails(location.getId());
+        locationDetails.setSubCounty(subCountyService.convertSubCountyToSubCountyDetails(location.getSubCounty()));
         locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
-        locationDetails.setSubCounty(location.getSubCounty());
-        locationDetails.setWard(location.getWard());
+        locationDetails.setWard(wardService.convertWardToWardDetails(location.getWard()));
         locationDetails.setLatitude(location.getLatitude());
         locationDetails.setLongitude(location.getLongitude());
         return locationDetails;
@@ -178,11 +200,11 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     }
 
     private List<LocationDetails> convertLocationsToLocationDetailsList(List<Location> locations) {
-
         List<LocationDetails> locationDetailsList = new ArrayList<>();
-        locations.stream().forEach((location) -> {
+        for (Location location : locations) {
             locationDetailsList.add(convertLocationToLocationDetails(location));
-        });
+        }
+
         return locationDetailsList;
 
     }
@@ -190,4 +212,8 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 //</editor-fold>
     @EJB
     CountyRequestsLocal countyService;
+    @EJB
+    SubCountyRequestsLocal subCountyService;
+    @EJB
+    WardRequestsLocal wardService;
 }

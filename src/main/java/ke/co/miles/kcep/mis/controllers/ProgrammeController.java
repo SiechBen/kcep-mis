@@ -1,0 +1,184 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ke.co.miles.kcep.mis.controllers;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import ke.co.miles.kcep.mis.defaults.Controller;
+import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.programme.ProgrammeRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ProgrammeDetails;
+
+/**
+ *
+ * @author siech
+ */
+@WebServlet(name = "ProgrammeController", urlPatterns = {"/programmes", "/addProgramme", "/doAddProgramme"})
+public class ProgrammeController extends Controller {
+
+    @Override
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        Locale locale = request.getLocale();
+        bundle = ResourceBundle.getBundle("text", locale);
+
+        //Get the user session
+        HttpSession session = request.getSession();
+
+        //Get the user path
+        String path = request.getServletPath();
+        String destination;
+
+        HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
+        ArrayList<String> urlPaths = new ArrayList<>();
+        if (rightsMaps != null) {
+            for (String rightsMap : rightsMaps.keySet()) {
+                if (rightsMap.equals("systemAdminSession") || rightsMap.equals("nationalOfficerSession")) {
+                    if (rightsMaps.get(rightsMap)) {
+                        urlPaths.add("/doAddProgramme");
+                        if (path.equals("/programmes")) {
+                            path = "/head_programmes";
+                            urlPaths.add(path);
+                        } else if (path.equals("/addProgramme")) {
+                            path = "/head_addProgramme";
+                            urlPaths.add(path);
+                        }
+                    }
+                } else if (rightsMap.equals("regionalCoordinatorSession")) {
+                    if (rightsMaps.get(rightsMap)) {
+                        urlPaths.add("/doAddProgramme");
+                        if (path.equals("/programmes")) {
+                            path = "/region_programmes";
+                            urlPaths.add(path);
+                        } else if (path.equals("/addProgramme")) {
+                            path = "/region_addProgramme";
+                            urlPaths.add(path);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (urlPaths.contains(path)) {
+
+            switch (path) {
+
+                case "/head_programmes":
+                case "/region_programmes":
+                    //Retrieve the list of programmes
+                    List<ProgrammeDetails> programmes;
+                    try {
+                        programmes = programmeService.retrieveProgrammes();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during programmes retrieval", ex);
+                        return;
+                    }
+
+                    //Avail the programmes in the application scope
+                    if (programmes != null) {
+                        session.setAttribute("programmes", programmes);
+                    }
+                    break;
+                    
+                case "/head_addProgramme":
+                case "/region_addProgramme":
+                    break;
+
+                case "/doAddProgramme":
+
+                    ProgrammeDetails programme = new ProgrammeDetails();
+                    programme.setUnit(String.valueOf(request.getParameter("unit")));
+                    programme.setActivity(String.valueOf(request.getParameter("activity")));
+                    programme.setAwpTarget(String.valueOf(request.getParameter("awpTarget")));
+                    programme.setEndPeriod(String.valueOf(request.getParameter("endPeriod")));
+                    programme.setStartPeriod(String.valueOf(request.getParameter("startPeriod")));
+                    programme.setValueAchieved(String.valueOf(request.getParameter("valueAchieved")));
+                    programme.setRequestedBudget(String.valueOf(request.getParameter("requestedBudget")));
+                    programme.setProgrammeTarget(String.valueOf(request.getParameter("programmeTarget")));
+                    programme.setActualExpenditure(String.valueOf(request.getParameter("actualExpenditure")));
+
+                    if (programme.getUnit().equals("null")) {
+                        programme.setUnit(null);
+                    }
+                    if (programme.getActivity().equals("null")) {
+                        programme.setActivity(null);
+                    }
+
+                    if (programme.getAwpTarget().equals("null")) {
+                        programme.setAwpTarget(null);
+                    }
+                    if (programme.getEndPeriod().equals("null")) {
+                        programme.setEndPeriod(null);
+                    }
+                    if (programme.getStartPeriod().equals("null")) {
+                        programme.setStartPeriod(null);
+                    }
+                    if (programme.getValueAchieved().equals("null")) {
+                        programme.setValueAchieved(null);
+                    }
+                    if (programme.getRequestedBudget().equals("null")) {
+                        programme.setRequestedBudget(null);
+                    }
+                    if (programme.getProgrammeTarget().equals("null")) {
+                        programme.setProgrammeTarget(null);
+                    }
+                    if (programme.getActualExpenditure().equals("null")) {
+                        programme.setActualExpenditure(null);
+                    }
+
+                    try {
+                        programmeService.addProgramme(programme);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(bundle.getString(e.getCode()));
+                        LOGGER.log(Level.INFO, bundle.getString(""), e);
+                    }
+
+                    return;
+
+                default:
+                    break;
+            }
+            //Use request dispatcher to foward request internally
+            destination = "/WEB-INF/views" + path + ".jsp";
+
+            LOGGER.log(Level.INFO,
+                    "Request dispatch to forward to: {0}", destination);
+            try {
+                request.getRequestDispatcher(destination).forward(request, response);
+            } catch (ServletException | IOException e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
+                LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(bundle.getString("error_016_02") + "<br>");
+            LOGGER.log(Level.INFO, bundle.getString("error_016_02"));
+        }
+    }
+
+    private static final Logger LOGGER = Logger.getLogger(ProgrammeController.class.getSimpleName());
+    @EJB
+    private ProgrammeRequestsLocal programmeService;
+
+}

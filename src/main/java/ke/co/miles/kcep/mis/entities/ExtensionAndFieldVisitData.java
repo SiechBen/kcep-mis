@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,8 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "extension_and_field_visit_data", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "extension_and_field_visit_data", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ExtensionAndFieldVisitData.findAll", query = "SELECT e FROM ExtensionAndFieldVisitData e"),
@@ -43,21 +41,21 @@ public class ExtensionAndFieldVisitData implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Column(name = "number_of_people_seeking_or_offered_advisory_services")
     private Integer numberOfPeopleSeekingOrOfferedAdvisoryServices;
     @Size(max = 400)
-    @Column(name = "nature_of_advisory_services", length = 400)
+    @Column(name = "nature_of_advisory_services")
     private String natureOfAdvisoryServices;
     @Column(name = "number_of_field_visits_conducted")
     private Integer numberOfFieldVisitsConducted;
     @Column(name = "number_of_farmers_visited")
     private Integer numberOfFarmersVisited;
     @Size(max = 400)
-    @Column(name = "field_visits_ward_locations", length = 400)
+    @Column(name = "field_visits_ward_locations")
     private String fieldVisitsWardLocations;
-    @JoinColumn(name = "ward_extension_officer", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "ward_extension_officer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person wardExtensionOfficer;
 

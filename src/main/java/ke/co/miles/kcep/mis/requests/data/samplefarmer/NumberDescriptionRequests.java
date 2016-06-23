@@ -155,9 +155,10 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
     private List<NumberDescriptionDetails> convertNumberDescriptionsToNumberDescriptionDetailsList(List<NumberDescription> numberDescriptions) {
 
         List<NumberDescriptionDetails> numberDescriptionDetailsList = new ArrayList<>();
-        numberDescriptions.stream().forEach((numberDescription) -> {
+        for (NumberDescription numberDescription : numberDescriptions) {
             numberDescriptionDetailsList.add(convertNumberDescriptionToNumberDescriptionDetails(numberDescription));
-        });
+        }
+
         return numberDescriptionDetailsList;
 
     }

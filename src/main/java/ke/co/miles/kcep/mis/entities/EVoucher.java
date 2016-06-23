@@ -20,7 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,32 +28,31 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "e_voucher", catalog = "kcep_mis", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "e_voucher", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EVoucher.findAll", query = "SELECT e FROM EVoucher e"),
     @NamedQuery(name = "EVoucher.findById", query = "SELECT e FROM EVoucher e WHERE e.id = :id"),
     @NamedQuery(name = "EVoucher.findByAmount", query = "SELECT e FROM EVoucher e WHERE e.amount = :amount"),
     @NamedQuery(name = "EVoucher.findByDateRedeemed", query = "SELECT e FROM EVoucher e WHERE e.dateRedeemed = :dateRedeemed"),
-    @NamedQuery(name = "EVoucher.findByPhoto", query = "SELECT e FROM EVoucher e WHERE e.photo = :photo")})
+    @NamedQuery(name = "EVoucher.findByInputsLogbookPage", query = "SELECT e FROM EVoucher e WHERE e.inputsLogbookPage = :inputsLogbookPage")})
 public class EVoucher implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 45)
-    @Column(name = "amount", length = 45)
+    @Column(name = "amount")
     private String amount;
     @Column(name = "date_redeemed")
     @Temporal(TemporalType.DATE)
     private Date dateRedeemed;
     @Size(max = 200)
-    @Column(name = "photo", length = 200)
-    private String photo;
+    @Column(name = "inputs_logbook_page")
+    private String inputsLogbookPage;
     @JoinColumn(name = "input_type", referencedColumnName = "id")
     @ManyToOne
     private InputType inputType;
@@ -93,12 +91,12 @@ public class EVoucher implements Serializable {
         this.dateRedeemed = dateRedeemed;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getInputsLogbookPage() {
+        return inputsLogbookPage;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setInputsLogbookPage(String inputsLogbookPage) {
+        this.inputsLogbookPage = inputsLogbookPage;
     }
 
     public InputType getInputType() {

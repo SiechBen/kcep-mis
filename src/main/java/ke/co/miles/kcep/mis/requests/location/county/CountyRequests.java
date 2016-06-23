@@ -118,6 +118,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         }
 
         county = em.find(County.class, countyDetails.getId());
+        county.setId(countyDetails.getId());
         county.setName(countyDetails.getName());
 
         try {
@@ -146,8 +147,15 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
     @Override
     public CountyDetails convertCountyToCountyDetails(County county) {
 
-        CountyDetails countyDetails = new CountyDetails(county.getId());
-        countyDetails.setName(county.getName());
+        CountyDetails countyDetails = new CountyDetails();
+        try {
+            countyDetails.setId(county.getId());
+        } catch (Exception e) {
+        }
+        try {
+            countyDetails.setName(county.getName());
+        } catch (Exception e) {
+        }
         return countyDetails;
 
     }
@@ -155,9 +163,10 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
     private List<CountyDetails> convertCountiesToCountyDetailsList(List<County> countys) {
 
         List<CountyDetails> countyDetailsList = new ArrayList<>();
-        countys.stream().forEach((county) -> {
+        for (County county : countys) {
             countyDetailsList.add(convertCountyToCountyDetails(county));
-        });
+        }
+
         return countyDetailsList;
 
     }

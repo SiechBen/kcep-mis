@@ -36,12 +36,12 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
         this.type = type;
     }
 
-    public StaticInputDetails getStaticInputId() {
-        return staticInputId;
+    public StaticInputDetails getStaticInput() {
+        return staticInput;
     }
 
-    public void setStaticInputId(StaticInputDetails staticInputId) {
-        this.staticInputId = staticInputId;
+    public void setStaticInput(StaticInputDetails staticInput) {
+        this.staticInput = staticInput;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.InputType[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.InputType[ id=" + id + " ]";
     }
 
     @Override
@@ -73,6 +73,6 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
 
     private Integer id;
     private String type;
-    private StaticInputDetails staticInputId;
+    private StaticInputDetails staticInput;
 
 }

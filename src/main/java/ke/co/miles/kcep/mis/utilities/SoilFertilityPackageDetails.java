@@ -1,0 +1,105 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ke.co.miles.kcep.mis.utilities;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author siech
+ */
+public class SoilFertilityPackageDetails implements Serializable, Comparable<SoilFertilityPackageDetails> {
+
+    public SoilFertilityPackageDetails() {
+    }
+
+    public SoilFertilityPackageDetails(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Short getNoOfSamplingAndAnalysisActivities() {
+        return noOfSamplingAndAnalysisActivities;
+    }
+
+    public void setNoOfSamplingAndAnalysisActivities(Short noOfSamplingAndAnalysisActivities) {
+        this.noOfSamplingAndAnalysisActivities = noOfSamplingAndAnalysisActivities;
+    }
+
+    public Short getNoOfPackagesDeveloped() {
+        return noOfPackagesDeveloped;
+    }
+
+    public void setNoOfPackagesDeveloped(Short noOfPackagesDeveloped) {
+        this.noOfPackagesDeveloped = noOfPackagesDeveloped;
+    }
+
+    public String getTargetLocations() {
+        return targetLocations;
+    }
+
+    public void setTargetLocations(String targetLocations) {
+        this.targetLocations = targetLocations;
+    }
+
+    public Short getNoOfMeetingsForEVoucherDefinition() {
+        return noOfMeetingsForEVoucherDefinition;
+    }
+
+    public void setNoOfMeetingsForEVoucherDefinition(Short noOfMeetingsForEVoucherDefinition) {
+        this.noOfMeetingsForEVoucherDefinition = noOfMeetingsForEVoucherDefinition;
+    }
+
+    public PersonDetails getKalroOfficer() {
+        return kalroOfficer;
+    }
+
+    public void setKalroOfficer(PersonDetails kalroOfficer) {
+        this.kalroOfficer = kalroOfficer;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof SoilFertilityPackageDetails)) {
+            return false;
+        }
+        SoilFertilityPackageDetails other = (SoilFertilityPackageDetails) object;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+    }
+
+    @Override
+    public String toString() {
+        return "ke.co.miles.kcep.mis.entities.SoilFertilityPackage[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(SoilFertilityPackageDetails o) {
+        return this.id.compareTo(o.getId());
+    }
+
+    private Integer id;
+    private Short noOfSamplingAndAnalysisActivities;
+    private Short noOfPackagesDeveloped;
+    private String targetLocations;
+    private Short noOfMeetingsForEVoucherDefinition;
+    private PersonDetails kalroOfficer;
+
+}

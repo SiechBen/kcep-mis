@@ -145,9 +145,10 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
     private List<SampledFarmerDataDetails> convertSampledFarmerDatasToSampledFarmerDataDetailsList(List<SampledFarmerData> sampledFarmerDatas) {
 
         List<SampledFarmerDataDetails> sampledFarmerDataDetailsList = new ArrayList<>();
-        sampledFarmerDatas.stream().forEach((sampledFarmerData) -> {
+        for (SampledFarmerData sampledFarmerData : sampledFarmerDatas) {
             sampledFarmerDataDetailsList.add(convertSampledFarmerDataToSampledFarmerDataDetails(sampledFarmerData));
-        });
+        }
+
         return sampledFarmerDataDetailsList;
 
     }

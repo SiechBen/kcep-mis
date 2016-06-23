@@ -188,10 +188,12 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
     }
 
     private List<NumberOfFarmersDetails> convertPeopleToNumberOfFarmersDetailsList(List<NumberOfFarmers> people) {
+
         List<NumberOfFarmersDetails> numberOfFarmersDetailsList = new ArrayList<>();
-        people.stream().forEach((numberOfFarmers) -> {
+        for (NumberOfFarmers numberOfFarmers : people) {
             numberOfFarmersDetailsList.add(convertNumberOfFarmersToNumberOfFarmersDetails(numberOfFarmers));
-        });
+
+        }
 
         return numberOfFarmersDetailsList;
 
