@@ -66,6 +66,11 @@ public class PersonController extends Controller {
 
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
+//                case "/kalro_people":
+//                case "/region_people":
+//                case "/county_people":
+//                case "/sub_county_people":
+            
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
@@ -120,6 +125,106 @@ public class PersonController extends Controller {
                             }
                         }
                         break;
+                    case "kalroSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            switch (path) {
+                                case "/people":
+                                    path = "/kalro_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addPerson":
+                                    path = "/kalro_addPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editPerson":
+                                    path = "/kalro_editPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/kalro_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "regionalCoordinatorSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            switch (path) {
+                                case "/people":
+                                    path = "/region_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addPerson":
+                                    path = "/region_addPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editPerson":
+                                    path = "/region_editPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/region_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "countyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            switch (path) {
+                                case "/people":
+                                    path = "/county_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addPerson":
+                                    path = "/county_addPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editPerson":
+                                    path = "/county_editPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/county_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "subCountyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            switch (path) {
+                                case "/people":
+                                    path = "/sub_county_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addPerson":
+                                    path = "/sub_county_addPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editPerson":
+                                    path = "/sub_county_editPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/sub_county_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
@@ -145,6 +250,31 @@ public class PersonController extends Controller {
                             }
                         }
                         break;
+                    case "agroDealerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            switch (path) {
+                                case "/people":
+                                    path = "/agro_dealer_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addPerson":
+                                    path = "/agro_dealer_addPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editPerson":
+                                    path = "/agro_dealer_editPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/agro_dealer_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -159,6 +289,11 @@ public class PersonController extends Controller {
 
                 case "/head_people":
                 case "/ward_people":
+                case "/kalro_people":
+                case "/region_people":
+                case "/county_people":
+                case "/sub_county_people":
+                case "/agro_dealer_people":
                 case "/warehouse_operator_people":
 
                     //Retrieve the list of people
@@ -291,16 +426,31 @@ public class PersonController extends Controller {
 
                 case "/head_addPerson":
                 case "/ward_addPerson":
-                case "/warehouse_operator_addPerson":                    
+                case "/kalro_addPerson":
+                case "/region_addPerson":
+                case "/county_addPerson":
+                case "/sub_county_addPerson":
+                case "/agro_dealer_addPerson":
+                case "/warehouse_operator_addPerson":
                     break;
 
                 case "/head_userProfile":
                 case "/ward_userProfile":
+                case "/kalro_userProfile":
+                case "/region_userProfile":
+                case "/county_userProfile":
+                case "/sub_county_userProfile":
+                case "/agro_dealer_userProfile":
                 case "/warehouse_operator_userProfile":
                     break;
 
                 case "/head_editPerson":
                 case "/ward_editPerson":
+                case "/kalro_editPerson":
+                case "/region_editPerson":
+                case "/county_editPerson":
+                case "/sub_county_editPerson":
+                case "/agro_dealer_editPerson":
                 case "/warehouse_operator_editPerson":
 
                     PersonDetails personDetails = new PersonDetails();
