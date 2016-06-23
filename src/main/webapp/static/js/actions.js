@@ -964,6 +964,11 @@ $("#training-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
+
+function addToTrainers() {
+    $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
+    $("#trainer-names").val($("#trainer-names").val() + " -> " + $("#trainer option[value='" + $("#trainer").val() + "']").text());
+}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
@@ -1098,3 +1103,4 @@ function addEquipment() {
     });
 }
 //</editor-fold>
+

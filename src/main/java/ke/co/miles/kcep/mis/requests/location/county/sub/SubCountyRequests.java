@@ -188,5 +188,5 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
 
 //</editor-fold>
     @EJB
-    CountyRequestsLocal countyService;
+    private CountyRequestsLocal countyService;
 }

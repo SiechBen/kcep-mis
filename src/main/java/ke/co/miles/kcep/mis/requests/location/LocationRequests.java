@@ -161,7 +161,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         } catch (Exception e) {
             location.setWard(null);
         }
-        
+
         try {
             em.merge(location);
         } catch (Exception e) {
@@ -211,9 +211,9 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 
 //</editor-fold>
     @EJB
-    CountyRequestsLocal countyService;
+    private CountyRequestsLocal countyService;
     @EJB
-    SubCountyRequestsLocal subCountyService;
+    private SubCountyRequestsLocal subCountyService;
     @EJB
-    WardRequestsLocal wardService;
+    private WardRequestsLocal wardService;
 }

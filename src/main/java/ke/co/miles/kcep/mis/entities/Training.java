@@ -7,7 +7,9 @@ package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -63,12 +67,11 @@ public class Training implements Serializable {
     @JoinColumn(name = "venue", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Location venue;
-    @JoinColumn(name = "trainer", referencedColumnName = "id")
-    @ManyToOne
-    private Person trainer;
     @JoinColumn(name = "category_of_trainees", referencedColumnName = "id")
     @ManyToOne
     private PersonRole categoryOfTrainees;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "training")
+    private List<Trainer> trainerList;
 
     public Training() {
     }
@@ -133,20 +136,21 @@ public class Training implements Serializable {
         this.venue = venue;
     }
 
-    public Person getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(Person trainer) {
-        this.trainer = trainer;
-    }
-
     public PersonRole getCategoryOfTrainees() {
         return categoryOfTrainees;
     }
 
     public void setCategoryOfTrainees(PersonRole categoryOfTrainees) {
         this.categoryOfTrainees = categoryOfTrainees;
+    }
+
+    @XmlTransient
+    public List<Trainer> getTrainerList() {
+        return trainerList;
+    }
+
+    public void setTrainerList(List<Trainer> trainerList) {
+        this.trainerList = trainerList;
     }
 
     @Override

@@ -201,11 +201,11 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
 
 //</editor-fold>
     @EJB
-    SampledFarmerDataRequestsLocal sampledFarmerDataService;
+    private SampledFarmerDataRequestsLocal sampledFarmerDataService;
     @EJB
-    LocationRequestsLocal locationService;
+    private LocationRequestsLocal locationService;
     @EJB
-    AgeBracketRequestsLocal numberOfFarmersRoleService;
+    private AgeBracketRequestsLocal numberOfFarmersRoleService;
     @EJB
-    NumberDescriptionRequestsLocal numberDescriptionService;
+    private NumberDescriptionRequestsLocal numberDescriptionService;
 }

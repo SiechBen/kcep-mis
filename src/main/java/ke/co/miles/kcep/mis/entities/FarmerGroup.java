@@ -36,9 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FarmerGroup.findByName", query = "SELECT f FROM FarmerGroup f WHERE f.name = :name")})
 public class FarmerGroup implements Serializable {
 
-    @OneToMany(mappedBy = "farmerGroup")
-    private List<Person> personList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +49,10 @@ public class FarmerGroup implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
     private List<FarmerSubGroup> farmerSubGroupList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
+    private List<FarmerGroupRecord> farmerGroupRecordList;
+    @OneToMany(mappedBy = "farmerGroup")
+    private List<Person> personList;
 
     public FarmerGroup() {
     }
@@ -90,6 +91,24 @@ public class FarmerGroup implements Serializable {
         this.farmerSubGroupList = farmerSubGroupList;
     }
 
+    @XmlTransient
+    public List<FarmerGroupRecord> getFarmerGroupRecordList() {
+        return farmerGroupRecordList;
+    }
+
+    public void setFarmerGroupRecordList(List<FarmerGroupRecord> farmerGroupRecordList) {
+        this.farmerGroupRecordList = farmerGroupRecordList;
+    }
+
+    @XmlTransient
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -113,15 +132,6 @@ public class FarmerGroup implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmerGroup[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Person> getPersonList() {
-        return personList;
-    }
-
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
     }
     
 }

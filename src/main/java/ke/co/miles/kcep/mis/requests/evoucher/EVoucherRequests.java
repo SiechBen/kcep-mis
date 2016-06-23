@@ -168,7 +168,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
 
 //</editor-fold>
     @EJB
-    InputTypeRequestsLocal inputTypeService;
+    private InputTypeRequestsLocal inputTypeService;
     @EJB
-    PersonRequestsLocal personService;
+    private PersonRequestsLocal personService;
 }

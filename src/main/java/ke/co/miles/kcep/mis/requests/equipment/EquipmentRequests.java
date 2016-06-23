@@ -165,5 +165,5 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
 
 //</editor-fold>
     @EJB
-    WarehouseRequestsLocal warehouseService;
+    private WarehouseRequestsLocal warehouseService;
 }

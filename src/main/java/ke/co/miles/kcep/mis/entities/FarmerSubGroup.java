@@ -38,9 +38,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FarmerSubGroup.findByName", query = "SELECT f FROM FarmerSubGroup f WHERE f.name = :name")})
 public class FarmerSubGroup implements Serializable {
 
-    @OneToMany(mappedBy = "farmerSubGroup")
-    private List<Person> personList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +52,8 @@ public class FarmerSubGroup implements Serializable {
     @JoinColumn(name = "farmer_group", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private FarmerGroup farmerGroup;
+    @OneToMany(mappedBy = "farmerSubGroup")
+    private List<Person> personList;
 
     public FarmerSubGroup() {
     }
@@ -92,6 +91,15 @@ public class FarmerSubGroup implements Serializable {
         this.farmerGroup = farmerGroup;
     }
 
+    @XmlTransient
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -115,15 +123,6 @@ public class FarmerSubGroup implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmerSubGroup[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Person> getPersonList() {
-        return personList;
-    }
-
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
     }
     
 }

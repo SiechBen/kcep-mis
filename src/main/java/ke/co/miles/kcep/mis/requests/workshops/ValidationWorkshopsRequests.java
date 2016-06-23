@@ -152,5 +152,5 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
 
 //</editor-fold>
     @EJB
-    PersonRequestsLocal personService;
+    private PersonRequestsLocal personService;
 }

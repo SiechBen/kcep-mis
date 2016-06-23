@@ -52,12 +52,16 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <c:forEach var="training" items="${sessionScope.trainingList}" varStatus="index">
+                                        <c:forEach var="training" items="${sessionScope.trainingMap.keySet()}" varStatus="index">
                                             <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                                 <td>${index.count}</td>
                                                 <td>${training.startDate}</td>
                                                 <td>${training.endDate}</td>
-                                                <td>${training.trainer.name}</td>
+                                                <td>
+                                                    <c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}">
+                                                        ${trainer.person.name} 
+                                                    </c:forEach>
+                                                </td>
                                                 <td>${training.topic}</td>
                                                 <td>${training.venue.county.name}</td>
                                                 <td>${training.venue.subCounty.name}</td>

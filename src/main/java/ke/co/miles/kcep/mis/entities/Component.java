@@ -27,56 +27,67 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "region", catalog = "kcep_mis", schema = "")
+@Table(name = "component", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r"),
-    @NamedQuery(name = "Region.findById", query = "SELECT r FROM Region r WHERE r.id = :id"),
-    @NamedQuery(name = "Region.findByName", query = "SELECT r FROM Region r WHERE r.name = :name")})
-public class Region implements Serializable {
+    @NamedQuery(name = "Component.findAll", query = "SELECT c FROM Component c"),
+    @NamedQuery(name = "Component.findById", query = "SELECT c FROM Component c WHERE c.id = :id"),
+    @NamedQuery(name = "Component.findByComponent", query = "SELECT c FROM Component c WHERE c.component = :component")})
+public class Component implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Short id;
+    private Integer id;
     @Size(max = 45)
-    @Column(name = "name")
-    private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
-    private List<County> countyList;
+    @Column(name = "component")
+    private String component;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
+    private List<SubComponent> subComponentList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
+    private List<Programme> programmeList;
 
-    public Region() {
+    public Component() {
     }
 
-    public Region(Short id) {
+    public Component(Integer id) {
         this.id = id;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getComponent() {
+        return component;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     @XmlTransient
-    public List<County> getCountyList() {
-        return countyList;
+    public List<SubComponent> getSubComponentList() {
+        return subComponentList;
     }
 
-    public void setCountyList(List<County> countyList) {
-        this.countyList = countyList;
+    public void setSubComponentList(List<SubComponent> subComponentList) {
+        this.subComponentList = subComponentList;
+    }
+
+    @XmlTransient
+    public List<Programme> getProgrammeList() {
+        return programmeList;
+    }
+
+    public void setProgrammeList(List<Programme> programmeList) {
+        this.programmeList = programmeList;
     }
 
     @Override
@@ -89,10 +100,10 @@ public class Region implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Region)) {
+        if (!(object instanceof Component)) {
             return false;
         }
-        Region other = (Region) object;
+        Component other = (Component) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -101,7 +112,7 @@ public class Region implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Region[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.Component[ id=" + id + " ]";
     }
     
 }

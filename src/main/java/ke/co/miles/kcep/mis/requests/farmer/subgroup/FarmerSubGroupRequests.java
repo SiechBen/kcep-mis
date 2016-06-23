@@ -188,5 +188,5 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
 
 //</editor-fold>
     @EJB
-    FarmerGroupRequestsLocal farmerGroupService;
+    private FarmerGroupRequestsLocal farmerGroupService;
 }

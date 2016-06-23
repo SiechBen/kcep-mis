@@ -172,5 +172,5 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
 
 //</editor-fold>
     @EJB
-    CountyRequestsLocal countyService;
+    private CountyRequestsLocal countyService;
 }

@@ -7,7 +7,9 @@ package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -60,6 +65,28 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name")
     private String businessName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<Trainer> trainerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<SoilFertilityPackage> soilFertilityPackageList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<ValidationWorkshops> validationWorkshopsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
+    private List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<Technology> technologyList;
+    @OneToMany(mappedBy = "person")
+    private List<EVoucher> eVoucherList;
+    @OneToOne(mappedBy = "warehouseOperator")
+    private Warehouse warehouse;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<OnFarmTrialsAndDemonstrations> onFarmTrialsAndDemonstrationsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<ExtensionMaterialAndGuideline> extensionMaterialAndGuidelineList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<DisseminationOfResults> disseminationOfResultsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
+    private List<SampledFarmerData> sampledFarmerDataList;
     @JoinColumn(name = "contact", referencedColumnName = "id")
     @ManyToOne
     private Contact contact;
@@ -78,6 +105,10 @@ public class Person implements Serializable {
     @JoinColumn(name = "sex", referencedColumnName = "id")
     @ManyToOne
     private Sex sex;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<TechnologyTargetCounty> technologyTargetCountyList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<UserAccount> userAccountList;
 
     public Person() {
     }
@@ -124,6 +155,104 @@ public class Person implements Serializable {
 
     public void setBusinessName(String businessName) {
         this.businessName = businessName;
+    }
+
+    @XmlTransient
+    public List<Trainer> getTrainerList() {
+        return trainerList;
+    }
+
+    public void setTrainerList(List<Trainer> trainerList) {
+        this.trainerList = trainerList;
+    }
+
+    @XmlTransient
+    public List<SoilFertilityPackage> getSoilFertilityPackageList() {
+        return soilFertilityPackageList;
+    }
+
+    public void setSoilFertilityPackageList(List<SoilFertilityPackage> soilFertilityPackageList) {
+        this.soilFertilityPackageList = soilFertilityPackageList;
+    }
+
+    @XmlTransient
+    public List<ValidationWorkshops> getValidationWorkshopsList() {
+        return validationWorkshopsList;
+    }
+
+    public void setValidationWorkshopsList(List<ValidationWorkshops> validationWorkshopsList) {
+        this.validationWorkshopsList = validationWorkshopsList;
+    }
+
+    @XmlTransient
+    public List<ExtensionAndFieldVisitData> getExtensionAndFieldVisitDataList() {
+        return extensionAndFieldVisitDataList;
+    }
+
+    public void setExtensionAndFieldVisitDataList(List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList) {
+        this.extensionAndFieldVisitDataList = extensionAndFieldVisitDataList;
+    }
+
+    @XmlTransient
+    public List<Technology> getTechnologyList() {
+        return technologyList;
+    }
+
+    public void setTechnologyList(List<Technology> technologyList) {
+        this.technologyList = technologyList;
+    }
+
+    @XmlTransient
+    public List<EVoucher> getEVoucherList() {
+        return eVoucherList;
+    }
+
+    public void setEVoucherList(List<EVoucher> eVoucherList) {
+        this.eVoucherList = eVoucherList;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    @XmlTransient
+    public List<OnFarmTrialsAndDemonstrations> getOnFarmTrialsAndDemonstrationsList() {
+        return onFarmTrialsAndDemonstrationsList;
+    }
+
+    public void setOnFarmTrialsAndDemonstrationsList(List<OnFarmTrialsAndDemonstrations> onFarmTrialsAndDemonstrationsList) {
+        this.onFarmTrialsAndDemonstrationsList = onFarmTrialsAndDemonstrationsList;
+    }
+
+    @XmlTransient
+    public List<ExtensionMaterialAndGuideline> getExtensionMaterialAndGuidelineList() {
+        return extensionMaterialAndGuidelineList;
+    }
+
+    public void setExtensionMaterialAndGuidelineList(List<ExtensionMaterialAndGuideline> extensionMaterialAndGuidelineList) {
+        this.extensionMaterialAndGuidelineList = extensionMaterialAndGuidelineList;
+    }
+
+    @XmlTransient
+    public List<DisseminationOfResults> getDisseminationOfResultsList() {
+        return disseminationOfResultsList;
+    }
+
+    public void setDisseminationOfResultsList(List<DisseminationOfResults> disseminationOfResultsList) {
+        this.disseminationOfResultsList = disseminationOfResultsList;
+    }
+
+    @XmlTransient
+    public List<SampledFarmerData> getSampledFarmerDataList() {
+        return sampledFarmerDataList;
+    }
+
+    public void setSampledFarmerDataList(List<SampledFarmerData> sampledFarmerDataList) {
+        this.sampledFarmerDataList = sampledFarmerDataList;
     }
 
     public Contact getContact() {
@@ -174,6 +303,24 @@ public class Person implements Serializable {
         this.sex = sex;
     }
 
+    @XmlTransient
+    public List<TechnologyTargetCounty> getTechnologyTargetCountyList() {
+        return technologyTargetCountyList;
+    }
+
+    public void setTechnologyTargetCountyList(List<TechnologyTargetCounty> technologyTargetCountyList) {
+        this.technologyTargetCountyList = technologyTargetCountyList;
+    }
+
+    @XmlTransient
+    public List<UserAccount> getUserAccountList() {
+        return userAccountList;
+    }
+
+    public void setUserAccountList(List<UserAccount> userAccountList) {
+        this.userAccountList = userAccountList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -198,5 +345,5 @@ public class Person implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Person[ id=" + id + " ]";
     }
-
+    
 }

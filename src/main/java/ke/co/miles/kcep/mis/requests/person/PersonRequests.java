@@ -439,18 +439,16 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
 //</editor-fold>
     @EJB
-    ContactRequestsLocal contactService;
+    private ContactRequestsLocal contactService;
     @EJB
-    AccessRequestsLocal accessService;
+    private AccessRequestsLocal accessService;
     @EJB
-    LocationRequestsLocal locationService;
+    private LocationRequestsLocal locationService;
     @EJB
-    PersonRoleRequestsLocal personRoleService;
+    private FarmerGroupRequestsLocal farmerGroupService;
     @EJB
-    FarmerGroupRequestsLocal farmerGroupService;
+    private UserAccountRequestsLocal userAccountService;
     @EJB
-    UserAccountRequestsLocal userAccountService;
-    @EJB
-    FarmerSubGroupRequestsLocal farmerSubGroupService;
+    private FarmerSubGroupRequestsLocal farmerSubGroupService;
 
 }

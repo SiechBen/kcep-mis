@@ -6,77 +6,74 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author siech
  */
 @Entity
-@Table(name = "region", catalog = "kcep_mis", schema = "")
+@Table(name = "trainer", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r"),
-    @NamedQuery(name = "Region.findById", query = "SELECT r FROM Region r WHERE r.id = :id"),
-    @NamedQuery(name = "Region.findByName", query = "SELECT r FROM Region r WHERE r.name = :name")})
-public class Region implements Serializable {
+    @NamedQuery(name = "Trainer.findByTrainingId", query = "SELECT t FROM Trainer t WHERE t.training.id = :trainingId"),
+    @NamedQuery(name = "Trainer.findAll", query = "SELECT t FROM Trainer t"),
+    @NamedQuery(name = "Trainer.findById", query = "SELECT t FROM Trainer t WHERE t.id = :id")})
+public class Trainer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Short id;
-    @Size(max = 45)
-    @Column(name = "name")
-    private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
-    private List<County> countyList;
+    private Integer id;
+    @JoinColumn(name = "person", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Person person;
+    @JoinColumn(name = "training", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Training training;
 
-    public Region() {
+    public Trainer() {
     }
 
-    public Region(Short id) {
+    public Trainer(Integer id) {
         this.id = id;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    @XmlTransient
-    public List<County> getCountyList() {
-        return countyList;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setCountyList(List<County> countyList) {
-        this.countyList = countyList;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     @Override
@@ -89,10 +86,10 @@ public class Region implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Region)) {
+        if (!(object instanceof Trainer)) {
             return false;
         }
-        Region other = (Region) object;
+        Trainer other = (Trainer) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -101,7 +98,7 @@ public class Region implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Region[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.Trainer[ id=" + id + " ]";
     }
-    
+
 }

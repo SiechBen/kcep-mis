@@ -37,12 +37,14 @@
                                     <input id="end-date" name="end-date" class="form-control datefield">  
                                 </div>
                                 <div class="form-group">
-                                    Trainer
-                                    <select id="trainer" name="trainer" class="form-control">
+                                    Trainers
+                                    <select id="trainer" name="trainer" class="form-control" onchange="addToTrainers()">
                                         <c:forEach var="training" items="${sessionScope.people}" varStatus="index"> 
                                             <option value="${training.id}">${training.name}</option>
                                         </c:forEach>
                                     </select> 
+                                    <input type="text" id="trainer-names" value="" class="form-control">
+                                    <input type="hidden" id="trainer-ids" name="trainer-ids" value="">
                                 </div>
                                 <div class="form-group">
                                     Topic
@@ -50,7 +52,7 @@
                                 </div>
                                 <div class="form-group">
                                     County
-                                    <select id="training-county" class="form-control">
+                                    <select id="training-county" name="training-county" class="form-control">
                                         <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
                                             <option value="${county.id}">${county.name}</option>
                                         </c:forEach>
@@ -58,7 +60,7 @@
                                 </div>
                                 <div class="form-group">
                                     Sub-county
-                                    <select id="training-sub-county" class="form-control">
+                                    <select id="training-sub-county" name="training-sub-county" class="form-control">
                                         <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
                                             <option value="${subCounty.id}">${subCounty.name}</option>
                                         </c:forEach>
@@ -66,7 +68,7 @@
                                 </div>
                                 <div class="form-group">
                                     Ward
-                                    <select id="training-ward" class="form-control">
+                                    <select id="training-ward" name="ward" class="form-control">
                                         <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index"> 
                                             <option value="${ward.id}">${ward.name}</option>
                                         </c:forEach>

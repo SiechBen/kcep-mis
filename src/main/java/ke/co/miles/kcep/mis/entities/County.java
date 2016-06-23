@@ -53,7 +53,7 @@ public class County implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "county")
     private List<SubCounty> subCountyList;
     @JoinColumn(name = "region", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Region region;
     @OneToMany(mappedBy = "county")
     private List<Procurement> procurementList;
@@ -158,5 +158,5 @@ public class County implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.County[ id=" + id + " ]";
     }
-
+    
 }

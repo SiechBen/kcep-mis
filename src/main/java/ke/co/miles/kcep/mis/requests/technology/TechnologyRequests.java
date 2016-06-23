@@ -98,7 +98,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
             throw new InvalidArgumentException("error_026_01");
         } else if (technologyDetails.getId() == null) {
             throw new InvalidArgumentException("error_026_05");
-        }else if (technologyDetails.getKalroOfficer() == null) {
+        } else if (technologyDetails.getKalroOfficer() == null) {
             throw new InvalidArgumentException("error_026_02");
         } else if (technologyDetails.getName() != null && technologyDetails.getName().trim().length() > 45) {
             throw new InvalidArgumentException("error_026_03");
@@ -167,5 +167,5 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
 
 //</editor-fold>
     @EJB
-    PersonRequestsLocal personService;
+    private PersonRequestsLocal personService;
 }

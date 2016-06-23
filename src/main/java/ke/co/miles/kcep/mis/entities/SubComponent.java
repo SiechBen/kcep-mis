@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,56 +29,67 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "region", catalog = "kcep_mis", schema = "")
+@Table(name = "sub_component", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r"),
-    @NamedQuery(name = "Region.findById", query = "SELECT r FROM Region r WHERE r.id = :id"),
-    @NamedQuery(name = "Region.findByName", query = "SELECT r FROM Region r WHERE r.name = :name")})
-public class Region implements Serializable {
+    @NamedQuery(name = "SubComponent.findAll", query = "SELECT s FROM SubComponent s"),
+    @NamedQuery(name = "SubComponent.findById", query = "SELECT s FROM SubComponent s WHERE s.id = :id"),
+    @NamedQuery(name = "SubComponent.findBySubComponent", query = "SELECT s FROM SubComponent s WHERE s.subComponent = :subComponent")})
+public class SubComponent implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Short id;
+    private Integer id;
     @Size(max = 45)
-    @Column(name = "name")
-    private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
-    private List<County> countyList;
+    @Column(name = "sub_component")
+    private String subComponent;
+    @JoinColumn(name = "component", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Component component;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subComponent")
+    private List<Programme> programmeList;
 
-    public Region() {
+    public SubComponent() {
     }
 
-    public Region(Short id) {
+    public SubComponent(Integer id) {
         this.id = id;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSubComponent() {
+        return subComponent;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSubComponent(String subComponent) {
+        this.subComponent = subComponent;
+    }
+
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
     }
 
     @XmlTransient
-    public List<County> getCountyList() {
-        return countyList;
+    public List<Programme> getProgrammeList() {
+        return programmeList;
     }
 
-    public void setCountyList(List<County> countyList) {
-        this.countyList = countyList;
+    public void setProgrammeList(List<Programme> programmeList) {
+        this.programmeList = programmeList;
     }
 
     @Override
@@ -89,10 +102,10 @@ public class Region implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Region)) {
+        if (!(object instanceof SubComponent)) {
             return false;
         }
-        Region other = (Region) object;
+        SubComponent other = (SubComponent) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -101,7 +114,7 @@ public class Region implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Region[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubComponent[ id=" + id + " ]";
     }
     
 }

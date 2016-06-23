@@ -188,5 +188,5 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
 
 //</editor-fold>
     @EJB
-    SubCountyRequestsLocal subCountyService;
+    private SubCountyRequestsLocal subCountyService;
 }

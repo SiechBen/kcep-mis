@@ -79,9 +79,18 @@ public class Programme implements Serializable {
     @Size(max = 45)
     @Column(name = "programmecol")
     private String programmecol;
+    @JoinColumn(name = "component", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Component component;
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private MeasurementUnit measurementUnit;
+    @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private PersonRole implementingPartner;
+    @JoinColumn(name = "sub_component", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private SubComponent subComponent;
 
     public Programme() {
     }
@@ -178,12 +187,36 @@ public class Programme implements Serializable {
         this.programmecol = programmecol;
     }
 
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
+    }
+
     public MeasurementUnit getMeasurementUnit() {
         return measurementUnit;
     }
 
     public void setMeasurementUnit(MeasurementUnit measurementUnit) {
         this.measurementUnit = measurementUnit;
+    }
+
+    public PersonRole getImplementingPartner() {
+        return implementingPartner;
+    }
+
+    public void setImplementingPartner(PersonRole implementingPartner) {
+        this.implementingPartner = implementingPartner;
+    }
+
+    public SubComponent getSubComponent() {
+        return subComponent;
+    }
+
+    public void setSubComponent(SubComponent subComponent) {
+        this.subComponent = subComponent;
     }
 
     @Override

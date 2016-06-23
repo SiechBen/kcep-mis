@@ -237,14 +237,14 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 
 //</editor-fold>
     @EJB
-    PersonRequestsLocal personService;
+    private PersonRequestsLocal personService;
     @EJB
-    LocationRequestsLocal locationService;
+    private LocationRequestsLocal locationService;
     @EJB
-    EquipmentRequestsLocal equipmentService;
+    private EquipmentRequestsLocal equipmentService;
     @EJB
-    WarehouseTypeRequestsLocal warehouseTypeService;
+    private WarehouseTypeRequestsLocal warehouseTypeService;
     @EJB
-    MeasurementUnitRequestsLocal measurementUnitService;
+    private MeasurementUnitRequestsLocal measurementUnitService;
 
 }

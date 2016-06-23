@@ -39,6 +39,7 @@ import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 
@@ -178,9 +179,9 @@ public class TrainingController extends Controller {
                 case "/sub_county_training":
 
                     //Retrieve the list of training
-                    List<TrainingDetails> trainingList;
+                    HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
                     try {
-                        trainingList = trainingService.retrieveTrainings();
+                        trainingMap = trainingService.retrieveTrainings();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(bundle.getString(ex.getCode()));
@@ -189,8 +190,8 @@ public class TrainingController extends Controller {
                     }
 
                     //Avail the training in the application scope
-                    if (trainingList != null) {
-                        for (TrainingDetails trainingDetails : trainingList) {
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
                             if (trainingDetails.getAttendanceSheet() != null) {
                                 try {
                                     String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
@@ -200,7 +201,7 @@ public class TrainingController extends Controller {
                                 }
                             }
                         }
-                        session.setAttribute("trainingList", trainingList);
+                        session.setAttribute("trainingMap", trainingMap);
                     }
                     break;
 
@@ -228,13 +229,6 @@ public class TrainingController extends Controller {
                     break;
 
                 case "/doAddTraining":
-
-                    PersonDetails trainer = new PersonDetails();
-                    try {
-                        trainer.setId(Integer.valueOf(String.valueOf(request.getParameter("trainer"))));
-                    } catch (Exception e) {
-                        trainer = null;
-                    }
 
                     PersonRoleDetail categoryOfTrainees;
                     try {
@@ -277,7 +271,6 @@ public class TrainingController extends Controller {
                     }
                     training.setTopic(String.valueOf(request.getParameter("topic")));
                     training.setCategoryOfTrainees(categoryOfTrainees);
-                    training.setTrainer(trainer);
                     training.setVenue(venue);
 
                     try {
@@ -346,8 +339,22 @@ public class TrainingController extends Controller {
                         LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
                     }
 
+                    String[] trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
+                    TrainerDetails trainerRecord;
+                    List<TrainerDetails> trainerRecords = new ArrayList<>();
+                    for (String trainerPersonId : trainerPersonIds) {
+                        PersonDetails trainerPerson = new PersonDetails();
+                        trainerRecord = new TrainerDetails();
+                        try {
+                            trainerPerson.setId(Integer.valueOf(trainerPersonId));
+                            trainerRecord.setPerson(trainerPerson);
+                            trainerRecords.add(trainerRecord);
+                        } catch (Exception e) {
+                        }
+                    }
+
                     try {
-                        trainingService.addTraining(training);
+                        trainingService.addTraining(training, trainerRecords);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(bundle.getString(e.getMessage()));

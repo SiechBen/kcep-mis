@@ -155,5 +155,5 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
 
 //</editor-fold>
     @EJB
-    StaticInputRequestsLocal staticInputService;
+    private StaticInputRequestsLocal staticInputService;
 }

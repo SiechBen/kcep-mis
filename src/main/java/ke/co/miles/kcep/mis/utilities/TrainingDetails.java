@@ -80,14 +80,6 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.attendanceSheet = attendance;
     }
 
-    public PersonDetails getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(PersonDetails trainer) {
-        this.trainer = trainer;
-    }
-
     public PersonRoleDetail getCategoryOfTrainees() {
         return categoryOfTrainees;
     }
@@ -142,7 +134,6 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
     private Date startDate;
     private Date endDate;
     private String fileName;
-    private PersonDetails trainer;
     private LocationDetails venue;
     private String attendanceSheet;
     private Integer numberOfTrainees;

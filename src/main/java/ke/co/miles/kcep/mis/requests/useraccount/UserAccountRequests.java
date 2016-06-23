@@ -336,10 +336,10 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 //</editor-fold>
     private static final Logger LOGGER = Logger.getLogger(UserAccountRequests.class.getSimpleName());
     @EJB
-    PersonRequestsLocal personService;
+    private PersonRequestsLocal personService;
     @EJB
-    PersonRoleRequestsLocal personRoleService;
+    private PersonRoleRequestsLocal personRoleService;
     @EJB
-    AccessRequestsLocal accessService;
+    private AccessRequestsLocal accessService;
 
 }
