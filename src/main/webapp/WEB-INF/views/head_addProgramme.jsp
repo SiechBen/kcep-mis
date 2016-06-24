@@ -64,6 +64,30 @@
                                     Actual expenditure
                                     <input id="actual-expenditure" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    Implementing partner
+                                    <select id="implementing-partner" class="form-control">
+                                        <c:forEach var="implementingPartner}" items="${sessionScope.implementingPartners}">
+                                            <option value="${implementingPartner.id}">${implementingPartner.personRole}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    Component
+                                    <select id="component" class="form-control">
+                                        <c:forEach var="component}" items="${sessionScope.components}">
+                                            <option value="${component.id}">${component.component}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    Sub-component
+                                    <select id="sub-component" class="form-control">
+                                        <c:forEach var="subComponent}" items="${sessionScope.subComponents}">
+                                            <option value="${subComponent.id}">${subComponent.subComponent}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                                 <button type="button" class="btn btn-outline btn-primary" onclick="addProgramme()">Save programme</button>
                             </form>
                         </div>

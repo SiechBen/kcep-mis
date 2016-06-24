@@ -31,7 +31,7 @@ $(function () {
 
     var url = window.location;
     var element = $('ul.nav a').filter(function () {
-        return this.href == url || url.href.indexOf(this.href) == 0;
+        return this.href === url || url.href.indexOf(this.href) === 0;
     }).addClass('active').parent().parent().addClass('in').parent();
     if (element.is('li')) {
         element.addClass('active');
@@ -1053,22 +1053,26 @@ function addProgramme() {
     $.ajax({
         url: "doAddProgramme",
         type: "POST",
-        data: "activity=" + $("#activity").val() + "&startPeriod=" + $("#start-period").val() +
+        data: "activity=" + $("#activity").val() + "&implementingPartner=" + $("#implementing-partner").val() +
                 "&endPeriod=" + $("#end-period").val() + "&requestedBudget=" + $("#requested-budget").val() +
                 "&awpTarget=" + $("#awp-target").val() + "&programmeTarget=" + $("#programme-target").val() +
-                "&valueAchieved=" + $("#value-achieved").val() + "&unit=" + $("#unit").val() +
-                "&actualExpenditure=" + $("#actual-expenditure").val(),
+                "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
+                "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
+                "&unit=" + $("#unit").val() + "&actualExpenditure=" + $("#actual-expenditure").val(),
         success: function () {
 
-            $("#activity").val("");
-            $("#start-period").val("");
-            $("#end-period").val("");
-            $("#requested-budget").val("");
-            $("#awp-target").val("");
-            $("#programme-target").val("");
-            $("#value-achieved").val("");
             $("#unit").val("");
+            $("#activity").val("");
+            $("#awp-target").val("");
+            $("#component").val("");
+            $("#end-period").val("");
+            $("#start-period").val("");
+            $("#value-achieved").val("");
+            $("#sub-component").val("");
+            $("#requested-budget").val("");
+            $("#programme-target").val("");
             $("#actual-expenditure").val("");
+            $("#implementing-partner").val("");
             loadAjaxWindow('programmes');
             return;
         },

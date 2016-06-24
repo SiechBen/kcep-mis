@@ -35,7 +35,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         } else if (countyDetails.getName().length() > 45) {
             throw new InvalidArgumentException("error_010_03");
         } else if (countyDetails.getRegion() == null) {
-            throw new InvalidArgumentException("error_010_03");
+            throw new InvalidArgumentException("error_010_04");
         }
 
         County county;
@@ -47,7 +47,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
             county = null;
         }
         if (county != null) {
-            throw new InvalidArgumentException("error_010_04");
+            throw new InvalidArgumentException("error_010_05");
         }
 
         county = new County();
@@ -101,13 +101,13 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         if (countyDetails == null) {
             throw new InvalidArgumentException("error_010_01");
         } else if (countyDetails.getId() == null) {
-            throw new InvalidArgumentException("error_010_05");
+            throw new InvalidArgumentException("error_010_06");
         } else if (countyDetails.getName() == null) {
             throw new InvalidArgumentException("error_010_02");
         } else if (countyDetails.getName().length() > 45) {
             throw new InvalidArgumentException("error_010_03");
         } else if (countyDetails.getRegion() == null) {
-            throw new InvalidArgumentException("error_010_03");
+            throw new InvalidArgumentException("error_010_04");
         }
 
         County county;
@@ -120,7 +120,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         }
         if (county != null) {
             if (county.getId().equals(countyDetails.getId())) {
-                throw new InvalidArgumentException("error_010_04");
+                throw new InvalidArgumentException("error_010_05");
             }
         }
 

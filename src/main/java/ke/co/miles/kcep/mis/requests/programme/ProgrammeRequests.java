@@ -7,12 +7,19 @@ package ke.co.miles.kcep.mis.requests.programme;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.Component;
+import ke.co.miles.kcep.mis.entities.PersonRole;
 import ke.co.miles.kcep.mis.entities.Programme;
+import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.component.ComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ProgrammeDetails;
 
 /**
@@ -28,6 +35,10 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
 
         if (programmeDetails == null) {
             throw new InvalidArgumentException("error_017_01");
+        } else if (programmeDetails.getComponent() == null) {
+            throw new InvalidArgumentException("error_017_02");
+        } else if (programmeDetails.getImplementingPartner() == null) {
+            throw new InvalidArgumentException("error_017_03");
         }
 
         Programme programme = new Programme();
@@ -40,6 +51,11 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setRequestedBudget(programmeDetails.getRequestedBudget());
         programme.setProgrammeTarget(programmeDetails.getProgrammeTarget());
         programme.setActualExpenditure(programmeDetails.getActualExpenditure());
+        programme.setComponent(em.find(Component.class, programmeDetails.getComponent().getId()));
+        programme.setImplementingPartner(em.find(PersonRole.class, programmeDetails.getImplementingPartner().getId()));
+        if (programmeDetails.getSubComponent() != null) {
+            programme.setSubComponent(em.find(SubComponent.class, programmeDetails.getSubComponent().getId()));
+        }
 
         try {
             em.persist(programme);
@@ -55,6 +71,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ProgrammeDetails> retrieveProgrammes() throws MilesException {
         List<Programme> programmes = new ArrayList<>();
         q = em.createNamedQuery("Programme.findAll");
@@ -88,7 +105,11 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         if (programmeDetails == null) {
             throw new InvalidArgumentException("error_017_01");
         } else if (programmeDetails.getId() == null) {
+            throw new InvalidArgumentException("error_017_04");
+        } else if (programmeDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_017_02");
+        } else if (programmeDetails.getImplementingPartner() == null) {
+            throw new InvalidArgumentException("error_017_03");
         }
 
         Programme programme = em.find(Programme.class, programmeDetails.getId());
@@ -102,6 +123,11 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setRequestedBudget(programmeDetails.getRequestedBudget());
         programme.setProgrammeTarget(programmeDetails.getProgrammeTarget());
         programme.setActualExpenditure(programmeDetails.getActualExpenditure());
+        programme.setComponent(em.find(Component.class, programmeDetails.getComponent().getId()));
+        programme.setImplementingPartner(em.find(PersonRole.class, programmeDetails.getImplementingPartner().getId()));
+        if (programmeDetails.getSubComponent() != null) {
+            programme.setSubComponent(em.find(SubComponent.class, programmeDetails.getSubComponent().getId()));
+        }
 
         try {
             em.merge(programme);
@@ -138,6 +164,14 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programmeDetails.setRequestedBudget(programme.getRequestedBudget());
         programmeDetails.setProgrammeTarget(programme.getProgrammeTarget());
         programmeDetails.setActualExpenditure(programme.getActualExpenditure());
+        programmeDetails.setComponent(componentService.
+                convertComponentToComponentDetails(programme.getComponent()));
+        programmeDetails.setImplementingPartner(personRoleService.
+                convertPersonRoleToPersonRoleDetail(programme.getImplementingPartner()));
+        if (programme.getSubComponent() != null) {
+            programmeDetails.setSubComponent(subComponentService.
+                    convertSubComponentToSubComponentDetails(programme.getSubComponent()));
+        }
 
         return programmeDetails;
 
@@ -155,4 +189,10 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
     }
 
 //</editor-fold>
+    @EJB
+    private ComponentRequestsLocal componentService;
+    @EJB
+    private PersonRoleRequestsLocal personRoleService;
+    @EJB
+    private SubComponentRequestsLocal subComponentService;
 }

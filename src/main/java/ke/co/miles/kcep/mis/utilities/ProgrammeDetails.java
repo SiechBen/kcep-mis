@@ -131,14 +131,14 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     /**
      * @return the component
      */
-    public ComponentDetails getComponentDetails() {
+    public ComponentDetails getComponent() {
         return component;
     }
 
     /**
      * @param component the component to set
      */
-    public void setComponentDetails(ComponentDetails component) {
+    public void setComponent(ComponentDetails component) {
         this.component = component;
     }
 
@@ -173,30 +173,30 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     /**
      * @return the sub-component details
      */
-    public SubComponentDetails getSubComponentDetails() {
-        return subComponentDetails;
+    public SubComponentDetails getSubComponent() {
+        return subComponent;
     }
 
     /**
-     * @param subComponentDetails the sub-component details to set
+     * @param subComponent the sub-component details to set
      */
-    public void setSubComponentDetails(SubComponentDetails subComponentDetails) {
-        this.subComponentDetails = subComponentDetails;
+    public void setSubComponent(SubComponentDetails subComponent) {
+        this.subComponent = subComponent;
     }
 
     private Integer id;
-    private String activity;
-    private String startPeriod;
-    private String endPeriod;
     private String unit;
+    private String activity;
+    private String endPeriod;
     private String awpTarget;
-    private String programmeTarget;
+    private String startPeriod;
     private String valueAchieved;
     private String requestedBudget;
     private String actualExpenditure;
+    private String programmeTarget;
     private ComponentDetails component;
-    private MeasurementUnitDetails measurementUnit;
     private PersonRoleDetail implementingPartner;
-    private SubComponentDetails subComponentDetails;
+    private MeasurementUnitDetails measurementUnit;
+    private SubComponentDetails subComponent;
 
 }

@@ -33,24 +33,24 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
             throw new InvalidArgumentException("error_023_01");
         } else if (subComponentDetails.getSubComponent() == null) {
             throw new InvalidArgumentException("error_023_02");
-        } else if (subComponentDetails.getSubComponent().length() > 45) {
+        } else if (subComponentDetails.getSubComponent().length() > 200) {
             throw new InvalidArgumentException("error_023_03");
         } else if (subComponentDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_023_04");
         }
 
         SubComponent subComponent;
-//        q = em.createNamedQuery("SubComponent.findBySubComponentAndComponentId");
-//        q.setParameter("subComponent", subComponentDetails.getSubComponent());
-//        q.setParameter("componentId", subComponentDetails.getComponent().getId());
-//        try {
-//            subComponent = (SubComponent) q.getSingleResult();
-//        } catch (Exception e) {
-//            subComponent = null;
-//        }
-//        if (subComponent != null) {
-//            throw new InvalidArgumentException("error_023_05");
-//        }
+        q = em.createNamedQuery("SubComponent.findBySubComponentAndComponentId");
+        q.setParameter("subComponent", subComponentDetails.getSubComponent());
+        q.setParameter("componentId", subComponentDetails.getComponent().getId());
+        try {
+            subComponent = (SubComponent) q.getSingleResult();
+        } catch (Exception e) {
+            subComponent = null;
+        }
+        if (subComponent != null) {
+            throw new InvalidArgumentException("error_023_05");
+        }
 
         subComponent = new SubComponent();
         subComponent.setSubComponent(subComponentDetails.getSubComponent());
@@ -106,26 +106,26 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
             throw new InvalidArgumentException("error_023_06");
         } else if (subComponentDetails.getSubComponent() == null) {
             throw new InvalidArgumentException("error_023_02");
-        } else if (subComponentDetails.getSubComponent().length() > 45) {
+        } else if (subComponentDetails.getSubComponent().length() > 200) {
             throw new InvalidArgumentException("error_023_03");
         } else if (subComponentDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_023_04");
         }
 
         SubComponent subComponent;
-//        q = em.createNamedQuery("SubComponent.findBySubComponentAndComponentId");
-//        q.setParameter("subComponent", subComponentDetails.getSubComponent());
-//        q.setParameter("componentId", subComponentDetails.getComponent().getId());
-//        try {
-//            subComponent = (SubComponent) q.getSingleResult();
-//        } catch (Exception e) {
-//            subComponent = null;
-//        }
-//        if (subComponent != null) {
-//            if (subComponent.getId().equals(subComponentDetails.getId())) {
-//                throw new InvalidArgumentException("error_023_05");
-//            }
-//        }
+        q = em.createNamedQuery("SubComponent.findBySubComponentAndComponentId");
+        q.setParameter("subComponent", subComponentDetails.getSubComponent());
+        q.setParameter("componentId", subComponentDetails.getComponent().getId());
+        try {
+            subComponent = (SubComponent) q.getSingleResult();
+        } catch (Exception e) {
+            subComponent = null;
+        }
+        if (subComponent != null) {
+            if (subComponent.getId().equals(subComponentDetails.getId())) {
+                throw new InvalidArgumentException("error_023_05");
+            }
+        }
 
         subComponent = em.find(SubComponent.class, subComponentDetails.getId());
         subComponent.setId(subComponentDetails.getId());

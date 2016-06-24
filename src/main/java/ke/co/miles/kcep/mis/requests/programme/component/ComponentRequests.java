@@ -30,7 +30,7 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
             throw new InvalidArgumentException("error_029_01");
         } else if (componentDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_029_02");
-        } else if (componentDetails.getComponent().length() > 45) {
+        } else if (componentDetails.getComponent().length() > 200) {
             throw new InvalidArgumentException("error_029_03");
         }
 
@@ -99,7 +99,7 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
             throw new InvalidArgumentException("error_029_05");
         } else if (componentDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_029_02");
-        } else if (componentDetails.getComponent().length() > 45) {
+        } else if (componentDetails.getComponent().length() > 200) {
             throw new InvalidArgumentException("error_029_03");
         }
 

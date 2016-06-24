@@ -23,7 +23,10 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.programme.ProgrammeRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ComponentDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.ProgrammeDetails;
+import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
 
 /**
  *
@@ -32,8 +35,11 @@ import ke.co.miles.kcep.mis.utilities.ProgrammeDetails;
 @WebServlet(name = "ProgrammeController", urlPatterns = {"/programmes", "/addProgramme", "/doAddProgramme"})
 public class ProgrammeController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -47,7 +53,9 @@ public class ProgrammeController extends Controller {
         String path = request.getServletPath();
         String destination;
 
-        HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
+        @SuppressWarnings("unchecked")
+        HashMap<String, Boolean> rightsMaps
+                = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
@@ -83,7 +91,7 @@ public class ProgrammeController extends Controller {
 
                 case "/head_programmes":
                 case "/region_programmes":
-                    //Retrieve the list of programmes
+
                     List<ProgrammeDetails> programmes;
                     try {
                         programmes = programmeService.retrieveProgrammes();
@@ -92,15 +100,40 @@ public class ProgrammeController extends Controller {
                         return;
                     }
 
-                    //Avail the programmes in the application scope
                     if (programmes != null) {
                         session.setAttribute("programmes", programmes);
                     }
                     break;
-                    
+
                 case "/head_addProgramme":
                 case "/region_addProgramme":
-                    break;
+
+//                    List<PersonRoleDetail> implementingPartners;
+//                    try {
+//                        implementingPartners = programmeService.retrieveProgrammes();
+//                    } catch (MilesException ex) {
+//                        LOGGER.log(Level.SEVERE, "An error occurred during programmes retrieval", ex);
+//                        return;
+//                    }
+//
+//                    if (implementingPartners != null) {
+//                        session.setAttribute("implementingPartners", implementingPartners);
+//                    }
+//
+//                    List<ProgrammeDetails> programmes;
+//                    try {
+//                        programmes = programmeService.retrieveProgrammes();
+//                    } catch (MilesException ex) {
+//                        LOGGER.log(Level.SEVERE, "An error occurred during programmes retrieval", ex);
+//                        return;
+//                    }
+//
+//                    if (programmes != null) {
+//                        session.setAttribute("programmes", programmes);
+//                    }
+//                    break;
+//
+//                    break;
 
                 case "/doAddProgramme":
 
@@ -121,7 +154,6 @@ public class ProgrammeController extends Controller {
                     if (programme.getActivity().equals("null")) {
                         programme.setActivity(null);
                     }
-
                     if (programme.getAwpTarget().equals("null")) {
                         programme.setAwpTarget(null);
                     }
@@ -143,6 +175,31 @@ public class ProgrammeController extends Controller {
                     if (programme.getActualExpenditure().equals("null")) {
                         programme.setActualExpenditure(null);
                     }
+
+                    ComponentDetails component;
+                    try {
+                        component = new ComponentDetails(Integer.valueOf(request.getParameter("component")));
+                    } catch (Exception e) {
+                        component = null;
+                    }
+
+                    SubComponentDetails subComponent;
+                    try {
+                        subComponent
+                                = new SubComponentDetails(Integer.valueOf(request.getParameter("subComponent")));
+                    } catch (Exception e) {
+                        subComponent = null;
+                    }
+
+                    try {
+                        programme.setImplementingPartner(PersonRoleDetail.
+                                getPersonRoleDetail(Integer.valueOf(request.getParameter("implementingPartner"))));
+                    } catch (Exception e) {
+                        programme.setImplementingPartner(null);
+                    }
+
+                    programme.setComponent(component);
+                    programme.setSubComponent(subComponent);
 
                     try {
                         programmeService.addProgramme(programme);
