@@ -14,6 +14,8 @@ import java.util.Date;
  */
 public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public EVoucherDetails() {
     }
 
@@ -83,7 +85,7 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
             return false;
         }
         EVoucherDetails other = (EVoucherDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

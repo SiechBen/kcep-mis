@@ -39,6 +39,7 @@
                                 <div class="form-group">
                                     Trainers
                                     <select id="trainer" name="trainer" class="form-control" onchange="addToTrainers()">
+                                        <option selected>Select trainer</option>
                                         <c:forEach var="training" items="${sessionScope.people}" varStatus="index"> 
                                             <option value="${training.id}">${training.name}</option>
                                         </c:forEach>

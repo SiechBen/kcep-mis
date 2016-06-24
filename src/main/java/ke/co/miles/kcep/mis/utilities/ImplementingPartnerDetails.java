@@ -11,39 +11,31 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class InputTypeDetails implements Serializable, Comparable<InputTypeDetails> {
+public class ImplementingPartnerDetails implements Serializable, Comparable<ImplementingPartnerDetails> {
 
     private static final long serialVersionUID = 1L;
 
-    public InputTypeDetails() {
+    public ImplementingPartnerDetails() {
     }
 
-    public InputTypeDetails(Integer id) {
+    public ImplementingPartnerDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public PersonRoleDetail getPersonRole() {
+        return personRole;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public StaticInputDetails getStaticInput() {
-        return staticInput;
-    }
-
-    public void setStaticInput(StaticInputDetails staticInput) {
-        this.staticInput = staticInput;
+    public void setPersonRole(PersonRoleDetail personRole) {
+        this.personRole = personRole;
     }
 
     @Override
@@ -56,25 +48,24 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InputTypeDetails)) {
+        if (!(object instanceof ImplementingPartnerDetails)) {
             return false;
         }
-        InputTypeDetails other = (InputTypeDetails) object;
+        ImplementingPartnerDetails other = (ImplementingPartnerDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.InputType[ type=" + type + " ]";
+        return "ke.co.miles.kcep.mis.entities.ImplementingPartner[ id=" + id + " ]";
     }
 
     @Override
-    public int compareTo(InputTypeDetails o) {
+    public int compareTo(ImplementingPartnerDetails o) {
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
-    private String type;
-    private StaticInputDetails staticInput;
+    private Short id;
+    private PersonRoleDetail personRole;
 
 }

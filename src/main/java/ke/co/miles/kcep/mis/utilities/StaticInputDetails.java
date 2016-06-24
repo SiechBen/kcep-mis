@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class StaticInputDetails implements Serializable, Comparable<StaticInputDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public StaticInputDetails() {
     }
 
@@ -50,7 +52,7 @@ public class StaticInputDetails implements Serializable, Comparable<StaticInputD
             return false;
         }
         StaticInputDetails other = (StaticInputDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

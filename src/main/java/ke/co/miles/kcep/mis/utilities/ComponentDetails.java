@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class ComponentDetails implements Serializable, Comparable<ComponentDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public ComponentDetails() {
     }
 
@@ -50,7 +52,7 @@ public class ComponentDetails implements Serializable, Comparable<ComponentDetai
             return false;
         }
         ComponentDetails other = (ComponentDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

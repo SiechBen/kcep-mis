@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class DisseminationOfResultsDetails implements Serializable, Comparable<DisseminationOfResultsDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public DisseminationOfResultsDetails() {
     }
 
@@ -66,7 +68,7 @@ public class DisseminationOfResultsDetails implements Serializable, Comparable<D
             return false;
         }
         DisseminationOfResultsDetails other = (DisseminationOfResultsDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

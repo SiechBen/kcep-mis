@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class ExtensionMaterialAndGuidelineDetails implements Serializable, Comparable<ExtensionMaterialAndGuidelineDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public ExtensionMaterialAndGuidelineDetails() {
     }
 
@@ -58,7 +60,7 @@ public class ExtensionMaterialAndGuidelineDetails implements Serializable, Compa
             return false;
         }
         ExtensionMaterialAndGuidelineDetails other = (ExtensionMaterialAndGuidelineDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

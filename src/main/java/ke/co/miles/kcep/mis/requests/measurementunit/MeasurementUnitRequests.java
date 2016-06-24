@@ -66,9 +66,24 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<MeasurementUnitDetails> retrieveMeasurementUnits() throws MilesException {
         List<MeasurementUnit> measurementUnits = new ArrayList<>();
         q = em.createNamedQuery("MeasurementUnit.findAll");
+        try {
+            measurementUnits = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertMeasurementUnitsToMeasurementUnitDetailsList(measurementUnits);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<MeasurementUnitDetails> retrieveProgrammeMeasurementUnits() throws MilesException {
+        List<MeasurementUnit> measurementUnits = new ArrayList<>();
+        q = em.createNamedQuery("MeasurementUnit.findByUsage");
+        q.setParameter("usage", "Programme");
         try {
             measurementUnits = q.getResultList();
         } catch (Exception e) {

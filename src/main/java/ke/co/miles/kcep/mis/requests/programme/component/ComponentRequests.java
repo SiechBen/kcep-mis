@@ -63,7 +63,7 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    public List<ComponentDetails> retrieveCounties() throws MilesException {
+    public List<ComponentDetails> retrieveComponents() throws MilesException {
         List<Component> components = new ArrayList<>();
         q = em.createNamedQuery("Component.findAll");
         try {
@@ -71,7 +71,7 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
         } catch (Exception e) {
         }
 
-        return convertCountiesToComponentDetailsList(components);
+        return convertComponentsToComponentDetailsList(components);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
 
     }
 
-    private List<ComponentDetails> convertCountiesToComponentDetailsList(List<Component> components) {
+    private List<ComponentDetails> convertComponentsToComponentDetailsList(List<Component> components) {
 
         List<ComponentDetails> componentDetailsList = new ArrayList<>();
         for (Component component : components) {

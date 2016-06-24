@@ -14,12 +14,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -28,65 +28,39 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "component", catalog = "kcep_mis", schema = "")
+@Table(name = "implementing_partner", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Component.findAll", query = "SELECT c FROM Component c"),
-    @NamedQuery(name = "Component.findById", query = "SELECT c FROM Component c WHERE c.id = :id"),
-    @NamedQuery(name = "Component.findByComponent", query = "SELECT c FROM Component c WHERE c.component = :component")})
-public class Component implements Serializable {
+    @NamedQuery(name = "ImplementingPartner.findByPersonRoleId", query = "SELECT i FROM ImplementingPartner i WHERE i.personRole.id = :personRoleId"),
+    @NamedQuery(name = "ImplementingPartner.findAll", query = "SELECT i FROM ImplementingPartner i"),
+    @NamedQuery(name = "ImplementingPartner.findById", query = "SELECT i FROM ImplementingPartner i WHERE i.id = :id")})
+public class ImplementingPartner implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
-    @Column(name = "component")
-    private String component;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
-    private List<SubComponent> subComponentList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
+    private Short id;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementingPartner")
     private List<Programme> programmeList;
+    @JoinColumn(name = "person_role", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private PersonRole personRole;
 
-    public Component() {
+    public ImplementingPartner() {
     }
 
-    public Component(Integer id) {
+    public ImplementingPartner(Short id) {
         this.id = id;
     }
 
-    public Component(Integer id, String component) {
-        this.id = id;
-        this.component = component;
-    }
-
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
-    }
-
-    public String getComponent() {
-        return component;
-    }
-
-    public void setComponent(String component) {
-        this.component = component;
-    }
-
-    @XmlTransient
-    public List<SubComponent> getSubComponentList() {
-        return subComponentList;
-    }
-
-    public void setSubComponentList(List<SubComponent> subComponentList) {
-        this.subComponentList = subComponentList;
     }
 
     @XmlTransient
@@ -96,6 +70,14 @@ public class Component implements Serializable {
 
     public void setProgrammeList(List<Programme> programmeList) {
         this.programmeList = programmeList;
+    }
+
+    public PersonRole getPersonRole() {
+        return personRole;
+    }
+
+    public void setPersonRole(PersonRole personRole) {
+        this.personRole = personRole;
     }
 
     @Override
@@ -108,10 +90,10 @@ public class Component implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Component)) {
+        if (!(object instanceof ImplementingPartner)) {
             return false;
         }
-        Component other = (Component) object;
+        ImplementingPartner other = (ImplementingPartner) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -120,7 +102,7 @@ public class Component implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Component[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.ImplementingPartner[ id=" + id + " ]";
     }
     
 }

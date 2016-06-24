@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "PersonRole.findAll", query = "SELECT p FROM PersonRole p"),
     @NamedQuery(name = "PersonRole.findById", query = "SELECT p FROM PersonRole p WHERE p.id = :id"),
-    @NamedQuery(name = "PersonRole.findByPersonRole", query = "SELECT p FROM PersonRole p WHERE p.personRole = :personRole"),
-    @NamedQuery(name = "PersonRole.findByImplementingPartner", query = "SELECT p FROM PersonRole p WHERE p.implementingPartner = :implementingPartner")})
+    @NamedQuery(name = "PersonRole.findByPersonRole", query = "SELECT p FROM PersonRole p WHERE p.personRole = :personRole")})
 public class PersonRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,12 +47,10 @@ public class PersonRole implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "person_role")
     private String personRole;
-    @Column(name = "implementing_partner")
-    private Boolean implementingPartner;
     @OneToMany(mappedBy = "categoryOfTrainees")
     private List<Training> trainingList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementingPartner")
-    private List<Programme> programmeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
+    private List<ImplementingPartner> implementingPartnerList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
     private List<UserAccount> userAccountList;
 
@@ -85,14 +82,6 @@ public class PersonRole implements Serializable {
         this.personRole = personRole;
     }
 
-    public Boolean getImplementingPartner() {
-        return implementingPartner;
-    }
-
-    public void setImplementingPartner(Boolean implementingPartner) {
-        this.implementingPartner = implementingPartner;
-    }
-
     @XmlTransient
     public List<Training> getTrainingList() {
         return trainingList;
@@ -103,12 +92,12 @@ public class PersonRole implements Serializable {
     }
 
     @XmlTransient
-    public List<Programme> getProgrammeList() {
-        return programmeList;
+    public List<ImplementingPartner> getImplementingPartnerList() {
+        return implementingPartnerList;
     }
 
-    public void setProgrammeList(List<Programme> programmeList) {
-        this.programmeList = programmeList;
+    public void setImplementingPartnerList(List<ImplementingPartner> implementingPartnerList) {
+        this.implementingPartnerList = implementingPartnerList;
     }
 
     @XmlTransient

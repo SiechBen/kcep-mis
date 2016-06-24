@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class SoilFertilityPackageDetails implements Serializable, Comparable<SoilFertilityPackageDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public SoilFertilityPackageDetails() {
     }
 
@@ -82,7 +84,7 @@ public class SoilFertilityPackageDetails implements Serializable, Comparable<Soi
             return false;
         }
         SoilFertilityPackageDetails other = (SoilFertilityPackageDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

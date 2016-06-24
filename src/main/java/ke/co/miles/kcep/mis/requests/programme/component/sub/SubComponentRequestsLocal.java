@@ -32,7 +32,7 @@ public interface SubComponentRequestsLocal {
      * @return the list of sub-component record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<SubComponentDetails> retrieveSubCounties() throws MilesException;
+    public List<SubComponentDetails> retrieveSubComponents() throws MilesException;
 
     /**
      *

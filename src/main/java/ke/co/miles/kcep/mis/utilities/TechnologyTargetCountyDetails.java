@@ -5,14 +5,16 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
 import java.io.Serializable;
+import ke.co.miles.kcep.mis.entities.*;
 
 /**
  *
  * @author siech
  */
 public class TechnologyTargetCountyDetails implements Serializable, Comparable<TechnologyTargetCountyDetails> {
+
+    private static final long serialVersionUID = 1L;
 
     public TechnologyTargetCountyDetails() {
     }
@@ -67,7 +69,7 @@ public class TechnologyTargetCountyDetails implements Serializable, Comparable<T
             return false;
         }
         TechnologyTargetCountyDetails other = (TechnologyTargetCountyDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

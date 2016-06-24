@@ -14,6 +14,8 @@ import java.io.Serializable;
  */
 public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public ProgrammeDetails() {
     }
 
@@ -115,7 +117,7 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
             return false;
         }
         ProgrammeDetails other = (ProgrammeDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
@@ -159,14 +161,14 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     /**
      * @return the implementingPartner
      */
-    public PersonRoleDetail getImplementingPartner() {
+    public ImplementingPartnerDetails getImplementingPartner() {
         return implementingPartner;
     }
 
     /**
      * @param implementingPartner the implementingPartner to set
      */
-    public void setImplementingPartner(PersonRoleDetail implementingPartner) {
+    public void setImplementingPartner(ImplementingPartnerDetails implementingPartner) {
         this.implementingPartner = implementingPartner;
     }
 
@@ -195,8 +197,8 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     private String actualExpenditure;
     private String programmeTarget;
     private ComponentDetails component;
-    private PersonRoleDetail implementingPartner;
-    private MeasurementUnitDetails measurementUnit;
     private SubComponentDetails subComponent;
+    private MeasurementUnitDetails measurementUnit;
+    private ImplementingPartnerDetails implementingPartner;
 
 }

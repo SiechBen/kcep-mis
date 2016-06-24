@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class DesignationInGroupDetails implements Serializable, Comparable<DesignationInGroupDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public DesignationInGroupDetails() {
     }
 
@@ -55,7 +57,7 @@ public class DesignationInGroupDetails implements Serializable, Comparable<Desig
             return false;
         }
         DesignationInGroupDetails other = (DesignationInGroupDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

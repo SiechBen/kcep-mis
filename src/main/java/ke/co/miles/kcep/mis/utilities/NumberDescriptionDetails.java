@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class NumberDescriptionDetails implements Serializable, Comparable<NumberDescriptionDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public NumberDescriptionDetails() {
     }
 
@@ -50,7 +52,7 @@ public class NumberDescriptionDetails implements Serializable, Comparable<Number
             return false;
         }
         NumberDescriptionDetails other = (NumberDescriptionDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

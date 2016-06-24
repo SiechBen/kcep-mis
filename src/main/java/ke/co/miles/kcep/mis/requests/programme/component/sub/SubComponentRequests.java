@@ -70,7 +70,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    public List<SubComponentDetails> retrieveSubCounties() throws MilesException {
+    public List<SubComponentDetails> retrieveSubComponents() throws MilesException {
         List<SubComponent> subComponents = new ArrayList<>();
         q = em.createNamedQuery("SubComponent.findAll");
         try {

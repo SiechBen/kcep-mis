@@ -23,7 +23,8 @@ public enum PersonRoleDetail implements Serializable {
     KALRO_OFFICER(new Integer("8"), "KALRO Officer"),
     SYSTEM_ADMIN(new Integer("9"), "System Admin"),
     EQUITY_OFFICER(new Integer("10"), "Equity"),
-    WAREHOUSE_OPERATOR(new Integer("11"), "Warehouse Operator");
+    WAREHOUSE_OPERATOR(new Integer("11"), "Warehouse Operator"),
+    AGMARK(new Integer("12"), "Agmark");
 
     private PersonRoleDetail(Integer id, String personRole) {
         this.id = id;

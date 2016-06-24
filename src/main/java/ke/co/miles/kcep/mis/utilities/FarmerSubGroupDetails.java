@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class FarmerSubGroupDetails implements Serializable, Comparable<FarmerSubGroupDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public FarmerSubGroupDetails() {
     }
 
@@ -50,7 +52,7 @@ public class FarmerSubGroupDetails implements Serializable, Comparable<FarmerSub
             return false;
         }
         FarmerSubGroupDetails other = (FarmerSubGroupDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

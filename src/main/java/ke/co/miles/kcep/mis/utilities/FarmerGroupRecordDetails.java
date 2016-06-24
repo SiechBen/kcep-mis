@@ -5,15 +5,17 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
 import java.io.Serializable;
 import java.util.Date;
+import ke.co.miles.kcep.mis.entities.*;
 
 /**
  *
  * @author siech
  */
 public class FarmerGroupRecordDetails implements Serializable, Comparable<FarmerGroupRecordDetails> {
+
+    private static final long serialVersionUID = 1L;
 
     public FarmerGroupRecordDetails() {
     }
@@ -100,7 +102,7 @@ public class FarmerGroupRecordDetails implements Serializable, Comparable<Farmer
             return false;
         }
         FarmerGroupRecordDetails other = (FarmerGroupRecordDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

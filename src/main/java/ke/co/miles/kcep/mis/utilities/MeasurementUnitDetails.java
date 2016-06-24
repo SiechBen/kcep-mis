@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class MeasurementUnitDetails implements Serializable, Comparable<MeasurementUnitDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public MeasurementUnitDetails() {
     }
 
@@ -50,7 +52,7 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
             return false;
         }
         MeasurementUnitDetails other = (MeasurementUnitDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOfFarmersDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public NumberOfFarmersDetails() {
     }
 
@@ -82,7 +84,7 @@ public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOf
             return false;
         }
         NumberOfFarmersDetails other = (NumberOfFarmersDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

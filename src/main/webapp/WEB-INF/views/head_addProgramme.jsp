@@ -42,8 +42,11 @@
                                 </div>
                                 <div class="form-group">
                                     Unit
-                                    <input id="unit" class="form-control">
-                                </div>
+                                 <select id="unit" class="form-control">
+                                        <c:forEach var="measurementUnit" items="${sessionScope.programmeMeasurementUnits}">
+                                            <option value="${measurementUnit.id}">${measurementUnit.unit}</option>
+                                        </c:forEach>
+                                    </select>     </div>
                                 <div class="form-group">
                                     AWP target
                                     <input id="awp-target" class="form-control">
@@ -67,15 +70,15 @@
                                 <div class="form-group">
                                     Implementing partner
                                     <select id="implementing-partner" class="form-control">
-                                        <c:forEach var="implementingPartner}" items="${sessionScope.implementingPartners}">
-                                            <option value="${implementingPartner.id}">${implementingPartner.personRole}</option>
+                                        <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}">
+                                            <option value="${implementingPartner.id}">${implementingPartner.personRole.personRole}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     Component
                                     <select id="component" class="form-control">
-                                        <c:forEach var="component}" items="${sessionScope.components}">
+                                        <c:forEach var="component" items="${sessionScope.components}">
                                             <option value="${component.id}">${component.component}</option>
                                         </c:forEach>
                                     </select>
@@ -83,7 +86,8 @@
                                 <div class="form-group">
                                     Sub-component
                                     <select id="sub-component" class="form-control">
-                                        <c:forEach var="subComponent}" items="${sessionScope.subComponents}">
+                                        <option selected>Select sub-component</option>
+                                        <c:forEach var="subComponent" items="${sessionScope.subComponents}">
                                             <option value="${subComponent.id}">${subComponent.subComponent}</option>
                                         </c:forEach>
                                     </select>

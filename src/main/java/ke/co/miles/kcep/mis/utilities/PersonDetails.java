@@ -14,6 +14,8 @@ import java.util.Date;
  */
 public class PersonDetails implements Serializable, Comparable<PersonDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public PersonDetails() {
     }
 
@@ -119,7 +121,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
             return false;
         }
         PersonDetails other = (PersonDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class SubCountyDetails implements Serializable, Comparable<SubCountyDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public SubCountyDetails() {
     }
 
@@ -58,7 +60,7 @@ public class SubCountyDetails implements Serializable, Comparable<SubCountyDetai
             return false;
         }
         SubCountyDetails other = (SubCountyDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

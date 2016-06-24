@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class ProcurementDetails implements Serializable, Comparable<ProcurementDetails> {
 
+    private static final long serialVersionUID = 1L;
+
     public ProcurementDetails() {
     }
 
@@ -122,7 +124,7 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
             return false;
         }
         ProcurementDetails other = (ProcurementDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

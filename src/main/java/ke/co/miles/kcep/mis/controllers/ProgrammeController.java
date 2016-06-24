@@ -22,9 +22,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.ProgrammeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.component.ComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.component.sub.SubComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
+import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.ProgrammeDetails;
 import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
 
@@ -108,32 +113,55 @@ public class ProgrammeController extends Controller {
                 case "/head_addProgramme":
                 case "/region_addProgramme":
 
-//                    List<PersonRoleDetail> implementingPartners;
-//                    try {
-//                        implementingPartners = programmeService.retrieveProgrammes();
-//                    } catch (MilesException ex) {
-//                        LOGGER.log(Level.SEVERE, "An error occurred during programmes retrieval", ex);
-//                        return;
-//                    }
-//
-//                    if (implementingPartners != null) {
-//                        session.setAttribute("implementingPartners", implementingPartners);
-//                    }
-//
-//                    List<ProgrammeDetails> programmes;
-//                    try {
-//                        programmes = programmeService.retrieveProgrammes();
-//                    } catch (MilesException ex) {
-//                        LOGGER.log(Level.SEVERE, "An error occurred during programmes retrieval", ex);
-//                        return;
-//                    }
-//
-//                    if (programmes != null) {
-//                        session.setAttribute("programmes", programmes);
-//                    }
-//                    break;
-//
-//                    break;
+                    List<MeasurementUnitDetails> programmeMeasurementUnits;
+                    try {
+                        programmeMeasurementUnits = measurementUnitService.retrieveProgrammeMeasurementUnits();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
+                        return;
+                    }
+
+                    if (programmeMeasurementUnits != null) {
+                        session.setAttribute("programmeMeasurementUnits", programmeMeasurementUnits);
+                    }
+                    
+                    List<ImplementingPartnerDetails> implementingPartners;
+                    try {
+                        implementingPartners = implementingPartnerService.retrieveImplementingPartners();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of implementing partners", ex);
+                        return;
+                    }
+
+                    if (implementingPartners != null) {
+                        session.setAttribute("implementingPartners", implementingPartners);
+                    }
+
+                    List<ComponentDetails> components;
+                    try {
+                        components = componentService.retrieveComponents();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of components", ex);
+                        return;
+                    }
+
+                    if (components != null) {
+                        session.setAttribute("components", components);
+                    }
+
+                    List<SubComponentDetails> subComponents;
+                    try {
+                        subComponents = subComponentService.retrieveSubComponents();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-components", ex);
+                        return;
+                    }
+
+                    if (subComponents != null) {
+                        session.setAttribute("subComponents", subComponents);
+                    }
+
+                    break;
 
                 case "/doAddProgramme":
 
@@ -191,15 +219,17 @@ public class ProgrammeController extends Controller {
                         subComponent = null;
                     }
 
+                    ImplementingPartnerDetails implementingPartner;
                     try {
-                        programme.setImplementingPartner(PersonRoleDetail.
-                                getPersonRoleDetail(Integer.valueOf(request.getParameter("implementingPartner"))));
+                        implementingPartner = new ImplementingPartnerDetails(
+                                Short.valueOf(request.getParameter("implementingPartner")));
                     } catch (Exception e) {
-                        programme.setImplementingPartner(null);
+                        implementingPartner = null;
                     }
 
                     programme.setComponent(component);
                     programme.setSubComponent(subComponent);
+                    programme.setImplementingPartner(implementingPartner);
 
                     try {
                         programmeService.addProgramme(programme);
@@ -235,7 +265,16 @@ public class ProgrammeController extends Controller {
     }
 
     private static final Logger LOGGER = Logger.getLogger(ProgrammeController.class.getSimpleName());
+
+    @EJB
+    private ComponentRequestsLocal componentService;
     @EJB
     private ProgrammeRequestsLocal programmeService;
+    @EJB
+    private SubComponentRequestsLocal subComponentService;
+    @EJB
+    private MeasurementUnitRequestsLocal measurementUnitService;
+    @EJB
+    private ImplementingPartnerRequestsLocal implementingPartnerService;
 
 }

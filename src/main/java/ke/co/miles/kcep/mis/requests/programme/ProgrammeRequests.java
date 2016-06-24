@@ -11,15 +11,15 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Component;
-import ke.co.miles.kcep.mis.entities.PersonRole;
+import ke.co.miles.kcep.mis.entities.ImplementingPartner;
 import ke.co.miles.kcep.mis.entities.Programme;
 import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.sub.SubComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ProgrammeDetails;
 
 /**
@@ -52,7 +52,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setProgrammeTarget(programmeDetails.getProgrammeTarget());
         programme.setActualExpenditure(programmeDetails.getActualExpenditure());
         programme.setComponent(em.find(Component.class, programmeDetails.getComponent().getId()));
-        programme.setImplementingPartner(em.find(PersonRole.class, programmeDetails.getImplementingPartner().getId()));
+        programme.setImplementingPartner(em.find(ImplementingPartner.class, programmeDetails.getImplementingPartner().getId()));
         if (programmeDetails.getSubComponent() != null) {
             programme.setSubComponent(em.find(SubComponent.class, programmeDetails.getSubComponent().getId()));
         }
@@ -124,7 +124,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setProgrammeTarget(programmeDetails.getProgrammeTarget());
         programme.setActualExpenditure(programmeDetails.getActualExpenditure());
         programme.setComponent(em.find(Component.class, programmeDetails.getComponent().getId()));
-        programme.setImplementingPartner(em.find(PersonRole.class, programmeDetails.getImplementingPartner().getId()));
+        programme.setImplementingPartner(em.find(ImplementingPartner.class, programmeDetails.getImplementingPartner().getId()));
         if (programmeDetails.getSubComponent() != null) {
             programme.setSubComponent(em.find(SubComponent.class, programmeDetails.getSubComponent().getId()));
         }
@@ -166,8 +166,8 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programmeDetails.setActualExpenditure(programme.getActualExpenditure());
         programmeDetails.setComponent(componentService.
                 convertComponentToComponentDetails(programme.getComponent()));
-        programmeDetails.setImplementingPartner(personRoleService.
-                convertPersonRoleToPersonRoleDetail(programme.getImplementingPartner()));
+        programmeDetails.setImplementingPartner(implementingPartnerService.
+                convertImplementingPartnerToImplementingPartnerDetails(programme.getImplementingPartner()));
         if (programme.getSubComponent() != null) {
             programmeDetails.setSubComponent(subComponentService.
                     convertSubComponentToSubComponentDetails(programme.getSubComponent()));
@@ -192,7 +192,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB
-    private PersonRoleRequestsLocal personRoleService;
+    private ImplementingPartnerRequestsLocal implementingPartnerService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
 }

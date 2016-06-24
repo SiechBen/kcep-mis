@@ -58,7 +58,7 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
             return false;
         }
         SubComponentDetails other = (SubComponentDetails) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override

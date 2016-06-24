@@ -85,12 +85,12 @@ public class Programme implements Serializable {
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private MeasurementUnit measurementUnit;
+    @JoinColumn(name = "sub_component", referencedColumnName = "id")
+    @ManyToOne
+    private SubComponent subComponent;
     @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private PersonRole implementingPartner;
-    @JoinColumn(name = "sub_component", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private SubComponent subComponent;
+    private ImplementingPartner implementingPartner;
 
     public Programme() {
     }
@@ -203,20 +203,20 @@ public class Programme implements Serializable {
         this.measurementUnit = measurementUnit;
     }
 
-    public PersonRole getImplementingPartner() {
-        return implementingPartner;
-    }
-
-    public void setImplementingPartner(PersonRole implementingPartner) {
-        this.implementingPartner = implementingPartner;
-    }
-
     public SubComponent getSubComponent() {
         return subComponent;
     }
 
     public void setSubComponent(SubComponent subComponent) {
         this.subComponent = subComponent;
+    }
+
+    public ImplementingPartner getImplementingPartner() {
+        return implementingPartner;
+    }
+
+    public void setImplementingPartner(ImplementingPartner implementingPartner) {
+        this.implementingPartner = implementingPartner;
     }
 
     @Override

@@ -32,7 +32,7 @@ public interface ComponentRequestsLocal {
      * @return the list of component record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<ComponentDetails> retrieveCounties() throws MilesException;
+    public List<ComponentDetails> retrieveComponents() throws MilesException;
 
     /**
      *
