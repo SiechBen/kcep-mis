@@ -42,11 +42,14 @@
                                 </div>
                                 <div class="form-group">
                                     Unit
-                                    <input id="unit" class="form-control">
-                                </div>
+                                    <select id="measurement-unit" class="form-control">
+                                        <c:forEach var="programmeMeasurementUnit" items="${sessionScope.programmeMeasurementUnits}">
+                                            <option value="${programmeMeasurementUnit.id}">${programmeMeasurementUnit.unit}</option>
+                                        </c:forEach>
+                                    </select>     </div>
                                 <div class="form-group">
-                                    AWP target
-                                    <input id="awp-target" class="form-control">
+                                    Annual Work Plans and Budgets(AWPB) target
+                                    <input id="awpb-target" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     Programme target
@@ -63,6 +66,31 @@
                                 <div class="form-group">
                                     Actual expenditure
                                     <input id="actual-expenditure" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    Implementing partner
+                                    <select id="implementing-partner" class="form-control">
+                                        <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}">
+                                            <option value="${implementingPartner.id}">${implementingPartner.personRole.personRole}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    Component
+                                    <select id="component" class="form-control">
+                                        <c:forEach var="component" items="${sessionScope.components}">
+                                            <option value="${component.id}">${component.component}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    Sub-component
+                                    <select id="sub-component" class="form-control">
+                                        <option selected>Select sub-component</option>
+                                        <c:forEach var="subComponent" items="${sessionScope.subComponents}">
+                                            <option value="${subComponent.id}">${subComponent.subComponent}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                                 <button type="button" class="btn btn-outline btn-primary" onclick="addProgramme()">Save programme</button>
                             </form>

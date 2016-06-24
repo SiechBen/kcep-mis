@@ -42,14 +42,14 @@
                                 </div>
                                 <div class="form-group">
                                     Unit
-                                 <select id="measurementUnit" class="form-control">
+                                 <select id="measurement-unit" class="form-control">
                                         <c:forEach var="programmeMeasurementUnit" items="${sessionScope.programmeMeasurementUnits}">
                                             <option value="${programmeMeasurementUnit.id}">${programmeMeasurementUnit.unit}</option>
                                         </c:forEach>
                                     </select>     </div>
                                 <div class="form-group">
-                                    AWP target
-                                    <input id="awp-target" class="form-control">
+                                    Annual Work Plans and Budgets(AWPB) target
+                                    <input id="awpb-target" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     Programme target

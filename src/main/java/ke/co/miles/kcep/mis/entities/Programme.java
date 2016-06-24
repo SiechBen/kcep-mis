@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Programme.findById", query = "SELECT p FROM Programme p WHERE p.id = :id"),
     @NamedQuery(name = "Programme.findByStartPeriod", query = "SELECT p FROM Programme p WHERE p.startPeriod = :startPeriod"),
     @NamedQuery(name = "Programme.findByEndPeriod", query = "SELECT p FROM Programme p WHERE p.endPeriod = :endPeriod"),
-    @NamedQuery(name = "Programme.findByUnit", query = "SELECT p FROM Programme p WHERE p.unit = :unit"),
-    @NamedQuery(name = "Programme.findByAwpTarget", query = "SELECT p FROM Programme p WHERE p.awpTarget = :awpTarget"),
+    @NamedQuery(name = "Programme.findByAwpbTarget", query = "SELECT p FROM Programme p WHERE p.awpbTarget = :awpbTarget"),
     @NamedQuery(name = "Programme.findByProgrammeTarget", query = "SELECT p FROM Programme p WHERE p.programmeTarget = :programmeTarget"),
     @NamedQuery(name = "Programme.findByValueAchieved", query = "SELECT p FROM Programme p WHERE p.valueAchieved = :valueAchieved"),
     @NamedQuery(name = "Programme.findByRequestedBudget", query = "SELECT p FROM Programme p WHERE p.requestedBudget = :requestedBudget"),
@@ -58,11 +57,8 @@ public class Programme implements Serializable {
     @Column(name = "end_period")
     private String endPeriod;
     @Size(max = 45)
-    @Column(name = "unit")
-    private String unit;
-    @Size(max = 45)
-    @Column(name = "awp_target")
-    private String awpTarget;
+    @Column(name = "awpb_target")
+    private String awpbTarget;
     @Size(max = 45)
     @Column(name = "programme_target")
     private String programmeTarget;
@@ -75,14 +71,11 @@ public class Programme implements Serializable {
     @Size(max = 45)
     @Column(name = "actual_expenditure")
     private String actualExpenditure;
-//    @Size(max = 45)
-//    @Column(name = "programmecol")
-//    private String programmecol;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private MeasurementUnit measurementUnit;
     @JoinColumn(name = "sub_component", referencedColumnName = "id")
     @ManyToOne
@@ -130,20 +123,12 @@ public class Programme implements Serializable {
         this.endPeriod = endPeriod;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getAwpbTarget() {
+        return awpbTarget;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public String getAwpTarget() {
-        return awpTarget;
-    }
-
-    public void setAwpTarget(String awpTarget) {
-        this.awpTarget = awpTarget;
+    public void setAwpbTarget(String awpbTarget) {
+        this.awpbTarget = awpbTarget;
     }
 
     public String getProgrammeTarget() {

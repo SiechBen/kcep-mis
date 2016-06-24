@@ -55,11 +55,11 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
         this.endPeriod = endPeriod;
     }
 
-    public String getAwpTarget() {
+    public String getAwpbTarget() {
         return awpTarget;
     }
 
-    public void setAwpTarget(String awpTarget) {
+    public void setAwpbTarget(String awpTarget) {
         this.awpTarget = awpTarget;
     }
 

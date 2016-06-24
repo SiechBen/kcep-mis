@@ -38,11 +38,14 @@
                                             <th>Start period</th>
                                             <th>End period</th>
                                             <th>Unit</th>
-                                            <th>AWP target</th>
+                                            <th>AWPB target</th>
                                             <th>Programme target</th>
                                             <th>Value achieved</th>
                                             <th>Requested budget</th>
                                             <th>Actual expenditure</th>
+                                            <th>Implementing partner</th>
+                                            <th>Component</th>
+                                            <th>Sub-component</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -57,12 +60,15 @@
                                                 <td>${programme.activity}</td>
                                                 <td>${programme.startPeriod}</td>
                                                 <td>${programme.endPeriod}</td>
-                                                <td>${programme.unit}</td>
-                                                <td>${programme.awpTarget}</td>
+                                                <td>${programme.measurementUnit.unit}</td>
+                                                <td>${programme.awpbTarget}</td>
                                                 <td>${programme.programmeTarget}</td>
                                                 <td>${programme.valueAchieved}</td>
                                                 <td>${programme.requestedBudget}</td>
                                                 <td>${programme.actualExpenditure}</td>
+                                                <td>${programme.implementingPartner.personRole.personRole}</td>
+                                                <td>${programme.component.component}</td>
+                                                <td>${programme.subComponent.subComponent}</td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -77,8 +83,6 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-
-
         </div>
         <!-- /#page-wrapper -->
 

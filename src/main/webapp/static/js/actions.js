@@ -1055,15 +1055,15 @@ function addProgramme() {
         type: "POST",
         data: "activity=" + $("#activity").val() + "&implementingPartner=" + $("#implementing-partner").val() +
                 "&endPeriod=" + $("#end-period").val() + "&requestedBudget=" + $("#requested-budget").val() +
-                "&awpTarget=" + $("#awp-target").val() + "&programmeTarget=" + $("#programme-target").val() +
+                "&awpbTarget=" + $("#awpb-target").val() + "&programmeTarget=" + $("#programme-target").val() +
                 "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
                 "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
-                "&unit=" + $("#unit").val() + "&actualExpenditure=" + $("#actual-expenditure").val(),
+                "&measurementUnit=" + $("#measurement-unit").val() + "&actualExpenditure=" + $("#actual-expenditure").val(),
         success: function () {
 
-            $("#unit").val("");
+            $("#measurement-unit").val("");
             $("#activity").val("");
-            $("#awp-target").val("");
+            $("#awpb-target").val("");
             $("#component").val("");
             $("#end-period").val("");
             $("#start-period").val("");

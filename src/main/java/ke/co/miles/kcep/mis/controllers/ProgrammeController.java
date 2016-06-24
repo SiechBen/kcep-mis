@@ -167,7 +167,7 @@ public class ProgrammeController extends Controller {
 
                     ProgrammeDetails programme = new ProgrammeDetails();
                     programme.setActivity(String.valueOf(request.getParameter("activity")));
-                    programme.setAwpTarget(String.valueOf(request.getParameter("awpTarget")));
+                    programme.setAwpbTarget(String.valueOf(request.getParameter("awpbTarget")));
                     programme.setEndPeriod(String.valueOf(request.getParameter("endPeriod")));
                     programme.setStartPeriod(String.valueOf(request.getParameter("startPeriod")));
                     programme.setValueAchieved(String.valueOf(request.getParameter("valueAchieved")));
@@ -178,8 +178,8 @@ public class ProgrammeController extends Controller {
                     if (programme.getActivity().equals("null")) {
                         programme.setActivity(null);
                     }
-                    if (programme.getAwpTarget().equals("null")) {
-                        programme.setAwpTarget(null);
+                    if (programme.getAwpbTarget().equals("null")) {
+                        programme.setAwpbTarget(null);
                     }
                     if (programme.getEndPeriod().equals("null")) {
                         programme.setEndPeriod(null);
@@ -232,6 +232,7 @@ public class ProgrammeController extends Controller {
 
                     programme.setComponent(component);
                     programme.setSubComponent(subComponent);
+                    programme.setMeasurementUnit(measurementUnit);
                     programme.setImplementingPartner(implementingPartner);
 
                     try {

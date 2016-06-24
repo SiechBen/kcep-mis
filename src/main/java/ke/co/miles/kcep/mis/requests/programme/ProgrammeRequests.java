@@ -46,7 +46,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         Programme programme = new Programme();
         programme.setActivity(programmeDetails.getActivity());
         programme.setEndPeriod(programmeDetails.getEndPeriod());
-        programme.setAwpTarget(programmeDetails.getAwpTarget());
+        programme.setAwpbTarget(programmeDetails.getAwpbTarget());
         programme.setStartPeriod(programmeDetails.getStartPeriod());
         programme.setValueAchieved(programmeDetails.getValueAchieved());
         programme.setRequestedBudget(programmeDetails.getRequestedBudget());
@@ -120,7 +120,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setId(programmeDetails.getId());
         programme.setActivity(programmeDetails.getActivity());
         programme.setEndPeriod(programmeDetails.getEndPeriod());
-        programme.setAwpTarget(programmeDetails.getAwpTarget());
+        programme.setAwpbTarget(programmeDetails.getAwpbTarget());
         programme.setStartPeriod(programmeDetails.getStartPeriod());
         programme.setValueAchieved(programmeDetails.getValueAchieved());
         programme.setRequestedBudget(programmeDetails.getRequestedBudget());
@@ -163,7 +163,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         ProgrammeDetails programmeDetails = new ProgrammeDetails(programme.getId());
         programmeDetails.setActivity(programme.getActivity());
         programmeDetails.setEndPeriod(programme.getEndPeriod());
-        programmeDetails.setAwpTarget(programme.getAwpTarget());
+        programmeDetails.setAwpbTarget(programme.getAwpbTarget());
         programmeDetails.setStartPeriod(programme.getStartPeriod());
         programmeDetails.setValueAchieved(programme.getValueAchieved());
         programmeDetails.setRequestedBudget(programme.getRequestedBudget());
