@@ -10,10 +10,12 @@ import java.util.List;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
+import ke.co.miles.kcep.mis.entities.Region;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
+import ke.co.miles.kcep.mis.utilities.RegionDetail;
 
 /**
  *
@@ -32,6 +34,8 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
             throw new InvalidArgumentException("error_010_02");
         } else if (countyDetails.getName().length() > 45) {
             throw new InvalidArgumentException("error_010_03");
+        } else if (countyDetails.getRegion() == null) {
+            throw new InvalidArgumentException("error_010_03");
         }
 
         County county;
@@ -48,6 +52,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 
         county = new County();
         county.setName(countyDetails.getName());
+        county.setRegion(em.find(Region.class, countyDetails.getRegion().getId()));
 
         try {
             em.persist(county);
@@ -101,6 +106,8 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
             throw new InvalidArgumentException("error_010_02");
         } else if (countyDetails.getName().length() > 45) {
             throw new InvalidArgumentException("error_010_03");
+        } else if (countyDetails.getRegion() == null) {
+            throw new InvalidArgumentException("error_010_03");
         }
 
         County county;
@@ -120,6 +127,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         county = em.find(County.class, countyDetails.getId());
         county.setId(countyDetails.getId());
         county.setName(countyDetails.getName());
+        county.setRegion(em.find(Region.class, countyDetails.getRegion().getId()));
 
         try {
             em.merge(county);
@@ -154,6 +162,10 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         }
         try {
             countyDetails.setName(county.getName());
+        } catch (Exception e) {
+        }
+        try {
+            countyDetails.setRegion(RegionDetail.getRegionDetail(county.getRegion().getId()));
         } catch (Exception e) {
         }
         return countyDetails;

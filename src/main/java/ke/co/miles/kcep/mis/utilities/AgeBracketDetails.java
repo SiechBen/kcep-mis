@@ -55,7 +55,7 @@ public class AgeBracketDetails implements Serializable, Comparable<AgeBracketDet
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.AgeBracket[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.AgeBracket[ bracket=" + bracket + " ]";
     }
 
     @Override

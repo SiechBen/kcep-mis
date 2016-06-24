@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
 import java.io.Serializable;
 
 /**
@@ -64,7 +63,7 @@ public class SubCountyDetails implements Serializable, Comparable<SubCountyDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubCounty[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubCounty[ sub-county=" + getName() + " ]";
     }
 
     @Override

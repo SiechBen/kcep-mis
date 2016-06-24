@@ -104,7 +104,7 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -120,12 +120,68 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Programme[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Programme[ id=" + getId() + " ]";
     }
 
     @Override
     public int compareTo(ProgrammeDetails o) {
-        return this.id.compareTo(o.getId());
+        return this.getId().compareTo(o.getId());
+    }
+
+    /**
+     * @return the component
+     */
+    public ComponentDetails getComponentDetails() {
+        return component;
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponentDetails(ComponentDetails component) {
+        this.component = component;
+    }
+
+    /**
+     * @return the measurementUnit
+     */
+    public MeasurementUnitDetails getMeasurementUnitDetails() {
+        return measurementUnit;
+    }
+
+    /**
+     * @param measurementUnit the measurementUnit to set
+     */
+    public void setMeasurementUnitDetails(MeasurementUnitDetails measurementUnit) {
+        this.measurementUnit = measurementUnit;
+    }
+
+    /**
+     * @return the implementingPartner
+     */
+    public PersonRoleDetail getImplementingPartner() {
+        return implementingPartner;
+    }
+
+    /**
+     * @param implementingPartner the implementingPartner to set
+     */
+    public void setImplementingPartner(PersonRoleDetail implementingPartner) {
+        this.implementingPartner = implementingPartner;
+    }
+
+    /**
+     * @return the sub-component details
+     */
+    public SubComponentDetails getSubComponentDetails() {
+        return subComponentDetails;
+    }
+
+    /**
+     * @param subComponentDetails the sub-component details to set
+     */
+    public void setSubComponentDetails(SubComponentDetails subComponentDetails) {
+        this.subComponentDetails = subComponentDetails;
     }
 
     private Integer id;
@@ -138,5 +194,9 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     private String valueAchieved;
     private String requestedBudget;
     private String actualExpenditure;
+    private ComponentDetails component;
+    private MeasurementUnitDetails measurementUnit;
+    private PersonRoleDetail implementingPartner;
+    private SubComponentDetails subComponentDetails;
 
 }

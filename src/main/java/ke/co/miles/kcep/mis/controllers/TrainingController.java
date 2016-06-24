@@ -34,6 +34,7 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
+import ke.co.miles.kcep.mis.requests.training.trainer.TrainerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
@@ -181,7 +182,7 @@ public class TrainingController extends Controller {
                     //Retrieve the list of training
                     HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
                     try {
-                        trainingMap = trainingService.retrieveTrainings();
+                        trainingMap = trainerService.retrieveTrainings();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(bundle.getString(ex.getCode()));
@@ -354,7 +355,8 @@ public class TrainingController extends Controller {
                     }
 
                     try {
-                        trainingService.addTraining(training, trainerRecords);
+                        int trainingId = trainingService.addTraining(training);
+                        trainerService.addTrainers(trainerRecords, trainingId);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(bundle.getString(e.getMessage()));
@@ -392,5 +394,7 @@ public class TrainingController extends Controller {
     private TrainingRequestsLocal trainingService;
     @EJB
     private PersonRequestsLocal personService;
+    @EJB
+    private TrainerRequestsLocal trainerService;
 
 }

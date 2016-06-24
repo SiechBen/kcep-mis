@@ -128,8 +128,8 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
     private Integer id;
     private String name;
     private Integer capacity;
-    private Boolean offersWrs;
     private Boolean certified;
+    private Boolean offersWrs;
     private LocationDetails location;
     private MeasurementUnitDetails units;
     private PersonDetails warehouseOperator;

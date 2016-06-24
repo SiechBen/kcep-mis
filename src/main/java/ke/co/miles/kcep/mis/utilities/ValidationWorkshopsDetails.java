@@ -88,9 +88,9 @@ public class ValidationWorkshopsDetails implements Serializable, Comparable<Vali
     }
 
     private Integer id;
-    private Integer noInWesternRegion;
-    private Integer noInEasternRegion;
     private String attendanceSheet;
     private PersonDetails kalroOfficer;
+    private Integer noInEasternRegion;
+    private Integer noInWesternRegion;
 
 }

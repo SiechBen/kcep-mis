@@ -80,8 +80,8 @@ public class DisseminationOfResultsDetails implements Serializable, Comparable<D
     }
 
     private Integer id;
-    private Integer noOfResultSetInWesternRegion;
-    private Integer noOfResultSetInEasternRegion;
     private PersonDetails kalroOfficer;
+    private Integer noOfResultSetInEasternRegion;
+    private Integer noOfResultSetInWesternRegion;
 
 }

@@ -13,10 +13,6 @@ import java.io.Serializable;
  */
 public class SubComponentDetails implements Serializable, Comparable<SubComponentDetails> {
 
-    private Integer id;
-    private String subComponent;
-    private ComponentDetails component;
-
     public SubComponentDetails() {
     }
 
@@ -67,12 +63,16 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubComponent[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubComponent[ sub-component=" + getSubComponent() + " ]";
     }
 
     @Override
     public int compareTo(SubComponentDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private String subComponent;
+    private ComponentDetails component;
 
 }

@@ -37,11 +37,11 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
     }
 
     public String getDatePurchased() {
-        return dateProcurementd;
+        return datePurchased;
     }
 
-    public void setDatePurchased(String dateProcurementd) {
-        this.dateProcurementd = dateProcurementd;
+    public void setDatePurchased(String datePurchased) {
+        this.datePurchased = datePurchased;
     }
 
     public String getSerialNumber() {
@@ -151,15 +151,15 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
 
     private Integer id;
     private String item;
-    private String dateProcurementd;
-    private String serialNumber;
+    private String cost;
+    private String fileName;
+    private String subCounty;
+    private String lpoNumber;
     private String description;
     private String targetOffice;
+    private String serialNumber;
+    private String datePurchased;
     private CountyDetails county;
-    private String subCounty;
-    private String cost;
-    private String lpoNumber;
-    private String fileName;
     private String invoiceOrReceipt;
 
 }

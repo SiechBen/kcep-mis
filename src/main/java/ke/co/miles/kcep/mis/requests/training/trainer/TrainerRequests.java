@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.requests.training.trainer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,6 +20,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainerDetails;
+import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
 /**
  *
@@ -53,13 +55,33 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     }
 
     @Override
-    public void addTrainers(List<TrainerDetails> trainerDetailsList) throws MilesException {
+    public void addTrainers(List<TrainerDetails> trainerDetailsList, int trainingId) throws MilesException {
         for (TrainerDetails trainerDetails : trainerDetailsList) {
             addTrainer(trainerDetails);
         }
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
+
+    @Override
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException {
+
+        List<Training> trainings = new ArrayList<>();
+        q = em.createNamedQuery("Training.findAll");
+        try {
+            trainings = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
+
+        for (Training training : trainings) {
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+        }
+
+        return trainingMap;
+    }
 
     @Override
     public List<TrainerDetails> retrieveTrainers(int trainingId) throws MilesException {

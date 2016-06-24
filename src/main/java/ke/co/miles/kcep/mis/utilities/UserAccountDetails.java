@@ -85,7 +85,7 @@ public class UserAccountDetails implements Serializable, Comparable<UserAccountD
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.UserAccount[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.UserAccount[ username=" + username + " ]";
     }
 
     @Override

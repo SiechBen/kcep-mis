@@ -114,8 +114,8 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
     private String amount;
     private String fileName;
     private Date dateRedeemed;
+    private PersonDetails person;
     private String inputsLogbookPage;
     private InputTypeDetails inputType;
-    private PersonDetails person;
 
 }

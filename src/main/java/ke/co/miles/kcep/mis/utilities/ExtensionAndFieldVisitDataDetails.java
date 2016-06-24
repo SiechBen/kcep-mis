@@ -103,12 +103,12 @@ public class ExtensionAndFieldVisitDataDetails implements Serializable, Comparab
         return this.id.compareTo(o.getId());
     }
 
-    private Integer numberOfPeopleSeekingOrOfferedAdvisoryServices;
-    private Integer numberOfFieldVisitsConducted;
-    private PersonDetails wardExtensionOfficer;
+    private Integer id;
+    private String fieldVisitsWardLocations;
     private String natureOfAdvisoryServices;
     private Integer numberOfFarmersVisited;
-    private String fieldVisitsWardLocations;
-    private Integer id;
+    private PersonDetails wardExtensionOfficer;
+    private Integer numberOfFieldVisitsConducted;
+    private Integer numberOfPeopleSeekingOrOfferedAdvisoryServices;
 
 }

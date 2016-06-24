@@ -18,9 +18,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
-import ke.co.miles.kcep.mis.requests.training.trainer.TrainerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
@@ -33,7 +31,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public int addTraining(TrainingDetails trainingDetails, List<TrainerDetails> trainers) throws MilesException {
+    public int addTraining(TrainingDetails trainingDetails) throws MilesException {
 
         if (trainingDetails == null) {
             throw new InvalidArgumentException("error_006_01");
@@ -60,37 +58,11 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             throw new InvalidStateException("error_000_01");
         }
 
-        trainingDetails.setId(training.getId());
-        for (TrainerDetails trainer : trainers) {
-            trainer.setTraining(trainingDetails);
-        }
-        trainerService.addTrainers(trainers);
-
         return training.getId();
 
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
-
-    @Override
-    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException {
-
-        List<Training> trainings = new ArrayList<>();
-        q = em.createNamedQuery("Training.findAll");
-        try {
-            trainings = q.getResultList();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
-
-        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
-
-        for (Training training : trainings) {
-            trainingMap.put(convertTrainingToTrainingDetails(training), trainerService.retrieveTrainers(training.getId()));
-        }
-
-        return trainingMap;
-    }
 
     @Override
     public TrainingDetails retrieveTraining(int id) throws MilesException {
@@ -195,10 +167,6 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
     @EJB
     private LocationRequestsLocal locationService;
     @EJB
-    private PersonRequestsLocal trainingService;
-    @EJB
     private PersonRoleRequestsLocal trainingRoleService;
-    @EJB
-    private TrainerRequestsLocal trainerService;
 
 }

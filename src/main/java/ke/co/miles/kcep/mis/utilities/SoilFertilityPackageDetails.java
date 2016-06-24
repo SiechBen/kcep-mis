@@ -96,10 +96,10 @@ public class SoilFertilityPackageDetails implements Serializable, Comparable<Soi
     }
 
     private Integer id;
-    private Short noOfSamplingAndAnalysisActivities;
-    private Short noOfPackagesDeveloped;
     private String targetLocations;
-    private Short noOfMeetingsForEVoucherDefinition;
     private PersonDetails kalroOfficer;
+    private Short noOfPackagesDeveloped;
+    private Short noOfSamplingAndAnalysisActivities;
+    private Short noOfMeetingsForEVoucherDefinition;
 
 }

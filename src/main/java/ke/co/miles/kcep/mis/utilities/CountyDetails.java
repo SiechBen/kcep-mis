@@ -55,7 +55,7 @@ public class CountyDetails implements Serializable, Comparable<CountyDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.County[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.County[ name=" + name + " ]";
     }
 
     @Override
@@ -63,7 +63,22 @@ public class CountyDetails implements Serializable, Comparable<CountyDetails> {
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the region
+     */
+    public RegionDetail getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(RegionDetail region) {
+        this.region = region;
+    }
+
     private Integer id;
     private String name;
+    private RegionDetail region;
 
 }

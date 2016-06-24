@@ -13,10 +13,6 @@ import java.io.Serializable;
  */
 public class TrainerDetails implements Serializable, Comparable<TrainerDetails> {
 
-    private Integer id;
-    private PersonDetails person;
-    private TrainingDetails training;
-
     public TrainerDetails() {
     }
 
@@ -74,5 +70,9 @@ public class TrainerDetails implements Serializable, Comparable<TrainerDetails> 
     public int compareTo(TrainerDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private PersonDetails person;
+    private TrainingDetails training;
 
 }

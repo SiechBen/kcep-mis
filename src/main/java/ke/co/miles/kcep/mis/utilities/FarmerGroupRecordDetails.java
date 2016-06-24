@@ -15,15 +15,6 @@ import java.util.Date;
  */
 public class FarmerGroupRecordDetails implements Serializable, Comparable<FarmerGroupRecordDetails> {
 
-    private Integer id;
-    private Date dateOfInputsCollection;
-    private Boolean firstWeedingDone;
-    private Boolean secondWeedingDone;
-    private Integer quantityHarvestedFromKcepFarm;
-    private Integer quantitySoldFromKcepFarm;
-    private Long averageSellingPricePerBag;
-    private FarmerGroup farmerGroup;
-
     public FarmerGroupRecordDetails() {
     }
 
@@ -121,5 +112,14 @@ public class FarmerGroupRecordDetails implements Serializable, Comparable<Farmer
     public int compareTo(FarmerGroupRecordDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    private Integer id;
+    private Boolean firstWeedingDone;
+    private FarmerGroup farmerGroup;
+    private Date dateOfInputsCollection;
+    private Boolean secondWeedingDone;
+    private Long averageSellingPricePerBag;
+    private Integer quantitySoldFromKcepFarm;
+    private Integer quantityHarvestedFromKcepFarm;
 
 }

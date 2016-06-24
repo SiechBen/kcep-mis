@@ -63,7 +63,7 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.InputType[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.InputType[ type=" + type + " ]";
     }
 
     @Override

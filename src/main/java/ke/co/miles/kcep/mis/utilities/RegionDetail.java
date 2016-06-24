@@ -20,6 +20,17 @@ public enum RegionDetail implements Serializable {
         this.name = name;
     }
 
+    public static RegionDetail getRegionDetail(short id) {
+        switch (id) {
+            case 1:
+                return EASTERN;
+            case 2:
+                return WESTERN;
+            default:
+                return null;
+        }
+    }
+
     public Short getId() {
         return id;
     }

@@ -55,7 +55,7 @@ public class ComponentDetails implements Serializable, Comparable<ComponentDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Component[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.Component[ component=" + component + " ]";
     }
 
     @Override

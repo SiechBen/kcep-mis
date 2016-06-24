@@ -5,11 +5,13 @@
  */
 package ke.co.miles.kcep.mis.requests.training.trainer;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Trainer;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.TrainerDetails;
+import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
 /**
  *
@@ -28,12 +30,30 @@ public interface TrainerRequestsLocal {
 
     /**
      *
+     * @param trainersDetailsList list of details of the trainer records to be
+     * created
+     * @param trainingId the unique identifier of the training at which the
+     * trainers offered their service
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void addTrainers(List<TrainerDetails> trainersDetailsList, int trainingId) throws MilesException;
+
+    /**
+     *
      * @param trainingId the unique identifier of the training of which the
      * trainers to be retrieved were involved
      * @return the list of trainer record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public List<TrainerDetails> retrieveTrainers(int trainingId) throws MilesException;
+
+    /**
+     *
+     * @return the retrieved map of training record details to trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException;
 
     /**
      *
@@ -64,13 +84,5 @@ public interface TrainerRequestsLocal {
      * @return the details of the converted trainer
      */
     public TrainerDetails convertTrainerToTrainerDetails(Trainer trainer);
-
-    /**
-     *
-     * @param trainersDetailsList list of trainer record details to be added to
-     * the database
-     * @throws MilesException when the database is in an incorrect state
-     */
-    public void addTrainers(List<TrainerDetails> trainersDetailsList) throws MilesException;
 
 }

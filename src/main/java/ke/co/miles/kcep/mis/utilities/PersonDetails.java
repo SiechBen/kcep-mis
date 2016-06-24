@@ -124,7 +124,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Person[ id=" + getId() + " ]";
+        return "ke.co.miles.kcep.mis.utilities.Person[ national id=" + getNationalId() + " ]";
     }
 
     @Override

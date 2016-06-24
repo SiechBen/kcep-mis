@@ -55,7 +55,7 @@ public class WarehouseTypeDetails implements Serializable, Comparable<WarehouseT
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.WarehouseType[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.WarehouseType[ type=" + getType() + " ]";
     }
 
     @Override

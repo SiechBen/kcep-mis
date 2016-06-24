@@ -96,10 +96,10 @@ public class OnFarmTrialsAndDemonstrationsDetails implements Serializable, Compa
     }
 
     private Integer id;
-    private Short noOfOnFarmTrials;
-    private Short noOfDemonstrations;
     private String targetLocations;
     private String attendanceSheet;
+    private Short noOfOnFarmTrials;
     private PersonDetails kalroOfficer;
+    private Short noOfDemonstrations;
 
 }

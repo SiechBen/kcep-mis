@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.utilities.*;
 import java.io.Serializable;
 
 /**
@@ -97,10 +96,10 @@ public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOf
     }
 
     private Integer id;
+    private SexDetail sex;
     private Integer number;
-    private SampledFarmerDataDetails sampledFarmerData;
     private AgeBracketDetails ageBracket;
     private NumberDescriptionDetails numberDescription;
-    private SexDetail sex;
+    private SampledFarmerDataDetails sampledFarmerData;
 
 }

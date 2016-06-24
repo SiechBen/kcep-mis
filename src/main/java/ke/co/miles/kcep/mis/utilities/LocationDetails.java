@@ -7,7 +7,6 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import ke.co.miles.kcep.mis.entities.SubCounty;
 
 /**
  *

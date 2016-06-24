@@ -55,7 +55,7 @@ public class NumberDescriptionDetails implements Serializable, Comparable<Number
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.NumberDescription[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.NumberDescription[ description=" + description + " ]";
     }
 
     @Override

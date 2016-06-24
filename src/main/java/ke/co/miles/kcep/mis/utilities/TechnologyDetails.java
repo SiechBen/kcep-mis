@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.utilities;
 
-import ke.co.miles.kcep.mis.entities.*;
 import java.io.Serializable;
 
 /**
@@ -97,10 +96,10 @@ public class TechnologyDetails implements Serializable, Comparable<TechnologyDet
     }
 
     private Integer id;
-    private Short numberOfStudiesConducted;
     private String name;
     private String typePurpose;
     private String targetSubCounties;
     private PersonDetails kalroOfficer;
+    private Short numberOfStudiesConducted;
 
 }
