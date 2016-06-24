@@ -18,15 +18,15 @@ public class ComponentDetails implements Serializable, Comparable<ComponentDetai
     public ComponentDetails() {
     }
 
-    public ComponentDetails(Integer id) {
+    public ComponentDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -65,7 +65,7 @@ public class ComponentDetails implements Serializable, Comparable<ComponentDetai
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
+    private Short id;
     private String component;
 
 }

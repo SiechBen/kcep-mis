@@ -34,6 +34,8 @@ import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 @WebServlet(name = "AccessController", urlPatterns = {"/login", "/logout", "/index", "/loginpage", "/home"})
 public class AccessController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

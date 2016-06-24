@@ -42,9 +42,9 @@
                                 </div>
                                 <div class="form-group">
                                     Unit
-                                 <select id="unit" class="form-control">
-                                        <c:forEach var="measurementUnit" items="${sessionScope.programmeMeasurementUnits}">
-                                            <option value="${measurementUnit.id}">${measurementUnit.unit}</option>
+                                 <select id="measurementUnit" class="form-control">
+                                        <c:forEach var="programmeMeasurementUnit" items="${sessionScope.programmeMeasurementUnits}">
+                                            <option value="${programmeMeasurementUnit.id}">${programmeMeasurementUnit.unit}</option>
                                         </c:forEach>
                                     </select>     </div>
                                 <div class="form-group">

@@ -26,6 +26,8 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 @WebServlet(name = "OfficerController", urlPatterns = {"/ward", "/kalro"})
 public class OfficerController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Locale locale = request.getLocale();
@@ -38,23 +40,28 @@ public class OfficerController extends Controller {
         String path = request.getServletPath();
         String destination;
 
+        @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
-                if (rightsMap.equals("systemAdminSession") || rightsMap.equals("nationalOfficerSession")) {
-                    if (rightsMaps.get(rightsMap)) {
-                        urlPaths.add("/ward");
-                        urlPaths.add("/kalro");
-                    }
-                } else if (rightsMap.equals("waoSession")) {
-                    if (rightsMaps.get(rightsMap)) {
-                        urlPaths.add("/ward");
-                    }
-                } else if (rightsMap.equals("kalroOfficer")) {
-                    if (rightsMaps.get(rightsMap)) {
-                        urlPaths.add("/kalro");
-                    }
+                switch (rightsMap) {
+                    case "systemAdminSession":
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/ward");
+                            urlPaths.add("/kalro");
+                        }   break;
+                    case "waoSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/ward");
+                        }   break;
+                    case "kalroOfficer":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/kalro");
+                        }   break;
+                    default:
+                        break;
                 }
             }
         }

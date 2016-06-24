@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,15 +32,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MeasurementUnit.findAll", query = "SELECT m FROM MeasurementUnit m"),
     @NamedQuery(name = "MeasurementUnit.findById", query = "SELECT m FROM MeasurementUnit m WHERE m.id = :id"),
     @NamedQuery(name = "MeasurementUnit.findByUnit", query = "SELECT m FROM MeasurementUnit m WHERE m.unit = :unit"),
-    @NamedQuery(name = "MeasurementUnit.findBySymbol", query = "SELECT m FROM MeasurementUnit m WHERE m.symbol = :symbol")})
+    @NamedQuery(name = "MeasurementUnit.findBySymbol", query = "SELECT m FROM MeasurementUnit m WHERE m.symbol = :symbol"),
+    @NamedQuery(name = "MeasurementUnit.findByUse", query = "SELECT m FROM MeasurementUnit m WHERE m.use = :use")})
 public class MeasurementUnit implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -51,6 +50,9 @@ public class MeasurementUnit implements Serializable {
     @Size(max = 20)
     @Column(name = "symbol")
     private String symbol;
+    @Size(max = 45)
+    @Column(name = "use")
+    private String use;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurementUnit")
     private List<Programme> programmeList;
     @OneToMany(mappedBy = "units")
@@ -59,20 +61,20 @@ public class MeasurementUnit implements Serializable {
     public MeasurementUnit() {
     }
 
-    public MeasurementUnit(Integer id) {
+    public MeasurementUnit(Short id) {
         this.id = id;
     }
 
-    public MeasurementUnit(Integer id, String unit) {
+    public MeasurementUnit(Short id, String unit) {
         this.id = id;
         this.unit = unit;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -90,6 +92,14 @@ public class MeasurementUnit implements Serializable {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getUse() {
+        return use;
+    }
+
+    public void setUse(String use) {
+        this.use = use;
     }
 
     @XmlTransient

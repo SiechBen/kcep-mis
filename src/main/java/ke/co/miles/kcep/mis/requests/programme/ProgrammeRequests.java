@@ -12,11 +12,13 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Component;
 import ke.co.miles.kcep.mis.entities.ImplementingPartner;
+import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Programme;
 import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.implementingpartner.ImplementingPartnerRequestsLocal;
@@ -42,7 +44,6 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         }
 
         Programme programme = new Programme();
-        programme.setUnit(programmeDetails.getUnit());
         programme.setActivity(programmeDetails.getActivity());
         programme.setEndPeriod(programmeDetails.getEndPeriod());
         programme.setAwpTarget(programmeDetails.getAwpTarget());
@@ -55,6 +56,9 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setImplementingPartner(em.find(ImplementingPartner.class, programmeDetails.getImplementingPartner().getId()));
         if (programmeDetails.getSubComponent() != null) {
             programme.setSubComponent(em.find(SubComponent.class, programmeDetails.getSubComponent().getId()));
+        }
+        if (programmeDetails.getMeasurementUnit() != null) {
+            programme.setMeasurementUnit(em.find(MeasurementUnit.class, programmeDetails.getMeasurementUnit().getId()));
         }
 
         try {
@@ -114,7 +118,6 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
 
         Programme programme = em.find(Programme.class, programmeDetails.getId());
         programme.setId(programmeDetails.getId());
-        programme.setUnit(programmeDetails.getUnit());
         programme.setActivity(programmeDetails.getActivity());
         programme.setEndPeriod(programmeDetails.getEndPeriod());
         programme.setAwpTarget(programmeDetails.getAwpTarget());
@@ -127,6 +130,9 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setImplementingPartner(em.find(ImplementingPartner.class, programmeDetails.getImplementingPartner().getId()));
         if (programmeDetails.getSubComponent() != null) {
             programme.setSubComponent(em.find(SubComponent.class, programmeDetails.getSubComponent().getId()));
+        }
+        if (programmeDetails.getMeasurementUnit() != null) {
+            programme.setMeasurementUnit(em.find(MeasurementUnit.class, programmeDetails.getMeasurementUnit().getId()));
         }
 
         try {
@@ -155,7 +161,6 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
     private ProgrammeDetails convertProgrammeToProgrammeDetails(Programme programme) {
 
         ProgrammeDetails programmeDetails = new ProgrammeDetails(programme.getId());
-        programmeDetails.setUnit(programme.getUnit());
         programmeDetails.setActivity(programme.getActivity());
         programmeDetails.setEndPeriod(programme.getEndPeriod());
         programmeDetails.setAwpTarget(programme.getAwpTarget());
@@ -171,6 +176,10 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         if (programme.getSubComponent() != null) {
             programmeDetails.setSubComponent(subComponentService.
                     convertSubComponentToSubComponentDetails(programme.getSubComponent()));
+        }
+        if (programme.getMeasurementUnit() != null) {
+            programmeDetails.setMeasurementUnit(measurementUnitService.
+                    convertMeasurementUnitToMeasurementUnitDetails(programme.getMeasurementUnit()));
         }
 
         return programmeDetails;
@@ -192,7 +201,9 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB
-    private ImplementingPartnerRequestsLocal implementingPartnerService;
-    @EJB
     private SubComponentRequestsLocal subComponentService;
+    @EJB
+    private MeasurementUnitRequestsLocal measurementUnitService;
+    @EJB
+    private ImplementingPartnerRequestsLocal implementingPartnerService;
 }

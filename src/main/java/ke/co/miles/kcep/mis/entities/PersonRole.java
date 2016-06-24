@@ -41,7 +41,7 @@ public class PersonRole implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -57,20 +57,20 @@ public class PersonRole implements Serializable {
     public PersonRole() {
     }
 
-    public PersonRole(Integer id) {
+    public PersonRole(Short id) {
         this.id = id;
     }
 
-    public PersonRole(Integer id, String personRole) {
+    public PersonRole(Short id, String personRole) {
         this.id = id;
         this.personRole = personRole;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 

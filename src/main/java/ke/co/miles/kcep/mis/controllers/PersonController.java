@@ -45,6 +45,8 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
 @WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson", "/userProfile"})
 public class PersonController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -396,7 +398,7 @@ public class PersonController extends Controller {
 
                     CountyDetails county = new CountyDetails();
                     try {
-                        county.setId(Integer.valueOf(String.valueOf(request.getParameter("county"))));
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }
@@ -415,7 +417,7 @@ public class PersonController extends Controller {
 
                     PersonRoleDetail personRole;
                     try {
-                        personRole = PersonRoleDetail.getPersonRoleDetail(Integer.valueOf(String.valueOf(request.getParameter("personRole"))));
+                        personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
                     } catch (Exception e) {
                         personRole = null;
                     }

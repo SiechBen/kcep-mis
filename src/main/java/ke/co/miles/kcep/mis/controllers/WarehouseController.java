@@ -41,6 +41,8 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 @WebServlet(name = "WarehouseController", urlPatterns = {"/warehouses", "/addWarehouse", "/doAddWarehouse"})
 public class WarehouseController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -146,7 +148,7 @@ public class WarehouseController extends Controller {
 
                     CountyDetails county = new CountyDetails();
                     try {
-                        county.setId(Integer.valueOf(String.valueOf(request.getParameter("county"))));
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }
@@ -167,7 +169,7 @@ public class WarehouseController extends Controller {
 
                     MeasurementUnitDetails measurementUnit = new MeasurementUnitDetails();
                     try {
-                        measurementUnit.setId(Integer.valueOf(String.valueOf(request.getParameter("capacityUnits"))));
+                        measurementUnit.setId(Short.valueOf(String.valueOf(request.getParameter("capacityUnits"))));
                     } catch (Exception e) {
                         county = null;
                     }
@@ -198,7 +200,7 @@ public class WarehouseController extends Controller {
 
                     WarehouseTypeDetails warehouseType = new WarehouseTypeDetails();
                     try {
-                        warehouseType.setId(Integer.valueOf(String.valueOf(request.getParameter("warehouseType"))));
+                        warehouseType.setId(Short.valueOf(String.valueOf(request.getParameter("warehouseType"))));
                     } catch (Exception e) {
                         warehouseType = null;
                     }

@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.equipment.EquipmentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.EquipmentDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 
@@ -33,6 +33,8 @@ import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
  */
 @WebServlet(name = "EquipmentController", urlPatterns = {"/equipment", "/addEquipment", "/doAddEquipment"})
 public class EquipmentController extends Controller {
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

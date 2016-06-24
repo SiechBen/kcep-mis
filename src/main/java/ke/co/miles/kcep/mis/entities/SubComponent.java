@@ -43,7 +43,7 @@ public class SubComponent implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -58,20 +58,20 @@ public class SubComponent implements Serializable {
     public SubComponent() {
     }
 
-    public SubComponent(Integer id) {
+    public SubComponent(Short id) {
         this.id = id;
     }
 
-    public SubComponent(Integer id, String subComponent) {
+    public SubComponent(Short id, String subComponent) {
         this.id = id;
         this.subComponent = subComponent;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 

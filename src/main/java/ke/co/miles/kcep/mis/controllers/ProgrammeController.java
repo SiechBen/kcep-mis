@@ -124,7 +124,7 @@ public class ProgrammeController extends Controller {
                     if (programmeMeasurementUnits != null) {
                         session.setAttribute("programmeMeasurementUnits", programmeMeasurementUnits);
                     }
-                    
+
                     List<ImplementingPartnerDetails> implementingPartners;
                     try {
                         implementingPartners = implementingPartnerService.retrieveImplementingPartners();
@@ -166,7 +166,6 @@ public class ProgrammeController extends Controller {
                 case "/doAddProgramme":
 
                     ProgrammeDetails programme = new ProgrammeDetails();
-                    programme.setUnit(String.valueOf(request.getParameter("unit")));
                     programme.setActivity(String.valueOf(request.getParameter("activity")));
                     programme.setAwpTarget(String.valueOf(request.getParameter("awpTarget")));
                     programme.setEndPeriod(String.valueOf(request.getParameter("endPeriod")));
@@ -176,9 +175,6 @@ public class ProgrammeController extends Controller {
                     programme.setProgrammeTarget(String.valueOf(request.getParameter("programmeTarget")));
                     programme.setActualExpenditure(String.valueOf(request.getParameter("actualExpenditure")));
 
-                    if (programme.getUnit().equals("null")) {
-                        programme.setUnit(null);
-                    }
                     if (programme.getActivity().equals("null")) {
                         programme.setActivity(null);
                     }
@@ -204,9 +200,16 @@ public class ProgrammeController extends Controller {
                         programme.setActualExpenditure(null);
                     }
 
+                    MeasurementUnitDetails measurementUnit;
+                    try {
+                        measurementUnit = new MeasurementUnitDetails(Short.valueOf(request.getParameter("measurementUnit")));
+                    } catch (Exception e) {
+                        measurementUnit = null;
+                    }
+
                     ComponentDetails component;
                     try {
-                        component = new ComponentDetails(Integer.valueOf(request.getParameter("component")));
+                        component = new ComponentDetails(Short.valueOf(request.getParameter("component")));
                     } catch (Exception e) {
                         component = null;
                     }
@@ -214,7 +217,7 @@ public class ProgrammeController extends Controller {
                     SubComponentDetails subComponent;
                     try {
                         subComponent
-                                = new SubComponentDetails(Integer.valueOf(request.getParameter("subComponent")));
+                                = new SubComponentDetails(Short.valueOf(request.getParameter("subComponent")));
                     } catch (Exception e) {
                         subComponent = null;
                     }
@@ -236,7 +239,7 @@ public class ProgrammeController extends Controller {
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(bundle.getString(e.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(""), e);
+                        LOGGER.log(Level.INFO, "", e);
                     }
 
                     return;

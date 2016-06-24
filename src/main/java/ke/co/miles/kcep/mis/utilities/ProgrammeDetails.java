@@ -55,14 +55,6 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
         this.endPeriod = endPeriod;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public String getAwpTarget() {
         return awpTarget;
     }
@@ -147,14 +139,14 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     /**
      * @return the measurementUnit
      */
-    public MeasurementUnitDetails getMeasurementUnitDetails() {
+    public MeasurementUnitDetails getMeasurementUnit() {
         return measurementUnit;
     }
 
     /**
      * @param measurementUnit the measurementUnit to set
      */
-    public void setMeasurementUnitDetails(MeasurementUnitDetails measurementUnit) {
+    public void setMeasurementUnit(MeasurementUnitDetails measurementUnit) {
         this.measurementUnit = measurementUnit;
     }
 
@@ -187,7 +179,6 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     }
 
     private Integer id;
-    private String unit;
     private String activity;
     private String endPeriod;
     private String awpTarget;

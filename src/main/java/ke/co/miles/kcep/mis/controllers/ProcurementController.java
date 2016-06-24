@@ -40,6 +40,8 @@ import ke.co.miles.kcep.mis.utilities.ProcurementDetails;
 @MultipartConfig
 public class ProcurementController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -111,7 +113,7 @@ public class ProcurementController extends Controller {
 
                     CountyDetails county = new CountyDetails();
                     try {
-                        county.setId(Integer.valueOf(String.valueOf(request.getParameter("county"))));
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }

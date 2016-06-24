@@ -44,7 +44,7 @@ public class County implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -65,20 +65,20 @@ public class County implements Serializable {
     public County() {
     }
 
-    public County(Integer id) {
+    public County(Short id) {
         this.id = id;
     }
 
-    public County(Integer id, String name) {
+    public County(Short id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 

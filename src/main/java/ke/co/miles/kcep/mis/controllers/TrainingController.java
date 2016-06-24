@@ -52,6 +52,8 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
 @MultipartConfig
 public class TrainingController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -72,6 +74,7 @@ public class TrainingController extends Controller {
 
         String fileSeparator = File.separator;
 
+        @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
@@ -233,7 +236,7 @@ public class TrainingController extends Controller {
 
                     PersonRoleDetail categoryOfTrainees;
                     try {
-                        categoryOfTrainees = PersonRoleDetail.getPersonRoleDetail(Integer.valueOf(String.valueOf(request.getParameter("category-of-trainees"))));
+                        categoryOfTrainees = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("category-of-trainees"))));
                     } catch (Exception e) {
                         categoryOfTrainees = null;
                     }
@@ -247,7 +250,7 @@ public class TrainingController extends Controller {
 
                     CountyDetails county = new CountyDetails();
                     try {
-                        county.setId(Integer.valueOf(String.valueOf(request.getParameter("training-county"))));
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("training-county"))));
                     } catch (Exception e) {
                         county = null;
                     }

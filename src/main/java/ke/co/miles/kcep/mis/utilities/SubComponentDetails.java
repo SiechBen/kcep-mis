@@ -16,15 +16,15 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
     public SubComponentDetails() {
     }
 
-    public SubComponentDetails(Integer id) {
+    public SubComponentDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -71,7 +71,7 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
+    private Short id;
     private String subComponent;
     private ComponentDetails component;
 

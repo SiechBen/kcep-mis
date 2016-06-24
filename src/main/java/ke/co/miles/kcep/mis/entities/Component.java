@@ -41,7 +41,7 @@ public class Component implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -55,20 +55,20 @@ public class Component implements Serializable {
     public Component() {
     }
 
-    public Component(Integer id) {
+    public Component(Short id) {
         this.id = id;
     }
 
-    public Component(Integer id, String component) {
+    public Component(Short id, String component) {
         this.id = id;
         this.component = component;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 

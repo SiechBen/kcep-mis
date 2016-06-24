@@ -18,15 +18,15 @@ public class CountyDetails implements Serializable, Comparable<CountyDetails> {
     public CountyDetails() {
     }
 
-    public CountyDetails(Integer id) {
+    public CountyDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -79,7 +79,7 @@ public class CountyDetails implements Serializable, Comparable<CountyDetails> {
         this.region = region;
     }
 
-    private Integer id;
+    private Short id;
     private String name;
     private RegionDetail region;
 

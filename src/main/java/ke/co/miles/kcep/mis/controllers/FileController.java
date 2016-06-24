@@ -28,6 +28,8 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 @WebServlet(name = "FileController", urlPatterns = {"/download"})
 public class FileController extends Controller {
 
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

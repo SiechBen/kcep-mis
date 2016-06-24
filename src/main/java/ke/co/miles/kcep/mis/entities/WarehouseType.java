@@ -40,7 +40,7 @@ public class WarehouseType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Size(max = 45)
     @Column(name = "type")
     private String type;
@@ -50,15 +50,15 @@ public class WarehouseType implements Serializable {
     public WarehouseType() {
     }
 
-    public WarehouseType(Integer id) {
+    public WarehouseType(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 

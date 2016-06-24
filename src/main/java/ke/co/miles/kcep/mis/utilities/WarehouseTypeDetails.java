@@ -18,15 +18,15 @@ public class WarehouseTypeDetails implements Serializable, Comparable<WarehouseT
     public WarehouseTypeDetails() {
     }
 
-    public WarehouseTypeDetails(Integer id) {
+    public WarehouseTypeDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -65,7 +65,7 @@ public class WarehouseTypeDetails implements Serializable, Comparable<WarehouseT
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
+    private Short id;
     private String type;
 
 }

@@ -18,15 +18,15 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
     public MeasurementUnitDetails() {
     }
 
-    public MeasurementUnitDetails(Integer id) {
+    public MeasurementUnitDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -79,7 +79,7 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
         this.symbol = symbol;
     }
 
-    private Integer id;
+    private Short id;
     private String unit;
     private String symbol;
 

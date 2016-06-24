@@ -38,8 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Programme.findByProgrammeTarget", query = "SELECT p FROM Programme p WHERE p.programmeTarget = :programmeTarget"),
     @NamedQuery(name = "Programme.findByValueAchieved", query = "SELECT p FROM Programme p WHERE p.valueAchieved = :valueAchieved"),
     @NamedQuery(name = "Programme.findByRequestedBudget", query = "SELECT p FROM Programme p WHERE p.requestedBudget = :requestedBudget"),
-    @NamedQuery(name = "Programme.findByActualExpenditure", query = "SELECT p FROM Programme p WHERE p.actualExpenditure = :actualExpenditure"),
-    @NamedQuery(name = "Programme.findByProgrammecol", query = "SELECT p FROM Programme p WHERE p.programmecol = :programmecol")})
+    @NamedQuery(name = "Programme.findByActualExpenditure", query = "SELECT p FROM Programme p WHERE p.actualExpenditure = :actualExpenditure")})
 public class Programme implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,9 +75,9 @@ public class Programme implements Serializable {
     @Size(max = 45)
     @Column(name = "actual_expenditure")
     private String actualExpenditure;
-    @Size(max = 45)
-    @Column(name = "programmecol")
-    private String programmecol;
+//    @Size(max = 45)
+//    @Column(name = "programmecol")
+//    private String programmecol;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
@@ -177,14 +176,6 @@ public class Programme implements Serializable {
 
     public void setActualExpenditure(String actualExpenditure) {
         this.actualExpenditure = actualExpenditure;
-    }
-
-    public String getProgrammecol() {
-        return programmecol;
-    }
-
-    public void setProgrammecol(String programmecol) {
-        this.programmecol = programmecol;
     }
 
     public Component getComponent() {

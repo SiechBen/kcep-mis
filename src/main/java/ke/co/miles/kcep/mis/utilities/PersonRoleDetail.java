@@ -13,25 +13,25 @@ import java.io.Serializable;
  */
 public enum PersonRoleDetail implements Serializable {
 
-    FARMER(new Integer("1"), "Farmer"),
-    AGRO_DEALER(new Integer("2"), "Agro-dealer"),
-    WAO(new Integer("3"), "WAO (Ward Extension Officer)"),
-    SUB_COUNTY_OFFICER(new Integer("4"), "Sub-county Officer"),
-    COUNTY_OFFICER(new Integer("5"), "County Officer"),
-    REGIONAL_COORDINATOR(new Integer("6"), "Regional Coordinator"),
-    NATIONAL_OFFICER(new Integer("7"), "National Officer"),
-    KALRO_OFFICER(new Integer("8"), "KALRO Officer"),
-    SYSTEM_ADMIN(new Integer("9"), "System Admin"),
-    EQUITY_OFFICER(new Integer("10"), "Equity"),
-    WAREHOUSE_OPERATOR(new Integer("11"), "Warehouse Operator"),
-    AGMARK(new Integer("12"), "Agmark");
+    FARMER(new Short("1"), "Farmer"),
+    AGRO_DEALER(new Short("2"), "Agro-dealer"),
+    WAO(new Short("3"), "WAO (Ward Extension Officer)"),
+    SUB_COUNTY_OFFICER(new Short("4"), "Sub-county Officer"),
+    COUNTY_OFFICER(new Short("5"), "County Officer"),
+    REGIONAL_COORDINATOR(new Short("6"), "Regional Coordinator"),
+    NATIONAL_OFFICER(new Short("7"), "National Officer"),
+    KALRO_OFFICER(new Short("8"), "KALRO Officer"),
+    SYSTEM_ADMIN(new Short("9"), "System Admin"),
+    EQUITY_OFFICER(new Short("10"), "Equity"),
+    WAREHOUSE_OPERATOR(new Short("11"), "Warehouse Operator"),
+    AGMARK(new Short("12"), "Agmark");
 
-    private PersonRoleDetail(Integer id, String personRole) {
+    private PersonRoleDetail(Short id, String personRole) {
         this.id = id;
         this.personRole = personRole;
     }
 
-    public static PersonRoleDetail getPersonRoleDetail(Integer id) {
+    public static PersonRoleDetail getPersonRoleDetail(Short id) {
         switch (id) {
             case 1:
                 return FARMER;
@@ -55,12 +55,14 @@ public enum PersonRoleDetail implements Serializable {
                 return EQUITY_OFFICER;
             case 11:
                 return WAREHOUSE_OPERATOR;
+            case 12:
+                return AGMARK;
             default:
                 return null;
         }
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
@@ -73,7 +75,7 @@ public enum PersonRoleDetail implements Serializable {
         return "ke.co.miles.kcep.mis.utilities.PersonRole[ personRole=" + personRole + " ]";
     }
 
-    private final Integer id;
+    private final Short id;
     private final String personRole;
 
 }
