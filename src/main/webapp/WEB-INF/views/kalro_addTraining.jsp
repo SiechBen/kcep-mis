@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="form-group">
                                     Ward
-                                    <select id="training-ward" name="ward" class="form-control">
+                                    <select id="training-ward" name="training-ward" class="form-control">
                                         <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index"> 
                                             <option value="${ward.id}">${ward.name}</option>
                                         </c:forEach>

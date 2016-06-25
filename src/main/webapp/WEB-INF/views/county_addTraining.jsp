@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ward_addTraining
-    Created on : Jun 22, 2016, 4:24:58 PM
+    Document   : county_addTraining
+    Created on : Jun 25, 2016, 4:10:02 PM
     Author     : siech
 --%>
 
@@ -8,14 +8,14 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:ward>
+<kcep:county>
     <jsp:attribute name="pagetitle"> KCEP-MIS - add training </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Ward Extension Officer</h1>
+                    <h1 class="page-header">County Desk Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -55,10 +55,20 @@
                                     <input type="hidden" id="training-county" name="training-county" value="${sessionScope.person.location.county.id}">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" id="training-sub-county" name="training-sub-county" value="${sessionScope.person.location.subCounty.id}">
+                                    Sub-county
+                                    <select id="training-sub-county" name="training-sub-county" class="form-control">
+                                        <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index"> 
+                                            <option value="${subCounty.id}">${subCounty.name}</option>
+                                        </c:forEach>
+                                    </select>  
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" id="training-ward" name="training-ward" value="${sessionScope.person.location.ward.id}">
+                                    Ward
+                                    <select id="training-ward" name="ward" class="form-control">
+                                        <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index"> 
+                                            <option value="${ward.id}">${ward.name}</option>
+                                        </c:forEach>
+                                    </select>  
                                 </div>
                                 <div class="form-group">
                                     Number of trainees
@@ -86,4 +96,4 @@
         </div>
 
     </jsp:attribute>
-</kcep:ward>
+</kcep:county>

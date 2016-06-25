@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.requests.training;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,7 +18,6 @@ import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
 /**

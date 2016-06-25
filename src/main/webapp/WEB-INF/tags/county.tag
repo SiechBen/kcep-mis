@@ -19,6 +19,9 @@
             <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
         </li>
         <li>
+            <a onclick="loadAjaxWindow('training')"><i class="fa fa-edit fa-fw"></i> Training </a>
+        </li>
+        <li>
             <a onclick="loadAjaxWindow('warehouses')"><i class="fa fa-edit fa-fw"></i> Warehouses </a>
         </li>
     </jsp:attribute>

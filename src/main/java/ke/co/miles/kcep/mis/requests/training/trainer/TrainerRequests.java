@@ -34,11 +34,11 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public void addTrainer(TrainerDetails trainerDetails) throws MilesException {
 
         if (trainerDetails == null) {
-            throw new InvalidArgumentException("error_010_01");
+            throw new InvalidArgumentException("error_028_01");
         } else if (trainerDetails.getPerson() == null) {
-            throw new InvalidArgumentException("error_010_02");
+            throw new InvalidArgumentException("error_028_02");
         } else if (trainerDetails.getTraining() == null) {
-            throw new InvalidArgumentException("error_010_03");
+            throw new InvalidArgumentException("error_028_03");
         }
 
         Trainer trainer = new Trainer();
@@ -47,7 +47,6 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
         try {
             em.persist(trainer);
-            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -55,15 +54,83 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     }
 
     @Override
-    public void addTrainers(List<TrainerDetails> trainerDetailsList, int trainingId) throws MilesException {
+    public void addTrainers(List<TrainerDetails> trainerDetailsList) throws MilesException {
         for (TrainerDetails trainerDetails : trainerDetailsList) {
             addTrainer(trainerDetails);
         }
+        em.flush();
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(int wardId) throws MilesException {
+
+        List<Training> trainings = new ArrayList<>();
+        q = em.createNamedQuery("Training.findByWardId");
+        q.setParameter("wardId", wardId);
+        try {
+            trainings = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
+
+        for (Training training : trainings) {
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+        }
+
+        return trainingMap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveCountyTrainings(short countyId) throws MilesException {
+
+        List<Training> trainings = new ArrayList<>();
+        q = em.createNamedQuery("Training.findByCountyId");
+        q.setParameter("countyId", countyId);
+        try {
+            trainings = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
+
+        for (Training training : trainings) {
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+        }
+
+        return trainingMap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(int subCountyId) throws MilesException {
+
+        List<Training> trainings = new ArrayList<>();
+        q = em.createNamedQuery("Training.findBySubCountyId");
+        q.setParameter("subCountyId", subCountyId);
+        try {
+            trainings = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
+
+        for (Training training : trainings) {
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+        }
+
+        return trainingMap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
@@ -84,6 +151,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<TrainerDetails> retrieveTrainers(int trainingId) throws MilesException {
         List<Trainer> trainers = new ArrayList<>();
         q = em.createNamedQuery("Trainer.findByTrainingId");
@@ -116,13 +184,13 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public void editTrainer(TrainerDetails trainerDetails) throws MilesException {
 
         if (trainerDetails == null) {
-            throw new InvalidArgumentException("error_010_01");
+            throw new InvalidArgumentException("error_028_01");
         } else if (trainerDetails.getId() == null) {
-            throw new InvalidArgumentException("error_010_04");
+            throw new InvalidArgumentException("error_028_04");
         } else if (trainerDetails.getPerson() == null) {
-            throw new InvalidArgumentException("error_010_02");
+            throw new InvalidArgumentException("error_028_02");
         } else if (trainerDetails.getTraining() == null) {
-            throw new InvalidArgumentException("error_010_03");
+            throw new InvalidArgumentException("error_028_03");
         }
 
         Trainer trainer = new Trainer();

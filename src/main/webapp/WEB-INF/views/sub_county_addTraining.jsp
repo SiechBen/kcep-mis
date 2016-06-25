@@ -52,25 +52,15 @@
                                     <input id="topic" name="topic" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    County
-                                    <select id="training-county" name="training-county" class="form-control">
-                                        <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
-                                            <option value="${county.id}">${county.name}</option>
-                                        </c:forEach>
-                                    </select>  
+                                    <input type="hidden" id="training-county" name="training-county" value="${sessionScope.person.location.county.id}">
                                 </div>
                                 <div class="form-group">
-                                    Sub-county
-                                    <select id="training-sub-county" name="training-sub-county" class="form-control">
-                                        <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
-                                            <option value="${subCounty.id}">${subCounty.name}</option>
-                                        </c:forEach>
-                                    </select>  
+                                    <input type="hidden" id="training-sub-county" name="training-sub-county" value="${sessionScope.person.location.subCounty.id}">
                                 </div>
                                 <div class="form-group">
                                     Ward
                                     <select id="training-ward" name="ward" class="form-control">
-                                        <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index"> 
+                                        <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index"> 
                                             <option value="${ward.id}">${ward.name}</option>
                                         </c:forEach>
                                     </select>  

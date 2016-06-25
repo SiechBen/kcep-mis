@@ -32,6 +32,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.trainer.TrainerRequestsLocal;
@@ -144,6 +146,27 @@ public class TrainingController extends Controller {
                             }
                         }
                         break;
+                    case "countyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            switch (path) {
+                                case "/training":
+                                    path = "/county_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/county_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/county_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
@@ -179,10 +202,7 @@ public class TrainingController extends Controller {
 
                 case "/head_training":
                 case "/kalro_training":
-                case "/ward_training":
-                case "/sub_county_training":
 
-                    //Retrieve the list of training
                     HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
                     try {
                         trainingMap = trainerService.retrieveTrainings();
@@ -193,7 +213,90 @@ public class TrainingController extends Controller {
                         return;
                     }
 
-                    //Avail the training in the application scope
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                            if (trainingDetails.getAttendanceSheet() != null) {
+                                try {
+                                    String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
+                                    String fileName = folders[folders.length - 1];
+                                    trainingDetails.setFileName(fileName);
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                        session.setAttribute("trainingMap", trainingMap);
+                    }
+                    break;
+
+                case "/ward_training":
+
+                    PersonDetails waoOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        trainingMap = trainerService.retrieveWardTrainings(waoOfficer.getLocation().getWard().getId());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                            if (trainingDetails.getAttendanceSheet() != null) {
+                                try {
+                                    String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
+                                    String fileName = folders[folders.length - 1];
+                                    trainingDetails.setFileName(fileName);
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                        session.setAttribute("trainingMap", trainingMap);
+                    }
+                    break;
+
+                case "/county_training":
+
+                    PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        trainingMap = trainerService.retrieveCountyTrainings(countyDeskOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                            if (trainingDetails.getAttendanceSheet() != null) {
+                                try {
+                                    String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
+                                    String fileName = folders[folders.length - 1];
+                                    trainingDetails.setFileName(fileName);
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                        session.setAttribute("trainingMap", trainingMap);
+                    }
+                    break;
+
+                case "/sub_county_training":
+
+                    PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        trainingMap = trainerService.retrieveSubCountyTrainings(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
                     if (!trainingMap.isEmpty()) {
                         for (TrainingDetails trainingDetails : trainingMap.keySet()) {
                             if (trainingDetails.getAttendanceSheet() != null) {
@@ -212,9 +315,7 @@ public class TrainingController extends Controller {
                 case "/head_addTraining":
                 case "/kalro_addTraining":
                 case "/ward_addTraining":
-                case "/sub_county_addTraining":
 
-                    //Retrieve the list of people
                     List<PersonDetails> people;
                     try {
                         people = personService.retrievePeople();
@@ -225,11 +326,81 @@ public class TrainingController extends Controller {
                         return;
                     }
 
-                    //Avail the people in the application scope
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+                    break;
 
+                case "/county_addTraining":
+
+                    countyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    List<SubCountyDetails> subCounties;
+                    try {
+                        subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                        return;
+                    }
+
+                    List<WardDetails> wards = new ArrayList<>();
+                    if (subCounties != null) {
+
+                        for (SubCountyDetails subCounty : subCounties) {
+                            try {
+                                wards.addAll(wardService.retrieveWards(subCounty.getId()));
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                                return;
+                            }
+                        }
+
+                        session.setAttribute("subCounties", subCounties);
+                        session.setAttribute("wards", wards);
+
+                    }
+
+                    try {
+                        people = personService.retrievePeople();
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/sub_county_addTraining":
+
+                    countyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        wards = wardService.retrieveWards(countyDeskOfficer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                        return;
+                    }
+
+                    if (wards != null) {
+                        session.setAttribute("wards", wards);
+                    }
+
+                    try {
+                        people = personService.retrievePeople();
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
                     break;
 
                 case "/doAddTraining":
@@ -359,11 +530,15 @@ public class TrainingController extends Controller {
 
                     try {
                         int trainingId = trainingService.addTraining(training);
-                        trainerService.addTrainers(trainerRecords, trainingId);
+                        training.setId(trainingId);
+                        for (TrainerDetails trainerRecord1 : trainerRecords) {
+                            trainerRecord1.setTraining(training);
+                        }
+                        trainerService.addTrainers(trainerRecords);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(e.getMessage()));
-                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, "", e);
                     }
 
                     return;
@@ -394,10 +569,14 @@ public class TrainingController extends Controller {
     //</editor-fold>
     private static final Logger LOGGER = Logger.getLogger(TrainingController.class.getSimpleName());
     @EJB
-    private TrainingRequestsLocal trainingService;
+    private WardRequestsLocal wardService;
     @EJB
     private PersonRequestsLocal personService;
     @EJB
     private TrainerRequestsLocal trainerService;
+    @EJB
+    private TrainingRequestsLocal trainingService;
+    @EJB
+    private SubCountyRequestsLocal subCountyService;
 
 }

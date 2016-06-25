@@ -151,7 +151,7 @@ public class AccessController extends Controller {
                             session.setAttribute("home", "/ward");
                             break;
 
-                        case "KALRO Officer)":
+                        case "KALRO Officer":
                             rightsMaps.clear();
                             rightsMaps.put("kalroSession", true);
                             session.setAttribute("home", "/kalro");

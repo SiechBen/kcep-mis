@@ -32,12 +32,10 @@ public interface TrainerRequestsLocal {
      *
      * @param trainersDetailsList list of details of the trainer records to be
      * created
-     * @param trainingId the unique identifier of the training at which the
-     * trainers offered their service
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void addTrainers(List<TrainerDetails> trainersDetailsList, int trainingId) throws MilesException;
+    public void addTrainers(List<TrainerDetails> trainersDetailsList) throws MilesException;
 
     /**
      *
@@ -54,6 +52,33 @@ public interface TrainerRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException;
+
+    /**
+     *
+     * @param wardId the unique identifier of the ward at which the training
+     * activities were held
+     * @return the retrieved map of training record details to trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(int wardId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county at which the training
+     * activities were held
+     * @return the retrieved map of training record details to trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveCountyTrainings(short countyId) throws MilesException;
+
+    /**
+     *
+     * @param subCountyId the unique identifier of the sub-county at which the
+     * training activities were held
+     * @return the retrieved map of training record details to trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(int subCountyId) throws MilesException;
 
     /**
      *
