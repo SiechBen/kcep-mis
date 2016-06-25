@@ -36,6 +36,15 @@ public interface SubCountyRequestsLocal {
 
     /**
      *
+     * @param countyId the unique identifier of the county of which the
+     * sub-counties are part
+     * @return the list of sub-county record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<SubCountyDetails> retrieveSubCounties(short countyId) throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the sub-county record to be retrieved
      * @return the details of the sub-county record retrieved
      * @throws MilesException when the database is in an incorrect state

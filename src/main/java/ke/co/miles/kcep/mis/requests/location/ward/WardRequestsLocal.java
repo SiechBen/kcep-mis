@@ -36,6 +36,15 @@ public interface WardRequestsLocal {
 
     /**
      *
+     * @param subCountyId the unique identifier of the sub-county of which the
+     * wards are part
+     * @return the list of ward record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<WardDetails> retrieveWards(int subCountyId) throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the ward record to be retrieved
      * @return the details of the ward record retrieved
      * @throws MilesException when the database is in an incorrect state

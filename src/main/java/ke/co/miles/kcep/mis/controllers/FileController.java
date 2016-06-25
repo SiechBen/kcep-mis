@@ -34,7 +34,7 @@ public class FileController extends Controller {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
-        bundle = ResourceBundle.getBundle("text", request.getLocale());
+        setBundle(ResourceBundle.getBundle("text", request.getLocale()));
 
         OutputStream outStream = response.getOutputStream();
         ServletContext context = getServletContext();
@@ -77,8 +77,8 @@ public class FileController extends Controller {
 
                 } catch (FileNotFoundException e) {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    outStream.write((bundle.getString("file_not_found_error") + "<br>").getBytes());
-                    LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
+                    outStream.write((getBundle().getString("file_not_found_error") + "<br>").getBytes());
+                    LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
                 }
 
         }

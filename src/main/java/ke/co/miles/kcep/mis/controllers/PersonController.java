@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
@@ -53,7 +55,7 @@ public class PersonController extends Controller {
         PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
-        bundle = ResourceBundle.getBundle("text", locale);
+        setBundle(ResourceBundle.getBundle("text", locale));
 
         //Get the user session
         HttpSession session = request.getSession();
@@ -66,6 +68,7 @@ public class PersonController extends Controller {
         DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
         Date date;
 
+        @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
@@ -466,8 +469,8 @@ public class PersonController extends Controller {
                         person.setDateOfBirth(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("string_parse_error"));
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
                         person.setDateOfBirth(null);
                     }
 
@@ -475,19 +478,64 @@ public class PersonController extends Controller {
                         personService.addPerson(person, personRole);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(e.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(e.getCode()));
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
 
                     return;
 
-                case "/head_addPerson":
+                case "/region_addPerson":
                 case "/ward_addPerson":
                 case "/kalro_addPerson":
-                case "/region_addPerson":
-                case "/county_addPerson":
-                case "/sub_county_addPerson":
+                case "/head_addPerson":
                 case "/agro_dealer_addPerson":
+                    break;
+
+                case "/county_addPerson":
+
+                    countyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    List<SubCountyDetails> subCounties;
+                    try {
+                        subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
+                        return;
+                    }
+
+                    List<WardDetails> wards = new ArrayList<>();
+                    if (subCounties != null) {
+
+                        for (SubCountyDetails subCountyDetails : subCounties) {
+                            try {
+                                wards.addAll(wardService.retrieveWards(subCountyDetails.getId()));
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                                return;
+                            }
+                        }
+
+                        session.setAttribute("subCounties", subCounties);
+                        session.setAttribute("wards", wards);
+
+                    }
+                    break;
+
+                case "/sub_county_addPerson":
+
+                    subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        wards = wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                        return;
+                    }
+
+                    if (wards != null) {
+                        session.setAttribute("wards", wards);
+                    }
+
                     break;
 
                 case "/head_userProfile":
@@ -524,19 +572,23 @@ public class PersonController extends Controller {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
-                LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+                response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
+                LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
 
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(bundle.getString("error_016_02") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("error_016_02"));
+            response.getWriter().write(getBundle().getString("error_016_02") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
 
     private static final Logger LOGGER = Logger.getLogger(PersonController.class.getSimpleName());
     @EJB
+    private WardRequestsLocal wardService;
+    @EJB
     private PersonRequestsLocal personService;
+    @EJB
+    private SubCountyRequestsLocal subCountyService;
 
 }

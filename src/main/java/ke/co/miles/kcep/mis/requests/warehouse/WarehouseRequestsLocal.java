@@ -46,6 +46,33 @@ public interface WarehouseRequestsLocal {
 
     /**
      *
+     * @param wardId the unique identifier of the ward where the warehouses are
+     * located
+     * @return the list of warehouses in the ward retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<WarehouseDetails> retrieveWardWarehouses(int wardId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county where the warehouses are
+     * located
+     * @return the list of warehouses in the county retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<WarehouseDetails> retrieveCountyWarehouses(short countyId) throws MilesException;
+
+    /**
+     *
+     * @param subCountyId the unique identifier of the sub-county where the warehouses are
+     * located
+     * @return the list of warehouses in the sub-county retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<WarehouseDetails> retrieveSubCountyWarehouses(int subCountyId) throws MilesException;
+
+    /**
+     *
      * @param warehouseDetails details of the warehouse record to be edited
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified

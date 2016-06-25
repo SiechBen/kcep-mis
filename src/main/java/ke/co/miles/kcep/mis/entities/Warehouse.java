@@ -33,6 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "warehouse", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Warehouse.findByWardId", query = "SELECT w FROM Warehouse w WHERE w.location.ward.id = :wardId"),
+    @NamedQuery(name = "Warehouse.findByCountyId", query = "SELECT w FROM Warehouse w WHERE w.location.county.id = :countyId"),
+    @NamedQuery(name = "Warehouse.findBySubCountyId", query = "SELECT w FROM Warehouse w WHERE w.location.subCounty.id = :subCountyId"),
     @NamedQuery(name = "Warehouse.findByWarehouseOperatorId", query = "SELECT w FROM Warehouse w WHERE w.warehouseOperator.id = :warehouseOperatorId"),
     @NamedQuery(name = "Warehouse.findAll", query = "SELECT w FROM Warehouse w"),
     @NamedQuery(name = "Warehouse.findById", query = "SELECT w FROM Warehouse w WHERE w.id = :id"),

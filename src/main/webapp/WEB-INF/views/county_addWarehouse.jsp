@@ -1,6 +1,6 @@
 <%-- 
-    Document   : sub_county_addWarehouse
-    Created on : Jun 23, 2016, 7:47:53 AM
+    Document   : county_addWarehouse
+    Created on : Jun 25, 2016, 12:35:11 PM
     Author     : siech
 --%>
 
@@ -8,14 +8,14 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:sub_county>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - add warehouse</jsp:attribute>
+<kcep:county>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - view purchase </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Sub-county Desk Officer</h1>
+                    <h1 class="page-header">County Desk Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -86,7 +86,12 @@
                                     <input type="hidden" id="warehouse-county" value="${sessionScope.person.location.county.id}">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" id="warehouse-sub-county" value="${sessionScope.person.location.subCounty.id}">
+                                    Sub-county
+                                    <select id="warehouse-sub-county" class="form-control">
+                                        <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index"> 
+                                            <option value="${subCounty.id}">${subCounty.name}</option>
+                                        </c:forEach>
+                                    </select>  
                                 </div>
                                 <div class="form-group">
                                     Ward
@@ -105,4 +110,4 @@
         </div>
 
     </jsp:attribute>
-</kcep:sub_county>
+</kcep:county>

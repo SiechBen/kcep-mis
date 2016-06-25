@@ -102,7 +102,56 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
+    public List<WarehouseDetails> retrieveWardWarehouses(int wardId) throws MilesException {
+
+        q = em.createNamedQuery("Warehouse.findByWardId");
+        q.setParameter("wardId", wardId);
+        List<Warehouse> warehouses;
+        try {
+            warehouses = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertWarehousesToWarehouseDetailsList(warehouses);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<WarehouseDetails> retrieveCountyWarehouses(short countyId) throws MilesException {
+
+        q = em.createNamedQuery("Warehouse.findByCountyId");
+        q.setParameter("countyId", countyId);
+        List<Warehouse> warehouses;
+        try {
+            warehouses = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertWarehousesToWarehouseDetailsList(warehouses);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<WarehouseDetails> retrieveSubCountyWarehouses(int subCountyId) throws MilesException {
+
+        q = em.createNamedQuery("Warehouse.findBySubCountyId");
+        q.setParameter("subCountyId", subCountyId);
+        List<Warehouse> warehouses;
+        try {
+            warehouses = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertWarehousesToWarehouseDetailsList(warehouses);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<WarehouseDetails> retrieveWarehouses() throws MilesException {
 
         q = em.createNamedQuery("Warehouse.findAll");

@@ -31,7 +31,7 @@ public class OfficerController extends Controller {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Locale locale = request.getLocale();
-        bundle = ResourceBundle.getBundle("text", locale);
+        setBundle(ResourceBundle.getBundle("text", locale));
 
         //Get the user session
         HttpSession session = request.getSession(false);
@@ -86,13 +86,13 @@ public class OfficerController extends Controller {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
-                LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+                response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
+                LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(bundle.getString("error_016_02") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("error_016_02"));
+            response.getWriter().write(getBundle().getString("error_016_02") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
 

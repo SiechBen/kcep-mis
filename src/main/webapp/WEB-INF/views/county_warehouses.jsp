@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ward_warehouses
-    Created on : Jun 22, 2016, 5:11:02 PM
+    Document   : county_warehouses
+    Created on : Jun 25, 2016, 11:36:17 AM
     Author     : siech
 --%>
 
@@ -8,14 +8,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:ward>
+<kcep:county>
     <jsp:attribute name="pagetitle"> KCEP-MIS - view warehouses </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Ward Extension Officer</h1>
+                    <h1 class="page-header">County Desk Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -77,4 +77,4 @@
         <!-- /#page-wrapper -->
 
     </jsp:attribute>
-</kcep:ward>
+</kcep:county>

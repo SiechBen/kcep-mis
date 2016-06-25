@@ -70,9 +70,24 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<SubCountyDetails> retrieveSubCounties() throws MilesException {
         List<SubCounty> subCountys = new ArrayList<>();
         q = em.createNamedQuery("SubCounty.findAll");
+        try {
+            subCountys = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertSubCountysToSubCountyDetailsList(subCountys);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<SubCountyDetails> retrieveSubCounties(short countyId) throws MilesException {
+        List<SubCounty> subCountys = new ArrayList<>();
+        q = em.createNamedQuery("SubCounty.findByCountyId");
+        q.setParameter("countyId", countyId);
         try {
             subCountys = q.getResultList();
         } catch (Exception e) {

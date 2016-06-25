@@ -30,7 +30,6 @@ import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.subgroup.FarmerSubGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.useraccount.UserAccountRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
@@ -114,6 +113,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveRegionPeople(int countyId) throws MilesException {
 
         List<County> counties = new ArrayList<>();
@@ -141,7 +141,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
-    public List<PersonDetails> retrieveCountyPeople(int countyId) throws MilesException {
+    public List<PersonDetails> retrieveCountyPeople(short countyId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
         q = em.createNamedQuery("Person.findByCountyId");

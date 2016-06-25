@@ -47,7 +47,7 @@ public class ProcurementController extends Controller {
         response.setContentType("text/html;charset=UTF-8");
 
         Locale locale = request.getLocale();
-        bundle = ResourceBundle.getBundle("text", locale);
+        setBundle(ResourceBundle.getBundle("text", locale));
 
         //Get the user session
         HttpSession session = request.getSession();
@@ -164,8 +164,8 @@ public class ProcurementController extends Controller {
                     if (fileName == null) {
                         procurement.setInvoiceOrReceipt(null);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("file_not_found_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
                     } else {
 
                         FileOutputStream outStream;
@@ -190,8 +190,8 @@ public class ProcurementController extends Controller {
                         } catch (FileNotFoundException e) {
                             procurement.setInvoiceOrReceipt(null);
                             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                            response.getWriter().write(bundle.getString("file_not_found_error") + "<br>");
-                            LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
+                            response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                            LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
                         }
                     }
 
@@ -199,8 +199,8 @@ public class ProcurementController extends Controller {
                         procurementService.addProcurement(procurement);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(e.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(""), e);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
                     }
 
                     return;
@@ -217,14 +217,14 @@ public class ProcurementController extends Controller {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
-                LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+                response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
+                LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
 
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(bundle.getString("error_016_02") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("error_016_02"));
+            response.getWriter().write(getBundle().getString("error_016_02") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
 
@@ -255,8 +255,8 @@ public class ProcurementController extends Controller {
         } catch (FileNotFoundException e) {
             filePath = null;
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(bundle.getString("file_not_found_error") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
+            response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
         }
 
         return filePath;

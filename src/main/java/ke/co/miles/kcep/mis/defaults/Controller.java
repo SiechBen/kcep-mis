@@ -44,7 +44,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 public abstract class Controller extends HttpServlet {
 
     {
-        bundle = ResourceBundle.getBundle("text");
+        setBundle(ResourceBundle.getBundle("text"));
     }
 
     /**
@@ -110,7 +110,7 @@ public abstract class Controller extends HttpServlet {
         if (warehouseTypes != null) {
             getServletContext().setAttribute("warehouseTypes", warehouseTypes);
         }
-        
+
         //Retrieve the list of counties
         List<CountyDetails> counties;
         try {
@@ -124,7 +124,7 @@ public abstract class Controller extends HttpServlet {
         if (counties != null) {
             getServletContext().setAttribute("counties", counties);
         }
-        
+
         //Retrieve the list of sub counties
         List<SubCountyDetails> subCounties;
         try {
@@ -138,7 +138,7 @@ public abstract class Controller extends HttpServlet {
         if (subCounties != null) {
             getServletContext().setAttribute("subCounties", subCounties);
         }
-        
+
         //Retrieve the list of wards
         List<WardDetails> wards;
         try {
@@ -215,8 +215,22 @@ public abstract class Controller extends HttpServlet {
         return null;
     }
 
+    /**
+     * @return the bundle
+     */
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
+
+    /**
+     * @param bundle the bundle to set
+     */
+    public void setBundle(ResourceBundle bundle) {
+        this.bundle = bundle;
+    }
+    
     private static final Logger LOGGER = Logger.getLogger(Controller.class.getSimpleName());
-    protected ResourceBundle bundle;
+    private ResourceBundle bundle;
     @EJB
     private FarmerGroupRequestsLocal farmerGroupService;
     @EJB
@@ -230,5 +244,6 @@ public abstract class Controller extends HttpServlet {
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
-    WarehouseTypeRequestsLocal warehouseTypeService;
+    private WarehouseTypeRequestsLocal warehouseTypeService;
+
 }

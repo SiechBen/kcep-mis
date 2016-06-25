@@ -83,28 +83,13 @@
                                     <input id="warehouse-longitude" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    County
-                                    <select id="warehouse-county" class="form-control">
-                                        <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
-                                            <option value="${county.id}">${county.name}</option>
-                                        </c:forEach>
-                                    </select>  
+                                    <input type="hidden" id="warehouse-county" value="${sessionScope.person.location.county.id}">
                                 </div>
                                 <div class="form-group">
-                                    Sub-county
-                                    <select id="warehouse-sub-county" class="form-control">
-                                        <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
-                                            <option value="${subCounty.id}">${subCounty.name}</option>
-                                        </c:forEach>
-                                    </select>  
+                                    <input type="hidden" id="warehouse-sub-county" value="${sessionScope.person.location.subCounty.id}">
                                 </div>
                                 <div class="form-group">
-                                    Ward
-                                    <select id="warehouse-ward" class="form-control">
-                                        <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index"> 
-                                            <option value="${ward.id}">${ward.name}</option>
-                                        </c:forEach>
-                                    </select>  
+                                    <input type="hidden" id="warehouse-ward" value="${sessionScope.person.location.subCounty.id}">
                                 </div>
                                 <button type="button" class="btn btn-outline btn-primary" onclick="addWarehouse()">Save warehouse</button>
                             </form>

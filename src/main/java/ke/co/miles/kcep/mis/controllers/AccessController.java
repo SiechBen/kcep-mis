@@ -52,7 +52,7 @@ public class AccessController extends Controller {
         PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
-        bundle = ResourceBundle.getBundle("text", locale);
+        setBundle(ResourceBundle.getBundle("text", locale));
 
         //Get the user session
         HttpSession session = request.getSession(false);
@@ -101,8 +101,8 @@ public class AccessController extends Controller {
                 } catch (MilesException ex) {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     response.setContentType("text/html;charset=UTF-8");
-                    response.getWriter().write(bundle.getString(ex.getCode()));
-                    LOGGER.log(Level.INFO, bundle.getString(ex.getCode()), ex);
+                    response.getWriter().write(getBundle().getString(ex.getCode()));
+                    LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
 
                     return;
 
@@ -187,26 +187,6 @@ public class AccessController extends Controller {
                                 rightsMaps.put("systemAdminSession", true);
                             }
 
-                            try {
-                                WarehouseDetails warehouse = warehouseService.retrieveWarehouse(person.getId());
-                                if (warehouse == null) {
-                                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                    response.setContentType("text/html;charset=UTF-8");
-                                    response.getWriter().write(bundle.getString("error_008_04"));
-                                    LOGGER.log(Level.INFO, bundle.getString("error_008_04"));
-                                    return;
-                                }
-
-                                session.setAttribute("warehouse", warehouse);
-
-                            } catch (MilesException ex) {
-                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                response.setContentType("text/html;charset=UTF-8");
-                                response.getWriter().write(bundle.getString(ex.getCode()));
-                                LOGGER.log(Level.INFO, bundle.getString(ex.getCode()), ex);
-                                return;
-                            }
-
                             break;
 
                         case "Equity":
@@ -222,8 +202,8 @@ public class AccessController extends Controller {
                                 if (warehouse == null) {
                                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                     response.setContentType("text/html;charset=UTF-8");
-                                    response.getWriter().write(bundle.getString("error_008_04"));
-                                    LOGGER.log(Level.INFO, bundle.getString("error_008_04"));
+                                    response.getWriter().write(getBundle().getString("error_008_04"));
+                                    LOGGER.log(Level.INFO, getBundle().getString("error_008_04"));
                                     return;
                                 }
 
@@ -232,8 +212,8 @@ public class AccessController extends Controller {
                             } catch (MilesException ex) {
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                 response.setContentType("text/html;charset=UTF-8");
-                                response.getWriter().write(bundle.getString(ex.getCode()));
-                                LOGGER.log(Level.INFO, bundle.getString(ex.getCode()), ex);
+                                response.getWriter().write(getBundle().getString(ex.getCode()));
+                                LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                                 return;
                             }
 
@@ -288,8 +268,8 @@ public class AccessController extends Controller {
         } catch (ServletException | IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("text/html;charset=UTF-8");
-            response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+            response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
         }
     }
 

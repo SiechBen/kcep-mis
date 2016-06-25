@@ -96,7 +96,7 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveCountyPeople(int countyId) throws MilesException;
+    public List<PersonDetails> retrieveCountyPeople(short countyId) throws MilesException;
 
     /**
      *

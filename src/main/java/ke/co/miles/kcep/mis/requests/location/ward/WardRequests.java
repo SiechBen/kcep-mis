@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.requests.location.ward;
 
-import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,6 +15,7 @@ import ke.co.miles.kcep.mis.entities.Ward;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 
 /**
@@ -70,9 +70,24 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<WardDetails> retrieveWards() throws MilesException {
         List<Ward> wards = new ArrayList<>();
         q = em.createNamedQuery("Ward.findAll");
+        try {
+            wards = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertWardsToWardDetailsList(wards);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<WardDetails> retrieveWards(int subCountyId) throws MilesException {
+        List<Ward> wards = new ArrayList<>();
+        q = em.createNamedQuery("Ward.findBySubCountyId");
+        q.setParameter("subCountyId", subCountyId);
         try {
             wards = q.getResultList();
         } catch (Exception e) {

@@ -51,7 +51,7 @@ public class EVoucherController extends Controller {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Locale locale = request.getLocale();
-        bundle = ResourceBundle.getBundle("text", locale);
+        setBundle(ResourceBundle.getBundle("text", locale));
 
         //Get the user session
         HttpSession session = request.getSession(false);
@@ -111,8 +111,8 @@ public class EVoucherController extends Controller {
                         eVouchers = eVoucherService.retrieveEVouchers();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(ex.getCode()));
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
 
@@ -141,8 +141,8 @@ public class EVoucherController extends Controller {
                         people = personService.retrievePeople();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(ex.getCode()));
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
 
@@ -157,8 +157,8 @@ public class EVoucherController extends Controller {
                         inputTypes = inputTypeService.retrieveInputTypes();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(ex.getCode()));
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
 
@@ -206,8 +206,8 @@ public class EVoucherController extends Controller {
                         eVoucher.setDateRedeemed(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("string_parse_error"));
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
                         eVoucher.setDateRedeemed(null);
                     }
 
@@ -238,16 +238,16 @@ public class EVoucherController extends Controller {
                     } catch (FileNotFoundException e) {
                         eVoucher.setInputsLogbookPage(null);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("file_not_found_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
                     }
 
                     try {
                         eVoucherService.addEVoucher(eVoucher);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(e.getMessage()));
-                        LOGGER.log(Level.INFO, bundle.getString(""), e);
+                        response.getWriter().write(getBundle().getString(e.getMessage()));
+                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
                     }
                     return;
             }
@@ -259,14 +259,14 @@ public class EVoucherController extends Controller {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
-                LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+                response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
+                LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
 
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(bundle.getString("error_016_02") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("error_016_02"));
+            response.getWriter().write(getBundle().getString("error_016_02") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
 

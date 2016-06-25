@@ -59,7 +59,7 @@ public class TrainingController extends Controller {
         response.setContentType("text/html;charset=UTF-8");
 
         Locale locale = request.getLocale();
-        bundle = ResourceBundle.getBundle("text", locale);
+        setBundle(ResourceBundle.getBundle("text", locale));
 
         //Get the user session
         HttpSession session = request.getSession(false);
@@ -188,8 +188,8 @@ public class TrainingController extends Controller {
                         trainingMap = trainerService.retrieveTrainings();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(ex.getCode()));
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
 
@@ -220,8 +220,8 @@ public class TrainingController extends Controller {
                         people = personService.retrievePeople();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, bundle.getString(ex.getCode()));
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
 
@@ -288,8 +288,8 @@ public class TrainingController extends Controller {
                         training.setStartDate(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("string_parse_error"));
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
                         training.setStartDate(null);
                     }
                     try {
@@ -303,8 +303,8 @@ public class TrainingController extends Controller {
                         training.setEndDate(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("string_parse_error"));
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
                         training.setEndDate(null);
                     }
 
@@ -339,8 +339,8 @@ public class TrainingController extends Controller {
                     } catch (FileNotFoundException e) {
                         training.setAttendanceSheet(null);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString("file_not_found_error") + "<br>");
-                        LOGGER.log(Level.INFO, bundle.getString("file_not_found_error"));
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
                     }
 
                     String[] trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
@@ -362,8 +362,8 @@ public class TrainingController extends Controller {
                         trainerService.addTrainers(trainerRecords, trainingId);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(bundle.getString(e.getMessage()));
-                        LOGGER.log(Level.INFO, bundle.getString(""), e);
+                        response.getWriter().write(getBundle().getString(e.getMessage()));
+                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
                     }
 
                     return;
@@ -380,14 +380,14 @@ public class TrainingController extends Controller {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write(bundle.getString("redirection_failed") + "<br>");
-                LOGGER.log(Level.INFO, bundle.getString("redirection_failed"), e);
+                response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
+                LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
 
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(bundle.getString("error_016_02") + "<br>");
-            LOGGER.log(Level.INFO, bundle.getString("error_016_02"));
+            response.getWriter().write(getBundle().getString("error_016_02") + "<br>");
+            LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
 
