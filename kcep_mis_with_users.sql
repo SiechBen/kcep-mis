@@ -41,6 +41,32 @@ LOCK TABLES `age_bracket` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `component`
+--
+
+DROP TABLE IF EXISTS `component`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `component` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `component` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `component_UNIQUE` (`component`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `component`
+--
+
+LOCK TABLES `component` WRITE;
+/*!40000 ALTER TABLE `component` DISABLE KEYS */;
+INSERT INTO `component` VALUES (1,'Cereal Productivity Enhancement'),(3,'Financial Services'),(2,'Post-Harvest Management and Market Linkages');
+/*!40000 ALTER TABLE `component` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `contact`
 --
 
@@ -98,14 +124,14 @@ DROP TABLE IF EXISTS `county`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `county` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `region` int(10) unsigned DEFAULT NULL,
+  `region` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
-  KEY `fk_county_region1` (`region`),
-  CONSTRAINT `fk_county_region1` FOREIGN KEY (`region`) REFERENCES `region` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_county_region2` (`region`),
+  CONSTRAINT `fk_county_region2` FOREIGN KEY (`region`) REFERENCES `region` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -376,6 +402,33 @@ LOCK TABLES `farmer_sub_group` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `implementing_partner`
+--
+
+DROP TABLE IF EXISTS `implementing_partner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `implementing_partner` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `person_role` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_table1_person_role1` (`person_role`),
+  CONSTRAINT `fk_table1_person_role1` FOREIGN KEY (`person_role`) REFERENCES `person_role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `implementing_partner`
+--
+
+LOCK TABLES `implementing_partner` WRITE;
+/*!40000 ALTER TABLE `implementing_partner` DISABLE KEYS */;
+INSERT INTO `implementing_partner` VALUES (1,8),(2,10),(3,12);
+/*!40000 ALTER TABLE `implementing_partner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `input_type`
 --
 
@@ -412,7 +465,7 @@ DROP TABLE IF EXISTS `location`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `location` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `county` int(10) unsigned DEFAULT NULL,
+  `county` smallint(5) unsigned DEFAULT NULL,
   `sub_county` int(10) unsigned DEFAULT NULL,
   `ward` int(10) unsigned DEFAULT NULL,
   `longitude` decimal(10,7) DEFAULT NULL,
@@ -425,7 +478,7 @@ CREATE TABLE `location` (
   CONSTRAINT `fk_location_county1` FOREIGN KEY (`county`) REFERENCES `county` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_location_sub_county1` FOREIGN KEY (`sub_county`) REFERENCES `sub_county` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_location_ward1` FOREIGN KEY (`ward`) REFERENCES `ward` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,7 +487,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000),(3,1,1,1,NULL,NULL),(4,1,15,19,NULL,NULL),(5,1,1,1,NULL,NULL),(6,1,1,1,NULL,NULL),(7,1,1,7,NULL,NULL),(8,1,1,7,NULL,NULL),(9,1,1,1,NULL,NULL),(10,1,4,5,NULL,NULL),(11,6,7,6,NULL,NULL),(12,3,3,3,NULL,NULL);
+INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000),(3,1,1,1,NULL,NULL),(4,1,15,19,NULL,NULL),(5,1,1,1,NULL,NULL),(6,1,1,1,NULL,NULL),(7,1,1,7,NULL,NULL),(8,1,1,7,NULL,NULL),(9,1,1,1,NULL,NULL),(10,1,4,5,NULL,NULL),(11,6,7,6,NULL,NULL),(12,3,3,3,NULL,NULL),(13,3,3,3,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,13 +499,14 @@ DROP TABLE IF EXISTS `measurement_unit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `measurement_unit` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL,
   `unit` varchar(45) NOT NULL,
   `symbol` varchar(20) DEFAULT NULL,
+  `use` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `unit_UNIQUE` (`unit`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,7 +515,7 @@ CREATE TABLE `measurement_unit` (
 
 LOCK TABLES `measurement_unit` WRITE;
 /*!40000 ALTER TABLE `measurement_unit` DISABLE KEYS */;
-INSERT INTO `measurement_unit` VALUES (1,'Kilograms','Kg'),(2,'Tonnes','T'),(3,'90 kg Bags',NULL),(4,'Number',NULL),(5,'Meeting',NULL),(6,'Lumpsum',NULL);
+INSERT INTO `measurement_unit` VALUES (1,'Kilograms','Kg',NULL),(2,'Tonnes','T',NULL),(3,'90 kg Bags',NULL,NULL),(4,'Number',NULL,'Programme'),(5,'Meeting',NULL,'Programme'),(6,'Lumpsum',NULL,'Programme');
 /*!40000 ALTER TABLE `measurement_unit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -599,7 +653,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'Ben Siech',2,'29820457','1993-06-19','Millet growing',NULL,NULL,NULL,1,1),(3,'Ben Siech',2,'29820458','1993-06-22','Millet growing',NULL,NULL,NULL,3,3),(4,'Ben Siech',2,'29820459','1993-06-22','Millet growing',NULL,NULL,NULL,4,4),(5,'Ben Siech',2,'29820460','1993-06-22','Millet growing',NULL,NULL,NULL,5,5),(6,'Ben Siech',2,'29820461','1993-06-22','',NULL,NULL,NULL,6,6),(7,'Ben Siech',2,'29820463','2016-06-22','Millet growing',NULL,NULL,NULL,7,7),(8,'Ben Siech',2,'29820451','2016-06-22','Millet growing',NULL,NULL,NULL,8,8),(9,'Ben Siech',1,'29820452','2016-06-22','Millet growing',NULL,NULL,NULL,9,9),(10,'Ben Siech',2,'29820453','2016-06-22','Millet growing',NULL,NULL,NULL,10,10),(11,'Ben Siech',2,'29820455','2016-06-22','Millet growing',NULL,NULL,NULL,11,11),(12,'Ben Siech',2,'29820456','2016-06-22','Millet growing',NULL,NULL,NULL,12,12);
+INSERT INTO `person` VALUES (1,'Ben Siech',2,'29820457','1993-06-19','Millet growing',NULL,NULL,NULL,1,1),(3,'Ben Siech',2,'29820458','1993-06-22','Millet growing',NULL,NULL,NULL,12,3),(4,'Ben Siech',2,'29820459','1993-06-22','Millet growing',NULL,NULL,NULL,3,4),(5,'Ben Siech',2,'29820460','1993-06-22','Millet growing',NULL,NULL,NULL,4,5),(6,'Ben Siech',2,'29820461','1993-06-22','',NULL,NULL,NULL,5,6),(7,'Ben Siech',2,'29820463','2016-06-22','Millet growing',NULL,NULL,NULL,6,7),(8,'Ben Siech',2,'29820451','2016-06-22','Millet growing',NULL,NULL,NULL,7,8),(9,'Ben Siech',1,'29820452','2016-06-22','Millet growing',NULL,NULL,NULL,8,9),(10,'Ben Siech',2,'29820453','2016-06-22','Millet growing',NULL,NULL,NULL,9,10),(11,'Ben Siech',2,'29820455','2016-06-22','Millet growing',NULL,NULL,NULL,10,11),(12,'Ben Siech',2,'29820456','2016-06-22','Millet growing',NULL,NULL,NULL,11,12);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -611,12 +665,12 @@ DROP TABLE IF EXISTS `person_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `person_role` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `person_role` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `person_role_UNIQUE` (`person_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -625,7 +679,7 @@ CREATE TABLE `person_role` (
 
 LOCK TABLES `person_role` WRITE;
 /*!40000 ALTER TABLE `person_role` DISABLE KEYS */;
-INSERT INTO `person_role` VALUES (2,'Agro-dealer'),(5,'County Officer'),(10,'Equity'),(1,'Farmer'),(8,'KALRO Officer'),(7,'National Officer'),(6,'Regional Coordinator'),(4,'Sub-county Officer'),(9,'System Admin'),(3,'WAO (Ward Extension Officer)'),(11,'Warehouse Operator');
+INSERT INTO `person_role` VALUES (12,'Agmark'),(2,'Agro-dealer'),(5,'County Officer'),(10,'Equity'),(1,'Farmer'),(8,'KALRO Officer'),(7,'National Officer'),(6,'Regional Coordinator'),(4,'Sub-county Officer'),(9,'System Admin'),(3,'WAO (Ward Extension Officer)'),(11,'Warehouse Operator');
 /*!40000 ALTER TABLE `person_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -643,7 +697,7 @@ CREATE TABLE `procurement` (
   `serial_number` varchar(45) DEFAULT NULL,
   `description` varchar(400) DEFAULT NULL,
   `target_office` varchar(45) DEFAULT NULL,
-  `county` int(10) unsigned DEFAULT NULL,
+  `county` smallint(5) unsigned DEFAULT NULL,
   `sub_county` varchar(45) DEFAULT NULL,
   `cost` varchar(45) DEFAULT NULL,
   `lpo_number` varchar(45) DEFAULT NULL,
@@ -676,19 +730,26 @@ CREATE TABLE `programme` (
   `activity` text,
   `start_period` varchar(45) DEFAULT NULL,
   `end_period` varchar(45) DEFAULT NULL,
-  `unit` varchar(45) DEFAULT NULL,
-  `awp_target` varchar(45) DEFAULT NULL,
+  `measurement_unit` smallint(5) unsigned DEFAULT NULL,
+  `awpb_target` varchar(45) DEFAULT NULL,
   `programme_target` varchar(45) DEFAULT NULL,
   `value_achieved` varchar(45) DEFAULT NULL,
   `requested_budget` varchar(45) DEFAULT NULL,
   `actual_expenditure` varchar(45) DEFAULT NULL,
-  `measurement_unit` int(10) unsigned NOT NULL,
-  `programmecol` varchar(45) DEFAULT NULL,
+  `component` smallint(5) unsigned NOT NULL,
+  `sub_component` smallint(5) unsigned DEFAULT NULL,
+  `implementing_partner` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_programme_measurement_unit1` (`measurement_unit`),
-  CONSTRAINT `fk_programme_measurement_unit1` FOREIGN KEY (`measurement_unit`) REFERENCES `measurement_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_programme_component1` (`component`),
+  KEY `fk_programme_sub_component1` (`sub_component`),
+  KEY `fk_programme_table11` (`implementing_partner`),
+  CONSTRAINT `fk_programme_component1` FOREIGN KEY (`component`) REFERENCES `component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programme_measurement_unit1` FOREIGN KEY (`measurement_unit`) REFERENCES `measurement_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programme_sub_component1` FOREIGN KEY (`sub_component`) REFERENCES `sub_component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programme_table11` FOREIGN KEY (`implementing_partner`) REFERENCES `implementing_partner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -697,6 +758,7 @@ CREATE TABLE `programme` (
 
 LOCK TABLES `programme` WRITE;
 /*!40000 ALTER TABLE `programme` DISABLE KEYS */;
+INSERT INTO `programme` VALUES (1,'KCEP implementation','06/24/2016','06/24/2016',NULL,'20000','23000','1200000','100000','91000',1,NULL,1),(2,'KCEP optimization','06/24/2016','06/24/2016',NULL,'500000','2500000','2200000','410000','412000',3,NULL,3),(3,'KCEP actualization','06/24/2016','06/24/2016',6,'600000','450000','35000000','2000000','2100000',2,NULL,2),(4,'KCEP appropriation','06/24/2016','06/24/2016',5,'200000','500000','700000','150000','165000',1,2,3);
 /*!40000 ALTER TABLE `programme` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -708,7 +770,7 @@ DROP TABLE IF EXISTS `region`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `region` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -835,6 +897,35 @@ INSERT INTO `static_input` VALUES (2,'Beans'),(4,'Green grams'),(1,'Maize'),(6,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sub_component`
+--
+
+DROP TABLE IF EXISTS `sub_component`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sub_component` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `sub_component` varchar(200) NOT NULL,
+  `component` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `sub_component_UNIQUE` (`sub_component`),
+  KEY `fk_sub_component_component1` (`component`),
+  CONSTRAINT `fk_sub_component_component1` FOREIGN KEY (`component`) REFERENCES `component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sub_component`
+--
+
+LOCK TABLES `sub_component` WRITE;
+/*!40000 ALTER TABLE `sub_component` DISABLE KEYS */;
+INSERT INTO `sub_component` VALUES (1,'Including appropriate technical packages, advisory services and input supply- to increase the\nquantity and quality of production',1),(2,'The strengthening of farmers‟ organizations',1);
+/*!40000 ALTER TABLE `sub_component` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sub_county`
 --
 
@@ -844,7 +935,7 @@ DROP TABLE IF EXISTS `sub_county`;
 CREATE TABLE `sub_county` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `county` int(10) unsigned NOT NULL,
+  `county` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_sub_county_county1` (`county`),
@@ -902,7 +993,7 @@ DROP TABLE IF EXISTS `technology_target_county`;
 CREATE TABLE `technology_target_county` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `technology` int(10) unsigned NOT NULL,
-  `county` int(10) unsigned NOT NULL,
+  `county` smallint(5) unsigned NOT NULL,
   `kalro_officer` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -925,6 +1016,35 @@ LOCK TABLES `technology_target_county` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `trainer`
+--
+
+DROP TABLE IF EXISTS `trainer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `trainer` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `person` int(10) unsigned NOT NULL,
+  `training` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_trainer_person1` (`person`),
+  KEY `fk_trainer_training1` (`training`),
+  CONSTRAINT `fk_trainer_person1` FOREIGN KEY (`person`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_trainer_training1` FOREIGN KEY (`training`) REFERENCES `training` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trainer`
+--
+
+LOCK TABLES `trainer` WRITE;
+/*!40000 ALTER TABLE `trainer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `trainer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `training`
 --
 
@@ -935,19 +1055,16 @@ CREATE TABLE `training` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `trainer` int(10) unsigned DEFAULT NULL,
   `topic` varchar(200) DEFAULT NULL,
   `venue` int(10) unsigned NOT NULL,
   `number_of_trainees` int(11) DEFAULT NULL,
   `attendance_sheet` varchar(200) DEFAULT NULL COMMENT 'Location of attachment\n',
-  `category_of_trainees` int(10) unsigned DEFAULT NULL COMMENT 'Category of trainees eg farmers',
+  `category_of_trainees` smallint(5) unsigned DEFAULT NULL COMMENT 'Category of trainees eg farmers',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_training_person1` (`trainer`),
   KEY `fk_training_person_role1` (`category_of_trainees`),
   KEY `fk_training_location1` (`venue`),
   CONSTRAINT `fk_training_location1` FOREIGN KEY (`venue`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_training_person1` FOREIGN KEY (`trainer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_training_person_role1` FOREIGN KEY (`category_of_trainees`) REFERENCES `person_role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -973,7 +1090,7 @@ CREATE TABLE `user_account` (
   `person` int(10) unsigned NOT NULL,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
-  `person_role` int(10) unsigned NOT NULL,
+  `person_role` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
@@ -990,7 +1107,7 @@ CREATE TABLE `user_account` (
 
 LOCK TABLES `user_account` WRITE;
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
-INSERT INTO `user_account` VALUES (1,1,'siele.bernard@gmail.com','1aca6dca73cc19c35147c3c7d2707ca78dd2495c7075c4b41912c140c4b39c00',3),(2,3,'agrodealer@gmail.com','35e8f79d9e51f0a3970f9cadc210ddec20d377af1e6a6d09c2f4eff3a9efa0d8',2),(3,4,'countyofficer@gmail.com','86ba3fc5f3c904d88523fe117921e46ce21f000b71386471d43367e6e86193fe',5),(4,5,'equity@gmail.com','3e0abfe6dc7124b22dc288240ab281552628179686a89fa3f09b8fd839f2453a',10),(5,6,'farmer@gmail.com','ba2a06effc4ee674b193ba47e22af92dda8e5c83b6657bb1d105deb6f2b4fa5f',1),(6,7,'kalroofficer@gmail.com','b163088866b02553aac34836f7699c1dcb5ccba391edd8efbdc21f664cefd0e7',8),(7,8,'nationalofficer@gmail.com','150a83b58026957b23ad46de7e69aa9de4e406cb6e10b7e92e940ad224687ace',7),(8,9,'regionalcoordinator@gmail.com','1abfa2598a1c1e5e722af1b81f8594330531d916f84cd18b804b8efabb431b21',6),(9,10,'subcounty@gmail.com','8d5e355759e9bbaeb101db1129e489b4e0acce93f38e6ea61d5c416bf872c924',4),(10,11,'warehouseoperator@gmail.com','f671352bd741b3226ed0126d2bc06d2e2ca485ee4ab0dbe8c3ab16a9b4a9b71b',11),(11,12,'wao@gmail.com','59c094d3f594d8900c5db0d90574d9f65c779b4101a02a8cb6d7f1c8586f1af5',3);
+INSERT INTO `user_account` VALUES (1,1,'siele.bernard@gmail.com','1aca6dca73cc19c35147c3c7d2707ca78dd2495c7075c4b41912c140c4b39c00',9),(2,3,'agrodealer@gmail.com','35e8f79d9e51f0a3970f9cadc210ddec20d377af1e6a6d09c2f4eff3a9efa0d8',2),(3,4,'countyofficer@gmail.com','86ba3fc5f3c904d88523fe117921e46ce21f000b71386471d43367e6e86193fe',5),(4,5,'equity@gmail.com','3e0abfe6dc7124b22dc288240ab281552628179686a89fa3f09b8fd839f2453a',10),(5,6,'farmer@gmail.com','ba2a06effc4ee674b193ba47e22af92dda8e5c83b6657bb1d105deb6f2b4fa5f',1),(6,7,'kalroofficer@gmail.com','b163088866b02553aac34836f7699c1dcb5ccba391edd8efbdc21f664cefd0e7',8),(7,8,'nationalofficer@gmail.com','150a83b58026957b23ad46de7e69aa9de4e406cb6e10b7e92e940ad224687ace',7),(8,9,'regionalcoordinator@gmail.com','1abfa2598a1c1e5e722af1b81f8594330531d916f84cd18b804b8efabb431b21',6),(9,10,'subcounty@gmail.com','8d5e355759e9bbaeb101db1129e489b4e0acce93f38e6ea61d5c416bf872c924',4),(10,11,'warehouseoperator@gmail.com','f671352bd741b3226ed0126d2bc06d2e2ca485ee4ab0dbe8c3ab16a9b4a9b71b',11),(11,12,'wao@gmail.com','59c094d3f594d8900c5db0d90574d9f65c779b4101a02a8cb6d7f1c8586f1af5',3);
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1060,10 +1177,10 @@ DROP TABLE IF EXISTS `warehouse`;
 CREATE TABLE `warehouse` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) DEFAULT NULL,
-  `warehouse_type` int(10) unsigned NOT NULL DEFAULT '1',
+  `warehouse_type` smallint(5) unsigned NOT NULL DEFAULT '1',
   `warehouse_operator` int(10) unsigned DEFAULT NULL COMMENT 'Person id is the operator\n',
   `capacity` int(11) DEFAULT NULL,
-  `units` int(10) unsigned DEFAULT NULL,
+  `units` smallint(5) unsigned DEFAULT NULL,
   `offers_wrs` tinyint(1) DEFAULT NULL,
   `certified` tinyint(1) DEFAULT NULL,
   `location` int(10) unsigned DEFAULT NULL,
@@ -1098,7 +1215,7 @@ DROP TABLE IF EXISTS `warehouse_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `warehouse_type` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -1124,4 +1241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-23 10:36:22
+-- Dump completed on 2016-06-25  9:58:59

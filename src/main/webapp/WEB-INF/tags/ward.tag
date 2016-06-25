@@ -16,10 +16,10 @@
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
     <jsp:attribute name="menuitems">
         <li>
-            <a onclick="loadAjaxWindow('ward')"><i class="fa fa-table fa-fw"></i> WAO </a>
-        </li>    
-        <li>
             <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('samples')"><i class="fa fa-edit fa-fw"></i> Sampled Farmers </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('training')"><i class="fa fa-edit fa-fw"></i> Training </a>

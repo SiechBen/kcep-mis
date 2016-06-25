@@ -24,82 +24,6 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Person details
-                        </div>
-                        <div class="panel-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    Name
-                                    <input id="person-name" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Person role
-                                    <select id="person-role" class="form-control">
-                                        <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
-                                            <option value="${personRole.id}">${personRole.personRole}</option>
-                                        </c:forEach>
-                                    </select>    
-                                </div>
-                                <div class="form-group">
-                                    National id number
-                                    <input id="national-id" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Business name
-                                    <input id="business-name" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Sex
-                                    <select id="sex" class="form-control">
-                                        <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index"> 
-                                            <option value="${sex.id}">${sex.sex}</option>
-                                        </c:forEach>
-                                    </select> 
-                                </div>
-                                <div class="form-group">
-                                    Phone number
-                                    <input id="phone" type="phone" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Postal address
-                                    <input id="postal-address" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Email address
-                                    <input id="email" type="email" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Farmer group
-                                    <select id="farmer-group" class="form-control">
-                                        <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index"> 
-                                            <option value="${farmerGroup.id}">${farmerGroup.name}</option>
-                                        </c:forEach>
-                                    </select>    
-                                </div>
-                                <div class="form-group">
-                                    County
-                                    <select id="person-county" class="form-control">
-                                        <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
-                                            <option value="${county.id}">${county.name}</option>
-                                        </c:forEach>
-                                    </select>  
-                                </div>
-                                <div class="form-group">
-                                    Sub-county
-                                    <input id="person-sub-county" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Ward
-                                    <input id="person-ward" class="form-control">
-                                </div>
-                                <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save person</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
                             Number of farmers sampled
                         </div>
                         <!-- /.panel-heading -->
@@ -261,6 +185,9 @@
                     </div>
                     <!-- /.panel -->
                 </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
                 <!-- /.col-lg-6 -->
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -297,10 +224,6 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <!-- /.col-lg-6 -->
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -333,89 +256,6 @@
                     </div>
                 </div>
                 <!-- /.col-lg-6 -->
-            </div>
-            <!-- /.row -->
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Collection centres
-                        </div>
-                        <div class="panel-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    Operational
-                                    <select class="form-control">
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    Latitude
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Longitude
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    County
-                                    <select class="form-control">
-                                        <option>Baringo</option>
-                                        <option>Bomet</option>
-                                        <option>...</option>
-                                    </select>  </div>
-                                <div class="form-group">
-                                    Sub-county
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Ward
-                                    <input class="form-control">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-lg-6 (nested) -->
-                <div class="col-lg-6">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Training
-                        </div>
-                        <div class="panel-body">
-                            <form role="form">
-                                <div class="form-group">
-                                    Date of training
-                                    <input type="datetime" class="form-control datefield">
-                                </div>
-                                <div class="form-group">
-                                    Trainer
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Topic of training
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Venue of training
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Number of trainees
-                                    <input class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Attach attendance sheet showing KCEP & Non-KCEP trainees, gender, age, farmer
-                                    group                                                <input type="file">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
         </div>
