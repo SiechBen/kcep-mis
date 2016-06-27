@@ -30,7 +30,7 @@
                             <form role="form">
                                 <div class="form-group">
                                     Activity
-                                    <input type="text" id="activity" class="form-control">
+                                    <textarea id="activity" class="form-control"> </textarea>
                                 </div>
                                 <div class="form-group">
                                     Start period
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     Unit
-                                 <select id="measurement-unit" class="form-control">
+                                    <select id="measurement-unit" class="form-control">
                                         <c:forEach var="programmeMeasurementUnit" items="${sessionScope.programmeMeasurementUnits}">
                                             <option value="${programmeMeasurementUnit.id}">${programmeMeasurementUnit.unit}</option>
                                         </c:forEach>

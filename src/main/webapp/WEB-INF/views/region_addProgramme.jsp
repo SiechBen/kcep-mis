@@ -30,7 +30,7 @@
                             <form role="form">
                                 <div class="form-group">
                                     Activity
-                                    <input type="text" id="activity" class="form-control">
+                                    <textarea id="activity" class="form-control"> </textarea>
                                 </div>
                                 <div class="form-group">
                                     Start period

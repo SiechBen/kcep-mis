@@ -132,11 +132,7 @@ public class AccessController extends Controller {
                         case "Farmer":
                             rightsMaps.clear();
                             rightsMaps.put("farmerSession", true);
-                            session.setAttribute("home", "/");
-                            session.setAttribute("user", null);
-                            session.setAttribute("person", null);
-                            session.setAttribute("loggedIn", false);
-                            session.setAttribute("personRole", null);
+                            session.setAttribute("home", "/farmer");
                             break;
 
                         case "Agro-dealer":

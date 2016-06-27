@@ -35,9 +35,9 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
 import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.EVoucherDetails;
+import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
+import ke.co.miles.kcep.mis.utilities.PersonDetails;
 
 /**
  *
@@ -46,6 +46,8 @@ import ke.co.miles.kcep.mis.utilities.EVoucherDetails;
 @WebServlet(name = "EVoucherController", urlPatterns = {"/addEVoucher", "/doAddEVoucher", "/eVouchers"})
 @MultipartConfig
 public class EVoucherController extends Controller {
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,6 +68,7 @@ public class EVoucherController extends Controller {
 
         final String fileSeparator = File.separator;
 
+        @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
