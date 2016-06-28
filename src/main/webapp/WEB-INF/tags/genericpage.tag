@@ -5,6 +5,8 @@
 --%>
 
 <%@tag description="This is the parent tag for java server pages used in kcep-mis" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <%-- The list of normal attributes:--%>
 <%@attribute name="title" required="true" %>
@@ -45,8 +47,14 @@
 
         <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
 
+        <!-- Timeline CSS -->
+        <link href="static/css/timeline.css" rel="stylesheet">
+
         <!-- Custom CSS -->
         <link href="static/css/kcep-mis.css" rel="stylesheet">
+
+        <!-- Morris Charts CSS -->
+        <link href="static/plugins/morrisjs/morris.css" rel="stylesheet">
 
         <!-- Custom Fonts -->
         <link href="static/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -83,44 +91,22 @@
                             <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-messages">
+                            <c:forEach var="feedback" items="${applicationScope.latestFeedbackList}">
+                                <li>
+                                    <a onclick="loadAjaxWindow('feedback')">
+                                        <div>
+                                            <strong>${feedback.farmer.name}</strong>
+                                            <span class="pill-right text-muted">
+                                                <em>${feedback.timePosted}</em>
+                                            </span>
+                                        </div>
+                                        <div>${feedback.shortMessage}</div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                </c:forEach>
                             <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
+                                <a class="text-center" onclick="loadAjaxWindow('feedback'')">
                                     <strong>Read All Messages</strong>
                                     <i class="fa fa-angle-right"></i>
                                 </a>
@@ -305,9 +291,9 @@
                             <li>
                                 <a onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                             </li>
-                            
+
                             ${menuitems}
-                        
+
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->
@@ -337,6 +323,11 @@
 
         <!-- Metis Menu Plugin JavaScript -->
         <script src="static/plugins/metisMenu/dist/metisMenu.min.js"></script>
+
+        <!-- Morris Charts JavaScript -->
+        <script src="static/plugins/raphael/raphael-min.js"></script>
+        <script src="static/plugins/morrisjs/morris.min.js"></script>
+        <script src="static/plugins/morrisjs/morris-data.js"></script>
 
         <!-- DataTables JavaScript -->
         <script src="static/plugins/datatables/media/js/jquery.dataTables.min.js"></script>

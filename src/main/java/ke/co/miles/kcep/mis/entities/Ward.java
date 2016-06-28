@@ -117,5 +117,5 @@ public class Ward implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Ward[ id=" + id + " ]";
     }
-
+    
 }

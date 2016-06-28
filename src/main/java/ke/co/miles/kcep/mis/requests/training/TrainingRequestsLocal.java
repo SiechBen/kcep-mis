@@ -5,12 +5,9 @@
  */
 package ke.co.miles.kcep.mis.requests.training;
 
-import java.util.HashMap;
-import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Training;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
 /**

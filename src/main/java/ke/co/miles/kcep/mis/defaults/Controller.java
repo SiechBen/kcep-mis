@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.farmer.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
@@ -29,6 +30,7 @@ import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
+import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
@@ -42,6 +44,8 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
  */
 @WebServlet(name = "Controller", urlPatterns = {"/Controller"})
 public abstract class Controller extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
 
     {
         setBundle(ResourceBundle.getBundle("text"));
@@ -99,6 +103,27 @@ public abstract class Controller extends HttpServlet {
 
     //<editor-fold defaultstate="collapsed" desc="Avail application attributes">
     protected void availApplicationAttributes() {
+
+        List<FeedbackDetails> feedbackList;
+        try {
+            feedbackList = feedbackService.retrieveFeedback();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An error occurred during feedback records retrieval", e);
+            return;
+        }
+        if (feedbackList != null) {
+            getServletContext().setAttribute("feedbackList", feedbackList);
+        }
+
+        try {
+            feedbackList = feedbackService.retrieveLatestFeedback();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
+            return;
+        }
+        if (feedbackList != null) {
+            getServletContext().setAttribute("latestFeedbackList", feedbackList);
+        }
 
         List<WarehouseTypeDetails> warehouseTypes;
         try {
@@ -228,9 +253,11 @@ public abstract class Controller extends HttpServlet {
     public void setBundle(ResourceBundle bundle) {
         this.bundle = bundle;
     }
-    
+
     private static final Logger LOGGER = Logger.getLogger(Controller.class.getSimpleName());
     private ResourceBundle bundle;
+    @EJB
+    private FeedbackRequestsLocal feedbackService;
     @EJB
     private FarmerGroupRequestsLocal farmerGroupService;
     @EJB

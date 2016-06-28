@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.training;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -140,11 +141,19 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         if (training.getVenue() != null) {
             trainingDetails.setVenue(locationService.convertLocationToLocationDetails(training.getVenue()));
         }
-
         if (training.getCategoryOfTrainees() != null) {
             trainingDetails.setCategoryOfTrainees(trainingRoleService.convertPersonRoleToPersonRoleDetail(training.getCategoryOfTrainees()));
         }
 
+        if (trainingDetails.getAttendanceSheet() != null) {
+            try {
+                String[] folders = trainingDetails.getAttendanceSheet().split(File.separator);
+                String fileName = folders[folders.length - 1];
+                trainingDetails.setFileName(fileName);
+            } catch (Exception e) {
+            }
+        }
+        
         return trainingDetails;
 
     }

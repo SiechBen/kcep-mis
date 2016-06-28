@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.procurement;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -62,6 +63,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ProcurementDetails> retrieveProcurements() throws MilesException {
         List<Procurement> procurements = new ArrayList<>();
         q = em.createNamedQuery("Procurement.findAll");
@@ -154,6 +156,11 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurementDetails.setItem(procurement.getItem());
         procurementDetails.setCounty(countyDetails);
 
+        if (procurementDetails.getInvoiceOrReceipt() != null) {
+            String[] folders = procurementDetails.getInvoiceOrReceipt().split(File.separator);
+            String fileName = folders[folders.length - 1];
+            procurementDetails.setFileName(fileName);
+        }
         return procurementDetails;
 
     }

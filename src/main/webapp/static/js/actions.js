@@ -1,4 +1,5 @@
 var language = "en";
+
 //<editor-fold defaultstate="collapsed" desc="Menu">
 $(function () {
 
@@ -39,19 +40,6 @@ $(function () {
 });
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Override href default functionality">
-//$('a').click(function (event) {
-//    event.preventDefault();
-//    $.ajax({
-//        url: $(this).attr('href'),
-//        success: function (response) {
-//            alert(response);
-//        }
-//    });
-//    return false; //for good measure
-//});
-//</editor-fold>
-
 //<editor-fold defaultstate="collapsed" desc="Date picker, data tables">
 $(function () {
     $(".data-table").DataTable({
@@ -62,510 +50,28 @@ $(function () {
 });
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Document">
-$(document).ready(function () {
-
-    $.i18n.properties({
-        name: "text",
-        path: "assets/bundles/",
-        mode: "both",
-        language: language
-    });
-
-    //<editor-fold defaultstate="collapsed" desc="Button Icons">
-    $(".backButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-arrowthick-1-w"
-        }
-    });
-    $(".fowardButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-arrowthick-1-e"
-        }
-    });
-    $(".cancelButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-cancel"
-        }
-    });
-    $(".addButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-plus"
-        }
-    });
-    $(".editButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-pencil"
-        }
-    });
-    $(".deleteButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-trash"
-        }
-    });
-    $(".saveButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-disk"
-        }
-    });
-    $(".openButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-extlink"
-        }
-    });
-    $(".searchButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-search"
-        }
-    });
-    $(".openFolderButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-folder-open"
-        }
-    });
-    $(".refreshButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-refresh"
-        }
-    });
-    $(".downloadButton").button({
-        text: false,
-        icons: {
-            primary: "ui-icon-arrowthick-1-s"
-        }
-    });
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Button Tooltips">
-    $("i").tooltip();
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Zebra Stripes">
-    //$("tr:odd").addClass("odd");
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Tabs">
-
-    $("#selectSecondTabs").tabs({active: 1});
-    $("#selectThirdTabs").tabs({active: 2});
-    $("#tabs").tabs();
-    $("#tabs2").tabs();
-    $("#innertabs").tabs();
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Date Pickers">
-    $(".datePicker").datepicker({
-        dateFormat: "dd-mm-yy",
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "-80:+0" // last eighty years
-    });
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Accordion">
-    var headers = ["H1", "H2", "H3", "H4", "H5", "H6"];
-    $(".accordion").click(function (e) {
-        var target = e.target,
-                name = target.nodeName.toUpperCase();
-        if ($.inArray(name, headers) > -1) {
-            var subItem = $(target).next();
-            //slideUp all elements (except target) at current depth or greater
-            var depth = $(subItem).parents().length;
-            var allAtDepth = $(".accordion p, .accordion div").filter(function () {
-                if ($(this).parents().length >= depth && this !== subItem.get(0)) {
-                    return true;
-                }
-            });
-            $(allAtDepth).slideUp("fast");
-            //slideToggle target content and adjust bottom border if necessary
-            subItem.slideToggle("fast", function () {
-                $(".accordion :visible:last").css("border-radius", "0 0 10px 10px");
-            });
-            $(target).css({"border-bottom-right-radius": "0", "border-bottom-left-radius": "0"});
-        }
-    });
-    $("#accordion").accordion({
-        header: "> div > h3",
-        /*event: "click hoverintent",*/
-        heightStyle: "content",
-        collapsible: true
-    })
-            .sortable({
-                axis: "y",
-                handle: "h3",
-                stop: function (event, ui) {
-                    // IE doesn"t register the blur when sorting
-                    // so trigger focusout handlers to remove .ui-state-focus
-                    ui.item.children("h3").triggerHandler("focusout");
-                }
-            });
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="AJAX Setup">
-    $(function () {
-        //setup ajax error handling
-        $.ajaxSetup({
-            error: function (x) {
-                if (x.status === 403) {
-                    showMessage("Error", "Sorry, your session has expired. Please login again to continue");
-                    window.location.href = "/sci/index.jsp";
-                } else {
-                    showMessage("Error ", x.responseText);
-                }
-            },
-            headers: {
-                "Accept-Language": language
-            }
-        });
-    });
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Events">
-
-    /*Search*/
-    $("input#search").keyup(function (e) {
-// Set Timeout
-        clearTimeout($.data(this, "timer"));
-        // Set Search String
-        var search_string = $(this).val();
-        // Do Search
-        if (search_string === "") {
-            $("div#results").fadeOut();
-        } else {
-            $("div#results").fadeIn();
-            $(this).data("timer", setTimeout("search", 100));
-        }
-    });
-    $("input#participantsSearch").keyup(function (e) {
-        $("#filteredPersonsList tbody").load("/sci/filterOutPotentialParticipants", {
-            filter: $(e.target).val()
-        }, function () {
-            $(".addButton").button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-plus"
-                }
-            });
-            $(".openButton").button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-extlink"
-                }
-            });
-        });
-    });
-    $("input#organizationsSearch").keyup(function (e) {
-        $("#filteredOrganizationsList tbody").load("/sci/filterOutPotentialOrganizers", {
-            filter: $(e.target).val()
-        }, function () {
-            $(".addButton").button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-plus"
-                }
-            });
-            $(".openButton").button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-extlink"
-                }
-            });
-        });
-    });
-    $("input#publicMemberTypesSearch").keyup(function (e) {
-        $("#filteredPublicMemberTypesList tbody").load("/sci/filterOutPotentialTargetPublicMemberTypes", {
-            filter: $(e.target).val()
-        }, function () {
-            $(".addButton").button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-plus"
-                }
-            });
-            $(".openButton").button({
-                text: false,
-                icons: {
-                    primary: "ui-icon-extlink"
-                }
-            });
-        });
-    });
-    $("#modulesCovered input[type='checkbox']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            addModuleCovered($(this).val());
-        } else {
-// the checkbox was unchecked
-            removeModuleCovered($(this).val());
-        }
-    });
-    $("#professionalCompetencyTable input[type='checkbox']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            addPersonsProfessionalCompetency($(this).val());
-        } else {
-// the checkbox was unchecked
-            removePersonsProfessionalCompetency($(this).val());
-        }
-    });
-    $("#afflictedFacilityExcludesGroupRow input[type='checkbox'']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            $("#exclusionBasisRow").show();
-        } else {
-// the checkbox was unchecked
-            $("#exclusionBasisRow").hide();
-        }
-    });
-    $("#afflictedFacilityIsReopeningRow input[type='checkbox']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            $("#reopeningDateRow").show();
-        } else {
-// the checkbox was unchecked
-            $("#reopeningDateRow").hide();
-        }
-    });
-    $("#workgroupTypesPermissions input[type='checkbox']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            addWorkgroupTypeViewPermission($(this).val());
-        } else {
-// the checkbox was unchecked
-            removeWorkgroupTypeViewPermission($(this).val());
-        }
-    });
-    $("#workgroupPermissions input[type='checkbox']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            addWorkgroupViewPermission($(this).val());
-        } else {
-// the checkbox was unchecked
-            removeWorkgroupViewPermission($(this).val());
-        }
-    });
-    $("#afflictedFacility").change(function (e) {
-        $("#afflictedFacilityType").load("/sci/filterOutFacilityTypes", {
-            facility: $(e.target).val()
-        });
-    });
-    $("#incomingMajor").change(function (e) {
-        $("#incomingCourse").load("/sci/filterOutCourses", {
-            major: $(e.target).val()
-        });
-    });
-    $("#incumbentMajor").change(function (e) {
-        $("#incumbentCourse").load("/sci/filterOutCourses", {
-            major: $(e.target).val()
-        });
-    });
-    $("#initialAlertSource").change(function (e) {
-        var source = $("#initialAlertSource option:selected").text();
-        if (source.toLowerCase() === "other") {
-            addSelectableSourceOfInitialAlert();
-        }
-    });
-    $("#informantCategory").change(function (e) {
-        var category = $("#informantCategory option:selected").text();
-        if (category.toLowerCase() === "other") {
-            addSelectableInformantCategory();
-        }
-    });
-    $("#physicalEvidenceType").change(function (e) {
-        var physicalEvidence = $("#physicalEvidenceType option:selected").text();
-        if (physicalEvidence.toLowerCase() === "other") {
-            addSelectablePhysicalEvidenceType();
-        }
-    });
-    $("#incidenceLocation").change(function (e) {
-        var incidenceLocation = $("#incidenceLocation option:selected").text();
-        if (incidenceLocation.toLowerCase() === "other") {
-            addSelectableIncidenceLocation();
-        }
-    });
-    $("#caseCategory").change(function (e) {
-        $("#caseInstance").load("/sci/filterViolations", {
-            violationCategoryId: $(e.target).val(),
-            violationTypeId: $("#caseSubcategory").val()
-        });
-    });
-    $("#caseSubcategory").change(function (e) {
-        $("#caseInstance").load("/sci/filterViolations", {
-            violationTypeId: $(e.target).val(),
-            violationCategoryId: $("#caseCategory").val()
-        });
-    });
-    $("#perpetratorCategory").change(function (e) {
-        $("#perpetratorSubCategory").load("/sci/filterOutPerpetratorSubcategories", {
-            category: $(e.target).val()
-        });
-    });
-    $("#facilitiesConsiderations input[type='checkbox']").change(function () {
-        if (this.checked) {
-// the checkbox was checked
-            addFacilityConsideration($(this).val());
-        } else {
-// the checkbox was unchecked
-            removeFacilityConsideration($(this).val());
-        }
-    });
-    $("#afflictedReligion").change(function (e) {
-        var religion = $("#afflictedReligion option:selected").text();
-        if (religion.toLowerCase() === "other") {
-            addSelectableReligion();
-        }
-    });
-    $("#afflictedCivilianStatus").change(function (e) {
-        var status = $("#afflictedCivilianStatus option:selected").text();
-        if (status.toLowerCase() === "other") {
-            addSelectableCivilianStatus();
-        }
-    });
-    $("#afflictedChildCareArrangement").change(function (e) {
-        var arrangement = $("#afflictedChildCareArrangement option:selected").text();
-        if (arrangement.toLowerCase() === "other") {
-            addSelectableChildCareArrangement();
-        }
-    });
-    $("#violationPurpose").change(function (e) {
-        var violationPurpose = $("#violationPurpose option:selected").text();
-        if (violationPurpose.toLowerCase() === "other") {
-            addSelectableViolationPurpose();
-        }
-    });
-    $("#violationContext").change(function (e) {
-        var violationContext = $("#violationContext option:selected").text();
-        if (violationContext.toLowerCase() === "other") {
-            addSelectableViolationContext();
-        }
-    });
-    $("#violationMechanism").change(function (e) {
-        var violationMechanism = $("#violationMechanism option:selected").text();
-        if (violationMechanism.toLowerCase() === "other") {
-            addSelectableViolationMechanism();
-        }
-    });
-    $("#violationOutcome").change(function (e) {
-        var violationOutcome = $("#violationOutcome option:selected").text();
-        if (violationOutcome.toLowerCase() === "other") {
-            addSelectableViolationOutcome();
-        }
-    });
-    $("#evaluationPrepared input[type='checkbox']").change(function () {
-        if (this.checked) {
-//The checkbox was checked
-//Elevate status to ready
-            updateStatus("2");
-        }
-    });
-    $("#evaluationReady input[type='checkbox']").change(function () {
-        if (!this.checked) {
-//The checkbox was unchecked
-//Revert status to in-preparation
-            updateStatus("1");
-        }
-    });
-    $("#issueEvaluation input[type='checkbox']").change(function () {
-        if (this.checked) {
-//The checkbox was checked
-//Make the evaluation available to the attendants
-            updateStatus("3");
-        }
-    });
-    $("#evaluationCompleted input[type='checkbox']").change(function () {
-        if (this.checked) {
-//The checkbox was checked
-//Make the evaluation as having been completed by the trainees
-            updateStatus("4");
-        }
-    });
-    $("#courseType").change(function (e) {
-
-
-
-//Hide all course blocks
-        $("div.courseBlock").hide();
-        //Get the selected course type
-        courseType = $(e.target).val();
-        //Show the selected course type block
-        switch (courseType) {
-            case "1"://MULTIPLE_CHOICE_ONE_ANSWER,
-                $("div#MULTIPLE_CHOICE_ONE_ANSWER").show();
-                break;
-            case "2"://MULTIPLE_CHOICE_MULTIPLE_ANSWERS,
-                $("div#MULTIPLE_CHOICE_MULTIPLE_ANSWERS").show();
-                break;
-            case "3"://COMMENT_OR_ESSAY_BOX_SINGLE,
-                $("div#COMMENT_OR_ESSAY_BOX_SINGLE").show();
-                break;
-            case "4"://RANKING,
-                $("div#RANKING").show();
-                break;
-            case "5"://RATING,
-                $("div#RATING").show();
-                break;
-            case "6"://MATRIX_OF_CHOICES_ONE_ANSWER,
-                $("div#MATRIX_OF_CHOICES_ONE_ANSWER").show();
-                break;
-            case "7"://MATRIX_OF_CHOICES_MULTIPLE_ANSWERS,
-                $("div#MATRIX_OF_CHOICES_MULTIPLE_ANSWERS").show();
-                break;
-            case "8"://MATRIX_OF_DROP_DOWN_MENUS,
-                $("div#MATRIX_OF_DROP_DOWN_MENUS").show();
-                break;
-            case "9"://TEXTBOXES_GENERAL,
-                $("div#TEXTBOXES_GENERAL").show();
-                break;
-            case "10"://COMMENT_OR_ESSAY_BOX_MULTIPLE,
-                $("div#COMMENT_OR_ESSAY_BOX_MULTIPLE").show();
-                break;
-            case "11"://TEXTBOXES_NUMERICAL,
-                $("div#TEXTBOXES_NUMERICAL").show();
-                break;
-            case "12"://TEXTBOXES_DATE
-                $("div#TEXTBOXES_DATE").show();
-                break;
-        }
-    });
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Animations">
-    // Animate buttons, move reflection and fade
-    $("#report-tools img").hover(function () {
-        $(this).stop().animate({
-            marginTop: "-10px"
-        }, 200);
-        $(this).parent().find("span").stop().animate({
-            marginTop: "18px",
-            opacity: 0.25
-        }, 200);
-    }, function () {
-        $(this).stop().animate({
-            marginTop: "0px"
-        }, 300);
-        $(this).parent().find("span").stop().animate({
-            marginTop: "1px",
-            opacity: 1
-        }, 300);
-    });
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-    //</editor-fold>
-
+//<editor-fold defaultstate="collapsed" desc="Application attributes">
+$.ajax({
+    url: "load",
+    type: "POST",
+    data: "",
+    error: function (response) {
+        showError("error_label", response.responseText);
+    },
+    dataType: "HTML"
 });
+
+function loadApplicationAttributes() {
+    $.ajax({
+        url: "load",
+        type: "POST",
+        data: "",
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sliding form">
@@ -1108,3 +614,16 @@ function addEquipment() {
 }
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Feedback">
+
+$("#feedback-form").ajaxForm({
+    success: function () {
+        $("#feedback").val("");
+        loadAjaxWindow("home");
+        return;
+    },
+    error: function (response) {
+        showError("error_label", response.responseText);
+    }
+});
+//</editor-fold>

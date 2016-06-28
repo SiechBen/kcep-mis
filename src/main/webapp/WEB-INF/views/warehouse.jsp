@@ -1,5 +1,5 @@
 <%-- 
-    Document   : warehouse_operator
+    Document   : warehouse
     Created on : Jun 23, 2016, 9:45:32 AM
     Author     : siech
 --%>
@@ -8,9 +8,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:warehouse_operator>
+<kcep:warehouse>
     <jsp:attribute name="pagetitle"> KCEP-MIS - warehouse operator </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
     </jsp:attribute>
-</kcep:warehouse_operator>
+</kcep:warehouse>

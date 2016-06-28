@@ -1,5 +1,5 @@
 <%-- 
-    Document   : warehouse_operator_equipment
+    Document   : warehouse_equipment
     Created on : Jun 22, 2016, 4:51:41 PM
     Author     : siech
 --%>

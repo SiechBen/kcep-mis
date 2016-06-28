@@ -73,10 +73,10 @@ public class EquipmentController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
                             if (path.equals("/equipment")) {
-                                path = "/warehouse_operator_equipment";
+                                path = "/warehouse_equipment";
                                 urlPaths.add(path);
                             } else if (path.equals("/addEquipment")) {
-                                path = "/warehouse_operator_addEquipment";
+                                path = "/warehouse_addEquipment";
                                 urlPaths.add(path);
                             }
                         }
@@ -123,7 +123,7 @@ public class EquipmentController extends Controller {
 
                 case "/head_equipment":
                 case "/ward_equipment":
-                case "/warehouse_operator_equipment":
+                case "/warehouse_equipment":
 
                     //Retrieve the list of equipments belonging to a warehouse
                     List<EquipmentDetails> equipment;

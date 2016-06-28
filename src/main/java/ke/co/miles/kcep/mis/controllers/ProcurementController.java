@@ -58,6 +58,7 @@ public class ProcurementController extends Controller {
 
         final String fileSeparator = File.separator;
 
+        @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
@@ -95,13 +96,6 @@ public class ProcurementController extends Controller {
 
                     //Avail the procurements in the application scope
                     if (procurements != null) {
-                        for (ProcurementDetails procurement : procurements) {
-                            if (procurement.getInvoiceOrReceipt() != null) {
-                                String[] folders = procurement.getInvoiceOrReceipt().split(fileSeparator);
-                                String fileName = folders[folders.length - 1];
-                                procurement.setFileName(fileName);
-                            }
-                        }
                         session.setAttribute("procurements", procurements);
                     }
                     break;

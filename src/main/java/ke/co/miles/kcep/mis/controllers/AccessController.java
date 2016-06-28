@@ -31,7 +31,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
  *
  * @author siech
  */
-@WebServlet(name = "AccessController", urlPatterns = {"/login", "/logout", "/index", "/loginpage", "/home"})
+@WebServlet(name = "AccessController", urlPatterns = {"/login", "/logout", "/index", "/loginpage", "/home", "/load"})
 public class AccessController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -249,7 +249,15 @@ public class AccessController extends Controller {
                 LOGGER.log(Level.SEVERE, "Path is : {0}", path);
                 //Redirect user to the page
                 request.getRequestDispatcher(path).forward(request, response);
+
                 return;
+
+            case "/load":
+
+                availApplicationAttributes();
+
+                return;
+
         }
 
         //Retrieve the the application attributes and avail them in the application session
@@ -273,6 +281,6 @@ public class AccessController extends Controller {
     @EJB
     private PersonRequestsLocal personService;
     @EJB
-    WarehouseRequestsLocal warehouseService;
+    private WarehouseRequestsLocal warehouseService;
 
 }

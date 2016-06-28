@@ -402,6 +402,34 @@ LOCK TABLES `farmer_sub_group` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `feedback`
+--
+
+DROP TABLE IF EXISTS `feedback`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feedback` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  `time_posted` datetime NOT NULL,
+  `farmer` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_feedback_person1` (`farmer`),
+  CONSTRAINT `fk_feedback_person1` FOREIGN KEY (`farmer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `feedback`
+--
+
+LOCK TABLES `feedback` WRITE;
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `implementing_partner`
 --
 
@@ -487,7 +515,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000),(3,1,1,1,NULL,NULL),(4,1,15,19,NULL,NULL),(5,1,1,1,NULL,NULL),(6,1,1,1,NULL,NULL),(7,1,1,7,NULL,NULL),(8,1,1,7,NULL,NULL),(9,1,1,1,NULL,NULL),(10,1,4,5,NULL,NULL),(11,6,7,6,NULL,NULL),(12,3,3,3,NULL,NULL),(13,3,3,3,NULL,NULL);
+INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000),(3,1,1,1,NULL,NULL),(4,1,15,19,NULL,NULL),(5,1,1,1,NULL,NULL),(6,1,1,6,NULL,NULL),(7,1,1,7,NULL,NULL),(8,1,1,7,NULL,NULL),(9,1,1,1,NULL,NULL),(10,1,4,5,NULL,NULL),(11,6,7,6,NULL,NULL),(12,3,3,6,NULL,NULL),(13,3,3,3,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1241,4 +1269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-25  9:58:59
+-- Dump completed on 2016-06-27 12:33:37
