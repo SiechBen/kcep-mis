@@ -42,7 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Training.findById", query = "SELECT t FROM Training t WHERE t.id = :id"),
     @NamedQuery(name = "Training.findByStartDate", query = "SELECT t FROM Training t WHERE t.startDate = :startDate"),
     @NamedQuery(name = "Training.findByEndDate", query = "SELECT t FROM Training t WHERE t.endDate = :endDate"),
-    @NamedQuery(name = "Training.findByTopic", query = "SELECT t FROM Training t WHERE t.topic = :topic"),
     @NamedQuery(name = "Training.findByNumberOfTrainees", query = "SELECT t FROM Training t WHERE t.numberOfTrainees = :numberOfTrainees"),
     @NamedQuery(name = "Training.findByAttendanceSheet", query = "SELECT t FROM Training t WHERE t.attendanceSheet = :attendanceSheet")})
 public class Training implements Serializable {
@@ -59,9 +58,6 @@ public class Training implements Serializable {
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @Size(max = 200)
-    @Column(name = "topic")
-    private String topic;
     @Column(name = "number_of_trainees")
     private Integer numberOfTrainees;
     @Size(max = 200)
@@ -73,6 +69,11 @@ public class Training implements Serializable {
     @JoinColumn(name = "category_of_trainees", referencedColumnName = "id")
     @ManyToOne
     private PersonRole categoryOfTrainees;
+    @JoinColumn(name = "topic", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Topic topic;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "training")
+    private List<Trainee> traineeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "training")
     private List<Trainer> trainerList;
 
@@ -107,14 +108,6 @@ public class Training implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
     public Integer getNumberOfTrainees() {
         return numberOfTrainees;
     }
@@ -145,6 +138,23 @@ public class Training implements Serializable {
 
     public void setCategoryOfTrainees(PersonRole categoryOfTrainees) {
         this.categoryOfTrainees = categoryOfTrainees;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    @XmlTransient
+    public List<Trainee> getTraineeList() {
+        return traineeList;
+    }
+
+    public void setTraineeList(List<Trainee> traineeList) {
+        this.traineeList = traineeList;
     }
 
     @XmlTransient

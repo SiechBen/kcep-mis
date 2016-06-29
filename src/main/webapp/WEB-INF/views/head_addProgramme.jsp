@@ -29,10 +29,30 @@
                         <div class="panel-body">
                             <form role="form">
                                 <div class="form-group">
-                                    Activity
-                                    <textarea id="activity" class="form-control"> </textarea>
+                                    Component
+                                    <select id="component" class="form-control">
+                                        <c:forEach var="component" items="${sessionScope.components}">
+                                            <option value="${component.id}">${component.component}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                                 <div class="form-group">
+                                    Sub-component
+                                    <select id="sub-component" class="form-control">
+                                        <option selected>Select sub-component</option>
+                                        <c:forEach var="subComponent" items="${sessionScope.subComponents}">
+                                            <option value="${subComponent.id}">${subComponent.subComponent}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    Activity
+                                    <select id="activity" class="form-control">
+                                        <c:forEach var="activity" items="${sessionScope.activities}">
+                                            <option value="${activity.id}">${activity.description}</option>
+                                        </c:forEach>
+                                    </select> 
+                                </div>     <div class="form-group">
                                     Start period
                                     <input id="start-period" class="form-control datefield">
                                 </div>
@@ -72,23 +92,6 @@
                                     <select id="implementing-partner" class="form-control">
                                         <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}">
                                             <option value="${implementingPartner.id}">${implementingPartner.personRole.personRole}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    Component
-                                    <select id="component" class="form-control">
-                                        <c:forEach var="component" items="${sessionScope.components}">
-                                            <option value="${component.id}">${component.component}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    Sub-component
-                                    <select id="sub-component" class="form-control">
-                                        <option selected>Select sub-component</option>
-                                        <c:forEach var="subComponent" items="${sessionScope.subComponents}">
-                                            <option value="${subComponent.id}">${subComponent.subComponent}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

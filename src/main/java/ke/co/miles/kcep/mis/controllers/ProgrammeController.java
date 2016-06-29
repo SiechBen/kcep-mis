@@ -27,6 +27,7 @@ import ke.co.miles.kcep.mis.requests.programme.ProgrammeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.implementingpartner.ImplementingPartnerRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ActivityDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
@@ -166,7 +167,6 @@ public class ProgrammeController extends Controller {
                 case "/doAddProgramme":
 
                     ProgrammeDetails programme = new ProgrammeDetails();
-                    programme.setActivity(String.valueOf(request.getParameter("activity")));
                     programme.setAwpbTarget(String.valueOf(request.getParameter("awpbTarget")));
                     programme.setEndPeriod(String.valueOf(request.getParameter("endPeriod")));
                     programme.setStartPeriod(String.valueOf(request.getParameter("startPeriod")));
@@ -175,9 +175,6 @@ public class ProgrammeController extends Controller {
                     programme.setProgrammeTarget(String.valueOf(request.getParameter("programmeTarget")));
                     programme.setActualExpenditure(String.valueOf(request.getParameter("actualExpenditure")));
 
-                    if (programme.getActivity().equals("null")) {
-                        programme.setActivity(null);
-                    }
                     if (programme.getAwpbTarget().equals("null")) {
                         programme.setAwpbTarget(null);
                     }
@@ -213,6 +210,13 @@ public class ProgrammeController extends Controller {
                     } catch (Exception e) {
                         component = null;
                     }
+                    
+                    ActivityDetails activity;
+                    try {
+                        activity = new ActivityDetails(Integer.valueOf(request.getParameter("component")));
+                    } catch (Exception e) {
+                        activity = null;
+                    }
 
                     SubComponentDetails subComponent;
                     try {
@@ -230,6 +234,7 @@ public class ProgrammeController extends Controller {
                         implementingPartner = null;
                     }
 
+                    programme.setActivity(activity);
                     programme.setComponent(component);
                     programme.setSubComponent(subComponent);
                     programme.setMeasurementUnit(measurementUnit);

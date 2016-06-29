@@ -30,11 +30,11 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
     public int addFarmerSubGroup(FarmerSubGroupDetails farmerSubGroupDetails) throws MilesException {
 
         if (farmerSubGroupDetails == null) {
-            throw new InvalidArgumentException("error_028_01");
+            throw new InvalidArgumentException("error_035_01");
         } else if (farmerSubGroupDetails.getName() == null) {
-            throw new InvalidArgumentException("error_028_02");
+            throw new InvalidArgumentException("error_035_02");
         } else if (farmerSubGroupDetails.getName().length() > 200) {
-            throw new InvalidArgumentException("error_028_03");
+            throw new InvalidArgumentException("error_035_03");
         }
 
         FarmerSubGroup farmerSubGroup;
@@ -47,7 +47,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
             farmerSubGroup = null;
         }
         if (farmerSubGroup != null) {
-            throw new InvalidArgumentException("error_028_04");
+            throw new InvalidArgumentException("error_035_04");
         }
 
         farmerSubGroup = new FarmerSubGroup();
@@ -101,13 +101,13 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
     public void editFarmerSubGroup(FarmerSubGroupDetails farmerSubGroupDetails) throws MilesException {
 
         if (farmerSubGroupDetails == null) {
-            throw new InvalidArgumentException("error_028_01");
+            throw new InvalidArgumentException("error_035_01");
         } else if (farmerSubGroupDetails.getId() == null) {
-            throw new InvalidArgumentException("error_028_05");
+            throw new InvalidArgumentException("error_035_05");
         } else if (farmerSubGroupDetails.getName() == null) {
-            throw new InvalidArgumentException("error_028_02");
+            throw new InvalidArgumentException("error_035_02");
         } else if (farmerSubGroupDetails.getName().length() > 200) {
-            throw new InvalidArgumentException("error_028_03");
+            throw new InvalidArgumentException("error_035_03");
         }
 
         FarmerSubGroup farmerSubGroup;
@@ -121,7 +121,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         }
         if (farmerSubGroup != null) {
             if (farmerSubGroup.getId().equals(farmerSubGroupDetails.getId())) {
-                throw new InvalidArgumentException("error_028_04");
+                throw new InvalidArgumentException("error_035_04");
             }
         }
 
@@ -187,6 +187,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
     }
 
 //</editor-fold>
+   
     @EJB
     private FarmerGroupRequestsLocal farmerGroupService;
 }

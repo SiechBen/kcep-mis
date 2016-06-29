@@ -15,7 +15,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-9">
-                    <h1 class="page-header">Ward Extension Officer</h1>
+                    <h1 class="page-header">Ward Agricultural Officer</h1>
                 </div>
             </div>
             <!-- /.row -->

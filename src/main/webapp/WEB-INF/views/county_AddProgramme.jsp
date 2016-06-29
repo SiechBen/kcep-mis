@@ -1,6 +1,6 @@
 <%-- 
-    Document   : region_addProgramme
-    Created on : Jun 22, 2016, 4:19:40 PM
+    Document   : county_AddProgramme
+    Created on : Jun 28, 2016, 7:56:33 PM
     Author     : siech
 --%>
 
@@ -8,14 +8,14 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:region>
+<kcep:county>
     <jsp:attribute name="pagetitle"> KCEP-MIS - add programme </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Regional Coordinator</h1>
+                    <h1 class="page-header">County Desk Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -52,8 +52,7 @@
                                             <option value="${activity.id}">${activity.description}</option>
                                         </c:forEach>
                                     </select> 
-                                </div>
-                                <div class="form-group">
+                                </div>     <div class="form-group">
                                     Start period
                                     <input id="start-period" class="form-control datefield">
                                 </div>
@@ -67,8 +66,7 @@
                                         <c:forEach var="programmeMeasurementUnit" items="${sessionScope.programmeMeasurementUnits}">
                                             <option value="${programmeMeasurementUnit.id}">${programmeMeasurementUnit.unit}</option>
                                         </c:forEach>
-                                    </select>
-                                </div>
+                                    </select>     </div>
                                 <div class="form-group">
                                     Annual Work Plans and Budgets(AWPB) target
                                     <input id="awpb-target" class="form-control">
@@ -97,14 +95,13 @@
                                         </c:forEach>
                                     </select>
                                 </div>
+                                <button type="button" class="btn btn-outline btn-primary" onclick="addProgramme()">Save programme</button>
+                            </form>
                         </div>
-                        <button type="button" class="btn btn-outline btn-primary" onclick="addProgramme()">Save programme</button>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</jsp:attribute>
-</kcep:region>
+    </jsp:attribute>
+</kcep:county>

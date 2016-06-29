@@ -65,6 +65,8 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name")
     private String businessName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<Trainee> traineeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<Feedback> feedbackList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
@@ -157,6 +159,15 @@ public class Person implements Serializable {
 
     public void setBusinessName(String businessName) {
         this.businessName = businessName;
+    }
+
+    @XmlTransient
+    public List<Trainee> getTraineeList() {
+        return traineeList;
+    }
+
+    public void setTraineeList(List<Trainee> traineeList) {
+        this.traineeList = traineeList;
     }
 
     @XmlTransient

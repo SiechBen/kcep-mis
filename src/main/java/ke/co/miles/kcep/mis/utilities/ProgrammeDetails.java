@@ -31,11 +31,11 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
         this.id = id;
     }
 
-    public String getActivity() {
+    public ActivityDetails getActivity() {
         return activity;
     }
 
-    public void setActivity(String activity) {
+    public void setActivity(ActivityDetails activity) {
         this.activity = activity;
     }
 
@@ -179,7 +179,7 @@ public class ProgrammeDetails implements Serializable, Comparable<ProgrammeDetai
     }
 
     private Integer id;
-    private String activity;
+    private ActivityDetails activity;
     private String endPeriod;
     private String awpTarget;
     private String startPeriod;

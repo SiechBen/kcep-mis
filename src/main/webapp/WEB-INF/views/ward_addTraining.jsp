@@ -15,7 +15,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Ward Extension Officer</h1>
+                    <h1 class="page-header">Ward Agricultural Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -49,7 +49,11 @@
                                 </div>
                                 <div class="form-group">
                                     Topic
-                                    <input id="topic" name="topic" class="form-control">
+                                    <select id="topic" name="topic" class="form-control">
+                                        <c:forEach var="topic" items="${applicationScope.topics}" varStatus="index"> 
+                                            <option value="${topic.id}">${topic.topic}</option>
+                                        </c:forEach>
+                                    </select>  
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" id="training-county" name="training-county" value="${sessionScope.person.location.county.id}">
@@ -73,6 +77,17 @@
                                         </c:forEach>
                                     </select>  
                                 </div>  
+                                <div class="form-group">
+                                    Trainees
+                                    <select id="trainee" name="trainee" class="form-control" onchange="addToTrainees()">
+                                        <option selected>Select trainees</option>
+                                        <c:forEach var="training" items="${sessionScope.people}" varStatus="index"> 
+                                            <option value="${training.id}">${training.name}</option>
+                                        </c:forEach>
+                                    </select> 
+                                    <input type="text" id="trainee-names" value="" class="form-control" readonly="true">
+                                    <input type="hidden" id="trainee-ids" name="trainee-ids" value="">
+                                </div>
                                 <div class="form-group">
                                     Attendance sheet
                                     <input type="file" id="attendance-sheet" name="attendance-sheet" class="form-control">

@@ -353,6 +353,18 @@ public class PersonController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+
+                    List<WardDetails> wards = new ArrayList<>();
+
+                    try {
+                        wards.addAll(wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                        return;
+                    }
+
+                    session.setAttribute("wards", wards);
+
                     break;
 
                 case "/agro_dealer_people":
@@ -503,7 +515,7 @@ public class PersonController extends Controller {
                         return;
                     }
 
-                    List<WardDetails> wards = new ArrayList<>();
+                    wards = new ArrayList<>();
                     if (subCounties != null) {
 
                         for (SubCountyDetails subCountyDetails : subCounties) {
