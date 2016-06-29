@@ -39,16 +39,6 @@ INSERT INTO `person` VALUES (3,'Ben Siech',2,'29820458','1993-06-22','Millet gro
 UNLOCK TABLES;
 
 --
--- Dumping data for table `programme`
---
-
-LOCK TABLES `programme` WRITE;
-/*!40000 ALTER TABLE `programme` DISABLE KEYS */;
-INSERT INTO `programme` VALUES (1,'KCEP implementation','06/24/2016','06/24/2016',NULL,'20000','23000','1200000','100000','91000',1,NULL,1),(2,'KCEP optimization','06/24/2016','06/24/2016',NULL,'500000','2500000','2200000','410000','412000',3,NULL,3),(3,'KCEP actualization','06/24/2016','06/24/2016',6,'600000','450000','35000000','2000000','2100000',2,NULL,2),(4,'KCEP appropriation','06/24/2016','06/24/2016',5,'200000','500000','700000','150000','165000',1,2,3);
-/*!40000 ALTER TABLE `programme` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `user_account`
 --
 

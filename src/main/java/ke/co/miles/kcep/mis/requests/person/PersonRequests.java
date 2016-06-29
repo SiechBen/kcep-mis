@@ -141,6 +141,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveCountyPeople(short countyId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
@@ -156,6 +157,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveWardPeople(int wardId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
@@ -164,6 +166,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             peopleDetailsList = convertPeopleToPersonDetailsList(q.getResultList());
         } catch (Exception e) {
+            System.out.println(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -171,6 +174,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveSubCountyPeople(int subCountyId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
@@ -186,6 +190,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveSubCountyFarmers(int subCountyId) throws MilesException {
         List<PersonDetails> peopleDetailsList = null;
         List<Person> people;
@@ -206,6 +211,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveKalroPeople() throws MilesException {
         List<PersonDetails> peopleDetailsList = null;
         List<Person> people;
@@ -282,6 +288,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<PersonDetails> retrievePeople() throws MilesException {
 
         q = em.createNamedQuery("Person.findAll");
@@ -427,10 +434,17 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     private List<PersonDetails> convertPeopleToPersonDetailsList(List<Person> people) {
 
+        int maleCount, femaleCount;
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (Person person : people) {
-            personDetailsList.add(convertPersonToPersonDetails(person));
 
+            PersonDetails personDetails;
+            personDetails = convertPersonToPersonDetails(person);
+            personDetailsList.add(personDetails);
+
+            if (personDetails.getSex() == SexDetail.FEMALE) {
+
+            }
         }
 
         return personDetailsList;

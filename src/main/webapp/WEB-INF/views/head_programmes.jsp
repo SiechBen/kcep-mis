@@ -34,6 +34,9 @@
                                     <thead>
                                         <tr>
                                             <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addProgramme')">Add</button></th>
+                                            <th>Component</th>
+                                            <th>Sub-component</th>
+                                            <th>Implementing partner</th>
                                             <th>Activity</th>
                                             <th>Start period</th>
                                             <th>End period</th>
@@ -43,9 +46,6 @@
                                             <th>Value achieved</th>
                                             <th>Requested budget</th>
                                             <th>Actual expenditure</th>
-                                            <th>Implementing partner</th>
-                                            <th>Component</th>
-                                            <th>Sub-component</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -57,7 +57,10 @@
                                         <c:forEach var="programme" items="${sessionScope.programmes}" varStatus="index">
                                             <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                                 <td>${index.count}</td>
-                                                <td>${programme.activity}</td>
+                                                <td>${programme.component.component}</td>
+                                                <td>${programme.subComponent.subComponent}</td>
+                                                <td>${programme.implementingPartner.personRole.personRole}</td>
+                                                <td>${programme.activity.description}</td>
                                                 <td>${programme.startPeriod}</td>
                                                 <td>${programme.endPeriod}</td>
                                                 <td>${programme.measurementUnit.unit}</td>
@@ -66,9 +69,6 @@
                                                 <td>${programme.valueAchieved}</td>
                                                 <td>${programme.requestedBudget}</td>
                                                 <td>${programme.actualExpenditure}</td>
-                                                <td>${programme.implementingPartner.personRole.personRole}</td>
-                                                <td>${programme.component.component}</td>
-                                                <td>${programme.subComponent.subComponent}</td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>

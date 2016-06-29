@@ -15,7 +15,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Ward Extension Officer</h1>
+                    <h1 class="page-header">Ward Agricultural Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -42,8 +42,8 @@
                                             <th>Sub-county</th>
                                             <th>Ward</th>
                                             <th>Number of trainees</th>
-                                            <th>Attendance sheet</th>
                                             <th>Category of trainees</th>
+                                            <th>Attendance sheet</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -62,7 +62,7 @@
                                                         ${trainer.person.name} 
                                                     </c:forEach>
                                                 </td>
-                                                <td>${training.topic}</td>
+                                                <td>${training.topic.topic}</td>
                                                 <td>${training.venue.county.name}</td>
                                                 <td>${training.venue.subCounty.name}</td>
                                                 <td>${training.venue.ward.name}</td>

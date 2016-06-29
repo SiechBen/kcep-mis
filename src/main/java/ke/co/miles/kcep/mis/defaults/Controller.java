@@ -27,6 +27,7 @@ import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
+import ke.co.miles.kcep.mis.requests.training.topic.TopicRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
@@ -35,6 +36,7 @@ import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.TopicDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
@@ -103,6 +105,17 @@ public abstract class Controller extends HttpServlet {
 
     //<editor-fold defaultstate="collapsed" desc="Avail application attributes">
     protected void availApplicationAttributes() {
+
+        List<TopicDetails> topics;
+        try {
+            topics = topicService.retrieveTopics();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of topics", e);
+            return;
+        }
+        if (topics != null) {
+            getServletContext().setAttribute("topics", topics);
+        }
 
         List<FeedbackDetails> feedbackList;
         try {
@@ -256,6 +269,8 @@ public abstract class Controller extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(Controller.class.getSimpleName());
     private ResourceBundle bundle;
+    @EJB
+    private TopicRequestsLocal topicService;
     @EJB
     private FeedbackRequestsLocal feedbackService;
     @EJB

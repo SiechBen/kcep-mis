@@ -16,12 +16,6 @@
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
     <jsp:attribute name="menuitems">
         <li>
-            <a onclick="loadAjaxWindow('ward')"><i class="fa fa-table fa-fw"></i> WAO </a>
-        </li>
-        <li>
-            <a onclick="loadAjaxWindow('kalro')"><i class="fa fa-table fa-fw"></i> KALRO </a>
-        </li>       
-        <li>
             <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
         </li>
         <li>
@@ -29,6 +23,9 @@
         </li>
         <li>
             <a onclick="loadAjaxWindow('warehouses')"><i class="fa fa-edit fa-fw"></i> Warehouses </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('activities')"><i class="fa fa-edit fa-fw"></i> Activities </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('programmes')"><i class="fa fa-edit fa-fw"></i> Programmes </a>

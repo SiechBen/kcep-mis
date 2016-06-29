@@ -4,6 +4,7 @@
     Author     : siech
 --%>
 
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
@@ -35,6 +36,7 @@
                                         <tr>
                                             <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
                                             <th>Name</th>
+                                            <th>Sex</th>
                                             <th>National id</th>
                                             <th>Date of birth</th>
                                             <th>Business name</th>
@@ -49,7 +51,19 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="8"> List of people</td>
+                                            <td class="divider"></td>
+                                        </tr>
+                                        <tr>
+                                            <th> Total count </th>
+                                            <td> ${fn:length(sessionScope.people)} </td>
+                                        </tr>
+                                        <tr>
+                                            <th> Total female count </th>
+                                            <td> ${fn:length(sessionScope.people)} </td>
+                                        </tr>
+                                        <tr>
+                                            <th> Total male count </th>
+                                            <td> ${fn:length(sessionScope.people)} </td>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -57,6 +71,7 @@
                                             <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                                 <td>${index.count}</td>
                                                 <td>${person.name}</td>
+                                                <td>${person.sex.sex}</td>
                                                 <td>${person.nationalId}</td>
                                                 <td>${person.dateOfBirth}</td>
                                                 <td>${person.businessName}</td>

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.Activity;
 import ke.co.miles.kcep.mis.entities.Component;
 import ke.co.miles.kcep.mis.entities.ImplementingPartner;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
@@ -19,6 +20,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
+import ke.co.miles.kcep.mis.requests.programme.activity.ActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.programme.implementingpartner.ImplementingPartnerRequestsLocal;
@@ -41,10 +43,11 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
             throw new InvalidArgumentException("error_017_02");
         } else if (programmeDetails.getImplementingPartner() == null) {
             throw new InvalidArgumentException("error_017_03");
+        } else if (programmeDetails.getActivity() == null) {
+            throw new InvalidArgumentException("error_017_04");
         }
 
         Programme programme = new Programme();
-        programme.setActivity(programmeDetails.getActivity());
         programme.setEndPeriod(programmeDetails.getEndPeriod());
         programme.setAwpbTarget(programmeDetails.getAwpbTarget());
         programme.setStartPeriod(programmeDetails.getStartPeriod());
@@ -52,6 +55,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setRequestedBudget(programmeDetails.getRequestedBudget());
         programme.setProgrammeTarget(programmeDetails.getProgrammeTarget());
         programme.setActualExpenditure(programmeDetails.getActualExpenditure());
+        programme.setActivity(em.find(Activity.class, programmeDetails.getActivity().getId()));
         programme.setComponent(em.find(Component.class, programmeDetails.getComponent().getId()));
         programme.setImplementingPartner(em.find(ImplementingPartner.class, programmeDetails.getImplementingPartner().getId()));
         if (programmeDetails.getSubComponent() != null) {
@@ -109,16 +113,16 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         if (programmeDetails == null) {
             throw new InvalidArgumentException("error_017_01");
         } else if (programmeDetails.getId() == null) {
-            throw new InvalidArgumentException("error_017_04");
+            throw new InvalidArgumentException("error_017_05");
         } else if (programmeDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_017_02");
         } else if (programmeDetails.getImplementingPartner() == null) {
             throw new InvalidArgumentException("error_017_03");
+        } else if (programmeDetails.getActivity() == null) {
+            throw new InvalidArgumentException("error_017_04");
         }
-
         Programme programme = em.find(Programme.class, programmeDetails.getId());
         programme.setId(programmeDetails.getId());
-        programme.setActivity(programmeDetails.getActivity());
         programme.setEndPeriod(programmeDetails.getEndPeriod());
         programme.setAwpbTarget(programmeDetails.getAwpbTarget());
         programme.setStartPeriod(programmeDetails.getStartPeriod());
@@ -126,6 +130,7 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programme.setRequestedBudget(programmeDetails.getRequestedBudget());
         programme.setProgrammeTarget(programmeDetails.getProgrammeTarget());
         programme.setActualExpenditure(programmeDetails.getActualExpenditure());
+        programme.setActivity(em.find(Activity.class, programmeDetails.getActivity().getId()));
         programme.setComponent(em.find(Component.class, programmeDetails.getComponent().getId()));
         programme.setImplementingPartner(em.find(ImplementingPartner.class, programmeDetails.getImplementingPartner().getId()));
         if (programmeDetails.getSubComponent() != null) {
@@ -161,7 +166,6 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
     private ProgrammeDetails convertProgrammeToProgrammeDetails(Programme programme) {
 
         ProgrammeDetails programmeDetails = new ProgrammeDetails(programme.getId());
-        programmeDetails.setActivity(programme.getActivity());
         programmeDetails.setEndPeriod(programme.getEndPeriod());
         programmeDetails.setAwpbTarget(programme.getAwpbTarget());
         programmeDetails.setStartPeriod(programme.getStartPeriod());
@@ -169,6 +173,8 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
         programmeDetails.setRequestedBudget(programme.getRequestedBudget());
         programmeDetails.setProgrammeTarget(programme.getProgrammeTarget());
         programmeDetails.setActualExpenditure(programme.getActualExpenditure());
+        programmeDetails.setActivity(activityService.
+                convertActivityToActivityDetails(programme.getActivity()));
         programmeDetails.setComponent(componentService.
                 convertComponentToComponentDetails(programme.getComponent()));
         programmeDetails.setImplementingPartner(implementingPartnerService.
@@ -198,6 +204,8 @@ public class ProgrammeRequests extends EntityRequests implements ProgrammeReques
     }
 
 //</editor-fold>
+    @EJB
+    private ActivityRequestsLocal activityService;
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB

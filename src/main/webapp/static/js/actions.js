@@ -473,7 +473,20 @@ $("#training-form").ajaxForm({
 
 function addToTrainers() {
     $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
-    $("#trainer-names").val($("#trainer-names").val() + " -> " + $("#trainer option[value='" + $("#trainer").val() + "']").text());
+    if ($("#trainer-names").val() === "") {
+        $("#trainer-names").val($("#trainer option[value='" + $("#trainer").val() + "']").text());
+    } else {
+        $("#trainer-names").val($("#trainer-names").val() + ", " + $("#trainer option[value='" + $("#trainer").val() + "']").text());
+    }
+}
+
+function addToTrainees() {
+    $("#trainee-ids").val($("#trainee-ids").val() + "-" + $("#trainee").val());
+    if ($("#trainee-names").val() === "") {
+        $("#trainee-names").val($("#trainee option[value='" + $("#trainee").val() + "']").text());
+    } else {
+        $("#trainee-names").val($("#trainee-names").val() + ", " + $("#trainee option[value='" + $("#trainee").val() + "']").text());
+    }
 }
 //</editor-fold>
 
@@ -625,5 +638,27 @@ $("#feedback-form").ajaxForm({
     error: function (response) {
         showError("error_label", response.responseText);
     }
-});
+}
+);
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Activity">
+function addActivity() {
+    $.ajax({
+        url: "doAddActivity",
+        type: 'POST',
+        data: "description=" + $("#description").val(),
+        success: function () {
+
+            $("#description").val("");
+            loadAjaxWindow('activities');
+            return;
+
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
 //</editor-fold>

@@ -47,11 +47,11 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.endDate = endDate;
     }
 
-    public String getTopic() {
+    public TopicDetails getTopic() {
         return topic;
     }
 
-    public void setTopic(String topic) {
+    public void setTopic(TopicDetails topic) {
         this.topic = topic;
     }
 
@@ -132,7 +132,7 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
     }
 
     private Integer id;
-    private String topic;
+    private TopicDetails topic;
     private Date startDate;
     private Date endDate;
     private String fileName;

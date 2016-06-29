@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -46,10 +45,6 @@ public class Programme implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "activity")
-    private String activity;
     @Size(max = 45)
     @Column(name = "start_period")
     private String startPeriod;
@@ -71,6 +66,9 @@ public class Programme implements Serializable {
     @Size(max = 45)
     @Column(name = "actual_expenditure")
     private String actualExpenditure;
+    @JoinColumn(name = "activity", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Activity activity;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
@@ -97,14 +95,6 @@ public class Programme implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getActivity() {
-        return activity;
-    }
-
-    public void setActivity(String activity) {
-        this.activity = activity;
     }
 
     public String getStartPeriod() {
@@ -161,6 +151,14 @@ public class Programme implements Serializable {
 
     public void setActualExpenditure(String actualExpenditure) {
         this.actualExpenditure = actualExpenditure;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public Component getComponent() {

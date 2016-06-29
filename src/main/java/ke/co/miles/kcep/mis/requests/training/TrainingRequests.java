@@ -13,12 +13,14 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.PersonRole;
+import ke.co.miles.kcep.mis.entities.Topic;
 import ke.co.miles.kcep.mis.entities.Training;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
+import ke.co.miles.kcep.mis.requests.training.topic.TopicRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
 /**
@@ -36,14 +38,16 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             throw new InvalidArgumentException("error_006_01");
         } else if (trainingDetails.getVenue() == null) {
             throw new InvalidArgumentException("error_006_02");
+        } else if (trainingDetails.getTopic() == null) {
+            throw new InvalidArgumentException("error_006_03");
         }
 
         Training training = new Training();
-        training.setTopic(trainingDetails.getTopic());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
+        training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
         if (trainingDetails.getCategoryOfTrainees() != null) {
             training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
@@ -85,20 +89,22 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         if (trainingDetails == null) {
             throw new InvalidArgumentException("error_006_01");
         } else if (trainingDetails.getId() == null) {
-            throw new InvalidArgumentException("error_006_03");
+            throw new InvalidArgumentException("error_006_04");
         } else if (trainingDetails.getVenue() == null) {
             throw new InvalidArgumentException("error_006_02");
+        } else if (trainingDetails.getTopic() == null) {
+            throw new InvalidArgumentException("error_006_03");
         }
 
         locationService.editLocation(trainingDetails.getVenue());
 
         Training training = em.find(Training.class, trainingDetails.getId());
         training.setId(trainingDetails.getId());
-        training.setTopic(trainingDetails.getTopic());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
+        training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
         if (trainingDetails.getCategoryOfTrainees() != null) {
             training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
@@ -133,11 +139,11 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 
         TrainingDetails trainingDetails = new TrainingDetails(training.getId());
 
-        trainingDetails.setTopic(training.getTopic());
         trainingDetails.setEndDate(training.getEndDate());
         trainingDetails.setStartDate(training.getStartDate());
         trainingDetails.setAttendanceSheet(training.getAttendanceSheet());
         trainingDetails.setNumberOfTrainees(training.getNumberOfTrainees());
+        trainingDetails.setTopic(topicService.convertTopicToTopicDetails(training.getTopic()));
         if (training.getVenue() != null) {
             trainingDetails.setVenue(locationService.convertLocationToLocationDetails(training.getVenue()));
         }
@@ -153,7 +159,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             } catch (Exception e) {
             }
         }
-        
+
         return trainingDetails;
 
     }
@@ -171,6 +177,8 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
     }
 
 //</editor-fold>
+    @EJB
+    private TopicRequestsLocal topicService;
     @EJB
     private LocationRequestsLocal locationService;
     @EJB

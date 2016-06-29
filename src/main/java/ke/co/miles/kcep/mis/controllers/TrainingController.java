@@ -36,12 +36,15 @@ import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
+import ke.co.miles.kcep.mis.requests.training.trainee.TraineeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.trainer.TrainerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.TopicDetails;
+import ke.co.miles.kcep.mis.utilities.TraineeDetails;
 import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
@@ -426,6 +429,13 @@ public class TrainingController extends Controller {
                         county = null;
                     }
 
+                    TopicDetails topic = new TopicDetails();
+                    try {
+                        topic.setId(Short.valueOf(String.valueOf(request.getParameter("topic"))));
+                    } catch (Exception e) {
+                        topic = null;
+                    }
+
                     WardDetails ward = new WardDetails();
                     try {
                         ward.setId(Integer.valueOf(String.valueOf(request.getParameter("training-ward"))));
@@ -444,7 +454,7 @@ public class TrainingController extends Controller {
                     } catch (Exception e) {
                         training.setNumberOfTrainees(null);
                     }
-                    training.setTopic(String.valueOf(request.getParameter("topic")));
+                    training.setTopic(topic);
                     training.setCategoryOfTrainees(categoryOfTrainees);
                     training.setVenue(venue);
 
@@ -477,10 +487,6 @@ public class TrainingController extends Controller {
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
                         training.setEndDate(null);
-                    }
-
-                    if (training.getTopic().equals("null")) {
-                        training.setTopic(null);
                     }
 
                     ServletContext context = getServletContext();
@@ -528,13 +534,31 @@ public class TrainingController extends Controller {
                         }
                     }
 
+                    String[] traineePersonIds = String.valueOf(request.getParameter("trainee-ids")).split("-");
+                    TraineeDetails traineeRecord;
+                    List<TraineeDetails> traineeRecords = new ArrayList<>();
+                    for (String traineePersonId : traineePersonIds) {
+                        PersonDetails traineePerson = new PersonDetails();
+                        traineeRecord = new TraineeDetails();
+                        try {
+                            traineePerson.setId(Integer.valueOf(traineePersonId));
+                            traineeRecord.setPerson(traineePerson);
+                            traineeRecords.add(traineeRecord);
+                        } catch (Exception e) {
+                        }
+                    }
+
                     try {
                         int trainingId = trainingService.addTraining(training);
                         training.setId(trainingId);
                         for (TrainerDetails trainerRecord1 : trainerRecords) {
                             trainerRecord1.setTraining(training);
                         }
+                        for (TraineeDetails traineeRecord1 : traineeRecords) {
+                            traineeRecord1.setTraining(training);
+                        }
                         trainerService.addTrainers(trainerRecords);
+                        traineeService.addTrainees(traineeRecords);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
@@ -572,6 +596,8 @@ public class TrainingController extends Controller {
     private WardRequestsLocal wardService;
     @EJB
     private PersonRequestsLocal personService;
+    @EJB
+    private TraineeRequestsLocal traineeService;
     @EJB
     private TrainerRequestsLocal trainerService;
     @EJB
