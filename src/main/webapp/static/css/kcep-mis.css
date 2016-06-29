@@ -375,3 +375,8 @@ table.dataTable thead .sorting:after {
 #warehouse-table tbody tr {
     cursor: pointer;
 }
+
+.pointable{
+    cursor: pointer;
+    color: #3C659C
+}

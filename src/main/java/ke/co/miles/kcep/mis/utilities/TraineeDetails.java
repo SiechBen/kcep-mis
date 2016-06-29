@@ -29,11 +29,11 @@ public class TraineeDetails implements Serializable, Comparable<TraineeDetails> 
     }
 
     public PersonDetails getPerson() {
-        return trainee;
+        return person;
     }
 
-    public void setPerson(PersonDetails trainee) {
-        this.trainee = trainee;
+    public void setPerson(PersonDetails person) {
+        this.person = person;
     }
 
     public TrainingDetails getTraining() {
@@ -73,7 +73,7 @@ public class TraineeDetails implements Serializable, Comparable<TraineeDetails> 
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private PersonDetails trainee;
+    private PersonDetails person;
     private TrainingDetails training;
 
 }

@@ -53,7 +53,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  *
  * @author siech
  */
-@WebServlet(name = "TrainingController", urlPatterns = {"/training", "/addTraining", "/doAddTraining"})
+@WebServlet(name = "TrainingController", urlPatterns = {"/training", "/addTraining", "/doAddTraining", "/loadTrainees", "/trainees"})
 @MultipartConfig
 public class TrainingController extends Controller {
 
@@ -89,9 +89,14 @@ public class TrainingController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
                                     path = "/head_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/head_trainees";
                                     urlPaths.add(path);
                                     break;
                                 case "/addTraining":
@@ -110,9 +115,14 @@ public class TrainingController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
                                     path = "/kalro_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/kalro_trainees";
                                     urlPaths.add(path);
                                     break;
                                 case "/addTraining":
@@ -131,9 +141,14 @@ public class TrainingController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
                                     path = "/ward_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/ward_trainees";
                                     urlPaths.add(path);
                                     break;
                                 case "/addTraining":
@@ -152,9 +167,14 @@ public class TrainingController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
                                     path = "/county_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/county_trainees";
                                     urlPaths.add(path);
                                     break;
                                 case "/addTraining":
@@ -173,9 +193,14 @@ public class TrainingController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
                                     path = "/sub_county_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/sub_county_trainees";
                                     urlPaths.add(path);
                                     break;
                                 case "/addTraining":
@@ -334,6 +359,36 @@ public class TrainingController extends Controller {
                     }
                     break;
 
+                case "/head_trainees":
+                case "/kalro_trainees":
+                case "/ward_trainees":
+                case "/county_trainees":
+                case "/sub_county_trainees":
+                    break;
+
+                case "/loadTrainees":
+
+                    int trainingId = Integer.valueOf(request.getParameter("trainingId"));
+
+                    List<TraineeDetails> trainees;
+                    TrainingDetails training;
+                    try {
+                        training = trainingService.retrieveTraining(trainingId);
+                        trainees = traineeService.retrieveTrainees(trainingId);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (trainees != null) {
+                        session.setAttribute("training", training);
+                        session.setAttribute("trainees", trainees);
+                    }
+                    
+                    return;
+
                 case "/county_addTraining":
 
                     countyDeskOfficer = (PersonDetails) session.getAttribute("person");
@@ -448,7 +503,7 @@ public class TrainingController extends Controller {
                     venue.setCounty(county);
                     venue.setWard(ward);
 
-                    TrainingDetails training = new TrainingDetails();
+                    training = new TrainingDetails();
                     try {
                         training.setNumberOfTrainees(Integer.valueOf(String.valueOf(request.getParameter("number-of-trainees"))));
                     } catch (Exception e) {
@@ -549,7 +604,7 @@ public class TrainingController extends Controller {
                     }
 
                     try {
-                        int trainingId = trainingService.addTraining(training);
+                        trainingId = trainingService.addTraining(training);
                         training.setId(trainingId);
                         for (TrainerDetails trainerRecord1 : trainerRecords) {
                             trainerRecord1.setTraining(training);

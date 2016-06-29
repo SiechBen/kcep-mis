@@ -488,6 +488,23 @@ function addToTrainees() {
         $("#trainee-names").val($("#trainee-names").val() + ", " + $("#trainee option[value='" + $("#trainee").val() + "']").text());
     }
 }
+
+function showTrainees(trainingId) {
+
+    $.ajax({
+        url: "loadTrainees",
+        type: 'POST',
+        data: "trainingId=" + trainingId,
+        success: function () {
+            loadAjaxWindow("trainees");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }, dataType: 'HTML'
+    });
+    
+}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">

@@ -54,7 +54,7 @@
                                                 <td>${eVoucher.inputType.type}</td>
                                                 <td>${eVoucher.person.name}</td>
                                                 <td>${eVoucher.dateRedeemed}</td>
-                                                <td><a href="download?filePath=${eVoucher.inputsLogbookPage}" target="_blank">${eVoucher.fileName}</a></td>
+                                                <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>

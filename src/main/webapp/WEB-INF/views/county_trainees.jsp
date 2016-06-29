@@ -1,6 +1,6 @@
 <%-- 
-    Document   : county_people
-    Created on : Jun 22, 2016, 5:01:29 PM
+    Document   : county_trainees
+    Created on : Jun 29, 2016, 11:06:43 AM
     Author     : siech
 --%>
 
@@ -19,13 +19,13 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            List of system users
+                            Below is the list of trainees for the training that started on <em>${sessionScope.training.startDate}</em>.
+                            The topic of the training was <b>${sessionScope.training.topic.topic}</b>.
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -49,24 +49,24 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="8"> List of people</td>
+                                            <td colspan="8"> List of trainees</td>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <c:forEach var="person" items="${sessionScope.people}" varStatus="index">
+                                        <c:forEach var="trainee" items="${sessionScope.trainees}" varStatus="index">
                                             <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                                 <td>${index.count}</td>
-                                                <td>${person.name}</td>
-                                                <td>${person.nationalId}</td>
-                                                <td>${person.dateOfBirth}</td>
-                                                <td>${person.businessName}</td>
-                                                <td>${person.farmerGroup.name}</td>
-                                                <td>${person.farmerSubGroup.name}</td>
-                                                <td>${person.location.county.name}</td>
-                                                <td>${person.location.subCounty.name}</td>
-                                                <td>${person.location.ward.name}</td>
-                                                <td>${person.contact.phone}</td>
-                                                <td>${person.contact.email}</td>
+                                                <td>${trainee.person.name}</td>
+                                                <td>${trainee.person.nationalId}</td>
+                                                <td>${trainee.person.dateOfBirth}</td>
+                                                <td>${trainee.person.businessName}</td>
+                                                <td>${trainee.person.farmerGroup.name}</td>
+                                                <td>${trainee.person.farmerSubGroup.name}</td>
+                                                <td>${trainee.person.location.county.name}</td>
+                                                <td>${trainee.person.location.subCounty.name}</td>
+                                                <td>${trainee.person.location.ward.name}</td>
+                                                <td>${trainee.person.contact.phone}</td>
+                                                <td>${trainee.person.contact.email}</td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>

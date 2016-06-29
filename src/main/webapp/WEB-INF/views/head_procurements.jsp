@@ -64,7 +64,7 @@
                                                 <td>${procurement.county.name}</td>
                                                 <td>${procurement.subCounty}</td>
                                                 <td>${procurement.lpoNumber}</td>
-                                                <td><a href="download?filePath=${procurement.invoiceOrReceipt}" target="_blank">${procurement.fileName}</a></td>
+                                                <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -79,8 +79,6 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-
-
         </div>
         <!-- /#page-wrapper -->
 

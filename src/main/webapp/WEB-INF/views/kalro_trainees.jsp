@@ -1,6 +1,6 @@
 <%-- 
-    Document   : county_people
-    Created on : Jun 22, 2016, 5:01:29 PM
+    Document   : kalro_trainees
+    Created on : Jun 29, 2016, 2:55:18 PM
     Author     : siech
 --%>
 
@@ -8,14 +8,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:county>
+<kcep:kalro>
     <jsp:attribute name="pagetitle"> KCEP-MIS - view people </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">County Desk Officer</h1>
+                    <h1 class="page-header">KALRO Officer</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -25,7 +25,8 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            List of system users
+                            Below is the list of trainees for the training that started on <em>${sessionScope.training.startDate}</em>.
+                            The topic of the training was <b>${sessionScope.training.topic.topic}</b>.
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -49,24 +50,24 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="8"> List of people</td>
+                                            <td colspan="8"> List of trainees</td>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <c:forEach var="person" items="${sessionScope.people}" varStatus="index">
+                                        <c:forEach var="trainee" items="${sessionScope.trainees}" varStatus="index">
                                             <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                                 <td>${index.count}</td>
-                                                <td>${person.name}</td>
-                                                <td>${person.nationalId}</td>
-                                                <td>${person.dateOfBirth}</td>
-                                                <td>${person.businessName}</td>
-                                                <td>${person.farmerGroup.name}</td>
-                                                <td>${person.farmerSubGroup.name}</td>
-                                                <td>${person.location.county.name}</td>
-                                                <td>${person.location.subCounty.name}</td>
-                                                <td>${person.location.ward.name}</td>
-                                                <td>${person.contact.phone}</td>
-                                                <td>${person.contact.email}</td>
+                                                <td>${trainee.person.name}</td>
+                                                <td>${trainee.person.nationalId}</td>
+                                                <td>${trainee.person.dateOfBirth}</td>
+                                                <td>${trainee.person.businessName}</td>
+                                                <td>${trainee.person.farmerGroup.name}</td>
+                                                <td>${trainee.person.farmerSubGroup.name}</td>
+                                                <td>${trainee.person.location.county.name}</td>
+                                                <td>${trainee.person.location.subCounty.name}</td>
+                                                <td>${trainee.person.location.ward.name}</td>
+                                                <td>${trainee.person.contact.phone}</td>
+                                                <td>${trainee.person.contact.email}</td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -85,4 +86,4 @@
         <!-- /#page-wrapper -->
 
     </jsp:attribute>
-</kcep:county>
+</kcep:kalro>

@@ -66,7 +66,7 @@
                                                 <td>${training.venue.county.name}</td>
                                                 <td>${training.venue.subCounty.name}</td>
                                                 <td>${training.venue.ward.name}</td>
-                                                <td>${training.numberOfTrainees}</td>
+                                                <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
                                                 <td>${training.categoryOfTrainees.personRole}</td>
                                                 <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
                                             </tr>
