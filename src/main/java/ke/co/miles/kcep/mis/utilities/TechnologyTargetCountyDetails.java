@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import ke.co.miles.kcep.mis.entities.*;
 
 /**
  *
@@ -31,11 +30,11 @@ public class TechnologyTargetCountyDetails implements Serializable, Comparable<T
         this.id = id;
     }
 
-    public County getCounty() {
+    public CountyDetails getCountyDetails() {
         return county;
     }
 
-    public void setCounty(County county) {
+    public void setCountyDetails(CountyDetails county) {
         this.county = county;
     }
 
@@ -74,7 +73,7 @@ public class TechnologyTargetCountyDetails implements Serializable, Comparable<T
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.TechnologyTargetCounty[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.TechnologyTargetCountyDetails[ id=" + id + " ]";
     }
 
     @Override
@@ -83,7 +82,7 @@ public class TechnologyTargetCountyDetails implements Serializable, Comparable<T
     }
 
     private Integer id;
-    private County county;
+    private CountyDetails county;
     private PersonDetails kalroOfficer;
     private TechnologyDetails technology;
 

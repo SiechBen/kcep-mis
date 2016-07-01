@@ -54,16 +54,27 @@
                                             <td class="divider"></td>
                                         </tr>
                                         <tr>
-                                            <th> Total count </th>
-                                            <td> ${fn:length(sessionScope.people)} </td>
+                                            <th> Count by: </th>
+                                            <th colspan="2">
+                                                <select onchange="updateCounts()">
+                                                    <c:forEach var="" items="">
+                                                        <option></option>
+                                                    </c:forEach>
+                                                </select> 
+                                            </th>
                                         </tr>
                                         <tr>
-                                            <th> Total female count </th>
-                                            <td> ${fn:length(sessionScope.people)} </td>
+                                            <td class="divider"></td>
                                         </tr>
                                         <tr>
-                                            <th> Total male count </th>
+                                            <th> Total number </th>
+                                            <th> Female count </th>
+                                            <th> Male count </th>
+                                        </tr>
+                                        <tr>
                                             <td> ${fn:length(sessionScope.people)} </td>
+                                            <td> ${sessionScope.femaleCount} </td>
+                                            <td> ${sessionScope.maleCount} </td>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -96,8 +107,6 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-
-
         </div>
         <!-- /#page-wrapper -->
 

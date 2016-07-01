@@ -7,7 +7,6 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.util.Date;
-import ke.co.miles.kcep.mis.entities.*;
 
 /**
  *
@@ -80,11 +79,11 @@ public class FarmerGroupRecordDetails implements Serializable, Comparable<Farmer
         this.averageSellingPricePerBag = averageSellingPricePerBag;
     }
 
-    public FarmerGroup getFarmerGroup() {
+    public FarmerGroupDetails getFarmerGroup() {
         return farmerGroup;
     }
 
-    public void setFarmerGroup(FarmerGroup farmerGroup) {
+    public void setFarmerGroup(FarmerGroupDetails farmerGroup) {
         this.farmerGroup = farmerGroup;
     }
 
@@ -117,7 +116,7 @@ public class FarmerGroupRecordDetails implements Serializable, Comparable<Farmer
 
     private Integer id;
     private Boolean firstWeedingDone;
-    private FarmerGroup farmerGroup;
+    private FarmerGroupDetails farmerGroup;
     private Date dateOfInputsCollection;
     private Boolean secondWeedingDone;
     private Long averageSellingPricePerBag;

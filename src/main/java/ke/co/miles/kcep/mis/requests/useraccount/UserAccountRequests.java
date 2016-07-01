@@ -84,7 +84,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 
         //Creating a container to hold faculty record
         userAccount = new UserAccount();
-        userAccount.setPassword(personDetails.getPassword());
         userAccount.setUsername(personDetails.getUsername());
         userAccount.setPerson(em.find(Person.class, personDetails.getPerson().getId()));
         userAccount.setPersonRole(em.find(PersonRole.class, personDetails.getPersonRole().getId()));
