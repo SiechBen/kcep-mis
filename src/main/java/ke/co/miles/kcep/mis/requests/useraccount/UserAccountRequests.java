@@ -114,7 +114,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             q.setParameter("personRoleId", personRoleDetail.getId());
             q.setParameter("personId", person.getId());
             try {
-                UserAccount userAccount = (UserAccount) q.getSingleResult();
                 filteredPeople.add(person);
             } catch (NoResultException e) {
             } catch (Exception e) {
@@ -185,6 +184,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<UserAccountDetails> retrieveUserAccounts() throws MilesException {
         //Method for retrieving user account records from the database
 

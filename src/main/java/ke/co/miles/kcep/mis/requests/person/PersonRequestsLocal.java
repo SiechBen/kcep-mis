@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.person;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Local;
@@ -131,5 +132,20 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PersonDetails> retrieveWardPeople(int wardId) throws MilesException;
+
+    /**
+     *
+     * @param personRoleDetail the person role of people to be counted
+     * @return the map of counts
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail) throws MilesException;
+
+    /**
+     *
+     * @return the map of counts
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countAllPeople() throws MilesException;
 
 }

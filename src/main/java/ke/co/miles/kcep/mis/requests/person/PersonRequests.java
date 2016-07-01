@@ -21,6 +21,7 @@ import ke.co.miles.kcep.mis.entities.FarmerSubGroup;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Sex;
+import ke.co.miles.kcep.mis.entities.UserAccount;
 import ke.co.miles.kcep.mis.exceptions.AlgorithmException;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
@@ -112,13 +113,75 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countAllPeople() throws MilesException {
+
+        List<Person> female = new ArrayList<>();
+        q = em.createNamedQuery("Person.findBySexId");
+        q.setParameter("sexId", SexDetail.FEMALE.getId());
+        try {
+            female = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Person> male = new ArrayList<>();
+        q = em.createNamedQuery("Person.findBySexId");
+        q.setParameter("sexId", SexDetail.MALE.getId());
+        try {
+            male = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("Female", female.size());
+        countMap.put("Male", male.size());
+        countMap.put("Total", female.size() + male.size());
+
+        return countMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail) throws MilesException {
+
+        List<UserAccount> female = new ArrayList<>();
+        q = em.createNamedQuery("UserAccount.findBySexAndPersonRoleId");
+        q.setParameter("personRoleId", personRoleDetail.getId());
+        q.setParameter("sexId", SexDetail.FEMALE.getId());
+        try {
+            female = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> male = new ArrayList<>();
+        q = em.createNamedQuery("UserAccount.findBySexAndPersonRoleId");
+        q.setParameter("personRoleId", personRoleDetail.getId());
+        q.setParameter("sexId", SexDetail.MALE.getId());
+        try {
+            male = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("Female", female.size());
+        countMap.put("Male", male.size());
+        countMap.put("Total", female.size() + male.size());
+
+        return countMap;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveRegionPeople(int countyId) throws MilesException {
+    public List<PersonDetails> retrieveRegionPeople(int regionId) throws MilesException {
 
         List<County> counties = new ArrayList<>();
         q = em.createNamedQuery("County.findByReqionId");
-        q.setParameter("regionId", em.find(County.class, countyId).getRegion().getId());
+        q.setParameter("regionId", regionId);
         try {
             counties = q.getResultList();
         } catch (Exception e) {

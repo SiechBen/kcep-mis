@@ -31,7 +31,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover data-table">
+                                <table id="people-table" class="table table-striped table-bordered table-hover data-table">
                                     <thead>
                                         <tr>
                                             <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
@@ -51,28 +51,28 @@
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <td class="divider"></td>
+                                            <td colspan="13" class="divider"></td>
                                         </tr>
                                         <tr>
-                                            <th> Count by: </th>
-                                            <th colspan="2">
-                                                <select onchange="updateCounts()">
-                                                    <c:forEach var="" items="">
-                                                        <option></option>
+                                            <td> Count by: </td>
+                                            <td colspan="2">
+                                                <select id="counter" onchange="updateCounts()">
+                                                    <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                                                        <option value="${countOption.id}">${countOption.personRole}</option>
                                                     </c:forEach>
                                                 </select> 
-                                            </th>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td class="divider"></td>
+                                            <td colspan="3" class="divider"></td>
                                         </tr>
                                         <tr>
-                                            <th> Total number </th>
-                                            <th> Female count </th>
-                                            <th> Male count </th>
+                                            <td> Total number </td>
+                                            <td> Female count </td>
+                                            <td> Male count </td>
                                         </tr>
-                                        <tr>
-                                            <td> ${fn:length(sessionScope.people)} </td>
+                                        <tr id="people-summary">
+                                            <td> ${sessionScope.totalCount} </td>
                                             <td> ${sessionScope.femaleCount} </td>
                                             <td> ${sessionScope.maleCount} </td>
                                         </tr>

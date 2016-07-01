@@ -450,6 +450,22 @@ function addPerson() {
         dataType: "HTML"
     });
 }
+
+function updateCounts() {
+    $.ajax({
+        url: "changeCounter",
+        type: 'POST',
+        data: "counter=" + $("#counter").val(),
+        success: function (data) {
+            $("tr#people-summary").html(data);
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: 'HTML'
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Training">
@@ -503,7 +519,7 @@ function showTrainees(trainingId) {
             showError("error_label", response.responseText);
         }, dataType: 'HTML'
     });
-    
+
 }
 //</editor-fold>
 

@@ -44,7 +44,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson", "/userProfile"})
+@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson", "/userProfile", "/changeCounter"})
 public class PersonController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -78,6 +78,7 @@ public class PersonController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/changeCounter");
                             switch (path) {
                                 case "/people":
                                     path = "/head_people";
@@ -263,6 +264,39 @@ public class PersonController extends Controller {
             switch (path) {
 
                 case "/head_people":
+
+                    HashMap<String, Integer> countMap;
+                    try {
+                        countMap = personService.countAllPeople();
+                        int femaleCount = 0,
+                                maleCount = 0,
+                                totalCount = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female":
+                                    femaleCount = countMap.get(countType);
+                                    break;
+                                case "Male":
+                                    maleCount = countMap.get(countType);
+                                    break;
+                                default:
+                                    totalCount = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("totalCount", totalCount);
+                        session.setAttribute("femaleCount", femaleCount);
+                        session.setAttribute("maleCount", maleCount);
+                        session.setAttribute("countOptions", PersonRoleDetail.values());
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+
+                    }
 
                     List<PersonDetails> people;
                     try {
@@ -567,10 +601,47 @@ public class PersonController extends Controller {
                 case "/sub_county_editPerson":
                 case "/agro_dealer_editPerson":
 
-                    PersonDetails personDetails = new PersonDetails();
-                    personDetails = (PersonDetails) session.getAttribute("person");
-
                     break;
+
+                case "/changeCounter":
+
+                    short counter = Short.valueOf(request.getParameter("counter"));
+                    try {
+                        countMap = personService.countPeople(PersonRoleDetail.getPersonRoleDetail(counter));
+                        int femaleCount = 0,
+                                maleCount = 0,
+                                totalCount = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female":
+                                    femaleCount = countMap.get(countType);
+                                    break;
+                                case "Male":
+                                    maleCount = countMap.get(countType);
+                                    break;
+                                default:
+                                    totalCount = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("totalCount", totalCount);
+                        session.setAttribute("femaleCount", femaleCount);
+                        session.setAttribute("maleCount", maleCount);
+
+                        out.write("<td> " + totalCount + "</td>");
+                        out.write("<td> " + femaleCount + "</td>");
+                        out.write("<td>" + maleCount + "</td>");
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+
+                    }
+
+                    return;
 
                 default:
                     break;
