@@ -19,56 +19,92 @@
                         Procurement plan details
                     </div>
                     <div class="panel-body">
-                        <form id="procurement-form" role="form" action="doAddProcurement" method="POST" enctype="multipart/form-data">
+                        <form role="form">
                             <div class="form-group">
-                                Item
-                                <input id="item" name="item" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                Cost[KES]
-                                <input id="cost" name="cost" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                Date purchased
-                                <input type="date" id="date-purchased" name="date-purchased" class="form-control datefield">
-                            </div>
-                            <div class="form-group">
-                                Serial number
-                                <input id="serial-number" name="serial-number" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                Item description/particulars
-                                <input id="description" name="description" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                Target office
-                                <input id="target-office" name="target-office" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                County
-                                <select id="procurement-county" name="county" class="form-control">
-                                    <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
-                                        <option value="${county.id}">${county.name}</option>
+                                Procurement plan type
+                                <select id="procurement-plan-type" class="form-control">
+                                    <c:forEach var="procurementPlanType" items="${sessionScope.procurementPlanTypes}">
+                                        <option value="${procurementPlanType.id}">${procurementPlanType.type}</option>
                                     </c:forEach>
-                                </select>  
+                                </select>
                             </div>
                             <div class="form-group">
-                                Sub-county
-                                <select id="procurement-sub-county" name="sub-county" class="form-control">
-                                    <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
-                                        <option value="${subCounty.id}">${subCounty.name}</option>
+                                Description
+                                <input id="description" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                IFAD prior review
+                                <select id="ifad-prior-review" class="form-control">
+                                    <c:forEach var="ifadPriorReview" items="${sessionScope.ifadPriorReviewChoices}">
+                                        <option value="${ifadPriorReview.id}">${ifadPriorReview.choice}</option>
                                     </c:forEach>
-                                </select>  
+                                </select>
                             </div>
                             <div class="form-group">
-                                LPO number
-                                <input id="lpo-number" name="lpo-number" class="form-control">
+                                Plan vs Actual
+                                <select id="plan-vs-actual" class="form-control">
+                                    <c:forEach var="planVsActual" items="${sessionScope.planVsActualChoices}">
+                                        <option value="${planVsActual.id}">${planVsActual.choice}</option>
+                                    </c:forEach>
+                                </select> 
+                            </div>  
+                            <div class="form-group">
+                                Cost
+                                <input id="cost"  type="number" step="0.01"  class="form-control">
                             </div>
                             <div class="form-group">
-                                Invoice or receipt
-                                <input type="file" id="invoice-or-receipt" name="invoice-or-receipt" class="form-control">
+                                Procurement method
+                                <select id="procurement-method" class="form-control">
+                                    <c:forEach var="procurementMethod" items="${sessionScope.procurementMethods}">
+                                        <option value="${procurementMethod.id}">${procurementMethod.method}</option>
+                                    </c:forEach>
+                                </select> 
                             </div>
-                            <input type="submit" class="btn btn-outline btn-primary" value="Save procurement">
+                            <div class="form-group">
+                                Complete BD
+                                <input id="complete-bd" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                *Approval by IFAD
+                                <input id="approval-by-ifad1" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Approval by SDA
+                                <input id="approval-by-sda" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Issue BD
+                                <input id="issue-bd" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Receive bids
+                                <input id="receive-bids" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Evaluate bids
+                                <input id="evaluate-bids" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Award
+                                <input id="award" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                *Approval by IFAD
+                                <input id="approval-by-ifad2" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Approval by SDA/AG
+                                <input id="approval-by-sda-or-ag" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Sign contract
+                                <input id="sign-contract" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Commence contract
+                                <input id="commence-contract" class="form-control datefield">
+                            </div>
+                            <button type="button" class="btn btn-outline btn-primary" onclick="addProcurementPlan()">Save procurement plan</button>
                         </form>
                     </div>
                 </div>

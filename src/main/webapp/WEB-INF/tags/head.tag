@@ -28,13 +28,17 @@
             <a onclick="loadAjaxWindow('activities')"><i class="fa fa-edit fa-fw"></i> Activities </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('programmes')"><i class="fa fa-edit fa-fw"></i> Planning </a>
+            <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Planning </a>
         </li>
-        <li>
-            <a onclick="loadAjaxWindow('procurementPlan')"><i class="fa fa-edit fa-fw"></i> Procurement plan </a>
-        </li>
+
         <li>
             <a onclick="loadAjaxWindow('procurements')"><i class="fa fa-edit fa-fw"></i> Procurements </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plan </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plan - cs </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('eVouchers')"><i class="fa fa-edit fa-fw"></i> E-vouchers </a>

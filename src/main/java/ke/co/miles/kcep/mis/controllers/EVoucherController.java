@@ -183,7 +183,7 @@ public class EVoucherController extends Controller {
 
                     InputTypeDetails inputType = new InputTypeDetails();
                     try {
-                        inputType.setId(Integer.valueOf(String.valueOf(request.getParameter("input-type"))));
+                        inputType.setId(Short.valueOf(String.valueOf(request.getParameter("input-type"))));
                     } catch (Exception e) {
                         inputType = null;
                     }

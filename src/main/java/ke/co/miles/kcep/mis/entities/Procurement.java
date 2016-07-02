@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,9 +66,9 @@ public class Procurement implements Serializable {
     @Size(max = 45)
     @Column(name = "sub_county")
     private String subCounty;
-    @Size(max = 45)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "cost")
-    private String cost;
+    private BigDecimal cost;
     @Size(max = 45)
     @Column(name = "lpo_number")
     private String lpoNumber;
@@ -141,11 +142,11 @@ public class Procurement implements Serializable {
         this.subCounty = subCounty;
     }
 
-    public String getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(String cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 

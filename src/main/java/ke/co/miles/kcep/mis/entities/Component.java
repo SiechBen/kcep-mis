@@ -48,9 +48,11 @@ public class Component implements Serializable {
     @Column(name = "component")
     private String component;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
-    private List<SubComponent> subComponentList;
+    private List<IndicatorHierarchy> indicatorHierarchyList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
-    private List<Programme> programmeList;
+    private List<Planning> planningList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
+    private List<SubComponent> subComponentList;
 
     public Component() {
     }
@@ -81,21 +83,30 @@ public class Component implements Serializable {
     }
 
     @XmlTransient
+    public List<IndicatorHierarchy> getIndicatorHierarchyList() {
+        return indicatorHierarchyList;
+    }
+
+    public void setIndicatorHierarchyList(List<IndicatorHierarchy> indicatorHierarchyList) {
+        this.indicatorHierarchyList = indicatorHierarchyList;
+    }
+
+    @XmlTransient
+    public List<Planning> getPlanningList() {
+        return planningList;
+    }
+
+    public void setPlanningList(List<Planning> planningList) {
+        this.planningList = planningList;
+    }
+
+    @XmlTransient
     public List<SubComponent> getSubComponentList() {
         return subComponentList;
     }
 
     public void setSubComponentList(List<SubComponent> subComponentList) {
         this.subComponentList = subComponentList;
-    }
-
-    @XmlTransient
-    public List<Programme> getProgrammeList() {
-        return programmeList;
-    }
-
-    public void setProgrammeList(List<Programme> programmeList) {
-        this.programmeList = programmeList;
     }
 
     @Override

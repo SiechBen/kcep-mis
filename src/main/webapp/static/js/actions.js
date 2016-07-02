@@ -1,12 +1,9 @@
 var language = "en";
-
 //<editor-fold defaultstate="collapsed" desc="Menu">
 $(function () {
 
     $('#side-menu').metisMenu();
-
 });
-
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
@@ -29,7 +26,6 @@ $(function () {
             $("#page-wrapper").css("min-height", (height) + "px");
         }
     });
-
     var url = window.location;
     var element = $('ul.nav a').filter(function () {
         return this.href === url || url.href.indexOf(this.href) === 0;
@@ -40,12 +36,31 @@ $(function () {
 });
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Remember user">
+$(function () {
+
+    var username = $.jStorage.get("username");
+    var password = $.jStorage.get("password");
+    if (username && password) {
+        $("#username").val(username);
+        $("#password").val(password);
+        $("#login-button").focus();
+    } else if (username) {
+        $("#username").val(username);
+        $("#password").val("").focus();
+    } else if (password) {
+        $("#username").val("").focus();
+        $("#password").val(password);
+    }
+
+});
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Date picker, data tables">
 $(function () {
     $(".data-table").DataTable({
         responsive: true
     });
-
     $(".datefield").datepicker();
 });
 //</editor-fold>
@@ -60,7 +75,6 @@ $.ajax({
     },
     dataType: "HTML"
 });
-
 function loadApplicationAttributes() {
     $.ajax({
         url: "load",
@@ -391,13 +405,23 @@ function loadPreviousWindow() {
 //<editor-fold defaultstate="collapsed" desc="Login user">
 function loginUser() {
 
-    if ($("#username").val().trim() !== "" || $("#password").val().trim() !== "") {
-        if ($("#username").val() !== null || $("#password").val() !== null) {
+    var username = $("#username").val();
+    var password = $("#password").val();
+    if (username.trim() !== "" || password !== "") {
+        if (username !== null || password !== null) {
+
+            if ($('#remember').prop('checked')) {
+                $.jStorage.set('username', username);
+                $.jStorage.set('password', password);
+            } else {
+                $.jStorage.deleteKey(username);
+                $.jStorage.deleteKey(password);
+            }
 
             $.ajax({
                 url: "login",
                 type: "POST",
-                data: "username=" + $("#username").val() + "&password=" + $("#password").val(),
+                data: "username=" + username + "&password=" + password,
                 success: function () {
                     loadAjaxWindow('home');
                     return;
@@ -410,6 +434,8 @@ function loginUser() {
         }
     }
 }
+
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Person">
@@ -486,7 +512,6 @@ $("#training-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-
 function addToTrainers() {
     $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
     if ($("#trainer-names").val() === "") {
@@ -519,7 +544,6 @@ function showTrainees(trainingId) {
             showError("error_label", response.responseText);
         }, dataType: 'HTML'
     });
-
 }
 //</editor-fold>
 
@@ -599,18 +623,20 @@ function addWarehouse() {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Programme">
-function addProgramme() {
+//<editor-fold defaultstate="collapsed" desc="Planning">
+function addPlanning() {
 
     $.ajax({
-        url: "doAddProgramme",
+        url: "doAddPlanning",
         type: "POST",
         data: "activity=" + $("#activity").val() + "&implementingPartner=" + $("#implementing-partner").val() +
                 "&endPeriod=" + $("#end-period").val() + "&requestedBudget=" + $("#requested-budget").val() +
-                "&awpbTarget=" + $("#awpb-target").val() + "&programmeTarget=" + $("#programme-target").val() +
+                "&awpbTarget=" + $("#awpb-target").val() + "&planningTarget=" + $("#planning-target").val() +
                 "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
                 "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
-                "&measurementUnit=" + $("#measurement-unit").val() + "&actualExpenditure=" + $("#actual-expenditure").val(),
+                "&measurementUnit=" + $("#measurement-unit").val() +
+                "&actualExpenditure=" + $("#actual-expenditure").val() +
+                "&annualWorkplanReferenceCode=" + ("#annual-workplan-reference-code").val(),
         success: function () {
 
             $("#measurement-unit").val("");
@@ -622,10 +648,10 @@ function addProgramme() {
             $("#value-achieved").val("");
             $("#sub-component").val("");
             $("#requested-budget").val("");
-            $("#programme-target").val("");
+            $("#planning-target").val("");
             $("#actual-expenditure").val("");
             $("#implementing-partner").val("");
-            loadAjaxWindow('programmes');
+            loadAjaxWindow('planning');
             return;
         },
         error: function (response) {
@@ -686,12 +712,133 @@ function addActivity() {
             $("#description").val("");
             loadAjaxWindow('activities');
             return;
-
         },
         error: function (response) {
             showError("error_label", response.responseText);
         },
         dataType: "HTML"
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Procurement plan">
+function addProcurementPlan() {
+
+    $.ajax({
+        url: "doAddProcurementPlan",
+        type: "POST",
+        data: "procurementPlanType=" + $("#procurement-plan-type").val() +
+                "&description=" + $("#description").val() +
+                "&ifadPriorReview=" + $("#ifad-prior-review").val() +
+                "&planVsActual=" + $("#plan-vs-actual").val() +
+                "&cost=" + $("#cost").val() +
+                "&procurementMethod=" + $("#procurement-method").val() +
+                "&completeBd=" + $("#complete-bd").val() +
+                "&approvalByIfad1=" + $("#approval-by-ifad1").val() +
+                "&approvalByIfad2=" + $("#approval-by-ifad2").val() +
+                "&approvalBySda=" + $("#approval-by-sda").val() +
+                "&approvalBySdaOrAg=" + $("#approval-by-sda-or-ag").val() +
+                "&issueBd=" + $("#issue-bd").val() +
+                "&receiveBids=" + $("#receive-bids").val() +
+                "&evaluateBids=" + $("#evaluate-bids").val() +
+                "&award=" + $("#award").val() +
+                "&signContract=" + $("#sign-contract").val() +
+                "&commenceContract=" + $("#commence-contract").val(),
+        success: function () {
+            $("#procurement-plan-type").val("");
+            $("#description").val("");
+            $("#ifad-prior-review").val("");
+            $("#plan-vs-actual").val("");
+            $("#cost").val("");
+            $("#procurement-method").val("");
+            $("#complete-bd").val("");
+            $("#approval-by-ifad1").val("");
+            $("#approval-by-ifad2").val("");
+            $("#approval-by-sda").val("");
+            $("#approval-by-sda-or-ag").val("");
+            $("#issue-bd").val("");
+            $("#receive-bids").val("");
+            $("#evaluate-bids").val("");
+            $("#award").val("");
+            $("#sign-contract").val("");
+            $("#commence-contract").val("");
+            loadAjaxWindow("procurement_plans");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: "HTML"
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Procurement plan -cs">
+function addProcurementPlanCs() {
+
+    $.ajax({
+        url: "addProcurementPlanCs",
+        type: "POST",
+        data: "procurementPlanType=" + $("#procurement-plan-type").val() +
+                "&description=" + $("#description").val() +
+                "&ifadPriorReview=" + $("#ifad-prior-review").val() +
+                "&planVsActual=" + $("#plan-vs-actual").val() +
+                "&cost=" + $("#cost").val() +
+                "&procurementMethod=" + $("#procurement-method").val() +
+                "&submitTor=" + $("#submit-tor").val() +
+                "&completeReoi=" + $("#complete-reoi").val() +
+                "&completeBd=" + $("#complete-bd").val() +
+                "&approvalByIfad1=" + $("#approval-by-ifad1").val() +
+                "&approvalByIfad2=" + $("#approval-by-ifad2").val() +
+                "&approvalByIfad3=" + $("#approval-by-ifad3").val() +
+                "&approvalByIfad4=" + $("#approval-by-ifad4").val() +
+                "&approvalBySda=" + $("#approval-by-sda").val() +
+                "&approvalBySdaOrAg=" + $("#approval-by-sda-or-ag").val() +
+                "&issueReoi=" + $("#issue-reoi").val() +
+                "&receiveEois=" + $("#receive-eois").val() +
+                "&establishShortList=" + $("#establish-short-list").val() +
+                "&completeRfp=" + $("#complete-rfp").val() +
+                "&issueRfp=" + $("#issue-rfp").val() +
+                "&receiveProposals=" + $("#receive-proposals").val() +
+                "&evaluateTechnicalProposals=" + $("#evaluate-technical-proposals").val() +
+                "&negotiate=" + $("#negotiate").val() +
+                "&ward=" + $("#award").val() +
+                "&signContract=" + $("#sign-contract").val() +
+                "&commenceContract=" + $("#commence-contract").val(),
+        success: function () {
+            $("#procurement-plan-type").val("");
+            $("#description").val("");
+            $("#ifad-prior-review").val("");
+            $("#plan-vs-actual").val("");
+            $("#cost").val("");
+            $("#procurement-method").val("");
+            $("#submit-tor").val("");
+            $("#complete-reoi").val("");
+            $("#complete-bd").val("");
+            $("#approval-by-ifad1").val("");
+            $("#approval-by-ifad2").val("");
+            $("#approval-by-ifad3").val("");
+            $("#approval-by-ifad4").val("");
+            $("#approval-by-sda").val("");
+            $("#approval-by-sda-or-ag").val("");
+            $("#issue-reoi").val("");
+            $("#receive-eois").val("");
+            $("#establish-short-list").val("");
+            $("#complete-rfp").val("");
+            $("#issue-rfp").val("");
+            $("#receive-proposals").val("");
+            $("#evaluate-technical-proposals").val("");
+            $("#negotiate").val("");
+            $("#award").val("");
+            $("#sign-contract").val("");
+            $("#commence-contract").val("");
+            loadAjaxWindow("procurement_plans_cs");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: "HTML"
     });
 }
 //</editor-fold>

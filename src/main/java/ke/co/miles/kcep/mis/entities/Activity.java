@@ -48,7 +48,9 @@ public class Activity implements Serializable {
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
-    private List<Programme> programmeList;
+    private List<SubActivity> subActivityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    private List<Planning> planningList;
 
     public Activity() {
     }
@@ -79,12 +81,21 @@ public class Activity implements Serializable {
     }
 
     @XmlTransient
-    public List<Programme> getProgrammeList() {
-        return programmeList;
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
     }
 
-    public void setProgrammeList(List<Programme> programmeList) {
-        this.programmeList = programmeList;
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
+    }
+
+    @XmlTransient
+    public List<Planning> getPlanningList() {
+        return planningList;
+    }
+
+    public void setPlanningList(List<Planning> planningList) {
+        this.planningList = planningList;
     }
 
     @Override

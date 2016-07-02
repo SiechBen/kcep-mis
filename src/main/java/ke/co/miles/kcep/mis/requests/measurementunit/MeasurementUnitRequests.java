@@ -80,10 +80,10 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<MeasurementUnitDetails> retrieveProgrammeMeasurementUnits() throws MilesException {
+    public List<MeasurementUnitDetails> retrievePlanningMeasurementUnits() throws MilesException {
         List<MeasurementUnit> measurementUnits = new ArrayList<>();
         q = em.createNamedQuery("MeasurementUnit.findByUse");
-        q.setParameter("use", "Programme");
+        q.setParameter("use", "Planning");
         try {
             measurementUnits = q.getResultList();
         } catch (Exception e) {

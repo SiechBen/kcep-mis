@@ -18,15 +18,15 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
     public InputTypeDetails() {
     }
 
-    public InputTypeDetails(Integer id) {
+    public InputTypeDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -73,7 +73,7 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
+    private Short id;
     private String type;
     private StaticInputDetails staticInput;
 

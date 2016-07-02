@@ -40,7 +40,7 @@ public interface MeasurementUnitRequestsLocal {
      * @return the list of measurement unit record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<MeasurementUnitDetails> retrieveProgrammeMeasurementUnits() throws MilesException;
+    public List<MeasurementUnitDetails> retrievePlanningMeasurementUnits() throws MilesException;
 
     /**
      *

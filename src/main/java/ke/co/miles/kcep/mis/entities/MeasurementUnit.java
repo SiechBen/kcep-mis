@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -52,8 +53,8 @@ public class MeasurementUnit implements Serializable {
     @Size(max = 45)
     @Column(name = "use")
     private String use;
-    @OneToMany(mappedBy = "measurementUnit")
-    private List<Programme> programmeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "measurementUnit")
+    private List<SubActivity> subActivityList;
     @OneToMany(mappedBy = "units")
     private List<Warehouse> warehouseList;
 
@@ -102,12 +103,12 @@ public class MeasurementUnit implements Serializable {
     }
 
     @XmlTransient
-    public List<Programme> getProgrammeList() {
-        return programmeList;
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
     }
 
-    public void setProgrammeList(List<Programme> programmeList) {
-        this.programmeList = programmeList;
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
     }
 
     @XmlTransient

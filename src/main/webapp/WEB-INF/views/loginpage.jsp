@@ -20,7 +20,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Please Sign In</h3>
                         </div>
-                        <div class="panel-body">
+                        <div id="login-form" class="panel-body">
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" id="username" placeholder="E-mail" type="email" autofocus required>
@@ -30,11 +30,11 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        <input id="remember" type="checkbox" value="Remember Me"> Remember Me
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button class="btn btn-lg btn-success btn-block" onclick="loginUser()">Login</button>
+                                <button id="login-button" class="btn btn-lg btn-success btn-block" onclick="loginUser()">Login</button>
                             </fieldset>
                         </div>
                     </div>

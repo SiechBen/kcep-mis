@@ -66,22 +66,12 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name")
     private String businessName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Trainee> traineeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<Feedback> feedbackList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Trainer> trainerList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<SoilFertilityPackage> soilFertilityPackageList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
-    private List<ValidationWorkshops> validationWorkshopsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
     private List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
-    private List<Technology> technologyList;
-    @OneToMany(mappedBy = "person")
-    private List<EVoucher> eVoucherList;
     @OneToOne(mappedBy = "warehouseOperator")
     private Warehouse warehouse;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -90,8 +80,6 @@ public class Person implements Serializable {
     private List<ExtensionMaterialAndGuideline> extensionMaterialAndGuidelineList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<DisseminationOfResults> disseminationOfResultsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
-    private List<SampledFarmerData> sampledFarmerDataList;
     @JoinColumn(name = "contact", referencedColumnName = "id")
     @ManyToOne
     private Contact contact;
@@ -110,10 +98,24 @@ public class Person implements Serializable {
     @JoinColumn(name = "sex", referencedColumnName = "id")
     @ManyToOne
     private Sex sex;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<Trainee> traineeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<Trainer> trainerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<ValidationWorkshops> validationWorkshopsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
+    private List<Technology> technologyList;
+    @OneToMany(mappedBy = "person")
+    private List<EVoucher> eVoucherList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
+    private List<SampledFarmerData> sampledFarmerDataList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<TechnologyTargetCounty> technologyTargetCountyList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<UserAccount> userAccountList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
+    private List<Account> accountList;
 
     public Person() {
     }
@@ -163,30 +165,12 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
-    public List<Trainee> getTraineeList() {
-        return traineeList;
-    }
-
-    public void setTraineeList(List<Trainee> traineeList) {
-        this.traineeList = traineeList;
-    }
-
-    @XmlTransient
     public List<Feedback> getFeedbackList() {
         return feedbackList;
     }
 
     public void setFeedbackList(List<Feedback> feedbackList) {
         this.feedbackList = feedbackList;
-    }
-
-    @XmlTransient
-    public List<Trainer> getTrainerList() {
-        return trainerList;
-    }
-
-    public void setTrainerList(List<Trainer> trainerList) {
-        this.trainerList = trainerList;
     }
 
     @XmlTransient
@@ -199,39 +183,12 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
-    public List<ValidationWorkshops> getValidationWorkshopsList() {
-        return validationWorkshopsList;
-    }
-
-    public void setValidationWorkshopsList(List<ValidationWorkshops> validationWorkshopsList) {
-        this.validationWorkshopsList = validationWorkshopsList;
-    }
-
-    @XmlTransient
     public List<ExtensionAndFieldVisitData> getExtensionAndFieldVisitDataList() {
         return extensionAndFieldVisitDataList;
     }
 
     public void setExtensionAndFieldVisitDataList(List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList) {
         this.extensionAndFieldVisitDataList = extensionAndFieldVisitDataList;
-    }
-
-    @XmlTransient
-    public List<Technology> getTechnologyList() {
-        return technologyList;
-    }
-
-    public void setTechnologyList(List<Technology> technologyList) {
-        this.technologyList = technologyList;
-    }
-
-    @XmlTransient
-    public List<EVoucher> getEVoucherList() {
-        return eVoucherList;
-    }
-
-    public void setEVoucherList(List<EVoucher> eVoucherList) {
-        this.eVoucherList = eVoucherList;
     }
 
     public Warehouse getWarehouse() {
@@ -267,15 +224,6 @@ public class Person implements Serializable {
 
     public void setDisseminationOfResultsList(List<DisseminationOfResults> disseminationOfResultsList) {
         this.disseminationOfResultsList = disseminationOfResultsList;
-    }
-
-    @XmlTransient
-    public List<SampledFarmerData> getSampledFarmerDataList() {
-        return sampledFarmerDataList;
-    }
-
-    public void setSampledFarmerDataList(List<SampledFarmerData> sampledFarmerDataList) {
-        this.sampledFarmerDataList = sampledFarmerDataList;
     }
 
     public Contact getContact() {
@@ -327,6 +275,60 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
+    public List<Trainee> getTraineeList() {
+        return traineeList;
+    }
+
+    public void setTraineeList(List<Trainee> traineeList) {
+        this.traineeList = traineeList;
+    }
+
+    @XmlTransient
+    public List<Trainer> getTrainerList() {
+        return trainerList;
+    }
+
+    public void setTrainerList(List<Trainer> trainerList) {
+        this.trainerList = trainerList;
+    }
+
+    @XmlTransient
+    public List<ValidationWorkshops> getValidationWorkshopsList() {
+        return validationWorkshopsList;
+    }
+
+    public void setValidationWorkshopsList(List<ValidationWorkshops> validationWorkshopsList) {
+        this.validationWorkshopsList = validationWorkshopsList;
+    }
+
+    @XmlTransient
+    public List<Technology> getTechnologyList() {
+        return technologyList;
+    }
+
+    public void setTechnologyList(List<Technology> technologyList) {
+        this.technologyList = technologyList;
+    }
+
+    @XmlTransient
+    public List<EVoucher> getEVoucherList() {
+        return eVoucherList;
+    }
+
+    public void setEVoucherList(List<EVoucher> eVoucherList) {
+        this.eVoucherList = eVoucherList;
+    }
+
+    @XmlTransient
+    public List<SampledFarmerData> getSampledFarmerDataList() {
+        return sampledFarmerDataList;
+    }
+
+    public void setSampledFarmerDataList(List<SampledFarmerData> sampledFarmerDataList) {
+        this.sampledFarmerDataList = sampledFarmerDataList;
+    }
+
+    @XmlTransient
     public List<TechnologyTargetCounty> getTechnologyTargetCountyList() {
         return technologyTargetCountyList;
     }
@@ -342,6 +344,15 @@ public class Person implements Serializable {
 
     public void setUserAccountList(List<UserAccount> userAccountList) {
         this.userAccountList = userAccountList;
+    }
+
+    @XmlTransient
+    public List<Account> getAccountList() {
+        return accountList;
+    }
+
+    public void setAccountList(List<Account> accountList) {
+        this.accountList = accountList;
     }
 
     @Override

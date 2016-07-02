@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +75,7 @@ public class ProcurementController extends Controller {
                             urlPaths.add(path);
                         }
                     }
-                } 
+                }
             }
         }
 
@@ -114,7 +115,6 @@ public class ProcurementController extends Controller {
 
                     ProcurementDetails procurement = new ProcurementDetails();
                     procurement.setCounty(county);
-                    procurement.setCost(String.valueOf(request.getParameter("cost")));
                     procurement.setItem(String.valueOf(request.getParameter("item")));
                     procurement.setSubCounty(String.valueOf(request.getParameter("sub-county")));
                     procurement.setDescription(String.valueOf(request.getParameter("description")));
@@ -123,9 +123,6 @@ public class ProcurementController extends Controller {
                     procurement.setSerialNumber(String.valueOf(request.getParameter("serial-number")));
                     procurement.setDatePurchased(String.valueOf(request.getParameter("date-procurementd")));
 
-                    if (procurement.getCost().equals("null")) {
-                        procurement.setCost(null);
-                    }
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
                     }
@@ -146,6 +143,12 @@ public class ProcurementController extends Controller {
                     }
                     if (procurement.getTargetOffice().equals("null")) {
                         procurement.setTargetOffice(null);
+                    }
+
+                    try {
+                        procurement.setCost(new BigDecimal(request.getParameter("cost")));
+                    } catch (Exception e) {
+                        procurement.setCost(null);
                     }
 
                     ServletContext context = getServletContext();

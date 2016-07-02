@@ -49,18 +49,23 @@ public class Location implements Serializable {
     private BigDecimal longitude;
     @Column(name = "latitude")
     private BigDecimal latitude;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venue")
-    private List<Training> trainingList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
+    private List<Farm> farmList;
     @OneToMany(mappedBy = "location")
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "location")
     private List<Person> personList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venue")
+    private List<Training> trainingList;
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
     @JoinColumn(name = "sub_county", referencedColumnName = "id")
     @ManyToOne
     private SubCounty subCounty;
+    @JoinColumn(name = "village", referencedColumnName = "id")
+    @ManyToOne
+    private Village village;
     @JoinColumn(name = "ward", referencedColumnName = "id")
     @ManyToOne
     private Ward ward;
@@ -97,12 +102,12 @@ public class Location implements Serializable {
     }
 
     @XmlTransient
-    public List<Training> getTrainingList() {
-        return trainingList;
+    public List<Farm> getFarmList() {
+        return farmList;
     }
 
-    public void setTrainingList(List<Training> trainingList) {
-        this.trainingList = trainingList;
+    public void setFarmList(List<Farm> farmList) {
+        this.farmList = farmList;
     }
 
     @XmlTransient
@@ -123,6 +128,15 @@ public class Location implements Serializable {
         this.personList = personList;
     }
 
+    @XmlTransient
+    public List<Training> getTrainingList() {
+        return trainingList;
+    }
+
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
+    }
+
     public County getCounty() {
         return county;
     }
@@ -137,6 +151,14 @@ public class Location implements Serializable {
 
     public void setSubCounty(SubCounty subCounty) {
         this.subCounty = subCounty;
+    }
+
+    public Village getVillage() {
+        return village;
+    }
+
+    public void setVillage(Village village) {
+        this.village = village;
     }
 
     public Ward getWard() {

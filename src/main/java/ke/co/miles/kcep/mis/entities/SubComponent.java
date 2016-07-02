@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,11 +50,13 @@ public class SubComponent implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "sub_component")
     private String subComponent;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subComponent")
+    private List<IndicatorHierarchy> indicatorHierarchyList;
+    @OneToMany(mappedBy = "subComponent")
+    private List<Planning> planningList;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
-    @OneToMany(mappedBy = "subComponent")
-    private List<Programme> programmeList;
 
     public SubComponent() {
     }
@@ -83,21 +86,30 @@ public class SubComponent implements Serializable {
         this.subComponent = subComponent;
     }
 
+    @XmlTransient
+    public List<IndicatorHierarchy> getIndicatorHierarchyList() {
+        return indicatorHierarchyList;
+    }
+
+    public void setIndicatorHierarchyList(List<IndicatorHierarchy> indicatorHierarchyList) {
+        this.indicatorHierarchyList = indicatorHierarchyList;
+    }
+
+    @XmlTransient
+    public List<Planning> getPlanningList() {
+        return planningList;
+    }
+
+    public void setPlanningList(List<Planning> planningList) {
+        this.planningList = planningList;
+    }
+
     public Component getComponent() {
         return component;
     }
 
     public void setComponent(Component component) {
         this.component = component;
-    }
-
-    @XmlTransient
-    public List<Programme> getProgrammeList() {
-        return programmeList;
-    }
-
-    public void setProgrammeList(List<Programme> programmeList) {
-        this.programmeList = programmeList;
     }
 
     @Override

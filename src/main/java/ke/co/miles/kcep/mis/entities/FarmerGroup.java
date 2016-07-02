@@ -49,10 +49,10 @@ public class FarmerGroup implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
     private List<FarmerSubGroup> farmerSubGroupList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
-    private List<FarmerGroupRecord> farmerGroupRecordList;
     @OneToMany(mappedBy = "farmerGroup")
     private List<Person> personList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
+    private List<FarmerGroupRecord> farmerGroupRecordList;
 
     public FarmerGroup() {
     }
@@ -92,21 +92,21 @@ public class FarmerGroup implements Serializable {
     }
 
     @XmlTransient
-    public List<FarmerGroupRecord> getFarmerGroupRecordList() {
-        return farmerGroupRecordList;
-    }
-
-    public void setFarmerGroupRecordList(List<FarmerGroupRecord> farmerGroupRecordList) {
-        this.farmerGroupRecordList = farmerGroupRecordList;
-    }
-
-    @XmlTransient
     public List<Person> getPersonList() {
         return personList;
     }
 
     public void setPersonList(List<Person> personList) {
         this.personList = personList;
+    }
+
+    @XmlTransient
+    public List<FarmerGroupRecord> getFarmerGroupRecordList() {
+        return farmerGroupRecordList;
+    }
+
+    public void setFarmerGroupRecordList(List<FarmerGroupRecord> farmerGroupRecordList) {
+        this.farmerGroupRecordList = farmerGroupRecordList;
     }
 
     @Override

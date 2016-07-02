@@ -24,7 +24,7 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.programme.activity.ActivityRequestsLocal;
+import ke.co.miles.kcep.mis.requests.planning.activity.ActivityRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityDetails;
 
 /**

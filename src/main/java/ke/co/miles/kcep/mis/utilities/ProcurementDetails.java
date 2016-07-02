@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -86,11 +87,11 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
         this.subCounty = subCounty;
     }
 
-    public String getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(String cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
@@ -153,7 +154,7 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
 
     private Integer id;
     private String item;
-    private String cost;
+    private BigDecimal cost;
     private String fileName;
     private String subCounty;
     private String lpoNumber;

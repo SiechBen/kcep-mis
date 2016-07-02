@@ -30,11 +30,11 @@ public class TechnologyTargetCountyDetails implements Serializable, Comparable<T
         this.id = id;
     }
 
-    public CountyDetails getCountyDetails() {
+    public CountyDetails getCounty() {
         return county;
     }
 
-    public void setCountyDetails(CountyDetails county) {
+    public void setCounty(CountyDetails county) {
         this.county = county;
     }
 

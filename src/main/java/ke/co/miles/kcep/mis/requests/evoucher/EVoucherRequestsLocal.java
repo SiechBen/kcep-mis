@@ -21,11 +21,11 @@ public interface EVoucherRequestsLocal {
     /**
      *
      * @param eVoucherDetails details of the E-voucher record to be created
-     * @return the created record
+     * @return the unique identifier of the new record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public EVoucher addEVoucher(EVoucherDetails eVoucherDetails) throws MilesException;
+    public int addEVoucher(EVoucherDetails eVoucherDetails) throws MilesException;
 
     /**
      *
@@ -45,11 +45,10 @@ public interface EVoucherRequestsLocal {
     /**
      *
      * @param eVoucherDetails details of the E-voucher record to be edited
-     * @return the E-voucher record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public EVoucher editEVoucher(EVoucherDetails eVoucherDetails) throws MilesException;
+    public void editEVoucher(EVoucherDetails eVoucherDetails) throws MilesException;
 
     /**
      *

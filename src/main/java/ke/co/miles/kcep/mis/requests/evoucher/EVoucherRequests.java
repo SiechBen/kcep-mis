@@ -29,7 +29,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public EVoucher addEVoucher(EVoucherDetails eVoucherDetails) throws MilesException {
+    public int addEVoucher(EVoucherDetails eVoucherDetails) throws MilesException {
 
         if (eVoucherDetails == null) {
             throw new InvalidArgumentException("error_019_01");
@@ -57,7 +57,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
             throw new InvalidStateException("error_000_01");
         }
 
-        return eVoucher;
+        return eVoucher.getId();
 
     }
 //</editor-fold>
@@ -92,7 +92,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
-    public EVoucher editEVoucher(EVoucherDetails eVoucherDetails) throws MilesException {
+    public void editEVoucher(EVoucherDetails eVoucherDetails) throws MilesException {
 
         if (eVoucherDetails == null) {
             throw new InvalidArgumentException("error_019_01");
@@ -123,8 +123,6 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
             throw new InvalidStateException("error_000_01");
         }
 
-        return eVoucher;
-
     }
 
 //</editor-fold>
@@ -142,8 +140,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public EVoucherDetails convertEVoucherToEVoucherDetails(EVoucher eVoucher
-    ) {
+    public EVoucherDetails convertEVoucherToEVoucherDetails(EVoucher eVoucher) {
 
         EVoucherDetails eVoucherDetails = new EVoucherDetails(eVoucher.getId());
         eVoucherDetails.setInputType(inputTypeService.convertInputTypeToInputTypeDetails(eVoucher.getInputType()));

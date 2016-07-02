@@ -327,6 +327,9 @@
         <!-- jQuery form -->
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
 
+        <!--jStorage -->
+        <script src="static/plugins/jstorage/jstorage.js"></script>
+
         <!-- Custom Theme JavaScript -->
         <script src="static/js/actions.js"></script>
 

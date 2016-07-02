@@ -26,7 +26,7 @@
                             </div>
                             <div class="form-group">
                                 Cost[KES]
-                                <input id="cost" name="cost" class="form-control">
+                                <input id="cost" type="number" step="0.01" name="cost" class="form-control">
                             </div>
                             <div class="form-group">
                                 Date purchased

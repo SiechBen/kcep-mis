@@ -47,10 +47,10 @@ public class PersonRole implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "person_role")
     private String personRole;
-    @OneToMany(mappedBy = "categoryOfTrainees")
-    private List<Training> trainingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
     private List<ImplementingPartner> implementingPartnerList;
+    @OneToMany(mappedBy = "categoryOfTrainees")
+    private List<Training> trainingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
     private List<UserAccount> userAccountList;
 
@@ -83,21 +83,21 @@ public class PersonRole implements Serializable {
     }
 
     @XmlTransient
-    public List<Training> getTrainingList() {
-        return trainingList;
-    }
-
-    public void setTrainingList(List<Training> trainingList) {
-        this.trainingList = trainingList;
-    }
-
-    @XmlTransient
     public List<ImplementingPartner> getImplementingPartnerList() {
         return implementingPartnerList;
     }
 
     public void setImplementingPartnerList(List<ImplementingPartner> implementingPartnerList) {
         this.implementingPartnerList = implementingPartnerList;
+    }
+
+    @XmlTransient
+    public List<Training> getTrainingList() {
+        return trainingList;
+    }
+
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
     }
 
     @XmlTransient
