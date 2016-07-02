@@ -44,7 +44,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">PCU(Programme Coordination Unit) Project Coordinator</h1>
+                    <h1 class="page-header">PCU Project Coordinator</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

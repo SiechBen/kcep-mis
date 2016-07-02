@@ -376,7 +376,11 @@ table.dataTable thead .sorting:after {
     cursor: pointer;
 }
 
-.pointable{
+.pointable {
     cursor: pointer;
     color: #3C659C
+}
+
+.body-title {
+    font-size: small;
 }

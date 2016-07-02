@@ -255,11 +255,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.col-lg-6 -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /#page-wrapper -->
 
     </jsp:attribute>
 </kcep:ward>

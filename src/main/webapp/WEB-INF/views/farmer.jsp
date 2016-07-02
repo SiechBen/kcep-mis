@@ -12,47 +12,37 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - feedback</jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h1 class="page-header">Farmer</h1>
-                </div>
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-9">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Enter your feedback, suggestions, comments and views about the programme below. 
-                            This will be sent to the officials at the KCEP programme such as the Ward Extension Officer.
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <form id="feedback-form" action="saveFeedback" method="POST">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Feedback message</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <textarea id="feedback" name="feedback" class="form-control"></textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="submit" value="Submit" class="btn btn-default">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </form>
-                        </div>
-                        <!-- /.panel-body -->
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Enter your feedback, suggestions, comments and views about the programme below. 
+                        This will be sent to the officials at the KCEP programme such as the Ward Extension Officer.
                     </div>
-                    <!-- /.panel -->
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <form id="feedback-form" action="saveFeedback" method="POST">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Feedback message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <textarea id="feedback" name="feedback" class="form-control"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="submit" value="Submit" class="btn btn-default">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

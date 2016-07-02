@@ -12,7 +12,6 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - view activities </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
@@ -44,15 +43,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.panel-body -->
                 </div>
-                <!-- /.panel -->
             </div>
-            <!-- /.col-lg-12 -->
         </div>
-        <!-- /.row -->
 
     </jsp:attribute>
 </kcep:head>

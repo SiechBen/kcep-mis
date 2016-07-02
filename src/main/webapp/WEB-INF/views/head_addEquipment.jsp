@@ -13,7 +13,7 @@
     <jsp:attribute name="pagecontent">
 
         <div id="page-wrapper">
-           <div class="row">
+            <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
