@@ -28,7 +28,10 @@
             <a onclick="loadAjaxWindow('activities')"><i class="fa fa-edit fa-fw"></i> Activities </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('programmes')"><i class="fa fa-edit fa-fw"></i> Programmes </a>
+            <a onclick="loadAjaxWindow('programmes')"><i class="fa fa-edit fa-fw"></i> Planning </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('procurementPlan')"><i class="fa fa-edit fa-fw"></i> Procurement plan </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('procurements')"><i class="fa fa-edit fa-fw"></i> Procurements </a>
@@ -38,8 +41,16 @@
         </li>
     </jsp:attribute>
     <jsp:attribute name="content">
-        <div>         
-            <jsp:invoke fragment="pagecontent" />
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">PCU(Programme Coordination Unit) Project Coordinator</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div>         
+                <jsp:invoke fragment="pagecontent" />
+            </div>
         </div>
     </jsp:attribute>
 </kcep:genericpage>

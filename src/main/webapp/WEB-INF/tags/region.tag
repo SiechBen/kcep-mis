@@ -15,17 +15,24 @@
 <kcep:genericpage>
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
     <jsp:attribute name="menuitems">
-          <li>
+        <li>
             <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
         </li>       
         <li>
             <a onclick="loadAjaxWindow('programmes')"><i class="fa fa-edit fa-fw"></i> Programmes </a>
         </li>
-    </li>
     </jsp:attribute>
     <jsp:attribute name="content">
-        <div>         
-            <jsp:invoke fragment="pagecontent" />
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Regional Project Coordinator</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div>         
+                <jsp:invoke fragment="pagecontent" />
+            </div>
         </div>
     </jsp:attribute>
 </kcep:genericpage>

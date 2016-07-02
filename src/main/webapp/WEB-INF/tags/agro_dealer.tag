@@ -23,8 +23,16 @@
         </li>
     </jsp:attribute>
     <jsp:attribute name="content">
-        <div>         
-            <jsp:invoke fragment="pagecontent" />
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Agro-dealer</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div>         
+                <jsp:invoke fragment="pagecontent" />
+            </div>
         </div>
     </jsp:attribute>
 </kcep:genericpage>
