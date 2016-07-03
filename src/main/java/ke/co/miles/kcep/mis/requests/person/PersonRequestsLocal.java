@@ -110,12 +110,12 @@ public interface PersonRequestsLocal {
 
     /**
      *
-     * @param countyId the unique identifier of the county to which the people
+     * @param regionId the unique identifier of the region to which the people
      * belong
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveRegionPeople(int countyId) throws MilesException;
+    public List<PersonDetails> retrieveRegionPeople(short regionId) throws MilesException;
 
     /**
      *

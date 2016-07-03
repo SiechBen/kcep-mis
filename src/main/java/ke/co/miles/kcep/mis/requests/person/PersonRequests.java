@@ -177,7 +177,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveRegionPeople(int regionId) throws MilesException {
+    public List<PersonDetails> retrieveRegionPeople(short regionId) throws MilesException {
 
         List<County> counties = new ArrayList<>();
         q = em.createNamedQuery("County.findByReqionId");

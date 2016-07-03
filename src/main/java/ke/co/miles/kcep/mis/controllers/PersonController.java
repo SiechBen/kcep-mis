@@ -346,7 +346,7 @@ public class PersonController extends Controller {
                     PersonDetails regionalCoordinator = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        people = personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getId());
+                        people = personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getRegion().getId());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;

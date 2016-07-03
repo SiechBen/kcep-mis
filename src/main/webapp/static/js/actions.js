@@ -59,7 +59,9 @@ $(function () {
 //<editor-fold defaultstate="collapsed" desc="Date picker, data tables">
 $(function () {
     $(".data-table").DataTable({
-        responsive: true
+        responsive: true,
+        'scrollX': true,
+        "scrollY": 400
     });
     $(".datefield").datepicker();
 });

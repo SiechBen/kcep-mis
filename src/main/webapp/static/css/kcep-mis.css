@@ -384,3 +384,7 @@ table.dataTable thead .sorting:after {
 .body-title {
     font-size: small;
 }
+
+.data-table th, td {
+    white-space: nowrap;
+}
