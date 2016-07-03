@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,8 @@ public class InputType implements Serializable {
     @JoinColumn(name = "static_input", referencedColumnName = "id")
     @ManyToOne
     private StaticInput staticInput;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inputType")
+    private List<InputsCollection> inputsCollectionList;
     @OneToMany(mappedBy = "inputType")
     private List<EVoucher> eVoucherList;
 
@@ -80,6 +83,15 @@ public class InputType implements Serializable {
 
     public void setStaticInput(StaticInput staticInput) {
         this.staticInput = staticInput;
+    }
+
+    @XmlTransient
+    public List<InputsCollection> getInputsCollectionList() {
+        return inputsCollectionList;
+    }
+
+    public void setInputsCollectionList(List<InputsCollection> inputsCollectionList) {
+        this.inputsCollectionList = inputsCollectionList;
     }
 
     @XmlTransient

@@ -12,12 +12,12 @@ import java.util.Date;
  *
  * @author siech
  */
-public class IndicatorDetails implements Serializable, Comparable<IndicatorDetails> {
+public class PerformanceIndicatorDetails implements Serializable, Comparable<PerformanceIndicatorDetails> {
 
-    public IndicatorDetails() {
+    public PerformanceIndicatorDetails() {
     }
 
-    public IndicatorDetails(Integer id) {
+    public PerformanceIndicatorDetails(Integer id) {
         this.id = id;
     }
 
@@ -29,14 +29,6 @@ public class IndicatorDetails implements Serializable, Comparable<IndicatorDetai
         this.id = id;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -45,28 +37,28 @@ public class IndicatorDetails implements Serializable, Comparable<IndicatorDetai
         this.description = description;
     }
 
-    public String getBaselineDate() {
+    public Date getBaselineDate() {
         return baselineDate;
     }
 
-    public void setBaselineDate(String baselineDate) {
+    public void setBaselineDate(Date baselineDate) {
         this.baselineDate = baselineDate;
     }
 
-    public String getBaselineValue() {
+    public Double getBaselineValue() {
         return baselineValue;
     }
 
-    public void setBaselineValue(String baselineValue) {
+    public void setBaselineValue(Double baselineValue) {
         this.baselineValue = baselineValue;
     }
 
-    public Date getYear() {
-        return year;
+    public Date getYearOfUse() {
+        return yearOfUse;
     }
 
-    public void setYear(Date year) {
-        this.year = year;
+    public void setYearOfUse(Date yearOfUse) {
+        this.yearOfUse = yearOfUse;
     }
 
     public Double getActualValue() {
@@ -93,20 +85,20 @@ public class IndicatorDetails implements Serializable, Comparable<IndicatorDetai
         this.ratio = ratio;
     }
 
-    public IndicatorHierarchyDetails getIndicatorHierarchy() {
-        return indicatorHierarchy;
+    public ResultHierarchyDetails getResultHierarchy() {
+        return resultHierarchy;
     }
 
-    public void setIndicatorHierarchy(IndicatorHierarchyDetails indicatorHierarchy) {
-        this.indicatorHierarchy = indicatorHierarchy;
+    public void setResultHierarchy(ResultHierarchyDetails resultHierarchy) {
+        this.resultHierarchy = resultHierarchy;
     }
 
-    public IndicatorTypeDetails getIndicatorType() {
-        return indicatorType;
+    public PerformanceIndicatorTypeDetails getPerformanceIndicatorType() {
+        return performanceIndicatorType;
     }
 
-    public void setIndicatorType(IndicatorTypeDetails indicatorType) {
-        this.indicatorType = indicatorType;
+    public void setPerformanceIndicatorType(PerformanceIndicatorTypeDetails performanceIndicatorType) {
+        this.performanceIndicatorType = performanceIndicatorType;
     }
 
     @Override
@@ -119,34 +111,33 @@ public class IndicatorDetails implements Serializable, Comparable<IndicatorDetai
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IndicatorDetails)) {
+        if (!(object instanceof PerformanceIndicatorDetails)) {
             return false;
         }
-        IndicatorDetails other = (IndicatorDetails) object;
+        PerformanceIndicatorDetails other = (PerformanceIndicatorDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Indicator[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.PerformanceIndicator[ id=" + id + " ]";
     }
 
     @Override
-    public int compareTo(IndicatorDetails o) {
+    public int compareTo(PerformanceIndicatorDetails o) {
         return this.id.compareTo(o.getId());
     }
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private String type;
     private String description;
-    private String baselineDate;
-    private String baselineValue;
-    private Date year;
+    private Date baselineDate;
+    private Double baselineValue;
+    private Date yearOfUse;
     private Double actualValue;
     private Double expectedValue;
     private Double ratio;
-    private IndicatorHierarchyDetails indicatorHierarchy;
-    private IndicatorTypeDetails indicatorType;
+    private ResultHierarchyDetails resultHierarchy;
+    private PerformanceIndicatorTypeDetails performanceIndicatorType;
 
 }

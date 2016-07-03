@@ -1,12 +1,14 @@
 var language = "en";
-//<editor-fold defaultstate="collapsed" desc="Menu">
+//<editor-fold defaultstate="collapsed" desc="Metis menu">
 $(function () {
-
     $('#side-menu').metisMenu();
 });
-//Loads the correct sidebar on window load,
-//collapses the sidebar on window resize.
-// Sets the min-height of #page-wrapper to window size
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Sidebar">
+/* Loads the correct sidebar on window load,
+ * collapses the sidebar on window resize.
+ * Sets the min-height of #page-wrapper to window size */
 $(function () {
     $(window).bind("load resize", function () {
         topOffset = 50;
@@ -34,6 +36,7 @@ $(function () {
         element.addClass('active');
     }
 });
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Remember user">
@@ -56,14 +59,36 @@ $(function () {
 });
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Date picker, data tables">
+//<editor-fold defaultstate="collapsed" desc="Datepicker">
+$(function () {
+    $(".datefield").datepicker();
+});
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Year picker">
+$(function () {
+    var yearNow = new Date().getFullYear();
+    var yearInTheFuture = yearNow + 100;
+    var centuryAgo = yearNow - 100;
+    for (yearOption = centuryAgo; yearOption <= yearInTheFuture; yearOption++) {
+        if (yearOption === yearNow) {
+            $(".yearfield").append($("<option/>").val(yearOption).attr("selected", "selected").html(yearOption));
+        } else {
+            $(".yearfield").append($("<option/>").val(yearOption).html(yearOption));
+        }
+    }
+});
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="DataTable">
 $(function () {
     $(".data-table").DataTable({
         responsive: true,
         'scrollX': true,
-        "scrollY": 400
+        "scrollY": "200",
+        "scrollCollapse": true
+                //"paging": true
     });
-    $(".datefield").datepicker();
 });
 //</editor-fold>
 
@@ -88,6 +113,20 @@ function loadApplicationAttributes() {
         dataType: "HTML"
     });
 }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Indicator AV:EV ratio">
+$("#actual-value").on("input", function () {
+    var actualValue = $("#actual-value").val();
+    var expectedValue = $("#expected-value").val();
+    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
+
+$("#expected-value").on("input", function () {
+    var actualValue = $("#actual-value").val();
+    var expectedValue = $("#expected-value").val();
+    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sliding form">
@@ -779,7 +818,7 @@ function addProcurementPlan() {
 function addProcurementPlanCs() {
 
     $.ajax({
-        url: "addProcurementPlanCs",
+        url: "doAddProcurementPlanCs",
         type: "POST",
         data: "procurementPlanType=" + $("#procurement-plan-type").val() +
                 "&description=" + $("#description").val() +
@@ -804,7 +843,7 @@ function addProcurementPlanCs() {
                 "&receiveProposals=" + $("#receive-proposals").val() +
                 "&evaluateTechnicalProposals=" + $("#evaluate-technical-proposals").val() +
                 "&negotiate=" + $("#negotiate").val() +
-                "&ward=" + $("#award").val() +
+                "&award=" + $("#award").val() +
                 "&signContract=" + $("#sign-contract").val() +
                 "&commenceContract=" + $("#commence-contract").val(),
         success: function () {
@@ -844,3 +883,41 @@ function addProcurementPlanCs() {
     });
 }
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Indicator">
+function addPerformanceIndicator() {
+
+    $.ajax({
+        url: "doAddPerformanceIndicator",
+        type: "POST",
+        data: "performanceIndicatorType=" + $("#performance-indicator-type").val() +
+                "&resultHierarchy=" + $("#result-hierarchy").val() +
+                "&expectedValue=" + $("#expected-value").val() +
+                "&baselineValue=" + $("#baseline-value").val() +
+                "&baselineDate=" + $("#baseline-date").val() +
+                "&actualValue=" + $("#actual-value").val() +
+                "&description=" + $("#description").val() +
+                "&yearOfUse=" + $("#year-of-use").val() +
+                "&ratio=" + $("#ratio").val(),
+        success: function () {
+            $("#performance-indicator-type").val();
+            $("#result-hierarchy").val();
+            $("#description").val();
+            $("#baseline-date").val();
+            $("#baseline-value").val();
+            $("#year-of-use").val();
+            $("#actual-value").val();
+            $("#expected-value").val();
+            $("#ratio").val();
+
+            loadAjaxWindow("indicators");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+//</editor-fold>
+

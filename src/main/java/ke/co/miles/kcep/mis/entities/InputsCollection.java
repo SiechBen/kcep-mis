@@ -46,7 +46,7 @@ public class InputsCollection implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date;
     @Size(max = 45)
-    @Column(name = "quantity_")
+    @Column(name = "quantity")
     private String quantity;
     @JoinColumn(name = "input_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -127,7 +127,7 @@ public class InputsCollection implements Serializable {
             return false;
         }
         InputsCollection other = (InputsCollection) object;
-        if ((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId()))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;

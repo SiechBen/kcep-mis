@@ -29,34 +29,34 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author siech
  */
 @Entity
-@Table(name = "procurement_plan_ncs", catalog = "kcep_mis", schema = "")
+@Table(name = "procurement_plan_cs", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProcurementPlanNcs.findAll", query = "SELECT p FROM ProcurementPlanNcs p"),
-    @NamedQuery(name = "ProcurementPlanNcs.findById", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.id = :id"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByDescription", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.description = :description"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByCost", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.cost = :cost"),
-    @NamedQuery(name = "ProcurementPlanNcs.findBySubmitTor", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.submitTor = :submitTor"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByCompleteReoi", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.completeReoi = :completeReoi"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByCompleteBd", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.completeBd = :completeBd"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByApprovalByIfad1", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.approvalByIfad1 = :approvalByIfad1"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByIssueReoi", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.issueReoi = :issueReoi"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByReceiveEois", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.receiveEois = :receiveEois"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByEstablishShortList", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.establishShortList = :establishShortList"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByCompleteRfp", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.completeRfp = :completeRfp"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByApprovalByIfad2", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.approvalByIfad2 = :approvalByIfad2"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByApprovalBySda", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.approvalBySda = :approvalBySda"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByIssueRfp", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.issueRfp = :issueRfp"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByReceiveProposals", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.receiveProposals = :receiveProposals"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByEvaluateTechnicalProposals", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.evaluateTechnicalProposals = :evaluateTechnicalProposals"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByApprovalByIfad3", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.approvalByIfad3 = :approvalByIfad3"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByNegotiate", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.negotiate = :negotiate"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByApprovalByIfad4", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.approvalByIfad4 = :approvalByIfad4"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByAward", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.award = :award"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByApprovalBySdaOrAg", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.approvalBySdaOrAg = :approvalBySdaOrAg"),
-    @NamedQuery(name = "ProcurementPlanNcs.findBySignContract", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.signContract = :signContract"),
-    @NamedQuery(name = "ProcurementPlanNcs.findByCommenceContract", query = "SELECT p FROM ProcurementPlanNcs p WHERE p.commenceContract = :commenceContract")})
-public class ProcurementPlanNcs implements Serializable {
+    @NamedQuery(name = "ProcurementPlanCs.findAll", query = "SELECT p FROM ProcurementPlanCs p"),
+    @NamedQuery(name = "ProcurementPlanCs.findById", query = "SELECT p FROM ProcurementPlanCs p WHERE p.id = :id"),
+    @NamedQuery(name = "ProcurementPlanCs.findByDescription", query = "SELECT p FROM ProcurementPlanCs p WHERE p.description = :description"),
+    @NamedQuery(name = "ProcurementPlanCs.findByCost", query = "SELECT p FROM ProcurementPlanCs p WHERE p.cost = :cost"),
+    @NamedQuery(name = "ProcurementPlanCs.findBySubmitTor", query = "SELECT p FROM ProcurementPlanCs p WHERE p.submitTor = :submitTor"),
+    @NamedQuery(name = "ProcurementPlanCs.findByCompleteReoi", query = "SELECT p FROM ProcurementPlanCs p WHERE p.completeReoi = :completeReoi"),
+    @NamedQuery(name = "ProcurementPlanCs.findByCompleteBd", query = "SELECT p FROM ProcurementPlanCs p WHERE p.completeBd = :completeBd"),
+    @NamedQuery(name = "ProcurementPlanCs.findByApprovalByIfad1", query = "SELECT p FROM ProcurementPlanCs p WHERE p.approvalByIfad1 = :approvalByIfad1"),
+    @NamedQuery(name = "ProcurementPlanCs.findByIssueReoi", query = "SELECT p FROM ProcurementPlanCs p WHERE p.issueReoi = :issueReoi"),
+    @NamedQuery(name = "ProcurementPlanCs.findByReceiveEois", query = "SELECT p FROM ProcurementPlanCs p WHERE p.receiveEois = :receiveEois"),
+    @NamedQuery(name = "ProcurementPlanCs.findByEstablishShortList", query = "SELECT p FROM ProcurementPlanCs p WHERE p.establishShortList = :establishShortList"),
+    @NamedQuery(name = "ProcurementPlanCs.findByCompleteRfp", query = "SELECT p FROM ProcurementPlanCs p WHERE p.completeRfp = :completeRfp"),
+    @NamedQuery(name = "ProcurementPlanCs.findByApprovalByIfad2", query = "SELECT p FROM ProcurementPlanCs p WHERE p.approvalByIfad2 = :approvalByIfad2"),
+    @NamedQuery(name = "ProcurementPlanCs.findByApprovalBySda", query = "SELECT p FROM ProcurementPlanCs p WHERE p.approvalBySda = :approvalBySda"),
+    @NamedQuery(name = "ProcurementPlanCs.findByIssueRfp", query = "SELECT p FROM ProcurementPlanCs p WHERE p.issueRfp = :issueRfp"),
+    @NamedQuery(name = "ProcurementPlanCs.findByReceiveProposals", query = "SELECT p FROM ProcurementPlanCs p WHERE p.receiveProposals = :receiveProposals"),
+    @NamedQuery(name = "ProcurementPlanCs.findByEvaluateTechnicalProposals", query = "SELECT p FROM ProcurementPlanCs p WHERE p.evaluateTechnicalProposals = :evaluateTechnicalProposals"),
+    @NamedQuery(name = "ProcurementPlanCs.findByApprovalByIfad3", query = "SELECT p FROM ProcurementPlanCs p WHERE p.approvalByIfad3 = :approvalByIfad3"),
+    @NamedQuery(name = "ProcurementPlanCs.findByNegotiate", query = "SELECT p FROM ProcurementPlanCs p WHERE p.negotiate = :negotiate"),
+    @NamedQuery(name = "ProcurementPlanCs.findByApprovalByIfad4", query = "SELECT p FROM ProcurementPlanCs p WHERE p.approvalByIfad4 = :approvalByIfad4"),
+    @NamedQuery(name = "ProcurementPlanCs.findByAward", query = "SELECT p FROM ProcurementPlanCs p WHERE p.award = :award"),
+    @NamedQuery(name = "ProcurementPlanCs.findByApprovalBySdaOrAg", query = "SELECT p FROM ProcurementPlanCs p WHERE p.approvalBySdaOrAg = :approvalBySdaOrAg"),
+    @NamedQuery(name = "ProcurementPlanCs.findBySignContract", query = "SELECT p FROM ProcurementPlanCs p WHERE p.signContract = :signContract"),
+    @NamedQuery(name = "ProcurementPlanCs.findByCommenceContract", query = "SELECT p FROM ProcurementPlanCs p WHERE p.commenceContract = :commenceContract")})
+public class ProcurementPlanCs implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,7 +64,7 @@ public class ProcurementPlanNcs implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Size(max = 400)
     @Column(name = "description")
     private String description;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -73,9 +73,9 @@ public class ProcurementPlanNcs implements Serializable {
     @Column(name = "submit_tor")
     @Temporal(TemporalType.DATE)
     private Date submitTor;
-    @Size(max = 45)
     @Column(name = "complete_reoi")
-    private String completeReoi;
+    @Temporal(TemporalType.DATE)
+    private Date completeReoi;
     @Column(name = "complete_bd")
     @Temporal(TemporalType.DATE)
     private Date completeBd;
@@ -143,10 +143,10 @@ public class ProcurementPlanNcs implements Serializable {
     @ManyToOne(optional = false)
     private ProcurementPlanType procurementPlanType;
 
-    public ProcurementPlanNcs() {
+    public ProcurementPlanCs() {
     }
 
-    public ProcurementPlanNcs(Integer id) {
+    public ProcurementPlanCs(Integer id) {
         this.id = id;
     }
 
@@ -182,11 +182,11 @@ public class ProcurementPlanNcs implements Serializable {
         this.submitTor = submitTor;
     }
 
-    public String getCompleteReoi() {
+    public Date getCompleteReoi() {
         return completeReoi;
     }
 
-    public void setCompleteReoi(String completeReoi) {
+    public void setCompleteReoi(Date completeReoi) {
         this.completeReoi = completeReoi;
     }
 
@@ -376,10 +376,10 @@ public class ProcurementPlanNcs implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProcurementPlanNcs)) {
+        if (!(object instanceof ProcurementPlanCs)) {
             return false;
         }
-        ProcurementPlanNcs other = (ProcurementPlanNcs) object;
+        ProcurementPlanCs other = (ProcurementPlanCs) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -388,7 +388,7 @@ public class ProcurementPlanNcs implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ProcurementPlanNcs[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.ProcurementPlanCs[ id=" + id + " ]";
     }
     
 }

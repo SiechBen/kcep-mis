@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,13 +49,13 @@ public class SubComponent implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "sub_component")
     private String subComponent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subComponent")
-    private List<IndicatorHierarchy> indicatorHierarchyList;
     @OneToMany(mappedBy = "subComponent")
     private List<Planning> planningList;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
+    @OneToMany(mappedBy = "subComponent")
+    private List<ResultHierarchy> resultHierarchyList;
 
     public SubComponent() {
     }
@@ -87,15 +86,6 @@ public class SubComponent implements Serializable {
     }
 
     @XmlTransient
-    public List<IndicatorHierarchy> getIndicatorHierarchyList() {
-        return indicatorHierarchyList;
-    }
-
-    public void setIndicatorHierarchyList(List<IndicatorHierarchy> indicatorHierarchyList) {
-        this.indicatorHierarchyList = indicatorHierarchyList;
-    }
-
-    @XmlTransient
     public List<Planning> getPlanningList() {
         return planningList;
     }
@@ -110,6 +100,15 @@ public class SubComponent implements Serializable {
 
     public void setComponent(Component component) {
         this.component = component;
+    }
+
+    @XmlTransient
+    public List<ResultHierarchy> getResultHierarchyList() {
+        return resultHierarchyList;
+    }
+
+    public void setResultHierarchyList(List<ResultHierarchy> resultHierarchyList) {
+        this.resultHierarchyList = resultHierarchyList;
     }
 
     @Override

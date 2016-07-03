@@ -44,7 +44,7 @@ public class IfadPriorReview implements Serializable {
     @Column(name = "choice")
     private String choice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ifadPriorReview")
-    private List<ProcurementPlanNcs> procurementPlanNcsList;
+    private List<ProcurementPlanCs> procurementPlanCsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ifadPriorReview")
     private List<ProcurementPlan> procurementPlanList;
 
@@ -72,12 +72,12 @@ public class IfadPriorReview implements Serializable {
     }
 
     @XmlTransient
-    public List<ProcurementPlanNcs> getProcurementPlanNcsList() {
-        return procurementPlanNcsList;
+    public List<ProcurementPlanCs> getProcurementPlanCsList() {
+        return procurementPlanCsList;
     }
 
-    public void setProcurementPlanNcsList(List<ProcurementPlanNcs> procurementPlanNcsList) {
-        this.procurementPlanNcsList = procurementPlanNcsList;
+    public void setProcurementPlanCsList(List<ProcurementPlanCs> procurementPlanCsList) {
+        this.procurementPlanCsList = procurementPlanCsList;
     }
 
     @XmlTransient

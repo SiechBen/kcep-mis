@@ -98,6 +98,12 @@ public class Person implements Serializable {
     @JoinColumn(name = "sex", referencedColumnName = "id")
     @ManyToOne
     private Sex sex;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "agroDealer")
+    private List<InputsCollection> inputsCollectionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
+    private List<InputsCollection> inputsCollectionList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<Loan> loanList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Trainee> traineeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
@@ -272,6 +278,33 @@ public class Person implements Serializable {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    @XmlTransient
+    public List<InputsCollection> getInputsCollectionList() {
+        return inputsCollectionList;
+    }
+
+    public void setInputsCollectionList(List<InputsCollection> inputsCollectionList) {
+        this.inputsCollectionList = inputsCollectionList;
+    }
+
+    @XmlTransient
+    public List<InputsCollection> getInputsCollectionList1() {
+        return inputsCollectionList1;
+    }
+
+    public void setInputsCollectionList1(List<InputsCollection> inputsCollectionList1) {
+        this.inputsCollectionList1 = inputsCollectionList1;
+    }
+
+    @XmlTransient
+    public List<Loan> getLoanList() {
+        return loanList;
+    }
+
+    public void setLoanList(List<Loan> loanList) {
+        this.loanList = loanList;
     }
 
     @XmlTransient

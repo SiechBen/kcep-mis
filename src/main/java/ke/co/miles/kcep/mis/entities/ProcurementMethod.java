@@ -45,7 +45,7 @@ public class ProcurementMethod implements Serializable {
     @Column(name = "method")
     private String method;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procurementMethod")
-    private List<ProcurementPlanNcs> procurementPlanNcsList;
+    private List<ProcurementPlanCs> procurementPlanCsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "procurementMethod")
     private List<ProcurementPlan> procurementPlanList;
 
@@ -73,12 +73,12 @@ public class ProcurementMethod implements Serializable {
     }
 
     @XmlTransient
-    public List<ProcurementPlanNcs> getProcurementPlanNcsList() {
-        return procurementPlanNcsList;
+    public List<ProcurementPlanCs> getProcurementPlanCsList() {
+        return procurementPlanCsList;
     }
 
-    public void setProcurementPlanNcsList(List<ProcurementPlanNcs> procurementPlanNcsList) {
-        this.procurementPlanNcsList = procurementPlanNcsList;
+    public void setProcurementPlanCsList(List<ProcurementPlanCs> procurementPlanCsList) {
+        this.procurementPlanCsList = procurementPlanCsList;
     }
 
     @XmlTransient

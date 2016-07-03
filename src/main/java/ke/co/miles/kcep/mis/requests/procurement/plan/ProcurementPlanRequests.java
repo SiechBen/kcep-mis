@@ -45,6 +45,10 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
             throw new InvalidArgumentException("error_036_04");
         } else if (procurementPlanDetails.getProcurementMethod() == null) {
             throw new InvalidArgumentException("error_036_05");
+        } else if (procurementPlanDetails.getDescription() != null) {
+            if (procurementPlanDetails.getDescription().length() > 400) {
+                throw new InvalidStateException("error_036_06");
+            }
         }
 
         ProcurementPlan procurementPlan = new ProcurementPlan();
@@ -114,7 +118,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         if (procurementPlanDetails == null) {
             throw new InvalidArgumentException("error_036_01");
         } else if (procurementPlanDetails.getId() == null) {
-            throw new InvalidArgumentException("error_036_06");
+            throw new InvalidArgumentException("error_036_07");
         } else if (procurementPlanDetails.getProcurementPlanType() == null) {
             throw new InvalidArgumentException("error_036_02");
         } else if (procurementPlanDetails.getIfadPriorReview() == null) {
@@ -123,6 +127,10 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
             throw new InvalidArgumentException("error_036_04");
         } else if (procurementPlanDetails.getProcurementMethod() == null) {
             throw new InvalidArgumentException("error_036_05");
+        } else if (procurementPlanDetails.getDescription() != null) {
+            if (procurementPlanDetails.getDescription().length() > 400) {
+                throw new InvalidStateException("error_036_06");
+            }
         }
 
         ProcurementPlan procurementPlan = em.find(ProcurementPlan.class, procurementPlanDetails.getId());

@@ -35,10 +35,13 @@
             <a onclick="loadAjaxWindow('procurements')"><i class="fa fa-edit fa-fw"></i> Procurements </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plan </a>
+            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plan - cs </a>
+            <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plans - cs </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('performance_indicators')"><i class="fa fa-edit fa-fw"></i> Performance indicators </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('eVouchers')"><i class="fa fa-edit fa-fw"></i> E-vouchers </a>

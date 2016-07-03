@@ -22,10 +22,13 @@
             <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Planning </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plan </a>
+            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plan - cs </a>
+            <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plans - cs </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('performance_indicators')"><i class="fa fa-edit fa-fw"></i> Performance indicators </a>
         </li>
     </jsp:attribute>
     <jsp:attribute name="content">

@@ -11,12 +11,12 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class IndicatorHierarchyDetails implements Serializable, Comparable<IndicatorHierarchyDetails> {
+public class ResultHierarchyDetails implements Serializable, Comparable<ResultHierarchyDetails> {
 
-    public IndicatorHierarchyDetails() {
+    public ResultHierarchyDetails() {
     }
 
-    public IndicatorHierarchyDetails(Integer id) {
+    public ResultHierarchyDetails(Integer id) {
         this.id = id;
     }
 
@@ -62,20 +62,20 @@ public class IndicatorHierarchyDetails implements Serializable, Comparable<Indic
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IndicatorHierarchyDetails)) {
+        if (!(object instanceof ResultHierarchyDetails)) {
             return false;
         }
-        IndicatorHierarchyDetails other = (IndicatorHierarchyDetails) object;
+        ResultHierarchyDetails other = (ResultHierarchyDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.IndicatorHierarchy[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.ResultHierarchy[ id=" + id + " ]";
     }
 
     @Override
-    public int compareTo(IndicatorHierarchyDetails o) {
+    public int compareTo(ResultHierarchyDetails o) {
         return this.id.compareTo(o.getId());
     }
 

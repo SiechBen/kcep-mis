@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "indicator_hierarchy", catalog = "kcep_mis", schema = "")
+@Table(name = "result_hierarchy", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "IndicatorHierarchy.findAll", query = "SELECT i FROM IndicatorHierarchy i"),
-    @NamedQuery(name = "IndicatorHierarchy.findById", query = "SELECT i FROM IndicatorHierarchy i WHERE i.id = :id"),
-    @NamedQuery(name = "IndicatorHierarchy.findByDescription", query = "SELECT i FROM IndicatorHierarchy i WHERE i.description = :description")})
-public class IndicatorHierarchy implements Serializable {
+    @NamedQuery(name = "ResultHierarchy.findAll", query = "SELECT r FROM ResultHierarchy r"),
+    @NamedQuery(name = "ResultHierarchy.findById", query = "SELECT r FROM ResultHierarchy r WHERE r.id = :id"),
+    @NamedQuery(name = "ResultHierarchy.findByDescription", query = "SELECT r FROM ResultHierarchy r WHERE r.description = :description")})
+public class ResultHierarchy implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,22 +42,22 @@ public class IndicatorHierarchy implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Size(max = 400)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "indicatorHierarchy")
-    private List<Indicator> indicatorList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultHierarchy")
+    private List<PerformanceIndicator> performanceIndicatorList;
     @JoinColumn(name = "component", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Component component;
     @JoinColumn(name = "sub_component", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private SubComponent subComponent;
 
-    public IndicatorHierarchy() {
+    public ResultHierarchy() {
     }
 
-    public IndicatorHierarchy(Integer id) {
+    public ResultHierarchy(Integer id) {
         this.id = id;
     }
 
@@ -78,12 +78,12 @@ public class IndicatorHierarchy implements Serializable {
     }
 
     @XmlTransient
-    public List<Indicator> getIndicatorList() {
-        return indicatorList;
+    public List<PerformanceIndicator> getPerformanceIndicatorList() {
+        return performanceIndicatorList;
     }
 
-    public void setIndicatorList(List<Indicator> indicatorList) {
-        this.indicatorList = indicatorList;
+    public void setPerformanceIndicatorList(List<PerformanceIndicator> performanceIndicatorList) {
+        this.performanceIndicatorList = performanceIndicatorList;
     }
 
     public Component getComponent() {
@@ -112,10 +112,10 @@ public class IndicatorHierarchy implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IndicatorHierarchy)) {
+        if (!(object instanceof ResultHierarchy)) {
             return false;
         }
-        IndicatorHierarchy other = (IndicatorHierarchy) object;
+        ResultHierarchy other = (ResultHierarchy) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,7 +124,7 @@ public class IndicatorHierarchy implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.IndicatorHierarchy[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.ResultHierarchy[ id=" + id + " ]";
     }
     
 }

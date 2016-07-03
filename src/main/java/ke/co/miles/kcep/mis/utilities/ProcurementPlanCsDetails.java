@@ -6,18 +6,19 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  *
  * @author siech
  */
-public class ProcurementPlanNcsDetails implements Serializable, Comparable<ProcurementPlanNcsDetails> {
+public class ProcurementPlanCsDetails implements Serializable, Comparable<ProcurementPlanCsDetails> {
 
-    public ProcurementPlanNcsDetails() {
+    public ProcurementPlanCsDetails() {
     }
 
-    public ProcurementPlanNcsDetails(Integer id) {
+    public ProcurementPlanCsDetails(Integer id) {
         this.id = id;
     }
 
@@ -37,27 +38,27 @@ public class ProcurementPlanNcsDetails implements Serializable, Comparable<Procu
         this.description = description;
     }
 
-    public String getIfadPriorReview() {
+    public IfadPriorReviewDetail getIfadPriorReview() {
         return ifadPriorReview;
     }
 
-    public void setIfadPriorReview(String ifadPriorReview) {
+    public void setIfadPriorReview(IfadPriorReviewDetail ifadPriorReview) {
         this.ifadPriorReview = ifadPriorReview;
     }
 
-    public String getPlanVsActual() {
+    public PlanVsActualDetail getPlanVsActual() {
         return planVsActual;
     }
 
-    public void setPlanVsActual(String planVsActual) {
+    public void setPlanVsActual(PlanVsActualDetail planVsActual) {
         this.planVsActual = planVsActual;
     }
 
-    public Long getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Long cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
@@ -69,11 +70,11 @@ public class ProcurementPlanNcsDetails implements Serializable, Comparable<Procu
         this.submitTor = submitTor;
     }
 
-    public String getCompleteReoi() {
+    public Date getCompleteReoi() {
         return completeReoi;
     }
 
-    public void setCompleteReoi(String completeReoi) {
+    public void setCompleteReoi(Date completeReoi) {
         this.completeReoi = completeReoi;
     }
 
@@ -247,10 +248,10 @@ public class ProcurementPlanNcsDetails implements Serializable, Comparable<Procu
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProcurementPlanNcsDetails)) {
+        if (!(object instanceof ProcurementPlanCsDetails)) {
             return false;
         }
-        ProcurementPlanNcsDetails other = (ProcurementPlanNcsDetails) object;
+        ProcurementPlanCsDetails other = (ProcurementPlanCsDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
@@ -260,18 +261,16 @@ public class ProcurementPlanNcsDetails implements Serializable, Comparable<Procu
     }
 
     @Override
-    public int compareTo(ProcurementPlanNcsDetails o) {
+    public int compareTo(ProcurementPlanCsDetails o) {
         return this.id.compareTo(o.getId());
     }
 
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String description;
-    private String ifadPriorReview;
-    private String planVsActual;
-    private Long cost;
+    private BigDecimal cost;
     private Date submitTor;
-    private String completeReoi;
+    private Date completeReoi;
     private Date completeBd;
     private Date approvalByIfad1;
     private Date issueReoi;
@@ -290,6 +289,8 @@ public class ProcurementPlanNcsDetails implements Serializable, Comparable<Procu
     private Date approvalBySdaOrAg;
     private Date signContract;
     private Date commenceContract;
+    private PlanVsActualDetail planVsActual;
+    private IfadPriorReviewDetail ifadPriorReview;
     private ProcurementMethodDetails procurementMethod;
     private ProcurementPlanTypeDetail procurementPlanType;
 
