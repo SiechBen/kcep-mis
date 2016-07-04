@@ -8,10 +8,10 @@ package ke.co.miles.kcep.mis.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +59,8 @@ public class PerformanceIndicatorController extends Controller {
         //Get the user path
         String path = request.getServletPath();
         String destination;
+
+        DecimalFormat decimalFormat = new DecimalFormat("######.##");
 
         DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
@@ -192,6 +194,14 @@ public class PerformanceIndicatorController extends Controller {
                         performanceIndicator.setRatio(Double.valueOf(request.getParameter("ratio")));
                     } catch (NumberFormatException e) {
                         performanceIndicator.setRatio(null);
+                        try {
+                            performanceIndicator.setRatio(Double.
+                                    parseDouble(decimalFormat.format((performanceIndicator.getActualValue()
+                                            / performanceIndicator.getExpectedValue()) * 100
+                                    )));
+                        } catch (NumberFormatException ex) {
+                        }
+
                     }
 
                     ResultHierarchyDetails resultHierarchy;
@@ -220,20 +230,12 @@ public class PerformanceIndicatorController extends Controller {
                         LOGGER.log(Level.WARNING, getBundle().getString("string_parse_error"), e);
                         performanceIndicator.setBaselineDate(null);
                     }
-                    
-                             try {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.clear();
-                        calendar.set(Calendar.YEAR, Integer.parseInt(request.getParameter("yearOfUse")));
-                        date = calendar.getTime();
-                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        performanceIndicator.setBaselineDate(date);
-                    } catch (ParseException e) {
-                        response.getWriter().write(getBundle().getString("string_parse_error"));
-                        LOGGER.log(Level.WARNING, getBundle().getString("string_parse_error"), e);
-                        performanceIndicator.setBaselineDate(null);
-                    }
 
+                    try {
+                        performanceIndicator.setYearOfUse(Short.valueOf(request.getParameter("yearOfUse")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setYearOfUse(null);
+                    }
 
                     try {
                         performanceIndicatorService.addPerformanceIndicator(performanceIndicator);

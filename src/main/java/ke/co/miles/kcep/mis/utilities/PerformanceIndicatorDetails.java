@@ -53,11 +53,11 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         this.baselineValue = baselineValue;
     }
 
-    public Date getYearOfUse() {
+    public Short getYearOfUse() {
         return yearOfUse;
     }
 
-    public void setYearOfUse(Date yearOfUse) {
+    public void setYearOfUse(Short yearOfUse) {
         this.yearOfUse = yearOfUse;
     }
 
@@ -133,7 +133,7 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     private String description;
     private Date baselineDate;
     private Double baselineValue;
-    private Date yearOfUse;
+    private Short yearOfUse;
     private Double actualValue;
     private Double expectedValue;
     private Double ratio;

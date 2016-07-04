@@ -61,8 +61,7 @@ public class PerformanceIndicator implements Serializable {
     @Column(name = "baseline_value")
     private Double baselineValue;
     @Column(name = "year_of_use")
-    @Temporal(TemporalType.DATE)
-    private Date yearOfUse;
+    private Short yearOfUse;
     @Column(name = "actual_value")
     private Double actualValue;
     @Column(name = "expected_value")
@@ -120,11 +119,11 @@ public class PerformanceIndicator implements Serializable {
         this.baselineValue = baselineValue;
     }
 
-    public Date getYearOfUse() {
+    public Short getYearOfUse() {
         return yearOfUse;
     }
 
-    public void setYearOfUse(Date yearOfUse) {
+    public void setYearOfUse(Short yearOfUse) {
         this.yearOfUse = yearOfUse;
     }
 

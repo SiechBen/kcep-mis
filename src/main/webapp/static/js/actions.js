@@ -884,7 +884,7 @@ function addProcurementPlanCs() {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Indicator">
+//<editor-fold defaultstate="collapsed" desc="Performance Indicator">
 function addPerformanceIndicator() {
 
     $.ajax({
@@ -910,7 +910,7 @@ function addPerformanceIndicator() {
             $("#expected-value").val();
             $("#ratio").val();
 
-            loadAjaxWindow("indicators");
+            loadAjaxWindow("performance_indicators");
             return;
         },
         error: function (response) {

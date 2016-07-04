@@ -16,6 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `account`
+--
+
+DROP TABLE IF EXISTS `account`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `account_number` varchar(45) DEFAULT NULL,
+  `ebl_branch` varchar(45) DEFAULT NULL,
+  `sol_id` varchar(45) DEFAULT NULL,
+  `farmer` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_account_details_person1` (`farmer`),
+  CONSTRAINT `fk_account_details_person1` FOREIGN KEY (`farmer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account`
+--
+
+LOCK TABLES `account` WRITE;
+/*!40000 ALTER TABLE `account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `activity`
 --
 
@@ -104,7 +133,7 @@ CREATE TABLE `contact` (
   `postal_address` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +142,7 @@ CREATE TABLE `contact` (
 
 LOCK TABLES `contact` WRITE;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-INSERT INTO `contact` VALUES (1,'0701404084','siele.bernard@gmail.com','203 Bomet'),(3,'0701404084','agrodealer@gmail.com','203 Bomet'),(4,'0701404086','countyofficer@gmail.com','203 Bomet'),(5,'0701404087','equity@gmail.com','203 Bomet'),(6,'0701404088','farmer@gmail.com','203 Bomet'),(7,'0701404089','kalroofficer@gmail.com','203 Bomet'),(8,'0701404081','nationalofficer@gmail.com','202 Bomet'),(9,'0701404082','regionalcoordinator@gmail.com','203 Bomet'),(10,'0701404080','subcounty@gmail.com','203 Bomet'),(11,'0701404041','warehouseoperator@gmail.com','203 Bomet'),(12,'0701404086','wao@gmail.com','203 Bomet'),(13,'0725287162','ss@anynomous.ac.ke','203 Muminji'),(14,'0727080918','henrykchirchir@gmail.com',''),(15,'0728254281','enockkkorir@gmail.com',''),(16,'0726365000','leahjterer@gmail.com',''),(17,'0724333448','koilelstores@gmail.com',''),(18,'0712444630','bentallam@gmail.com',''),(19,'0723144351','marthakiay@gmail.com',''),(20,'0721571079','willyrop@gmail.com',''),(21,'0720402148','henryrop@gmail.com',''),(22,'0702954085','judycherop@gmail.com',''),(23,'0720792007','janekiprotich@gmail.com',''),(24,'0721943674','dorcaschepkwony@gmail.com',''),(25,'0726253218','dinahcherotich@gmail.com',''),(26,'0721893081','johnkemboi@gmail.com',''),(27,'0720837777','petermutai@gmail.com',''),(28,'0717153900','christophersawe@gmail.com',''),(29,'','27@gmail.com',NULL),(30,'','37@gmail.com',NULL),(31,'','47@gmail.com',NULL),(32,'','87@gmail.com',NULL),(33,'','97@gmail.com',NULL),(34,'','kennethmakhandara18@gmail.com',NULL),(35,'0718801292','francismuniu38@gmail.com',NULL),(36,'0724968759','cherotichgladys58@gmail.com',NULL),(37,'0728386627','eliudenzianosenelua78@gmail.com',NULL),(38,'0723377384','josephngaah98@gmail.com',NULL),(39,'0721779275','timothysachita29@gmail.com',NULL),(40,'0721616191','christineshiamala59@gmail.com',NULL),(41,'0721757470','juliusmaloba69@gmail.com',NULL),(42,'0723250815','samsonisieko89@gmail.com',NULL),(43,'0706814194','peterwaswawakhisi99@gmail.com',NULL),(44,'07228 8905','benardbulimo00@gmail.com',NULL),(45,'0711174756','bensonlusabilukonzo40@gmail.com',NULL),(46,'0723514029','edgarlubanga50@gmail.com',NULL),(47,'0722463817','musanamai70@gmail.com',NULL),(48,'0707449630','bernardoondeng80@gmail.com',NULL),(49,'0722403758','hellenkabiru01@gmail.com',NULL),(50,'0707675152','piusnamungu41@gmail.com',NULL),(51,'0721123422','anjelinebwalei61@gmail.com',NULL),(52,'0722146780','anthonywesonga81@gmail.com',NULL),(53,'0721381754','teresakabiru02@gmail.com',NULL),(54,'0717627680','petersonobusuru12@gmail.com',NULL),(55,'0715824348','rebeccakemei42@gmail.com',NULL),(56,'0705322261','erickisiangani52@gmail.com',NULL),(57,'0721717502','josephkisingu72@gmail.com',NULL),(58,'0721359760','sichanginandeyeka82@gmail.com',NULL),(59,'0721903751','alicelumwaji03@gmail.com',NULL),(60,'0722217293','beatricekhavele23@gmail.com',NULL),(61,'0726570070','essendisimon43@gmail.com',NULL),(62,'0725348523','patrickmunialo63@gmail.com',NULL),(63,'0726291499','judithalegwa83@gmail.com',NULL),(64,'0721295425','philipkirwasang93@gmail.com',NULL),(65,'0725365246','joshuakiplimolaboso14@gmail.com',NULL),(66,'0722605381','williamk.kosgei44@gmail.com',NULL),(67,'0720439311','juliuskimuagorsailel64@gmail.com',NULL),(68,'0720430070','wilsonkiboitchemwok84@gmail.com',NULL),(69,'0722493123','petermuttai15@gmail.com',NULL),(70,'0722922168','peterkutiitumo35@gmail.com',NULL),(71,'0722967750','bismillahiadanbatelo55@gmail.com',NULL),(72,'0720469481','michaelkiplagatoleoikop75@gmail.com',NULL),(73,'0723501674','emilyjeronobarngetung95@gmail.com',NULL),(74,'0724610822','nathanksang16@gmail.com',NULL),(75,'0722665531','tamboche46@gmail.com',NULL),(76,'0728332251/ 0723907797','simonchepsiror66@gmail.com',NULL),(77,'0717125343','calebk.lagat66@gmail.com',NULL),(78,'0722665531','tanykinaholdingsltd86@gmail.com',NULL),(79,'0721279682','sharonn.kasili96@gmail.com',NULL),(80,'0726582856','fredmabonga07@gmail.com',NULL),(81,'0720746248','27@gmail.com',NULL),(82,'0729437702','lusiawasukamaina37@gmail.com',NULL),(83,'0712950741','kennethnamwok57@gmail.com',NULL),(84,'0712950741','francisokechotieno67@gmail.com',NULL),(85,'0700210501','eliakimw.simiyu77@gmail.com',NULL),(86,'0717678756','97@gmail.com',NULL),(87,'0714134113','mauricej.manyasi08@gmail.com',NULL),(88,'0710872605','elizabethwekesa38@gmail.com',NULL),(89,'0712516488','58@gmail.com',NULL),(90,'0711376374','mosessimiyu68@gmail.com',NULL),(91,'0727847991','jamesotieno88@gmail.com',NULL),(92,'0703236392','marynekesabarasa09@gmail.com',NULL),(93,'0711699029','joselynemakhanu29@gmail.com',NULL),(94,'0711326915','edwardwekesa49@gmail.com',NULL),(95,'0715665941','peternajoli69@gmail.com',NULL),(96,'0716440120','rosemanyonge79@gmail.com',NULL),(97,'0722936681/ 0724774770','martinwetungu99@gmail.com',NULL),(98,'0721316405','jafredwanyonyi99@gmail.com',NULL),(99,'0727245870','victormasibo10@gmail.com',NULL),(100,'0720391446','mildredmagalomba30@gmail.com',NULL),(101,'0723684715','elizabethmusungu50@gmail.com',NULL),(102,'0724390434','peterm.barasa70@gmail.com',NULL),(103,'0720581492','jameswanyonyi90@gmail.com',NULL),(104,'0725298249','leonardwalubengo01@gmail.com',NULL),(105,'0714443999','moseskiptanui31@gmail.com',NULL),(106,'0722909070','dorcasgoren51@gmail.com',NULL),(107,'0701894699','simonndegwamwangi71@gmail.com',NULL),(108,'070022888','thomask.talaam91@gmail.com',NULL),(109,'0721744521','josephrotich02@gmail.com',NULL),(110,'0722619790','jonathancheruiyot32@gmail.com',NULL),(111,'0713359926','shemcharan62@gmail.com',NULL),(112,'0722745304','shadrackterer72@gmail.com',NULL),(113,'0721571085','kenfap92@gmail.com',NULL),(114,'0729087368','philemonk.meli03@gmail.com',NULL),(115,'0729087368','stanleyolesianga23@gmail.com',NULL),(116,'0721543442','paulmaina43@gmail.com',NULL),(117,'0724983689','milkawangari63@gmail.com',NULL),(118,'0725241834','kariukiesther73@gmail.com',NULL),(119,'0735700166','charlesisinga93@gmail.com',NULL),(120,'','kwanza14@gmail.com',NULL),(121,'0722911042','josephmaina34@gmail.com',NULL),(122,'072276902','johnngariya54@gmail.com',NULL),(123,'0723454614','francisletting64@gmail.com',NULL),(124,'0726223479','erastusopicho15@gmail.com',NULL),(125,'0728266128','aggreywaliaula45@gmail.com',NULL),(126,'0727430101','benardmasanja65@gmail.com',NULL),(127,'0711556823','kenaffreubenkirwa75@gmail.com',NULL),(128,'0724407298','petermwangi95@gmail.com',NULL),(129,'0721863498','josephnzomo16@gmail.com',NULL),(130,'0721744540/0733822237','josephndungu46@gmail.com',NULL),(131,'0710417801','shemkakaimatolo56@gmail.com',NULL),(132,'0720718621','peterkimathimbae76@gmail.com',NULL),(133,'0715212004','peterkibe86@gmail.com',NULL),(134,'0727782893','jacksonkibetrutto07@gmail.com',NULL),(135,'0712974661','mosessimiyumunialo27@gmail.com',NULL),(136,'','ishmaelngisirei47@gmail.com',NULL),(137,'0727675481','philemonkipchumba57@gmail.com',NULL),(138,'','reubenbore77@gmail.com',NULL),(139,'0729578276','stanleykipkorirrotich87@gmail.com',NULL),(140,'0724401110','elizabethengendothuo08@gmail.com',NULL),(141,'0723549067','stephenkirungu28@gmail.com',NULL),(142,'0724398606','seraphirejullyoulepu48@gmail.com',NULL),(143,'0729760232','josephmurathi68@gmail.com',NULL),(144,'0722256973','charleskamauchege88@gmail.com',NULL),(145,'0727022397','gerishonkamau09@gmail.com',NULL),(146,'0729070016','annwambuikimani29@gmail.com',NULL),(147,'','49@gmail.com',NULL),(148,'0722319008','franciskahiu59@gmail.com',NULL),(149,'0723114255','desmondkiplangatchumo69@gmail.com',NULL),(150,'0700210501','charlesbiwott79@gmail.com',NULL),(151,'0722360185','geoffreyirangi89@gmail.com',NULL),(152,'0728158374','g.kngaruiya00@gmail.com',NULL),(153,'0721525849','marywanjohi20@gmail.com',NULL),(154,'0722692425','marykahingo40@gmail.com',NULL),(155,'0727548284','marykahingo60@gmail.com',NULL),(156,'0701047219','janemuthonimburu90@gmail.com',NULL),(157,'072887091','patrickmugo11@gmail.com',NULL),(158,'0722251390','immanuelsalaonslempaa41@gmail.com',NULL),(159,'0722950921','gladwellwaithera61@gmail.com',NULL),(160,'0722748253','lempaaraphaelk.71@gmail.com',NULL),(161,'0721371809','zacheosmonani91@gmail.com',NULL);
+INSERT INTO `contact` VALUES (1,'0701404084','siele.bernard@gmail.com','203 Bomet'),(3,'0701404084','agrodealer@gmail.com','203 Bomet'),(4,'0701404086','countyofficer@gmail.com','203 Bomet'),(5,'0701404087','equity@gmail.com','203 Bomet'),(6,'0701404088','farmer@gmail.com','203 Bomet'),(7,'0701404089','kalroofficer@gmail.com','203 Bomet'),(8,'0701404081','nationalofficer@gmail.com','202 Bomet'),(9,'0701404082','regionalcoordinator@gmail.com','203 Bomet'),(10,'0701404080','subcounty@gmail.com','203 Bomet'),(11,'0701404041','warehouseoperator@gmail.com','203 Bomet'),(12,'0701404086','wao@gmail.com','203 Bomet'),(13,'0725287162','ss@anynomous.ac.ke','203 Muminji'),(14,'0727080918','henrykchirchir@gmail.com',''),(15,'0728254281','enockkkorir@gmail.com',''),(16,'0726365000','leahjterer@gmail.com',''),(17,'0724333448','koilelstores@gmail.com',''),(18,'0712444630','bentallam@gmail.com',''),(19,'0723144351','marthakiay@gmail.com',''),(20,'0721571079','willyrop@gmail.com',''),(21,'0720402148','henryrop@gmail.com',''),(22,'0702954085','judycherop@gmail.com',''),(23,'0720792007','janekiprotich@gmail.com',''),(24,'0721943674','dorcaschepkwony@gmail.com',''),(25,'0726253218','dinahcherotich@gmail.com',''),(26,'0721893081','johnkemboi@gmail.com',''),(27,'0720837777','petermutai@gmail.com',''),(28,'0717153900','christophersawe@gmail.com','');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +262,7 @@ DROP TABLE IF EXISTS `e_voucher`;
 CREATE TABLE `e_voucher` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `amount` varchar(45) DEFAULT NULL,
-  `input_type` int(10) unsigned DEFAULT NULL,
+  `input_type` smallint(5) unsigned DEFAULT NULL,
   `person` int(10) unsigned DEFAULT NULL,
   `date_redeemed` date DEFAULT NULL,
   `inputs_logbook_page` varchar(200) DEFAULT NULL,
@@ -340,6 +369,65 @@ CREATE TABLE `extension_material_and_guideline` (
 LOCK TABLES `extension_material_and_guideline` WRITE;
 /*!40000 ALTER TABLE `extension_material_and_guideline` DISABLE KEYS */;
 /*!40000 ALTER TABLE `extension_material_and_guideline` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `farm`
+--
+
+DROP TABLE IF EXISTS `farm`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `farm` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `location` int(10) unsigned NOT NULL,
+  `plot_size` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_farm_location1` (`location`),
+  CONSTRAINT `fk_farm_location1` FOREIGN KEY (`location`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `farm`
+--
+
+LOCK TABLES `farm` WRITE;
+/*!40000 ALTER TABLE `farm` DISABLE KEYS */;
+/*!40000 ALTER TABLE `farm` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `farm_activity`
+--
+
+DROP TABLE IF EXISTS `farm_activity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `farm_activity` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `farm` int(10) unsigned NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `yield` double DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `quantity_sold` double DEFAULT NULL,
+  `quantity_harvested` double DEFAULT NULL,
+  `average_selling_price_per` decimal(10,0) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_farm_activity_farm1` (`farm`),
+  CONSTRAINT `fk_farm_activity_farm1` FOREIGN KEY (`farm`) REFERENCES `farm` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `farm_activity`
+--
+
+LOCK TABLES `farm_activity` WRITE;
+/*!40000 ALTER TABLE `farm_activity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `farm_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -454,6 +542,30 @@ LOCK TABLES `feedback` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ifad_prior_review`
+--
+
+DROP TABLE IF EXISTS `ifad_prior_review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ifad_prior_review` (
+  `id` smallint(6) NOT NULL,
+  `choice` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ifad_prior_review`
+--
+
+LOCK TABLES `ifad_prior_review` WRITE;
+/*!40000 ALTER TABLE `ifad_prior_review` DISABLE KEYS */;
+INSERT INTO `ifad_prior_review` VALUES (1,'Yes'),(2,'No');
+/*!40000 ALTER TABLE `ifad_prior_review` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `implementing_partner`
 --
 
@@ -488,7 +600,7 @@ DROP TABLE IF EXISTS `input_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `input_type` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(45) DEFAULT NULL,
   `static_input` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -506,6 +618,67 @@ LOCK TABLES `input_type` WRITE;
 /*!40000 ALTER TABLE `input_type` DISABLE KEYS */;
 INSERT INTO `input_type` VALUES (1,'Seeds',NULL),(2,'Fertiliser',NULL),(3,'Tarpaulin',NULL),(4,'Hermetic bags',NULL);
 /*!40000 ALTER TABLE `input_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `inputs_collection`
+--
+
+DROP TABLE IF EXISTS `inputs_collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inputs_collection` (
+  `id` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `agro_dealer` int(10) unsigned NOT NULL,
+  `input_type` smallint(5) unsigned NOT NULL,
+  `quantity` varchar(45) DEFAULT NULL,
+  `farmer` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_inputs_collection_person1` (`agro_dealer`),
+  KEY `fk_inputs_collection_input_type1` (`input_type`),
+  KEY `fk_inputs_collection_person2` (`farmer`),
+  CONSTRAINT `fk_inputs_collection_input_type1` FOREIGN KEY (`input_type`) REFERENCES `input_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inputs_collection_person1` FOREIGN KEY (`agro_dealer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inputs_collection_person2` FOREIGN KEY (`farmer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `inputs_collection`
+--
+
+LOCK TABLES `inputs_collection` WRITE;
+/*!40000 ALTER TABLE `inputs_collection` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inputs_collection` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `loan`
+--
+
+DROP TABLE IF EXISTS `loan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `loan` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `amount` decimal(10,0) DEFAULT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `person` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_loan_person1` (`person`),
+  CONSTRAINT `fk_loan_person1` FOREIGN KEY (`person`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `loan`
+--
+
+LOCK TABLES `loan` WRITE;
+/*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -533,7 +706,7 @@ CREATE TABLE `location` (
   CONSTRAINT `fk_location_sub_county1` FOREIGN KEY (`sub_county`) REFERENCES `sub_county` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_location_village1` FOREIGN KEY (`village`) REFERENCES `village` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_location_ward1` FOREIGN KEY (`ward`) REFERENCES `ward` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -542,7 +715,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000,NULL),(3,1,1,1,NULL,NULL,NULL),(4,1,15,19,NULL,NULL,NULL),(5,1,1,1,NULL,NULL,NULL),(6,1,1,6,NULL,NULL,NULL),(7,1,1,7,NULL,NULL,NULL),(8,1,1,7,NULL,NULL,NULL),(9,1,9,1,NULL,NULL,NULL),(10,1,4,5,NULL,NULL,NULL),(11,6,7,6,NULL,NULL,NULL),(12,3,3,6,NULL,NULL,NULL),(13,3,3,3,NULL,NULL,NULL),(14,1,1,48,NULL,NULL,NULL),(15,1,1,NULL,NULL,NULL,NULL),(16,1,1,NULL,NULL,NULL,NULL),(17,1,9,11,NULL,NULL,NULL),(18,1,9,11,NULL,NULL,NULL),(19,1,9,11,NULL,NULL,NULL),(20,1,9,11,NULL,NULL,NULL),(21,1,9,12,NULL,NULL,NULL),(22,1,9,12,NULL,NULL,NULL),(23,1,9,14,NULL,NULL,NULL),(24,1,9,14,NULL,NULL,NULL),(25,1,9,15,NULL,NULL,NULL),(26,1,9,15,NULL,NULL,NULL),(27,1,9,13,NULL,NULL,NULL),(28,1,9,13,NULL,NULL,NULL),(29,1,9,13,NULL,NULL,NULL),(30,1,9,13,NULL,NULL,NULL),(31,1,9,13,NULL,NULL,NULL),(37,NULL,NULL,12,NULL,NULL,NULL),(38,NULL,NULL,12,NULL,NULL,NULL),(39,NULL,NULL,30,NULL,NULL,NULL),(40,NULL,NULL,30,NULL,NULL,NULL),(41,NULL,NULL,28,NULL,NULL,NULL),(42,NULL,NULL,28,NULL,NULL,NULL),(43,NULL,NULL,27,NULL,NULL,NULL),(44,NULL,NULL,27,NULL,NULL,NULL),(45,NULL,NULL,27,NULL,NULL,NULL),(46,NULL,NULL,27,NULL,NULL,NULL),(47,NULL,NULL,28,NULL,NULL,NULL),(48,NULL,NULL,30,NULL,NULL,NULL),(49,NULL,NULL,28,NULL,NULL,NULL),(50,NULL,NULL,30,NULL,NULL,NULL),(51,NULL,NULL,27,NULL,NULL,NULL),(52,NULL,NULL,22,NULL,NULL,NULL),(53,NULL,NULL,26,NULL,NULL,NULL),(54,NULL,NULL,26,NULL,NULL,NULL),(55,NULL,NULL,26,NULL,NULL,NULL),(56,NULL,NULL,24,NULL,NULL,NULL),(57,NULL,NULL,23,NULL,NULL,NULL),(58,NULL,NULL,26,NULL,NULL,NULL),(59,NULL,NULL,22,NULL,NULL,NULL),(60,NULL,NULL,26,NULL,NULL,NULL),(61,NULL,NULL,25,NULL,NULL,NULL),(62,NULL,NULL,24,NULL,NULL,NULL),(63,NULL,NULL,25,NULL,NULL,NULL),(64,NULL,NULL,24,NULL,NULL,NULL),(65,NULL,NULL,22,NULL,NULL,NULL),(66,NULL,NULL,23,NULL,NULL,NULL),(67,NULL,NULL,16,NULL,NULL,NULL),(68,NULL,NULL,16,NULL,NULL,NULL),(69,NULL,NULL,16,NULL,NULL,NULL),(70,NULL,NULL,16,NULL,NULL,NULL),(71,NULL,NULL,17,NULL,NULL,NULL),(72,NULL,NULL,17,NULL,NULL,NULL),(73,NULL,NULL,17,NULL,NULL,NULL),(74,NULL,NULL,19,NULL,NULL,NULL),(75,NULL,NULL,19,NULL,NULL,NULL),(76,NULL,NULL,19,NULL,NULL,NULL),(77,NULL,NULL,19,NULL,NULL,NULL),(78,NULL,NULL,18,NULL,NULL,NULL),(79,NULL,NULL,18,NULL,NULL,NULL),(80,NULL,NULL,18,NULL,NULL,NULL),(81,NULL,NULL,71,NULL,NULL,NULL),(82,NULL,NULL,38,NULL,NULL,NULL),(83,NULL,NULL,39,NULL,NULL,NULL),(84,NULL,NULL,38,NULL,NULL,NULL),(85,NULL,NULL,39,NULL,NULL,NULL),(86,NULL,NULL,38,NULL,NULL,NULL),(87,NULL,NULL,38,NULL,NULL,NULL),(88,NULL,NULL,38,NULL,NULL,NULL),(89,NULL,NULL,40,NULL,NULL,NULL),(90,NULL,NULL,39,NULL,NULL,NULL),(91,NULL,NULL,38,NULL,NULL,NULL),(92,NULL,NULL,38,NULL,NULL,NULL),(93,NULL,NULL,41,NULL,NULL,NULL),(94,NULL,NULL,41,NULL,NULL,NULL),(95,NULL,NULL,41,NULL,NULL,NULL),(96,NULL,NULL,42,NULL,NULL,NULL),(97,NULL,NULL,42,NULL,NULL,NULL),(98,NULL,NULL,42,NULL,NULL,NULL),(99,NULL,NULL,42,NULL,NULL,NULL),(100,NULL,NULL,41,NULL,NULL,NULL),(101,NULL,NULL,44,NULL,NULL,NULL),(102,NULL,NULL,43,NULL,NULL,NULL),(103,NULL,NULL,44,NULL,NULL,NULL),(104,NULL,NULL,44,NULL,NULL,NULL),(105,NULL,NULL,45,NULL,NULL,NULL),(106,NULL,NULL,46,NULL,NULL,NULL),(107,NULL,NULL,46,NULL,NULL,NULL),(108,NULL,NULL,36,NULL,NULL,NULL),(109,NULL,NULL,36,NULL,NULL,NULL),(110,NULL,NULL,36,NULL,NULL,NULL),(111,NULL,NULL,76,NULL,NULL,NULL),(112,NULL,NULL,76,NULL,NULL,NULL),(113,NULL,NULL,37,NULL,NULL,NULL),(114,NULL,NULL,37,NULL,NULL,NULL),(115,NULL,NULL,37,NULL,NULL,NULL),(116,NULL,NULL,78,NULL,NULL,NULL),(117,NULL,NULL,78,NULL,NULL,NULL),(118,NULL,NULL,80,NULL,NULL,NULL),(119,NULL,NULL,80,NULL,NULL,NULL),(120,NULL,NULL,80,NULL,NULL,NULL),(121,NULL,NULL,79,NULL,NULL,NULL),(122,NULL,NULL,79,NULL,NULL,NULL),(124,NULL,NULL,32,NULL,NULL,NULL),(125,NULL,NULL,35,NULL,NULL,NULL),(126,NULL,NULL,32,NULL,NULL,NULL),(127,NULL,NULL,32,NULL,NULL,NULL),(128,NULL,NULL,35,NULL,NULL,NULL),(129,NULL,NULL,34,NULL,NULL,NULL),(130,NULL,NULL,34,NULL,NULL,NULL),(131,NULL,NULL,35,NULL,NULL,NULL),(132,NULL,NULL,34,NULL,NULL,NULL),(133,NULL,NULL,32,NULL,NULL,NULL),(134,NULL,NULL,33,NULL,NULL,NULL),(135,NULL,NULL,34,NULL,NULL,NULL),(136,NULL,NULL,32,NULL,NULL,NULL),(137,NULL,NULL,32,NULL,NULL,NULL),(138,NULL,NULL,32,NULL,NULL,NULL),(139,NULL,NULL,1,NULL,NULL,NULL),(140,NULL,NULL,1,NULL,NULL,NULL),(141,NULL,NULL,1,NULL,NULL,NULL),(142,NULL,NULL,1,NULL,NULL,NULL),(143,NULL,NULL,5,NULL,NULL,NULL),(144,NULL,NULL,5,NULL,NULL,NULL),(145,NULL,NULL,2,NULL,NULL,NULL),(146,NULL,NULL,2,NULL,NULL,NULL),(147,NULL,NULL,6,NULL,NULL,NULL),(148,NULL,NULL,6,NULL,NULL,NULL),(149,NULL,NULL,6,NULL,NULL,NULL),(151,NULL,NULL,4,NULL,NULL,NULL),(152,NULL,NULL,3,NULL,NULL,NULL),(153,NULL,NULL,3,NULL,NULL,NULL),(154,NULL,NULL,5,NULL,NULL,NULL),(155,NULL,NULL,7,NULL,NULL,NULL),(156,NULL,NULL,7,NULL,NULL,NULL),(157,NULL,NULL,7,NULL,NULL,NULL),(158,NULL,NULL,7,NULL,NULL,NULL),(159,NULL,NULL,8,NULL,NULL,NULL),(160,NULL,NULL,8,NULL,NULL,NULL),(161,NULL,NULL,8,NULL,NULL,NULL),(162,NULL,NULL,10,NULL,NULL,NULL),(163,NULL,NULL,10,NULL,NULL,NULL),(164,NULL,NULL,10,NULL,NULL,NULL);
+INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000,NULL),(3,1,1,1,NULL,NULL,NULL),(4,1,15,19,NULL,NULL,NULL),(5,1,1,1,NULL,NULL,NULL),(6,1,1,6,NULL,NULL,NULL),(7,1,1,7,NULL,NULL,NULL),(8,1,1,7,NULL,NULL,NULL),(9,1,9,1,NULL,NULL,NULL),(10,1,4,5,NULL,NULL,NULL),(11,6,7,6,NULL,NULL,NULL),(12,3,3,6,NULL,NULL,NULL),(13,3,3,3,NULL,NULL,NULL),(14,1,1,48,NULL,NULL,NULL),(15,1,1,NULL,NULL,NULL,NULL),(16,1,1,NULL,NULL,NULL,NULL),(17,1,9,11,NULL,NULL,NULL),(18,1,9,11,NULL,NULL,NULL),(19,1,9,11,NULL,NULL,NULL),(20,1,9,11,NULL,NULL,NULL),(21,1,9,12,NULL,NULL,NULL),(22,1,9,12,NULL,NULL,NULL),(23,1,9,14,NULL,NULL,NULL),(24,1,9,14,NULL,NULL,NULL),(25,1,9,15,NULL,NULL,NULL),(26,1,9,15,NULL,NULL,NULL),(27,1,9,13,NULL,NULL,NULL),(28,1,9,13,NULL,NULL,NULL),(29,1,9,13,NULL,NULL,NULL),(30,1,9,13,NULL,NULL,NULL),(31,1,9,13,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -666,6 +839,66 @@ LOCK TABLES `on_farm_trials_and_demonstrations` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `performance_indicator`
+--
+
+DROP TABLE IF EXISTS `performance_indicator`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `performance_indicator` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `performance_indicator_type` int(11) DEFAULT NULL,
+  `result_hierarchy` int(11) NOT NULL,
+  `description` varchar(400) NOT NULL,
+  `baseline_date` date DEFAULT NULL,
+  `baseline_value` double DEFAULT NULL,
+  `year_of_use` smallint(6) DEFAULT NULL,
+  `actual_value` double DEFAULT NULL,
+  `expected_value` double DEFAULT NULL,
+  `ratio` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_indicator_indicator_type1` (`performance_indicator_type`),
+  KEY `fk_indicator_indicator_hierarchy1` (`result_hierarchy`),
+  CONSTRAINT `fk_indicator_indicator_hierarchy1` FOREIGN KEY (`result_hierarchy`) REFERENCES `result_hierarchy` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_indicator_indicator_type1` FOREIGN KEY (`performance_indicator_type`) REFERENCES `performance_indicator_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `performance_indicator`
+--
+
+LOCK TABLES `performance_indicator` WRITE;
+/*!40000 ALTER TABLE `performance_indicator` DISABLE KEYS */;
+INSERT INTO `performance_indicator` VALUES (1,NULL,1,'f. Reduced hunger (NIMES)1','2016-07-03',2345,NULL,123,232,53.02),(2,NULL,1,'f. Reduced hunger (NIMES)1','2016-07-03',2345,NULL,123,232,53.02),(3,NULL,1,'f. Reduced hunger (NIMES)1','2016-07-03',2345,NULL,123,232,53.02),(4,NULL,1,'b. Number targeted households using improved inputs voluntarily (min 32,000HH), (RIMS2)','2016-01-01',12345,NULL,2345,3245,72.27),(5,NULL,2,'f. Number of women and youth empowered','2016-01-01',76776,NULL,3456,4546,76.02),(6,NULL,1,'a. 40,000 HH subsistence farmers issued with input package','2016-07-04',9876,2016,78,79,98.73),(7,NULL,3,'c. No. of crop production groups formed','2016-07-04',90987,2016,987,9876,9.99),(8,NULL,1,'b. Improved grain storage technologies adopted by 32,000 subsistence HH farmers','2016-07-06',8765,2017,987,999,98.8);
+/*!40000 ALTER TABLE `performance_indicator` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `performance_indicator_type`
+--
+
+DROP TABLE IF EXISTS `performance_indicator_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `performance_indicator_type` (
+  `id` int(11) NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `performance_indicator_type`
+--
+
+LOCK TABLES `performance_indicator_type` WRITE;
+/*!40000 ALTER TABLE `performance_indicator_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `performance_indicator_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `person`
 --
 
@@ -699,7 +932,7 @@ CREATE TABLE `person` (
   CONSTRAINT `fk_person_farmer_sub_group1` FOREIGN KEY (`farmer_sub_group`) REFERENCES `farmer_sub_group` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_person_location1` FOREIGN KEY (`location`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_person_sex1` FOREIGN KEY (`sex`) REFERENCES `sex` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -708,7 +941,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'Ben Siech',2,'29820457','1993-06-19','Millet growing',NULL,NULL,NULL,1,1),(3,'Ben Siech',2,'29820458','1993-06-22','Millet growing',NULL,NULL,NULL,12,3),(4,'Ben Siech',2,'29820459','1993-06-22','Millet growing',NULL,NULL,NULL,3,4),(5,'Ben Siech',2,'29820460','1993-06-22','Millet growing',NULL,NULL,NULL,4,5),(6,'Ben Siech',2,'29820461','1993-06-22','',NULL,NULL,NULL,5,6),(7,'Ben Siech',2,'29820463','2016-06-22','Millet growing',NULL,NULL,NULL,6,7),(8,'Ben Siech',2,'29820451','2016-06-22','Millet growing',NULL,NULL,NULL,7,8),(9,'Ben Siech',1,'29820452','2016-06-22','Millet growing',NULL,NULL,NULL,8,9),(10,'Ben Siech',2,'29820453','2016-06-22','Millet growing',NULL,NULL,NULL,9,10),(11,'Ben Siech',2,'29820455','2016-06-22','Millet growing',NULL,NULL,NULL,10,11),(12,'Ben Siech',2,'29820456','2016-06-22','Millet growing',NULL,NULL,NULL,11,12),(13,'Bwana mkubwa',1,'29820420','2016-06-29','Large scale millet growing',NULL,NULL,NULL,14,13),(14,'Henry K Chirchir',2,'0727080918','2016-06-30','Asai Farners Stores',NULL,NULL,NULL,17,14),(15,'Enock K Korir',2,'0728254281','2016-06-30','Lelchego Agro-vet',NULL,NULL,NULL,18,15),(16,'Leah J Keter',1,'0726365000','2016-06-30','Kmoiywa Stores',NULL,NULL,NULL,19,16),(17,'',1,'0724333448','2016-06-30','Koilel Stores',NULL,NULL,NULL,20,17),(18,'Ben Tallam',2,'0712444630','2016-06-30','Kabiyet Dairies Agro-vet',NULL,NULL,NULL,21,18),(19,'Martha Kiay',1,'0723144351','2016-06-30','Sonoiyat Women Group',NULL,NULL,NULL,22,19),(20,'Willy Rop',2,'0721571079','2016-06-30','Chamtany Farmers Centre',NULL,NULL,NULL,23,20),(21,'Henry Rono',2,'0720402148','2016-06-30','Naigaba Agro-vet',NULL,NULL,NULL,24,21),(22,'Judy Cherop',1,'0702954085','2016-06-30','Kaon Enterprises',NULL,NULL,NULL,25,22),(23,'Jane Kiprotich',1,'0720792007','2016-06-30','Taunet Agro-vet',NULL,NULL,NULL,26,23),(24,'Dorcas Chepkwony',1,'0721943674','2016-06-30','Baraton Farm Care',NULL,NULL,NULL,27,24),(25,'Dinah Cherotich',1,'0726253218','2016-06-30','Kamuny Agro-vet',NULL,NULL,NULL,28,25),(26,'John Kemboi',2,'0721893081','2016-06-30','Baraton Agricultural',NULL,NULL,NULL,29,26),(27,'Peter Mutai',2,'0720837777','2016-06-30','Lessos Agrovet',NULL,NULL,NULL,30,27),(28,'Christopher Sawe',2,'0717153900','2016-06-30','Tarakwa Agrochemicals',NULL,NULL,NULL,31,28),(29,'Kenneth Makhandara',2,'',NULL,'Nestle Agro vet',NULL,NULL,NULL,NULL,34),(30,'Francis Muniu',2,'0718801292',NULL,'Millenium Mega Choice',NULL,NULL,NULL,NULL,35),(31,'Cherotich Gladys',1,'0724968759',NULL,'Western Agrovet',NULL,NULL,NULL,NULL,36),(32,'Eliud Enziano Senelua',2,'0728386627',NULL,'God Provides Agrovet',NULL,NULL,NULL,NULL,37),(33,'Joseph Ngaah',2,'0723377384',NULL,'KENAFF',NULL,NULL,NULL,NULL,38),(34,'Timothy Sachita',2,'0721779275',NULL,'Elgon View',NULL,NULL,NULL,NULL,39),(35,'Christine Shiamala',1,'0721616191',NULL,'Lugari Stores',NULL,NULL,NULL,NULL,40),(36,'Julius Maloba',2,'0721757470',NULL,'Nyota Agrovet',NULL,NULL,NULL,NULL,41),(37,'Samson Isieko',2,'0723250815',NULL,'Somalo Enterprise Maranda',NULL,NULL,NULL,NULL,42),(38,'Peter Waswa Wakhisi',2,'0706814194',NULL,'Chango Traders',NULL,NULL,NULL,NULL,43),(39,'Benard Bulimo',2,'07228 8905',NULL,'Baraka Traders',NULL,NULL,NULL,NULL,44),(40,'Benson Lusabi Lukonzo',2,'0711174756',NULL,'Joy Enterprises',NULL,NULL,NULL,NULL,45),(41,'Edgar Lubanga',2,'0723514029',NULL,'Mwamba Agro Supply',NULL,NULL,NULL,NULL,46),(42,'Musa Namai',2,'0722463817',NULL,'Savana Agro Vet',NULL,NULL,NULL,NULL,47),(43,'Bernard O Ondeng',2,'0707449630',NULL,'Jaseme',NULL,NULL,NULL,NULL,48),(44,'Hellen Kabiru',1,'0722403758',NULL,'Rift Agrovet',NULL,NULL,NULL,NULL,49),(45,'Pius Namungu',2,'0707675152',NULL,'Kongoni Farm Care Agrovet',NULL,NULL,NULL,NULL,50),(46,'Anjeline Bwalei',1,'0721123422',NULL,'Berur Agrochemical',NULL,NULL,NULL,NULL,51),(47,'Anthony Wesonga',2,'0722146780',NULL,'Nangili Veterinery Centre',NULL,NULL,NULL,NULL,52),(48,'Teresa Kabiru',1,'0721381754',NULL,'Kimilili Agrovet',NULL,NULL,NULL,NULL,53),(49,'Peterson Obusuru',2,'0717627680',NULL,'Hillcare Agrovet',NULL,NULL,NULL,NULL,54),(50,'Rebecca Kemei',1,'0715824348',NULL,'Mois bridge Dairy Sacco',NULL,NULL,NULL,NULL,55),(51,'Eric Kisiangani',2,'0705322261',NULL,'Destiny Veterinary Centre',NULL,NULL,NULL,NULL,56),(52,'Joseph Kisingu',2,'0721717502',NULL,'Vetline Supplies',NULL,NULL,NULL,NULL,57),(53,'Sichangi Nandeyeka',2,'0721359760',NULL,'Sango Veterinary Centre',NULL,NULL,NULL,NULL,58),(54,'Alice Lumwaji',1,'0721903751',NULL,'Akhalu Enterprise',NULL,NULL,NULL,NULL,59),(55,'Beatrice Khavele',1,'0722217293',NULL,'Bimamu Stores',NULL,NULL,NULL,NULL,60),(56,'Essendi Simon',2,'0726570070',NULL,'Soy Acres Stores',NULL,NULL,NULL,NULL,61),(57,'Patrick Munialo',2,'0725348523',NULL,'Agrochemicals Nzoia',NULL,NULL,NULL,NULL,62),(58,'Judith Alegwa',1,'0726291499',NULL,'Hill Care',NULL,NULL,NULL,NULL,63),(59,'Philip Kirwa Sang',2,'0721295425',NULL,'Kirwa and Kirwa General shop',NULL,NULL,NULL,NULL,64),(60,'Joshua Kiplimo Laboso',2,'0725365246',NULL,'Cheptil Agro-Vet',NULL,NULL,NULL,NULL,65),(61,'William K. Kosgei',2,'0722605381',NULL,'Swara shop',NULL,NULL,NULL,NULL,66),(62,'Julius Kimuagor Sailel',2,'0720439311',NULL,'Kipyegon Mkulima shop',NULL,NULL,NULL,NULL,67),(63,'Wilson Kiboit Chemwok',2,'0720430070',NULL,'Kimgoror Investment',NULL,NULL,NULL,NULL,68),(64,'Peter Muttai',2,'0722493123',NULL,'Abrastel Enterprises',NULL,NULL,NULL,NULL,69),(65,'Peter KutiItumo',2,'0722922168',NULL,'Batumo Contractors Limited',NULL,NULL,NULL,NULL,70),(66,'Bismillahi Adan Batelo',2,'0722967750',NULL,'Bismillahi shop',NULL,NULL,NULL,NULL,71),(67,'Michael Kiplagat Oleoikop',2,'0720469481',NULL,'Kaiboi Multipurpose store',NULL,NULL,NULL,NULL,72),(68,'Emily Jerono Barngetung',1,'0723501674',NULL,'Chamtany Farm Inputs',NULL,NULL,NULL,NULL,73),(69,'Nathan K Sang',2,'0724610822',NULL,'Relax Kaiboi',NULL,NULL,NULL,NULL,74),(70,'Tamboche',1,'0722665531',NULL,'Tanykina Dairy Plant Ltd (Tamboche)',NULL,NULL,NULL,NULL,75),(71,'Caleb K. Lagat',2,'0717125343',NULL,'Naet Kaptich Enterprise',NULL,NULL,NULL,NULL,77),(72,'Sharon N. Kasili',1,'0721279682',NULL,'Chenjeni Stores',NULL,NULL,NULL,NULL,79),(73,'Fred Mabonga',2,'0726582856',NULL,'Midlands',NULL,NULL,NULL,NULL,80),(74,'Lusia Wasuka Maina',1,'0729437702',NULL,'Wilgrace',NULL,NULL,NULL,NULL,82),(75,'Kenneth Namwok',2,'0712950741',NULL,'Upper Hill',NULL,NULL,NULL,NULL,83),(77,'Eliakim W. Simiyu',2,'0700210501',NULL,'Elyland General Stop',NULL,NULL,NULL,NULL,85),(78,'Maurice J. Manyasi',1,'0714134113',NULL,'Namubila General shop',NULL,NULL,NULL,NULL,87),(79,'Elizabeth Wekesa',1,'0710872605',NULL,'Vision Agrovet',NULL,NULL,NULL,NULL,88),(80,'Moses Simiyu',2,'0711376374',NULL,'Narati Stores',NULL,NULL,NULL,NULL,90),(81,'James Otieno',2,'0727847991',NULL,'Brigadier Stores',NULL,NULL,NULL,NULL,91),(82,'Mary Nekesa Barasa',1,'0703236392',NULL,'Bunyala Stores',NULL,NULL,NULL,NULL,92),(83,'Joselyne Makhanu',1,'0711699029',NULL,'Naitiri Dairy',NULL,NULL,NULL,NULL,93),(84,'Edward Wekesa',2,'0711326915',NULL,'Blue Band Stores',NULL,NULL,NULL,NULL,94),(85,'Peter Najoli',2,'0715665941',NULL,'Naitiri Farmers Agrovet',NULL,NULL,NULL,NULL,95),(86,'Rose Manyonge',1,'0716440120',NULL,'BavesAgrovet',NULL,NULL,NULL,NULL,96),(87,'Jafred Wanyonyi',2,'0721316405',NULL,'Naitiri General Stores',NULL,NULL,NULL,NULL,98),(88,'Victor Masibo',2,'0727245870',NULL,'Kadogo Cheapest',NULL,NULL,NULL,NULL,99),(89,'Mildred M Agalomba',1,'0720391446',NULL,'Chambiti Hardware',NULL,NULL,NULL,NULL,100),(90,'Elizabeth Musungu',1,'0723684715',NULL,'JembMukulima Stores',NULL,NULL,NULL,NULL,101),(91,'Peter M. Barasa',2,'0724390434',NULL,'Pema Agrovet',NULL,NULL,NULL,NULL,102),(92,'James Wanyonyi',2,'0720581492',NULL,'Sweet Point',NULL,NULL,NULL,NULL,103),(93,'Leonard Walubengo',2,'0725298249',NULL,'Vision Agrovet',NULL,NULL,NULL,NULL,104),(94,'Moses Kiptanui',2,'0714443999',NULL,'Tulin Stores',NULL,NULL,NULL,NULL,105),(95,'Dorcas Goren',1,'0722909070',NULL,'Grand Rabana',NULL,NULL,NULL,NULL,106),(96,'Simon Ndegwa Mwangi',2,'0701894699',NULL,'Sibanga farmers Gen Merchant',NULL,NULL,NULL,NULL,107),(97,'Thomas K.Talaam',2,'070022888',NULL,'Talaamis General store',NULL,NULL,NULL,NULL,108),(98,'Joseph Rotich',2,'0721744521',NULL,'Sambich General Stores',NULL,NULL,NULL,NULL,109),(99,'Jonathan Cheruiyot',2,'0722619790',NULL,'Kamur Agro Stores',NULL,NULL,NULL,NULL,110),(100,'Shem Charan',2,'0713359926',NULL,'Sheum Shop',NULL,NULL,NULL,NULL,111),(101,'Shadrack Terer',2,'0722745304',NULL,'Kachibora Agrostores',NULL,NULL,NULL,NULL,112),(102,'Philemon K. Meli',2,'0729087368',NULL,'Teldon Investments',NULL,NULL,NULL,NULL,114),(104,'Paul Maina',2,'0721543442',NULL,'Ebenezer',NULL,NULL,NULL,NULL,116),(105,'Milka Wangari',1,'0724983689',NULL,'Joy Farmers',NULL,NULL,NULL,NULL,117),(106,'Kariuki Esther',1,'0725241834',NULL,'Benez Agrovet',NULL,NULL,NULL,NULL,118),(107,'Charles Isinga',2,'0735700166',NULL,'Bora Bora Agrovet',NULL,NULL,NULL,NULL,119),(108,'Joseph Maina',2,'0722911042',NULL,'Sunlight Agrovet',NULL,NULL,NULL,NULL,121),(109,'John Ngariya',2,'072276902',NULL,'Failoi hardware',NULL,NULL,NULL,NULL,122),(110,'Francis Letting',2,'0723454614',NULL,'Fralett General Suppliers',NULL,NULL,NULL,NULL,123),(111,'Erastus Opicho',2,'0726223479',NULL,'Elhoim Agrovet',NULL,NULL,NULL,NULL,124),(112,'Aggrey Waliaula',2,'0728266128',NULL,'Nice Stores',NULL,NULL,NULL,NULL,125),(113,'Benard Masanja',2,'0727430101',NULL,'Itete Trading Co. limited',NULL,NULL,NULL,NULL,126),(114,'KENAFF Reuben Kirwa',2,'0711556823',NULL,'KENFAP (KENAFF)-',NULL,NULL,NULL,NULL,127),(115,'Peter Mwangi',2,'0724407298',NULL,'Kobos Agrovet and Hardware',NULL,NULL,NULL,NULL,128),(116,'Joseph Nzomo',2,'0721863498',NULL,'Mazop enterprises limited',NULL,NULL,NULL,NULL,129),(117,'Shem Kakai Matolo',2,'0710417801',NULL,'Kakai Kwanza / KK SHA Agrovet',NULL,NULL,NULL,NULL,131),(118,'Peter Kimathi Mbae',2,'0720718621',NULL,'Kilimo Leo stores',NULL,NULL,NULL,NULL,132),(119,'Peter Kibe',2,'0715212004',NULL,'Ebenezar Agro-vet',NULL,NULL,NULL,NULL,133),(120,'Jackson Kibet Rutto',2,'0727782893',NULL,'Kilimo Agro vet',NULL,NULL,NULL,NULL,134),(121,'Moses Simiyu Munialo',2,'0712974661',NULL,'YASOLO Agrovet',NULL,NULL,NULL,NULL,135),(123,'Philemon Kipchumba',2,'0727675481',NULL,'Teret Farmers Agrovet',NULL,NULL,NULL,NULL,137),(125,'Stanley Kipkorir Rotich',2,'0729578276',NULL,'Sosiana Agrovet',NULL,NULL,NULL,NULL,139),(126,'Elizabethe Ngendo Thuo',1,'0724401110',NULL,'Shamba Njoro Inputs',NULL,NULL,NULL,NULL,140),(127,'Stephen Kirungu',2,'0723549067',NULL,'Nakuru Njoro Animal feed',NULL,NULL,NULL,NULL,141),(128,'Seraphire Jully Oulepu',1,'0724398606',NULL,'Captan Farm Inputs Store',NULL,NULL,NULL,NULL,142),(129,'Joseph Murathi',2,'0729760232',NULL,'Wise Farmers Agrovet',NULL,NULL,NULL,NULL,143),(130,'Charles Kamau Chege',2,'0722256973',NULL,'Kawa Agro dealer',NULL,NULL,NULL,NULL,144),(131,'Gerishon Kamau',2,'0727022397',NULL,'Tumaini',NULL,NULL,NULL,NULL,145),(132,'Ann wambui Kimani',1,'0729070016',NULL,'Kwa Ann (Farmers pride) Mwisho wa lami',NULL,NULL,NULL,NULL,146),(133,'Francis Kahiu',2,'0722319008',NULL,'Topfarm Agrovet',NULL,NULL,NULL,NULL,148),(134,'Desmond Kiplangat Chumo',2,'0723114255',NULL,'Nessuit farmers Agrovet',NULL,NULL,NULL,NULL,149),(136,'Geoffrey Irangi',2,'0722360185',NULL,'Mwanainchi Farm Inputs',NULL,NULL,NULL,NULL,151),(137,'G.K Ngaruiya',2,'0728158374',NULL,'One Kenya Agrovet',NULL,NULL,NULL,NULL,152),(138,'Mary Wanjohi',1,'0721525849',NULL,'Ole-Subukia Animal Feeds',NULL,NULL,NULL,NULL,153),(139,'Mary Kahingo',1,'0722692425',NULL,'Tetu Agrovet',NULL,NULL,NULL,NULL,154),(140,'Mary Kahingo',1,'0727548284',NULL,'Mawa Agrovet',NULL,NULL,NULL,NULL,155),(141,'Jane Muthoni Mburu',1,'0701047219',NULL,'Modern Shamba supplies',NULL,NULL,NULL,NULL,156),(142,'Patrick Mugo',2,'072887091',NULL,'Highway Agrovet',NULL,NULL,NULL,NULL,157),(143,'Immanuel Salaons Lempaa',2,'0722251390',NULL,'Universal Shamba Supplies',NULL,NULL,NULL,NULL,158),(144,'Gladwell Waithera',1,'0722950921',NULL,'Anicrop world co. ltd',NULL,NULL,NULL,NULL,159),(145,'Lempaa Raphael K.',2,'0722748253',NULL,'Shamba Inputs supplies',NULL,NULL,NULL,NULL,160),(146,'Zacheos Monani',2,'0721371809',NULL,'Moche Agrovet',NULL,NULL,NULL,NULL,161);
+INSERT INTO `person` VALUES (1,'Ben Siech',2,'29820457','1993-06-19','Millet growing',NULL,NULL,NULL,1,1),(3,'Ben Siech',2,'29820458','1993-06-22','Millet growing',NULL,NULL,NULL,12,3),(4,'Ben Siech',2,'29820459','1993-06-22','Millet growing',NULL,NULL,NULL,3,4),(5,'Ben Siech',2,'29820460','1993-06-22','Millet growing',NULL,NULL,NULL,4,5),(6,'Ben Siech',2,'29820461','1993-06-22','',NULL,NULL,NULL,5,6),(7,'Ben Siech',2,'29820463','2016-06-22','Millet growing',NULL,NULL,NULL,6,7),(8,'Ben Siech',2,'29820451','2016-06-22','Millet growing',NULL,NULL,NULL,7,8),(9,'Ben Siech',1,'29820452','2016-06-22','Millet growing',NULL,NULL,NULL,8,9),(10,'Ben Siech',2,'29820453','2016-06-22','Millet growing',NULL,NULL,NULL,9,10),(11,'Ben Siech',2,'29820455','2016-06-22','Millet growing',NULL,NULL,NULL,10,11),(12,'Ben Siech',2,'29820456','2016-06-22','Millet growing',NULL,NULL,NULL,11,12),(13,'Bwana mkubwa',1,'29820420','2016-06-29','Large scale millet growing',NULL,NULL,NULL,14,13),(14,'Henry K Chirchir',2,'0727080918','2016-06-30','Asai Farners Stores',NULL,NULL,NULL,17,14),(15,'Enock K Korir',2,'0728254281','2016-06-30','Lelchego Agro-vet',NULL,NULL,NULL,18,15),(16,'Leah J Keter',1,'0726365000','2016-06-30','Kmoiywa Stores',NULL,NULL,NULL,19,16),(17,'',1,'0724333448','2016-06-30','Koilel Stores',NULL,NULL,NULL,20,17),(18,'Ben Tallam',2,'0712444630','2016-06-30','Kabiyet Dairies Agro-vet',NULL,NULL,NULL,21,18),(19,'Martha Kiay',1,'0723144351','2016-06-30','Sonoiyat Women Group',NULL,NULL,NULL,22,19),(20,'Willy Rop',2,'0721571079','2016-06-30','Chamtany Farmers Centre',NULL,NULL,NULL,23,20),(21,'Henry Rono',2,'0720402148','2016-06-30','Naigaba Agro-vet',NULL,NULL,NULL,24,21),(22,'Judy Cherop',1,'0702954085','2016-06-30','Kaon Enterprises',NULL,NULL,NULL,25,22),(23,'Jane Kiprotich',1,'0720792007','2016-06-30','Taunet Agro-vet',NULL,NULL,NULL,26,23),(24,'Dorcas Chepkwony',1,'0721943674','2016-06-30','Baraton Farm Care',NULL,NULL,NULL,27,24),(25,'Dinah Cherotich',1,'0726253218','2016-06-30','Kamuny Agro-vet',NULL,NULL,NULL,28,25),(26,'John Kemboi',2,'0721893081','2016-06-30','Baraton Agricultural',NULL,NULL,NULL,29,26),(27,'Peter Mutai',2,'0720837777','2016-06-30','Lessos Agrovet',NULL,NULL,NULL,30,27),(28,'Christopher Sawe',2,'0717153900','2016-06-30','Tarakwa Agrochemicals',NULL,NULL,NULL,31,28);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -739,6 +972,71 @@ INSERT INTO `person_role` VALUES (12,'Agmark'),(2,'Agro-dealer'),(5,'County Offi
 UNLOCK TABLES;
 
 --
+-- Table structure for table `plan_vs_actual`
+--
+
+DROP TABLE IF EXISTS `plan_vs_actual`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `plan_vs_actual` (
+  `id` smallint(5) unsigned NOT NULL,
+  `choice` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `plan_vs_actual`
+--
+
+LOCK TABLES `plan_vs_actual` WRITE;
+/*!40000 ALTER TABLE `plan_vs_actual` DISABLE KEYS */;
+INSERT INTO `plan_vs_actual` VALUES (1,'Plan'),(2,'Updated');
+/*!40000 ALTER TABLE `plan_vs_actual` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `planning`
+--
+
+DROP TABLE IF EXISTS `planning`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `planning` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `annual_workplan_reference_code` varchar(45) DEFAULT NULL,
+  `activity` int(10) unsigned NOT NULL,
+  `awpb_target` decimal(16,2) DEFAULT NULL,
+  `programme_target` decimal(16,2) DEFAULT NULL,
+  `value_achieved` decimal(16,2) DEFAULT NULL,
+  `allocated_budget` decimal(16,2) DEFAULT NULL,
+  `component` smallint(5) unsigned NOT NULL,
+  `sub_component` smallint(5) unsigned DEFAULT NULL,
+  `implementing_partner` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_programme_component1` (`component`),
+  KEY `fk_programme_sub_component1` (`sub_component`),
+  KEY `fk_programme_table11` (`implementing_partner`),
+  KEY `fk_programme_activity1` (`activity`),
+  CONSTRAINT `fk_programme_activity1` FOREIGN KEY (`activity`) REFERENCES `activity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programme_component1` FOREIGN KEY (`component`) REFERENCES `component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programme_sub_component1` FOREIGN KEY (`sub_component`) REFERENCES `sub_component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_programme_table11` FOREIGN KEY (`implementing_partner`) REFERENCES `implementing_partner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `planning`
+--
+
+LOCK TABLES `planning` WRITE;
+/*!40000 ALTER TABLE `planning` DISABLE KEYS */;
+/*!40000 ALTER TABLE `planning` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `procurement`
 --
 
@@ -754,7 +1052,7 @@ CREATE TABLE `procurement` (
   `target_office` varchar(45) DEFAULT NULL,
   `county` smallint(5) unsigned DEFAULT NULL,
   `sub_county` varchar(45) DEFAULT NULL,
-  `cost` varchar(45) DEFAULT NULL,
+  `cost` decimal(16,2) DEFAULT NULL,
   `lpo_number` varchar(45) DEFAULT NULL,
   `invoice_or_receipt` varchar(300) DEFAULT NULL COMMENT 'Attachment\n',
   PRIMARY KEY (`id`),
@@ -774,48 +1072,160 @@ LOCK TABLES `procurement` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `programme`
+-- Table structure for table `procurement_method`
 --
 
-DROP TABLE IF EXISTS `programme`;
+DROP TABLE IF EXISTS `procurement_method`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `programme` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `activity` int(10) unsigned NOT NULL,
-  `start_period` varchar(45) DEFAULT NULL,
-  `end_period` varchar(45) DEFAULT NULL,
-  `measurement_unit` smallint(5) unsigned DEFAULT NULL,
-  `awpb_target` varchar(45) DEFAULT NULL,
-  `programme_target` varchar(45) DEFAULT NULL,
-  `value_achieved` varchar(45) DEFAULT NULL,
-  `requested_budget` varchar(45) DEFAULT NULL,
-  `actual_expenditure` varchar(45) DEFAULT NULL,
-  `component` smallint(5) unsigned NOT NULL,
-  `sub_component` smallint(5) unsigned DEFAULT NULL,
-  `implementing_partner` smallint(5) unsigned NOT NULL,
+CREATE TABLE `procurement_method` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `method` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_programme_measurement_unit1` (`measurement_unit`),
-  KEY `fk_programme_component1` (`component`),
-  KEY `fk_programme_sub_component1` (`sub_component`),
-  KEY `fk_programme_table11` (`implementing_partner`),
-  KEY `fk_programme_activity1` (`activity`),
-  CONSTRAINT `fk_programme_activity1` FOREIGN KEY (`activity`) REFERENCES `activity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_programme_component1` FOREIGN KEY (`component`) REFERENCES `component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_programme_measurement_unit1` FOREIGN KEY (`measurement_unit`) REFERENCES `measurement_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_programme_sub_component1` FOREIGN KEY (`sub_component`) REFERENCES `sub_component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_programme_table11` FOREIGN KEY (`implementing_partner`) REFERENCES `implementing_partner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `programme`
+-- Dumping data for table `procurement_method`
 --
 
-LOCK TABLES `programme` WRITE;
-/*!40000 ALTER TABLE `programme` DISABLE KEYS */;
-/*!40000 ALTER TABLE `programme` ENABLE KEYS */;
+LOCK TABLES `procurement_method` WRITE;
+/*!40000 ALTER TABLE `procurement_method` DISABLE KEYS */;
+INSERT INTO `procurement_method` VALUES (1,'LCS'),(2,'QCBS'),(3,'ICB/UNOPS'),(4,'NS'),(5,'NCB'),(6,'NCB/UNOPS'),(7,'DS');
+/*!40000 ALTER TABLE `procurement_method` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `procurement_plan`
+--
+
+DROP TABLE IF EXISTS `procurement_plan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `procurement_plan` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `procurement_plan_type` smallint(5) unsigned NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `ifad_prior_review` smallint(6) NOT NULL,
+  `plan_vs_actual` smallint(5) unsigned NOT NULL,
+  `cost` decimal(16,2) DEFAULT NULL,
+  `procurement_method` smallint(5) unsigned NOT NULL,
+  `complete_bd` date DEFAULT NULL COMMENT 'Bidding Document',
+  `approval_by_ifad1` date DEFAULT NULL,
+  `approval_by_sda` date DEFAULT NULL,
+  `issue_bd` date DEFAULT NULL COMMENT 'Bidding Document',
+  `receive_bids` date DEFAULT NULL,
+  `evaluate_bids` date DEFAULT NULL,
+  `approval_by_ifad2` date DEFAULT NULL,
+  `award` date DEFAULT NULL,
+  `approval_by_sda_or_ag` date DEFAULT NULL,
+  `sign_contract` date DEFAULT NULL,
+  `commence_contract` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_procurement_plan_procurement_method1` (`procurement_method`),
+  KEY `fk_procurement_plan_procurement_plan_category1` (`procurement_plan_type`),
+  KEY `fk_procurement_plan_plan_vs_actual1` (`plan_vs_actual`),
+  KEY `fk_procurement_plan_ifad_prior_review1` (`ifad_prior_review`),
+  CONSTRAINT `fk_procurement_plan_ifad_prior_review1` FOREIGN KEY (`ifad_prior_review`) REFERENCES `ifad_prior_review` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_procurement_plan_plan_vs_actual1` FOREIGN KEY (`plan_vs_actual`) REFERENCES `plan_vs_actual` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_procurement_plan_procurement_method1` FOREIGN KEY (`procurement_method`) REFERENCES `procurement_method` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_procurement_plan_procurement_plan_category1` FOREIGN KEY (`procurement_plan_type`) REFERENCES `procurement_plan_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `procurement_plan`
+--
+
+LOCK TABLES `procurement_plan` WRITE;
+/*!40000 ALTER TABLE `procurement_plan` DISABLE KEYS */;
+INSERT INTO `procurement_plan` VALUES (1,1,'undefined',1,1,2143244.00,1,'2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02',NULL,'2016-07-02','2016-07-02',NULL,'2016-07-02','2016-07-02'),(2,1,'Selection of sub-counties',1,1,987654.00,1,'2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02',NULL,'2016-07-02','2016-07-02'),(3,1,'Baseline survey',1,1,9876543333.00,1,'2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02'),(4,1,'GESI strategy',1,1,980887654.00,1,'2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02','2016-07-02');
+/*!40000 ALTER TABLE `procurement_plan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `procurement_plan_cs`
+--
+
+DROP TABLE IF EXISTS `procurement_plan_cs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `procurement_plan_cs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `procurement_plan_type` smallint(5) unsigned NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `ifad_prior_review` smallint(6) NOT NULL,
+  `plan_vs_actual` smallint(5) unsigned NOT NULL,
+  `cost` decimal(16,2) DEFAULT NULL,
+  `procurement_method` smallint(5) unsigned NOT NULL,
+  `submit_tor` date DEFAULT NULL,
+  `complete_reoi` date DEFAULT NULL,
+  `complete_bd` date DEFAULT NULL COMMENT 'Bidding Document',
+  `approval_by_ifad1` date DEFAULT NULL,
+  `issue_reoi` date DEFAULT NULL,
+  `receive_eois` date DEFAULT NULL,
+  `establish_short_list` date DEFAULT NULL,
+  `complete_rfp` date DEFAULT NULL,
+  `approval_by_ifad2` date DEFAULT NULL,
+  `approval_by_sda` date DEFAULT NULL,
+  `issue_rfp` date DEFAULT NULL COMMENT 'Bidding Document',
+  `receive_proposals` date DEFAULT NULL,
+  `evaluate_technical_proposals` date DEFAULT NULL,
+  `approval_by_ifad3` date DEFAULT NULL,
+  `negotiate` date DEFAULT NULL,
+  `approval_by_ifad4` date DEFAULT NULL,
+  `award` date DEFAULT NULL,
+  `approval_by_sda_or_ag` date DEFAULT NULL,
+  `sign_contract` date DEFAULT NULL,
+  `commence_contract` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_procurement_plan_procurement_method10` (`procurement_method`),
+  KEY `fk_procurement_plan_procurement_plan_category10` (`procurement_plan_type`),
+  KEY `fk_procurement_plan_ncs_plan_vs_actual1` (`plan_vs_actual`),
+  KEY `fk_procurement_plan_ncs_ifad_prior_review1` (`ifad_prior_review`),
+  CONSTRAINT `fk_procurement_plan_ncs_ifad_prior_review1` FOREIGN KEY (`ifad_prior_review`) REFERENCES `ifad_prior_review` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_procurement_plan_ncs_plan_vs_actual1` FOREIGN KEY (`plan_vs_actual`) REFERENCES `plan_vs_actual` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_procurement_plan_procurement_method10` FOREIGN KEY (`procurement_method`) REFERENCES `procurement_method` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_procurement_plan_procurement_plan_category10` FOREIGN KEY (`procurement_plan_type`) REFERENCES `procurement_plan_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `procurement_plan_cs`
+--
+
+LOCK TABLES `procurement_plan_cs` WRITE;
+/*!40000 ALTER TABLE `procurement_plan_cs` DISABLE KEYS */;
+INSERT INTO `procurement_plan_cs` VALUES (1,1,'undefined',1,1,23456.00,1,NULL,'2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03',NULL,NULL,NULL,'2016-07-03',NULL,NULL,NULL,'2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03'),(2,1,'Baseline survey',1,1,234567.00,1,NULL,'2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03'),(3,3,'GESI strategy',2,2,98765.00,1,NULL,'2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03'),(4,1,'Development of Crop Insurance Products',1,1,67586.00,1,NULL,'2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03','2016-07-03',NULL,'2016-07-03');
+/*!40000 ALTER TABLE `procurement_plan_cs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `procurement_plan_type`
+--
+
+DROP TABLE IF EXISTS `procurement_plan_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `procurement_plan_type` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `procurement_plan_type`
+--
+
+LOCK TABLES `procurement_plan_type` WRITE;
+/*!40000 ALTER TABLE `procurement_plan_type` DISABLE KEYS */;
+INSERT INTO `procurement_plan_type` VALUES (1,'Goods'),(2,'Non-Consulting Services(NCS)'),(3,'Consulting Services');
+/*!40000 ALTER TABLE `procurement_plan_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -841,6 +1251,36 @@ LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
 INSERT INTO `region` VALUES (1,'Eastern'),(2,'Western');
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `result_hierarchy`
+--
+
+DROP TABLE IF EXISTS `result_hierarchy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `result_hierarchy` (
+  `id` int(11) NOT NULL,
+  `description` varchar(400) DEFAULT NULL,
+  `sub_component` smallint(5) unsigned DEFAULT NULL,
+  `component` smallint(5) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_indicator_hierarchy_sub_component1` (`sub_component`),
+  KEY `fk_indicator_hierarchy_component1` (`component`),
+  CONSTRAINT `fk_indicator_hierarchy_component1` FOREIGN KEY (`component`) REFERENCES `component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_indicator_hierarchy_sub_component1` FOREIGN KEY (`sub_component`) REFERENCES `sub_component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `result_hierarchy`
+--
+
+LOCK TABLES `result_hierarchy` WRITE;
+/*!40000 ALTER TABLE `result_hierarchy` DISABLE KEYS */;
+INSERT INTO `result_hierarchy` VALUES (1,'Goal: National food security improved',NULL,NULL),(2,'Increased production of targeted cereal staples (maize, sorghum, millet and associated pulses)',NULL,NULL),(3,'Increased income of smallholders in medium and high potential production areas',NULL,NULL);
+/*!40000 ALTER TABLE `result_hierarchy` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -950,6 +1390,39 @@ LOCK TABLES `static_input` WRITE;
 /*!40000 ALTER TABLE `static_input` DISABLE KEYS */;
 INSERT INTO `static_input` VALUES (2,'Beans'),(4,'Green grams'),(1,'Maize'),(6,'Millet'),(3,'Pigeon peas'),(7,'Planting'),(9,'Post-harvest'),(5,'Sorghum'),(8,'Top-dressing');
 /*!40000 ALTER TABLE `static_input` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sub_activity`
+--
+
+DROP TABLE IF EXISTS `sub_activity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sub_activity` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `description` varchar(45) DEFAULT NULL,
+  `activity` int(10) unsigned NOT NULL,
+  `measurement_unit` smallint(5) unsigned NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `actual_expenditure` decimal(16,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_sub_activity_activity1` (`activity`),
+  KEY `fk_sub_activity_measurement_unit1` (`measurement_unit`),
+  CONSTRAINT `fk_sub_activity_activity1` FOREIGN KEY (`activity`) REFERENCES `activity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sub_activity_measurement_unit1` FOREIGN KEY (`measurement_unit`) REFERENCES `measurement_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sub_activity`
+--
+
+LOCK TABLES `sub_activity` WRITE;
+/*!40000 ALTER TABLE `sub_activity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sub_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1209,7 +1682,7 @@ CREATE TABLE `user_account` (
   KEY `fk_user_account_person_role1` (`person_role`),
   CONSTRAINT `fk_user_account_person1` FOREIGN KEY (`person`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_account_person_role1` FOREIGN KEY (`person_role`) REFERENCES `person_role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1218,7 +1691,7 @@ CREATE TABLE `user_account` (
 
 LOCK TABLES `user_account` WRITE;
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
-INSERT INTO `user_account` VALUES (1,1,'siele.bernard@gmail.com','1aca6dca73cc19c35147c3c7d2707ca78dd2495c7075c4b41912c140c4b39c00',9),(2,3,'agrodealer@gmail.com','35e8f79d9e51f0a3970f9cadc210ddec20d377af1e6a6d09c2f4eff3a9efa0d8',2),(3,4,'countyofficer@gmail.com','86ba3fc5f3c904d88523fe117921e46ce21f000b71386471d43367e6e86193fe',5),(4,5,'equity@gmail.com','3e0abfe6dc7124b22dc288240ab281552628179686a89fa3f09b8fd839f2453a',10),(5,6,'farmer@gmail.com','ba2a06effc4ee674b193ba47e22af92dda8e5c83b6657bb1d105deb6f2b4fa5f',1),(6,7,'kalroofficer@gmail.com','b163088866b02553aac34836f7699c1dcb5ccba391edd8efbdc21f664cefd0e7',8),(7,8,'nationalofficer@gmail.com','150a83b58026957b23ad46de7e69aa9de4e406cb6e10b7e92e940ad224687ace',7),(8,9,'regionalcoordinator@gmail.com','1abfa2598a1c1e5e722af1b81f8594330531d916f84cd18b804b8efabb431b21',6),(9,10,'subcounty@gmail.com','8d5e355759e9bbaeb101db1129e489b4e0acce93f38e6ea61d5c416bf872c924',4),(10,11,'warehouseoperator@gmail.com','f671352bd741b3226ed0126d2bc06d2e2ca485ee4ab0dbe8c3ab16a9b4a9b71b',11),(11,12,'wao@gmail.com','59c094d3f594d8900c5db0d90574d9f65c779b4101a02a8cb6d7f1c8586f1af5',3),(12,13,'ss@anynomous.ac.ke','b34e62121d7076d6deb48917adac921b9007084c6133849867ea1c72c7fcaf24',1),(13,14,'henrykchirchir@gmail.com','89ab1d1be52943d35bdbd858bc72c72430859085f6b59a6edc1089e73e32fe12',2),(14,15,'enockkkorir@gmail.com','35a3214b3f7475479c47a9e899a33b3aef8234e99c6c4c096f0a08746a257428',2),(15,16,'leahjterer@gmail.com','84302700142d4adaf528b818be8c0c0593f677953c2a2fb8b8d475d0dc01bdf8',2),(16,17,'koilelstores@gmail.com','9b990469e69d3c775ed90f7479689de4dc5b2f4f9acb6524dd8946fb70868776',2),(17,18,'bentallam@gmail.com','a0ee3d40a581f45ba46a74946ed13c1ae7a2d5f911e9fedc4e1cb35f863eb42e',2),(18,19,'marthakiay@gmail.com','b4cda9b6f54a317b660f18793b6fecbc5ff78b29623b8f1088e16bd8197d3b2b',2),(19,20,'willyrop@gmail.com','ece185256df7dfa96dde23cec764fb1c0dffb21401ccb3584ffcb34de6cb1565',2),(20,21,'henryrop@gmail.com','004d6a8c16f1dd6f6c2ded5017b2626f6f136a89b29a8ca8ae4e1dad56e2f393',12),(21,22,'judycherop@gmail.com','37f58d876a0940a0f66a495ad1b1ecc01272ed460299543b7145856f79466f80',2),(22,23,'janekiprotich@gmail.com','839829050a82b9692501058ea055bfdb16fe4d22df094ccb62a673800adc5f64',2),(23,24,'dorcaschepkwony@gmail.com','d17bc3ec3eed56f05f01a5929c38263df24afb6bd1ca6ef4a98b4ff4b2f98f32',2),(24,25,'dinahcherotich@gmail.com','6f999f8e1d27a4ccc34a09847a7b67cd4179942eeb2528c09908aa3cd34dd31a',12),(25,26,'johnkemboi@gmail.com','cc73f996704dfb924629a6fe4a1707fff68dee5e44cbbbdfb87f4c7eedb20150',12),(26,27,'petermutai@gmail.com','0d2ca99b7d29607ab48d95ce5fd65336c92ec054f07152c29e93fc07999784ca',2),(27,28,'christophersawe@gmail.com','3bd1cbd855cb2f0f23101a19b955a778618f00245a288b0f514e96231b7b7f53',2),(28,29,'kennethmakhandara18@gmail.com','e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',2),(29,30,'francismuniu38@gmail.com','d82eac596b25eb62883c61e242debd5764c731355502f57590f1d8df87175d9d',2),(30,31,'cherotichgladys58@gmail.com','af11dee7988c6bc6cffcc2d3ee421cc1f0c6d8395a94aa2251ff8e2e7afe3eea',2),(31,32,'eliudenzianosenelua78@gmail.com','ba85f54d4ed2e4c9e9c79bc71c9854cb4004c30d0e5cd600e87f658d4767e09c',2),(32,33,'josephngaah98@gmail.com','9f8fda809570fb14b26a650dfda3d89d53db3ce23cef896946db92a78ad7d99e',2),(33,34,'timothysachita29@gmail.com','f93c7fb6ab224d71771c57a91f9a11c67d4c57daeea39a39805610b5e3f6598d',2),(34,35,'christineshiamala59@gmail.com','448bd11b18481103fef792d79fdd1f73e72b703d197f9075ff77a0d40bcebcaf',2),(35,36,'juliusmaloba69@gmail.com','1ac7b389dab08e1d16d836aa06067517afb885e33f32ec088a56807ec2f3de3a',2),(36,37,'samsonisieko89@gmail.com','82a8aa5885ad5b1d7c78f6df85ddbf191c52a89415d97a4a2c5a7d4da27f50d6',2),(37,38,'peterwaswawakhisi99@gmail.com','8a8a753f16b72ba8b0cc8302b09683b7841d2606be43404ed7dceb1255f0aa50',2),(38,39,'benardbulimo00@gmail.com','80d29ebd94cb1692ecc153f0ad32fbe57623508e44230f28500ab6fb01b78519',2),(39,40,'bensonlusabilukonzo40@gmail.com','361a9675e16a7a2e99607b939a62d91632dfdc41920744453802678a771ad701',2),(40,41,'edgarlubanga50@gmail.com','16c0fd65d738b007df3b7f6503576f8c947f79e6b223cdefb950af5888485cf5',2),(41,42,'musanamai70@gmail.com','0765f7a52ffa45b071853edb4d60daf85266e1ed591c73dfa61614c842b8fefb',2),(42,43,'bernardoondeng80@gmail.com','039e4730a1d14bccfe420e397a7a96b10c69190ef1350445da677fb4ffbbca51',2),(43,44,'hellenkabiru01@gmail.com','b2fc7b0bbc5e86e2698085990ad0d55c28967ce9ed3097d6302e9edde35afbdd',2),(44,45,'piusnamungu41@gmail.com','294c18255bd27a3905182d8b39e2eebf3d5ad2bd56e3a913982cc1e0a5600845',2),(45,46,'anjelinebwalei61@gmail.com','1ded8c40c41687a8c872c930d06a9739562afabd9a07032c335c3dc5179d2a4d',2),(46,47,'anthonywesonga81@gmail.com','44e2862bea7d699d7a281db9a75ed45a618c20617e44bda54e591962bccff21d',2),(47,48,'teresakabiru02@gmail.com','945e769ecbc755c0f757d841674fde743b9df53406e8349362545e6502d6d49f',2),(48,49,'petersonobusuru12@gmail.com','3a3d3dca3ffed513cd077d6e044cd44f142af64ad6e3fd86dea017fbd4f5ec03',2),(49,50,'rebeccakemei42@gmail.com','ca31bc41817575ded4532c91bde51923e78abdf821c038f22742492856997aed',2),(50,51,'erickisiangani52@gmail.com','5b7b1974474a465493a3511524a08d933734c68c254f6bf25fb3c367987c7250',2),(51,52,'josephkisingu72@gmail.com','10e9f81e333c89d1ec4cd4c5358794d50460617ee5c990b29b824a8b746c9db9',2),(52,53,'sichanginandeyeka82@gmail.com','11cafc91cce651491cde6a2358edbd9ba2d894690a056e4396f0b79d076e5eb8',2),(53,54,'alicelumwaji03@gmail.com','3a4a22cdbb0fbdb0b0b837f978e6c3662c9506cfb40fa046b4c5ed8fc4488813',2),(54,55,'beatricekhavele23@gmail.com','c3f6dbae0685684cbfb42a6e2d121fcbb39d0e8b54c62b0b4c61a2a7fa7fe26e',2),(55,56,'essendisimon43@gmail.com','08336a1dd3bb26d078a97ca5b7a878198ff933b303e0c1f2af52e9efb55fe9ac',2),(56,57,'patrickmunialo63@gmail.com','52576d01628130b6c9dba31474240e5d4e8bf2d819fe9e52b7539e39525c5695',2),(57,58,'judithalegwa83@gmail.com','6fab1aee7de32ef40acfd381d61e6cc9ae9f613b69047693d53fafe0fe6e5471',2),(58,59,'philipkirwasang93@gmail.com','523dc27eabeefe6eea3711e0bb869b86dba6b8e25de339d71495da22cb5db17a',2),(59,60,'joshuakiplimolaboso14@gmail.com','e7f9c806f2aa9c16a6a92c9977155c97b56c51bb93bdf72fefc1aad3a468842f',2),(60,61,'williamk.kosgei44@gmail.com','3aeb0401fa87130af0c07db2e2e440f09f89cc6b1374a14e5ac6552d15bc1231',2),(61,62,'juliuskimuagorsailel64@gmail.com','be2a8164316b29a4719e825998dfdf79293f37e537acc198405108d71242c581',2),(62,63,'wilsonkiboitchemwok84@gmail.com','ac8db66aa8db88f7a90e143adeafc1afd0e218bbc0837a86e59929c383e4f464',2),(63,64,'petermuttai15@gmail.com','fad0b80c7463e6a3818034af9a0102b52ba6aa5f31f612467b34ff040f09bc32',2),(64,65,'peterkutiitumo35@gmail.com','dfa6d722a84c85ee845235fc55e34426c4bab1e9c248b00e7787a81169da27eb',2),(65,66,'bismillahiadanbatelo55@gmail.com','461678c1b452a2affeeb629d298ca4ff739c8f564305b6ffdbdb9fd75819329f',2),(66,67,'michaelkiplagatoleoikop75@gmail.com','eea774923648a0935c365317532ab3117eacfddd08fae34351edd70a678157ff',2),(67,68,'emilyjeronobarngetung95@gmail.com','7a65c707d89c98a22fa067559d6366f09f17eb66242c323cc22b494c54150447',2),(68,69,'nathanksang16@gmail.com','f89080e2c8d6fb65c93502886cece9a6fcd7bf93813d60e786f8e1e90e0fd7e6',2),(69,70,'tamboche46@gmail.com','e21d5f87770c45fe18cadb4f22df7c637eb5e086d96aeb6e9237b672b9eaca26',2),(70,71,'calebk.lagat66@gmail.com','de72df30140da281929564c0ee2eef35d457f187a0ecebedc7df1faf1df82c26',2),(71,72,'sharonn.kasili96@gmail.com','43b294daa03931b8718081cc1bcca1b74cb2fab02039e43bbd785abfae85793c',2),(72,73,'fredmabonga07@gmail.com','beeecbe05f85539fc1095d063c6e3d98a76408fb93ee54b2cee43b3a916cab0a',2),(73,74,'lusiawasukamaina37@gmail.com','b72042d624556e2f1ff635f52599054bf77fccd7384466dd91e31f6438257ff7',2),(74,75,'kennethnamwok57@gmail.com','e3c09a389d870df9ba7e3d1f4eeeb9ebbd0a456c5cbc82badde3e65fbe5fe492',2),(75,77,'eliakimw.simiyu77@gmail.com','9db8b5ed56b189184989382780bd4483c52a3462b508428e628ebf6af53efd4c',2),(76,78,'mauricej.manyasi08@gmail.com','2bd232b5b82a751b2e50d9f8e8ea6c0fbe7da53bb7d5ddab0f30538fc5b6c448',2),(77,79,'elizabethwekesa38@gmail.com','6594689f138407eea6ff581c27a09afbe5bd3bc0255d986578e9799ad417b732',2),(78,80,'mosessimiyu68@gmail.com','33070515d21507dba01e9b585560032d0b17e5bb61c567de633e8dd75c1071e7',2),(79,81,'jamesotieno88@gmail.com','cb17cc338d8d5a87e703e1cf216c6e682881c0d71b3c3e54246ab916644f6679',2),(80,82,'marynekesabarasa09@gmail.com','a56a4c651c9994b2d550c83ddcf575471e0503da1efa2cd4ebdb7eb975a1c5d5',2),(81,83,'joselynemakhanu29@gmail.com','4cdea6742019c984c5045cc931354fb859e2ddff6c973920b43769fbe5ac37cd',2),(82,84,'edwardwekesa49@gmail.com','49f613ffb42d62b195365ae2ed90bde6a1f94cef6e15b83f6a7c21c71c80155b',2),(83,85,'peternajoli69@gmail.com','9072169aa07a9d167ab79dc76aebc36a2679f973ed8f36a9f6517444eb1b8b5c',2),(84,86,'rosemanyonge79@gmail.com','b2fa6ec395b3150f050207f98ab05663539f73f7746cdceafd9190923f7b4595',2),(85,87,'jafredwanyonyi99@gmail.com','e4221cead2975bf02645c232eab47c16239910649ad2c1419d9d916544eb3483',2),(86,88,'victormasibo10@gmail.com','235e59e940db53201b411be28e98f3ac7cda6c95112df10adb7ce5d13785754f',2),(87,89,'mildredmagalomba30@gmail.com','d1c54311fe37479a8ac52f4b37e1729194c0406ccc5b4ded4d32158a0b233bc4',2),(88,90,'elizabethmusungu50@gmail.com','6219066a47668df48eef233421e7cb23fce206f8eb37ad9a9105a2cd771c8056',2),(89,91,'peterm.barasa70@gmail.com','87f2e94828d3697aabc648e8b2d2932c063b11d4cf4a421fa0e5d5b3b896adfc',2),(90,92,'jameswanyonyi90@gmail.com','95ad571dc21327ba0a5b10e30ff2bc4d092920b46e3c9231629c82e91ba8e7a1',2),(91,93,'leonardwalubengo01@gmail.com','720fefda0179401b68d6301d936a54af96f4e8004c23f4a5f1d9312ef816b4d3',2),(92,94,'moseskiptanui31@gmail.com','98de6d87c88ce6d56c5bcca3e6f6846dc49dd3ea7652cb0719bcc50fe8f316a2',2),(93,95,'dorcasgoren51@gmail.com','2a959468a424884517cb62468af553ac11b8242d6fa682f3e9b2ca6805e03c13',2),(94,96,'simonndegwamwangi71@gmail.com','e6c021df152ffb07041c0c44dfcc0b95fbfd494954bbd3e0f77dca7a97b66817',2),(95,97,'thomask.talaam91@gmail.com','2cf0c897e98f99d94a51530ef661d6c9c6d8500297ce43ec21a71ce1d86b09a7',2),(96,98,'josephrotich02@gmail.com','498a5c18a5d9bb521b34306df69f5474a045ea65f62da4b5d0a7794be77aa4ac',2),(97,99,'jonathancheruiyot32@gmail.com','6f34c9bfb2c96520773f2a297b9b01f3578471708dfce55aea82ab5781dc6b1c',2),(98,100,'shemcharan62@gmail.com','cd8caa4a967afe9913870415b6ac39cc45b2355dcb6abfad41bc8b91c9cf0071',2),(99,101,'shadrackterer72@gmail.com','582cdf338ba03dda37ba14f81bd0fe66f62a3c23bc817dba43ea148f61da60ea',2),(100,102,'philemonk.meli03@gmail.com','fd051372a4eaebfdcc68e42077acc33b70670b83a0e82b748f44343b6477caeb',2),(101,104,'paulmaina43@gmail.com','64d34e531b4af5ae79819595968b6aec51ab837b01748dee9e2277d55b03ab6f',2),(102,105,'milkawangari63@gmail.com','4dcb1f228edfa541476666452e8ead979c83d69a7b5f39a31bf011422dbaa093',2),(103,106,'kariukiesther73@gmail.com','81bfea5af4960bec6190c7d78d75c92a565b0b0ed01513dc52c97f2782201565',2),(104,107,'charlesisinga93@gmail.com','4803e644fb5f87b603087afb65720b3296898ad7188a6511283887e9b2618721',2),(105,108,'josephmaina34@gmail.com','902eb47e9be11265b45aeff8383d65ff956a666b9bdbf2edfa4f1f900c858098',2),(106,109,'johnngariya54@gmail.com','6e0479f2201a7f7a5b90b977b6e4087e4060daa3457d739185b39324d584c0c1',2),(107,110,'francisletting64@gmail.com','d46c85c92811dd11259eacf987665f928f2ea920bbde0c636f09ecf4b60b4f69',2),(108,111,'erastusopicho15@gmail.com','f423a754d207664e617cdde22c4d09ec48cab5a82935c3487986c46cf5540ab3',2),(109,112,'aggreywaliaula45@gmail.com','1ad35c12debeef3b442066db25b69f2d74f4462aa529a9c9f588b64ef0a7ef29',2),(110,113,'benardmasanja65@gmail.com','a0e7b6004b60f247626b642cf7b94a6b41359edd45f55c5ba19043be6eeef562',2),(111,114,'kenaffreubenkirwa75@gmail.com','2d382b35c815945349cfbfcfc59eb0f949cb0d79180ab868e1e9dc93c0334018',2),(112,115,'petermwangi95@gmail.com','6eb1a326db4fad1a6a779666fd4919c4a4b4864b4eefc3c0fe4c9475179b2ba2',2),(113,116,'josephnzomo16@gmail.com','b37bd2514fbba01735258348b9a81c716be6611f7fbf7623f60cf3d3ed466915',2),(114,117,'shemkakaimatolo56@gmail.com','edf6bc1b6c6a9ef1224c786264561533b696c12c7f136ebe668b6dc563eb98b7',2),(115,118,'peterkimathimbae76@gmail.com','67543459d078bd4b7af1fb0eeb87e474cbaf2ca67f5727750073fe6f0e31b099',2),(116,119,'peterkibe86@gmail.com','f328a23a28d0785e7c24e3b5f005b9598346d5a1847dfacf57425e2827720144',2),(117,120,'jacksonkibetrutto07@gmail.com','9063999b8f98c543fe06f2c2fd25137bb184ea479dc654fd363438f25361da3b',2),(118,121,'mosessimiyumunialo27@gmail.com','396701b2e708eb9652ae5414a614e536f1aa76070cfb5b7e0d3ea85f9e35cded',2),(119,123,'philemonkipchumba57@gmail.com','baa837136093a6bb5330a63d2fad513edcdd3e0b58a4e9e95e0d31dc4f40bd0d',2),(120,125,'stanleykipkorirrotich87@gmail.com','da59dd904d4c9758f9f943b1d2c3919ec84a2a332f4879edc59dea957631d51f',2),(121,126,'elizabethengendothuo08@gmail.com','53aeffbd3b972bb0b3d97c7dc712d19ec217430abacc4456c0dea5fea8c1d582',2),(122,127,'stephenkirungu28@gmail.com','3e13854834c119a89418c30de89d7c9f657a99ba626031548815fcca50b6f3bf',2),(123,128,'seraphirejullyoulepu48@gmail.com','9b382db3cb8b070a1b54e646ce6dfa441a0d1d95124269393d9ad044e3759921',2),(124,129,'josephmurathi68@gmail.com','5c8f6f282a6f43191cd55823a1b8522aaf8433893714778e8eeb139653adc599',2),(125,130,'charleskamauchege88@gmail.com','8ec38d4e77aab5f302fc37cf2ea1e47b3f8da28b10bc60333751f8d4ec21aab8',2),(126,131,'gerishonkamau09@gmail.com','226fb129f719011e2963be98ea27f6831197ebf6c75a06278a7d63342bae4c26',2),(127,132,'annwambuikimani29@gmail.com','880f1bfe3f08940ad3ac503bdcbc10ffd39d16984832defd1e4a0b67b9480d3e',2),(128,133,'franciskahiu59@gmail.com','dfe984a8f65dce708c23ccd9b6677a7b0ab01b0041b8b22182b31a8ad930dd75',2),(129,134,'desmondkiplangatchumo69@gmail.com','d2397d03fcf4eabd29f07730acf75f7d386c58f11df058bd8ab5116dd89a2690',2),(130,136,'geoffreyirangi89@gmail.com','2bca645e90b8fc9920b2bb5db590d97a58da9c83f33bc460871fcd89211f39c8',2),(131,137,'g.kngaruiya00@gmail.com','e297144514e4f2a0a16a410829791dbe65e3b016ac20a2498f92b94076101812',2),(132,138,'marywanjohi20@gmail.com','0a5610b0d11195efb0df19cc08cdc72269573ca8fa26dc539cc8410e0b96de55',2),(133,139,'marykahingo40@gmail.com','76da2c461a6bca04967e4ee6ee04de6a558370c25fd83ad26d72b8fa15e1adac',2),(134,140,'marykahingo60@gmail.com','1a56d56adcbcc6806a1babd3472d85361b28276439587bc3216fc18fab8488f1',2),(135,141,'janemuthonimburu90@gmail.com','16d1533b572cb690e3a7c9379567d14c9475a50af15677152361bc2f85869408',2),(136,142,'patrickmugo11@gmail.com','5627ac0759b7d65fddabd4d00e3f7d84000b16d3cde77dbca937cbf8c586fbb7',2),(137,143,'immanuelsalaonslempaa41@gmail.com','9274bb658eb6553123fc689be5a8a1109fc0ae95fb2b2e2e8d4229f11f2e4874',2),(138,144,'gladwellwaithera61@gmail.com','5de067bcec64ea22a3575238e58521ffd95c9ffc37b6d96d8cfbf30ad6ee9596',2),(139,145,'lempaaraphaelk.71@gmail.com','adca637f7eb5fc805a8264e3eec886a1b0f7696aae30dcfb6484be28b7d710a9',2),(140,146,'zacheosmonani91@gmail.com','c85000ae1aac893f741d5bf545f754a4bce4ec640d30d4c9b08d17f16fbf9d93',2);
+INSERT INTO `user_account` VALUES (1,1,'siele.bernard@gmail.com','1aca6dca73cc19c35147c3c7d2707ca78dd2495c7075c4b41912c140c4b39c00',9),(2,3,'agrodealer@gmail.com','35e8f79d9e51f0a3970f9cadc210ddec20d377af1e6a6d09c2f4eff3a9efa0d8',2),(3,4,'countyofficer@gmail.com','86ba3fc5f3c904d88523fe117921e46ce21f000b71386471d43367e6e86193fe',5),(4,5,'equity@gmail.com','3e0abfe6dc7124b22dc288240ab281552628179686a89fa3f09b8fd839f2453a',10),(5,6,'farmer@gmail.com','ba2a06effc4ee674b193ba47e22af92dda8e5c83b6657bb1d105deb6f2b4fa5f',1),(6,7,'kalroofficer@gmail.com','b163088866b02553aac34836f7699c1dcb5ccba391edd8efbdc21f664cefd0e7',8),(7,8,'nationalofficer@gmail.com','150a83b58026957b23ad46de7e69aa9de4e406cb6e10b7e92e940ad224687ace',7),(8,9,'regionalcoordinator@gmail.com','1abfa2598a1c1e5e722af1b81f8594330531d916f84cd18b804b8efabb431b21',6),(9,10,'subcounty@gmail.com','8d5e355759e9bbaeb101db1129e489b4e0acce93f38e6ea61d5c416bf872c924',4),(10,11,'warehouseoperator@gmail.com','f671352bd741b3226ed0126d2bc06d2e2ca485ee4ab0dbe8c3ab16a9b4a9b71b',11),(11,12,'wao@gmail.com','59c094d3f594d8900c5db0d90574d9f65c779b4101a02a8cb6d7f1c8586f1af5',3),(12,13,'ss@anynomous.ac.ke','b34e62121d7076d6deb48917adac921b9007084c6133849867ea1c72c7fcaf24',1),(13,14,'henrykchirchir@gmail.com','89ab1d1be52943d35bdbd858bc72c72430859085f6b59a6edc1089e73e32fe12',2),(14,15,'enockkkorir@gmail.com','35a3214b3f7475479c47a9e899a33b3aef8234e99c6c4c096f0a08746a257428',2),(15,16,'leahjterer@gmail.com','84302700142d4adaf528b818be8c0c0593f677953c2a2fb8b8d475d0dc01bdf8',2),(16,17,'koilelstores@gmail.com','9b990469e69d3c775ed90f7479689de4dc5b2f4f9acb6524dd8946fb70868776',2),(17,18,'bentallam@gmail.com','a0ee3d40a581f45ba46a74946ed13c1ae7a2d5f911e9fedc4e1cb35f863eb42e',2),(18,19,'marthakiay@gmail.com','b4cda9b6f54a317b660f18793b6fecbc5ff78b29623b8f1088e16bd8197d3b2b',2),(19,20,'willyrop@gmail.com','ece185256df7dfa96dde23cec764fb1c0dffb21401ccb3584ffcb34de6cb1565',2),(20,21,'henryrop@gmail.com','004d6a8c16f1dd6f6c2ded5017b2626f6f136a89b29a8ca8ae4e1dad56e2f393',12),(21,22,'judycherop@gmail.com','37f58d876a0940a0f66a495ad1b1ecc01272ed460299543b7145856f79466f80',2),(22,23,'janekiprotich@gmail.com','839829050a82b9692501058ea055bfdb16fe4d22df094ccb62a673800adc5f64',2),(23,24,'dorcaschepkwony@gmail.com','d17bc3ec3eed56f05f01a5929c38263df24afb6bd1ca6ef4a98b4ff4b2f98f32',2),(24,25,'dinahcherotich@gmail.com','6f999f8e1d27a4ccc34a09847a7b67cd4179942eeb2528c09908aa3cd34dd31a',12),(25,26,'johnkemboi@gmail.com','cc73f996704dfb924629a6fe4a1707fff68dee5e44cbbbdfb87f4c7eedb20150',12),(26,27,'petermutai@gmail.com','0d2ca99b7d29607ab48d95ce5fd65336c92ec054f07152c29e93fc07999784ca',2),(27,28,'christophersawe@gmail.com','3bd1cbd855cb2f0f23101a19b955a778618f00245a288b0f514e96231b7b7f53',2);
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1332,7 +1805,7 @@ CREATE TABLE `warehouse` (
   CONSTRAINT `fk_warehouse_person1` FOREIGN KEY (`warehouse_operator`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_warehouse_units1` FOREIGN KEY (`units`) REFERENCES `measurement_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_warehouse_warehouse_type1` FOREIGN KEY (`warehouse_type`) REFERENCES `warehouse_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1341,7 +1814,6 @@ CREATE TABLE `warehouse` (
 
 LOCK TABLES `warehouse` WRITE;
 /*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
-INSERT INTO `warehouse` VALUES (1,'Warehouse kubwa',1,1,2000,3,1,1,1);
 /*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1379,4 +1851,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-01 10:56:54
+-- Dump completed on 2016-07-04  7:25:42
