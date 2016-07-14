@@ -8,15 +8,15 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,38 +26,45 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "village", catalog = "kcep_mis", schema = "")
+@Table(name = "ebl_branch", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Village.findAll", query = "SELECT v FROM Village v"),
-    @NamedQuery(name = "Village.findById", query = "SELECT v FROM Village v WHERE v.id = :id"),
-    @NamedQuery(name = "Village.findByName", query = "SELECT v FROM Village v WHERE v.name = :name")})
-public class Village implements Serializable {
+    @NamedQuery(name = "EblBranch.findAll", query = "SELECT e FROM EblBranch e"),
+    @NamedQuery(name = "EblBranch.findById", query = "SELECT e FROM EblBranch e WHERE e.id = :id"),
+    @NamedQuery(name = "EblBranch.findByName", query = "SELECT e FROM EblBranch e WHERE e.name = :name")})
+public class EblBranch implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
-    private Integer id;
-    @Size(max = 45)
+    private Short id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "village")
-    private List<Location> locationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "eblBranch")
+    private List<Account> accountList;
 
-    public Village() {
+    public EblBranch() {
     }
 
-    public Village(Integer id) {
+    public EblBranch(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public EblBranch(Short id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -70,12 +77,12 @@ public class Village implements Serializable {
     }
 
     @XmlTransient
-    public List<Location> getLocationList() {
-        return locationList;
+    public List<Account> getAccountList() {
+        return accountList;
     }
 
-    public void setLocationList(List<Location> locationList) {
-        this.locationList = locationList;
+    public void setAccountList(List<Account> accountList) {
+        this.accountList = accountList;
     }
 
     @Override
@@ -88,10 +95,10 @@ public class Village implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Village)) {
+        if (!(object instanceof EblBranch)) {
             return false;
         }
-        Village other = (Village) object;
+        EblBranch other = (EblBranch) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,7 +107,7 @@ public class Village implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Village[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.EblBranch[ id=" + id + " ]";
     }
     
 }

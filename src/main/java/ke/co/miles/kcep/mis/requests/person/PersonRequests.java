@@ -221,7 +221,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveWardPeople(int wardId) throws MilesException {
+    public List<PersonDetails> retrieveWardPeople(short wardId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
         q = em.createNamedQuery("Person.findByWardId");
@@ -229,7 +229,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             peopleDetailsList = convertPeopleToPersonDetailsList(q.getResultList());
         } catch (Exception e) {
-            System.out.println(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -238,7 +237,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveSubCountyPeople(int subCountyId) throws MilesException {
+    public List<PersonDetails> retrieveSubCountyPeople(short subCountyId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
         q = em.createNamedQuery("Person.findBySubCountyId");
@@ -254,7 +253,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveSubCountyFarmers(int subCountyId) throws MilesException {
+    public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId) throws MilesException {
         List<PersonDetails> peopleDetailsList = null;
         List<Person> people;
 
@@ -354,15 +353,15 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     public List<PersonDetails> retrievePeople() throws MilesException {
 
-        q = em.createNamedQuery("Person.findAll");
-        List<Person> people;
+        q = em.createNamedQuery("UserAccount.findAll");
+        List<UserAccount> userAccounts;
         try {
-            people = q.getResultList();
+            userAccounts = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        return convertPeopleToPersonDetailsList(people);
+        return convertUserAccountsToPeople(userAccounts);
     }
 
 //</editor-fold>
@@ -514,6 +513,24 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     }
 
+    private List<PersonDetails> convertUserAccountsToPeople(List<UserAccount> userAccounts) {
+        int maleCount, femaleCount;
+        List<PersonDetails> personDetailsList = new ArrayList<>();
+        for (UserAccount userAccount : userAccounts) {
+
+            PersonDetails personDetails;
+            personDetails = convertPersonToPersonDetails(userAccount.getPerson());
+            personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
+            personDetailsList.add(personDetails);
+
+            if (personDetails.getSex() == SexDetail.FEMALE) {
+
+            }
+        }
+
+        return personDetailsList;
+
+    }
 //</editor-fold>
     @EJB
     private ContactRequestsLocal contactService;

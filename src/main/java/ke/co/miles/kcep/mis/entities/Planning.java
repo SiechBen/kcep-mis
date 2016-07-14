@@ -57,7 +57,6 @@ public class Planning implements Serializable {
     @Column(name = "allocated_budget")
     private BigDecimal allocatedBudget;
     @JoinColumn(name = "activity", referencedColumnName = "id")
-    @ManyToOne(optional = false)
     private Activity activity;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)

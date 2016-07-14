@@ -59,19 +59,19 @@
                             </div>
                             <div class="form-group">
                                 Annual Work Plans and Budgets(AWPB) target
-                                <input id="awpb-target" type="number" step="0.01" class="form-control">
+                                <input id="awpb-target" class="form-control">
                             </div>
                             <div class="form-group">
                                 Programme target
-                                <input id="programme-target" type="number" step="0.01" class="form-control">
+                                <input id="programme-target" class="form-control">
                             </div>
                             <div class="form-group">
                                 Value achieved
-                                <input id="value-achieved" type="number" step="0.01" class="form-control">
+                                <input id="value-achieved" class="form-control">
                             </div>
                             <div class="form-group">
                                 Allocated budget
-                                <input id="allocated-budget" type="number" step="0.01" class="form-control">
+                                <input id="allocated-budget" class="form-control">
                             </div>
                             <div class="form-group">
                                 Implementing partner
@@ -87,6 +87,6 @@
                 </div>
             </div>
         </div>
-
+        
     </jsp:attribute>
 </kcep:region>

@@ -27,7 +27,7 @@
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerformanceIndicator')">Add</button></th>
                                         <th>Performance indicator type</th>
                                         <th>Result hierarchy</th>
-                                        <th>Description</th>
+                                        <th>Key Performance Indicator</th>
                                         <th>Baseline date</th>
                                         <th>Baseline value</th>
                                         <th>Year</th>

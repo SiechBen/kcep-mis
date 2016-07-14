@@ -291,14 +291,14 @@ public class WarehouseController extends Controller {
 
                     WardDetails ward = new WardDetails();
                     try {
-                        ward.setId(Integer.valueOf(String.valueOf(request.getParameter("ward"))));
+                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
                         ward = null;
                     }
 
                     SubCountyDetails subCounty = new SubCountyDetails();
                     try {
-                        subCounty.setId(Integer.valueOf(String.valueOf(request.getParameter("subCounty"))));
+                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
@@ -347,15 +347,12 @@ public class WarehouseController extends Controller {
                     } catch (Exception e) {
                         warehouse.setCapacity(null);
                     }
+                    
                     warehouse.setCertified(Boolean.valueOf(String.valueOf(request.getParameter("certified"))));
                     warehouse.setOffersWrs(Boolean.valueOf(String.valueOf(request.getParameter("offersWrs"))));
                     warehouse.setName(String.valueOf(request.getParameter("name")));
                     warehouse.setWarehouseOperator(warehouseOperator);
                     warehouse.setWarehouseType(warehouseType);
-                    try {
-                        System.out.println(warehouse.getWarehouseType().getType());
-                    } catch (Exception e) {
-                    }
                     warehouse.setUnits(measurementUnit);
                     warehouse.setLocation(location);
 

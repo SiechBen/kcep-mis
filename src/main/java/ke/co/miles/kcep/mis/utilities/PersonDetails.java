@@ -126,7 +126,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Person[ national id=" + getNationalId() + " ]";
+        return " " + getNationalId();
     }
 
     @Override
@@ -148,15 +148,75 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         this.farmerSubGroup = farmerSubGroup;
     }
 
+    /**
+     * @return the age
+     */
+    public String getAge() {
+        return age;
+    }
+
+    /**
+     * @param age the age to set
+     */
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    /**
+     * @return the designationInGroup
+     */
+    public DesignationInGroupDetails getDesignationInGroup() {
+        return designationInGroup;
+    }
+
+    /**
+     * @param designationInGroup the designationInGroup to set
+     */
+    public void setDesignationInGroup(DesignationInGroupDetails designationInGroup) {
+        this.designationInGroup = designationInGroup;
+    }
+
+    /**
+     * @return the personRoleId
+     */
+    public Short getPersonRoleId() {
+        return personRoleId;
+    }
+
+    /**
+     * @param personRoleId the personRoleId to set
+     */
+    public void setPersonRoleId(Short personRoleId) {
+        this.personRoleId = personRoleId;
+    }
+
+    /**
+     * @return the plotSize
+     */
+    public Double getPlotSize() {
+        return plotSize;
+    }
+
+    /**
+     * @param plotSize the plotSize to set
+     */
+    public void setPlotSize(Double plotSize) {
+        this.plotSize = plotSize;
+    }
+
     private Integer id;
+    private String age;
     private String name;
     private SexDetail sex;
     private Date dateOfBirth;
+    private Double plotSize;
     private String nationalId;
+    private Short personRoleId;
     private String businessName;
     private ContactDetails contact;
     private LocationDetails location;
     private FarmerGroupDetails farmerGroup;
     private FarmerSubGroupDetails farmerSubGroup;
+    private DesignationInGroupDetails designationInGroup;
 
 }

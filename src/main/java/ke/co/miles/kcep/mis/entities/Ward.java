@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,30 +43,28 @@ public class Ward implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Size(max = 45)
     @Column(name = "name")
     private String name;
     @JoinColumn(name = "sub_county", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private SubCounty subCounty;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ward")
-    private List<Village> villageList;
     @OneToMany(mappedBy = "ward")
     private List<Location> locationList;
 
     public Ward() {
     }
 
-    public Ward(Integer id) {
+    public Ward(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -85,15 +82,6 @@ public class Ward implements Serializable {
 
     public void setSubCounty(SubCounty subCounty) {
         this.subCounty = subCounty;
-    }
-
-    @XmlTransient
-    public List<Village> getVillageList() {
-        return villageList;
-    }
-
-    public void setVillageList(List<Village> villageList) {
-        this.villageList = villageList;
     }
 
     @XmlTransient

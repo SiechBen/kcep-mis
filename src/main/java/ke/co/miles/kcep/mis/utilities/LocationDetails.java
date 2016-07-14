@@ -98,11 +98,41 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the divisionalLocation
+     */
+    public DivisionalLocationDetails getDivisionalLocation() {
+        return divisionalLocation;
+    }
+
+    /**
+     * @param divisionalLocation the divisionalLocation to set
+     */
+    public void setDivisionalLocation(DivisionalLocationDetails divisionalLocation) {
+        this.divisionalLocation = divisionalLocation;
+    }
+
+    /**
+     * @return the village
+     */
+    public VillageDetails getVillage() {
+        return village;
+    }
+
+    /**
+     * @param village the village to set
+     */
+    public void setVillage(VillageDetails village) {
+        this.village = village;
+    }
+
     private Integer id;
     private CountyDetails county;
     private SubCountyDetails subCounty;
     private WardDetails ward;
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private VillageDetails village;
+    private DivisionalLocationDetails divisionalLocation;
 
 }

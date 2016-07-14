@@ -74,10 +74,6 @@
                                 <input id="allocated-budget" class="form-control">
                             </div>
                             <div class="form-group">
-                                Actual expenditure
-                                <input id="actual-expenditure" class="form-control">
-                            </div>
-                            <div class="form-group">
                                 Implementing partner
                                 <select id="implementing-partner" class="form-control">
                                     <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}">

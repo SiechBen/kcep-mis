@@ -36,11 +36,11 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
         this.accountNumber = accountNumber;
     }
 
-    public String getEblBranch() {
+    public EblBranchDetails getEblBranch() {
         return eblBranch;
     }
 
-    public void setEblBranch(String eblBranch) {
+    public void setEblBranch(EblBranchDetails eblBranch) {
         this.eblBranch = eblBranch;
     }
 
@@ -90,7 +90,7 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String accountNumber;
-    private String eblBranch;
+    private EblBranchDetails eblBranch;
     private String solId;
     private PersonDetails farmer;
 }

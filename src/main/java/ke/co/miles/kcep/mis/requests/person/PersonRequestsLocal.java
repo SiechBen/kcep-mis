@@ -88,7 +88,7 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved farmers
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveSubCountyFarmers(int subCountyId) throws MilesException;
+    public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId) throws MilesException;
 
     /**
      *
@@ -106,7 +106,7 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveSubCountyPeople(int subCountyId) throws MilesException;
+    public List<PersonDetails> retrieveSubCountyPeople(short subCountyId) throws MilesException;
 
     /**
      *
@@ -131,7 +131,7 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveWardPeople(int wardId) throws MilesException;
+    public List<PersonDetails> retrieveWardPeople(short wardId) throws MilesException;
 
     /**
      *

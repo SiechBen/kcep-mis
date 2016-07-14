@@ -44,7 +44,7 @@ public class SubCounty implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Size(max = 45)
     @Column(name = "name")
     private String name;
@@ -59,15 +59,15 @@ public class SubCounty implements Serializable {
     public SubCounty() {
     }
 
-    public SubCounty(Integer id) {
+    public SubCounty(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 

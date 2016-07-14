@@ -60,6 +60,9 @@ public class Location implements Serializable {
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
+    @JoinColumn(name = "divisional_location", referencedColumnName = "id")
+    @ManyToOne
+    private DivisionalLocation divisionalLocation;
     @JoinColumn(name = "sub_county", referencedColumnName = "id")
     @ManyToOne
     private SubCounty subCounty;
@@ -143,6 +146,14 @@ public class Location implements Serializable {
 
     public void setCounty(County county) {
         this.county = county;
+    }
+
+    public DivisionalLocation getDivisionalLocation() {
+        return divisionalLocation;
+    }
+
+    public void setDivisionalLocation(DivisionalLocation divisionalLocation) {
+        this.divisionalLocation = divisionalLocation;
     }
 
     public SubCounty getSubCounty() {

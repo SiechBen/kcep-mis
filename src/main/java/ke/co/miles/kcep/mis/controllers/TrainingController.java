@@ -472,7 +472,7 @@ public class TrainingController extends Controller {
 
                     SubCountyDetails subCounty = new SubCountyDetails();
                     try {
-                        subCounty.setId(Integer.valueOf(String.valueOf(request.getParameter("training-sub-county"))));
+                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("training-sub-county"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
@@ -493,7 +493,7 @@ public class TrainingController extends Controller {
 
                     WardDetails ward = new WardDetails();
                     try {
-                        ward.setId(Integer.valueOf(String.valueOf(request.getParameter("training-ward"))));
+                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("training-ward"))));
                     } catch (Exception e) {
                         ward = null;
                     }

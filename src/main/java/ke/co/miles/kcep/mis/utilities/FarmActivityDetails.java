@@ -77,14 +77,6 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
         this.averageSellingPricePer = averageSellingPricePer;
     }
 
-    public FarmDetails getFarm() {
-        return farm;
-    }
-
-    public void setFarm(FarmDetails farm) {
-        this.farm = farm;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -120,6 +112,5 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
     private Double quantitySold;
     private Double quantityHarvested;
     private Long averageSellingPricePer;
-    private FarmDetails farm;
     
 }

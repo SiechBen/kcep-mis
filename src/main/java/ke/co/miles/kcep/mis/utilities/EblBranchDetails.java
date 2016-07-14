@@ -11,15 +11,18 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class WardDetails implements Serializable, Comparable<WardDetails> {
+public class EblBranchDetails implements Serializable, Comparable<EblBranchDetails> {
 
-    private static final long serialVersionUID = 1L;
-
-    public WardDetails() {
+    public EblBranchDetails() {
     }
 
-    public WardDetails(Short id) {
+    public EblBranchDetails(Short id) {
         this.id = id;
+    }
+
+    public EblBranchDetails(Short id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Short getId() {
@@ -38,14 +41,6 @@ public class WardDetails implements Serializable, Comparable<WardDetails> {
         this.name = name;
     }
 
-    public SubCountyDetails getSubCounty() {
-        return subCounty;
-    }
-
-    public void setSubCounty(SubCountyDetails subCounty) {
-        this.subCounty = subCounty;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -56,24 +51,25 @@ public class WardDetails implements Serializable, Comparable<WardDetails> {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WardDetails)) {
+        if (!(object instanceof EblBranchDetails)) {
             return false;
         }
-        WardDetails other = (WardDetails) object;
+        EblBranchDetails other = (EblBranchDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Ward[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.EblBranch[ id=" + id + " ]";
     }
 
     @Override
-    public int compareTo(WardDetails o) {
+    public int compareTo(EblBranchDetails o) {
         return this.id.compareTo(o.getId());
     }
 
+    private static final long serialVersionUID = 1L;
     private Short id;
     private String name;
-    private SubCountyDetails subCounty;
+
 }

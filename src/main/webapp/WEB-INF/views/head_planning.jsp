@@ -34,7 +34,6 @@
                                         <th>Programme target</th>
                                         <th>Value achieved</th>
                                         <th>Allocated budget</th>
-                                        <th>Actual expenditure</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -51,12 +50,10 @@
                                             <td>${planning.implementingPartner.personRole.personRole}</td>
                                             <td>${planning.annualWorkplanReferenceCode}</td>
                                             <td>${planning.activity.description}</td>
-                                            <td>${planning.measurementUnit.unit}</td>
                                             <td>${planning.awpbTarget}</td>
                                             <td>${planning.programmeTarget}</td>
                                             <td>${planning.valueAchieved}</td>
                                             <td>${planning.allocatedBudget}</td>
-                                            <td>${planning.actualExpenditure}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

@@ -14,7 +14,8 @@ import java.io.Serializable;
 public enum PlanVsActualDetail implements Serializable {
 
     PLAN(new Short("1"), "Plan"),
-    UPDATED(new Short("2"), "Updated");
+    ACTUAL(new Short("2"), "Actual"),
+    UPDATED(new Short("3"), "Updated");
 
     private PlanVsActualDetail(Short id, String choice) {
         this.id = id;
@@ -26,6 +27,8 @@ public enum PlanVsActualDetail implements Serializable {
             case 1:
                 return PLAN;
             case 2:
+                return ACTUAL;
+            case 3:
                 return UPDATED;
             default:
                 return null;

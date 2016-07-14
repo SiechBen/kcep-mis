@@ -211,14 +211,6 @@ public class PlanningController extends Controller {
                         planning.setProgrammeTarget(null);
                     }
 
-                    MeasurementUnitDetails measurementUnit;
-                    try {
-                        measurementUnit = new MeasurementUnitDetails(Short
-                                .valueOf(request.getParameter("measurementUnit")));
-                    } catch (Exception e) {
-                        measurementUnit = null;
-                    }
-
                     ComponentDetails component;
                     try {
                         component = new ComponentDetails(Short.valueOf(request.getParameter("component")));

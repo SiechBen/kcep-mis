@@ -104,16 +104,19 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<WarehouseDetails> retrieveWardWarehouses(int wardId) throws MilesException {
+    public List<WarehouseDetails> retrieveWardWarehouses(short wardId) throws MilesException {
 
         q = em.createNamedQuery("Warehouse.findByWardId");
         q.setParameter("wardId", wardId);
+        System.out.println(wardId);
         List<Warehouse> warehouses;
         try {
             warehouses = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
+        
+        System.out.println(warehouses);
 
         return convertWarehousesToWarehouseDetailsList(warehouses);
     }
@@ -136,7 +139,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<WarehouseDetails> retrieveSubCountyWarehouses(int subCountyId) throws MilesException {
+    public List<WarehouseDetails> retrieveSubCountyWarehouses(short subCountyId) throws MilesException {
 
         q = em.createNamedQuery("Warehouse.findBySubCountyId");
         q.setParameter("subCountyId", subCountyId);

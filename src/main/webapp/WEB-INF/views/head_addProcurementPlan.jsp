@@ -49,7 +49,7 @@
                                 </select> 
                             </div>  
                             <div class="form-group">
-                                Cost
+                                Cost [KES]
                                 <input id="cost"  type="number" step="0.01"  class="form-control">
                             </div>
                             <div class="form-group">

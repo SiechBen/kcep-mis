@@ -51,7 +51,7 @@ public interface WarehouseRequestsLocal {
      * @return the list of warehouses in the ward retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<WarehouseDetails> retrieveWardWarehouses(int wardId) throws MilesException;
+    public List<WarehouseDetails> retrieveWardWarehouses(short wardId) throws MilesException;
 
     /**
      *
@@ -69,7 +69,7 @@ public interface WarehouseRequestsLocal {
      * @return the list of warehouses in the sub-county retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<WarehouseDetails> retrieveSubCountyWarehouses(int subCountyId) throws MilesException;
+    public List<WarehouseDetails> retrieveSubCountyWarehouses(short subCountyId) throws MilesException;
 
     /**
      *

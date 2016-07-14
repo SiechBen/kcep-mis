@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
     @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
     @NamedQuery(name = "Account.findByAccountNumber", query = "SELECT a FROM Account a WHERE a.accountNumber = :accountNumber"),
-    @NamedQuery(name = "Account.findByEblBranch", query = "SELECT a FROM Account a WHERE a.eblBranch = :eblBranch"),
     @NamedQuery(name = "Account.findBySolId", query = "SELECT a FROM Account a WHERE a.solId = :solId")})
 public class Account implements Serializable {
 
@@ -45,14 +44,14 @@ public class Account implements Serializable {
     @Column(name = "account_number")
     private String accountNumber;
     @Size(max = 45)
-    @Column(name = "ebl_branch")
-    private String eblBranch;
-    @Size(max = 45)
     @Column(name = "sol_id")
     private String solId;
     @JoinColumn(name = "farmer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person farmer;
+    @JoinColumn(name = "ebl_branch", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EblBranch eblBranch;
 
     public Account() {
     }
@@ -77,14 +76,6 @@ public class Account implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-    public String getEblBranch() {
-        return eblBranch;
-    }
-
-    public void setEblBranch(String eblBranch) {
-        this.eblBranch = eblBranch;
-    }
-
     public String getSolId() {
         return solId;
     }
@@ -99,6 +90,14 @@ public class Account implements Serializable {
 
     public void setFarmer(Person farmer) {
         this.farmer = farmer;
+    }
+
+    public EblBranch getEblBranch() {
+        return eblBranch;
+    }
+
+    public void setEblBranch(EblBranch eblBranch) {
+        this.eblBranch = eblBranch;
     }
 
     @Override

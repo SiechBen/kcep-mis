@@ -676,8 +676,7 @@ function addPlanning() {
                 "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
                 "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
                 "&measurementUnit=" + $("#measurement-unit").val() +
-                "&actualExpenditure=" + $("#actual-expenditure").val() +
-                "&annualWorkplanReferenceCode=" + ("#annual-workplan-reference-code").val(),
+                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val(),
         success: function () {
 
             $("#measurement-unit").val("");
@@ -690,8 +689,8 @@ function addPlanning() {
             $("#sub-component").val("");
             $("#requested-budget").val("");
             $("#planning-target").val("");
-            $("#actual-expenditure").val("");
             $("#implementing-partner").val("");
+            $("#annual-workplan-reference-code").val("");
             loadAjaxWindow('planning');
             return;
         },
@@ -921,3 +920,22 @@ function addPerformanceIndicator() {
 }
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Farm">
+
+function loadFarmWindow(farmerId) {
+    var target = "farm";
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: "farmerId=" + farmerId,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+//</editor-fold>

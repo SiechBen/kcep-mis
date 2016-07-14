@@ -32,6 +32,17 @@ public enum SexDetail implements Serializable {
         }
     }
 
+    public static SexDetail getSexDetail(String sex) {
+        switch (sex) {
+            case "F":
+                return FEMALE;
+            case "M":
+                return MALE;
+            default:
+                return null;
+        }
+    }
+
     public Short getId() {
         return id;
     }

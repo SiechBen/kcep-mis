@@ -18,15 +18,15 @@ public class SubCountyDetails implements Serializable, Comparable<SubCountyDetai
     public SubCountyDetails() {
     }
 
-    public SubCountyDetails(Integer id) {
+    public SubCountyDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -73,7 +73,7 @@ public class SubCountyDetails implements Serializable, Comparable<SubCountyDetai
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
+    private Short id;
     private String name;
     private CountyDetails county;
 

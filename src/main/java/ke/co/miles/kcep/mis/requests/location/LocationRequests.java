@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.requests.location;
 
-import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 
@@ -190,7 +190,9 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     public LocationDetails convertLocationToLocationDetails(Location location) {
 
         LocationDetails locationDetails = new LocationDetails(location.getId());
+        locationDetails.setDivisionalLocation(divsionalLocationService.convertSubCountyToSubCountyDetails(location.getSubCounty()));
         locationDetails.setSubCounty(subCountyService.convertSubCountyToSubCountyDetails(location.getSubCounty()));
+        locationDetails.setVillage(villageService.convertCountyToCountyDetails(location.getCounty()));
         locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
         locationDetails.setWard(wardService.convertWardToWardDetails(location.getWard()));
         locationDetails.setLatitude(location.getLatitude());

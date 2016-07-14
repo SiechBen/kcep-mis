@@ -37,7 +37,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                Description
+                                Key Performance Indicator
                                 <input id="description" class="form-control">
                             </div>
                             <div class="form-group">

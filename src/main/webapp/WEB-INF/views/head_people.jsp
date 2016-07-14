@@ -61,16 +61,25 @@
                                         <td> Total number </td>
                                         <td> Female count </td>
                                         <td> Male count </td>
+                                        <td colspan="10"> &nbsp; </td>
                                     </tr>
                                     <tr id="people-summary">
                                         <td> ${sessionScope.totalCount} </td>
                                         <td> ${sessionScope.femaleCount} </td>
                                         <td> ${sessionScope.maleCount} </td>
+                                        <td colspan="10"> &nbsp; </td>
                                     </tr>
                                 </tfoot>
                                 <tbody>
                                     <c:forEach var="person" items="${sessionScope.people}" varStatus="index">
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <c:choose>
+                                            <c:when test="${person.personRoleId == 1}">
+                                                <tr <c:if test="${index.count % 2 == 0}"> class="odd pointable" onclick="loadFarmWindow(${person.id})"</c:if>>
+                                                </c:when>
+                                                <c:otherwise>
+                                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td>${index.count}</td>
                                             <td>${person.name}</td>
                                             <td>${person.sex.sex}</td>
