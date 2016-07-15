@@ -7,7 +7,9 @@ package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +19,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -68,6 +72,8 @@ public class PerformanceIndicator implements Serializable {
     private Double expectedValue;
     @Column(name = "ratio")
     private Double ratio;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
+    private List<ActivityPlanning> activityPlanningList;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
@@ -149,6 +155,15 @@ public class PerformanceIndicator implements Serializable {
 
     public void setRatio(Double ratio) {
         this.ratio = ratio;
+    }
+
+    @XmlTransient
+    public List<ActivityPlanning> getActivityPlanningList() {
+        return activityPlanningList;
+    }
+
+    public void setActivityPlanningList(List<ActivityPlanning> activityPlanningList) {
+        this.activityPlanningList = activityPlanningList;
     }
 
     public ResultHierarchy getResultHierarchy() {

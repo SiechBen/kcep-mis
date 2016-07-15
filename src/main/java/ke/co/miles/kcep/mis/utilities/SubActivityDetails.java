@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -53,22 +54,6 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.endDate = endDate;
     }
 
-    public Long getActualExpenditure() {
-        return actualExpenditure;
-    }
-
-    public void setActualExpenditure(Long actualExpenditure) {
-        this.actualExpenditure = actualExpenditure;
-    }
-
-    public ActivityDetails getActivity() {
-        return activity;
-    }
-
-    public void setActivity(ActivityDetails activity) {
-        this.activity = activity;
-    }
-
     public MeasurementUnitDetails getMeasurementUnit() {
         return measurementUnit;
     }
@@ -80,7 +65,7 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -96,12 +81,40 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivityDetails[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubActivityDetails[ id=" + getId() + " ]";
     }
 
     @Override
     public int compareTo(SubActivityDetails o) {
-        return this.id.compareTo(o.getId());
+        return this.getId().compareTo(o.getId());
+    }
+
+    /**
+     * @return the actualExpenditure
+     */
+    public BigDecimal getActualExpenditure() {
+        return actualExpenditure;
+    }
+
+    /**
+     * @param actualExpenditure the actualExpenditure to set
+     */
+    public void setActualExpenditure(BigDecimal actualExpenditure) {
+        this.actualExpenditure = actualExpenditure;
+    }
+
+    /**
+     * @return the activityPlanning
+     */
+    public ActivityPlanningDetails getActivityPlanning() {
+        return activityPlanning;
+    }
+
+    /**
+     * @param activityPlanning the activityPlanning to set
+     */
+    public void setActivityPlanning(ActivityPlanningDetails activityPlanning) {
+        this.activityPlanning = activityPlanning;
     }
 
     private static final long serialVersionUID = 1L;
@@ -109,8 +122,8 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private String description;
     private Date startDate;
     private Date endDate;
-    private Long actualExpenditure;
-    private ActivityDetails activity;
+    private BigDecimal actualExpenditure;
+    private ActivityPlanningDetails activityPlanning;
     private MeasurementUnitDetails measurementUnit;
 
 }

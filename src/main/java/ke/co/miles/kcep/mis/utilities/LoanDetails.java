@@ -44,12 +44,12 @@ public class LoanDetails implements Serializable, Comparable<LoanDetails> {
         this.type = type;
     }
 
-    public PersonDetails getPerson() {
-        return person;
+    public AccountDetails getAccount() {
+        return account;
     }
 
-    public void setPerson(PersonDetails person) {
-        this.person = person;
+    public void setAccount(AccountDetails account) {
+        this.account = account;
     }
 
     @Override
@@ -83,6 +83,6 @@ public class LoanDetails implements Serializable, Comparable<LoanDetails> {
     private Integer id;
     private Long amount;
     private String type;
-    private PersonDetails person;
+    private AccountDetails account;
 
 }

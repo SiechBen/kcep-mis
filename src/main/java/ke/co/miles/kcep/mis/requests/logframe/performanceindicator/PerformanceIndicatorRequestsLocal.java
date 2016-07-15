@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.requests.logframe.performanceindicator;
 
 import java.util.List;
 import javax.ejb.Local;
+import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 
@@ -55,5 +56,7 @@ public interface PerformanceIndicatorRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public void removePerformanceIndicator(int id) throws MilesException;
+
+    public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator);
 
 }

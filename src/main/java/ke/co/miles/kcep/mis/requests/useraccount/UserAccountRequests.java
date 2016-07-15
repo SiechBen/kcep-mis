@@ -204,31 +204,31 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
     @Override
-    public void editUserAccount(UserAccountDetails personDetails) throws MilesException {
+    public void editUserAccount(UserAccountDetails userAccountDetails) throws MilesException {
         //Method for editing a faculty record in the database
 
         //Checking validity of details
-        if (personDetails == null) {
+        if (userAccountDetails == null) {
             throw new InvalidArgumentException("error_015_01");
-        } else if (personDetails.getId() == null) {
+        } else if (userAccountDetails.getId() == null) {
             throw new InvalidArgumentException("error_015_09");
-        } else if (personDetails.getUsername() == null || personDetails.getUsername().trim().length() == 0) {
+        } else if (userAccountDetails.getUsername() == null || userAccountDetails.getUsername().trim().length() == 0) {
             throw new InvalidArgumentException("error_015_02");
-        } else if (personDetails.getUsername().trim().length() > 150) {
+        } else if (userAccountDetails.getUsername().trim().length() > 150) {
             throw new InvalidArgumentException("error_015_03");
-        } else if (personDetails.getPassword() == null || personDetails.getPassword().trim().length() == 0) {
+        } else if (userAccountDetails.getPassword() == null || userAccountDetails.getPassword().trim().length() == 0) {
             throw new InvalidArgumentException("error_015_04");
-        } else if (personDetails.getPassword().trim().length() > 150) {
+        } else if (userAccountDetails.getPassword().trim().length() > 150) {
             throw new InvalidArgumentException("error_015_05");
-        } else if (personDetails.getPerson() == null) {
+        } else if (userAccountDetails.getPerson() == null) {
             throw new InvalidArgumentException("error_015_06");
-        } else if (personDetails.getPersonRole() == null) {
+        } else if (userAccountDetails.getPersonRole() == null) {
             throw new InvalidArgumentException("error_015_07");
         }
 
         //Checking if the username is unique to a faculty
         q = em.createNamedQuery("UserAccount.findByUsername");
-        q.setParameter("username", personDetails.getUsername());
+        q.setParameter("username", userAccountDetails.getUsername());
         UserAccount userAccount;
         try {
             userAccount = (UserAccount) q.getSingleResult();
@@ -238,7 +238,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidStateException("error_000_01");
         }
         if (userAccount != null) {
-            if (!userAccount.getId().equals(personDetails.getId())) {
+            if (!userAccount.getId().equals(userAccountDetails.getId())) {
                 throw new InvalidStateException("error_015_08");
             }
         }
@@ -252,13 +252,13 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         }
 
         //Creating a container to hold faculty record
-        userAccount = new UserAccount();
-        userAccount.setId(personDetails.getId());
-        userAccount.setPassword(personDetails.getPassword());
-        userAccount.setUsername(personDetails.getUsername());
-        userAccount.setPerson(em.find(Person.class, personDetails.getPerson().getId()));
-        userAccount.setPersonRole(em.find(PersonRole.class, personDetails.getPersonRole().getId()));
-        userAccount.setPassword(accessService.generateSHAPassword(messageDigest, personDetails.getPassword()));
+        userAccount = em.find(UserAccount.class, userAccountDetails.getId());
+        userAccount.setId(userAccountDetails.getId());
+        userAccount.setPassword(userAccountDetails.getPassword());
+        userAccount.setUsername(userAccountDetails.getUsername());
+        userAccount.setPerson(em.find(Person.class, userAccountDetails.getPerson().getId()));
+        userAccount.setPersonRole(em.find(PersonRole.class, userAccountDetails.getPersonRole().getId()));
+        userAccount.setPassword(accessService.generateSHAPassword(messageDigest, userAccountDetails.getPassword()));
 
         //Editing a faculty record in the database
         try {

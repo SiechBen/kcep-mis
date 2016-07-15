@@ -12,12 +12,12 @@ import java.math.BigDecimal;
  *
  * @author siech
  */
-public class PlanningDetails implements Serializable, Comparable<PlanningDetails> {
+public class ActivityPlanningDetails implements Serializable, Comparable<ActivityPlanningDetails> {
 
-    public PlanningDetails() {
+    public ActivityPlanningDetails() {
     }
 
-    public PlanningDetails(Integer id) {
+    public ActivityPlanningDetails(Integer id) {
         this.id = id;
     }
 
@@ -69,14 +69,6 @@ public class PlanningDetails implements Serializable, Comparable<PlanningDetails
         this.allocatedBudget = allocatedBudget;
     }
 
-    public ActivityDetails getActivity() {
-        return activity;
-    }
-
-    public void setActivity(ActivityDetails activity) {
-        this.activity = activity;
-    }
-
     public ComponentDetails getComponent() {
         return component;
     }
@@ -86,11 +78,11 @@ public class PlanningDetails implements Serializable, Comparable<PlanningDetails
     }
 
     public SubComponentDetails getSubComponent() {
-        return subComponentDetails;
+        return subComponent;
     }
 
-    public void setSubComponent(SubComponentDetails subComponentDetails) {
-        this.subComponentDetails = subComponentDetails;
+    public void setSubComponent(SubComponentDetails subComponent) {
+        this.subComponent = subComponent;
     }
 
     public ImplementingPartnerDetails getImplementingPartner() {
@@ -104,40 +96,114 @@ public class PlanningDetails implements Serializable, Comparable<PlanningDetails
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PlanningDetails)) {
+        if (!(object instanceof ActivityPlanningDetails)) {
             return false;
         }
-        PlanningDetails other = (PlanningDetails) object;
+        ActivityPlanningDetails other = (ActivityPlanningDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Planning[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.Planning[ id=" + getId() + " ]";
     }
 
     @Override
-    public int compareTo(PlanningDetails o) {
-        return this.id.compareTo(o.getId());
+    public int compareTo(ActivityPlanningDetails o) {
+        return this.getId().compareTo(o.getId());
+    }
+
+    /**
+     * @return the category
+     */
+    public String getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    /**
+     * @return the total
+     */
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    /**
+     * @param total the total to set
+     */
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    /**
+     * @return the procurementPlan
+     */
+    public String getProcurementPlan() {
+        return procurementPlan;
+    }
+
+    /**
+     * @param procurementPlan the procurementPlan to set
+     */
+    public void setProcurementPlan(String procurementPlan) {
+        this.procurementPlan = procurementPlan;
+    }
+
+    /**
+     * @return the activityDescription
+     */
+    public Integer getActivityDescription() {
+        return activityDescription;
+    }
+
+    /**
+     * @param activityDescription the activityDescription to set
+     */
+    public void setActivityDescription(Integer activityDescription) {
+        this.activityDescription = activityDescription;
+    }
+
+    /**
+     * @return the performanceIndicator
+     */
+    public PerformanceIndicatorDetails getPerformanceIndicator() {
+        return performanceIndicator;
+    }
+
+    /**
+     * @param performanceIndicator the performanceIndicator to set
+     */
+    public void setPerformanceIndicator(PerformanceIndicatorDetails performanceIndicator) {
+        this.performanceIndicator = performanceIndicator;
     }
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private String annualWorkplanReferenceCode;
+    private String category;
+    private BigDecimal total;
     private BigDecimal awpbTarget;
-    private BigDecimal programmeTarget;
+    private String procurementPlan;
     private BigDecimal valueAchieved;
+    private Integer activityDescription;
     private BigDecimal allocatedBudget;
-    private ActivityDetails activity;
+    private BigDecimal programmeTarget;
     private ComponentDetails component;
-    private SubComponentDetails subComponentDetails;
+    private String annualWorkplanReferenceCode;
+    private SubComponentDetails subComponent;
+    private PerformanceIndicatorDetails performanceIndicator;
     private ImplementingPartnerDetails implementingPartner;
 
 }

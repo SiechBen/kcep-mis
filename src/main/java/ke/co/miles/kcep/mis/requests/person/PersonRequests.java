@@ -480,6 +480,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         personDetails.setContact(contactDetails);
         personDetails.setName(person.getName());
         personDetails.setLocation(locationDetails);
+        personDetails.setPlotSize(person.getPlotSize());
         personDetails.setNationalId(person.getNationalId());
         personDetails.setFarmerGroup(farmerGroupDetails);
         personDetails.setDateOfBirth(person.getDateOfBirth());

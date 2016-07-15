@@ -21,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,9 +33,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SubActivity.findByActivityPlanningId", query = "SELECT s FROM SubActivity s WHERE s.activityPlanning.id = :activityPlanningId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
     @NamedQuery(name = "SubActivity.findByDescription", query = "SELECT s FROM SubActivity s WHERE s.description = :description"),
+    @NamedQuery(name = "SubActivity.findByActivity", query = "SELECT s FROM SubActivity s WHERE s.activity = :activity"),
     @NamedQuery(name = "SubActivity.findByStartDate", query = "SELECT s FROM SubActivity s WHERE s.startDate = :startDate"),
     @NamedQuery(name = "SubActivity.findByEndDate", query = "SELECT s FROM SubActivity s WHERE s.endDate = :endDate"),
     @NamedQuery(name = "SubActivity.findByActualExpenditure", query = "SELECT s FROM SubActivity s WHERE s.actualExpenditure = :actualExpenditure")})
@@ -49,6 +52,10 @@ public class SubActivity implements Serializable {
     @Size(max = 45)
     @Column(name = "description")
     private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "activity")
+    private int activity;
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
     private Date startDate;
@@ -58,9 +65,9 @@ public class SubActivity implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "actual_expenditure")
     private BigDecimal actualExpenditure;
-    @JoinColumn(name = "activity", referencedColumnName = "id")
+    @JoinColumn(name = "activity_planning", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Activity activity;
+    private ActivityPlanning activityPlanning;
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private MeasurementUnit measurementUnit;
@@ -70,6 +77,11 @@ public class SubActivity implements Serializable {
 
     public SubActivity(Integer id) {
         this.id = id;
+    }
+
+    public SubActivity(Integer id, int activity) {
+        this.id = id;
+        this.activity = activity;
     }
 
     public Integer getId() {
@@ -86,6 +98,14 @@ public class SubActivity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getActivity() {
+        return activity;
+    }
+
+    public void setActivity(int activity) {
+        this.activity = activity;
     }
 
     public Date getStartDate() {
@@ -112,12 +132,12 @@ public class SubActivity implements Serializable {
         this.actualExpenditure = actualExpenditure;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public ActivityPlanning getActivityPlanning() {
+        return activityPlanning;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
+    public void setActivityPlanning(ActivityPlanning activityPlanning) {
+        this.activityPlanning = activityPlanning;
     }
 
     public MeasurementUnit getMeasurementUnit() {

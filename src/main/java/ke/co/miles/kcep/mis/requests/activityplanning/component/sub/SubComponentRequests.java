@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.planning.component.sub;
+package ke.co.miles.kcep.mis.requests.activityplanning.component.sub;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.planning.component.ComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
 
 /**

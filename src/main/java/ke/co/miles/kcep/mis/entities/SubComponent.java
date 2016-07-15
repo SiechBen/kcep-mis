@@ -50,7 +50,7 @@ public class SubComponent implements Serializable {
     @Column(name = "sub_component")
     private String subComponent;
     @OneToMany(mappedBy = "subComponent")
-    private List<Planning> planningList;
+    private List<ActivityPlanning> activityPlanningList;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
@@ -86,12 +86,12 @@ public class SubComponent implements Serializable {
     }
 
     @XmlTransient
-    public List<Planning> getPlanningList() {
-        return planningList;
+    public List<ActivityPlanning> getActivityPlanningList() {
+        return activityPlanningList;
     }
 
-    public void setPlanningList(List<Planning> planningList) {
-        this.planningList = planningList;
+    public void setActivityPlanningList(List<ActivityPlanning> activityPlanningList) {
+        this.activityPlanningList = activityPlanningList;
     }
 
     public Component getComponent() {

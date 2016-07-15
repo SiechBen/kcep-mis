@@ -49,8 +49,6 @@ public class Location implements Serializable {
     private BigDecimal longitude;
     @Column(name = "latitude")
     private BigDecimal latitude;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
-    private List<Farm> farmList;
     @OneToMany(mappedBy = "location")
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "location")
@@ -102,15 +100,6 @@ public class Location implements Serializable {
 
     public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
-    }
-
-    @XmlTransient
-    public List<Farm> getFarmList() {
-        return farmList;
-    }
-
-    public void setFarmList(List<Farm> farmList) {
-        this.farmList = farmList;
     }
 
     @XmlTransient

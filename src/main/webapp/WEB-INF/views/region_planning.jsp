@@ -12,7 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - view planning </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-              <div class="row">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -29,7 +29,7 @@
                                         <th>Sub-component</th>
                                         <th>Implementing partner</th>
                                         <th>Annual Workplan Reference Code</th>
-                                        <th>Activity</th>
+                                        <th>Key Performance Indicator</th>
                                         <th>AWPB target</th>
                                         <th>Programme target</th>
                                         <th>Value achieved</th>
@@ -43,13 +43,13 @@
                                 </tfoot>
                                 <tbody>
                                     <c:forEach var="planning" items="${sessionScope.planning}" varStatus="index">
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <tr <c:if test="${index.count % 2 == 0}">class="odd pointable"</c:if> <c:if test="${index.count % 2 != 0}">class="pointable"</c:if> onclick="loadSubActivitiesWindow('${planning.id}')">
                                             <td>${index.count}</td>
                                             <td>${planning.component.component}</td>
                                             <td>${planning.subComponent.subComponent}</td>
                                             <td>${planning.implementingPartner.personRole.personRole}</td>
                                             <td>${planning.annualWorkplanReferenceCode}</td>
-                                            <td>${planning.activity.description}</td>
+                                            <td>${planning.performanceIndicator.description}</td>
                                             <td>${planning.awpbTarget}</td>
                                             <td>${planning.programmeTarget}</td>
                                             <td>${planning.valueAchieved}</td>

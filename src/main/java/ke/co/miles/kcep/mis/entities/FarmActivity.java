@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "FarmActivity.findAll", query = "SELECT f FROM FarmActivity f"),
     @NamedQuery(name = "FarmActivity.findById", query = "SELECT f FROM FarmActivity f WHERE f.id = :id"),
+    @NamedQuery(name = "FarmActivity.findByFarm", query = "SELECT f FROM FarmActivity f WHERE f.farm = :farm"),
     @NamedQuery(name = "FarmActivity.findByName", query = "SELECT f FROM FarmActivity f WHERE f.name = :name"),
     @NamedQuery(name = "FarmActivity.findByYield", query = "SELECT f FROM FarmActivity f WHERE f.yield = :yield"),
     @NamedQuery(name = "FarmActivity.findByDate", query = "SELECT f FROM FarmActivity f WHERE f.date = :date"),
@@ -47,6 +49,10 @@ public class FarmActivity implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "farm")
+    private int farm;
     @Size(max = 45)
     @Column(name = "name")
     private String name;
@@ -62,9 +68,9 @@ public class FarmActivity implements Serializable {
     private Double quantityHarvested;
     @Column(name = "average_selling_price_per")
     private Long averageSellingPricePer;
-    @JoinColumn(name = "farm", referencedColumnName = "id")
+    @JoinColumn(name = "person", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Farm farm;
+    private Person person;
 
     public FarmActivity() {
     }
@@ -73,12 +79,25 @@ public class FarmActivity implements Serializable {
         this.id = id;
     }
 
+    public FarmActivity(Integer id, int farm) {
+        this.id = id;
+        this.farm = farm;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getFarm() {
+        return farm;
+    }
+
+    public void setFarm(int farm) {
+        this.farm = farm;
     }
 
     public String getName() {
@@ -129,12 +148,12 @@ public class FarmActivity implements Serializable {
         this.averageSellingPricePer = averageSellingPricePer;
     }
 
-    public Farm getFarm() {
-        return farm;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setFarm(Farm farm) {
-        this.farm = farm;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

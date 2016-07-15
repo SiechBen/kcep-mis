@@ -43,7 +43,7 @@ public class ImplementingPartner implements Serializable {
     @Column(name = "id")
     private Short id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "implementingPartner")
-    private List<Planning> planningList;
+    private List<ActivityPlanning> activityPlanningList;
     @JoinColumn(name = "person_role", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PersonRole personRole;
@@ -64,12 +64,12 @@ public class ImplementingPartner implements Serializable {
     }
 
     @XmlTransient
-    public List<Planning> getPlanningList() {
-        return planningList;
+    public List<ActivityPlanning> getActivityPlanningList() {
+        return activityPlanningList;
     }
 
-    public void setPlanningList(List<Planning> planningList) {
-        this.planningList = planningList;
+    public void setActivityPlanningList(List<ActivityPlanning> activityPlanningList) {
+        this.activityPlanningList = activityPlanningList;
     }
 
     public PersonRole getPersonRole() {

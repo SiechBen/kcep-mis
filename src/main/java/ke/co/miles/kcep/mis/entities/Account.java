@@ -6,7 +6,9 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "account", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Account.findByFarmerId", query = "SELECT a FROM Account a WHERE a.farmer.id = :farmerId"),
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
     @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
     @NamedQuery(name = "Account.findByAccountNumber", query = "SELECT a FROM Account a WHERE a.accountNumber = :accountNumber"),
@@ -46,6 +51,8 @@ public class Account implements Serializable {
     @Size(max = 45)
     @Column(name = "sol_id")
     private String solId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<Loan> loanList;
     @JoinColumn(name = "farmer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person farmer;
@@ -82,6 +89,15 @@ public class Account implements Serializable {
 
     public void setSolId(String solId) {
         this.solId = solId;
+    }
+
+    @XmlTransient
+    public List<Loan> getLoanList() {
+        return loanList;
+    }
+
+    public void setLoanList(List<Loan> loanList) {
+        this.loanList = loanList;
     }
 
     public Person getFarmer() {
@@ -124,5 +140,5 @@ public class Account implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Account[ id=" + id + " ]";
     }
-    
+
 }

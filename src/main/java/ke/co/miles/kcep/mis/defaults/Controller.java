@@ -25,6 +25,7 @@ import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
+import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.topic.TopicRequestsLocal;
@@ -33,6 +34,7 @@ import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
+import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
@@ -105,6 +107,17 @@ public abstract class Controller extends HttpServlet {
 
     //<editor-fold defaultstate="collapsed" desc="Avail application attributes">
     protected void availApplicationAttributes() {
+
+        List<PerformanceIndicatorDetails> performanceIndicators;
+        try {
+            performanceIndicators = performanceIndicatorService.retrievePerformanceIndicators();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of topics", e);
+            return;
+        }
+        if (performanceIndicators != null) {
+            getServletContext().setAttribute("performanceIndicators", performanceIndicators);
+        }
 
         List<TopicDetails> topics;
         try {
@@ -284,8 +297,9 @@ public abstract class Controller extends HttpServlet {
     @EJB
     private SubCountyRequestsLocal subCountyService;
     @EJB
+    private WarehouseTypeRequestsLocal warehouseTypeService;
+    @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
-    private WarehouseTypeRequestsLocal warehouseTypeService;
-
+    private PerformanceIndicatorRequestsLocal performanceIndicatorService;
 }

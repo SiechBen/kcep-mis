@@ -20,6 +20,8 @@ import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.divisionallocation.DivisionalLocationRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.village.VillageRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 
@@ -88,6 +90,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<LocationDetails> retrieveLocations() throws MilesException {
         List<Location> locations = new ArrayList<>();
         q = em.createNamedQuery("Location.findAll");
@@ -190,10 +193,12 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     public LocationDetails convertLocationToLocationDetails(Location location) {
 
         LocationDetails locationDetails = new LocationDetails(location.getId());
-        locationDetails.setDivisionalLocation(divsionalLocationService.convertSubCountyToSubCountyDetails(location.getSubCounty()));
-        locationDetails.setSubCounty(subCountyService.convertSubCountyToSubCountyDetails(location.getSubCounty()));
-        locationDetails.setVillage(villageService.convertCountyToCountyDetails(location.getCounty()));
+        locationDetails.setDivisionalLocation(divisionalLocationService.
+                convertDivisionalLocationToDivisionalLocationDetails(location.getDivisionalLocation()));
+        locationDetails.setSubCounty(subCountyService.
+                convertSubCountyToSubCountyDetails(location.getSubCounty()));
         locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
+        locationDetails.setVillage(villageService.convertVillageToVillageDetails(location.getVillage()));
         locationDetails.setWard(wardService.convertWardToWardDetails(location.getWard()));
         locationDetails.setLatitude(location.getLatitude());
         locationDetails.setLongitude(location.getLongitude());
@@ -208,14 +213,17 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         }
 
         return locationDetailsList;
-
     }
 
 //</editor-fold>
     @EJB
-    private CountyRequestsLocal countyService;
+    private DivisionalLocationRequestsLocal divisionalLocationService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private CountyRequestsLocal countyService;
+    @EJB
+    private VillageRequestsLocal villageService;
     @EJB
     private WardRequestsLocal wardService;
 }

@@ -45,9 +45,9 @@ public class Loan implements Serializable {
     @Size(max = 45)
     @Column(name = "type")
     private String type;
-    @JoinColumn(name = "person", referencedColumnName = "id")
+    @JoinColumn(name = "account", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Person person;
+    private Account account;
 
     public Loan() {
     }
@@ -80,12 +80,12 @@ public class Loan implements Serializable {
         this.type = type;
     }
 
-    public Person getPerson() {
-        return person;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

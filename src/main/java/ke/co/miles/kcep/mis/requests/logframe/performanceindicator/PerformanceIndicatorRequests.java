@@ -151,7 +151,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
-    private PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator) {
+    public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator) {
 
         PerformanceIndicatorDetails performanceIndicatorDetails = new PerformanceIndicatorDetails(performanceIndicator.getId());
         performanceIndicatorDetails.setExpectedValue(performanceIndicator.getExpectedValue());

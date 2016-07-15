@@ -7,14 +7,12 @@ package ke.co.miles.kcep.mis.requests.location.divisionallocation;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.DivisionalLocation;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.DivisionalLocationDetails;
 
 /**
@@ -190,6 +188,4 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
     }
 
 //</editor-fold>
-    @EJB
-    private CountyRequestsLocal countyService;
 }

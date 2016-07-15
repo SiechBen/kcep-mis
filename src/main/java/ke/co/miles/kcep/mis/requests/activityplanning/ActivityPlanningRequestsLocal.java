@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.planning;
+package ke.co.miles.kcep.mis.requests.activityplanning;
 
 import java.util.List;
 import javax.ejb.Local;
+import ke.co.miles.kcep.mis.entities.ActivityPlanning;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.utilities.PlanningDetails;
+import ke.co.miles.kcep.mis.utilities.ActivityPlanningDetails;
 
 /**
  *
  * @author siech
  */
 @Local
-public interface PlanningRequestsLocal {
+public interface ActivityPlanningRequestsLocal {
 
     /**
      *
@@ -24,14 +25,14 @@ public interface PlanningRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addPlanning(PlanningDetails planningDetails) throws MilesException;
+    public int addActivityPlanning(ActivityPlanningDetails planningDetails) throws MilesException;
 
     /**
      *
      * @return the list of planning record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PlanningDetails> retrievePlannings() throws MilesException;
+    public List<ActivityPlanningDetails> retrieveActivityPlannings() throws MilesException;
 
     /**
      *
@@ -39,7 +40,7 @@ public interface PlanningRequestsLocal {
      * @return the details of the planning record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public PlanningDetails retrievePlanning(int id) throws MilesException;
+    public ActivityPlanningDetails retrieveActivityPlanning(int id) throws MilesException;
 
     /**
      *
@@ -47,13 +48,21 @@ public interface PlanningRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editPlanning(PlanningDetails planningDetails) throws MilesException;
+    public void editActivityPlanning(ActivityPlanningDetails planningDetails) throws MilesException;
 
     /**
      *
      * @param id the unique identifier of the planning record to be removed
      * @throws MilesException when the database is in an incorrect state
      */
-    public void removePlanning(int id) throws MilesException;
+    public void removeActivityPlanning(int id) throws MilesException;
+
+    /**
+     *
+     * @param activityPlanning the record to be converted to activity planning
+     * details
+     * @return the details resulting from the conversion
+     */
+    public ActivityPlanningDetails convertActivityPlanningToActivityPlanningDetails(ActivityPlanning activityPlanning);
 
 }

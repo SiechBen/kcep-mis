@@ -68,6 +68,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<CountyDetails> retrieveCounties() throws MilesException {
         List<County> countys = new ArrayList<>();
         q = em.createNamedQuery("County.findAll");

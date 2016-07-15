@@ -26,9 +26,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
@@ -593,16 +595,32 @@ public class PersonController extends Controller {
                 case "/agro_dealer_farm":
 
                     PersonDetails farmer;
+                    Integer farmerId = 0;
                     try {
-                        farmer = personService.retrievePerson(Integer.parseInt(request.getParameter("farmerId")));
+                        farmerId = Integer.valueOf(request.getParameter("farmerId"));
+                        farmer = personService.retrievePerson(farmerId);
                         session.setAttribute("farmer", farmer);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                         return;
+                    } catch (NumberFormatException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        LOGGER.log(Level.INFO, ("An error occurred"), ex.getMessage());
+                        break;
                     }
-                    
+
+                    AccountDetails account;
+                    try {
+                        account = accountService.retrieveAccount(farmerId);
+                        session.setAttribute("account", account);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
                     break;
 
                 case "/region_addPerson":
@@ -745,6 +763,8 @@ public class PersonController extends Controller {
     private WardRequestsLocal wardService;
     @EJB
     private PersonRequestsLocal personService;
+    @EJB
+    private AccountRequestsLocal accountService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
 

@@ -30,7 +30,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.type.PerformanceIndicatorTypeRequestsLocal;
-import ke.co.miles.kcep.mis.requests.planning.component.sub.SubComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorTypeDetails;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;

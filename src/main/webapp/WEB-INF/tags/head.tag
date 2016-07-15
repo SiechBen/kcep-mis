@@ -25,12 +25,8 @@
             <a onclick="loadAjaxWindow('warehouses')"><i class="fa fa-edit fa-fw"></i> Warehouses </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('activities')"><i class="fa fa-edit fa-fw"></i> Activities </a>
-        </li>
-        <li>
             <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Planning </a>
         </li>
-
         <li>
             <a onclick="loadAjaxWindow('procurements')"><i class="fa fa-edit fa-fw"></i> Procurements </a>
         </li>

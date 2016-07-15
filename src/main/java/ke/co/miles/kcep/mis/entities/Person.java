@@ -46,7 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByNationalId", query = "SELECT p FROM Person p WHERE p.nationalId = :nationalId"),
     @NamedQuery(name = "Person.findByDateOfBirth", query = "SELECT p FROM Person p WHERE p.dateOfBirth = :dateOfBirth"),
     @NamedQuery(name = "Person.findByAge", query = "SELECT p FROM Person p WHERE p.age = :age"),
-    @NamedQuery(name = "Person.findByBusinessName", query = "SELECT p FROM Person p WHERE p.businessName = :businessName")})
+    @NamedQuery(name = "Person.findByBusinessName", query = "SELECT p FROM Person p WHERE p.businessName = :businessName"),
+    @NamedQuery(name = "Person.findByPlotSize", query = "SELECT p FROM Person p WHERE p.plotSize = :plotSize")})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,12 +71,17 @@ public class Person implements Serializable {
     @Size(max = 45)
     @Column(name = "business_name")
     private String businessName;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "plot_size")
+    private Double plotSize;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<Feedback> feedbackList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<SoilFertilityPackage> soilFertilityPackageList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
     private List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<FarmActivity> farmActivityList;
     @OneToOne(mappedBy = "warehouseOperator")
     private Warehouse warehouse;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -106,8 +112,6 @@ public class Person implements Serializable {
     private List<InputsCollection> inputsCollectionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<InputsCollection> inputsCollectionList1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Loan> loanList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Trainee> traineeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
@@ -182,6 +186,14 @@ public class Person implements Serializable {
         this.businessName = businessName;
     }
 
+    public Double getPlotSize() {
+        return plotSize;
+    }
+
+    public void setPlotSize(Double plotSize) {
+        this.plotSize = plotSize;
+    }
+
     @XmlTransient
     public List<Feedback> getFeedbackList() {
         return feedbackList;
@@ -207,6 +219,15 @@ public class Person implements Serializable {
 
     public void setExtensionAndFieldVisitDataList(List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList) {
         this.extensionAndFieldVisitDataList = extensionAndFieldVisitDataList;
+    }
+
+    @XmlTransient
+    public List<FarmActivity> getFarmActivityList() {
+        return farmActivityList;
+    }
+
+    public void setFarmActivityList(List<FarmActivity> farmActivityList) {
+        this.farmActivityList = farmActivityList;
     }
 
     public Warehouse getWarehouse() {
@@ -308,15 +329,6 @@ public class Person implements Serializable {
 
     public void setInputsCollectionList1(List<InputsCollection> inputsCollectionList1) {
         this.inputsCollectionList1 = inputsCollectionList1;
-    }
-
-    @XmlTransient
-    public List<Loan> getLoanList() {
-        return loanList;
-    }
-
-    public void setLoanList(List<Loan> loanList) {
-        this.loanList = loanList;
     }
 
     @XmlTransient

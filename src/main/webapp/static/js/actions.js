@@ -670,9 +670,10 @@ function addPlanning() {
     $.ajax({
         url: "doAddPlanning",
         type: "POST",
-        data: "activity=" + $("#activity").val() + "&implementingPartner=" + $("#implementing-partner").val() +
-                "&endPeriod=" + $("#end-period").val() + "&requestedBudget=" + $("#requested-budget").val() +
-                "&awpbTarget=" + $("#awpb-target").val() + "&planningTarget=" + $("#planning-target").val() +
+        data: "performanceIndicator=" + $("#performance-indicator").val() + "&implementingPartner=" +
+                $("#implementing-partner").val() + "&endPeriod=" + $("#end-period").val() +
+                "&requestedBudget=" + $("#requested-budget").val() + "&awpbTarget=" +
+                $("#awpb-target").val() + "&planningTarget=" + $("#planning-target").val() +
                 "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
                 "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
                 "&measurementUnit=" + $("#measurement-unit").val() +
@@ -741,16 +742,37 @@ $("#feedback-form").ajaxForm({
 );
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Activity">
-function addActivity() {
+//<editor-fold defaultstate="collapsed" desc="Sub-activity">
+function loadSubActivitiesWindow(activityPlanningId) {
+    var target = "subActivities";
     $.ajax({
-        url: "doAddActivity",
-        type: 'POST',
-        data: "description=" + $("#description").val(),
+        url: target,
+        type: "POST",
+        data: "activityPlanningId=" + activityPlanningId,
         success: function () {
-
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+function addSubActivity() {
+    $.ajax({
+        url: "doAddSubActivity",
+        type: 'POST',
+        data: "description=" + $("#description").val() + "&measurementUnit=" + $("#measurement-unit").val()
+                + "&startDate=" + $("#start-date").val() + "&endDate=" + $("#end-date").val()
+                + "&actualExpenditure=" + $("#actual-expenditure").val() + "&activityPlanningId=" + $("#activityPlanningId").val(),
+        success: function () {
             $("#description").val("");
-            loadAjaxWindow('activities');
+            $("#measurement-unit").val("");
+            $("#start-date").val("");
+            $("#end-date").val("");
+            $("#actual-expenditure").val("");
+            loadSubActivitiesWindow($("#activityPlanningId").val());
             return;
         },
         error: function (response) {

@@ -17,8 +17,8 @@ import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.planning.component.ComponentRequestsLocal;
-import ke.co.miles.kcep.mis.requests.planning.component.sub.SubComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
 
 /**

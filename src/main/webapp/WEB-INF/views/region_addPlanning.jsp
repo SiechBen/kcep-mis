@@ -38,10 +38,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                Activity
-                                <select id="activity" class="form-control">
-                                    <c:forEach var="activity" items="${sessionScope.activities}">
-                                        <option value="${activity.id}">${activity.description}</option>
+                                Key Performance Indicator
+                                <select id="performance-indicator" class="form-control">
+                                    <c:forEach var="performanceIndicator" items="${applicationScope.performanceIndicators}">
+                                        <option value="${performanceIndicator.id}">${performanceIndicator.description}</option>
                                     </c:forEach>
                                 </select> 
                             </div>  
@@ -87,6 +87,6 @@
                 </div>
             </div>
         </div>
-        
+
     </jsp:attribute>
 </kcep:region>
