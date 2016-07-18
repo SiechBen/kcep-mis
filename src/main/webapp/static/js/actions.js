@@ -1031,8 +1031,58 @@ function addInputsCollection() {
             }
         },
         close: function () {
-            $("#loan-amount").val("");
-            $("#loan-type").val("");
+            $("#date-collected").val("");
+            $("#agro-dealer").val("");
+            $("#input-type").val("");
+            $("#quantity").val("");
+        }
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Farm activity">
+function addFarmActivity() {
+    $("#farm-activity-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_farm_activity_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddFarmActivity",
+                    type: "POST",
+                    data: "yield=" + $("#yield").val() +
+                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&farmActivityDate=" + $("#farm-activity-date").val() +
+                            "&farmActivityName=" + $("#farm-activity-name").val() +
+                            "&quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&averageSellingPrice=" + $("#average-selling-price").val(),
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                        $("#yield").val("");
+                        $("#quantity-sold").val("");
+                        $("#farm-activity-date").val("");
+                        $("#farm-activity-name").val("");
+                        $("#quantity-harvested").val("");
+                        $("#average-selling-price").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#yield").val("");
+            $("#quantity-sold").val("");
+            $("#farm-activity-date").val("");
+            $("#farm-activity-name").val("");
+            $("#quantity-harvested").val("");
+            $("#average-selling-price").val("");
         }
     });
 }

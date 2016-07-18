@@ -20,7 +20,8 @@ public interface PerformanceIndicatorRequestsLocal {
 
     /**
      *
-     * @param performanceIndicatorDetails details of the performanceIndicator record to be created
+     * @param performanceIndicatorDetails details of the performance indicator
+     * record to be created
      * @return the unique identifier of the new record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
@@ -29,22 +30,24 @@ public interface PerformanceIndicatorRequestsLocal {
 
     /**
      *
-     * @return the list of performanceIndicator record details retrieved
+     * @return the list of performance indicator record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PerformanceIndicatorDetails> retrievePerformanceIndicators() throws MilesException;
 
     /**
      *
-     * @param id the unique identifier of the performanceIndicator record to be retrieved
-     * @return the details of the performanceIndicator record retrieved
+     * @param id the unique identifier of the performance indicator record to be
+     * retrieved
+     * @return the details of the performance indicator record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public PerformanceIndicatorDetails retrievePerformanceIndicator(int id) throws MilesException;
 
     /**
      *
-     * @param performanceIndicatorDetails details of the performanceIndicator record to be edited
+     * @param performanceIndicatorDetails details of the performance indicator
+     * record to be edited
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
@@ -52,11 +55,17 @@ public interface PerformanceIndicatorRequestsLocal {
 
     /**
      *
-     * @param id the unique identifier of the performanceIndicator record to be removed
+     * @param id the unique identifier of the performance indicator record to be
+     * removed
      * @throws MilesException when the database is in an incorrect state
      */
     public void removePerformanceIndicator(int id) throws MilesException;
 
+    /**
+     *
+     * @param performanceIndicator the performance indicator record to be
+     * converted to performance indicator details
+     * @return the result of the conversion
+     */
     public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator);
-
 }

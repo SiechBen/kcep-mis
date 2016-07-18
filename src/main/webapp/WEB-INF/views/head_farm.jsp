@@ -20,17 +20,24 @@
                     </div>
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#home" data-toggle="tab">Farm</a>
+                            <li class="active">
+                                <a href="#farm" data-toggle="tab">Farm</a>
                             </li>
-                            <li><a href="#profile" data-toggle="tab">Account</a>
+                            <li>
+                                <a href="#account" data-toggle="tab">Account</a>
                             </li>
-                            <li><a href="#messages" data-toggle="tab">Loan</a>
+                            <li>
+                                <a href="#loan" data-toggle="tab">Loan</a>
                             </li>
-                            <li><a href="#settings" data-toggle="tab">Inputs</a>
+                            <li>
+                                <a href="#inputs" data-toggle="tab">Inputs</a>
+                            </li>
+                            <li>
+                                <a href="#farm-activities" data-toggle="tab">Farm Activities</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade in active" id="home">
+                            <div class="tab-pane fade in active" id="farm">
                                 <h4>Farm Details</h4>
                                 <table id="farm-table" class="table table-striped table-bordered table-hover data-table">                         
                                     <tr>
@@ -63,7 +70,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="tab-pane fade" id="profile">
+                            <div class="tab-pane fade" id="account">
                                 <h4>Account Details</h4>
                                 <table id="account-table" class="table table-striped table-bordered table-hover data-table">                         
                                     <tr>
@@ -80,7 +87,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="tab-pane fade" id="messages">
+                            <div class="tab-pane fade" id="loan">
                                 <h4>Loan Details</h4>
                                 <table id="loan-table" class="table table-striped table-bordered table-hover data-table">                         
                                     <thead>     <tr>
@@ -102,7 +109,7 @@
                                     </tbody>
                                 </table> 
                             </div>
-                            <div class="tab-pane fade" id="settings">
+                            <div class="tab-pane fade" id="inputs">
                                 <h4>Inputs Collection</h4>
                                 <table id="inputs-collection-table" class="table table-striped table-bordered table-hover data-table">                         
                                     <thead>
@@ -126,6 +133,35 @@
                                                 <td>${inputsCollection.inputType.type}</td>
                                                 <td>${inputsCollection.inputType.staticInput.name}</td>
                                                 <td>${inputsCollection.quantity}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table> 
+                            </div>     
+                            <div class="tab-pane fade" id="farm-activities">
+                                <h4>Farm activity</h4>
+                                <table id="farm-activity-table" class="table table-striped table-bordered table-hover data-table">                         
+                                    <thead>
+                                        <tr>
+                                            <th><button type="button" class="btn btn-outline btn-primary" onclick="addFarmActivity(); return false;">Add</button></th>
+                                            <th>Farm activity name</th>
+                                            <th>Yield</th>
+                                            <th>Date</th>
+                                            <th>Quantity sold</th>
+                                            <th>Quantity harvested</th>
+                                            <th>Average selling price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                        <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
+                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                                <td>${index.count}</td>
+                                                <td>${farmActivity.name}</td>
+                                                <td>${farmActivity.yield}</td>
+                                                <td>${farmActivity.date}</td>
+                                                <td>${farmActivity.quantitySold}</td>
+                                                <td>${farmActivity.quantityHarvested}</td>
+                                                <td>${farmActivity.averageSellingPrice}</td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -182,6 +218,40 @@
                             <div class="form-group">
                                 Quantity
                                 <input type="number " step="0.1" class="form-control" id="quantity" required="true">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dialog" id="farm-activity-dialog">
+            <div class="col-lg-12">
+                <div class="panel-default">
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                Farm activity name
+                                <input id="farm-activity-name" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Yield
+                                <input  id="yield" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                Date
+                                <input type="date" id="farm-activity-date" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Quantiy sold
+                                <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Quantiy harvested
+                                <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Average selling price
+                                <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
                             </div>
                         </form>
                     </div>

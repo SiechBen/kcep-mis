@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -69,12 +70,12 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
         this.quantityHarvested = quantityHarvested;
     }
 
-    public Long getAverageSellingPricePer() {
-        return averageSellingPricePer;
+    public BigDecimal getAverageSellingPrice() {
+        return averageSellingPrice;
     }
 
-    public void setAverageSellingPricePer(Long averageSellingPricePer) {
-        this.averageSellingPricePer = averageSellingPricePer;
+    public void setAverageSellingPrice(BigDecimal averageSellingPrice) {
+        this.averageSellingPrice = averageSellingPrice;
     }
 
     @Override
@@ -104,13 +105,28 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the farmer
+     */
+    public PersonDetails getFarmer() {
+        return farmer;
+    }
+
+    /**
+     * @param farmer the farmer to set
+     */
+    public void setFarmer(PersonDetails farmer) {
+        this.farmer = farmer;
+    }
+
     private static final long serialVersionUID = 1L;
+    private Date date;
     private Integer id;
     private String name;
     private Double yield;
-    private Date date;
     private Double quantitySold;
+    private PersonDetails farmer;
     private Double quantityHarvested;
-    private Long averageSellingPricePer;
-    
+    private BigDecimal averageSellingPrice;
+
 }

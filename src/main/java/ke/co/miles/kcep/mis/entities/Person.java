@@ -80,7 +80,7 @@ public class Person implements Serializable {
     private List<SoilFertilityPackage> soilFertilityPackageList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wardExtensionOfficer")
     private List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<FarmActivity> farmActivityList;
     @OneToOne(mappedBy = "warehouseOperator")
     private Warehouse warehouse;

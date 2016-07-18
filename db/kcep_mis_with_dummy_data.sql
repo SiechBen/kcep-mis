@@ -711,20 +711,21 @@ DROP TABLE IF EXISTS `inputs_collection`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `inputs_collection` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `date` date DEFAULT NULL,
   `agro_dealer` int(10) unsigned NOT NULL,
   `input_type` smallint(5) unsigned NOT NULL,
   `quantity` varchar(45) DEFAULT NULL,
   `farmer` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_inputs_collection_person1` (`agro_dealer`),
   KEY `fk_inputs_collection_input_type1` (`input_type`),
   KEY `fk_inputs_collection_person2` (`farmer`),
   CONSTRAINT `fk_inputs_collection_input_type1` FOREIGN KEY (`input_type`) REFERENCES `input_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_inputs_collection_person1` FOREIGN KEY (`agro_dealer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_inputs_collection_person2` FOREIGN KEY (`farmer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -733,6 +734,7 @@ CREATE TABLE `inputs_collection` (
 
 LOCK TABLES `inputs_collection` WRITE;
 /*!40000 ALTER TABLE `inputs_collection` DISABLE KEYS */;
+INSERT INTO `inputs_collection` VALUES (1,'2016-07-18',3,1,NULL,14),(2,'2016-07-18',3,1,'463874',14),(3,'2016-07-18',3,1,'463874',14),(4,'2016-07-18',3,1,'5725',14),(5,'2016-07-18',3,1,'62635',14),(6,'2016-07-18',3,1,'2321',14),(7,'2016-07-18',3,1,'63874',14),(8,'2016-07-18',3,3,'6',14),(9,'2016-07-18',3,3,'2',6),(10,'2016-07-18',3,1,'684',6),(11,'2016-07-18',3,1,'58',14),(12,'2016-07-18',3,1,'5',6),(13,'2016-07-18',3,1,'5',6),(14,'2016-07-18',3,1,'2',6),(15,'2016-07-18',3,4,'1',6);
 /*!40000 ALTER TABLE `inputs_collection` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -745,14 +747,14 @@ DROP TABLE IF EXISTS `loan`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `loan` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `amount` decimal(10,0) DEFAULT NULL,
+  `amount` decimal(16,2) DEFAULT NULL,
   `type` varchar(45) DEFAULT NULL,
   `account` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_loan_account1` (`account`),
   CONSTRAINT `fk_loan_account1` FOREIGN KEY (`account`) REFERENCES `account` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -761,6 +763,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+INSERT INTO `loan` VALUES (1,12312321.00,'LoAN',6),(2,2000.00,'Fertiliser',14),(3,NULL,'',14),(4,3000.00,'Inputs',14),(5,1000.00,'Inputs',6),(6,500.00,'Inputs',6);
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1904,4 +1907,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-15  9:00:58
+-- Dump completed on 2016-07-18 13:58:08

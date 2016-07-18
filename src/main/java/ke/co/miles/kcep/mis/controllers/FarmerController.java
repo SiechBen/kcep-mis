@@ -28,20 +28,20 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
+import ke.co.miles.kcep.mis.requests.farmer.farmactivity.FarmActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.inputscollection.InputsCollectionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
 import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
+import ke.co.miles.kcep.mis.utilities.FarmActivityDetails;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
-@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection"})
+@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection", "/doAddFarmActivity"})
 public class FarmerController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -70,6 +70,7 @@ public class FarmerController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -84,6 +85,7 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -98,6 +100,7 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -112,6 +115,7 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -126,6 +130,7 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -140,6 +145,7 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -153,6 +159,7 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
+                        urlPaths.add("/doAddFarmActivity");
                         urlPaths.add("/doAddInputsCollection");
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {
@@ -260,6 +267,62 @@ public class FarmerController extends Controller {
                     updateInputsCollectionsTable(request, response, inputsCollections);
                     return;
 
+                case "/doAddFarmActivity":
+                    FarmActivityDetails farmActivity = new FarmActivityDetails();
+                    farmActivity.setName(request.getParameter("farmActivityName"));
+                    if (farmActivity.getName().equals("null")) {
+                        farmActivity.setName(null);
+                    }
+                    farmer = new PersonDetails();
+                    try {
+                        farmer = (PersonDetails) session.getAttribute("farmer");
+                        farmActivity.setFarmer(farmer);
+                    } catch (Exception e) {
+                        farmActivity.setFarmer(null);
+                    }
+                    try {
+                        farmActivity.setYield(new Double(request.getParameter("yield")));
+                    } catch (Exception e) {
+                        farmActivity.setYield(null);
+                    }
+                    try {
+                        date = userDateFormat.parse(request.getParameter("farmActivityDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        farmActivity.setDate(date);
+                    } catch (Exception e) {
+                        farmActivity.setDate(null);
+                    }
+                    try {
+                        farmActivity.setQuantitySold(new Double(request.getParameter("quantitySold")));
+                    } catch (Exception e) {
+                        farmActivity.setQuantitySold(null);
+                    }
+                    try {
+                        farmActivity.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
+                    } catch (Exception e) {
+                        farmActivity.setQuantityHarvested(null);
+                    }
+                    try {
+                        farmActivity.setAverageSellingPrice(new BigDecimal(request.getParameter("averageSellingPrice")));
+                    } catch (Exception e) {
+                        farmActivity.setAverageSellingPrice(null);
+                    }
+
+                    List<FarmActivityDetails> farmActivities;
+                    try {
+                        farmActivityService.addFarmActivity(farmActivity);
+                        farmActivities = farmActivityService.retrieveFarmActivities(farmer.getId());
+                        session.setAttribute("farmActivities", farmActivities);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
+
+                    updateFarmActivitiesTable(request, response, farmActivities);
+                    return;
+
                 case "/head_farm":
                 case "/ward_farm":
                 case "/kalro_farm":
@@ -274,6 +337,7 @@ public class FarmerController extends Controller {
                         farmer = personService.retrievePerson(farmerId);
                         session.setAttribute("farmer", farmer);
                         session.setAttribute("inputsCollections", inputsCollectionService.retrieveInputsCollections(farmer.getId()));
+                        session.setAttribute("farmActivities", farmActivityService.retrieveFarmActivities(farmer.getId()));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -340,7 +404,8 @@ public class FarmerController extends Controller {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Update tables">
-    private void updateloansTable(HttpServletRequest request, HttpServletResponse response, List<LoanDetails> loans) throws IOException {
+    private void updateloansTable(HttpServletRequest request, HttpServletResponse response,
+            List<LoanDetails> loans) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;
         for (LoanDetails loan : loans) {
@@ -357,7 +422,8 @@ public class FarmerController extends Controller {
         }
     }
 
-    private void updateInputsCollectionsTable(HttpServletRequest request, HttpServletResponse response, List<InputsCollectionDetails> inputsCollections) throws IOException {
+    private void updateInputsCollectionsTable(HttpServletRequest request, HttpServletResponse response,
+            List<InputsCollectionDetails> inputsCollections) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;
         for (InputsCollectionDetails inputsCollection : inputsCollections) {
@@ -380,12 +446,31 @@ public class FarmerController extends Controller {
             out.write("</tr>");
         }
     }
-    //</editor-fold>
+
+    private void updateFarmActivitiesTable(HttpServletRequest request, HttpServletResponse response,
+            List<FarmActivityDetails> farmActivities) throws IOException {
+        PrintWriter out = response.getWriter();
+        int index = 0;
+        for (FarmActivityDetails farmActivity : farmActivities) {
+            if (index % 2 == 0) {
+                out.write("<tr class=\"odd\">");
+            } else {
+                out.write("<tr>");
+            }
+            out.write("<td>" + ++index + "</td>");
+            out.write("<td>" + farmActivity.getName() + "</td>");
+            out.write("<td>" + farmActivity.getYield() + "</td>");
+            out.write("<td>" + farmActivity.getDate() + "</td>");
+            out.write("<td>" + farmActivity.getQuantitySold() + "</td>");
+            out.write("<td>" + farmActivity.getQuantityHarvested() + "</td>");
+            out.write("<td>" + farmActivity.getAverageSellingPrice() + "</td>");
+            out.write("</tr>");
+        }
+        //</editor-fold>
+    }
     private static final Logger LOGGER = Logger.getLogger(PersonController.class.getSimpleName());
     @EJB
     private LoanRequestsLocal loanService;
-    @EJB
-    private WardRequestsLocal wardService;
     @EJB
     private PersonRequestsLocal personService;
     @EJB
@@ -393,7 +478,7 @@ public class FarmerController extends Controller {
     @EJB
     private InputTypeRequestsLocal inputTypeService;
     @EJB
-    private SubCountyRequestsLocal subCountyService;
+    private FarmActivityRequestsLocal farmActivityService;
     @EJB
     private InputsCollectionRequestsLocal inputsCollectionService;
 

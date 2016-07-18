@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,7 +21,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,15 +32,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "farm_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "FarmActivity.findByFarmerId", query = "SELECT f FROM FarmActivity f WHERE f.farmer.id = :farmerId"),
     @NamedQuery(name = "FarmActivity.findAll", query = "SELECT f FROM FarmActivity f"),
     @NamedQuery(name = "FarmActivity.findById", query = "SELECT f FROM FarmActivity f WHERE f.id = :id"),
-    @NamedQuery(name = "FarmActivity.findByFarm", query = "SELECT f FROM FarmActivity f WHERE f.farm = :farm"),
     @NamedQuery(name = "FarmActivity.findByName", query = "SELECT f FROM FarmActivity f WHERE f.name = :name"),
     @NamedQuery(name = "FarmActivity.findByYield", query = "SELECT f FROM FarmActivity f WHERE f.yield = :yield"),
     @NamedQuery(name = "FarmActivity.findByDate", query = "SELECT f FROM FarmActivity f WHERE f.date = :date"),
     @NamedQuery(name = "FarmActivity.findByQuantitySold", query = "SELECT f FROM FarmActivity f WHERE f.quantitySold = :quantitySold"),
     @NamedQuery(name = "FarmActivity.findByQuantityHarvested", query = "SELECT f FROM FarmActivity f WHERE f.quantityHarvested = :quantityHarvested"),
-    @NamedQuery(name = "FarmActivity.findByAverageSellingPricePer", query = "SELECT f FROM FarmActivity f WHERE f.averageSellingPricePer = :averageSellingPricePer")})
+    @NamedQuery(name = "FarmActivity.findByAverageSellingPrice", query = "SELECT f FROM FarmActivity f WHERE f.averageSellingPrice = :averageSellingPrice")})
 public class FarmActivity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,10 +49,6 @@ public class FarmActivity implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "farm")
-    private int farm;
     @Size(max = 45)
     @Column(name = "name")
     private String name;
@@ -66,11 +62,11 @@ public class FarmActivity implements Serializable {
     private Double quantitySold;
     @Column(name = "quantity_harvested")
     private Double quantityHarvested;
-    @Column(name = "average_selling_price_per")
-    private Long averageSellingPricePer;
-    @JoinColumn(name = "person", referencedColumnName = "id")
+    @Column(name = "average_selling_price")
+    private BigDecimal averageSellingPrice;
+    @JoinColumn(name = "farmer", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Person person;
+    private Person farmer;
 
     public FarmActivity() {
     }
@@ -79,25 +75,12 @@ public class FarmActivity implements Serializable {
         this.id = id;
     }
 
-    public FarmActivity(Integer id, int farm) {
-        this.id = id;
-        this.farm = farm;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getFarm() {
-        return farm;
-    }
-
-    public void setFarm(int farm) {
-        this.farm = farm;
     }
 
     public String getName() {
@@ -140,20 +123,20 @@ public class FarmActivity implements Serializable {
         this.quantityHarvested = quantityHarvested;
     }
 
-    public Long getAverageSellingPricePer() {
-        return averageSellingPricePer;
+    public BigDecimal getAverageSellingPrice() {
+        return averageSellingPrice;
     }
 
-    public void setAverageSellingPricePer(Long averageSellingPricePer) {
-        this.averageSellingPricePer = averageSellingPricePer;
+    public void setAverageSellingPrice(BigDecimal averageSellingPrice) {
+        this.averageSellingPrice = averageSellingPrice;
     }
 
-    public Person getPerson() {
-        return person;
+    public Person getFarmer() {
+        return farmer;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setFarmer(Person person) {
+        this.farmer = person;
     }
 
     @Override
@@ -180,5 +163,5 @@ public class FarmActivity implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmActivity[ id=" + id + " ]";
     }
-    
+
 }
