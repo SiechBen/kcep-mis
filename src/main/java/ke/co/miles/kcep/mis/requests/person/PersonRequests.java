@@ -66,7 +66,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
         if (person != null) {
             if (person.getNationalId() != null) {
-                throw new InvalidStateException("error_001_02");
+                throw new InvalidArgumentException("error_001_02");
             }
         }
 
@@ -334,6 +334,21 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail) throws MilesException {
+        q = em.createNamedQuery("UserAccount.findByPersonRoleId");
+        q.setParameter("personRoleId", personRoleDetail.getId());
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+    }
+
+    @Override
     public PersonDetails retrievePerson(int id) throws MilesException {
 
         q = em.createNamedQuery("Person.findById");
@@ -385,7 +400,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
         if (person != null) {
             if (person.getNationalId() != null && !person.getId().equals(personDetails.getId())) {
-                throw new InvalidStateException("error_001_02");
+                throw new InvalidArgumentException("error_001_02");
             }
         }
 
@@ -497,7 +512,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     private List<PersonDetails> convertPeopleToPersonDetailsList(List<Person> people) {
 
-        int maleCount, femaleCount;
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (Person person : people) {
 
@@ -505,9 +519,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             personDetails = convertPersonToPersonDetails(person);
             personDetailsList.add(personDetails);
 
-            if (personDetails.getSex() == SexDetail.FEMALE) {
-
-            }
         }
 
         return personDetailsList;
@@ -515,7 +526,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     private List<PersonDetails> convertUserAccountsToPeople(List<UserAccount> userAccounts) {
-        int maleCount, femaleCount;
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (UserAccount userAccount : userAccounts) {
 
@@ -524,9 +534,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
             personDetailsList.add(personDetails);
 
-            if (personDetails.getSex() == SexDetail.FEMALE) {
-
-            }
         }
 
         return personDetailsList;

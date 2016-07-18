@@ -65,7 +65,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(int wardId) throws MilesException {
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(short wardId) throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
         q = em.createNamedQuery("Training.findByWardId");
@@ -109,7 +109,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(int subCountyId) throws MilesException {
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(short subCountyId) throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
         q = em.createNamedQuery("Training.findBySubCountyId");

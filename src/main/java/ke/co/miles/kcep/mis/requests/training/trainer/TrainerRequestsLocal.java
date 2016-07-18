@@ -60,7 +60,7 @@ public interface TrainerRequestsLocal {
      * @return the retrieved map of training record details to trainers
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(int wardId) throws MilesException;
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(short wardId) throws MilesException;
 
     /**
      *
@@ -78,7 +78,7 @@ public interface TrainerRequestsLocal {
      * @return the retrieved map of training record details to trainers
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(int subCountyId) throws MilesException;
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(short subCountyId) throws MilesException;
 
     /**
      *

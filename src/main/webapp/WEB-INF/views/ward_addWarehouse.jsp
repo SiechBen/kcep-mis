@@ -81,7 +81,7 @@
                                 <input type="hidden" id="warehouse-sub-county" value="${sessionScope.person.location.subCounty.id}">
                             </div>
                             <div class="form-group">
-                                <input type="hidden" id="warehouse-ward" value="${sessionScope.person.location.subCounty.id}">
+                                <input type="hidden" id="warehouse-ward" value="${sessionScope.person.location.ward.id}">
                             </div>
                             <button type="button" class="btn btn-outline btn-primary" onclick="addWarehouse()">Save warehouse</button>
                         </form>

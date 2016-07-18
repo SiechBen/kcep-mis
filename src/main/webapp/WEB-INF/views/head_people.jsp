@@ -74,7 +74,7 @@
                                     <c:forEach var="person" items="${sessionScope.people}" varStatus="index">
                                         <c:choose>
                                             <c:when test="${person.personRoleId == 1}">
-                                                <tr <c:if test="${index.count % 2 == 0}"> class="odd pointable" onclick="loadFarmWindow('${person.id}')"</c:if>>
+                                                <tr <c:if test="${index.count % 2 == 0}"> class="odd pointable" onclick="loadFarmWindow('${person.id}')"</c:if><c:if test="${index.count % 2 != 0}"> class="pointable" onclick="loadFarmWindow('${person.id}')"</c:if>>
                                                 </c:when>
                                                 <c:otherwise>
                                                 <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>

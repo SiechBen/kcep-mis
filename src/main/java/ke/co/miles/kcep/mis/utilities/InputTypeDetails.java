@@ -55,7 +55,6 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof InputTypeDetails)) {
             return false;
         }
@@ -65,7 +64,7 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.InputType[ type=" + type + " ]";
+        return "ke.co.miles.kcep.mis.utilities.InputType[ id=" + id + " ]";
     }
 
     @Override

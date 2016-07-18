@@ -11,6 +11,8 @@ package ke.co.miles.kcep.mis.exceptions;
  */
 public class InvalidArgumentException extends MilesException {
 
+    private static final long serialVersionUID = 1L;
+
     public InvalidArgumentException(String message) {
         super(message);
     }

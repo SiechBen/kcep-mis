@@ -30,9 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserAccount.findByPersonId", query = "SELECT u FROM UserAccount u WHERE u.person.id = :personId"),
+    @NamedQuery(name = "UserAccount.findByPersonRoleId", query = "SELECT u FROM UserAccount u WHERE u.personRole.id = :personRoleId"),
+    @NamedQuery(name = "UserAccount.findByUsernameAndPassword", query = "SELECT u FROM UserAccount u WHERE u.username = :username AND u.password = :password"),
     @NamedQuery(name = "UserAccount.findBySexAndPersonRoleId", query = "SELECT u FROM UserAccount u WHERE u.person.sex.id = :sexId AND u.personRole.id = :personRoleId"),
     @NamedQuery(name = "UserAccount.findByPersonRoleIdAndPersonId", query = "SELECT u FROM UserAccount u WHERE u.person.id = :personId AND u.personRole.id = :personRoleId"),
-    @NamedQuery(name = "UserAccount.findByUsernameAndPassword", query = "SELECT u FROM UserAccount u WHERE u.username = :username AND u.password = :password"),
     @NamedQuery(name = "UserAccount.findAll", query = "SELECT u FROM UserAccount u"),
     @NamedQuery(name = "UserAccount.findById", query = "SELECT u FROM UserAccount u WHERE u.id = :id"),
     @NamedQuery(name = "UserAccount.findByUsername", query = "SELECT u FROM UserAccount u WHERE u.username = :username"),

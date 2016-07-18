@@ -51,6 +51,7 @@ public class EquipmentController extends Controller {
         String path = request.getServletPath();
         String destination;
 
+        @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {

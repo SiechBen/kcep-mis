@@ -7,11 +7,8 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
+import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
@@ -35,6 +33,7 @@ import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerSubGroupDetails;
+import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
@@ -46,7 +45,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson", "/userProfile", "/changeCounter", "/farm"})
+@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson", "/userProfile", "/changeCounter"})
 public class PersonController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -67,10 +66,6 @@ public class PersonController extends Controller {
         String path = request.getServletPath();
         String destination;
 
-        DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-        Date date;
-
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
@@ -83,10 +78,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/changeCounter");
                             switch (path) {
-                                case "/farm":
-                                    path = "/head_farm";
-                                    urlPaths.add(path);
-                                    break;
                                 case "/people":
                                     path = "/head_people";
                                     urlPaths.add(path);
@@ -112,11 +103,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                case "/farm":
-                                    path = "/kalro_farm";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/people":
+                                    case "/people":
                                     path = "/kalro_people";
                                     urlPaths.add(path);
                                     break;
@@ -141,11 +128,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                case "/farm":
-                                    path = "/region_farm";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/people":
+                                    case "/people":
                                     path = "/region_people";
                                     urlPaths.add(path);
                                     break;
@@ -170,10 +153,6 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                case "/farm":
-                                    path = "/county_farm";
-                                    urlPaths.add(path);
-                                    break;
                                 case "/people":
                                     path = "/county_people";
                                     urlPaths.add(path);
@@ -199,11 +178,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                case "/farm":
-                                    path = "/sub_county_farm";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/people":
+                                 case "/people":
                                     path = "/sub_county_people";
                                     urlPaths.add(path);
                                     break;
@@ -228,10 +203,6 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                case "/farm":
-                                    path = "/ward_farm";
-                                    urlPaths.add(path);
-                                    break;
                                 case "/people":
                                     path = "/ward_people";
                                     urlPaths.add(path);
@@ -257,10 +228,6 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                case "/farm":
-                                    path = "/agro_dealer_farm";
-                                    urlPaths.add(path);
-                                    break;
                                 case "/people":
                                     path = "/agro_dealer_people";
                                     urlPaths.add(path);
@@ -595,7 +562,7 @@ public class PersonController extends Controller {
                 case "/agro_dealer_farm":
 
                     PersonDetails farmer;
-                    Integer farmerId = 0;
+                    Integer farmerId;
                     try {
                         farmerId = Integer.valueOf(request.getParameter("farmerId"));
                         farmer = personService.retrievePerson(farmerId);
@@ -621,6 +588,27 @@ public class PersonController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                         return;
                     }
+
+                    List<PersonDetails> agroDealers;
+                    try {
+                        agroDealers = personService.retrievePeople(PersonRoleDetail.AGRO_DEALER);
+                        session.setAttribute("agroDealers", agroDealers);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
+                    List<InputTypeDetails> inputTypes;
+                    try {
+                        inputTypes = inputTypeService.retrieveInputTypes();
+                        session.setAttribute("inputTypes", inputTypes);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
                     break;
 
                 case "/region_addPerson":
@@ -765,6 +753,8 @@ public class PersonController extends Controller {
     private PersonRequestsLocal personService;
     @EJB
     private AccountRequestsLocal accountService;
+    @EJB
+    private InputTypeRequestsLocal inputTypeService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
 

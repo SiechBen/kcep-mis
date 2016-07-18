@@ -6,8 +6,11 @@
 package ke.co.miles.kcep.mis.defaults;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -302,4 +305,8 @@ public abstract class Controller extends HttpServlet {
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
+
+    protected DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    protected DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+    protected Date date;
 }

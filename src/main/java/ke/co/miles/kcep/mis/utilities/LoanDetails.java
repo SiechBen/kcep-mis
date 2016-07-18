@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -28,11 +29,11 @@ public class LoanDetails implements Serializable, Comparable<LoanDetails> {
         this.id = id;
     }
 
-    public Long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -81,7 +82,7 @@ public class LoanDetails implements Serializable, Comparable<LoanDetails> {
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private Long amount;
+    private BigDecimal amount;
     private String type;
     private AccountDetails account;
 

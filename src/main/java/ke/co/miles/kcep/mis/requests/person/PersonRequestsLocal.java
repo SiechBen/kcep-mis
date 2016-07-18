@@ -148,4 +148,13 @@ public interface PersonRequestsLocal {
      */
     public HashMap<String, Integer> countAllPeople() throws MilesException;
 
+    /**
+     * Retrieve people of a certain person role
+     *
+     * @param personRoleDetail the person role of people to be retrieved
+     * @return the people retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail) throws MilesException;
+
 }

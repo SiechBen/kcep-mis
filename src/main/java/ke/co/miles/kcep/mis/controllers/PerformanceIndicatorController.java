@@ -7,12 +7,9 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -27,10 +24,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.type.PerformanceIndicatorTypeRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorTypeDetails;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
@@ -61,10 +58,6 @@ public class PerformanceIndicatorController extends Controller {
         String destination;
 
         DecimalFormat decimalFormat = new DecimalFormat("######.##");
-
-        DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-        Date date;
 
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps

@@ -240,7 +240,7 @@ $(function () {
                     if ($this.is($("#admission-year"))) {
                         $.ajax({
                             url: "checkFacultyMemberRole",
-                            type: 'POST',
+                            type: "POST",
                             data: "memberRole=" + $("#faculty-member-role").val(),
                             success: function (response) {
                                 if (response !== "") {
@@ -521,7 +521,7 @@ function addPerson() {
 function updateCounts() {
     $.ajax({
         url: "changeCounter",
-        type: 'POST',
+        type: "POST",
         data: "counter=" + $("#counter").val(),
         success: function (data) {
             $("tr#people-summary").html(data);
@@ -575,7 +575,7 @@ function showTrainees(trainingId) {
 
     $.ajax({
         url: "loadTrainees",
-        type: 'POST',
+        type: "POST",
         data: "trainingId=" + trainingId,
         success: function () {
             loadAjaxWindow("trainees");
@@ -762,7 +762,7 @@ function loadSubActivitiesWindow(activityPlanningId) {
 function addSubActivity() {
     $.ajax({
         url: "doAddSubActivity",
-        type: 'POST',
+        type: "POST",
         data: "description=" + $("#description").val() + "&measurementUnit=" + $("#measurement-unit").val()
                 + "&startDate=" + $("#start-date").val() + "&endDate=" + $("#end-date").val()
                 + "&actualExpenditure=" + $("#actual-expenditure").val() + "&activityPlanningId=" + $("#activityPlanningId").val(),
@@ -958,6 +958,82 @@ function loadFarmWindow(farmerId) {
             showError("error_label", response.responseText);
         },
         dataType: "HTML"
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Loan">
+function addLoan() {
+    $("#loan-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_loan_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddLoan",
+                    type: "POST",
+                    data: "amount=" + $("#loan-amount").val() +
+                            "&type=" + $("#loan-type").val(),
+                    success: function (response) {
+                        $("table#loan-table tbody").html(response);
+                        $("#loan-amount").val("");
+                        $("#loan-type").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#loan-amount").val("");
+            $("#loan-type").val("");
+        }
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Inputs collection">
+function addInputsCollection() {
+    $("#inputs-collection-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_inputs_collection_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddInputsCollection",
+                    type: "POST",
+                    data: "dateCollected=" + $("#date-collected").val() +
+                            "&agroDealerId=" + $("#agro-dealer").val() +
+                            "&inputTypeId=" + $("#input-type").val() +
+                            "&quantity=" + $("#quantity").val(),
+                    success: function (response) {
+                        $("table#inputs-collection-table tbody").html(response);
+                        $("#date-collected").val("");
+                        $("#agro-dealer").val("");
+                        $("#input-type").val("");
+                        $("#quantity").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#loan-amount").val("");
+            $("#loan-type").val("");
+        }
     });
 }
 //</editor-fold>

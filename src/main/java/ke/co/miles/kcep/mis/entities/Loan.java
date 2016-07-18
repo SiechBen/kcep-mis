@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "loan", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Loan.findByAccountId", query = "SELECT l FROM Loan l WHERE l.account.id = :accountId"),
     @NamedQuery(name = "Loan.findAll", query = "SELECT l FROM Loan l"),
     @NamedQuery(name = "Loan.findById", query = "SELECT l FROM Loan l WHERE l.id = :id"),
     @NamedQuery(name = "Loan.findByAmount", query = "SELECT l FROM Loan l WHERE l.amount = :amount"),
@@ -41,7 +43,7 @@ public class Loan implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "amount")
-    private Long amount;
+    private BigDecimal amount;
     @Size(max = 45)
     @Column(name = "type")
     private String type;
@@ -64,11 +66,11 @@ public class Loan implements Serializable {
         this.id = id;
     }
 
-    public Long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

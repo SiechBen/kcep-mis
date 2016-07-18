@@ -7,11 +7,8 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -61,10 +58,6 @@ public class ActivityPlanningController extends Controller {
 
         String path = request.getServletPath();
         String destination;
-
-        Date date;
-        DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
 
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps

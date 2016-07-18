@@ -10,11 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -61,10 +58,6 @@ public class EVoucherController extends Controller {
         //Get the user path
         String path = request.getServletPath();
         String destination;
-
-        DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
-        Date date;
 
         final String fileSeparator = File.separator;
 
