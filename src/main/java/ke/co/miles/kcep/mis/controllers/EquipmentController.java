@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -105,13 +104,6 @@ public class EquipmentController extends Controller {
             WarehouseDetails warehouse;
             try {
                 warehouse = (WarehouseDetails) session.getAttribute("warehouse");
-                if (warehouse == null) {
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.setContentType("text/html;charset=UTF-8");
-                    response.getWriter().write(getBundle().getString("error_008_04"));
-                    LOGGER.log(Level.INFO, getBundle().getString("error_008_04"));
-                    return;
-                }
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.setContentType("text/html;charset=UTF-8");
@@ -126,23 +118,19 @@ public class EquipmentController extends Controller {
                 case "/ward_equipment":
                 case "/warehouse_equipment":
 
-                    //Retrieve the list of equipments belonging to a warehouse
-                    List<EquipmentDetails> equipment;
                     try {
-                        warehouse = (WarehouseDetails) session.getAttribute("warehouse");
-                        equipment = equipmentService.retrieveEquipmentList(warehouse.getId());
+                        int warehouseId = Integer.valueOf(request.getParameter("warehouseId"));
+                        session.setAttribute("warehouse", new WarehouseDetails(warehouseId));
+                        session.setAttribute("equipment", equipmentService.retrieveEquipmentList(warehouseId));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.setContentType("text/html;charset=UTF-8");
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
+                    } catch (NumberFormatException ex) {
                     }
 
-                    //Avail the equipments in the application scope
-                    if (equipment != null) {
-                        session.setAttribute("equipment", equipment);
-                    }
                     break;
                 case "/addEquipment":
 

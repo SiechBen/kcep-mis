@@ -39,6 +39,8 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             throw new InvalidArgumentException("error_047_03");
         } else if (inputsCollectionDetails.getInputType() == null) {
             throw new InvalidArgumentException("error_047_04");
+        } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
+            throw new InvalidArgumentException("error_047_05");
         }
 
         InputsCollection inputsCollection = new InputsCollection();
@@ -84,13 +86,15 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         if (inputsCollectionDetails == null) {
             throw new InvalidArgumentException("error_047_01");
         } else if (inputsCollectionDetails.getId() == null) {
-            throw new InvalidArgumentException("error_047_05");
+            throw new InvalidArgumentException("error_047_06");
         } else if (inputsCollectionDetails.getFarmer() == null) {
             throw new InvalidArgumentException("error_047_02");
         } else if (inputsCollectionDetails.getAgroDealer() == null) {
             throw new InvalidArgumentException("error_047_03");
         } else if (inputsCollectionDetails.getInputType() == null) {
             throw new InvalidArgumentException("error_047_04");
+        } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
+            throw new InvalidArgumentException("error_047_05");
         }
 
         InputsCollection inputsCollection = em.find(InputsCollection.class, inputsCollectionDetails.getId());
@@ -125,7 +129,8 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public InputsCollectionDetails convertInputsCollectionToInputsCollectionDetails(InputsCollection inputsCollection) {
+    public InputsCollectionDetails convertInputsCollectionToInputsCollectionDetails(InputsCollection inputsCollection
+    ) {
 
         InputsCollectionDetails inputsCollectionDetails = new InputsCollectionDetails(inputsCollection.getId());
         try {

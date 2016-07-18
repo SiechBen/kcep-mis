@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.kcep.mis.entities.Warehouse;
-import ke.co.miles.kcep.mis.entities.Equipment;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
-import ke.co.miles.kcep.mis.utilities.EquipmentDetails;
-import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
+import ke.co.miles.kcep.mis.entities.Equipment;
+import ke.co.miles.kcep.mis.entities.Warehouse;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
+import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
+import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.warehouse.WarehouseRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.EquipmentDetails;
+import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 
 /**
  *
@@ -74,6 +74,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<EquipmentDetails> retrieveEquipmentList(int warehouseId) throws MilesException {
 
         q = em.createNamedQuery("Equipment.findByWarehouseId");

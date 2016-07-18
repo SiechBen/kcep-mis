@@ -33,6 +33,8 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
             throw new InvalidArgumentException("error_046_01");
         } else if (loanDetails.getAccount() == null) {
             throw new InvalidArgumentException("error_046_02");
+        } else if (loanDetails.getType() != null && loanDetails.getType().trim().length() > 45) {
+            throw new InvalidArgumentException("error_046_03");
         }
 
         Loan loan = new Loan();
@@ -93,9 +95,11 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         if (loanDetails == null) {
             throw new InvalidArgumentException("error_046_01");
         } else if (loanDetails.getId() == null) {
-            throw new InvalidArgumentException("error_046_03");
+            throw new InvalidArgumentException("error_046_04");
         } else if (loanDetails.getAccount() == null) {
             throw new InvalidArgumentException("error_046_02");
+        } else if (loanDetails.getType() != null && loanDetails.getType().trim().length() > 45) {
+            throw new InvalidArgumentException("error_046_03");
         }
 
         Loan loan = em.find(Loan.class, loanDetails.getId());

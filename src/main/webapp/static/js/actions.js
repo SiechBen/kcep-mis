@@ -629,7 +629,6 @@ $("#procurement-form").ajaxForm({
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
 function addWarehouse() {
-
     $.ajax({
         url: "doAddWarehouse",
         type: "POST",
@@ -662,6 +661,7 @@ function addWarehouse() {
         dataType: "HTML"
     });
 }
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Planning">
@@ -704,19 +704,35 @@ function addPlanning() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Equipment">
-function addEquipment() {
 
+function loadEquimentWindow(warehouseId) {
+    var target = "equipment";
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: "warehouseId=" + warehouseId,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function addEquipment(warehouseId) {
     $.ajax({
         url: "doAddEquipment",
         type: "POST",
         data: "equipmentType=" + $("#equipment-type").val() + "&equipmentTotalCount=" + $("#equipment-total-count").val() +
                 "&equipmentStatus=" + $("#equipment-status").val(),
         success: function () {
-
             $("#equipment-total-count").val("");
             $("#equipment-status").val("");
             $("#equipment-type").val("");
-            loadAjaxWindow('equipment');
+            loadEquimentWindow()(warehouseId);
             return;
         },
         error: function (response) {

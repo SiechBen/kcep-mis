@@ -32,7 +32,7 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8"> List of e-vouchers </td>
+                                        <td colspan="8"> List of equipment </td>
                                     </tr>
                                 </tfoot>
                                 <tbody>

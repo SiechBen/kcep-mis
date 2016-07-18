@@ -33,7 +33,7 @@
                                     Equipment status
                                     <input id="equipment-status" name="equipment-status" class="form-control">
                                 </div>
-                                <input type="button" class="btn btn-outline btn-primary" onclick="addEquipment()" value="Save equipment">
+                                <input type="button" class="btn btn-outline btn-primary" onclick="addEquipment(${sessionScope.warehouse.id})" value="Save equipment">
                             </form>
                         </div>
                     </div>
