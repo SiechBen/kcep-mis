@@ -42,6 +42,9 @@
         <li>
             <a onclick="loadAjaxWindow('eVouchers')"><i class="fa fa-edit fa-fw"></i> E-vouchers </a>
         </li>
+        <li>
+            <a onclick="loadAjaxWindow('reports')"><i class="fa fa-edit fa-fw"></i> Reports </a>
+        </li>
     </jsp:attribute>
     <jsp:attribute name="content">
         <div id="page-wrapper">

@@ -387,8 +387,7 @@ public class FarmerController extends Controller {
             //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
 
-            LOGGER.log(Level.INFO,
-                    "Request dispatch to forward to: {0}", destination);
+            LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
             try {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
@@ -468,7 +467,7 @@ public class FarmerController extends Controller {
         }
         //</editor-fold>
     }
-    private static final Logger LOGGER = Logger.getLogger(PersonController.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(FarmerController.class.getSimpleName());
     @EJB
     private LoanRequestsLocal loanService;
     @EJB

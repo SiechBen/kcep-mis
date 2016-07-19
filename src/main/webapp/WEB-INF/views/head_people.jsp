@@ -80,7 +80,7 @@
                                                 <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <td>${person.personRoleId}</td>
+                                            <td>${index.count}</td>
                                             <td>${person.name}</td>
                                             <td>${person.sex.sex}</td>
                                             <td>${person.nationalId}</td>

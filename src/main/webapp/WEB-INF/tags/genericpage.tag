@@ -14,6 +14,9 @@
 <%--The list of links accessible by the user logged in:--%>
 <%@attribute name="menuitems" required="true"%>
 
+<%--The js scripts in to be used--%>
+<%@attribute name="scripts" required="false" %>
+
 <%-- The list of fragments:--%>
 <%@attribute name="content" fragment="true"%>
 
@@ -30,33 +33,17 @@
 
         <title> ${title} </title>
 
-        <!-- Bootstrap Core CSS -->
         <link href="static/plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- MetisMenu CSS -->
         <link href="static/plugins/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-        <!-- DataTables CSS -->
-        <link href="static/plugins/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
-
-        <!-- DataTables Responsive CSS -->
+        <link href="static/plugins/datatables/media/css/jquery.dataTables.min.css">
+        <link href="static/plugins/datatables/media/css/buttons.dataTables.min.css" rel="stylesheet">
+        <link href="static/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
         <link href="static/plugins/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
-
-        <!-- Jquery ui CSS -->
-        <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-
-        <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
-
-        <!-- Timeline CSS -->
+        <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+        <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
         <link href="static/css/timeline.css" rel="stylesheet">
-
-        <!-- Custom CSS -->
         <link href="static/css/kcep-mis.css" rel="stylesheet">
-
-        <!-- Morris Charts CSS -->
         <link href="static/plugins/morrisjs/morris.css" rel="stylesheet">
-
-        <!-- Custom Fonts -->
         <link href="static/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     </head>
@@ -302,35 +289,25 @@
             </div>
 
         </div>
-        <!-- /#wrapper -->
 
-        <!-- jQuery -->
         <script src="static/plugins/jquery/jquery.min.js"></script>
         <script src="static/plugins/jquery/jquery.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
         <script src="static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-
-        <!-- jQuery Internationalisation properties -->
         <script src="static/plugins/i18n/jquery.i18n.properties.min.js"></script>
-
-        <!-- Metis Menu Plugin JavaScript -->
         <script src="static/plugins/metisMenu/dist/metisMenu.min.js"></script>
-
-        <!-- DataTables JavaScript -->
         <script src="static/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-        <script src="static/plugins/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-        <!-- jQuery ui -->
+        <script src="static/plugins/datatables/media/js/dataTables.buttons.min.js"></script>
+        <script src="static/plugins/datatables/media/js/buttons.flash.min.js"></script>
+        <script src="static/plugins/jszip/jszip.min.js"></script>
+        <script src="static/plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="static/plugins/vfs-fonts/vfs_fonts.js"></script>
+        <script src="static/plugins/datatables/media/js/buttons.html5.min.js"></script>
+        <script src="static/plugins/datatables/media/js/buttons.print.min.js"></script>
+        <script src="static/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
         <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
-
-        <!-- jQuery form -->
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
-
-        <!--jStorage -->
         <script src="static/plugins/jstorage/jstorage.js"></script>
-
-        <!-- Custom Theme JavaScript -->
+        ${scripts}
         <script src="static/js/actions.js"></script>
 
     </body>

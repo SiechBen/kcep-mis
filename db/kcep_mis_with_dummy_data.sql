@@ -188,7 +188,7 @@ DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `phone` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `postal_address` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -410,7 +410,7 @@ CREATE TABLE `equipment` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_equipment_warehouse1` (`warehouse`),
   CONSTRAINT `fk_equipment_warehouse1` FOREIGN KEY (`warehouse`) REFERENCES `warehouse` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -419,6 +419,7 @@ CREATE TABLE `equipment` (
 
 LOCK TABLES `equipment` WRITE;
 /*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
+INSERT INTO `equipment` VALUES (1,'Horse shoe',10,1,'Active'),(2,'Jembe',12,2,'Active'),(3,'Tractor',2,2,'Active');
 /*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,19 +490,18 @@ DROP TABLE IF EXISTS `farm_activity`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `farm_activity` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `farm` int(10) unsigned NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `yield` double DEFAULT NULL,
   `date` date DEFAULT NULL,
   `quantity_sold` double DEFAULT NULL,
   `quantity_harvested` double DEFAULT NULL,
-  `average_selling_price_per` decimal(10,0) DEFAULT NULL,
-  `person` int(10) unsigned NOT NULL,
+  `average_selling_price` decimal(10,0) DEFAULT NULL,
+  `farmer` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_farm_activity_person1` (`person`),
-  CONSTRAINT `fk_farm_activity_person1` FOREIGN KEY (`person`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_farm_activity_person1` (`farmer`),
+  CONSTRAINT `fk_farm_activity_person1` FOREIGN KEY (`farmer`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -510,6 +510,7 @@ CREATE TABLE `farm_activity` (
 
 LOCK TABLES `farm_activity` WRITE;
 /*!40000 ALTER TABLE `farm_activity` DISABLE KEYS */;
+INSERT INTO `farm_activity` VALUES (1,NULL,NULL,NULL,NULL,NULL,NULL,14),(2,'Weeding',NULL,'2016-07-18',NULL,NULL,NULL,14),(3,'Harvesting',NULL,'2016-07-18',NULL,NULL,NULL,14),(4,'Planting',NULL,'2016-07-19',NULL,NULL,NULL,14),(5,'Weeding',NULL,'2016-07-19',NULL,NULL,NULL,14);
 /*!40000 ALTER TABLE `farm_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -795,7 +796,7 @@ CREATE TABLE `location` (
   CONSTRAINT `fk_location_sub_county1` FOREIGN KEY (`sub_county`) REFERENCES `sub_county` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_location_village1` FOREIGN KEY (`village`) REFERENCES `village` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_location_ward1` FOREIGN KEY (`ward`) REFERENCES `ward` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -804,7 +805,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000,NULL,NULL),(3,1,1,1,NULL,NULL,NULL,NULL),(4,1,15,19,NULL,NULL,NULL,NULL),(5,1,1,1,NULL,NULL,NULL,NULL),(6,1,1,6,NULL,NULL,NULL,NULL),(7,1,1,7,NULL,NULL,NULL,NULL),(8,1,1,7,NULL,NULL,NULL,NULL),(9,1,9,1,NULL,NULL,NULL,NULL),(10,1,4,5,NULL,NULL,NULL,NULL),(11,6,7,6,NULL,NULL,NULL,NULL),(12,3,3,6,NULL,NULL,NULL,NULL),(13,3,3,3,NULL,NULL,NULL,NULL),(14,1,1,48,NULL,NULL,NULL,NULL),(15,1,1,1,131.1200000,12.1210000,NULL,NULL),(16,6,7,6,NULL,NULL,NULL,NULL),(17,6,7,6,56.5400000,33.3430000,NULL,NULL),(18,6,7,6,NULL,NULL,NULL,NULL);
+INSERT INTO `location` VALUES (1,5,8,7,35.8035000,0.2983000,NULL,NULL),(3,1,1,1,NULL,NULL,NULL,NULL),(4,1,15,19,NULL,NULL,NULL,NULL),(5,1,1,1,NULL,NULL,NULL,NULL),(6,1,1,6,NULL,NULL,NULL,NULL),(7,1,1,7,NULL,NULL,NULL,NULL),(8,1,1,7,NULL,NULL,NULL,NULL),(9,1,9,1,NULL,NULL,NULL,NULL),(10,1,4,5,NULL,NULL,NULL,NULL),(11,6,7,6,NULL,NULL,NULL,NULL),(12,3,3,6,NULL,NULL,NULL,NULL),(13,3,3,3,NULL,NULL,NULL,NULL),(14,1,1,48,NULL,NULL,NULL,NULL),(15,1,1,1,131.1200000,12.1210000,NULL,NULL),(16,6,7,6,NULL,NULL,NULL,NULL),(17,6,7,6,56.5400000,33.3430000,NULL,NULL),(18,6,7,6,NULL,NULL,NULL,NULL),(19,1,1,NULL,NULL,NULL,NULL,NULL),(20,6,7,6,32.1200000,12.1200000,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1640,7 +1641,7 @@ CREATE TABLE `trainee` (
   KEY `fk_table1_person1` (`person`),
   CONSTRAINT `fk_table1_person1` FOREIGN KEY (`person`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_table1_training2` FOREIGN KEY (`training`) REFERENCES `training` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1649,7 +1650,7 @@ CREATE TABLE `trainee` (
 
 LOCK TABLES `trainee` WRITE;
 /*!40000 ALTER TABLE `trainee` DISABLE KEYS */;
-INSERT INTO `trainee` VALUES (1,1,7),(2,1,14),(3,1,12),(4,1,14);
+INSERT INTO `trainee` VALUES (1,1,7),(2,1,14),(3,1,12),(4,1,14),(5,2,4);
 /*!40000 ALTER TABLE `trainee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1670,7 +1671,7 @@ CREATE TABLE `trainer` (
   KEY `fk_trainer_training1` (`training`),
   CONSTRAINT `fk_trainer_person1` FOREIGN KEY (`person`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_trainer_training1` FOREIGN KEY (`training`) REFERENCES `training` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1679,7 +1680,7 @@ CREATE TABLE `trainer` (
 
 LOCK TABLES `trainer` WRITE;
 /*!40000 ALTER TABLE `trainer` DISABLE KEYS */;
-INSERT INTO `trainer` VALUES (1,3,1),(2,5,1);
+INSERT INTO `trainer` VALUES (1,3,1),(2,5,1),(3,1,2);
 /*!40000 ALTER TABLE `trainer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1707,7 +1708,7 @@ CREATE TABLE `training` (
   CONSTRAINT `fk_training_location1` FOREIGN KEY (`venue`) REFERENCES `location` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_training_person_role1` FOREIGN KEY (`category_of_trainees`) REFERENCES `person_role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_training_training_topic1` FOREIGN KEY (`topic`) REFERENCES `topic` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1716,7 +1717,7 @@ CREATE TABLE `training` (
 
 LOCK TABLES `training` WRITE;
 /*!40000 ALTER TABLE `training` DISABLE KEYS */;
-INSERT INTO `training` VALUES (1,'2016-07-15','2016-07-15',2,18,12,'/home/siech/Workshop/Java/Projects/kcep-mis/target/kcep-mis/documents/training/attendance_sheets/virus.js',1);
+INSERT INTO `training` VALUES (1,'2016-07-15','2016-07-15',2,18,12,'/home/siech/Workshop/Java/Projects/kcep-mis/target/kcep-mis/documents/training/attendance_sheets/virus.js',1),(2,'2016-07-18','2016-07-18',1,19,12,'/home/siech/Workshop/Java/Projects/kcep-mis/target/kcep-mis/documents/training/attendance_sheets/todo',12);
 /*!40000 ALTER TABLE `training` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1860,7 +1861,7 @@ CREATE TABLE `warehouse` (
   CONSTRAINT `fk_warehouse_person1` FOREIGN KEY (`warehouse_operator`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_warehouse_units1` FOREIGN KEY (`units`) REFERENCES `measurement_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_warehouse_warehouse_type1` FOREIGN KEY (`warehouse_type`) REFERENCES `warehouse_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1869,7 +1870,7 @@ CREATE TABLE `warehouse` (
 
 LOCK TABLES `warehouse` WRITE;
 /*!40000 ALTER TABLE `warehouse` DISABLE KEYS */;
-INSERT INTO `warehouse` VALUES (1,'Warehouse kubwa',1,1,1212,2,1,1,15),(2,'House ndogo',1,7,50,3,1,1,16),(3,'Warehouse iko town',1,12,122,3,1,1,17);
+INSERT INTO `warehouse` VALUES (1,'Warehouse kubwa',1,1,1212,2,1,1,15),(2,'House ndogo',1,7,50,3,1,1,16),(3,'Warehouse iko town',1,12,122,3,1,1,17),(4,'Warehouse an',1,3,45,2,1,1,20);
 /*!40000 ALTER TABLE `warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1907,4 +1908,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-18 13:58:08
+-- Dump completed on 2016-07-19  9:36:08

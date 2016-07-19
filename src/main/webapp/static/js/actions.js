@@ -86,8 +86,27 @@ $(function () {
         responsive: true,
         'scrollX': true,
         "scrollY": "200",
-        "scrollCollapse": true
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
                 //"paging": true
+    });
+});
+
+$(function () {
+    $(".reports-table").DataTable({
+        responsive: true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Brt",
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                //"paging": true
+    });
+});
+
+$(function () {
+    $(".dt-button").each(function () {
+        $(this).removeClass(".dt-button").addClass("btn btn-default");
     });
 });
 //</editor-fold>
