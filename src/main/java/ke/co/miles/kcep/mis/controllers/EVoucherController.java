@@ -30,7 +30,7 @@ import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
-import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.EVoucherDetails;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;

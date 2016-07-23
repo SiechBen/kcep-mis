@@ -684,31 +684,33 @@ function addWarehouse() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Planning">
-function addPlanning() {
+function addActivityPlanning() {
 
     $.ajax({
         url: "doAddPlanning",
         type: "POST",
         data: "performanceIndicator=" + $("#performance-indicator").val() + "&implementingPartner=" +
                 $("#implementing-partner").val() + "&endPeriod=" + $("#end-period").val() +
-                "&requestedBudget=" + $("#requested-budget").val() + "&awpbTarget=" +
-                $("#awpb-target").val() + "&planningTarget=" + $("#planning-target").val() +
+                "&allocatedBudget=" + $("#allocated-budget").val() + "&awpbTarget=" +
+                $("#awpb-target").val() + "&programmeTarget=" + $("#programme-target").val() +
                 "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
                 "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
-                "&measurementUnit=" + $("#measurement-unit").val() +
-                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val(),
+                "&measurementUnit=" + $("#measurement-unit").val() + "&activity=" + $("#activity").val() +
+                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                "&category=" + $("#category").val() + "&procurementPlan=" + $("#procurement-plan").val(),
         success: function () {
-
             $("#measurement-unit").val("");
             $("#activity").val("");
+            $("#category").val("");
             $("#awpb-target").val("");
             $("#component").val("");
             $("#end-period").val("");
             $("#start-period").val("");
             $("#value-achieved").val("");
             $("#sub-component").val("");
-            $("#requested-budget").val("");
-            $("#planning-target").val("");
+            $("#allocated-budget").val("");
+            $("#programme-target").val("");
+            $("#procurement-plan").val("");
             $("#implementing-partner").val("");
             $("#annual-workplan-reference-code").val("");
             loadAjaxWindow('planning');
@@ -794,6 +796,7 @@ function loadSubActivitiesWindow(activityPlanningId) {
         dataType: "HTML"
     });
 }
+
 function addSubActivity() {
     $.ajax({
         url: "doAddSubActivity",
@@ -1048,6 +1051,7 @@ function addInputsCollection() {
                     type: "POST",
                     data: "dateCollected=" + $("#date-collected").val() +
                             "&agroDealerId=" + $("#agro-dealer").val() +
+                            "&staticInputId=" + $("#static-input").val() +
                             "&inputTypeId=" + $("#input-type").val() +
                             "&quantity=" + $("#quantity").val(),
                     success: function (response) {
@@ -1119,6 +1123,78 @@ function addFarmActivity() {
             $("#quantity-harvested").val("");
             $("#average-selling-price").val("");
         }
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Update Selects">
+function updateStaticInputs() {
+    $.ajax({
+        type: "POST",
+        url: "updateStaticInputs",
+        data: "inputTypeId=" + $("#input-type").val(),
+        success: function (data) {
+            $("#static-input").html(data);
+        },
+        dataType: "HTML"
+    });
+}
+/**
+ * Update list of people as well
+ */
+function updateCounties() {
+    $.ajax({
+        type: "POST",
+        url: "updateCourses",
+        data: "degreeId=" + $("#degree-dropdown").val(),
+        success: function (data) {
+            $("#course-dropdown").html(data);
+        },
+        dataType: "HTML"
+    });
+}
+
+function updateSubCounties() {
+    $.ajax({
+        type: "POST",
+        url: "updateCourses",
+        data: "degreeId=" + $("#degree-dropdown").val(),
+        success: function (data) {
+            $("#course-dropdown").html(data);
+        },
+        dataType: "HTML"
+    });
+}
+
+function updateWards() {
+    $.ajax({
+        type: "POST",
+        url: "updateCourses",
+        data: "degreeId=" + $("#degree-dropdown").val(),
+        success: function (data) {
+            $("#course-dropdown").html(data);
+        },
+        dataType: "HTML"
+    });
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Activity">
+function addActivity() {
+    $.ajax({
+        url: "doAddActivity",
+        type: "POST",
+        data: "activityName=" + $("#activity-name").val(),
+        success: function () {
+            $("#activity-name").val("");
+            loadAjaxWindow("activities");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
     });
 }
 //</editor-fold>

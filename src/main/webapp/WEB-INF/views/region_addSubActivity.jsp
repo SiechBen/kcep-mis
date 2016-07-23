@@ -22,7 +22,7 @@
                         <form role="form">
                             <input type="hidden" id="activityPlanningId" value="${sessionScope.activityPlanningId}">
                             <div class="form-group">
-                                Activity description
+                                Sub-activity description
                                 <input id="description" class="form-control">
                             </div>   
                             <div class="form-group">

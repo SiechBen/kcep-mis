@@ -25,7 +25,7 @@
                                 <thead>
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
-                                        <th>Activity description</th>
+                                        <th>Sub-activity description</th>
                                         <th>Measurement unit</th>
                                         <th>Start date</th>
                                         <th>End date</th>

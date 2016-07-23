@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,13 +44,12 @@ public class InputType implements Serializable {
     @Size(max = 45)
     @Column(name = "type")
     private String type;
-    @JoinColumn(name = "static_input", referencedColumnName = "id")
-    @ManyToOne
-    private StaticInput staticInput;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inputType")
+    @OneToMany(mappedBy = "inputType")
     private List<InputsCollection> inputsCollectionList;
     @OneToMany(mappedBy = "inputType")
     private List<EVoucher> eVoucherList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inputType")
+    private List<StaticInput> staticInputList;
 
     public InputType() {
     }
@@ -77,14 +74,6 @@ public class InputType implements Serializable {
         this.type = type;
     }
 
-    public StaticInput getStaticInput() {
-        return staticInput;
-    }
-
-    public void setStaticInput(StaticInput staticInput) {
-        this.staticInput = staticInput;
-    }
-
     @XmlTransient
     public List<InputsCollection> getInputsCollectionList() {
         return inputsCollectionList;
@@ -101,6 +90,15 @@ public class InputType implements Serializable {
 
     public void setEVoucherList(List<EVoucher> eVoucherList) {
         this.eVoucherList = eVoucherList;
+    }
+
+    @XmlTransient
+    public List<StaticInput> getStaticInputList() {
+        return staticInputList;
+    }
+
+    public void setStaticInputList(List<StaticInput> staticInputList) {
+        this.staticInputList = staticInputList;
     }
 
     @Override

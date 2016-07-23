@@ -65,7 +65,22 @@ public class StaticInputDetails implements Serializable, Comparable<StaticInputD
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the inputType
+     */
+    public InputTypeDetails getInputType() {
+        return inputType;
+    }
+
+    /**
+     * @param inputType the inputType to set
+     */
+    public void setInputType(InputTypeDetails inputType) {
+        this.inputType = inputType;
+    }
+
     private Integer id;
     private String name;
+    private InputTypeDetails inputType;
 
 }

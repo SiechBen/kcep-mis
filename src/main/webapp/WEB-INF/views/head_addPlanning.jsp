@@ -16,7 +16,7 @@
             <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Planning details
+                        Activity planning details
                     </div>
                     <div class="panel-body">
                         <form role="form">
@@ -31,9 +31,17 @@
                             <div class="form-group">
                                 Sub-component
                                 <select id="sub-component" class="form-control">
-                                    <option selected>Select sub-component</option>
+                                    <option selected disabled>Select sub-component</option>
                                     <c:forEach var="subComponent" items="${sessionScope.subComponents}">
                                         <option value="${subComponent.id}">${subComponent.subComponent}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Activity name/description
+                                <select id="activity" class="form-control">
+                                    <c:forEach var="activity" items="${sessionScope.activities}">
+                                        <option value="${activity.id}">${activity.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -81,7 +89,15 @@
                                     </c:forEach>
                                 </select>
                             </div>
-                            <button type="button" class="btn btn-outline btn-primary" onclick="addPlanning()">Save planning</button>
+                            <div class="form-group">
+                                Category
+                                <input id="category" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                Procurement plan
+                                <input id="procurement-plan" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-outline btn-primary" onclick="addActivityPlanning()">Save planning</button>
                         </form>
                     </div>
                 </div>

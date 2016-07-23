@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
-import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
@@ -74,6 +74,7 @@ public class PersonController extends Controller {
                 switch (rightsMap) {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
+                    case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/changeCounter");
@@ -103,7 +104,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                    case "/people":
+                                case "/people":
                                     path = "/kalro_people";
                                     urlPaths.add(path);
                                     break;
@@ -128,7 +129,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                    case "/people":
+                                case "/people":
                                     path = "/region_people";
                                     urlPaths.add(path);
                                     break;
@@ -178,7 +179,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             switch (path) {
-                                 case "/people":
+                                case "/people":
                                     path = "/sub_county_people";
                                     urlPaths.add(path);
                                     break;

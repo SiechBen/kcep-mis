@@ -135,8 +135,8 @@ public class FarmActivity implements Serializable {
         return farmer;
     }
 
-    public void setFarmer(Person person) {
-        this.farmer = person;
+    public void setFarmer(Person farmer) {
+        this.farmer = farmer;
     }
 
     @Override
@@ -163,5 +163,5 @@ public class FarmActivity implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmActivity[ id=" + id + " ]";
     }
-
+    
 }

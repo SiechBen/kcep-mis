@@ -31,7 +31,8 @@ import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.farmactivity.FarmActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.inputscollection.InputsCollectionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
-import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.FarmActivityDetails;
@@ -40,8 +41,9 @@ import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
-@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection", "/doAddFarmActivity"})
+@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection", "/doAddFarmActivity", "/updateStaticInputs"})
 public class FarmerController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -68,8 +70,10 @@ public class FarmerController extends Controller {
                 switch (rightsMap) {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
+                    case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
@@ -85,6 +89,7 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
@@ -100,6 +105,7 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
@@ -115,6 +121,7 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
@@ -130,6 +137,7 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
@@ -145,6 +153,7 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
@@ -159,6 +168,7 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
+                        urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/doAddFarmActivity");
                         urlPaths.add("/doAddInputsCollection");
                         if (rightsMaps.get(rightsMap)) {
@@ -183,6 +193,24 @@ public class FarmerController extends Controller {
             availApplicationAttributes();
 
             switch (path) {
+
+                case "/updateStaticInputs":
+
+                    List<StaticInputDetails> staticInputs;
+                    try {
+                        staticInputs = staticInputService
+                                .retrieveStaticInputs(Short.valueOf(request.getParameter("inputTypeId")));
+                        out.write("<option disabled selected>Select input name</option>");
+                        for (StaticInputDetails staticInput : staticInputs) {
+                            out.write("<option value=\"" + staticInput.getId() + "\">" + staticInput.getName() + "</option>");
+                        }
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.WARNING, "An error occurred: {0}", getBundle().getString(ex.getCode()));
+                    }
+
+                    return;
 
                 case "/doAddLoan":
                     LoanDetails loan = new LoanDetails();
@@ -241,6 +269,11 @@ public class FarmerController extends Controller {
                     }
                     try {
                         inputsCollection.setInputType(new InputTypeDetails(Short.valueOf(request.getParameter("inputTypeId"))));
+                    } catch (Exception e) {
+                        inputsCollection.setInputType(null);
+                    }
+                    try {
+                        inputsCollection.setStaticInput(new StaticInputDetails(Integer.valueOf(request.getParameter("staticInputId"))));
                     } catch (Exception e) {
                         inputsCollection.setInputType(null);
                     }
@@ -435,9 +468,13 @@ public class FarmerController extends Controller {
             out.write("<td>" + inputsCollection.getDate() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getName() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getBusinessName() + "</td>");
-            out.write("<td>" + inputsCollection.getInputType().getType() + "</td>");
             try {
-                out.write("<td>" + inputsCollection.getInputType().getStaticInput().getName() + "</td>");
+                out.write("<td>" + inputsCollection.getInputType().getType() + "</td>");
+            } catch (Exception e) {
+                out.write("<td></td>");
+            }
+            try {
+                out.write("<td>" + inputsCollection.getStaticInput().getName() + "</td>");
             } catch (Exception e) {
                 out.write("<td></td>");
             }
@@ -476,6 +513,8 @@ public class FarmerController extends Controller {
     private AccountRequestsLocal accountService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
+    @EJB
+    private StaticInputRequestsLocal staticInputService;
     @EJB
     private FarmActivityRequestsLocal farmActivityService;
     @EJB

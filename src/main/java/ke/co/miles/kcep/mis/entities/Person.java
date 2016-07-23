@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByDateOfBirth", query = "SELECT p FROM Person p WHERE p.dateOfBirth = :dateOfBirth"),
     @NamedQuery(name = "Person.findByAge", query = "SELECT p FROM Person p WHERE p.age = :age"),
     @NamedQuery(name = "Person.findByBusinessName", query = "SELECT p FROM Person p WHERE p.businessName = :businessName"),
-    @NamedQuery(name = "Person.findByPlotSize", query = "SELECT p FROM Person p WHERE p.plotSize = :plotSize")})
+    @NamedQuery(name = "Person.findByPlotSize", query = "SELECT p FROM Person p WHERE p.plotSize = :plotSize"),
+    @NamedQuery(name = "Person.findByApproved", query = "SELECT p FROM Person p WHERE p.approved = :approved")})
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -74,6 +75,8 @@ public class Person implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "plot_size")
     private Double plotSize;
+    @Column(name = "approved")
+    private Boolean approved;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<Feedback> feedbackList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -192,6 +195,14 @@ public class Person implements Serializable {
 
     public void setPlotSize(Double plotSize) {
         this.plotSize = plotSize;
+    }
+
+    public Boolean getApproved() {
+        return approved;
+    }
+
+    public void setApproved(Boolean approved) {
+        this.approved = approved;
     }
 
     @XmlTransient

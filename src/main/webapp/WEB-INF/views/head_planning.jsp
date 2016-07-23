@@ -16,7 +16,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        List of planning
+                        List of activity planning
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -27,6 +27,7 @@
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPlanning')">Add</button></th>
                                         <th>Component</th>
                                         <th>Sub-component</th>
+                                        <th>Activity description</th>
                                         <th>Implementing partner</th>
                                         <th>Annual Workplan Reference Code</th>
                                         <th>Key Performance Indicator</th>
@@ -34,11 +35,14 @@
                                         <th>Programme target</th>
                                         <th>Value achieved</th>
                                         <th>Allocated budget</th>
+                                        <th>Procurement plan</th>
+                                        <th>Category</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8"> List of planning</td>
+                                        <td colspan="8"> List of activity planning</td>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -47,6 +51,7 @@
                                             <td>${index.count}</td>
                                             <td>${planning.component.component}</td>
                                             <td>${planning.subComponent.subComponent}</td>
+                                            <td>${planning.activity.name}</td>
                                             <td>${planning.implementingPartner.personRole.personRole}</td>
                                             <td>${planning.annualWorkplanReferenceCode}</td>
                                             <td>${planning.performanceIndicator.description}</td>
@@ -54,6 +59,9 @@
                                             <td>${planning.programmeTarget}</td>
                                             <td>${planning.valueAchieved}</td>
                                             <td>${planning.allocatedBudget}</td>
+                                            <td>${planning.procurementPlan}</td>
+                                            <td>${planning.category}</td>
+                                            <td>${planning.total}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

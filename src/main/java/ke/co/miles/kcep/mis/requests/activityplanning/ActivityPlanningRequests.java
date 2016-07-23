@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.Activity;
 import ke.co.miles.kcep.mis.entities.ActivityPlanning;
 import ke.co.miles.kcep.mis.entities.Component;
 import ke.co.miles.kcep.mis.entities.ImplementingPartner;
@@ -18,6 +19,7 @@ import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.activity.ActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
@@ -43,6 +45,8 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
             throw new InvalidArgumentException("error_017_03");
         } else if (activityPlanningDetails.getPerformanceIndicator() == null) {
             throw new InvalidArgumentException("error_017_04");
+        } else if (activityPlanningDetails.getActivity() == null) {
+            throw new InvalidArgumentException("error_017_05");
         }
 
         ActivityPlanning activityPlanning = new ActivityPlanning();
@@ -53,7 +57,7 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
         activityPlanning.setAllocatedBudget(activityPlanningDetails.getAllocatedBudget());
         activityPlanning.setProcurementPlan(activityPlanningDetails.getProcurementPlan());
         activityPlanning.setProgrammeTarget(activityPlanningDetails.getProgrammeTarget());
-        activityPlanning.setActivityDescription(activityPlanningDetails.getActivityDescription());
+        activityPlanning.setActivity(em.find(Activity.class, activityPlanningDetails.getActivity().getId()));
         activityPlanning.setComponent(em.find(Component.class, activityPlanningDetails.getComponent().getId()));
         activityPlanning.setAnnualWorkplanReferenceCode(activityPlanningDetails.getAnnualWorkplanReferenceCode());
         activityPlanning.setImplementingPartner(em.find(ImplementingPartner.class, activityPlanningDetails.getImplementingPartner().getId()));
@@ -78,14 +82,14 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
     @Override
     @SuppressWarnings("unchecked")
     public List<ActivityPlanningDetails> retrieveActivityPlannings() throws MilesException {
-        List<ActivityPlanning> activityPlannings = new ArrayList<>();
+        List<ActivityPlanning> activityPlanning = new ArrayList<>();
         q = em.createNamedQuery("ActivityPlanning.findAll");
         try {
-            activityPlannings = q.getResultList();
+            activityPlanning = q.getResultList();
         } catch (Exception e) {
         }
 
-        return convertActivityPlanningsToActivityPlanningDetailsList(activityPlannings);
+        return convertActivityPlanningsToActivityPlanningDetailsList(activityPlanning);
     }
 
     @Override
@@ -110,14 +114,17 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
         if (activityPlanningDetails == null) {
             throw new InvalidArgumentException("error_017_01");
         } else if (activityPlanningDetails.getId() == null) {
-            throw new InvalidArgumentException("error_017_05");
+            throw new InvalidArgumentException("error_017_06");
         } else if (activityPlanningDetails.getComponent() == null) {
             throw new InvalidArgumentException("error_017_02");
         } else if (activityPlanningDetails.getImplementingPartner() == null) {
             throw new InvalidArgumentException("error_017_03");
         } else if (activityPlanningDetails.getPerformanceIndicator() == null) {
             throw new InvalidArgumentException("error_017_04");
+        } else if (activityPlanningDetails.getActivity() == null) {
+            throw new InvalidArgumentException("error_017_05");
         }
+
         ActivityPlanning activityPlanning = em.find(ActivityPlanning.class, activityPlanningDetails.getId());
         activityPlanning.setId(activityPlanningDetails.getId());
         activityPlanning.setTotal(activityPlanningDetails.getTotal());
@@ -127,7 +134,7 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
         activityPlanning.setAllocatedBudget(activityPlanningDetails.getAllocatedBudget());
         activityPlanning.setProcurementPlan(activityPlanningDetails.getProcurementPlan());
         activityPlanning.setProgrammeTarget(activityPlanningDetails.getProgrammeTarget());
-        activityPlanning.setActivityDescription(activityPlanningDetails.getActivityDescription());
+        activityPlanning.setActivity(em.find(Activity.class, activityPlanningDetails.getActivity().getId()));
         activityPlanning.setComponent(em.find(Component.class, activityPlanningDetails.getComponent().getId()));
         activityPlanning.setAnnualWorkplanReferenceCode(activityPlanningDetails.getAnnualWorkplanReferenceCode());
         activityPlanning.setImplementingPartner(em.find(ImplementingPartner.class, activityPlanningDetails.getImplementingPartner().getId()));
@@ -165,12 +172,13 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
         ActivityPlanningDetails activityPlanningDetails = new ActivityPlanningDetails(activityPlanning.getId());
         activityPlanningDetails.setTotal(activityPlanning.getTotal());
         activityPlanningDetails.setCategory(activityPlanning.getCategory());
-        activityPlanningDetails.setProcurementPlan(activityPlanning.getProcurementPlan());
-        activityPlanningDetails.setAllocatedBudget(activityPlanning.getAllocatedBudget());
-        activityPlanningDetails.setAnnualWorkplanReferenceCode(activityPlanning.getAnnualWorkplanReferenceCode());
         activityPlanningDetails.setAwpbTarget(activityPlanning.getAwpbTarget());
         activityPlanningDetails.setValueAchieved(activityPlanning.getValueAchieved());
+        activityPlanningDetails.setAllocatedBudget(activityPlanning.getAllocatedBudget());
+        activityPlanningDetails.setProcurementPlan(activityPlanning.getProcurementPlan());
         activityPlanningDetails.setProgrammeTarget(activityPlanning.getProgrammeTarget());
+        activityPlanningDetails.setActivity(activityService.convertActivityToActivityDetails(activityPlanning.getActivity()));
+        activityPlanningDetails.setAnnualWorkplanReferenceCode(activityPlanning.getAnnualWorkplanReferenceCode());
         activityPlanningDetails.setPerformanceIndicator(performanceIndicatortService.
                 convertPerformanceIndicatorToPerformanceIndicatorDetails(activityPlanning.getPerformanceIndicator()));
         activityPlanningDetails.setComponent(componentService.
@@ -186,10 +194,10 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
 
     }
 
-    private List<ActivityPlanningDetails> convertActivityPlanningsToActivityPlanningDetailsList(List<ActivityPlanning> activityPlannings) {
+    private List<ActivityPlanningDetails> convertActivityPlanningsToActivityPlanningDetailsList(List<ActivityPlanning> activityPlanningList) {
 
         List<ActivityPlanningDetails> activityPlanningDetailsList = new ArrayList<>();
-        for (ActivityPlanning activityPlanning : activityPlannings) {
+        for (ActivityPlanning activityPlanning : activityPlanningList) {
             activityPlanningDetailsList.add(convertActivityPlanningToActivityPlanningDetails(activityPlanning));
         }
 
@@ -198,6 +206,8 @@ public class ActivityPlanningRequests extends EntityRequests implements Activity
     }
 
 //</editor-fold>
+    @EJB
+    private ActivityRequestsLocal activityService;
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB

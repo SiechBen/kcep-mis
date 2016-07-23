@@ -19,7 +19,10 @@
             <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
         </li>       
         <li>
-            <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Planning </a>
+            <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Activity planning </a>
+        </li>
+        <li>
+            <a onclick="loadAjaxWindow('warehouses')"><i class="fa fa-edit fa-fw"></i> Warehouses </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans </a>

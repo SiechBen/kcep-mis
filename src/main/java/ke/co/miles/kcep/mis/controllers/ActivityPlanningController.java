@@ -23,12 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.activity.ActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.ActivityPlanningRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.subactivity.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ActivityDetails;
 import ke.co.miles.kcep.mis.utilities.ActivityPlanningDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
@@ -41,7 +43,7 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PlanningController", urlPatterns = {"/planning", "/addPlanning", "/doAddPlanning", "/subActivities", "/addSubActivity", "/doAddSubActivity"})
+@WebServlet(name = "PlanningController", urlPatterns = {"/activities", "/addActivity", "/doAddActivity", "/planning", "/addPlanning", "/doAddPlanning", "/subActivities", "/addSubActivity", "/doAddSubActivity"})
 public class ActivityPlanningController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -69,6 +71,7 @@ public class ActivityPlanningController extends Controller {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddActivity");
                             urlPaths.add("/doAddPlanning");
                             urlPaths.add("/doAddSubActivity");
                             switch (path) {
@@ -78,6 +81,14 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/subActivities":
                                     path = "/head_sub_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activities":
+                                    path = "/head_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivity":
+                                    path = "/head_addActivity";
                                     urlPaths.add(path);
                                     break;
                                 case "/addPlanning":
@@ -154,6 +165,40 @@ public class ActivityPlanningController extends Controller {
         if (urlPaths.contains(path)) {
 
             switch (path) {
+
+                case "/head_activities":
+                case "/county_activities":
+                case "/region_activities":
+                    try {
+                        session.setAttribute("activities", activityService.retrieveActivities());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    break;
+
+                case "/doAddActivity":
+                    ActivityDetails activity = new ActivityDetails();
+                    activity.setName(request.getParameter("activityName"));
+
+                    try {
+                        activityService.addActivity(activity);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("activities", activityService.retrieveActivities());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
 
                 case "/head_sub_activities":
                 case "/county_sub_activities":
@@ -263,6 +308,13 @@ public class ActivityPlanningController extends Controller {
                 case "/head_addPlanning":
                 case "/county_addPlanning":
                 case "/region_addPlanning":
+                    try {
+                        session.setAttribute("activities", activityService.retrieveActivities());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
 
                     List<MeasurementUnitDetails> planningMeasurementUnits;
                     try {
@@ -317,6 +369,8 @@ public class ActivityPlanningController extends Controller {
                 case "/doAddPlanning":
 
                     ActivityPlanningDetails planning = new ActivityPlanningDetails();
+                    planning.setCategory(request.getParameter("category"));
+                    planning.setProcurementPlan(request.getParameter("procurementPlan"));
                     planning.setAnnualWorkplanReferenceCode(request.getParameter("annualWorkplanReferenceCode"));
 
                     try {
@@ -347,6 +401,12 @@ public class ActivityPlanningController extends Controller {
                         component = null;
                     }
 
+                    try {
+                        activity = new ActivityDetails(Integer.valueOf(request.getParameter("activity")));
+                    } catch (Exception e) {
+                        activity = null;
+                    }
+
                     SubComponentDetails subComponent;
                     try {
                         subComponent
@@ -370,6 +430,7 @@ public class ActivityPlanningController extends Controller {
                         planning.setPerformanceIndicator(null);
                     }
 
+                    planning.setActivity(activity);
                     planning.setComponent(component);
                     planning.setSubComponent(subComponent);
                     planning.setImplementingPartner(implementingPartner);
@@ -411,11 +472,13 @@ public class ActivityPlanningController extends Controller {
             .getSimpleName());
 
     @EJB
+    private ActivityRequestsLocal activityService;
+    @EJB
+    private SubActivityRequestsLocal subActivityService;
+    @EJB
     private ComponentRequestsLocal componentService;
     @EJB
     private ActivityPlanningRequestsLocal planningService;
-    @EJB
-    private SubActivityRequestsLocal subActivityService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
     @EJB

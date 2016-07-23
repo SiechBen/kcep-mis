@@ -78,7 +78,6 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof InputsCollectionDetails)) {
             return false;
         }
@@ -96,12 +95,27 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the staticInput
+     */
+    public StaticInputDetails getStaticInput() {
+        return staticInput;
+    }
+
+    /**
+     * @param staticInput the staticInput to set
+     */
+    public void setStaticInput(StaticInputDetails staticInput) {
+        this.staticInput = staticInput;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Date date;
     private String quantity;
-    private InputTypeDetails inputType;
-    private PersonDetails agroDealer;
     private PersonDetails farmer;
+    private PersonDetails agroDealer;
+    private InputTypeDetails inputType;
+    private StaticInputDetails staticInput;
 
 }

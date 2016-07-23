@@ -22,7 +22,7 @@
             <a onclick="loadAjaxWindow('training')"><i class="fa fa-edit fa-fw"></i> Training </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Planning </a>
+            <a onclick="loadAjaxWindow('planning')"><i class="fa fa-edit fa-fw"></i> Activity planning </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans </a>

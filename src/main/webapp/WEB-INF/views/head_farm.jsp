@@ -131,7 +131,7 @@
                                                 <td>${inputsCollection.agroDealer.name}</td>
                                                 <td>${inputsCollection.agroDealer.businessName}</td>
                                                 <td>${inputsCollection.inputType.type}</td>
-                                                <td>${inputsCollection.inputType.staticInput.name}</td>
+                                                <td>${inputsCollection.staticInput.name}</td>
                                                 <td>${inputsCollection.quantity}</td>
                                             </tr>
                                         </c:forEach>
@@ -209,9 +209,17 @@
                             </div>
                             <div class="form-group">
                                 Input type
-                                <select id="input-type" class="form-control" required="true">
+                                <select id="input-type" class="form-control" required="true" onchange="updateStaticInputs()">
                                     <c:forEach var="inputType" items="${sessionScope.inputTypes}" varStatus="index">
                                         <option value="${inputType.id}">${inputType.type}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Input name
+                                <select id="static-input" class="form-control">
+                                    <c:forEach var="staticInput" items="${sessionScope.staticInputs}" varStatus="index">
+                                        <option value="${staticInput.id}">${staticInput.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -224,40 +232,41 @@
                 </div>
             </div>
         </div>
-        <div class="dialog" id="farm-activity-dialog">
-            <div class="col-lg-12">
-                <div class="panel-default">
-                    <div class="panel-body">
-                        <form role="form">
-                            <div class="form-group">
-                                Farm activity name
-                                <input id="farm-activity-name" class="form-control" required="true">
-                            </div>
-                            <div class="form-group">
-                                Yield
-                                <input  id="yield" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                Date
-                                <input type="date" id="farm-activity-date" class="form-control datefield">
-                            </div>
-                            <div class="form-group">
-                                Quantiy sold
-                                <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
-                            </div>
-                            <div class="form-group">
-                                Quantiy harvested
-                                <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
-                            </div>
-                            <div class="form-group">
-                                Average selling price
-                                <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
-                            </div>
-                        </form>
-                    </div>
+    </div>
+    <div class="dialog" id="farm-activity-dialog">
+        <div class="col-lg-12">
+            <div class="panel-default">
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="form-group">
+                            Farm activity name
+                            <input id="farm-activity-name" class="form-control" required="true">
+                        </div>
+                        <div class="form-group">
+                            Yield
+                            <input  id="yield" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            Date
+                            <input type="date" id="farm-activity-date" class="form-control datefield">
+                        </div>
+                        <div class="form-group">
+                            Quantiy sold
+                            <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
+                        </div>
+                        <div class="form-group">
+                            Quantiy harvested
+                            <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
+                        </div>
+                        <div class="form-group">
+                            Average selling price
+                            <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-    </jsp:attribute>
+</jsp:attribute>
 </kcep:head>

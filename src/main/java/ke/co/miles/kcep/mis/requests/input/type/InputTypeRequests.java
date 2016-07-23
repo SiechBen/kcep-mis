@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.inputtype;
+package ke.co.miles.kcep.mis.requests.input.type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
-import ke.co.miles.kcep.mis.entities.StaticInput;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.staticinput.StaticInputRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
@@ -36,9 +35,6 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
 
         InputType inputType = new InputType();
         inputType.setType(inputTypeDetails.getType());
-        if (inputTypeDetails.getStaticInput().getId() != null) {
-            inputType.setStaticInput(em.find(StaticInput.class, inputTypeDetails.getStaticInput().getId()));
-        }
 
         try {
             em.persist(inputType);
@@ -97,9 +93,6 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
         InputType inputType = em.find(InputType.class, inputTypeDetails.getId());
         inputType.setId(inputTypeDetails.getId());
         inputType.setType(inputTypeDetails.getType());
-        if (inputTypeDetails.getStaticInput().getId() != null) {
-            inputType.setStaticInput(em.find(StaticInput.class, inputTypeDetails.getStaticInput().getId()));
-        }
 
         try {
             em.merge(inputType);
@@ -130,12 +123,8 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     public InputTypeDetails convertInputTypeToInputTypeDetails(InputType inputType) {
 
         StaticInputDetails staticInputDetails = null;
-        if (inputType.getStaticInput() != null) {
-            staticInputDetails = staticInputService.convertStaticInputToStaticInputDetails(inputType.getStaticInput());
-        }
 
         InputTypeDetails inputTypeDetails = new InputTypeDetails(inputType.getId());
-        inputTypeDetails.setStaticInput(staticInputDetails);
         inputTypeDetails.setType(inputType.getType());
 
         return inputTypeDetails;

@@ -38,14 +38,6 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
         this.type = type;
     }
 
-    public StaticInputDetails getStaticInput() {
-        return staticInput;
-    }
-
-    public void setStaticInput(StaticInputDetails staticInput) {
-        this.staticInput = staticInput;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -74,6 +66,5 @@ public class InputTypeDetails implements Serializable, Comparable<InputTypeDetai
 
     private Short id;
     private String type;
-    private StaticInputDetails staticInput;
 
 }

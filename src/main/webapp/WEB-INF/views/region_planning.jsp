@@ -16,7 +16,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        List of planning
+                        List of activity planning
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -34,11 +34,14 @@
                                         <th>Programme target</th>
                                         <th>Value achieved</th>
                                         <th>Allocated budget</th>
+                                        <th>Procurement plan</th>
+                                        <th>Category</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8"> List of planning</td>
+                                        <td colspan="8"> List of activity planning</td>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -54,6 +57,9 @@
                                             <td>${planning.programmeTarget}</td>
                                             <td>${planning.valueAchieved}</td>
                                             <td>${planning.allocatedBudget}</td>
+                                            <td>${planning.procurementPlan}</td>
+                                            <td>${planning.category}</td>
+                                            <td>${planning.total}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

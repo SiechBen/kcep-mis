@@ -84,7 +84,7 @@ public class AccessController extends Controller {
                 try {
                     request.getRequestDispatcher(path).forward(request, response);
                 } catch (IOException | ServletException e) {
-                    LOGGER.log(Level.SEVERE, "Request dispatch failed", e);
+                    LOGGER.log(Level.SEVERE, "Request dispatch failed");
                 }
                 return;
 
@@ -102,7 +102,7 @@ public class AccessController extends Controller {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     response.setContentType("text/html;charset=UTF-8");
                     response.getWriter().write(getBundle().getString(ex.getCode()));
-                    LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                     return;
 
                 }
@@ -208,7 +208,7 @@ public class AccessController extends Controller {
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                 response.setContentType("text/html;charset=UTF-8");
                                 response.getWriter().write(getBundle().getString(ex.getCode()));
-                                LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                                LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                                 return;
                             }
 
@@ -272,7 +272,7 @@ public class AccessController extends Controller {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
-            LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
+            LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"));
         }
     }
 

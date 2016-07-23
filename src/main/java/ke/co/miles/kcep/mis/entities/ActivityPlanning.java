@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ActivityPlanning.findAll", query = "SELECT a FROM ActivityPlanning a"),
     @NamedQuery(name = "ActivityPlanning.findById", query = "SELECT a FROM ActivityPlanning a WHERE a.id = :id"),
     @NamedQuery(name = "ActivityPlanning.findByAnnualWorkplanReferenceCode", query = "SELECT a FROM ActivityPlanning a WHERE a.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
-    @NamedQuery(name = "ActivityPlanning.findByActivityDescription", query = "SELECT a FROM ActivityPlanning a WHERE a.activityDescription = :activityDescription"),
     @NamedQuery(name = "ActivityPlanning.findByAwpbTarget", query = "SELECT a FROM ActivityPlanning a WHERE a.awpbTarget = :awpbTarget"),
     @NamedQuery(name = "ActivityPlanning.findByProgrammeTarget", query = "SELECT a FROM ActivityPlanning a WHERE a.programmeTarget = :programmeTarget"),
     @NamedQuery(name = "ActivityPlanning.findByValueAchieved", query = "SELECT a FROM ActivityPlanning a WHERE a.valueAchieved = :valueAchieved"),
@@ -55,8 +54,6 @@ public class ActivityPlanning implements Serializable {
     @Size(max = 45)
     @Column(name = "annual_workplan_reference_code")
     private String annualWorkplanReferenceCode;
-    @Column(name = "activity_description")
-    private Integer activityDescription;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "awpb_target")
     private BigDecimal awpbTarget;
@@ -76,6 +73,9 @@ public class ActivityPlanning implements Serializable {
     private String category;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityPlanning")
     private List<SubActivity> subActivityList;
+    @JoinColumn(name = "activity", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Activity activity;
     @JoinColumn(name = "performance_indicator", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PerformanceIndicator performanceIndicator;
@@ -110,14 +110,6 @@ public class ActivityPlanning implements Serializable {
 
     public void setAnnualWorkplanReferenceCode(String annualWorkplanReferenceCode) {
         this.annualWorkplanReferenceCode = annualWorkplanReferenceCode;
-    }
-
-    public Integer getActivityDescription() {
-        return activityDescription;
-    }
-
-    public void setActivityDescription(Integer activityDescription) {
-        this.activityDescription = activityDescription;
     }
 
     public BigDecimal getAwpbTarget() {
@@ -183,6 +175,14 @@ public class ActivityPlanning implements Serializable {
 
     public void setSubActivityList(List<SubActivity> subActivityList) {
         this.subActivityList = subActivityList;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public PerformanceIndicator getPerformanceIndicator() {

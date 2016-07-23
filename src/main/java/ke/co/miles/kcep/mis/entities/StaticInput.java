@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "static_input", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "StaticInput.findByInputTypeId", query = "SELECT s FROM StaticInput s WHERE s.inputType.id = :inputTypeId"),
     @NamedQuery(name = "StaticInput.findAll", query = "SELECT s FROM StaticInput s"),
     @NamedQuery(name = "StaticInput.findById", query = "SELECT s FROM StaticInput s WHERE s.id = :id"),
     @NamedQuery(name = "StaticInput.findByName", query = "SELECT s FROM StaticInput s WHERE s.name = :name")})
@@ -44,7 +47,10 @@ public class StaticInput implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(mappedBy = "staticInput")
-    private List<InputType> inputTypeList;
+    private List<InputsCollection> inputsCollectionList;
+    @JoinColumn(name = "input_type", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private InputType inputType;
 
     public StaticInput() {
     }
@@ -70,12 +76,20 @@ public class StaticInput implements Serializable {
     }
 
     @XmlTransient
-    public List<InputType> getInputTypeList() {
-        return inputTypeList;
+    public List<InputsCollection> getInputsCollectionList() {
+        return inputsCollectionList;
     }
 
-    public void setInputTypeList(List<InputType> inputTypeList) {
-        this.inputTypeList = inputTypeList;
+    public void setInputsCollectionList(List<InputsCollection> inputsCollectionList) {
+        this.inputsCollectionList = inputsCollectionList;
+    }
+
+    public InputType getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(InputType inputType) {
+        this.inputType = inputType;
     }
 
     @Override

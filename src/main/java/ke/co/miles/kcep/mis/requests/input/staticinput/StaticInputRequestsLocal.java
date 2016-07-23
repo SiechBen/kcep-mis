@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.staticinput;
+package ke.co.miles.kcep.mis.requests.input.staticinput;
 
 import java.util.List;
 import javax.ejb.Local;
@@ -65,5 +65,14 @@ public interface StaticInputRequestsLocal {
      * @return the result of the conversion
      */
     public StaticInputDetails convertStaticInputToStaticInputDetails(StaticInput staticInput);
+
+    /**
+     *
+     * @param inputTypeId the unique identifier of the input type for which the
+     * static inputs are to be retrieved
+     * @return the list of static inputs retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<StaticInputDetails> retrieveStaticInputs(short inputTypeId) throws MilesException;
 
 }

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
-import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;

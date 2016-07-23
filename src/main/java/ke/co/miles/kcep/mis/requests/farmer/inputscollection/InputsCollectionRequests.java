@@ -13,10 +13,12 @@ import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
 import ke.co.miles.kcep.mis.entities.InputsCollection;
 import ke.co.miles.kcep.mis.entities.Person;
+import ke.co.miles.kcep.mis.entities.StaticInput;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.inputtype.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 
@@ -37,8 +39,6 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             throw new InvalidArgumentException("error_047_02");
         } else if (inputsCollectionDetails.getAgroDealer() == null) {
             throw new InvalidArgumentException("error_047_03");
-        } else if (inputsCollectionDetails.getInputType() == null) {
-            throw new InvalidArgumentException("error_047_04");
         } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
             throw new InvalidArgumentException("error_047_05");
         }
@@ -46,9 +46,14 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         InputsCollection inputsCollection = new InputsCollection();
         inputsCollection.setDate(inputsCollectionDetails.getDate());
         inputsCollection.setQuantity(inputsCollectionDetails.getQuantity());
-        inputsCollection.setInputType(em.find(InputType.class, inputsCollectionDetails.getInputType().getId()));
         inputsCollection.setFarmer(em.find(Person.class, inputsCollectionDetails.getFarmer().getId()));
         inputsCollection.setAgroDealer(em.find(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
+        if (inputsCollectionDetails.getInputType() != null) {
+            inputsCollection.setInputType(em.find(InputType.class, inputsCollectionDetails.getInputType().getId()));
+        }
+        if (inputsCollectionDetails.getStaticInput() != null) {
+            inputsCollection.setStaticInput(em.find(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
+        }
 
         try {
             em.persist(inputsCollection);
@@ -91,8 +96,6 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             throw new InvalidArgumentException("error_047_02");
         } else if (inputsCollectionDetails.getAgroDealer() == null) {
             throw new InvalidArgumentException("error_047_03");
-        } else if (inputsCollectionDetails.getInputType() == null) {
-            throw new InvalidArgumentException("error_047_04");
         } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
             throw new InvalidArgumentException("error_047_05");
         }
@@ -101,9 +104,14 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         inputsCollection.setId(inputsCollectionDetails.getId());
         inputsCollection.setDate(inputsCollectionDetails.getDate());
         inputsCollection.setQuantity(inputsCollectionDetails.getQuantity());
-        inputsCollection.setInputType(em.find(InputType.class, inputsCollectionDetails.getInputType().getId()));
         inputsCollection.setFarmer(em.find(Person.class, inputsCollectionDetails.getFarmer().getId()));
         inputsCollection.setAgroDealer(em.find(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
+        if (inputsCollectionDetails.getInputType() != null) {
+            inputsCollection.setInputType(em.find(InputType.class, inputsCollectionDetails.getInputType().getId()));
+        }
+        if (inputsCollectionDetails.getStaticInput() != null) {
+            inputsCollection.setStaticInput(em.find(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
+        }
 
         try {
             em.merge(inputsCollection);
@@ -134,15 +142,19 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
 
         InputsCollectionDetails inputsCollectionDetails = new InputsCollectionDetails(inputsCollection.getId());
         try {
+            inputsCollectionDetails.setStaticInput(staticInputService.convertStaticInputToStaticInputDetails(inputsCollection.getStaticInput()));
+        } catch (Exception e) {
+        }
+        try {
             inputsCollectionDetails.setInputType(inputTypeService.convertInputTypeToInputTypeDetails(inputsCollection.getInputType()));
         } catch (Exception e) {
         }
         try {
-            inputsCollectionDetails.setFarmer((personService.convertPersonToPersonDetails(inputsCollection.getFarmer())));
+            inputsCollectionDetails.setAgroDealer((personService.convertPersonToPersonDetails(inputsCollection.getAgroDealer())));
         } catch (Exception e) {
         }
         try {
-            inputsCollectionDetails.setAgroDealer((personService.convertPersonToPersonDetails(inputsCollection.getAgroDealer())));
+            inputsCollectionDetails.setFarmer((personService.convertPersonToPersonDetails(inputsCollection.getFarmer())));
         } catch (Exception e) {
         }
         inputsCollectionDetails.setDate(inputsCollection.getDate());
@@ -168,4 +180,6 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
     private PersonRequestsLocal personService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
+    @EJB
+    private StaticInputRequestsLocal staticInputService;
 }

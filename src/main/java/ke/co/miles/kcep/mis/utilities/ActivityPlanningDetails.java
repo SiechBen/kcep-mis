@@ -163,17 +163,17 @@ public class ActivityPlanningDetails implements Serializable, Comparable<Activit
     }
 
     /**
-     * @return the activityDescription
+     * @return the activity
      */
-    public Integer getActivityDescription() {
-        return activityDescription;
+    public ActivityDetails getActivity() {
+        return activity;
     }
 
     /**
-     * @param activityDescription the activityDescription to set
+     * @param activity the activity to set
      */
-    public void setActivityDescription(Integer activityDescription) {
-        this.activityDescription = activityDescription;
+    public void setActivity(ActivityDetails activity) {
+        this.activity = activity;
     }
 
     /**
@@ -194,10 +194,10 @@ public class ActivityPlanningDetails implements Serializable, Comparable<Activit
     private Integer id;
     private String category;
     private BigDecimal total;
+    private ActivityDetails activity;
     private BigDecimal awpbTarget;
     private String procurementPlan;
     private BigDecimal valueAchieved;
-    private Integer activityDescription;
     private BigDecimal allocatedBudget;
     private BigDecimal programmeTarget;
     private ComponentDetails component;

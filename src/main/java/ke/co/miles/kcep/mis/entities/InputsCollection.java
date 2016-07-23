@@ -40,8 +40,8 @@ public class InputsCollection implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
     @Column(name = "date")
@@ -51,7 +51,7 @@ public class InputsCollection implements Serializable {
     @Column(name = "quantity")
     private String quantity;
     @JoinColumn(name = "input_type", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private InputType inputType;
     @JoinColumn(name = "agro_dealer", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -59,6 +59,9 @@ public class InputsCollection implements Serializable {
     @JoinColumn(name = "farmer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person farmer;
+    @JoinColumn(name = "static_input", referencedColumnName = "id")
+    @ManyToOne
+    private StaticInput staticInput;
 
     public InputsCollection() {
     }
@@ -115,6 +118,14 @@ public class InputsCollection implements Serializable {
         this.farmer = farmer;
     }
 
+    public StaticInput getStaticInput() {
+        return staticInput;
+    }
+
+    public void setStaticInput(StaticInput staticInput) {
+        this.staticInput = staticInput;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -139,5 +150,5 @@ public class InputsCollection implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.InputsCollection[ id=" + id + " ]";
     }
-
+    
 }
