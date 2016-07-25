@@ -17,15 +17,15 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     public PerformanceIndicatorDetails() {
     }
 
-    public PerformanceIndicatorDetails(Integer id) {
+    public PerformanceIndicatorDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -110,7 +110,6 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof PerformanceIndicatorDetails)) {
             return false;
         }
@@ -129,7 +128,7 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     }
 
     private static final long serialVersionUID = 1L;
-    private Integer id;
+    private Short id;
     private String description;
     private Date baselineDate;
     private Double baselineValue;

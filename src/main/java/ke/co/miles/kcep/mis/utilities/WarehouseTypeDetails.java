@@ -47,7 +47,6 @@ public class WarehouseTypeDetails implements Serializable, Comparable<WarehouseT
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof WarehouseTypeDetails)) {
             return false;
         }

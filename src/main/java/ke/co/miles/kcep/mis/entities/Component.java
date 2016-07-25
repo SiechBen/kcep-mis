@@ -48,7 +48,7 @@ public class Component implements Serializable {
     @Column(name = "component")
     private String component;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
-    private List<ActivityPlanning> activityPlanningList;
+    private List<SubActivity> subActivityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
     private List<SubComponent> subComponentList;
     @OneToMany(mappedBy = "component")
@@ -83,12 +83,12 @@ public class Component implements Serializable {
     }
 
     @XmlTransient
-    public List<ActivityPlanning> getActivityPlanningList() {
-        return activityPlanningList;
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
     }
 
-    public void setActivityPlanningList(List<ActivityPlanning> activityPlanningList) {
-        this.activityPlanningList = activityPlanningList;
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
     }
 
     @XmlTransient

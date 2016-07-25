@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.activity;
+package ke.co.miles.kcep.mis.requests.activityplanning.activity;
 
 import java.util.List;
 import javax.ejb.Local;

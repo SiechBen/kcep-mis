@@ -16,15 +16,15 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
     public ResultHierarchyDetails() {
     }
 
-    public ResultHierarchyDetails(Integer id) {
+    public ResultHierarchyDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -61,7 +61,6 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ResultHierarchyDetails)) {
             return false;
         }
@@ -80,7 +79,7 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
     }
 
     private static final long serialVersionUID = 1L;
-    private Integer id;
+    private Short id;
     private String description;
     private ComponentDetails component;
     private SubComponentDetails subComponentDetails;

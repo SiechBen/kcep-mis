@@ -7,7 +7,6 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,19 +22,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.activity.ActivityRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.ActivityPlanningRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.ActivityRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.description.SubActivityDescriptionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.subactivity.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityDetails;
-import ke.co.miles.kcep.mis.utilities.ActivityPlanningDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
+import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
+import ke.co.miles.kcep.mis.utilities.ResponsePcuDetails;
+import ke.co.miles.kcep.mis.utilities.SubActivityDescriptionDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
 
@@ -43,7 +44,12 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PlanningController", urlPatterns = {"/activities", "/addActivity", "/doAddActivity", "/planning", "/addPlanning", "/doAddPlanning", "/subActivities", "/addSubActivity", "/doAddSubActivity"})
+@WebServlet(
+        name = "PlanningController",
+        urlPatterns = {"/activities", "/addActivity", "/doAddActivity", "/subActivities", "/addSubActivity",
+            "/doAddSubActivity",
+            "/subActivityDescriptions", "/addSubActivityDescription", "/doAddSubActivityDescription"}
+)
 public class ActivityPlanningController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -74,6 +80,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddActivity");
                             urlPaths.add("/doAddPlanning");
                             urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddSubActivityDescription");
                             switch (path) {
                                 case "/planning":
                                     path = "/head_planning";
@@ -81,6 +88,10 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/subActivities":
                                     path = "/head_sub_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/subActivityDescription":
+                                    path = "/head_sub_activity_descriptions";
                                     urlPaths.add(path);
                                     break;
                                 case "/activities":
@@ -97,6 +108,10 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/addSubActivity":
                                     path = "/head_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityDescription":
+                                    path = "/head_addSubActivityDescription";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -166,9 +181,17 @@ public class ActivityPlanningController extends Controller {
 
             switch (path) {
 
+                case "/head_sub_activity_descritions":
+                    try {
+                        session.setAttribute("subActivityDescriptions", subActivityDescriptionService.retrieveSubActivityDescriptions());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    break;
+
                 case "/head_activities":
-                case "/county_activities":
-                case "/region_activities":
                     try {
                         session.setAttribute("activities", activityService.retrieveActivities());
                     } catch (MilesException ex) {
@@ -200,16 +223,33 @@ public class ActivityPlanningController extends Controller {
                     }
                     return;
 
+                case "/doAddSubActivityDescription":
+                    SubActivityDescriptionDetails subActivityDescription = new SubActivityDescriptionDetails();
+                    subActivityDescription.setDescription(request.getParameter("description"));
+
+                    try {
+                        subActivityDescriptionService.addSubActivityDescription(subActivityDescription);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("subActivityDescriptions", subActivityDescriptionService.retrieveSubActivityDescriptions());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
                 case "/head_sub_activities":
                 case "/county_sub_activities":
                 case "/region_sub_activities":
-                    Integer activityPlanningId;
-                    List<SubActivityDetails> subActivities;
                     try {
-                        activityPlanningId = Integer.valueOf(request.getParameter("activityPlanningId"));
-                        subActivities = subActivityService.retrieveSubActivities(activityPlanningId);
-                        session.setAttribute("subActivities", subActivities);
-                        session.setAttribute("activityPlanningId", activityPlanningId);
+                        session.setAttribute("subActivities", subActivityService.retrieveSubActivities());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -220,94 +260,9 @@ public class ActivityPlanningController extends Controller {
                     }
                     break;
 
-                case "/doAddSubActivity":
-                    SubActivityDetails subActivity = new SubActivityDetails();
-                    subActivity.setDescription(request.getParameter("description"));
-
-                    try {
-                        subActivity.setActivityPlanning(new ActivityPlanningDetails(Integer.valueOf(request.getParameter("activityPlanning"))));
-                    } catch (Exception e) {
-                        subActivity.setActivityPlanning(null);
-                    }
-
-                    try {
-                        subActivity.setActualExpenditure(new BigDecimal(request.getParameter("actualExpenditure")));
-                    } catch (Exception e) {
-                        subActivity.setActualExpenditure(null);
-                    }
-
-                    try {
-                        date = userDateFormat.parse(request.getParameter("startDate"));
-                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        subActivity.setStartDate(date);
-                    } catch (ParseException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
-                        subActivity.setStartDate(null);
-                    }
-
-                    try {
-                        date = userDateFormat.parse(request.getParameter("endDate"));
-                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        subActivity.setEndDate(date);
-                    } catch (ParseException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_errpr"), ex);
-                        subActivity.setEndDate(null);
-                    }
-
-                    try {
-                        subActivity.setMeasurementUnit(new MeasurementUnitDetails(Short.valueOf(request.getParameter("measurementUnit"))));
-                    } catch (Exception e) {
-                        subActivity.setMeasurementUnit(null);
-                    }
-
-                    activityPlanningId = 0;
-                    try {
-                        activityPlanningId = Integer.valueOf(request.getParameter("activityPlanningId"));
-                        subActivity.setActivityPlanning(new ActivityPlanningDetails(activityPlanningId));
-                    } catch (Exception e) {
-                    }
-
-                    try {
-                        subActivityService.addSubActivity(subActivity);
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    try {
-                        subActivities = subActivityService.retrieveSubActivities(activityPlanningId);
-                        session.setAttribute("subActivities", subActivities);
-                    } catch (MilesException e) {
-                    }
-
-                    return;
-
-                case "/head_planning":
-                case "/county_planning":
-                case "/region_planning":
-
-                    List<ActivityPlanningDetails> planningList;
-                    try {
-                        planningList = planningService.retrieveActivityPlannings();
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during planning retrieval", ex);
-                        return;
-                    }
-
-                    if (planningList != null) {
-                        session.setAttribute("planning", planningList);
-                    }
-                    break;
-
-                case "/head_addPlanning":
-                case "/county_addPlanning":
-                case "/region_addPlanning":
+                case "/head_addSubActivity":
+                case "/county_addSubActivity":
+                case "/region_addSubActivity":
                     try {
                         session.setAttribute("activities", activityService.retrieveActivities());
                     } catch (MilesException ex) {
@@ -332,7 +287,8 @@ public class ActivityPlanningController extends Controller {
                     try {
                         implementingPartners = implementingPartnerService.retrieveImplementingPartners();
                     } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of implementing partners", ex);
+                        LOGGER.log(Level.SEVERE,
+                                "An error occurred during retrieval of implementing partners", ex);
                         return;
                     }
 
@@ -368,79 +324,154 @@ public class ActivityPlanningController extends Controller {
 
                 case "/doAddPlanning":
 
-                    ActivityPlanningDetails planning = new ActivityPlanningDetails();
-                    planning.setCategory(request.getParameter("category"));
-                    planning.setProcurementPlan(request.getParameter("procurementPlan"));
-                    planning.setAnnualWorkplanReferenceCode(request.getParameter("annualWorkplanReferenceCode"));
-
+                    SubActivityDetails subActivity = new SubActivityDetails();
+                    subActivity.setProcurementPlan(request.getParameter("procurementPlan"));
+                    subActivity.setDescription(request.getParameter("description"));
+                    subActivity.setAnnualWorkplanReferenceCode(
+                            request.getParameter("annualWorkplanReferenceCode"));
                     try {
-                        planning.setAwpbTarget(new BigDecimal(request.getParameter("awpbTarget")));
+                        subActivity.setTotals(new BigDecimal(request.getParameter("totals")));
                     } catch (NumberFormatException e) {
-                        planning.setAwpbTarget(null);
+                        subActivity.setTotals(null);
                     }
                     try {
-                        planning.setValueAchieved(new BigDecimal(request.getParameter("valueAchieved")));
+                        subActivity.setUnitCost(new BigDecimal(request.getParameter("unitCost")));
+                    } catch (NumberFormatException e) {
+                        subActivity.setUnitCost(null);
+                    }
+                    try {
+                        subActivity.setAwpbTarget(new BigDecimal(request.getParameter("awpbTarget")));
+                    } catch (NumberFormatException e) {
+                        subActivity.setAwpbTarget(null);
+                    }
+                    try {
+                        subActivity.setValueAchieved(new BigDecimal(request.getParameter("valueAchieved")));
                     } catch (Exception e) {
-                        planning.setValueAchieved(null);
+                        subActivity.setValueAchieved(null);
                     }
                     try {
-                        planning.setAllocatedBudget(new BigDecimal(request.getParameter("allocatedBudget")));
+                        subActivity.setAllocatedBudget(new BigDecimal(request.getParameter("allocatedBudget")));
                     } catch (Exception e) {
-                        planning.setAllocatedBudget(null);
+                        subActivity.setAllocatedBudget(null);
                     }
                     try {
-                        planning.setProgrammeTarget(new BigDecimal(request.getParameter("programmeTarget")));
+                        subActivity.setGokPercentage(new Double(request.getParameter("gokPercentage")));
                     } catch (Exception e) {
-                        planning.setProgrammeTarget(null);
+                        subActivity.setGokPercentage(null);
                     }
-
-                    ComponentDetails component;
                     try {
-                        component = new ComponentDetails(Short.valueOf(request.getParameter("component")));
+                        subActivity.setIfadLoanPercentage(new Double(
+                                request.getParameter("ifadLoanPercentage")));
                     } catch (Exception e) {
-                        component = null;
+                        subActivity.setIfadLoanPercentage(null);
                     }
-
                     try {
-                        activity = new ActivityDetails(Integer.valueOf(request.getParameter("activity")));
+                        subActivity.setIfadGrantPercentage(new Double(
+                                request.getParameter("ifadGrantPercentage")));
                     } catch (Exception e) {
-                        activity = null;
+                        subActivity.setIfadGrantPercentage(null);
                     }
-
-                    SubComponentDetails subComponent;
                     try {
-                        subComponent
-                                = new SubComponentDetails(Short.valueOf(request.getParameter("subComponent")));
+                        subActivity.setBeneficiariesPercentage(new Double(
+                                request.getParameter("gokPercentage")));
                     } catch (Exception e) {
-                        subComponent = null;
+                        subActivity.setBeneficiariesPercentage(null);
                     }
-
-                    ImplementingPartnerDetails implementingPartner;
                     try {
-                        implementingPartner = new ImplementingPartnerDetails(
-                                Short.valueOf(request.getParameter("implementingPartner")));
+                        subActivity.setEuPercentage(new Double(request.getParameter("euPercentage")));
                     } catch (Exception e) {
-                        implementingPartner = null;
+                        subActivity.setEuPercentage(null);
                     }
-
                     try {
-                        planning.setPerformanceIndicator(new PerformanceIndicatorDetails(Integer.
-                                valueOf(request.getParameter("performanceIndicator"))));
+                        subActivity.setFinancialInstitutionPercentage(new Double(
+                                request.getParameter("financialInstitutionPercentage")));
                     } catch (Exception e) {
-                        planning.setPerformanceIndicator(null);
+                        subActivity.setFinancialInstitutionPercentage(null);
                     }
-
-                    planning.setActivity(activity);
-                    planning.setComponent(component);
-                    planning.setSubComponent(subComponent);
-                    planning.setImplementingPartner(implementingPartner);
-
                     try {
-                        planningService.addActivityPlanning(planning);
-                    } catch (MilesException e) {
+                        subActivity.setProgrammeTarget(new BigDecimal(
+                                request.getParameter("programmeTarget")));
+                    } catch (Exception e) {
+                        subActivity.setProgrammeTarget(null);
+                    }
+                    try {
+                        subActivity.setComponent(new ComponentDetails(Short.valueOf(
+                                request.getParameter("component"))));
+                    } catch (Exception e) {
+                        subActivity.setComponent(null);
+                    }
+                    try {
+                        subActivity.setActivity(new ActivityDetails(Short.valueOf(request.getParameter("activity"))));
+                    } catch (Exception e) {
+                        subActivity.setActivity(null);
+                    }
+                    try {
+                        subActivity.setSubComponent(new SubComponentDetails(
+                                Short.valueOf(request.getParameter("subComponent"))));
+                    } catch (Exception e) {
+                        subActivity.setSubComponent(null);
+                    }
+                    try {
+                        subActivity.setResponsePcu(new ResponsePcuDetails(
+                                Short.valueOf(request.getParameter("responsePcu"))));
+                    } catch (Exception e) {
+                        subActivity.setResponsePcu(null);
+                    }
+                    try {
+                        subActivity.setSubActivityDescription(new SubActivityDescriptionDetails(
+                                Short.valueOf(request.getParameter("subActivityDescription"))));
+                    } catch (Exception e) {
+                        subActivity.setSubComponent(null);
+                    }
+                    try {
+                        subActivity.setExpenditureCategory(new ExpenditureCategoryDetails(
+                                Short.valueOf(request.getParameter("expenditureCategory"))));
+                    } catch (Exception e) {
+                        subActivity.setExpenditureCategory(null);
+                    }
+                    try {
+                        subActivity.setImplementingPartner(new ImplementingPartnerDetails(
+                                Short.valueOf(request.getParameter("implementingPartner"))));
+                    } catch (Exception e) {
+                        subActivity.setImplementingPartner(null);
+                    }
+                    try {
+                        subActivity.setPerformanceIndicator(new PerformanceIndicatorDetails(
+                                Short.valueOf(request.getParameter("performanceIndicator"))));
+                    } catch (Exception e) {
+                        subActivity.setPerformanceIndicator(null);
+                    }
+                    try {
+                        subActivity.setMeasurementUnit(new MeasurementUnitDetails(
+                                Short.valueOf(request.getParameter("measurementUnit"))));
+                    } catch (Exception e) {
+                        subActivity.setMeasurementUnit(null);
+                    }
+                    try {
+                        subActivity.setStartDate(databaseDateFormat.parse(userDateFormat.format(
+                                userDateFormat.parse(request.getParameter("startDate")))));
+                    } catch (Exception ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(e.getCode()));
-                        LOGGER.log(Level.INFO, "", e);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
+                        subActivity.setStartDate(null);
+                    }
+                    try {
+                        subActivity.setEndDate(databaseDateFormat.parse(userDateFormat.format(
+                                userDateFormat.parse(request.getParameter("endDate")))));
+                    } catch (Exception ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
+                        subActivity.setEndDate(null);
+                    }
+
+                    try {
+                        subActivityService.addSubActivity(subActivity);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
                     }
 
                     return;
@@ -478,12 +509,11 @@ public class ActivityPlanningController extends Controller {
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB
-    private ActivityPlanningRequestsLocal planningService;
-    @EJB
     private SubComponentRequestsLocal subComponentService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
     private ImplementingPartnerRequestsLocal implementingPartnerService;
-
+    @EJB
+    private SubActivityDescriptionRequestsLocal subActivityDescriptionService;
 }

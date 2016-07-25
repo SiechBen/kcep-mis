@@ -199,14 +199,14 @@ public class PerformanceIndicatorController extends Controller {
 
                     ResultHierarchyDetails resultHierarchy;
                     try {
-                        resultHierarchy = new ResultHierarchyDetails(Integer.valueOf(request.getParameter("resultHierarchy")));
+                        resultHierarchy = new ResultHierarchyDetails(Short.valueOf(request.getParameter("resultHierarchy")));
                     } catch (Exception e) {
                         resultHierarchy = null;
                     }
 
                     PerformanceIndicatorTypeDetails performanceIndicatorType;
                     try {
-                        performanceIndicatorType = new PerformanceIndicatorTypeDetails(Integer.valueOf(request.getParameter("performanceIndicatorType")));
+                        performanceIndicatorType = new PerformanceIndicatorTypeDetails(Short.valueOf(request.getParameter("performanceIndicatorType")));
                     } catch (Exception e) {
                         performanceIndicatorType = null;
                     }

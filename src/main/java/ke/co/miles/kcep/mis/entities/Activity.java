@@ -37,28 +37,30 @@ public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Size(max = 45)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
-    private List<ActivityPlanning> activityPlanningList;
+    private List<SubActivity> subActivityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    private List<SubActivityDescription> subActivityDescriptionList;
 
     public Activity() {
     }
 
-    public Activity(Integer id) {
+    public Activity(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -71,12 +73,21 @@ public class Activity implements Serializable {
     }
 
     @XmlTransient
-    public List<ActivityPlanning> getActivityPlanningList() {
-        return activityPlanningList;
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
     }
 
-    public void setActivityPlanningList(List<ActivityPlanning> activityPlanningList) {
-        this.activityPlanningList = activityPlanningList;
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
+    }
+
+    @XmlTransient
+    public List<SubActivityDescription> getSubActivityDescriptionList() {
+        return subActivityDescriptionList;
+    }
+
+    public void setSubActivityDescriptionList(List<SubActivityDescription> subActivityDescriptionList) {
+        this.subActivityDescriptionList = subActivityDescriptionList;
     }
 
     @Override

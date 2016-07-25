@@ -20,7 +20,7 @@ import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorTypeDetails;
  * @author siech
  */
 @Stateless
-public class PerformancePerformanceIndicatorTypeRequests extends EntityRequests implements PerformanceIndicatorTypeRequestsLocal {
+public class PerformanceIndicatorTypeRequests extends EntityRequests implements PerformanceIndicatorTypeRequestsLocal {
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override

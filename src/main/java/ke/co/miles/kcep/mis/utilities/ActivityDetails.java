@@ -18,15 +18,15 @@ public class ActivityDetails implements Serializable, Comparable<ActivityDetails
     public ActivityDetails() {
     }
 
-    public ActivityDetails(Integer id) {
+    public ActivityDetails(Short id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -47,7 +47,6 @@ public class ActivityDetails implements Serializable, Comparable<ActivityDetails
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ActivityDetails)) {
             return false;
         }
@@ -65,7 +64,7 @@ public class ActivityDetails implements Serializable, Comparable<ActivityDetails
         return this.id.compareTo(o.getId());
     }
 
-    private Integer id;
+    private Short id;
     private String name;
 
 }

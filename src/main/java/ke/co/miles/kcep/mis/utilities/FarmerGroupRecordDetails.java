@@ -96,7 +96,6 @@ public class FarmerGroupRecordDetails implements Serializable, Comparable<Farmer
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof FarmerGroupRecordDetails)) {
             return false;
         }

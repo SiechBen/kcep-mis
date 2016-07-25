@@ -52,7 +52,7 @@ public class PerformanceIndicator implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Short id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 400)
@@ -73,31 +73,31 @@ public class PerformanceIndicator implements Serializable {
     @Column(name = "ratio")
     private Double ratio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
-    private List<ActivityPlanning> activityPlanningList;
+    private List<SubActivity> subActivityList;
+    @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private PerformanceIndicatorType performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
-    @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
-    @ManyToOne
-    private PerformanceIndicatorType performanceIndicatorType;
 
     public PerformanceIndicator() {
     }
 
-    public PerformanceIndicator(Integer id) {
+    public PerformanceIndicator(Short id) {
         this.id = id;
     }
 
-    public PerformanceIndicator(Integer id, String description) {
+    public PerformanceIndicator(Short id, String description) {
         this.id = id;
         this.description = description;
     }
 
-    public Integer getId() {
+    public Short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Short id) {
         this.id = id;
     }
 
@@ -158,20 +158,12 @@ public class PerformanceIndicator implements Serializable {
     }
 
     @XmlTransient
-    public List<ActivityPlanning> getActivityPlanningList() {
-        return activityPlanningList;
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
     }
 
-    public void setActivityPlanningList(List<ActivityPlanning> activityPlanningList) {
-        this.activityPlanningList = activityPlanningList;
-    }
-
-    public ResultHierarchy getResultHierarchy() {
-        return resultHierarchy;
-    }
-
-    public void setResultHierarchy(ResultHierarchy resultHierarchy) {
-        this.resultHierarchy = resultHierarchy;
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
     }
 
     public PerformanceIndicatorType getPerformanceIndicatorType() {
@@ -180,6 +172,14 @@ public class PerformanceIndicator implements Serializable {
 
     public void setPerformanceIndicatorType(PerformanceIndicatorType performanceIndicatorType) {
         this.performanceIndicatorType = performanceIndicatorType;
+    }
+
+    public ResultHierarchy getResultHierarchy() {
+        return resultHierarchy;
+    }
+
+    public void setResultHierarchy(ResultHierarchy resultHierarchy) {
+        this.resultHierarchy = resultHierarchy;
     }
 
     @Override
