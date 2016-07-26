@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
@@ -529,13 +530,8 @@ public class PersonController extends Controller {
                     }
 
                     try {
-                        //Read in date string in the format MM/dd/yyyy and parse it to date
                         date = userDateFormat.parse(request.getParameter("dateOfBirth"));
-
-                        //Format the date string to yyyy/MM/dd and parse it to date
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
-
-                        //Set the start date
                         person.setDateOfBirth(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -544,6 +540,7 @@ public class PersonController extends Controller {
                         person.setDateOfBirth(null);
                     }
 
+                    MilesDebugger.debug(person);
                     try {
                         personService.addPerson(person, personRole);
                     } catch (MilesException e) {

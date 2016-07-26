@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
@@ -139,5 +140,5 @@ public class EVoucher implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.EVoucher[ id=" + id + " ]";
     }
-    
+
 }

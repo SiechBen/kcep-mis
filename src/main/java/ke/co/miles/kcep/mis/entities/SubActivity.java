@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,7 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SubActivity.findByActivityPlanningId", query = "SELECT s FROM SubActivity s WHERE s.activityPlanning.id = :activityPlanningId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
     @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
@@ -61,11 +62,11 @@ public class SubActivity implements Serializable {
     @Size(max = 45)
     @Column(name = "annual_workplan_reference_code")
     private String annualWorkplanReferenceCode;
-    @Size(max = 45)
     @Column(name = "start_date")
+    @Temporal(TemporalType.DATE)
     private Date startDate;
-    @Size(max = 45)
     @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
     private Date endDate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "unit_cost")
@@ -98,9 +99,9 @@ public class SubActivity implements Serializable {
     private Double euPercentage;
     @Column(name = "financial_institution_percentage")
     private Double financialInstitutionPercentage;
-    @JoinColumn(name = "activity", referencedColumnName = "id")
+    @JoinColumn(name = "activity_name", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Activity activity;
+    private ActivityName activityName;
     @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ExpenditureCategory expenditureCategory;
@@ -122,9 +123,9 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "response_pcu", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResponsePcu responsePcu;
-    @JoinColumn(name = "sub_activity_description", referencedColumnName = "id")
+    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private SubActivityDescription subActivityDescription;
+    private SubActivityName subActivityName;
 
     public SubActivity() {
     }
@@ -277,12 +278,12 @@ public class SubActivity implements Serializable {
         this.financialInstitutionPercentage = financialInstitutionPercentage;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public ActivityName getActivityName() {
+        return activityName;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
+    public void setActivityName(ActivityName activityName) {
+        this.activityName = activityName;
     }
 
     public ExpenditureCategory getExpenditureCategory() {
@@ -341,12 +342,12 @@ public class SubActivity implements Serializable {
         this.responsePcu = responsePcu;
     }
 
-    public SubActivityDescription getSubActivityDescription() {
-        return subActivityDescription;
+    public SubActivityName getSubActivityName() {
+        return subActivityName;
     }
 
-    public void setSubActivityDescription(SubActivityDescription subActivityDescription) {
-        this.subActivityDescription = subActivityDescription;
+    public void setSubActivityName(SubActivityName subActivityName) {
+        this.subActivityName = subActivityName;
     }
 
     @Override

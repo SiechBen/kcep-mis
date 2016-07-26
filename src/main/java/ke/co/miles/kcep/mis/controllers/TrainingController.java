@@ -507,13 +507,8 @@ public class TrainingController extends Controller {
                     training.setVenue(venue);
 
                     try {
-                        //Read in date string in the format MM/dd/yyyy and parse it to date
                         date = userDateFormat.parse(request.getParameter("start-date"));
-
-                        //Format the date string to yyyy/MM/dd and parse it to date
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
-
-                        //Set the start date
                         training.setStartDate(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -522,13 +517,8 @@ public class TrainingController extends Controller {
                         training.setStartDate(null);
                     }
                     try {
-                        //Read in date string in the format MM/dd/yyyy and parse it to date
                         date = userDateFormat.parse(request.getParameter("end-date"));
-
-                        //Format the date string to yyyy/MM/dd and parse it to date
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
-
-                        //Set the end date
                         training.setEndDate(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -619,7 +609,6 @@ public class TrainingController extends Controller {
                     break;
 
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);

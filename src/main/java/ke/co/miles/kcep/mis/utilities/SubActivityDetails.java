@@ -166,12 +166,12 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.financialInstitutionPercentage = financialInstitutionPercentage;
     }
 
-    public ActivityDetails getActivity() {
-        return activity;
+    public ActivityNameDetails getActivityName() {
+        return activityName;
     }
 
-    public void setActivity(ActivityDetails activity) {
-        this.activity = activity;
+    public void setActivityName(ActivityNameDetails activityName) {
+        this.activityName = activityName;
     }
 
     public ExpenditureCategoryDetails getExpenditureCategory() {
@@ -230,12 +230,12 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.responsePcu = responsePcu;
     }
 
-    public SubActivityDescriptionDetails getSubActivityDescription() {
-        return subActivityDescription;
+    public SubActivityNameDetails getSubActivityName() {
+        return subActivityName;
     }
 
-    public void setSubActivityDescription(SubActivityDescriptionDetails subActivityDescription) {
-        this.subActivityDescription = subActivityDescription;
+    public void setSubActivityName(SubActivityNameDetails subActivityName) {
+        this.subActivityName = subActivityName;
     }
 
     @Override
@@ -283,7 +283,7 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private Double beneficiariesPercentage;
     private Double euPercentage;
     private Double financialInstitutionPercentage;
-    private ActivityDetails activity;
+    private ActivityNameDetails activityName;
     private ExpenditureCategoryDetails expenditureCategory;
     private PerformanceIndicatorDetails performanceIndicator;
     private ComponentDetails component;
@@ -291,6 +291,6 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private ImplementingPartnerDetails implementingPartner;
     private MeasurementUnitDetails measurementUnit;
     private ResponsePcuDetails responsePcu;
-    private SubActivityDescriptionDetails subActivityDescription;
+    private SubActivityNameDetails subActivityName;
 
 }

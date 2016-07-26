@@ -75,7 +75,7 @@ public class PerformanceIndicator implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
     private List<SubActivity> subActivityList;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private PerformanceIndicatorType performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)

@@ -11,12 +11,12 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class SubActivityDescriptionDetails implements Serializable, Comparable<SubActivityDescriptionDetails> {
+public class SubActivityNameDetails implements Serializable, Comparable<SubActivityNameDetails> {
 
-    public SubActivityDescriptionDetails() {
+    public SubActivityNameDetails() {
     }
 
-    public SubActivityDescriptionDetails(Short id) {
+    public SubActivityNameDetails(Short id) {
         this.id = id;
     }
 
@@ -28,20 +28,20 @@ public class SubActivityDescriptionDetails implements Serializable, Comparable<S
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public ActivityDetails getActivity() {
-        return activity;
+    public ActivityNameDetails getActivityName() {
+        return activityName;
     }
 
-    public void setActivity(ActivityDetails activity) {
-        this.activity = activity;
+    public void setActivityName(ActivityNameDetails activity) {
+        this.activityName = activity;
     }
 
     @Override
@@ -53,26 +53,26 @@ public class SubActivityDescriptionDetails implements Serializable, Comparable<S
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof SubActivityDescriptionDetails)) {
+        if (!(object instanceof SubActivityNameDetails)) {
             return false;
         }
-        SubActivityDescriptionDetails other = (SubActivityDescriptionDetails) object;
+        SubActivityNameDetails other = (SubActivityNameDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivityDescription[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubActivityName[ name=" + name + " ]";
     }
 
     @Override
-    public int compareTo(SubActivityDescriptionDetails o) {
+    public int compareTo(SubActivityNameDetails o) {
         return this.id.compareTo(o.getId());
     }
 
     private static final long serialVersionUID = 1L;
     private Short id;
-    private String description;
-    private ActivityDetails activity;
+    private String name;
+    private ActivityNameDetails activityName;
 
 }

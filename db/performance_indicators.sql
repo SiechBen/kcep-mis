@@ -1,25 +1,5 @@
 
 --
--- Table structure for table `result_hierarchy`
---
-
-DROP TABLE IF EXISTS `result_hierarchy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `result_hierarchy` (
-  `id` int(11) NOT NULL,
-  `description` varchar(400) DEFAULT NULL,
-  `sub_component` smallint(5) unsigned DEFAULT NULL,
-  `component` smallint(5) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_indicator_hierarchy_sub_component1` (`sub_component`),
-  KEY `fk_indicator_hierarchy_component1` (`component`),
-  CONSTRAINT `fk_indicator_hierarchy_component1` FOREIGN KEY (`component`) REFERENCES `component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_indicator_hierarchy_sub_component1` FOREIGN KEY (`sub_component`) REFERENCES `sub_component` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `result_hierarchy`
 --
 
@@ -28,33 +8,6 @@ LOCK TABLES `result_hierarchy` WRITE;
 INSERT INTO `result_hierarchy` VALUES (1,'Goal: National food security improved',NULL,NULL),(2,'Objective 1: Increased production of targeted cereal staples (maize, sorghum, millet and associated pulses)',NULL,NULL),(3,'Objective 2: Increased income of smallholders in medium and high potential production areas',NULL,NULL),(4,'Outcome 1: Outcome 1: Productivity for maize, sorghum, finger millet and pulses increased',NULL,NULL),(5,'Output 1.1; Agricultural services/ inputs improved',NULL,NULL),(6,'Output 1.2; Capacity of farmers’ organizations to mobilize extension services, participate in local planning and value chains fora improved',NULL,NULL),(7,'Outcome 2; Post harvest practices and market linkages for targeted VCs improved',NULL,NULL),(8,'Output 2.1; Post-harvest management improved',NULL,NULL),(9,'Output 2.2; Market Access for participating smallholders improved',NULL,NULL),(10,'Outcome 3; Financial inclusion of beneficiaries improved',NULL,NULL),(11,'Output 3.1 : Use of financial tools and services by target groups increased',NULL,NULL),(12,'Output 3.2: Access to value chain financing improved',NULL,NULL);
 /*!40000 ALTER TABLE `result_hierarchy` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `performance_indicator`
---
-
-DROP TABLE IF EXISTS `performance_indicator`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `performance_indicator` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `performance_indicator_type` int(11) DEFAULT NULL,
-  `result_hierarchy` int(11) NOT NULL,
-  `description` varchar(400) NOT NULL,
-  `baseline_date` date DEFAULT NULL,
-  `baseline_value` double DEFAULT NULL,
-  `year_of_use` smallint(6) DEFAULT NULL,
-  `actual_value` double DEFAULT NULL,
-  `expected_value` double DEFAULT NULL,
-  `ratio` double DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_indicator_indicator_type1` (`performance_indicator_type`),
-  KEY `fk_indicator_indicator_hierarchy1` (`result_hierarchy`),
-  CONSTRAINT `fk_indicator_indicator_hierarchy1` FOREIGN KEY (`result_hierarchy`) REFERENCES `result_hierarchy` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_indicator_indicator_type1` FOREIGN KEY (`performance_indicator_type`) REFERENCES `performance_indicator_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `performance_indicator`

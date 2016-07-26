@@ -11,14 +11,14 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class ActivityDetails implements Serializable, Comparable<ActivityDetails> {
+public class ActivityNameDetails implements Serializable, Comparable<ActivityNameDetails> {
 
     private static final long serialVersionUID = 1L;
 
-    public ActivityDetails() {
+    public ActivityNameDetails() {
     }
 
-    public ActivityDetails(Short id) {
+    public ActivityNameDetails(Short id) {
         this.id = id;
     }
 
@@ -47,20 +47,20 @@ public class ActivityDetails implements Serializable, Comparable<ActivityDetails
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof ActivityDetails)) {
+        if (!(object instanceof ActivityNameDetails)) {
             return false;
         }
-        ActivityDetails other = (ActivityDetails) object;
+        ActivityNameDetails other = (ActivityNameDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Activity[ activity=" + name + " ]";
+        return "ke.co.miles.kcep.mis.entities.Activity[ name=" + name + " ]";
     }
 
     @Override
-    public int compareTo(ActivityDetails o) {
+    public int compareTo(ActivityNameDetails o) {
         return this.id.compareTo(o.getId());
     }
 

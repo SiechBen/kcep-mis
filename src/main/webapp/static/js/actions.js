@@ -36,7 +36,6 @@ $(function () {
         element.addClass('active');
     }
 });
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Remember user">
@@ -92,7 +91,6 @@ $(function () {
                 //"paging": true
     });
 });
-
 $(function () {
     $(".reports-table").DataTable({
         responsive: true,
@@ -103,7 +101,6 @@ $(function () {
                 //"paging": true
     });
 });
-
 $(function () {
     $(".dt-button").each(function () {
         $(this).removeClass(".dt-button").addClass("btn btn-default");
@@ -140,7 +137,6 @@ $("#actual-value").on("input", function () {
     var expectedValue = $("#expected-value").val();
     $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
 });
-
 $("#expected-value").on("input", function () {
     var actualValue = $("#actual-value").val();
     var expectedValue = $("#expected-value").val();
@@ -542,8 +538,8 @@ function updateCounts() {
         url: "changeCounter",
         type: "POST",
         data: "counter=" + $("#counter").val(),
-        success: function (data) {
-            $("tr#people-summary").html(data);
+        success: function (response) {
+            $("tr#people-summary").html(response);
         },
         error: function (response) {
             showError("error_label", response.responseText);
@@ -801,16 +797,60 @@ function addSubActivity() {
     $.ajax({
         url: "doAddSubActivity",
         type: "POST",
-        data: "description=" + $("#description").val() + "&measurementUnit=" + $("#measurement-unit").val()
-                + "&startDate=" + $("#start-date").val() + "&endDate=" + $("#end-date").val()
-                + "&actualExpenditure=" + $("#actual-expenditure").val() + "&activityPlanningId=" + $("#activityPlanningId").val(),
+        data: "annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                "&component=" + $("#component").val() +
+                "&subComponent=" + $("#sub-component").val() +
+                "&performanceIndicator=" + $("#performance-indicator").val() +
+                "&activityName=" + $("#activity-name").val() +
+                "&subActivityName=" + $("#sub-activity-name").val() +
+                "&startDate=" + $("#start-date").val() +
+                "&endDate=" + $("#end-date").val() +
+                "&measurementUnit=" + $("#measurement-unit").val() +
+                "&unitCost=" + $("#unit-cost").val() +
+                "&awpbTarget=" + $("#awpb-target").val() +
+                "&programmeTarget=" + $("#programme-target").val() +
+                "&totals=" + $("#totals").val() +
+                "&responsePcu=" + $("#response-pcu").val() +
+                "&implementingPartner=" + $("#implementing-partner").val() +
+                "&procurementPlan=" + $("#procurement-plan").val() +
+                "&description=" + $("#description").val() +
+                "&valueAchieved=" + $("#value-achieved").val() +
+                "&allocatedBudget=" + $("#allocated-budget").val() +
+                "&expenditureCategory=" + $("#expected-category").val() +
+                "&gokPercentage=" + $("#gok-percentage").val() +
+                "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
+                "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
+                "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
+                "&euPercentage=" + $("#eu-percentage").val() +
+                "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
         success: function () {
-            $("#description").val("");
-            $("#measurement-unit").val("");
+            $("#annual-workplan-reference-code").val("");
+            $("#component").val("");
+            $("#sub-component").val("");
+            $("#performance-indicator").val("");
+            $("#activity-name").val("");
+            $("#sub-activity-name").val("");
             $("#start-date").val("");
             $("#end-date").val("");
-            $("#actual-expenditure").val("");
-            loadSubActivitiesWindow($("#activityPlanningId").val());
+            $("#measurement-unit").val("");
+            $("#unit-cost").val("");
+            $("#awpb-target").val("");
+            $("#programme-target").val("");
+            $("#totals").val("");
+            $("#response-pcu").val("");
+            $("#implementing-partner").val("");
+            $("#procurement-plan").val("");
+            $("#description").val("");
+            $("#value-achieved").val("");
+            $("#allocated-budget").val("");
+            $("#expected-category").val("");
+            $("#gok-percentage").val("");
+            $("#ifad-loan-percentage").val("");
+            $("#ifad-grant-percentage").val("");
+            $("#beneficiaries-percentage").val("");
+            $("#eu-percentage").val("");
+            $("#financial-institution-percentage").val();
+            loadAjaxWindow("sub_activities");
             return;
         },
         error: function (response) {
@@ -968,7 +1008,6 @@ function addPerformanceIndicator() {
             $("#actual-value").val();
             $("#expected-value").val();
             $("#ratio").val();
-
             loadAjaxWindow("performance_indicators");
             return;
         },
@@ -981,7 +1020,6 @@ function addPerformanceIndicator() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm">
-
 function loadFarmWindow(farmerId) {
     var target = "farm";
     $.ajax({
@@ -1133,12 +1171,24 @@ function updateStaticInputs() {
         type: "POST",
         url: "updateStaticInputs",
         data: "inputTypeId=" + $("#input-type").val(),
-        success: function (data) {
-            $("#static-input").html(data);
+        success: function (response) {
+            $("#static-input").html(response);
         },
         dataType: "HTML"
     });
 }
+
+function updateSubActivityNames() {
+    $.ajax({
+        type: "POST",
+        url: "updateSubActivityNames",
+        data: "activityNameId=" + $("#activity-name").val(),
+        success: function (response) {
+            $("#sub-activity-name").html(response);
+        }
+    });
+}
+
 /**
  * Update list of people as well
  */
@@ -1147,8 +1197,8 @@ function updateCounties() {
         type: "POST",
         url: "updateCourses",
         data: "degreeId=" + $("#degree-dropdown").val(),
-        success: function (data) {
-            $("#course-dropdown").html(data);
+        success: function (response) {
+            $("#course-dropdown").html(response);
         },
         dataType: "HTML"
     });
@@ -1159,8 +1209,8 @@ function updateSubCounties() {
         type: "POST",
         url: "updateCourses",
         data: "degreeId=" + $("#degree-dropdown").val(),
-        success: function (data) {
-            $("#course-dropdown").html(data);
+        success: function (response) {
+            $("#course-dropdown").html(response);
         },
         dataType: "HTML"
     });
@@ -1171,8 +1221,8 @@ function updateWards() {
         type: "POST",
         url: "updateCourses",
         data: "degreeId=" + $("#degree-dropdown").val(),
-        success: function (data) {
-            $("#course-dropdown").html(data);
+        success: function (response) {
+            $("#course-dropdown").html(response);
         },
         dataType: "HTML"
     });
@@ -1180,15 +1230,51 @@ function updateWards() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Activity">
-function addActivity() {
+//<editor-fold defaultstate="collapsed" desc="Activity name">
+function addActivityName() {
     $.ajax({
-        url: "doAddActivity",
+        url: "doAddActivityName",
         type: "POST",
-        data: "activityName=" + $("#activity-name").val(),
+        data: "name=" + $("#name").val(),
         success: function () {
-            $("#activity-name").val("");
-            loadAjaxWindow("activities");
+            $("#name").val("");
+            loadAjaxWindow("activity_names");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Sub-activity name">
+function addSubActivityName() {
+    $.ajax({
+        url: "doAddSubActivityName",
+        type: "POST",
+        data: "name=" + $("#name").val() + "&activityNameId=" + $("#activityNameId").val(),
+        success: function () {
+            $("#name").val("");
+            loadAjaxWindow("sub_activity_names");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function loadSubActivityNamesWindow(activityNameId) {
+    var target = "sub_activity_names";
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: "activityNameId=" + activityNameId,
+        success: function () {
+            window.location = target;
             return;
         },
         error: function (response) {

@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,13 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author siech
  */
 @Entity
-@Table(name = "sub_activity_description", catalog = "kcep_mis", schema = "")
+@Table(name = "activity_name", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SubActivityDescription.findAll", query = "SELECT s FROM SubActivityDescription s"),
-    @NamedQuery(name = "SubActivityDescription.findById", query = "SELECT s FROM SubActivityDescription s WHERE s.id = :id"),
-    @NamedQuery(name = "SubActivityDescription.findByDescription", query = "SELECT s FROM SubActivityDescription s WHERE s.description = :description")})
-public class SubActivityDescription implements Serializable {
+    @NamedQuery(name = "ActivityName.findAll", query = "SELECT a FROM ActivityName a"),
+    @NamedQuery(name = "ActivityName.findById", query = "SELECT a FROM ActivityName a WHERE a.id = :id"),
+    @NamedQuery(name = "ActivityName.findByName", query = "SELECT a FROM ActivityName a WHERE a.name = :name")})
+public class ActivityName implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,19 +41,18 @@ public class SubActivityDescription implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    @Size(max = 45)
-    @Column(name = "description")
-    private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivityDescription")
+    @Size(max = 200)
+    @Column(name = "name")
+    private String name;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityName")
     private List<SubActivity> subActivityList;
-    @JoinColumn(name = "activity", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Activity activity;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityName")
+    private List<SubActivityName> subActivityNameList;
 
-    public SubActivityDescription() {
+    public ActivityName() {
     }
 
-    public SubActivityDescription(Short id) {
+    public ActivityName(Short id) {
         this.id = id;
     }
 
@@ -67,12 +64,12 @@ public class SubActivityDescription implements Serializable {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @XmlTransient
@@ -84,12 +81,13 @@ public class SubActivityDescription implements Serializable {
         this.subActivityList = subActivityList;
     }
 
-    public Activity getActivity() {
-        return activity;
+    @XmlTransient
+    public List<SubActivityName> getSubActivityNameList() {
+        return subActivityNameList;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
+    public void setSubActivityNameList(List<SubActivityName> subActivityNameList) {
+        this.subActivityNameList = subActivityNameList;
     }
 
     @Override
@@ -102,10 +100,10 @@ public class SubActivityDescription implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SubActivityDescription)) {
+        if (!(object instanceof ActivityName)) {
             return false;
         }
-        SubActivityDescription other = (SubActivityDescription) object;
+        ActivityName other = (ActivityName) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -114,7 +112,7 @@ public class SubActivityDescription implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivityDescription[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.ActivityName[ id=" + id + " ]";
     }
     
 }

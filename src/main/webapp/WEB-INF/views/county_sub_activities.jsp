@@ -25,11 +25,32 @@
                                 <thead>
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
-                                        <th>Sub-activity description</th>
-                                        <th>Measurement unit</th>
+                                        <th>Annual workplan reference code</th>
+                                        <th>Component</th>
+                                        <th>Sub-component</th>
+                                        <th>Performance indicator</th>
+                                        <th>Activity name</th>
+                                        <th>Sub-activity name</th>
                                         <th>Start date</th>
                                         <th>End date</th>
-                                        <th>Actual expenditure</th>
+                                        <th>Measurement unit</th>
+                                        <th>Unit cost</th>
+                                        <th>Awpb target</th>
+                                        <th>Programme target</th>
+                                        <th>Totals</th>
+                                        <th>Response pcu</th>
+                                        <th>Implementing partner</th>
+                                        <th>Procurement plan</th>
+                                        <th>Description</th>
+                                        <th>Value achieved</th>
+                                        <th>Allocated budget</th>
+                                        <th>Expenditure category</th>
+                                        <th>GOK percentage</th>
+                                        <th>IFAD loan percentage </th>
+                                        <th>IFAD grant percentage</th>
+                                        <th>Beneficiaries percentage</th>
+                                        <th>EU percentage</th>
+                                        <th>Financial institution percentage</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -41,11 +62,32 @@
                                     <c:forEach var="subActivity" items="${sessionScope.subActivities}" varStatus="index">
                                         <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                             <td>${index.count}</td>
+                                            <td>${subActivity.annualWorkplanReferenceCode}</td>
+                                            <td>${subActivity.component.component}</td>
+                                            <td>${subActivity.subComponent.subComponent}</td>
+                                            <td>${subActivity.performanceIndicator.description}</td>
+                                            <td>${subActivity.activityName.name}</td>
+                                            <td>${subActivity.subActivityName.name}</td>
+                                            <td>${subActivity.startDate}</td>
+                                            <td>${subActivity.endDate}</td>
+                                            <td>${subActivity.measurementUnit.unit}(${subActivity.measurementUnit.symbol}</td>
+                                            <td>${subActivity.unitCost}</td>
+                                            <td>${subActivity.awpbTarget}</td>
+                                            <td>${subActivity.programmeTarget}</td>
+                                            <td>${subActivity.totals}</td>
+                                            <td>${subActivity.responsePcu.name}</td>
+                                            <td>${subActivity.implementingPartner.personRole.personRole}</td>
+                                            <td>${subActivity.procurementPlan}</td>
                                             <td>${subActivity.description}</td>
-                                            <td>${subActivity.measurementUnit.unit}(${subActivity.measurementUnit.symbol})</td>
-                                            <td>${subActivity.startDate})</td>
-                                            <td>${subActivity.endDate})</td>
-                                            <td>${subActivity.actualExpenditure})</td>
+                                            <td>${subActivity.valueAchieved}</td>
+                                            <td>${subActivity.allocatedBudget}</td>
+                                            <td>${subActivity.expenditureCategory.name}</td>
+                                            <td>${subActivity.gokPercentage}</td>
+                                            <td>${subActivity.ifadLoanPercentage}</td>
+                                            <td>${subActivity.ifadGrantPercentage}</td>
+                                            <td>${subActivity.beneficiariesPercentage}</td>
+                                            <td>${subActivity.euPercentage}</td>
+                                            <td>${subActivity.financialInstitutionPercentage}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

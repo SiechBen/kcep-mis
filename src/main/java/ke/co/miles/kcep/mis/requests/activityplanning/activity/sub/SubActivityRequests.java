@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.Activity;
+import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
 import ke.co.miles.kcep.mis.entities.ExpenditureCategory;
 import ke.co.miles.kcep.mis.entities.ImplementingPartner;
@@ -18,13 +19,13 @@ import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.ResponsePcu;
 import ke.co.miles.kcep.mis.entities.SubActivity;
-import ke.co.miles.kcep.mis.entities.SubActivityDescription;
+import ke.co.miles.kcep.mis.entities.SubActivityName;
 import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.activityplanning.activity.ActivityRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.description.SubActivityDescriptionRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
@@ -53,13 +54,15 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             throw new InvalidArgumentException("error_017_03");
         } else if (subActivityDetails.getPerformanceIndicator() == null) {
             throw new InvalidArgumentException("error_017_04");
-        } else if (subActivityDetails.getActivity() == null) {
+        } else if (subActivityDetails.getActivityName() == null) {
             throw new InvalidArgumentException("error_017_05");
         }
 
         SubActivity subActivity = new SubActivity();
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
-        subActivity.setStartDate(subActivityDetails.getEndDate());
+        MilesDebugger.debug("Start date", subActivityDetails.getStartDate(), "End date", subActivityDetails.getEndDate());
+        subActivity.setStartDate(subActivityDetails.getStartDate());
+        subActivity.setEndDate(subActivityDetails.getEndDate());
         subActivity.setUnitCost(subActivityDetails.getUnitCost());
         subActivity.setAwpbTarget(subActivityDetails.getAwpbTarget());
         subActivity.setProgrammeTarget(subActivityDetails.getProgrammeTarget());
@@ -74,7 +77,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setBeneficiariesPercentage(subActivityDetails.getBeneficiariesPercentage());
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
-        subActivity.setActivity(em.find(Activity.class, subActivityDetails.getActivity().getId()));
+        subActivity.setActivityName(em.find(ActivityName.class, subActivityDetails.getActivityName().getId()));
         subActivity.setExpenditureCategory(em.find(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
         subActivity.setPerformanceIndicator(em.find(PerformanceIndicator.class, subActivityDetails.getPerformanceIndicator().getId()));
         subActivity.setComponent(em.find(Component.class, subActivityDetails.getComponent().getId()));
@@ -84,7 +87,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setImplementingPartner(em.find(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
         subActivity.setMeasurementUnit(em.find(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         subActivity.setResponsePcu(em.find(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
-        subActivity.setSubActivityDescription(em.find(SubActivityDescription.class, subActivityDetails.getSubActivityDescription().getId()));
+        subActivity.setSubActivityName(em.find(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
 
         try {
             em.persist(subActivity);
@@ -141,7 +144,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             throw new InvalidArgumentException("error_017_03");
         } else if (subActivityDetails.getPerformanceIndicator() == null) {
             throw new InvalidArgumentException("error_017_04");
-        } else if (subActivityDetails.getActivity() == null) {
+        } else if (subActivityDetails.getActivityName() == null) {
             throw new InvalidArgumentException("error_017_05");
         }
 
@@ -163,7 +166,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setBeneficiariesPercentage(subActivityDetails.getBeneficiariesPercentage());
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
-        subActivity.setActivity(em.find(Activity.class, subActivityDetails.getActivity().getId()));
+        subActivity.setActivityName(em.find(ActivityName.class, subActivityDetails.getActivityName().getId()));
         subActivity.setExpenditureCategory(em.find(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
         subActivity.setPerformanceIndicator(em.find(PerformanceIndicator.class, subActivityDetails.getPerformanceIndicator().getId()));
         subActivity.setComponent(em.find(Component.class, subActivityDetails.getComponent().getId()));
@@ -173,7 +176,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setImplementingPartner(em.find(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
         subActivity.setMeasurementUnit(em.find(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         subActivity.setResponsePcu(em.find(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
-        subActivity.setSubActivityDescription(em.find(SubActivityDescription.class, subActivityDetails.getSubActivityDescription().getId()));
+        subActivity.setSubActivityName(em.find(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
 
         try {
             em.merge(subActivity);
@@ -203,7 +206,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         SubActivityDetails subActivityDetails = new SubActivityDetails(subActivity.getId());
         subActivityDetails.setAnnualWorkplanReferenceCode(subActivity.getAnnualWorkplanReferenceCode());
-        subActivityDetails.setStartDate(subActivity.getEndDate());
+        subActivity.setStartDate(subActivityDetails.getStartDate());
+        subActivity.setEndDate(subActivityDetails.getEndDate());
         subActivityDetails.setUnitCost(subActivity.getUnitCost());
         subActivityDetails.setAwpbTarget(subActivity.getAwpbTarget());
         subActivityDetails.setProgrammeTarget(subActivity.getProgrammeTarget());
@@ -218,13 +222,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivityDetails.setBeneficiariesPercentage(subActivity.getBeneficiariesPercentage());
         subActivityDetails.setEuPercentage(subActivity.getEuPercentage());
         subActivityDetails.setFinancialInstitutionPercentage(subActivity.getFinancialInstitutionPercentage());
-        subActivityDetails.setActivity(activityService.convertActivityToActivityDetails(subActivity.getActivity()));
+        subActivityDetails.setActivityName(activityService.
+                convertActivityNameToActivityNameDetails(subActivity.getActivityName()));
         subActivityDetails.setMeasurementUnit(measurementUnitService.
                 convertMeasurementUnitToMeasurementUnitDetails(subActivity.getMeasurementUnit()));
         subActivityDetails.setResponsePcu(responsePcuService.
                 convertResponsePcuToResponsePcuDetails(subActivity.getResponsePcu()));
-        subActivityDetails.setSubActivityDescription(subActivityDecriptionService.
-                convertSubActivityDescriptionToSubActivityDescriptionDetails(subActivity.getSubActivityDescription()));
+        subActivityDetails.setSubActivityName(subActivityDecriptionService.
+                convertSubActivityNameToSubActivityNameDetails(subActivity.getSubActivityName()));
         subActivityDetails.setExpenditureCategory(expenditureCategoryService.
                 convertExpenditureCategoryToExpenditureCategoryDetails(subActivity.getExpenditureCategory()));
         subActivityDetails.setAnnualWorkplanReferenceCode(subActivity.getAnnualWorkplanReferenceCode());
@@ -256,7 +261,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
 //</editor-fold>
     @EJB
-    private ActivityRequestsLocal activityService;
+    private ActivityNameRequestsLocal activityService;
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB
@@ -270,7 +275,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @EJB
     private ExpenditureCategoryRequestsLocal expenditureCategoryService;
     @EJB
-    private SubActivityDescriptionRequestsLocal subActivityDecriptionService;
+    private SubActivityNameRequestsLocal subActivityDecriptionService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatortService;
 }
