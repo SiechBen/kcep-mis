@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FarmActivity.findById", query = "SELECT f FROM FarmActivity f WHERE f.id = :id"),
     @NamedQuery(name = "FarmActivity.findByName", query = "SELECT f FROM FarmActivity f WHERE f.name = :name"),
     @NamedQuery(name = "FarmActivity.findByYield", query = "SELECT f FROM FarmActivity f WHERE f.yield = :yield"),
-    @NamedQuery(name = "FarmActivity.findByDate", query = "SELECT f FROM FarmActivity f WHERE f.date = :date"),
+    @NamedQuery(name = "FarmActivity.findByDateDone", query = "SELECT f FROM FarmActivity f WHERE f.dateDone = :dateDone"),
     @NamedQuery(name = "FarmActivity.findByQuantitySold", query = "SELECT f FROM FarmActivity f WHERE f.quantitySold = :quantitySold"),
     @NamedQuery(name = "FarmActivity.findByQuantityHarvested", query = "SELECT f FROM FarmActivity f WHERE f.quantityHarvested = :quantityHarvested"),
     @NamedQuery(name = "FarmActivity.findByAverageSellingPrice", query = "SELECT f FROM FarmActivity f WHERE f.averageSellingPrice = :averageSellingPrice")})
@@ -57,7 +57,7 @@ public class FarmActivity implements Serializable {
     private Double yield;
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date dateDone;
     @Column(name = "quantity_sold")
     private Double quantitySold;
     @Column(name = "quantity_harvested")
@@ -99,12 +99,12 @@ public class FarmActivity implements Serializable {
         this.yield = yield;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateDone() {
+        return dateDone;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateDone(Date dateDone) {
+        this.dateDone = dateDone;
     }
 
     public Double getQuantitySold() {

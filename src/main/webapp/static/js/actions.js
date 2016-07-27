@@ -776,23 +776,6 @@ $("#feedback-form").ajaxForm({
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity">
-function loadSubActivitiesWindow(activityPlanningId) {
-    var target = "subActivities";
-    $.ajax({
-        url: target,
-        type: "POST",
-        data: "activityPlanningId=" + activityPlanningId,
-        success: function () {
-            window.location = target;
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
-}
-
 function addSubActivity() {
     $.ajax({
         url: "doAddSubActivity",
@@ -800,7 +783,7 @@ function addSubActivity() {
         data: "annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
                 "&component=" + $("#component").val() +
                 "&subComponent=" + $("#sub-component").val() +
-                "&performanceIndicator=" + $("#performance-indicator").val() +
+                "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
                 "&activityName=" + $("#activity-name").val() +
                 "&subActivityName=" + $("#sub-activity-name").val() +
                 "&startDate=" + $("#start-date").val() +
@@ -827,7 +810,8 @@ function addSubActivity() {
             $("#annual-workplan-reference-code").val("");
             $("#component").val("");
             $("#sub-component").val("");
-            $("#performance-indicator").val("");
+            $("#annual-indicator").val("");
+            $("#annual-indicator-ids").val("");
             $("#activity-name").val("");
             $("#sub-activity-name").val("");
             $("#start-date").val("");
@@ -858,6 +842,32 @@ function addSubActivity() {
         },
         dataType: "HTML"
     });
+}
+
+function loadSubActivitiesWindow(activityPlanningId) {
+    var target = "subActivities";
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: "activityPlanningId=" + activityPlanningId,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function addToAnnualIndicators() {
+    $("#annual-indicator-ids").val($("#annual-indicator-ids").val() + "-" + $("#annual-indicator").val());
+    if ($("#annual-indicator-descriptions").val() === "") {
+        $("#annual-indicator-descriptions").val($("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
+    } else {
+        $("#annual-indicator-descriptions").val($("#annual-indicator-descriptions").val() + ", " + $("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
+    }
 }
 //</editor-fold>
 
@@ -985,7 +995,6 @@ function addProcurementPlanCs() {
 
 //<editor-fold defaultstate="collapsed" desc="Performance Indicator">
 function addPerformanceIndicator() {
-
     $.ajax({
         url: "doAddPerformanceIndicator",
         type: "POST",

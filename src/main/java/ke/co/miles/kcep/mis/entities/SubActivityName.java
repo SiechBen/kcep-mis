@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -44,7 +45,9 @@ public class SubActivityName implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    @Size(max = 200)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivityName")
@@ -58,6 +61,11 @@ public class SubActivityName implements Serializable {
 
     public SubActivityName(Short id) {
         this.id = id;
+    }
+
+    public SubActivityName(Short id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Short getId() {

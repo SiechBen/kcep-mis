@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "InputsCollection.findByFarmerId", query = "SELECT i FROM InputsCollection i WHERE i.farmer.id = :farmerId"),
     @NamedQuery(name = "InputsCollection.findAll", query = "SELECT i FROM InputsCollection i"),
     @NamedQuery(name = "InputsCollection.findById", query = "SELECT i FROM InputsCollection i WHERE i.id = :id"),
-    @NamedQuery(name = "InputsCollection.findByDate", query = "SELECT i FROM InputsCollection i WHERE i.date = :date"),
+    @NamedQuery(name = "InputsCollection.findByDateCollected", query = "SELECT i FROM InputsCollection i WHERE i.dateCollected = :dateCollected"),
     @NamedQuery(name = "InputsCollection.findByQuantity", query = "SELECT i FROM InputsCollection i WHERE i.quantity = :quantity")})
 public class InputsCollection implements Serializable {
 
@@ -44,9 +44,9 @@ public class InputsCollection implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "date")
+    @Column(name = "date_collected")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date dateCollected;
     @Size(max = 45)
     @Column(name = "quantity")
     private String quantity;
@@ -78,12 +78,12 @@ public class InputsCollection implements Serializable {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateCollected() {
+        return dateCollected;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateCollected(Date dateCollected) {
+        this.dateCollected = dateCollected;
     }
 
     public String getQuantity() {

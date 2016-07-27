@@ -42,13 +42,16 @@
                                 </select>
                             </div>   
                             <div class="form-group">
-                                Performance indicator
-                                <select id="performance-indicator" class="form-control">
+                                Annual indicator
+                                <select id="annual-indicator" class="form-control" onchange="addToAnnualIndicators()">
+                                    <option selected>Select annual indicator</option>
                                     <c:forEach var="performanceIndicator" items="${sessionScope.performanceIndicators}" varStatus="counter">
                                         <option value="${performanceIndicator.id}">${performanceIndicator.description}</option>
                                     </c:forEach>
-                                </select>
-                            </div>   
+                                </select> 
+                                <input type="text" id="annual-indicator-descriptions" value="" class="form-control">
+                                <input type="hidden" id="annual-indicator-ids" value="">
+                            </div>
                             <div class="form-group">
                                 Activity name
                                 <select id="activity-name" class="form-control" onchange="updateSubActivityNames()">

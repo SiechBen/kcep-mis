@@ -44,7 +44,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         }
 
         InputsCollection inputsCollection = new InputsCollection();
-        inputsCollection.setDate(inputsCollectionDetails.getDate());
+        inputsCollection.setDateCollected(inputsCollectionDetails.getDateCollected());
         inputsCollection.setQuantity(inputsCollectionDetails.getQuantity());
         inputsCollection.setFarmer(em.find(Person.class, inputsCollectionDetails.getFarmer().getId()));
         inputsCollection.setAgroDealer(em.find(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
@@ -102,7 +102,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
 
         InputsCollection inputsCollection = em.find(InputsCollection.class, inputsCollectionDetails.getId());
         inputsCollection.setId(inputsCollectionDetails.getId());
-        inputsCollection.setDate(inputsCollectionDetails.getDate());
+        inputsCollection.setDateCollected(inputsCollectionDetails.getDateCollected());
         inputsCollection.setQuantity(inputsCollectionDetails.getQuantity());
         inputsCollection.setFarmer(em.find(Person.class, inputsCollectionDetails.getFarmer().getId()));
         inputsCollection.setAgroDealer(em.find(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
@@ -157,7 +157,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             inputsCollectionDetails.setFarmer((personService.convertPersonToPersonDetails(inputsCollection.getFarmer())));
         } catch (Exception e) {
         }
-        inputsCollectionDetails.setDate(inputsCollection.getDate());
+        inputsCollectionDetails.setDateCollected(inputsCollection.getDateCollected());
         inputsCollectionDetails.setQuantity(inputsCollection.getQuantity());
 
         return inputsCollectionDetails;

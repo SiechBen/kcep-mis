@@ -46,12 +46,12 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
         this.yield = yield;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateDone() {
+        return dateDone;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateDone(Date dateDone) {
+        this.dateDone = dateDone;
     }
 
     public Double getQuantitySold() {
@@ -119,7 +119,7 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
     }
 
     private static final long serialVersionUID = 1L;
-    private Date date;
+    private Date dateDone;
     private Integer id;
     private String name;
     private Double yield;

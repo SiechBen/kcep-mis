@@ -38,7 +38,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         }
 
         FarmActivity farmActivity = new FarmActivity();
-        farmActivity.setDate(farmActivityDetails.getDate());
+        farmActivity.setDateDone(farmActivityDetails.getDateDone());
         farmActivity.setYield(farmActivityDetails.getYield());
         farmActivity.setName(farmActivityDetails.getName());
         farmActivity.setQuantitySold(farmActivityDetails.getQuantitySold());
@@ -104,7 +104,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
 
         FarmActivity farmActivity = em.find(FarmActivity.class, farmActivityDetails.getId());
         farmActivity.setId(farmActivityDetails.getId());
-        farmActivity.setDate(farmActivityDetails.getDate());
+        farmActivity.setDateDone(farmActivityDetails.getDateDone());
         farmActivity.setYield(farmActivityDetails.getYield());
         farmActivity.setName(farmActivityDetails.getName());
         farmActivity.setQuantitySold(farmActivityDetails.getQuantitySold());
@@ -144,7 +144,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivityDetails.setQuantitySold(farmActivity.getQuantitySold());
         farmActivityDetails.setName(farmActivity.getName());
         farmActivityDetails.setYield(farmActivity.getYield());
-        farmActivityDetails.setDate(farmActivity.getDate());
+        farmActivityDetails.setDateDone(farmActivity.getDateDone());
         farmActivityDetails.setFarmer(personService.convertPersonToPersonDetails(farmActivity.getFarmer()));
 
         return farmActivityDetails;

@@ -28,7 +28,7 @@
                                         <th>Annual workplan reference code</th>
                                         <th>Component</th>
                                         <th>Sub-component</th>
-                                        <th>Performance indicator</th>
+                                        <th>Annual indicators</th>
                                         <th>Activity name</th>
                                         <th>Sub-activity name</th>
                                         <th>Start date</th>
@@ -59,14 +59,16 @@
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    <c:forEach var="subActivity" items="${sessionScope.subActivities}" varStatus="index">
+                                    <c:forEach var="subActivity" items="${sessionScope.subActivityMap.keySet()}" varStatus="index">
                                         <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                             <td>${index.count}</td>
                                             <td>${subActivity.annualWorkplanReferenceCode}</td>
                                             <td>${subActivity.component.component}</td>
                                             <td>${subActivity.subComponent.subComponent}</td>
-                                            <td>${subActivity.performanceIndicator.description}</td>
-                                            <td>${subActivity.activityName.name}</td>
+                                            <td>  <c:forEach var="annualIndicator" items="${sessionScope.subActivityMap.get(subActivity)}" varStatus="index">
+                                                    ${annualIndicator.performanceIndicator.description}
+                                                </c:forEach>
+                                            </td>
                                             <td>${subActivity.subActivityName.name}</td>
                                             <td>${subActivity.startDate}</td>
                                             <td>${subActivity.endDate}</td>

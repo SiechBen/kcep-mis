@@ -38,8 +38,6 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             throw new InvalidArgumentException("error_006_01");
         } else if (trainingDetails.getVenue() == null) {
             throw new InvalidArgumentException("error_006_02");
-        } else if (trainingDetails.getTopic() == null) {
-            throw new InvalidArgumentException("error_006_03");
         }
 
         Training training = new Training();
@@ -47,7 +45,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setStartDate(trainingDetails.getStartDate());
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
-        training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
+        if (training.getTopic() != null) {
+            training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
+        }
         if (trainingDetails.getCategoryOfTrainees() != null) {
             training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
@@ -89,11 +89,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         if (trainingDetails == null) {
             throw new InvalidArgumentException("error_006_01");
         } else if (trainingDetails.getId() == null) {
-            throw new InvalidArgumentException("error_006_04");
+            throw new InvalidArgumentException("error_006_03");
         } else if (trainingDetails.getVenue() == null) {
             throw new InvalidArgumentException("error_006_02");
-        } else if (trainingDetails.getTopic() == null) {
-            throw new InvalidArgumentException("error_006_03");
         }
 
         locationService.editLocation(trainingDetails.getVenue());
@@ -104,6 +102,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setStartDate(trainingDetails.getStartDate());
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
+        if (training.getTopic() != null) {
+            training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
+        }
         training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
         if (trainingDetails.getCategoryOfTrainees() != null) {
             training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
@@ -115,7 +116,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             em.merge(training);
             em.flush();
         } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
+             throw new InvalidStateException("error_000_01");
         }
 
     }

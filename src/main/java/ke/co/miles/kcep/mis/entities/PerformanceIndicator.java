@@ -72,14 +72,14 @@ public class PerformanceIndicator implements Serializable {
     private Double expectedValue;
     @Column(name = "ratio")
     private Double ratio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
-    private List<SubActivity> subActivityList;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
-    @ManyToOne(optional = true)
+    @ManyToOne
     private PerformanceIndicatorType performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
+    private List<AnnualIndicator> annualIndicatorList;
 
     public PerformanceIndicator() {
     }
@@ -157,15 +157,6 @@ public class PerformanceIndicator implements Serializable {
         this.ratio = ratio;
     }
 
-    @XmlTransient
-    public List<SubActivity> getSubActivityList() {
-        return subActivityList;
-    }
-
-    public void setSubActivityList(List<SubActivity> subActivityList) {
-        this.subActivityList = subActivityList;
-    }
-
     public PerformanceIndicatorType getPerformanceIndicatorType() {
         return performanceIndicatorType;
     }
@@ -180,6 +171,15 @@ public class PerformanceIndicator implements Serializable {
 
     public void setResultHierarchy(ResultHierarchy resultHierarchy) {
         this.resultHierarchy = resultHierarchy;
+    }
+
+    @XmlTransient
+    public List<AnnualIndicator> getAnnualIndicatorList() {
+        return annualIndicatorList;
+    }
+
+    public void setAnnualIndicatorList(List<AnnualIndicator> annualIndicatorList) {
+        this.annualIndicatorList = annualIndicatorList;
     }
 
     @Override

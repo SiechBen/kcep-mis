@@ -54,10 +54,8 @@ public class AccessController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession(false);
 
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -91,10 +89,8 @@ public class AccessController extends Controller {
             case "/login":
 
                 /*if (session == null || ((new Date().getTime() - session.getLastAccessedTime()) > 1800000)) {*/
-                //Authentificate the user
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                //Retrieve the logged in user
                 Map<PersonDetails, PersonRoleDetail> personToPersonRoleMap;
                 try {
                     personToPersonRoleMap = personService.retrievePerson(username, password);
@@ -118,10 +114,7 @@ public class AccessController extends Controller {
                 HashMap<String, Boolean> rightsMaps = new HashMap<>();
 
                 if (person != null && personRole != null) {
-                    //Create a new session
                     session = request.getSession(true);
-
-                    //Set the user
                     session.setAttribute("loggedIn", true);
                     session.setAttribute("person", person);
                     session.setAttribute("user", person.getName());
@@ -224,13 +217,11 @@ public class AccessController extends Controller {
 
                 session.setAttribute("rightsMaps", rightsMaps);
 
-                //Retrieve the the application attributes and avail them in the application session
                 availApplicationAttributes();
 
                 return;
 
             case "/home":
-                //Change path to appropriate homepage
                 LOGGER.log(Level.INFO, "Directing user to home");
                 path = (String) session.getAttribute("home");
                 LOGGER.log(Level.SEVERE, "Path is : {0}", path);
@@ -238,15 +229,12 @@ public class AccessController extends Controller {
                 break;
 
             case "/logout":
-                //Logout user by invalidating session
-                session.setAttribute("subAdminSession", false);
+                if (session != null) {
+                    session.invalidate();
+                }
 
-                session.invalidate();
-
-                //Change path to index page
                 path = "index.jsp";
                 LOGGER.log(Level.SEVERE, "Path is : {0}", path);
-                //Redirect user to the page
                 request.getRequestDispatcher(path).forward(request, response);
 
                 return;
@@ -259,10 +247,7 @@ public class AccessController extends Controller {
 
         }
 
-        //Retrieve the the application attributes and avail them in the application session
         availApplicationAttributes();
-
-        //Use request dispatcher to foward request internally
         destination = "/WEB-INF/views" + path + ".jsp";
 
         LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);

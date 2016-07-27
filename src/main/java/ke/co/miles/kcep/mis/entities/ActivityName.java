@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,7 +42,9 @@ public class ActivityName implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    @Size(max = 200)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityName")
@@ -54,6 +57,11 @@ public class ActivityName implements Serializable {
 
     public ActivityName(Short id) {
         this.id = id;
+    }
+
+    public ActivityName(Short id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Short getId() {

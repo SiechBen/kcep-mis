@@ -26,6 +26,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.annualindicator.AnnualIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
@@ -34,6 +35,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuReq
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
+import ke.co.miles.kcep.mis.utilities.AnnualIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
@@ -266,6 +268,18 @@ public class ActivityPlanningController extends Controller {
                         LOGGER.log(Level.INFO, "", ex);
 
                     }
+
+                    HashMap<SubActivityDetails, List<AnnualIndicatorDetails>> subActivityMap;
+                    try {
+                        subActivityMap = annualIndicatorService.retrieveSubActivities();
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    session.setAttribute("subActivityMap", subActivityMap);
                     break;
 
                 case "/head_addSubActivity":
@@ -474,26 +488,25 @@ public class ActivityPlanningController extends Controller {
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }
-                    String[] annualIndicatorIds = String.valueOf(request.getParameter("annual-indicator-ids")).split("-");
+                    String[] annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
                     AnnualIndicatorDetails annualIndicatorRecord;
                     List<AnnualIndicatorDetails> annualIndicatorRecords = new ArrayList<>();
 
                     try {
                         subActivity.setId(subActivityService.addSubActivity(subActivity));
-
                         for (String annualIndicatorId : annualIndicatorIds) {
                             PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
                             annualIndicatorRecord = new AnnualIndicatorDetails();
                             try {
                                 performanceIndicator.setId(Short.valueOf(annualIndicatorId));
-                                annualIndicatorRecord.setPerfromanceIndicator(performanceIndicator);
+                                annualIndicatorRecord.setPerformanceIndicator(performanceIndicator);
                                 annualIndicatorRecord.setSubActivity(subActivity);
                                 annualIndicatorRecords.add(annualIndicatorRecord);
                             } catch (Exception e) {
                             }
                         }
-                        annualIndicatorService.add(annualIndicatorRecords);
-                        
+                        annualIndicatorService.addAnnualIndicators(annualIndicatorRecords);
+
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -538,6 +551,8 @@ public class ActivityPlanningController extends Controller {
     private ResponsePcuRequestsLocal responsePcuService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
+    @EJB
+    private AnnualIndicatorRequestsLocal annualIndicatorService;
     @EJB
     private SubActivityNameRequestsLocal subActivityNameService;
     @EJB

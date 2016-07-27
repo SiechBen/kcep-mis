@@ -8,7 +8,9 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +20,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
+    @NamedQuery(name = "SubActivity.findByExpectedOutcome", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome = :expectedOutcome"),
     @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
     @NamedQuery(name = "SubActivity.findByStartDate", query = "SELECT s FROM SubActivity s WHERE s.startDate = :startDate"),
     @NamedQuery(name = "SubActivity.findByEndDate", query = "SELECT s FROM SubActivity s WHERE s.endDate = :endDate"),
@@ -59,7 +64,10 @@ public class SubActivity implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Size(max = 200)
+    @Column(name = "expected_outcome")
+    private String expectedOutcome;
+    @Size(max = 20)
     @Column(name = "annual_workplan_reference_code")
     private String annualWorkplanReferenceCode;
     @Column(name = "start_date")
@@ -105,9 +113,6 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ExpenditureCategory expenditureCategory;
-    @JoinColumn(name = "performance_indicator", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private PerformanceIndicator performanceIndicator;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Component component;
@@ -115,7 +120,7 @@ public class SubActivity implements Serializable {
     @ManyToOne
     private SubComponent subComponent;
     @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ImplementingPartner implementingPartner;
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -126,6 +131,8 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private SubActivityName subActivityName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
+    private List<AnnualIndicator> annualIndicatorList;
 
     public SubActivity() {
     }
@@ -140,6 +147,14 @@ public class SubActivity implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getExpectedOutcome() {
+        return expectedOutcome;
+    }
+
+    public void setExpectedOutcome(String expectedOutcome) {
+        this.expectedOutcome = expectedOutcome;
     }
 
     public String getAnnualWorkplanReferenceCode() {
@@ -294,14 +309,6 @@ public class SubActivity implements Serializable {
         this.expenditureCategory = expenditureCategory;
     }
 
-    public PerformanceIndicator getPerformanceIndicator() {
-        return performanceIndicator;
-    }
-
-    public void setPerformanceIndicator(PerformanceIndicator performanceIndicator) {
-        this.performanceIndicator = performanceIndicator;
-    }
-
     public Component getComponent() {
         return component;
     }
@@ -348,6 +355,15 @@ public class SubActivity implements Serializable {
 
     public void setSubActivityName(SubActivityName subActivityName) {
         this.subActivityName = subActivityName;
+    }
+
+    @XmlTransient
+    public List<AnnualIndicator> getAnnualIndicatorList() {
+        return annualIndicatorList;
+    }
+
+    public void setAnnualIndicatorList(List<AnnualIndicator> annualIndicatorList) {
+        this.annualIndicatorList = annualIndicatorList;
     }
 
     @Override

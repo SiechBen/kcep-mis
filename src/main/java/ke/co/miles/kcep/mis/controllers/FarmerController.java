@@ -280,9 +280,9 @@ public class FarmerController extends Controller {
                     try {
                         date = userDateFormat.parse(request.getParameter("dateCollected"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        inputsCollection.setDate(date);
+                        inputsCollection.setDateCollected(date);
                     } catch (Exception e) {
-                        inputsCollection.setDate(null);
+                        inputsCollection.setDateCollected(null);
                     }
 
                     List<InputsCollectionDetails> inputsCollections;
@@ -321,9 +321,9 @@ public class FarmerController extends Controller {
                     try {
                         date = userDateFormat.parse(request.getParameter("farmActivityDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        farmActivity.setDate(date);
+                        farmActivity.setDateDone(date);
                     } catch (Exception e) {
-                        farmActivity.setDate(null);
+                        farmActivity.setDateDone(null);
                     }
                     try {
                         farmActivity.setQuantitySold(new Double(request.getParameter("quantitySold")));
@@ -465,7 +465,7 @@ public class FarmerController extends Controller {
                 out.write("<tr>");
             }
             out.write("<td>" + ++index + "</td>");
-            out.write("<td>" + inputsCollection.getDate() + "</td>");
+            out.write("<td>" + inputsCollection.getDateCollected() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getName() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getBusinessName() + "</td>");
             try {
@@ -496,7 +496,7 @@ public class FarmerController extends Controller {
             out.write("<td>" + ++index + "</td>");
             out.write("<td>" + farmActivity.getName() + "</td>");
             out.write("<td>" + farmActivity.getYield() + "</td>");
-            out.write("<td>" + farmActivity.getDate() + "</td>");
+            out.write("<td>" + farmActivity.getDateDone() + "</td>");
             out.write("<td>" + farmActivity.getQuantitySold() + "</td>");
             out.write("<td>" + farmActivity.getQuantityHarvested() + "</td>");
             out.write("<td>" + farmActivity.getAverageSellingPrice() + "</td>");

@@ -21,7 +21,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
@@ -540,7 +539,6 @@ public class PersonController extends Controller {
                         person.setDateOfBirth(null);
                     }
 
-                    MilesDebugger.debug(person);
                     try {
                         personService.addPerson(person, personRole);
                     } catch (MilesException e) {
