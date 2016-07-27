@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,7 +52,7 @@ public class Location implements Serializable {
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "location")
     private List<Person> personList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "venue")
+    @OneToMany(mappedBy = "venue")
     private List<Training> trainingList;
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne

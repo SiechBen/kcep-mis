@@ -49,16 +49,16 @@
                                         <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                             <td>${index.count}</td>
                                             <td>${trainee.person.name}</td>
-                                            <td>${trainee.personnationalId}</td>
-                                            <td>${trainee.persondateOfBirth}</td>
-                                            <td>${trainee.personbusinessName}</td>
-                                            <td>${trainee.personfarmerGroup.name}</td>
-                                            <td>${trainee.personfarmerSubGroup.name}</td>
-                                            <td>${trainee.personlocation.county.name}</td>
-                                            <td>${trainee.personlocation.subCounty.name}</td>
-                                            <td>${trainee.personlocation.ward.name}</td>
-                                            <td>${trainee.personcontact.phone}</td>
-                                            <td>${trainee.personcontact.email}</td>
+                                            <td>${trainee.person.nationalId}</td>
+                                            <td>${trainee.person.dateOfBirth}</td>
+                                            <td>${trainee.person.businessName}</td>
+                                            <td>${trainee.person.farmerGroup.name}</td>
+                                            <td>${trainee.person.farmerSubGroup.name}</td>
+                                            <td>${trainee.person.location.county.name}</td>
+                                            <td>${trainee.person.location.subCounty.name}</td>
+                                            <td>${trainee.person.location.ward.name}</td>
+                                            <td>${trainee.person.contact.phone}</td>
+                                            <td>${trainee.person.contact.email}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

@@ -38,6 +38,14 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.annualWorkplanReferenceCode = annualWorkplanReferenceCode;
     }
 
+    public String getExpectedOutcome() {
+        return this.expectedOutcome;
+    }
+
+    public void setExpectedOutcome(String expectedOutcome) {
+        this.expectedOutcome = expectedOutcome;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -267,6 +275,7 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String annualWorkplanReferenceCode;
+    private String expectedOutcome;
     private Date startDate;
     private Date endDate;
     private BigDecimal unitCost;

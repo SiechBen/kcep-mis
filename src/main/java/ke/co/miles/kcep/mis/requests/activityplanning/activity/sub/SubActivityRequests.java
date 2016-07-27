@@ -31,7 +31,6 @@ import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponent
 import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
-import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 
@@ -58,10 +57,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         SubActivity subActivity = new SubActivity();
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
+        subActivity.setExpectedOutcome(subActivityDetails.getExpectedOutcome());
         subActivity.setStartDate(subActivityDetails.getStartDate());
         subActivity.setEndDate(subActivityDetails.getEndDate());
         subActivity.setEndDate(new Date());
-        MilesDebugger.debug("Start date: ", subActivity.getStartDate(), "End date: ", subActivity.getEndDate());
         subActivity.setUnitCost(subActivityDetails.getUnitCost());
         subActivity.setAwpbTarget(subActivityDetails.getAwpbTarget());
         subActivity.setProgrammeTarget(subActivityDetails.getProgrammeTarget());
@@ -88,6 +87,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setSubActivityName(em.find(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
 
         try {
+            MilesDebugger.debug("Start date: ", subActivity.getStartDate(), "End date: ", subActivity.getEndDate());
             em.persist(subActivity);
             em.flush();
         } catch (Exception e) {
@@ -148,6 +148,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         SubActivity subActivity = em.find(SubActivity.class, subActivityDetails.getId());
         subActivity.setId(subActivityDetails.getId());
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
+        subActivity.setExpectedOutcome(subActivityDetails.getExpectedOutcome());
         subActivity.setStartDate(subActivityDetails.getEndDate());
         subActivity.setUnitCost(subActivityDetails.getUnitCost());
         subActivity.setAwpbTarget(subActivityDetails.getAwpbTarget());
@@ -202,8 +203,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         SubActivityDetails subActivityDetails = new SubActivityDetails(subActivity.getId());
         subActivityDetails.setAnnualWorkplanReferenceCode(subActivity.getAnnualWorkplanReferenceCode());
-        subActivity.setStartDate(subActivityDetails.getStartDate());
-        subActivity.setEndDate(subActivityDetails.getEndDate());
+        subActivityDetails.setExpectedOutcome(subActivity.getExpectedOutcome());
+        subActivityDetails.setStartDate(subActivity.getStartDate());
+        subActivityDetails.setEndDate(subActivity.getEndDate());
         subActivityDetails.setUnitCost(subActivity.getUnitCost());
         subActivityDetails.setAwpbTarget(subActivity.getAwpbTarget());
         subActivityDetails.setProgrammeTarget(subActivity.getProgrammeTarget());
@@ -270,6 +272,4 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     private ExpenditureCategoryRequestsLocal expenditureCategoryService;
     @EJB
     private SubActivityNameRequestsLocal subActivityDecriptionService;
-    @EJB
-    private PerformanceIndicatorRequestsLocal performanceIndicatortService;
 }

@@ -64,13 +64,13 @@ public class Training implements Serializable {
     @Column(name = "attendance_sheet")
     private String attendanceSheet;
     @JoinColumn(name = "venue", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Location venue;
     @JoinColumn(name = "category_of_trainees", referencedColumnName = "id")
     @ManyToOne
     private PersonRole categoryOfTrainees;
     @JoinColumn(name = "topic", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Topic topic;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "training")
     private List<Trainee> traineeList;

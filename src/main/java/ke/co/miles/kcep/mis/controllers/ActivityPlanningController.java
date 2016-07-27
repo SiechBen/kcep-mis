@@ -471,8 +471,9 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
-                        subActivity.setStartDate(databaseDateFormat.parse(databaseDateFormat.format(
-                                userDateFormat.parse(request.getParameter("startDate")))));
+                        date = userDateFormat.parse(request.getParameter("startDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        subActivity.setStartDate(date);
                     } catch (Exception ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
@@ -480,8 +481,9 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setStartDate(null);
                     }
                     try {
-                        subActivity.setEndDate(databaseDateFormat.parse(databaseDateFormat.format(
-                                userDateFormat.parse(request.getParameter("endDate")))));
+                      date = userDateFormat.parse(request.getParameter("endDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        subActivity.setEndDate(date);
                     } catch (Exception ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");

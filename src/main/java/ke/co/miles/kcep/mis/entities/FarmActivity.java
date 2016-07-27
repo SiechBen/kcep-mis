@@ -55,7 +55,7 @@ public class FarmActivity implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "yield")
     private Double yield;
-    @Column(name = "date")
+    @Column(name = "date_done")
     @Temporal(TemporalType.DATE)
     private Date dateDone;
     @Column(name = "quantity_sold")

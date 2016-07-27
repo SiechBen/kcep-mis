@@ -8,9 +8,10 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,14 +37,16 @@ public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Short id;
-    @Size(max = 200)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "topic")
     private String topic;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
+    @OneToMany(mappedBy = "topic")
     private List<Training> trainingList;
 
     public Topic() {
@@ -51,6 +54,11 @@ public class Topic implements Serializable {
 
     public Topic(Short id) {
         this.id = id;
+    }
+
+    public Topic(Short id, String topic) {
+        this.id = id;
+        this.topic = topic;
     }
 
     public Short getId() {
