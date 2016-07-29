@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
@@ -42,7 +41,6 @@ public class ReportsController extends Controller {
     @SuppressWarnings("unchecked")
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
@@ -184,9 +182,14 @@ public class ReportsController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 
-                    break;
+                    try {
+                        session.setAttribute("financialPlanMap", subActivityService.summarizeFinancialPlanByCategories(new Short("2")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
 
-                default:
                     break;
             }
             //Use request dispatcher to foward request internally
@@ -211,7 +214,7 @@ public class ReportsController extends Controller {
     @EJB
     private PersonRequestsLocal personService;
     @EJB
-    private AccountRequestsLocal accountService;
+    private SubActivityRequestsLocal subActivityService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
 

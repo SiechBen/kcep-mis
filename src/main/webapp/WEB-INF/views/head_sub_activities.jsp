@@ -25,6 +25,7 @@
                                 <thead>
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
+                                        <th>Expected outcome</th>
                                         <th>Annual workplan reference code</th>
                                         <th>Component</th>
                                         <th>Sub-component</th>
@@ -62,6 +63,7 @@
                                     <c:forEach var="subActivity" items="${sessionScope.subActivityMap.keySet()}" varStatus="index">
                                         <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                             <td>${index.count}</td>
+                                            <td>${subActivity.expectedOutcome}</td>
                                             <td>${subActivity.annualWorkplanReferenceCode}</td>
                                             <td>${subActivity.component.component}</td>
                                             <td>${subActivity.subComponent.subComponent}</td>

@@ -63,9 +63,10 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<ExpenditureCategoryDetails> retrieveExpenditureCategories() throws MilesException {
         List<ExpenditureCategory> expenditureCategories = new ArrayList<>();
-        q = em.createNamedQuery("ExpenditureCategory.findAll");
+        q = em.createNamedQuery("ExpenditureCategory.findAll", ExpenditureCategory.class);
         try {
             expenditureCategories = q.getResultList();
         } catch (Exception e) {

@@ -13,241 +13,92 @@
     <jsp:attribute name="pagecontent">
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        People receiving project services
+                        Financial plan by categories
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
+                            <table id="financial-plan-table" class="table table-striped table-bordered table-hover reports-table">
                                 <thead>
                                     <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Females</th>
-                                        <th>Males</th>
+                                        <th colspan="2">Description</th>
+                                        <th colspan="2">GOK</th>
+                                        <th colspan="2">Beneficiaries</th>
+                                        <th colspan="2">IFAD Loan</th>
+                                        <th colspan="2">IFAD Grant</th>
+                                        <th colspan="2">Financial Institution</th>
+                                        <th colspan="2">Total</th>
+                                        <th colspan="2">Total Initial Allocation</th>
+                                        <th colspan="2">Balance</th>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Number of people trained on post-production
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
                                     <tr>
                                         <th>&nbsp;</th>
-                                        <th>Females</th>
-                                        <th>Males</th>
+                                        <th>Exenditure category</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
+                                        <th>%</th>
+                                        <th>USD '000</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Number of people trained on crop production/technologies
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
+                                <tfoot>
                                     <tr>
                                         <th>&nbsp;</th>
-                                        <th>Females</th>
-                                        <th>Males</th>
+                                        <th><strong>Total</strong></th>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
+                                        <td><strong></strong></td>
                                     </tr>
-                                </thead>
+                                </tfoot>
                                 <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        People trained on financial services
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Females</th>
-                                        <th>Males</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Staff of financial institutions trained
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Females</th>
-                                        <th>Males</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Active borrowers
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Females</th>
-                                        <th>Males</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Storage facilities constructed and rehabilitated
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Crop production groups formed
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Marketing groups formed
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>Count</th>
-                                        <td> </td>
-                                    </tr>
+                                    <c:forEach var="expenditureCategory" items="${sessionScope.financialPlanMap.keySet()}" varStatus="index">
+                                        <tr>
+                                            <th>${index.count}</th>
+                                            <th>${expenditureCategory.name}</th>
+                                            <td>${financialPlanMap.get(expenditureCategory).gokPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).gokValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).beneficiariesPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).beneficiariesValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).ifadLoanPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).ifadLoanValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).ifadGrantPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).ifadGrantValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).financialInstitutionPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).financialInstitutionValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).totalsPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).totalsValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).totalInitialAllocationPercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).totalInitialAllocationValue}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).balancePercentage}</td>
+                                            <td>${financialPlanMap.get(expenditureCategory).balanceValue}</td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div>

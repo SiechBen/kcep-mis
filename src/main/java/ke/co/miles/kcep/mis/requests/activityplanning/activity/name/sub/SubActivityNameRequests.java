@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.SubActivityName;
@@ -60,7 +59,6 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
             em.persist(subActivityName);
             em.flush();
         } catch (Exception e) {
-            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 

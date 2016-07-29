@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.requests.activityplanning.activity.name;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -54,7 +53,6 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
             em.persist(activityName);
             em.flush();
         } catch (Exception e) {
-            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 

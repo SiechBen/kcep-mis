@@ -30,6 +30,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.annualindicator.AnnualIndi
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
@@ -38,6 +39,7 @@ import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
 import ke.co.miles.kcep.mis.utilities.AnnualIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
+import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
 import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
@@ -52,9 +54,10 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
  */
 @WebServlet(
         name = "PlanningController",
-        urlPatterns = {"/activity_names", "/addActivityName", "/doAddActivityName", "/sub_activities", "/addSubActivity",
-            "/doAddSubActivity", "/updateSubActivityNames",
-            "/sub_activity_names", "/addSubActivityName", "/doAddSubActivityName"}
+        urlPatterns = {"/activity_names", "/addActivityName", "/doAddActivityName", "/sub_activities",
+            "/addSubActivity", "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
+            "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names", "/addSubActivityName",
+            "/doAddSubActivityName"}
 )
 public class ActivityPlanningController extends Controller {
 
@@ -87,6 +90,7 @@ public class ActivityPlanningController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
@@ -104,6 +108,14 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/addActivityName":
                                     path = "/head_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/head_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/head_addFinancialYear";
                                     urlPaths.add(path);
                                     break;
                                 case "/addSubActivity":
@@ -194,6 +206,16 @@ public class ActivityPlanningController extends Controller {
                     }
                     break;
 
+                case "/head_financial_years":
+                    try {
+                        session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    break;
+
                 case "/head_activity_names":
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
@@ -219,6 +241,29 @@ public class ActivityPlanningController extends Controller {
 
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/doAddFinancialYear":
+                    FinancialYearDetails financialYear = new FinancialYearDetails();
+                    financialYear.setFinancialYear(request.getParameter("financialYear"));
+                    financialYear.setCurrentYear(Boolean.valueOf(request.getParameter("current")));
+
+                    try {
+                        financialYearService.addFinancialYear(financialYear);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -294,6 +339,14 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
+                        session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    try {
                         session.setAttribute("measurementUnits", measurementUnitService.retrievePlanningMeasurementUnits());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
@@ -349,6 +402,7 @@ public class ActivityPlanningController extends Controller {
 
                     SubActivityDetails subActivity = new SubActivityDetails();
                     subActivity.setProcurementPlan(request.getParameter("procurementPlan"));
+                    subActivity.setExpectedOutcome(request.getParameter("expectedOutcome"));
                     subActivity.setDescription(request.getParameter("description"));
                     subActivity.setAnnualWorkplanReferenceCode(
                             request.getParameter("annualWorkplanReferenceCode"));
@@ -418,13 +472,20 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setProgrammeTarget(null);
                     }
                     try {
+                        subActivity.setFinancialYear(new FinancialYearDetails(
+                                Short.valueOf(request.getParameter("financialYear"))));
+                    } catch (NumberFormatException e) {
+                        subActivity.setTotals(null);
+                    }
+                    try {
                         subActivity.setComponent(new ComponentDetails(Short.valueOf(
                                 request.getParameter("component"))));
                     } catch (Exception e) {
                         subActivity.setComponent(null);
                     }
                     try {
-                        subActivity.setActivityName(new ActivityNameDetails(Short.valueOf(request.getParameter("activityName"))));
+                        subActivity.setActivityName(new ActivityNameDetails(
+                                Short.valueOf(request.getParameter("activityName"))));
                     } catch (Exception e) {
                         subActivity.setActivityName(null);
                     }
@@ -481,7 +542,7 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setStartDate(null);
                     }
                     try {
-                      date = userDateFormat.parse(request.getParameter("endDate"));
+                        date = userDateFormat.parse(request.getParameter("endDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setEndDate(date);
                     } catch (Exception ex) {
@@ -551,6 +612,8 @@ public class ActivityPlanningController extends Controller {
     private ComponentRequestsLocal componentService;
     @EJB
     private ResponsePcuRequestsLocal responsePcuService;
+    @EJB
+    private FinancialYearRequestsLocal financialYearService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
     @EJB

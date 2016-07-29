@@ -780,7 +780,9 @@ function addSubActivity() {
     $.ajax({
         url: "doAddSubActivity",
         type: "POST",
-        data: "annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+        data: "financialYear=" + $("#financial-year").val() +
+                "&expectedOutcome=" + $("#expected-outcome").val() +
+                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
                 "&component=" + $("#component").val() +
                 "&subComponent=" + $("#sub-component").val() +
                 "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
@@ -807,6 +809,8 @@ function addSubActivity() {
                 "&euPercentage=" + $("#eu-percentage").val() +
                 "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
         success: function () {
+            $("#financial-year").val("");
+            $("#expected-outcome").val("");
             $("#annual-workplan-reference-code").val("");
             $("#component").val("");
             $("#sub-component").val("");
@@ -1284,6 +1288,27 @@ function loadSubActivityNamesWindow(activityNameId) {
         data: "activityNameId=" + activityNameId,
         success: function () {
             window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Financial year">
+
+function addFinancialYear() {
+    $.ajax({
+        url: "doAddFinancialYear",
+        type: "POST",
+        data: "financialYear=" + $("#financial-year").val() + "&current=" + $("#current").val(),
+        success: function () {
+            $("#financial-year").val("");
+            $("#current").val("");
+            loadAjaxWindow("financial_years");
             return;
         },
         error: function (response) {

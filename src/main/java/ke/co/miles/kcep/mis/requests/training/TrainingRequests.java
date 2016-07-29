@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.PersonRole;
@@ -56,7 +55,6 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
 
         try {
-            MilesDebugger.debug("Start date: ", training.getStartDate(), "End date: ", training.getEndDate());
             em.persist(training);
             em.flush();
         } catch (Exception e) {

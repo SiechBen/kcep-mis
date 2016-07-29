@@ -28,6 +28,9 @@
             <a onclick="loadAjaxWindow('activity_names')"><i class="fa fa-edit fa-fw"></i> Activity names </a>
         </li>
         <li>
+            <a onclick="loadAjaxWindow('financial_years')"><i class="fa fa-edit fa-fw"></i> Financial years </a>
+        </li>
+        <li>
             <a onclick="loadAjaxWindow('sub_activities')"><i class="fa fa-edit fa-fw"></i> Activity planning </a>
         </li>
         <li>

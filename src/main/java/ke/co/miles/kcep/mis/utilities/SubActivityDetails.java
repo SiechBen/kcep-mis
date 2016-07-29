@@ -246,6 +246,20 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.subActivityName = subActivityName;
     }
 
+    /**
+     * @return the financialYear
+     */
+    public FinancialYearDetails getFinancialYear() {
+        return financialYear;
+    }
+
+    /**
+     * @param financialYear the financialYear to set
+     */
+    public void setFinancialYear(FinancialYearDetails financialYear) {
+        this.financialYear = financialYear;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -301,5 +315,6 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private MeasurementUnitDetails measurementUnit;
     private ResponsePcuDetails responsePcu;
     private SubActivityNameDetails subActivityName;
+    private FinancialYearDetails financialYear;
 
 }

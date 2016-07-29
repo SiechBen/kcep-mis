@@ -22,6 +22,18 @@ Author     : siech
                         <form role="form">
                             <input type="hidden" id="activityPlanningId" value="${sessionScope.activityPlanningId}">
                             <div class="form-group">
+                                Financial year
+                                <select id="financial-year" class="form-control">
+                                    <c:forEach var="financialYear" items="${sessionScope.financialYears}" varStatus="counter">
+                                        <option value="${financialYear.id}" <c:if test="${financialYear.currentYear}">selected</c:if>>${financialYear.financialYear} <c:if test="${financialYear.currentYear}">(current)</c:if></option>
+                                    </c:forEach>
+                                </select>
+                            </div>   
+                            <div class="form-group">
+                                Expected outcome
+                                <input id="expected-outcome" class="form-control">
+                            </div>   
+                            <div class="form-group">
                                 Annual workplan reference code
                                 <input id="annual-workplan-reference-code" class="form-control">
                             </div>   

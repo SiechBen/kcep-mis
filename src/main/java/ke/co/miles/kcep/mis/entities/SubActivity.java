@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
     @NamedQuery(name = "SubActivity.findByExpectedOutcome", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome = :expectedOutcome"),
@@ -131,6 +132,9 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private SubActivityName subActivityName;
+    @JoinColumn(name = "financial_year", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private FinancialYear financialYear;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
     private List<AnnualIndicator> annualIndicatorList;
 
@@ -355,6 +359,14 @@ public class SubActivity implements Serializable {
 
     public void setSubActivityName(SubActivityName subActivityName) {
         this.subActivityName = subActivityName;
+    }
+
+    public FinancialYear getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(FinancialYear financialYear) {
+        this.financialYear = financialYear;
     }
 
     @XmlTransient
