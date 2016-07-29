@@ -38,7 +38,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         try {
-            validationWorkshops.setKalroOfficer(em.find(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
+            validationWorkshops.setKalroOfficer(em.getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             validationWorkshops.setKalroOfficer(null);
         }
@@ -99,7 +99,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         try {
-            validationWorkshops.setKalroOfficer(em.find(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
+            validationWorkshops.setKalroOfficer(em.getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             validationWorkshops.setKalroOfficer(null);
         }

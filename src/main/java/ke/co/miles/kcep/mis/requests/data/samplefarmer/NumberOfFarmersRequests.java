@@ -48,16 +48,16 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
         NumberOfFarmers numberOfFarmers = new NumberOfFarmers();
         numberOfFarmers.setNumber(numberOfFarmersDetails.getNumber());
         if (numberOfFarmersDetails.getSex().getId() != null) {
-            numberOfFarmers.setSex(em.find(Sex.class, numberOfFarmersDetails.getSex().getId()));
+            numberOfFarmers.setSex(em.getReference(Sex.class, numberOfFarmersDetails.getSex().getId()));
         }
         if (numberOfFarmersDetails.getAgeBracket().getId() != null) {
-            numberOfFarmers.setAgeBracket(em.find(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
+            numberOfFarmers.setAgeBracket(em.getReference(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
         }
         if (numberOfFarmersDetails.getNumberDescription().getId() != null) {
-            numberOfFarmers.setNumberDescription(em.find(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
+            numberOfFarmers.setNumberDescription(em.getReference(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
         }
         if (numberOfFarmersDetails.getSampledFarmerData().getId() != null) {
-            numberOfFarmers.setSampledFarmerData(em.find(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
+            numberOfFarmers.setSampledFarmerData(em.getReference(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
         }
         try {
             em.persist(numberOfFarmers);
@@ -121,16 +121,16 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
         numberOfFarmers.setId(numberOfFarmersDetails.getId());
         numberOfFarmers.setNumber(numberOfFarmersDetails.getNumber());
         if (numberOfFarmersDetails.getSex().getId() != null) {
-            numberOfFarmers.setSex(em.find(Sex.class, numberOfFarmersDetails.getSex().getId()));
+            numberOfFarmers.setSex(em.getReference(Sex.class, numberOfFarmersDetails.getSex().getId()));
         }
         if (numberOfFarmersDetails.getAgeBracket().getId() != null) {
-            numberOfFarmers.setAgeBracket(em.find(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
+            numberOfFarmers.setAgeBracket(em.getReference(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
         }
         if (numberOfFarmersDetails.getNumberDescription().getId() != null) {
-            numberOfFarmers.setNumberDescription(em.find(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
+            numberOfFarmers.setNumberDescription(em.getReference(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
         }
         if (numberOfFarmersDetails.getSampledFarmerData().getId() != null) {
-            numberOfFarmers.setSampledFarmerData(em.find(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
+            numberOfFarmers.setSampledFarmerData(em.getReference(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
         }
 
         try {

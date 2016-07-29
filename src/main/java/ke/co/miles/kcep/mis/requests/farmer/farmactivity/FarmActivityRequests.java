@@ -44,7 +44,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivity.setQuantitySold(farmActivityDetails.getQuantitySold());
         farmActivity.setQuantityHarvested(farmActivityDetails.getQuantityHarvested());
         farmActivity.setAverageSellingPrice(farmActivityDetails.getAverageSellingPrice());
-        farmActivity.setFarmer(em.find(Person.class, farmActivityDetails.getFarmer().getId()));
+        farmActivity.setFarmer(em.getReference(Person.class, farmActivityDetails.getFarmer().getId()));
 
         try {
             em.persist(farmActivity);
@@ -110,7 +110,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivity.setQuantitySold(farmActivityDetails.getQuantitySold());
         farmActivity.setQuantityHarvested(farmActivityDetails.getQuantityHarvested());
         farmActivity.setAverageSellingPrice(farmActivityDetails.getAverageSellingPrice());
-        farmActivity.setFarmer(em.find(Person.class, farmActivityDetails.getFarmer().getId()));
+        farmActivity.setFarmer(em.getReference(Person.class, farmActivityDetails.getFarmer().getId()));
 
         try {
             em.merge(farmActivity);

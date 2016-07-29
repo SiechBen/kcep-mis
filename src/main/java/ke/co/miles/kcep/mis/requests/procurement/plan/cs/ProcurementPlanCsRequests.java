@@ -73,10 +73,10 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         procurementPlanCs.setCommenceContract(procurementPlanCsDetails.getCommenceContract());
         procurementPlanCs.setApprovalBySdaOrAg(procurementPlanCsDetails.getApprovalBySdaOrAg());
         procurementPlanCs.setEvaluateTechnicalProposals(procurementPlanCsDetails.getEvaluateTechnicalProposals());
-        procurementPlanCs.setPlanVsActual(em.find(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
-        procurementPlanCs.setIfadPriorReview(em.find(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
-        procurementPlanCs.setProcurementMethod(em.find(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
-        procurementPlanCs.setProcurementPlanType(em.find(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
+        procurementPlanCs.setPlanVsActual(em.getReference(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
+        procurementPlanCs.setIfadPriorReview(em.getReference(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
+        procurementPlanCs.setProcurementMethod(em.getReference(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
+        procurementPlanCs.setProcurementPlanType(em.getReference(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
 
         try {
             em.persist(procurementPlanCs);
@@ -164,10 +164,10 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         procurementPlanCs.setCommenceContract(procurementPlanCsDetails.getCommenceContract());
         procurementPlanCs.setApprovalBySdaOrAg(procurementPlanCsDetails.getApprovalBySdaOrAg());
         procurementPlanCs.setEvaluateTechnicalProposals(procurementPlanCsDetails.getEvaluateTechnicalProposals());
-        procurementPlanCs.setPlanVsActual(em.find(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
-        procurementPlanCs.setIfadPriorReview(em.find(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
-        procurementPlanCs.setProcurementMethod(em.find(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
-        procurementPlanCs.setProcurementPlanType(em.find(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
+        procurementPlanCs.setPlanVsActual(em.getReference(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
+        procurementPlanCs.setIfadPriorReview(em.getReference(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
+        procurementPlanCs.setProcurementMethod(em.getReference(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
+        procurementPlanCs.setProcurementPlanType(em.getReference(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
         try {
             em.merge(procurementPlanCs);
             em.flush();

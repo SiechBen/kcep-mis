@@ -85,8 +85,8 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         //Creating a container to hold faculty record
         userAccount = new UserAccount();
         userAccount.setUsername(personDetails.getUsername());
-        userAccount.setPerson(em.find(Person.class, personDetails.getPerson().getId()));
-        userAccount.setPersonRole(em.find(PersonRole.class, personDetails.getPersonRole().getId()));
+        userAccount.setPerson(em.getReference(Person.class, personDetails.getPerson().getId()));
+        userAccount.setPersonRole(em.getReference(PersonRole.class, personDetails.getPersonRole().getId()));
         userAccount.setPassword(accessService.generateSHAPassword(messageDigest, personDetails.getPassword()));
 
         //Adding a faculty record to the database
@@ -256,8 +256,8 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         userAccount.setId(userAccountDetails.getId());
         userAccount.setPassword(userAccountDetails.getPassword());
         userAccount.setUsername(userAccountDetails.getUsername());
-        userAccount.setPerson(em.find(Person.class, userAccountDetails.getPerson().getId()));
-        userAccount.setPersonRole(em.find(PersonRole.class, userAccountDetails.getPersonRole().getId()));
+        userAccount.setPerson(em.getReference(Person.class, userAccountDetails.getPerson().getId()));
+        userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
         userAccount.setPassword(accessService.generateSHAPassword(messageDigest, userAccountDetails.getPassword()));
 
         //Editing a faculty record in the database

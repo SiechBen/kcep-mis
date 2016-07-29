@@ -55,10 +55,10 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         resultHierarchy = new ResultHierarchy();
         resultHierarchy.setDescription(resultHierarchyDetails.getDescription());
         if (resultHierarchyDetails.getComponent() != null) {
-            resultHierarchy.setComponent(em.find(Component.class, resultHierarchyDetails.getComponent().getId()));
+            resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
         }
         if (resultHierarchyDetails.getSubComponent() != null) {
-            resultHierarchy.setSubComponent(em.find(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
+            resultHierarchy.setSubComponent(em.getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
         }
 
         try {
@@ -133,11 +133,11 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         resultHierarchy = em.find(ResultHierarchy.class, resultHierarchyDetails.getId());
         resultHierarchy.setId(resultHierarchyDetails.getId());
         resultHierarchy.setDescription(resultHierarchyDetails.getDescription());
-        resultHierarchy.setComponent(em.find(Component.class, resultHierarchyDetails.getComponent().getId()));
+        resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
             if (resultHierarchyDetails.getComponent() != null) {
-            resultHierarchy.setComponent(em.find(Component.class, resultHierarchyDetails.getComponent().getId()));
+            resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
         }   if (resultHierarchyDetails.getSubComponent() != null) {
-            resultHierarchy.setSubComponent(em.find(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
+            resultHierarchy.setSubComponent(em.getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
         }
         try {
             em.merge(resultHierarchy);

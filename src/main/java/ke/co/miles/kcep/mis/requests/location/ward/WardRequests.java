@@ -54,7 +54,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
 
         ward = new Ward();
         ward.setName(wardDetails.getName());
-        ward.setSubCounty(em.find(SubCounty.class, wardDetails.getSubCounty().getId()));
+        ward.setSubCounty(em.getReference(SubCounty.class, wardDetails.getSubCounty().getId()));
 
         try {
             em.persist(ward);
@@ -145,7 +145,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         ward = em.find(Ward.class, wardDetails.getId());
         ward.setId(wardDetails.getId());
         ward.setName(wardDetails.getName());
-        ward.setSubCounty(em.find(SubCounty.class, wardDetails.getSubCounty().getId()));
+        ward.setSubCounty(em.getReference(SubCounty.class, wardDetails.getSubCounty().getId()));
 
         try {
             em.merge(ward);

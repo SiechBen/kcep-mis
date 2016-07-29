@@ -40,7 +40,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         Loan loan = new Loan();
         loan.setType(loanDetails.getType());
         loan.setAmount(loanDetails.getAmount());
-        loan.setAccount(em.find(Account.class, loanDetails.getAccount().getId()));
+        loan.setAccount(em.getReference(Account.class, loanDetails.getAccount().getId()));
 
         try {
             em.persist(loan);
@@ -106,7 +106,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         loan.setId(loanDetails.getId());
         loan.setType(loanDetails.getType());
         loan.setAmount(loanDetails.getAmount());
-        loan.setAccount(em.find(Account.class, loanDetails.getAccount().getId()));
+        loan.setAccount(em.getReference(Account.class, loanDetails.getAccount().getId()));
 
         try {
             em.merge(loan);

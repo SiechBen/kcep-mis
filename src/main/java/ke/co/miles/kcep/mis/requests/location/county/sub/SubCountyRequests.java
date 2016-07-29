@@ -54,7 +54,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
 
         subCounty = new SubCounty();
         subCounty.setName(subCountyDetails.getName());
-        subCounty.setCounty(em.find(County.class, subCountyDetails.getCounty().getId()));
+        subCounty.setCounty(em.getReference(County.class, subCountyDetails.getCounty().getId()));
 
         try {
             em.persist(subCounty);
@@ -145,7 +145,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         subCounty = em.find(SubCounty.class, subCountyDetails.getId());
         subCounty.setId(subCountyDetails.getId());
         subCounty.setName(subCountyDetails.getName());
-        subCounty.setCounty(em.find(County.class, subCountyDetails.getCounty().getId()));
+        subCounty.setCounty(em.getReference(County.class, subCountyDetails.getCounty().getId()));
 
         try {
             em.merge(subCounty);

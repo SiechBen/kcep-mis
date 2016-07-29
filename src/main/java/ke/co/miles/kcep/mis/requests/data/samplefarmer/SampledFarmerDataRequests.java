@@ -39,9 +39,9 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
         sampledFarmerData.setPostHarvestLosses(sampledFarmerDataDetails.getPostHarvestLosses());
         sampledFarmerData.setSeason(sampledFarmerDataDetails.getSeason());
         sampledFarmerData.setProductivityPerCropPerFarmer(sampledFarmerDataDetails.getProductivityPerCropPerFarmer());
-        sampledFarmerData.setWardExtensionOfficer(em.find(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
+        sampledFarmerData.setWardExtensionOfficer(em.getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
         if (sampledFarmerData.getWardExtensionOfficer().getId() != null) {
-            sampledFarmerData.setWardExtensionOfficer(em.find(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
+            sampledFarmerData.setWardExtensionOfficer(em.getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {
@@ -102,7 +102,7 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
         sampledFarmerData.setPostHarvestLosses(sampledFarmerDataDetails.getPostHarvestLosses());
         sampledFarmerData.setProductivityPerCropPerFarmer(sampledFarmerDataDetails.getProductivityPerCropPerFarmer());
         if (sampledFarmerData.getWardExtensionOfficer().getId() != null) {
-            sampledFarmerData.setWardExtensionOfficer(em.find(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
+            sampledFarmerData.setWardExtensionOfficer(em.getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {

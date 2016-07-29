@@ -40,7 +40,7 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         Feedback feedback = new Feedback();
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        feedback.setFarmer(em.find(Person.class, feedbackDetails.getFarmer().getId()));
+        feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
 
         try {
             em.persist(feedback);
@@ -172,7 +172,7 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         feedback.setId(feedbackDetails.getId());
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        feedback.setFarmer(em.find(Person.class, feedbackDetails.getFarmer().getId()));
+        feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
 
         try {
             em.merge(feedback);

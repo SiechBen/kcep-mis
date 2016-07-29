@@ -42,8 +42,8 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
         }
 
         AnnualIndicator annualIndicator = new AnnualIndicator();
-        annualIndicator.setPerformanceIndicator(em.find(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
-        annualIndicator.setSubActivity(em.find(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
+        annualIndicator.setPerformanceIndicator(em.getReference(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
+        annualIndicator.setSubActivity(em.getReference(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
 
         try {
             em.persist(annualIndicator);
@@ -129,8 +129,8 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
 
         AnnualIndicator annualIndicator = new AnnualIndicator();
         annualIndicator.setId(annualIndicatorDetails.getId());
-        annualIndicator.setPerformanceIndicator(em.find(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
-        annualIndicator.setSubActivity(em.find(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
+        annualIndicator.setPerformanceIndicator(em.getReference(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
+        annualIndicator.setSubActivity(em.getReference(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
 
         try {
             em.merge(annualIndicator);

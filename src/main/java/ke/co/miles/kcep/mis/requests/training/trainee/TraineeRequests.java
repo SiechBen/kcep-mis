@@ -42,8 +42,8 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         }
 
         Trainee trainee = new Trainee();
-        trainee.setPerson(em.find(Person.class, traineeDetails.getPerson().getId()));
-        trainee.setTraining(em.find(Training.class, traineeDetails.getTraining().getId()));
+        trainee.setPerson(em.getReference(Person.class, traineeDetails.getPerson().getId()));
+        trainee.setTraining(em.getReference(Training.class, traineeDetails.getTraining().getId()));
 
         try {
             em.persist(trainee);
@@ -195,8 +195,8 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
 
         Trainee trainee = new Trainee();
         trainee.setId(traineeDetails.getId());
-        trainee.setPerson(em.find(Person.class, traineeDetails.getPerson().getId()));
-        trainee.setTraining(em.find(Training.class, traineeDetails.getTraining().getId()));
+        trainee.setPerson(em.getReference(Person.class, traineeDetails.getPerson().getId()));
+        trainee.setTraining(em.getReference(Training.class, traineeDetails.getTraining().getId()));
 
         try {
             em.merge(trainee);

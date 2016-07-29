@@ -40,12 +40,12 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         eVoucher.setAmount(eVoucherDetails.getAmount());
         eVoucher.setDateRedeemed(eVoucherDetails.getDateRedeemed());
         try {
-            eVoucher.setInputType(em.find(InputType.class, eVoucherDetails.getInputType().getId()));
+            eVoucher.setInputType(em.getReference(InputType.class, eVoucherDetails.getInputType().getId()));
         } catch (Exception e) {
             eVoucher.setInputType(null);
         }
         try {
-            eVoucher.setPerson(em.find(Person.class, eVoucherDetails.getPerson().getId()));
+            eVoucher.setPerson(em.getReference(Person.class, eVoucherDetails.getPerson().getId()));
         } catch (Exception e) {
             eVoucher.setPerson(null);
         }
@@ -106,12 +106,12 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         eVoucher.setAmount(eVoucherDetails.getAmount());
         eVoucher.setDateRedeemed(eVoucherDetails.getDateRedeemed());
         try {
-            eVoucher.setInputType(em.find(InputType.class, eVoucherDetails.getInputType().getId()));
+            eVoucher.setInputType(em.getReference(InputType.class, eVoucherDetails.getInputType().getId()));
         } catch (Exception e) {
             eVoucher.setInputType(null);
         }
         try {
-            eVoucher.setPerson(em.find(Person.class, eVoucherDetails.getPerson().getId()));
+            eVoucher.setPerson(em.getReference(Person.class, eVoucherDetails.getPerson().getId()));
         } catch (Exception e) {
             eVoucher.setPerson(null);
         }

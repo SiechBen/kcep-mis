@@ -46,10 +46,10 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         if (training.getTopic() != null) {
-            training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
+            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(em.getReference(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
 
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
@@ -103,14 +103,14 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         if (training.getTopic() != null) {
-            training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
+            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
-        training.setTopic(em.find(Topic.class, trainingDetails.getTopic().getId()));
+        training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.find(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(em.getReference(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
 
-        training.setVenue(em.find(Location.class, trainingDetails.getVenue().getId()));
+        training.setVenue(em.getReference(Location.class, trainingDetails.getVenue().getId()));
 
         try {
             em.merge(training);

@@ -46,13 +46,13 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         InputsCollection inputsCollection = new InputsCollection();
         inputsCollection.setDateCollected(inputsCollectionDetails.getDateCollected());
         inputsCollection.setQuantity(inputsCollectionDetails.getQuantity());
-        inputsCollection.setFarmer(em.find(Person.class, inputsCollectionDetails.getFarmer().getId()));
-        inputsCollection.setAgroDealer(em.find(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
+        inputsCollection.setFarmer(em.getReference(Person.class, inputsCollectionDetails.getFarmer().getId()));
+        inputsCollection.setAgroDealer(em.getReference(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
         if (inputsCollectionDetails.getInputType() != null) {
-            inputsCollection.setInputType(em.find(InputType.class, inputsCollectionDetails.getInputType().getId()));
+            inputsCollection.setInputType(em.getReference(InputType.class, inputsCollectionDetails.getInputType().getId()));
         }
         if (inputsCollectionDetails.getStaticInput() != null) {
-            inputsCollection.setStaticInput(em.find(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
+            inputsCollection.setStaticInput(em.getReference(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
         }
 
         try {
@@ -104,13 +104,13 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         inputsCollection.setId(inputsCollectionDetails.getId());
         inputsCollection.setDateCollected(inputsCollectionDetails.getDateCollected());
         inputsCollection.setQuantity(inputsCollectionDetails.getQuantity());
-        inputsCollection.setFarmer(em.find(Person.class, inputsCollectionDetails.getFarmer().getId()));
-        inputsCollection.setAgroDealer(em.find(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
+        inputsCollection.setFarmer(em.getReference(Person.class, inputsCollectionDetails.getFarmer().getId()));
+        inputsCollection.setAgroDealer(em.getReference(Person.class, inputsCollectionDetails.getAgroDealer().getId()));
         if (inputsCollectionDetails.getInputType() != null) {
-            inputsCollection.setInputType(em.find(InputType.class, inputsCollectionDetails.getInputType().getId()));
+            inputsCollection.setInputType(em.getReference(InputType.class, inputsCollectionDetails.getInputType().getId()));
         }
         if (inputsCollectionDetails.getStaticInput() != null) {
-            inputsCollection.setStaticInput(em.find(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
+            inputsCollection.setStaticInput(em.getReference(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
         }
 
         try {

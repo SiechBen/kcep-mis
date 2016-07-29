@@ -52,7 +52,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 
         county = new County();
         county.setName(countyDetails.getName());
-        county.setRegion(em.find(Region.class, countyDetails.getRegion().getId()));
+        county.setRegion(em.getReference(Region.class, countyDetails.getRegion().getId()));
 
         try {
             em.persist(county);
@@ -128,7 +128,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         county = em.find(County.class, countyDetails.getId());
         county.setId(countyDetails.getId());
         county.setName(countyDetails.getName());
-        county.setRegion(em.find(Region.class, countyDetails.getRegion().getId()));
+        county.setRegion(em.getReference(Region.class, countyDetails.getRegion().getId()));
 
         try {
             em.merge(county);

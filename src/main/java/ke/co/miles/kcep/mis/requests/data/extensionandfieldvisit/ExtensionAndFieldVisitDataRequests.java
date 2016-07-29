@@ -42,7 +42,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         extensionAndFieldVisitData.setNumberOfFieldVisitsConducted(extensionAndFieldVisitDataDetails.getNumberOfFieldVisitsConducted());
         extensionAndFieldVisitData.setNumberOfPeopleSeekingOrOfferedAdvisoryServices(extensionAndFieldVisitDataDetails.getNumberOfPeopleSeekingOrOfferedAdvisoryServices());
         if (extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId() != null) {
-            extensionAndFieldVisitData.setWardExtensionOfficer(em.find(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
+            extensionAndFieldVisitData.setWardExtensionOfficer(em.getReference(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {
@@ -105,7 +105,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         extensionAndFieldVisitData.setNumberOfFieldVisitsConducted(extensionAndFieldVisitDataDetails.getNumberOfFieldVisitsConducted());
         extensionAndFieldVisitData.setNumberOfPeopleSeekingOrOfferedAdvisoryServices(extensionAndFieldVisitDataDetails.getNumberOfPeopleSeekingOrOfferedAdvisoryServices());
         if (extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId() != null) {
-            extensionAndFieldVisitData.setWardExtensionOfficer(em.find(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
+            extensionAndFieldVisitData.setWardExtensionOfficer(em.getReference(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {

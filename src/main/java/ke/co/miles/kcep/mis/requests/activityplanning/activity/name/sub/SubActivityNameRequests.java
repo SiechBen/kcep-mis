@@ -53,7 +53,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 
         subActivityName = new SubActivityName();
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(em.find(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
+        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
             em.persist(subActivityName);
@@ -130,7 +130,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         subActivityName = em.find(SubActivityName.class, subActivityNameDetails.getId());
         subActivityName.setId(subActivityNameDetails.getId());
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(em.find(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
+        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
             em.merge(subActivityName);

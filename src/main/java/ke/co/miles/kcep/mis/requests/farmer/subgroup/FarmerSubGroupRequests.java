@@ -53,7 +53,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         farmerSubGroup = new FarmerSubGroup();
         farmerSubGroup.setName(farmerSubGroupDetails.getName());
         if (farmerSubGroupDetails.getFarmerGroup() != null) {
-            farmerSubGroup.setFarmerGroup(em.find(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
+            farmerSubGroup.setFarmerGroup(em.getReference(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
         }
 
         try {
@@ -129,7 +129,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         farmerSubGroup.setId(farmerSubGroupDetails.getId());
         farmerSubGroup.setName(farmerSubGroupDetails.getName());
         if (farmerSubGroupDetails.getFarmerGroup() != null) {
-            farmerSubGroup.setFarmerGroup(em.find(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
+            farmerSubGroup.setFarmerGroup(em.getReference(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
         }
 
         try {

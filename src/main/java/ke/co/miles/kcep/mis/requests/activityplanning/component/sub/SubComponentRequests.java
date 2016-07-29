@@ -54,7 +54,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 
         subComponent = new SubComponent();
         subComponent.setSubComponent(subComponentDetails.getSubComponent());
-        subComponent.setComponent(em.find(Component.class, subComponentDetails.getComponent().getId()));
+        subComponent.setComponent(em.getReference(Component.class, subComponentDetails.getComponent().getId()));
 
         try {
             em.persist(subComponent);
@@ -130,7 +130,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
         subComponent = em.find(SubComponent.class, subComponentDetails.getId());
         subComponent.setId(subComponentDetails.getId());
         subComponent.setSubComponent(subComponentDetails.getSubComponent());
-        subComponent.setComponent(em.find(Component.class, subComponentDetails.getComponent().getId()));
+        subComponent.setComponent(em.getReference(Component.class, subComponentDetails.getComponent().getId()));
 
         try {
             em.merge(subComponent);

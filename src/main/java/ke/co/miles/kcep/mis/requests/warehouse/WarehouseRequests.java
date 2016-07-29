@@ -64,13 +64,13 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.addLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
-            warehouse.setUnits(em.find(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
+            warehouse.setUnits(em.getReference(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(em.find(Person.class, warehouseDetails.getWarehouseOperator().getId()));
+            warehouse.setWarehouseOperator(em.getReference(Person.class, warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
-            warehouse.setWarehouseType(em.find(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
+            warehouse.setWarehouseType(em.getReference(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
@@ -204,13 +204,13 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.editLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
-            warehouse.setUnits(em.find(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
+            warehouse.setUnits(em.getReference(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(em.find(Person.class, warehouseDetails.getWarehouseOperator().getId()));
+            warehouse.setWarehouseOperator(em.getReference(Person.class, warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
-            warehouse.setWarehouseType(em.find(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
+            warehouse.setWarehouseType(em.getReference(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
         }
 
         try {

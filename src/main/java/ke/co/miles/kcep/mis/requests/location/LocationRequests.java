@@ -62,17 +62,17 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         try {
-            location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
+            location.setCounty(em.getReference(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
             location.setCounty(null);
         }
         try {
-            location.setSubCounty(em.find(SubCounty.class, locationDetails.getSubCounty().getId()));
+            location.setSubCounty(em.getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
         } catch (Exception e) {
             location.setSubCounty(null);
         }
         try {
-            location.setWard(em.find(Ward.class, locationDetails.getWard().getId()));
+            location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
             location.setWard(null);
         }
@@ -150,17 +150,17 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         try {
-            location.setCounty(em.find(County.class, locationDetails.getCounty().getId()));
+            location.setCounty(em.getReference(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
             location.setCounty(null);
         }
         try {
-            location.setSubCounty(em.find(SubCounty.class, locationDetails.getSubCounty().getId()));
+            location.setSubCounty(em.getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
         } catch (Exception e) {
             location.setSubCounty(null);
         }
         try {
-            location.setWard(em.find(Ward.class, locationDetails.getWard().getId()));
+            location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
             location.setWard(null);
         }

@@ -46,7 +46,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurement.setDatePurchased(procurementDetails.getDatePurchased());
         procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
         if (procurementDetails.getCounty() != null) {
-            procurement.setCounty(em.find(County.class, procurementDetails.getCounty().getId()));
+            procurement.setCounty(em.getReference(County.class, procurementDetails.getCounty().getId()));
         }
 
         try {
@@ -112,7 +112,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurement.setDatePurchased(procurementDetails.getDatePurchased());
         procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
         if (procurementDetails.getCounty() != null) {
-            procurement.setCounty(em.find(County.class, procurementDetails.getCounty().getId()));
+            procurement.setCounty(em.getReference(County.class, procurementDetails.getCounty().getId()));
         }
 
         try {

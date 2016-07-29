@@ -47,7 +47,7 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
         }
 
         implementingPartner = new ImplementingPartner();
-        implementingPartner.setPersonRole(em.find(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
+        implementingPartner.setPersonRole(em.getReference(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
 
         try {
             em.persist(implementingPartner);
@@ -118,7 +118,7 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
 
         implementingPartner = em.find(ImplementingPartner.class, implementingPartnerDetails.getId());
         implementingPartner.setId(implementingPartnerDetails.getId());
-        implementingPartner.setPersonRole(em.find(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
+        implementingPartner.setPersonRole(em.getReference(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
 
         try {
             em.merge(implementingPartner);

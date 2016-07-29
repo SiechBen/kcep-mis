@@ -57,9 +57,9 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         account.setSolId(accountDetails.getSolId());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
-            account.setEblBranch(em.find(EblBranch.class, accountDetails.getEblBranch().getId()));
+            account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
         }
-        account.setFarmer(em.find(Person.class, accountDetails.getFarmer().getId()));
+        account.setFarmer(em.getReference(Person.class, accountDetails.getFarmer().getId()));
 
         try {
             em.persist(account);
@@ -138,9 +138,9 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         account.setSolId(accountDetails.getSolId());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
-            account.setEblBranch(em.find(EblBranch.class, accountDetails.getEblBranch().getId()));
+            account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
         }
-        account.setFarmer(em.find(Person.class, accountDetails.getFarmer().getId()));
+        account.setFarmer(em.getReference(Person.class, accountDetails.getFarmer().getId()));
 
         try {
             em.merge(account);

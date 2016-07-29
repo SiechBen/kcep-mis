@@ -48,9 +48,9 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
         performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
-        performanceIndicator.setResultHierarchy(em.find(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
+        performanceIndicator.setResultHierarchy(em.getReference(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(em.find(PerformanceIndicatorType.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
+            performanceIndicator.setPerformanceIndicatorType(em.getReference(PerformanceIndicatorType.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
         }
 
         try {
@@ -120,11 +120,11 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
         performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(em.find(PerformanceIndicatorType.class,
+            performanceIndicator.setPerformanceIndicatorType(em.getReference(PerformanceIndicatorType.class,
                     performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
         }
         if (performanceIndicatorDetails.getResultHierarchy() != null) {
-            performanceIndicator.setResultHierarchy(em.find(ResultHierarchy.class,
+            performanceIndicator.setResultHierarchy(em.getReference(ResultHierarchy.class,
                     performanceIndicatorDetails.getResultHierarchy().getId()));
         }
 

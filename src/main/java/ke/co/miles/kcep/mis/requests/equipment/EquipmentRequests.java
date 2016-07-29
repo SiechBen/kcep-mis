@@ -41,7 +41,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         equipment.setStatus(equipmentDetails.getStatus());
         equipment.setTotalCount(equipmentDetails.getTotalCount());
         if (equipmentDetails.getWarehouse().getId() != null) {
-            equipment.setWarehouse(em.find(Warehouse.class, equipmentDetails.getWarehouse().getId()));
+            equipment.setWarehouse(em.getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
 
         try {
@@ -108,7 +108,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         equipment.setStatus(equipmentDetails.getStatus());
         equipment.setTotalCount(equipmentDetails.getTotalCount());
         if (equipmentDetails.getWarehouse().getId() != null) {
-            equipment.setWarehouse(em.find(Warehouse.class, equipmentDetails.getWarehouse().getId()));
+            equipment.setWarehouse(em.getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
 
         try {

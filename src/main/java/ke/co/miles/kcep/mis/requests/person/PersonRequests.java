@@ -80,13 +80,13 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person.setLocation(locationService.addLocation(personDetails.getLocation()));
 
         if (personDetails.getSex() != null) {
-            person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
+            person.setSex(em.getReference(Sex.class, personDetails.getSex().getId()));
         }
         if (personDetails.getFarmerGroup() != null) {
-            person.setFarmerGroup(em.find(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
+            person.setFarmerGroup(em.getReference(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
         if (personDetails.getFarmerSubGroup() != null) {
-            person.setFarmerSubGroup(em.find(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
+            person.setFarmerSubGroup(em.getReference(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
         }
 
         try {
@@ -414,15 +414,15 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person.setDateOfBirth(personDetails.getDateOfBirth());
         person.setBusinessName(personDetails.getBusinessName());
 
-        person.setContact(em.find(Contact.class, personDetails.getContact().getId()));
-        person.setLocation(em.find(Location.class, personDetails.getLocation().getId()));
+        person.setContact(em.getReference(Contact.class, personDetails.getContact().getId()));
+        person.setLocation(em.getReference(Location.class, personDetails.getLocation().getId()));
 
         if (personDetails.getSex() != null) {
-            person.setSex(em.find(Sex.class, personDetails.getSex().getId()));
+            person.setSex(em.getReference(Sex.class, personDetails.getSex().getId()));
 
         }
         if (personDetails.getFarmerSubGroup() != null) {
-            person.setFarmerSubGroup(em.find(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
+            person.setFarmerSubGroup(em.getReference(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
         }
 
         try {

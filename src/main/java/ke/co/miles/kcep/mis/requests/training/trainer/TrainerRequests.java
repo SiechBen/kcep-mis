@@ -42,8 +42,8 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         }
 
         Trainer trainer = new Trainer();
-        trainer.setPerson(em.find(Person.class, trainerDetails.getPerson().getId()));
-        trainer.setTraining(em.find(Training.class, trainerDetails.getTraining().getId()));
+        trainer.setPerson(em.getReference(Person.class, trainerDetails.getPerson().getId()));
+        trainer.setTraining(em.getReference(Training.class, trainerDetails.getTraining().getId()));
 
         try {
             em.persist(trainer);
@@ -195,8 +195,8 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
         Trainer trainer = new Trainer();
         trainer.setId(trainerDetails.getId());
-        trainer.setPerson(em.find(Person.class, trainerDetails.getPerson().getId()));
-        trainer.setTraining(em.find(Training.class, trainerDetails.getTraining().getId()));
+        trainer.setPerson(em.getReference(Person.class, trainerDetails.getPerson().getId()));
+        trainer.setTraining(em.getReference(Training.class, trainerDetails.getTraining().getId()));
 
         try {
             em.merge(trainer);

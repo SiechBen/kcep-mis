@@ -45,7 +45,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         technology.setTargetSubCounties(technologyDetails.getTargetSubCounties());
         technology.setNumberOfStudiesConducted(technologyDetails.getNumberOfStudiesConducted());
         try {
-            technology.setKalroOfficer(em.find(Person.class, technologyDetails.getKalroOfficer().getId()));
+            technology.setKalroOfficer(em.getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             technology.setKalroOfficer(null);
         }
@@ -113,7 +113,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         technology.setTargetSubCounties(technologyDetails.getTargetSubCounties());
         technology.setNumberOfStudiesConducted(technologyDetails.getNumberOfStudiesConducted());
         try {
-            technology.setKalroOfficer(em.find(Person.class, technologyDetails.getKalroOfficer().getId()));
+            technology.setKalroOfficer(em.getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             technology.setKalroOfficer(null);
         }

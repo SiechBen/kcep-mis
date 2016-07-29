@@ -51,7 +51,7 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 
         staticInput = new StaticInput();
         staticInput.setName(staticInputDetails.getName());
-        staticInput.setInputType(em.find(InputType.class, staticInputDetails.getId()));
+        staticInput.setInputType(em.getReference(InputType.class, staticInputDetails.getId()));
 
         try {
             em.persist(staticInput);
@@ -139,7 +139,7 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
         staticInput = em.find(StaticInput.class, staticInputDetails.getId());
         staticInput.setId(staticInputDetails.getId());
         staticInput.setName(staticInputDetails.getName());
-        staticInput.setInputType(em.find(InputType.class, staticInputDetails.getId()));
+        staticInput.setInputType(em.getReference(InputType.class, staticInputDetails.getId()));
 
         try {
             em.merge(staticInput);
