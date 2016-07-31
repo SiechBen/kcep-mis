@@ -182,7 +182,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             expenditureCategoriesMap.put(expenditureCategoryDetails,
                     retrieveSubActivities(expenditureCategoryDetails, financialYearId));
         }
-        
+
         return expenditureCategoriesMap;
     }
 
@@ -201,17 +201,25 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @Override
-    public Map<ExpenditureCategoryDetails, FinancialPlanDetails> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<ExpenditureCategoryDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException {
 
         Map<ExpenditureCategoryDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId);
-        Map<ExpenditureCategoryDetails, FinancialPlanDetails> financialPlansMap = new HashMap<>();
+        Map<ExpenditureCategoryDetails, FinancialPlanDetails> categoryToFinancialPlansMap = new HashMap<>();
+        Map<FinancialPlanDetails, Map<ExpenditureCategoryDetails, FinancialPlanDetails>> totalsToCategoryToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
+        FinancialPlanDetails financialPlanTotals = new FinancialPlanDetails();
 
         for (ExpenditureCategoryDetails expenditureCategory : expenditureCategoriesMap.keySet()) {
             financialPlanDetails = new FinancialPlanDetails();
 
             for (SubActivityDetails subActivity : expenditureCategoriesMap.get(expenditureCategory)) {
                 financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
+                } else {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
+                }
+
                 try {
                     if (financialPlanDetails.getGokValue() == null) {
                         financialPlanDetails.setGokValue(new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -219,8 +227,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().add(
                                 new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getGokValue() != null) {
+                        financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().add(financialPlanDetails.getGokValue()));
+                    } else {
+                        financialPlanTotals.setGokValue(financialPlanDetails.getGokValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getBeneficiariesValue() == null) {
                         financialPlanDetails.setBeneficiariesValue(new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -228,8 +242,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().add(
                                 new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getBeneficiariesValue() != null) {
+                        financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().add(financialPlanDetails.getBeneficiariesValue()));
+                    } else {
+                        financialPlanTotals.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getIfadLoanValue() == null) {
                         financialPlanDetails.setIfadLoanValue(new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -237,8 +257,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().add(
                                 new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getIfadLoanValue() != null) {
+                        financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().add(financialPlanDetails.getIfadLoanValue()));
+                    } else {
+                        financialPlanTotals.setIfadLoanValue(financialPlanDetails.getIfadLoanValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getEuValue() == null) {
                         financialPlanDetails.setEuValue(new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -246,8 +272,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getEuValue() != null) {
+                        financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().add(financialPlanDetails.getEuValue()));
+                    } else {
+                        financialPlanTotals.setEuValue(financialPlanDetails.getEuValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getIfadGrantValue() == null) {
                         financialPlanDetails.setIfadGrantValue(new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -255,8 +287,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().add(
                                 new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getIfadGrantValue() != null) {
+                        financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().add(financialPlanDetails.getIfadGrantValue()));
+                    } else {
+                        financialPlanTotals.setIfadGrantValue(financialPlanDetails.getIfadGrantValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getFinancialInstitutionValue() == null) {
                         financialPlanDetails.setFinancialInstitutionValue(new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -264,13 +302,24 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().add(
                                 new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getFinancialInstitutionValue() != null) {
+                        financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().add(financialPlanDetails.getFinancialInstitutionValue()));
+                    } else {
+                        financialPlanTotals.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getTotalsValue() == null) {
                         financialPlanDetails.setTotalsValue(subActivity.getTotals());
                     } else {
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
+                    }
+                    if (financialPlanTotals.getTotalsValue() != null) {
+                        financialPlanTotals.setTotalsValue(financialPlanTotals.getTotalsValue().add(financialPlanDetails.getTotalsValue()));
+                    } else {
+                        financialPlanTotals.setTotalsValue(financialPlanDetails.getTotalsValue());
                     }
                 } catch (Exception e) {
                 }
@@ -278,6 +327,11 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
             try {
                 financialPlanDetails.setBalanceValue(financialPlanDetails.getTotalInitialAllocationValue().subtract(financialPlanDetails.getTotalsValue()));
+                if (financialPlanTotals.getBalanceValue() != null) {
+                    financialPlanTotals.setBalanceValue(financialPlanTotals.getBalanceValue().add(financialPlanDetails.getBalanceValue()));
+                } else {
+                    financialPlanTotals.setBalanceValue(financialPlanDetails.getBalanceValue());
+                }
             } catch (Exception e) {
             }
 
@@ -313,8 +367,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
             //Calaculating percentages
             try {
-                financialPlanDetails.setTotalsPercentage(financialPlanDetails.getTotalsValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
-                financialPlanDetails.setTotalsPercentage(Math.round(financialPlanDetails.getTotalsPercentage() * 100.0) / 100.0);
+                financialPlanDetails.setTotalInitialAllocationPercentage(financialPlanDetails.getTotalInitialAllocationValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setTotalInitialAllocationPercentage(Math.round(financialPlanDetails.getTotalsPercentage() * 100.0) / 100.0);
             } catch (Exception e) {
             }
             try {
@@ -358,23 +412,109 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             } catch (Exception e) {
             }
 
-            financialPlansMap.put(expenditureCategory, financialPlanDetails);
+            categoryToFinancialPlansMap.put(expenditureCategory, financialPlanDetails);
         }
 
-        return financialPlansMap;
+        try {
+            financialPlanTotals.setBalanceValue(financialPlanTotals.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+
+        try {
+            financialPlanTotals.setTotalInitialAllocationPercentage(financialPlanTotals.getTotalInitialAllocationValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setTotalInitialAllocationPercentage(Math.round(financialPlanTotals.getTotalsPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setTotalsPercentage(financialPlanTotals.getTotalsValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setTotalsPercentage(Math.round(financialPlanTotals.getTotalsPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setBalancePercentage(financialPlanTotals.getBalanceValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setBalancePercentage(Math.round(financialPlanTotals.getBalancePercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setGokPercentage(financialPlanTotals.getGokValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setGokPercentage(Math.round(financialPlanTotals.getGokPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setBeneficiariesPercentage(financialPlanTotals.getBeneficiariesValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setBeneficiariesPercentage(Math.round(financialPlanTotals.getBeneficiariesPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadLoanPercentage(financialPlanTotals.getIfadLoanValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setIfadLoanPercentage(Math.round(financialPlanTotals.getIfadLoanPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setEuPercentage(financialPlanTotals.getEuValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setEuPercentage(Math.round(financialPlanTotals.getEuPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadGrantPercentage(financialPlanTotals.getIfadGrantValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setIfadGrantPercentage(Math.round(financialPlanTotals.getIfadGrantPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setFinancialInstitutionPercentage(financialPlanTotals.getFinancialInstitutionValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setFinancialInstitutionPercentage(Math.round(financialPlanTotals.getFinancialInstitutionPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+
+        totalsToCategoryToFinancialPlansMap.put(financialPlanTotals, categoryToFinancialPlansMap);
+
+        return totalsToCategoryToFinancialPlansMap;
     }
 
     @Override
-    public Map<ComponentDetails, FinancialPlanDetails> summarizeFinancialPlanByComponents(short financialYearId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> summarizeFinancialPlanByComponents(short financialYearId) throws MilesException {
 
         Map<ComponentDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId);
-        Map<ComponentDetails, FinancialPlanDetails> financialPlansMap = new HashMap<>();
+        Map<ComponentDetails, FinancialPlanDetails> componentToFinancialPlansMap = new HashMap<>();
+        Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> totalsToComponentToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
+        FinancialPlanDetails financialPlanTotals = new FinancialPlanDetails();
 
         for (ComponentDetails component : componentsMap.keySet()) {
             financialPlanDetails = new FinancialPlanDetails();
+
             for (SubActivityDetails subActivity : componentsMap.get(component)) {
                 financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
+                } else {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
+                }
+
                 try {
                     if (financialPlanDetails.getGokValue() == null) {
                         financialPlanDetails.setGokValue(new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -382,8 +522,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().add(
                                 new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getGokValue() != null) {
+                        financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().add(financialPlanDetails.getGokValue()));
+                    } else {
+                        financialPlanTotals.setGokValue(financialPlanDetails.getGokValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getBeneficiariesValue() == null) {
                         financialPlanDetails.setBeneficiariesValue(new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -391,8 +537,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().add(
                                 new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getBeneficiariesValue() != null) {
+                        financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().add(financialPlanDetails.getBeneficiariesValue()));
+                    } else {
+                        financialPlanTotals.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getIfadLoanValue() == null) {
                         financialPlanDetails.setIfadLoanValue(new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -400,8 +552,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().add(
                                 new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getIfadLoanValue() != null) {
+                        financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().add(financialPlanDetails.getIfadLoanValue()));
+                    } else {
+                        financialPlanTotals.setIfadLoanValue(financialPlanDetails.getIfadLoanValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getEuValue() == null) {
                         financialPlanDetails.setEuValue(new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -409,8 +567,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getEuValue() != null) {
+                        financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().add(financialPlanDetails.getEuValue()));
+                    } else {
+                        financialPlanTotals.setEuValue(financialPlanDetails.getEuValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getIfadGrantValue() == null) {
                         financialPlanDetails.setIfadGrantValue(new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -418,8 +582,14 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().add(
                                 new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getIfadGrantValue() != null) {
+                        financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().add(financialPlanDetails.getIfadGrantValue()));
+                    } else {
+                        financialPlanTotals.setIfadGrantValue(financialPlanDetails.getIfadGrantValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getFinancialInstitutionValue() == null) {
                         financialPlanDetails.setFinancialInstitutionValue(new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
@@ -427,13 +597,24 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().add(
                                 new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
+                    if (financialPlanTotals.getFinancialInstitutionValue() != null) {
+                        financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().add(financialPlanDetails.getFinancialInstitutionValue()));
+                    } else {
+                        financialPlanTotals.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue());
+                    }
                 } catch (Exception e) {
                 }
+
                 try {
                     if (financialPlanDetails.getTotalsValue() == null) {
                         financialPlanDetails.setTotalsValue(subActivity.getTotals());
                     } else {
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
+                    }
+                    if (financialPlanTotals.getTotalsValue() != null) {
+                        financialPlanTotals.setTotalsValue(financialPlanTotals.getTotalsValue().add(financialPlanDetails.getTotalsValue()));
+                    } else {
+                        financialPlanTotals.setTotalsValue(financialPlanDetails.getTotalsValue());
                     }
                 } catch (Exception e) {
                 }
@@ -441,6 +622,11 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
             try {
                 financialPlanDetails.setBalanceValue(financialPlanDetails.getTotalInitialAllocationValue().subtract(financialPlanDetails.getTotalsValue()));
+                if (financialPlanTotals.getBalanceValue() != null) {
+                    financialPlanTotals.setBalanceValue(financialPlanTotals.getBalanceValue().add(financialPlanDetails.getBalanceValue()));
+                } else {
+                    financialPlanTotals.setBalanceValue(financialPlanDetails.getBalanceValue());
+                }
             } catch (Exception e) {
             }
 
@@ -476,8 +662,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
             //Calaculating percentages
             try {
-                financialPlanDetails.setTotalsPercentage(financialPlanDetails.getTotalsValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
-                financialPlanDetails.setTotalsPercentage(Math.round(financialPlanDetails.getTotalsPercentage() * 100.0) / 100.0);
+                financialPlanDetails.setTotalInitialAllocationPercentage(financialPlanDetails.getTotalInitialAllocationValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setTotalInitialAllocationPercentage(Math.round(financialPlanDetails.getTotalsPercentage() * 100.0) / 100.0);
             } catch (Exception e) {
             }
             try {
@@ -521,12 +707,88 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             } catch (Exception e) {
             }
 
-            financialPlansMap.put(component, financialPlanDetails);
+            componentToFinancialPlansMap.put(component, financialPlanDetails);
         }
 
-        return financialPlansMap;
-    }
+        try {
+            financialPlanTotals.setBalanceValue(financialPlanTotals.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
+        } catch (Exception e) {
+        }
 
+        try {
+            financialPlanTotals.setTotalInitialAllocationPercentage(financialPlanTotals.getTotalInitialAllocationValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setTotalInitialAllocationPercentage(Math.round(financialPlanTotals.getTotalsPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setTotalsPercentage(financialPlanTotals.getTotalsValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setTotalsPercentage(Math.round(financialPlanTotals.getTotalsPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setBalancePercentage(financialPlanTotals.getBalanceValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setBalancePercentage(Math.round(financialPlanTotals.getBalancePercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setGokPercentage(financialPlanTotals.getGokValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setGokPercentage(Math.round(financialPlanTotals.getGokPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setBeneficiariesPercentage(financialPlanTotals.getBeneficiariesValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setBeneficiariesPercentage(Math.round(financialPlanTotals.getBeneficiariesPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadLoanPercentage(financialPlanTotals.getIfadLoanValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setIfadLoanPercentage(Math.round(financialPlanTotals.getIfadLoanPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setEuPercentage(financialPlanTotals.getEuValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setEuPercentage(Math.round(financialPlanTotals.getEuPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setIfadGrantPercentage(financialPlanTotals.getIfadGrantValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setIfadGrantPercentage(Math.round(financialPlanTotals.getIfadGrantPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+        try {
+            financialPlanTotals.setFinancialInstitutionPercentage(financialPlanTotals.getFinancialInstitutionValue().doubleValue() / financialPlanTotals.getTotalInitialAllocationValue().doubleValue() * 100);
+            financialPlanTotals.setFinancialInstitutionPercentage(Math.round(financialPlanTotals.getFinancialInstitutionPercentage() * 100.0) / 100.0);
+        } catch (Exception e) {
+        }
+
+        totalsToComponentToFinancialPlansMap.put(financialPlanTotals, componentToFinancialPlansMap);
+
+        return totalsToComponentToFinancialPlansMap;
+    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
     @Override
@@ -666,6 +928,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
 //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="EJB injections">
     @EJB
     private ActivityNameRequestsLocal activityService;
     @EJB
@@ -684,4 +947,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     private SubActivityNameRequestsLocal subActivityDecriptionService;
     @EJB
     private FinancialYearRequestsLocal financialYearService;
+//</editor-fold>
+
 }

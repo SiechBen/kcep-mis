@@ -74,11 +74,13 @@ public interface SubActivityRequestsLocal {
     /**
      *
      * @param financialYearId the unique identifier of the financial year for
-     * which the financial plan by expenditure categories report is to be generated
+     * which the financial plan by expenditure categories report is to be
+     * generated
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
-    public Map<ExpenditureCategoryDetails, FinancialPlanDetails> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException;
+    public Map<FinancialPlanDetails, Map<ExpenditureCategoryDetails, FinancialPlanDetails>>
+            summarizeFinancialPlanByCategories(short financialYearId) throws MilesException;
 
     /**
      *
@@ -87,6 +89,7 @@ public interface SubActivityRequestsLocal {
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
-    public Map<ComponentDetails, FinancialPlanDetails> summarizeFinancialPlanByComponents(short financialYearId) throws MilesException;
+    public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>>
+            summarizeFinancialPlanByComponents(short financialYearId) throws MilesException;
 
 }

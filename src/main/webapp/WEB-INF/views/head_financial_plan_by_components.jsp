@@ -57,51 +57,54 @@
                                 </tr>
                             </thead>
                             <tfoot>
-                                <tr>
-                                    <th>&nbsp;</th>
-                                    <th><strong>Total</strong></th>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                    <td><strong></strong></td>
-                                </tr>
+                                <tr><td colspan="18">Financial plan by categories for this AWPB</td></tr>
                             </tfoot>
                             <tbody>
-                                <c:forEach var="component" items="${sessionScope.financialPlanByComponentMap.keySet()}" varStatus="index">
+                                <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByComponentMap.keySet()}">
+                                    <c:forEach var="component" items="${sessionScope.financialPlanByComponentMap.get(financialPlanTotals).keySet()}" varStatus="index">
+                                        <tr>
+                                            <th>${index.count}</th>
+                                            <th>${component.component}</th>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).gokPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).gokValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).beneficiariesPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).beneficiariesValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadLoanPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadLoanValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadGrantPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadGrantValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).financialInstitutionPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).financialInstitutionValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalsPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalsValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalInitialAllocationPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalInitialAllocationValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).balancePercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).balanceValue}</td>
+                                        </tr>
+                                    </c:forEach>
                                     <tr>
-                                        <th>${index.count}</th>
-                                        <th>${component.component}</th>
-                                        <td>${financialPlanByComponentMap.get(component).gokPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).gokValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).beneficiariesPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).beneficiariesValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).ifadLoanPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).ifadLoanValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).ifadGrantPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).ifadGrantValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).financialInstitutionPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).financialInstitutionValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).totalsPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).totalsValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).totalInitialAllocationPercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).totalInitialAllocationValue}</td>
-                                        <td>${financialPlanByComponentMap.get(component).balancePercentage}</td>
-                                        <td>${financialPlanByComponentMap.get(component).balanceValue}</td>
+                                        <td>&nbsp;</td>
+                                        <td><strong>Total</strong></td>
+                                        <td>${financialPlanTotals.gokPercentage}</td>
+                                        <td>${financialPlanTotals.gokValue}</td>
+                                        <td>${financialPlanTotals.beneficiariesPercentage}</td>
+                                        <td>${financialPlanTotals.beneficiariesValue}</td>
+                                        <td>${financialPlanTotals.ifadLoanPercentage}</td>
+                                        <td>${financialPlanTotals.ifadLoanValue}</td>
+                                        <td>${financialPlanTotals.ifadGrantPercentage}</td>
+                                        <td>${financialPlanTotals.ifadGrantValue}</td>
+                                        <td>${financialPlanTotals.financialInstitutionPercentage}</td>
+                                        <td>${financialPlanTotals.financialInstitutionValue}</td>
+                                        <td>${financialPlanTotals.totalsPercentage}</td>
+                                        <td>${financialPlanTotals.totalsPercentage}</td>
+                                        <td>${financialPlanTotals.totalInitialAllocationPercentage}</td>
+                                        <td>${financialPlanTotals.totalInitialAllocationValue}</td>
+                                        <td>${financialPlanTotals.balancePercentage}</td>
+                                        <td>${financialPlanTotals.balanceValue}</td>
                                     </tr>
                                 </c:forEach>
-                            </tbody>
+                            </tbody> 
                         </table>
                     </div>
                 </div>
