@@ -1,0 +1,112 @@
+<%-- 
+    Document   : head_financial_plan_by_categories
+    Created on : Jul 19, 2016, 8:44:01 AM
+    Author     : siech
+--%>
+
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
+
+<kcep:head>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - financial reports by categories</jsp:attribute>
+    <jsp:attribute name="pagecontent">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Financial plan for this AWPB
+                    </div>
+                    <div class="panel-body">
+                        <h4>Financial plan by categories</h4>
+                        <table id="financial-plan-by-category-table" class="table table-striped table-bordered table-hover reports-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Description</th>
+                                    <th colspan="16">Sources of Funds</th>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" colspan="2"> Exenditure category</th>
+                                    <th colspan="2">GOK</th>
+                                    <th colspan="2">Beneficiaries</th>
+                                    <th colspan="2">IFAD Loan</th>
+                                    <th colspan="2">IFAD Grant</th>
+                                    <th colspan="2">Financial Institution</th>
+                                    <th colspan="2">Total</th>
+                                    <th colspan="2">Total Initial Allocation</th>
+                                    <th colspan="2">Balance</th>
+                                </tr>
+                                <tr>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                    <th>%</th>
+                                    <th>USD '000</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th><strong>Total</strong></th>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                    <td><strong></strong></td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <c:forEach var="expenditureCategory" items="${sessionScope.financialPlanByCategoryMap.keySet()}" varStatus="index">
+                                    <tr>
+                                        <th>${index.count}</th>
+                                        <th>${expenditureCategory.name}</th>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).gokPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).gokValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).beneficiariesPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).beneficiariesValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).ifadLoanPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).ifadLoanValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).ifadGrantPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).ifadGrantValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).financialInstitutionPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).financialInstitutionValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).totalsPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).totalsValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).totalInitialAllocationPercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).totalInitialAllocationValue}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).balancePercentage}</td>
+                                        <td>${financialPlanByCategoryMap.get(expenditureCategory).balanceValue}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </jsp:attribute>
+</kcep:head>

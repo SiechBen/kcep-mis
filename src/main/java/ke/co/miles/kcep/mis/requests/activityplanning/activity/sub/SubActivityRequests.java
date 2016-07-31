@@ -37,6 +37,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYea
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
@@ -128,18 +129,33 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private List<SubActivityDetails> retrieveSubActivities(short expenditureCategoryId, short financialYearId) throws MilesException {
-        List<SubActivity> subActivity = new ArrayList<>();
+    private List<SubActivityDetails> retrieveSubActivities(ExpenditureCategoryDetails expenditureCategoryDetails, short financialYearId) throws MilesException {
+        List<SubActivity> subActivities = new ArrayList<>();
         q = em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId");
-        q.setParameter("expenditureCategoryId", expenditureCategoryId);
+        q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
         q.setParameter("financialYearId", financialYearId);
         try {
-            subActivity = q.getResultList();
+            subActivities = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        return convertSubActivitiesToSubActivityDetailsList(subActivity);
+        return convertSubActivitiesToSubActivityDetailsList(subActivities);
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<SubActivityDetails> retrieveSubActivities(ComponentDetails component, short financialYearId) throws MilesException {
+        List<SubActivity> subActivities = new ArrayList<>();
+        q = em.createNamedQuery("SubActivity.findByComponentIdAndFinancialYearId");
+        q.setParameter("componentId", component.getId());
+        q.setParameter("financialYearId", financialYearId);
+        try {
+            subActivities = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertSubActivitiesToSubActivityDetailsList(subActivities);
     }
 
     @Override
@@ -159,30 +175,41 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @SuppressWarnings("unchecked")
     private Map<ExpenditureCategoryDetails, List<SubActivityDetails>> retrieveExpenditureCategoriesMap(short financialYearId) throws MilesException {
         Map<ExpenditureCategoryDetails, List<SubActivityDetails>> expenditureCategoriesMap = new HashMap<>();
-        List<ExpenditureCategory> expenditureCategories = new ArrayList<>();
-        q = em.createNamedQuery("ExpenditureCategory.findAll", ExpenditureCategory.class);
-        try {
-            expenditureCategories = q.getResultList();
-        } catch (Exception e) {
-        }
+        List<ExpenditureCategoryDetails> expenditureCategoryDetailsList;
 
-        for (ExpenditureCategory expenditureCategory : expenditureCategories) {
-            expenditureCategoriesMap.put(expenditureCategoryService.
-                    convertExpenditureCategoryToExpenditureCategoryDetails(expenditureCategory), retrieveSubActivities(expenditureCategory.getId(), financialYearId));
+        expenditureCategoryDetailsList = expenditureCategoryService.retrieveExpenditureCategories();
+        for (ExpenditureCategoryDetails expenditureCategoryDetails : expenditureCategoryDetailsList) {
+            expenditureCategoriesMap.put(expenditureCategoryDetails,
+                    retrieveSubActivities(expenditureCategoryDetails, financialYearId));
         }
-
+        
         return expenditureCategoriesMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<ComponentDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId) throws MilesException {
+
+        Map<ComponentDetails, List<SubActivityDetails>> componentsMap = new HashMap<>();
+        List<ComponentDetails> componentDetailsList;
+        componentDetailsList = componentService.retrieveComponents();
+        for (ComponentDetails componentDetails : componentDetailsList) {
+            componentsMap.put(componentDetails,
+                    retrieveSubActivities(componentDetails, financialYearId));
+        }
+
+        return componentsMap;
     }
 
     @Override
     public Map<ExpenditureCategoryDetails, FinancialPlanDetails> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException {
 
         Map<ExpenditureCategoryDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId);
-        Map<ExpenditureCategoryDetails, FinancialPlanDetails> financialPlanMap = new HashMap<>();
+        Map<ExpenditureCategoryDetails, FinancialPlanDetails> financialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
 
         for (ExpenditureCategoryDetails expenditureCategory : expenditureCategoriesMap.keySet()) {
             financialPlanDetails = new FinancialPlanDetails();
+
             for (SubActivityDetails subActivity : expenditureCategoriesMap.get(expenditureCategory)) {
                 financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
                 try {
@@ -331,14 +358,177 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             } catch (Exception e) {
             }
 
-            financialPlanMap.put(expenditureCategory, financialPlanDetails);
+            financialPlansMap.put(expenditureCategory, financialPlanDetails);
         }
 
-        return financialPlanMap;
+        return financialPlansMap;
     }
+
+    @Override
+    public Map<ComponentDetails, FinancialPlanDetails> summarizeFinancialPlanByComponents(short financialYearId) throws MilesException {
+
+        Map<ComponentDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId);
+        Map<ComponentDetails, FinancialPlanDetails> financialPlansMap = new HashMap<>();
+        FinancialPlanDetails financialPlanDetails;
+
+        for (ComponentDetails component : componentsMap.keySet()) {
+            financialPlanDetails = new FinancialPlanDetails();
+            for (SubActivityDetails subActivity : componentsMap.get(component)) {
+                financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
+                try {
+                    if (financialPlanDetails.getGokValue() == null) {
+                        financialPlanDetails.setGokValue(new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                    } else {
+                        financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().add(
+                                new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (financialPlanDetails.getBeneficiariesValue() == null) {
+                        financialPlanDetails.setBeneficiariesValue(new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                    } else {
+                        financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().add(
+                                new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (financialPlanDetails.getIfadLoanValue() == null) {
+                        financialPlanDetails.setIfadLoanValue(new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                    } else {
+                        financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().add(
+                                new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (financialPlanDetails.getEuValue() == null) {
+                        financialPlanDetails.setEuValue(new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                    } else {
+                        financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
+                                new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (financialPlanDetails.getIfadGrantValue() == null) {
+                        financialPlanDetails.setIfadGrantValue(new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                    } else {
+                        financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().add(
+                                new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (financialPlanDetails.getFinancialInstitutionValue() == null) {
+                        financialPlanDetails.setFinancialInstitutionValue(new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                    } else {
+                        financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().add(
+                                new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (financialPlanDetails.getTotalsValue() == null) {
+                        financialPlanDetails.setTotalsValue(subActivity.getTotals());
+                    } else {
+                        financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
+                    }
+                } catch (Exception e) {
+                }
+            }
+
+            try {
+                financialPlanDetails.setBalanceValue(financialPlanDetails.getTotalInitialAllocationValue().subtract(financialPlanDetails.getTotalsValue()));
+            } catch (Exception e) {
+            }
+
+            //Rounding off
+            try {
+                financialPlanDetails.setBalanceValue(financialPlanDetails.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
+            } catch (Exception e) {
+            }
+
+            //Calaculating percentages
+            try {
+                financialPlanDetails.setTotalsPercentage(financialPlanDetails.getTotalsValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setTotalsPercentage(Math.round(financialPlanDetails.getTotalsPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setTotalsPercentage(financialPlanDetails.getTotalsValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setTotalsPercentage(Math.round(financialPlanDetails.getTotalsPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setBalancePercentage(financialPlanDetails.getBalanceValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setBalancePercentage(Math.round(financialPlanDetails.getBalancePercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setGokPercentage(financialPlanDetails.getGokValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setGokPercentage(Math.round(financialPlanDetails.getGokPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setBeneficiariesPercentage(financialPlanDetails.getBeneficiariesValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setBeneficiariesPercentage(Math.round(financialPlanDetails.getBeneficiariesPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setIfadLoanPercentage(financialPlanDetails.getIfadLoanValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setIfadLoanPercentage(Math.round(financialPlanDetails.getIfadLoanPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setEuPercentage(financialPlanDetails.getEuValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setEuPercentage(Math.round(financialPlanDetails.getEuPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setIfadGrantPercentage(financialPlanDetails.getIfadGrantValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setIfadGrantPercentage(Math.round(financialPlanDetails.getIfadGrantPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+            try {
+                financialPlanDetails.setFinancialInstitutionPercentage(financialPlanDetails.getFinancialInstitutionValue().doubleValue() / financialPlanDetails.getTotalInitialAllocationValue().doubleValue() * 100);
+                financialPlanDetails.setFinancialInstitutionPercentage(Math.round(financialPlanDetails.getFinancialInstitutionPercentage() * 100.0) / 100.0);
+            } catch (Exception e) {
+            }
+
+            financialPlansMap.put(component, financialPlanDetails);
+        }
+
+        return financialPlansMap;
+    }
+
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
-
     @Override
     public void editSubActivity(SubActivityDetails subActivityDetails) throws MilesException {
 

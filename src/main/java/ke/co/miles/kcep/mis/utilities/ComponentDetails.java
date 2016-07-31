@@ -13,8 +13,6 @@ import java.io.Serializable;
  */
 public class ComponentDetails implements Serializable, Comparable<ComponentDetails> {
 
-    private static final long serialVersionUID = 1L;
-
     public ComponentDetails() {
     }
 
@@ -56,7 +54,7 @@ public class ComponentDetails implements Serializable, Comparable<ComponentDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Component[ component=" + component + " ]";
+        return "ke.co.miles.kcep.mis.entities.Component[ id=" + id + " ]";
     }
 
     @Override
@@ -64,6 +62,7 @@ public class ComponentDetails implements Serializable, Comparable<ComponentDetai
         return this.id.compareTo(o.getId());
     }
 
+    private static final long serialVersionUID = 1L;
     private Short id;
     private String component;
 

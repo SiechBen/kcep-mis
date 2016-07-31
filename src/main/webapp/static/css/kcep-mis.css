@@ -387,4 +387,9 @@ table.dataTable thead .sorting:after {
 
 .data-table th, td {
     white-space: nowrap;
+    overflow:auto;
+}
+
+.reports-table th, td {
+    overflow:auto;
 }

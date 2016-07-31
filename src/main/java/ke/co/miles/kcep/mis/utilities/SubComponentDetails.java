@@ -62,7 +62,7 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubComponent[ sub-component=" + getSubComponent() + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubComponent[ id=" + id + " ]";
     }
 
     @Override
@@ -70,6 +70,7 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
         return this.id.compareTo(o.getId());
     }
 
+    private static final long serialVersionUID = 1L;
     private Short id;
     private String subComponent;
     private ComponentDetails component;

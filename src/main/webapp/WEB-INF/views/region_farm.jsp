@@ -232,7 +232,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <div class="dialog" id="farm-activity-dialog">
         <div class="col-lg-12">
             <div class="panel-default">

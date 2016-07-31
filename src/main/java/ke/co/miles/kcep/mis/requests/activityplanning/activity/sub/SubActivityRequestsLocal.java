@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
@@ -72,11 +73,20 @@ public interface SubActivityRequestsLocal {
 
     /**
      *
-     * @param financialYearId  the unique identifier of  the financial year for which the financial plan by
-     * categories report is to be generated
+     * @param financialYearId the unique identifier of the financial year for
+     * which the financial plan by expenditure categories report is to be generated
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
     public Map<ExpenditureCategoryDetails, FinancialPlanDetails> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException;
+
+    /**
+     *
+     * @param financialYearId the unique identifier of the financial year for
+     * which the financial plan by components report is to be generated
+     * @return the map of generated financial plan data
+     * @throws MilesException when the database is in an incorrect
+     */
+    public Map<ComponentDetails, FinancialPlanDetails> summarizeFinancialPlanByComponents(short financialYearId) throws MilesException;
 
 }

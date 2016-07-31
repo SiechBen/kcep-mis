@@ -98,14 +98,14 @@
                                         </tr>
                                     </thead>
                                     <tbody> 
-                                    <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
-                                        <td>${index.count}</td>
-                                        <td>${loan.amount}</td>
-                                        <td>${loan.type}</td>
-                                        <td>${loan.account.accountNumber}</td>
-                                        </tr>
-                                    </c:forEach>
+                                        <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
+                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                                <td>${index.count}</td>
+                                                <td>${loan.amount}</td>
+                                                <td>${loan.type}</td>
+                                                <td>${loan.account.accountNumber}</td>
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table> 
                             </div>
@@ -124,17 +124,17 @@
                                         </tr>
                                     </thead>
                                     <tbody> 
-                                    <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
-                                        <td>${index.count}</td>
-                                        <td>${inputsCollection.date}</td>
-                                        <td>${inputsCollection.agroDealer.name}</td>
-                                        <td>${inputsCollection.agroDealer.businessName}</td>
-                                        <td>${inputsCollection.inputType.type}</td>
-                                        <td>${inputsCollection.staticInput.name}</td>
-                                        <td>${inputsCollection.quantity}</td>
-                                        </tr>
-                                    </c:forEach>
+                                        <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
+                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                                <td>${index.count}</td>
+                                                <td>${inputsCollection.date}</td>
+                                                <td>${inputsCollection.agroDealer.name}</td>
+                                                <td>${inputsCollection.agroDealer.businessName}</td>
+                                                <td>${inputsCollection.inputType.type}</td>
+                                                <td>${inputsCollection.staticInput.name}</td>
+                                                <td>${inputsCollection.quantity}</td>
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table> 
                             </div>     
@@ -153,17 +153,17 @@
                                         </tr>
                                     </thead>
                                     <tbody> 
-                                    <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
-                                        <td>${index.count}</td>
-                                        <td>${farmActivity.name}</td>
-                                        <td>${farmActivity.yield}</td>
-                                        <td>${farmActivity.date}</td>
-                                        <td>${farmActivity.quantitySold}</td>
-                                        <td>${farmActivity.quantityHarvested}</td>
-                                        <td>${farmActivity.averageSellingPrice}</td>
-                                        </tr>
-                                    </c:forEach>
+                                        <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
+                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                                <td>${index.count}</td>
+                                                <td>${farmActivity.name}</td>
+                                                <td>${farmActivity.yield}</td>
+                                                <td>${farmActivity.date}</td>
+                                                <td>${farmActivity.quantitySold}</td>
+                                                <td>${farmActivity.quantityHarvested}</td>
+                                                <td>${farmActivity.averageSellingPrice}</td>
+                                            </tr>
+                                        </c:forEach>
                                     </tbody>
                                 </table> 
                             </div>
@@ -232,41 +232,40 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="dialog" id="farm-activity-dialog">
-        <div class="col-lg-12">
-            <div class="panel-default">
-                <div class="panel-body">
-                    <form role="form">
-                        <div class="form-group">
-                            Farm activity name
-                            <input id="farm-activity-name" class="form-control" required="true">
-                        </div>
-                        <div class="form-group">
-                            Yield
-                            <input  id="yield" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            Date
-                            <input type="date" id="farm-activity-date" class="form-control datefield">
-                        </div>
-                        <div class="form-group">
-                            Quantiy sold
-                            <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
-                        </div>
-                        <div class="form-group">
-                            Quantiy harvested
-                            <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
-                        </div>
-                        <div class="form-group">
-                            Average selling price
-                            <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
-                        </div>
-                    </form>
+        <div class="dialog" id="farm-activity-dialog">
+            <div class="col-lg-12">
+                <div class="panel-default">
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                Farm activity name
+                                <input id="farm-activity-name" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Yield
+                                <input  id="yield" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                Date
+                                <input type="date" id="farm-activity-date" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Quantiy sold
+                                <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Quantiy harvested
+                                <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Average selling price
+                                <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</jsp:attribute>
+    </jsp:attribute>
 </kcep:ward>

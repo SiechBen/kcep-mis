@@ -87,23 +87,17 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
                 //"paging": true
     });
 });
+
 $(function () {
-    $(".reports-table").DataTable({
+    $('.reports-table').DataTable({
         responsive: true,
-        "scrollY": "200",
         "scrollCollapse": true,
         dom: "Brt",
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-                //"paging": true
-    });
-});
-$(function () {
-    $(".dt-button").each(function () {
-        $(this).removeClass(".dt-button").addClass("btn btn-default");
     });
 });
 //</editor-fold>

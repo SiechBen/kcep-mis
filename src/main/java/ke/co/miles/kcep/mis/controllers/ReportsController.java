@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,17 +21,15 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
-import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
 /**
  *
  * @author siech
  */
-@WebServlet(name = "ReportsController", urlPatterns = {"/reports"})
+@WebServlet(name = "ReportsController", urlPatterns = {"/reports", "/financial_plan_by_categories", "/financial_plan_by_components"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -62,6 +59,14 @@ public class ReportsController extends Controller {
                             switch (path) {
                                 case "/reports":
                                     path = "/head_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_plan_by_components":
+                                    path = "/head_financial_plan_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_plan_by_categories":
+                                    path = "/head_financial_plan_by_categories";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -154,42 +159,31 @@ public class ReportsController extends Controller {
 
             switch (path) {
 
-                case "/head_reports":
-                case "/ward_reports":
-                case "/kalro_reports":
-                case "/region_reports":
-                case "/county_reports":
-                case "/sub_county_reports":
-                case "/agro_dealer_reports":
+                case "/head_financial_plan_by_categories":
 
-                    List<PersonDetails> agroDealers;
                     try {
-                        agroDealers = personService.retrievePeople(PersonRoleDetail.AGRO_DEALER);
-                        session.setAttribute("agroDealers", agroDealers);
+                        session.setAttribute("financialPlanByCategoryMap", subActivityService.
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId()));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 
-                    List<InputTypeDetails> inputTypes;
+                    break;
+                case "/head_financial_plan_by_components":
+
                     try {
-                        inputTypes = inputTypeService.retrieveInputTypes();
-                        session.setAttribute("inputTypes", inputTypes);
+                        session.setAttribute("financialPlanByComponentMap", subActivityService.
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId()));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 
-                    try {
-                        session.setAttribute("financialPlanMap", subActivityService.summarizeFinancialPlanByCategories(new Short("2")));
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
-                    }
-
+                    break;
+                default:
                     break;
             }
             //Use request dispatcher to foward request internally
@@ -217,5 +211,7 @@ public class ReportsController extends Controller {
     private SubActivityRequestsLocal subActivityService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
+    @EJB
+    private FinancialYearRequestsLocal financialYearService;
 
 }

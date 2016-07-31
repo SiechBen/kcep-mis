@@ -232,41 +232,40 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="dialog" id="farm-activity-dialog">
-        <div class="col-lg-12">
-            <div class="panel-default">
-                <div class="panel-body">
-                    <form role="form">
-                        <div class="form-group">
-                            Farm activity name
-                            <input id="farm-activity-name" class="form-control" required="true">
-                        </div>
-                        <div class="form-group">
-                            Yield
-                            <input  id="yield" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            Date
-                            <input type="date" id="farm-activity-date" class="form-control datefield">
-                        </div>
-                        <div class="form-group">
-                            Quantiy sold
-                            <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
-                        </div>
-                        <div class="form-group">
-                            Quantiy harvested
-                            <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
-                        </div>
-                        <div class="form-group">
-                            Average selling price
-                            <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
-                        </div>
-                    </form>
+        <div class="dialog" id="farm-activity-dialog">
+            <div class="col-lg-12">
+                <div class="panel-default">
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                Farm activity name
+                                <input id="farm-activity-name" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Yield
+                                <input  id="yield" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                Date
+                                <input type="date" id="farm-activity-date" class="form-control datefield">
+                            </div>
+                            <div class="form-group">
+                                Quantiy sold
+                                <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Quantiy harvested
+                                <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
+                            </div>
+                            <div class="form-group">
+                                Average selling price
+                                <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</jsp:attribute>
+    </jsp:attribute>
 </kcep:sub_county>

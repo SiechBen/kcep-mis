@@ -13,96 +13,48 @@
     <jsp:attribute name="pagecontent">
 
         <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
                     <div class="panel-heading">
-                        Financial plan by categories
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table id="financial-plan-table" class="table table-striped table-bordered table-hover reports-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Description</th>
-                                        <th colspan="2">GOK</th>
-                                        <th colspan="2">Beneficiaries</th>
-                                        <th colspan="2">IFAD Loan</th>
-                                        <th colspan="2">IFAD Grant</th>
-                                        <th colspan="2">Financial Institution</th>
-                                        <th colspan="2">Total</th>
-                                        <th colspan="2">Total Initial Allocation</th>
-                                        <th colspan="2">Balance</th>
-                                    </tr>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th>Exenditure category</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                        <th>%</th>
-                                        <th>USD '000</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>&nbsp;</th>
-                                        <th><strong>Total</strong></th>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                        <td><strong></strong></td>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <c:forEach var="expenditureCategory" items="${sessionScope.financialPlanMap.keySet()}" varStatus="index">
-                                        <tr>
-                                            <th>${index.count}</th>
-                                            <th>${expenditureCategory.name}</th>
-                                            <td>${financialPlanMap.get(expenditureCategory).gokPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).gokValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).beneficiariesPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).beneficiariesValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).ifadLoanPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).ifadLoanValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).ifadGrantPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).ifadGrantValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).financialInstitutionPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).financialInstitutionValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).totalsPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).totalsValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).totalInitialAllocationPercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).totalInitialAllocationValue}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).balancePercentage}</td>
-                                            <td>${financialPlanMap.get(expenditureCategory).balanceValue}</td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="medium">Report</div>
+                                <div>Financial Plan by Categories</div>
+                            </div>
                         </div>
                     </div>
+                    <a onclick="loadAjaxWindow('financial_plan_by_categories')">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="medium">Report</div>
+                                <div>Financial Plan by Components</div>
+                            </div>
+                        </div>
+                    </div>
+                       <a onclick="loadAjaxWindow('financial_plan_by_components')">
+                     <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -93,7 +93,8 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
     @SuppressWarnings("unchecked")
     public FinancialYearDetails retrieveCurrentFinancialYear() throws MilesException {
         FinancialYear financialYear = new FinancialYear();
-        q = em.createNamedQuery("FinancialYear.findAll");
+        q = em.createNamedQuery("FinancialYear.findByCurrentYear");
+        q.setParameter("currentYear", Boolean.TRUE);
         try {
             financialYear = (FinancialYear) q.getSingleResult();
         } catch (Exception e) {

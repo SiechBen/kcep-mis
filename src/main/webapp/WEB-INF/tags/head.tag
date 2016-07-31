@@ -58,7 +58,6 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">PCU Project Coordinator</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
             <div>         
                 <jsp:invoke fragment="pagecontent" />

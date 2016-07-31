@@ -303,6 +303,7 @@
         <script src="static/plugins/vfs-fonts/vfs_fonts.js"></script>
         <script src="static/plugins/datatables/media/js/buttons.html5.min.js"></script>
         <script src="static/plugins/datatables/media/js/buttons.print.min.js"></script>
+        <script src="static/plugins/datatables/media/js/buttons.colVis.min.js"></script>
         <script src="static/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
         <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
