@@ -150,7 +150,7 @@ CREATE TABLE `component` (
 
 LOCK TABLES `component` WRITE;
 /*!40000 ALTER TABLE `component` DISABLE KEYS */;
-INSERT INTO `component` VALUES (1,'Cereal Productivity Enhancement'),(3,'Financial Services'),(2,'Post-Harvest Management and Market Linkages');
+INSERT INTO `component` VALUES (1,'Cereal Productivity Enhancement'),(3,'Financial Services'),(2,'Post-Harvest MAnagement and Market Linkages');
 /*!40000 ALTER TABLE `component` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1566,7 +1566,7 @@ CREATE TABLE `sub_activity` (
 
 LOCK TABLES `sub_activity` WRITE;
 /*!40000 ALTER TABLE `sub_activity` DISABLE KEYS */;
-INSERT INTO `sub_activity` VALUES (1,NULL,'21312',1,2,1,1,'2016-07-28','2016-07-28',2,98.00,98.00,890.00,987.00,1,1,'Yes','098',98765.00,96789.00,4,8,7,7,8,6,7,2),(2,'100000 smallholder farmers mobilized(40000 category 1; 60000 category 2)','1.1.1.4',1,2,1,1,'2016-07-28','2016-07-28',6,9876.00,34567890.00,56879.00,909876.00,1,1,'Yes','dfvbhjkl;y',567890.00,998765.00,4,45,7,9,45,5,8,2),(3,'60 grain warehouse facilities certified and operational with WRS system','2.1.3.1',3,2,1,2,'2016-07-29','2016-07-29',4,45000.00,60000.00,78000.00,56000.00,1,1,'Yes','Meetings',98000.00,78000.00,8,11,11,11,11,11,12,2);
+INSERT INTO `sub_activity` VALUES (1,NULL,'21312',1,2,1,1,'2016-07-28','2016-07-28',2,98.00,98.00,890.00,987.00,1,1,'Yes','098',98765.00,96789.35,4,8,7,7,8,6,7,2),(2,'100000 smallholder farmers mobilized(40000 category 1; 60000 category 2)','1.1.1.4',1,2,1,1,'2016-07-28','2016-07-28',6,9876.00,34567890.00,56879.00,909876.00,1,1,'Yes','dfvbhjkl;y',567890.00,9934353.35,4,45,7,9,45,5,8,2),(3,'60 grain warehouse facilities certified and operational with WRS system','2.1.3.1',3,2,1,2,'2016-07-29','2016-07-29',4,45000.00,60000.00,78000.00,56000.00,1,1,'Yes','Meetings',98000.00,78000.55,8,11,11,11,11,11,12,2);
 /*!40000 ALTER TABLE `sub_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2022,4 +2022,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-29  6:24:43
+-- Dump completed on 2016-08-01  6:56:54

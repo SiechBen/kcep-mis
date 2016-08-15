@@ -97,7 +97,7 @@
                                         <td>${financialPlanTotals.financialInstitutionPercentage}</td>
                                         <td>${financialPlanTotals.financialInstitutionValue}</td>
                                         <td>${financialPlanTotals.totalsPercentage}</td>
-                                        <td>${financialPlanTotals.totalsPercentage}</td>
+                                        <td>${financialPlanTotals.totalsValue}</td>
                                         <td>${financialPlanTotals.totalInitialAllocationPercentage}</td>
                                         <td>${financialPlanTotals.totalInitialAllocationValue}</td>
                                         <td>${financialPlanTotals.balancePercentage}</td>

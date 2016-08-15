@@ -214,11 +214,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
             for (SubActivityDetails subActivity : expenditureCategoriesMap.get(expenditureCategory)) {
                 financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
-                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
-                } else {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
-                }
 
                 try {
                     if (financialPlanDetails.getGokValue() == null) {
@@ -226,11 +221,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().add(
                                 new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
-                    }
-                    if (financialPlanTotals.getGokValue() != null) {
-                        financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().add(financialPlanDetails.getGokValue()));
-                    } else {
-                        financialPlanTotals.setGokValue(financialPlanDetails.getGokValue());
                     }
                 } catch (Exception e) {
                 }
@@ -242,11 +232,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().add(
                                 new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
-                    if (financialPlanTotals.getBeneficiariesValue() != null) {
-                        financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().add(financialPlanDetails.getBeneficiariesValue()));
-                    } else {
-                        financialPlanTotals.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue());
-                    }
                 } catch (Exception e) {
                 }
 
@@ -256,11 +241,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().add(
                                 new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
-                    }
-                    if (financialPlanTotals.getIfadLoanValue() != null) {
-                        financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().add(financialPlanDetails.getIfadLoanValue()));
-                    } else {
-                        financialPlanTotals.setIfadLoanValue(financialPlanDetails.getIfadLoanValue());
                     }
                 } catch (Exception e) {
                 }
@@ -272,11 +252,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
-                    if (financialPlanTotals.getEuValue() != null) {
-                        financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().add(financialPlanDetails.getEuValue()));
-                    } else {
-                        financialPlanTotals.setEuValue(financialPlanDetails.getEuValue());
-                    }
                 } catch (Exception e) {
                 }
 
@@ -286,11 +261,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().add(
                                 new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
-                    }
-                    if (financialPlanTotals.getIfadGrantValue() != null) {
-                        financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().add(financialPlanDetails.getIfadGrantValue()));
-                    } else {
-                        financialPlanTotals.setIfadGrantValue(financialPlanDetails.getIfadGrantValue());
                     }
                 } catch (Exception e) {
                 }
@@ -302,11 +272,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().add(
                                 new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
-                    if (financialPlanTotals.getFinancialInstitutionValue() != null) {
-                        financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().add(financialPlanDetails.getFinancialInstitutionValue()));
-                    } else {
-                        financialPlanTotals.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue());
-                    }
                 } catch (Exception e) {
                 }
 
@@ -316,13 +281,80 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
                     }
-                    if (financialPlanTotals.getTotalsValue() != null) {
-                        financialPlanTotals.setTotalsValue(financialPlanTotals.getTotalsValue().add(financialPlanDetails.getTotalsValue()));
-                    } else {
-                        financialPlanTotals.setTotalsValue(financialPlanDetails.getTotalsValue());
-                    }
                 } catch (Exception e) {
+                }                
+            }
+
+            try {
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
+                } else {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
                 }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getGokValue() != null) {
+                    financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().add(financialPlanDetails.getGokValue()));
+                } else {
+                    financialPlanTotals.setGokValue(financialPlanDetails.getGokValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getBeneficiariesValue() != null) {
+                    financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().add(financialPlanDetails.getBeneficiariesValue()));
+                } else {
+                    financialPlanTotals.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getIfadLoanValue() != null) {
+                    financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().add(financialPlanDetails.getIfadLoanValue()));
+                } else {
+                    financialPlanTotals.setIfadLoanValue(financialPlanDetails.getIfadLoanValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getEuValue() != null) {
+                    financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().add(financialPlanDetails.getEuValue()));
+                } else {
+                    financialPlanTotals.setEuValue(financialPlanDetails.getEuValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getIfadGrantValue() != null) {
+                    financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().add(financialPlanDetails.getIfadGrantValue()));
+                } else {
+                    financialPlanTotals.setIfadGrantValue(financialPlanDetails.getIfadGrantValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getFinancialInstitutionValue() != null) {
+                    financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().add(financialPlanDetails.getFinancialInstitutionValue()));
+                } else {
+                    financialPlanTotals.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getTotalsValue() != null) {
+                    financialPlanTotals.setTotalsValue(financialPlanTotals.getTotalsValue().add(financialPlanDetails.getTotalsValue()));
+                } else {
+                    financialPlanTotals.setTotalsValue(financialPlanDetails.getTotalsValue());
+                }
+            } catch (Exception e) {
             }
 
             try {
@@ -504,16 +536,11 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         FinancialPlanDetails financialPlanDetails;
         FinancialPlanDetails financialPlanTotals = new FinancialPlanDetails();
 
-        for (ComponentDetails component : componentsMap.keySet()) {
+        for (ComponentDetails components : componentsMap.keySet()) {
             financialPlanDetails = new FinancialPlanDetails();
 
-            for (SubActivityDetails subActivity : componentsMap.get(component)) {
+            for (SubActivityDetails subActivity : componentsMap.get(components)) {
                 financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
-                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
-                } else {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
-                }
 
                 try {
                     if (financialPlanDetails.getGokValue() == null) {
@@ -521,11 +548,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().add(
                                 new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
-                    }
-                    if (financialPlanTotals.getGokValue() != null) {
-                        financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().add(financialPlanDetails.getGokValue()));
-                    } else {
-                        financialPlanTotals.setGokValue(financialPlanDetails.getGokValue());
                     }
                 } catch (Exception e) {
                 }
@@ -537,11 +559,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().add(
                                 new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
-                    if (financialPlanTotals.getBeneficiariesValue() != null) {
-                        financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().add(financialPlanDetails.getBeneficiariesValue()));
-                    } else {
-                        financialPlanTotals.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue());
-                    }
                 } catch (Exception e) {
                 }
 
@@ -551,11 +568,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().add(
                                 new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
-                    }
-                    if (financialPlanTotals.getIfadLoanValue() != null) {
-                        financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().add(financialPlanDetails.getIfadLoanValue()));
-                    } else {
-                        financialPlanTotals.setIfadLoanValue(financialPlanDetails.getIfadLoanValue());
                     }
                 } catch (Exception e) {
                 }
@@ -567,11 +579,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
-                    if (financialPlanTotals.getEuValue() != null) {
-                        financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().add(financialPlanDetails.getEuValue()));
-                    } else {
-                        financialPlanTotals.setEuValue(financialPlanDetails.getEuValue());
-                    }
                 } catch (Exception e) {
                 }
 
@@ -581,11 +588,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().add(
                                 new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
-                    }
-                    if (financialPlanTotals.getIfadGrantValue() != null) {
-                        financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().add(financialPlanDetails.getIfadGrantValue()));
-                    } else {
-                        financialPlanTotals.setIfadGrantValue(financialPlanDetails.getIfadGrantValue());
                     }
                 } catch (Exception e) {
                 }
@@ -597,11 +599,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().add(
                                 new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
-                    if (financialPlanTotals.getFinancialInstitutionValue() != null) {
-                        financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().add(financialPlanDetails.getFinancialInstitutionValue()));
-                    } else {
-                        financialPlanTotals.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue());
-                    }
                 } catch (Exception e) {
                 }
 
@@ -611,13 +608,80 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     } else {
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
                     }
-                    if (financialPlanTotals.getTotalsValue() != null) {
-                        financialPlanTotals.setTotalsValue(financialPlanTotals.getTotalsValue().add(financialPlanDetails.getTotalsValue()));
-                    } else {
-                        financialPlanTotals.setTotalsValue(financialPlanDetails.getTotalsValue());
-                    }
                 } catch (Exception e) {
+                }                
+            }
+
+            try {
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
+                } else {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
                 }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getGokValue() != null) {
+                    financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().add(financialPlanDetails.getGokValue()));
+                } else {
+                    financialPlanTotals.setGokValue(financialPlanDetails.getGokValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getBeneficiariesValue() != null) {
+                    financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().add(financialPlanDetails.getBeneficiariesValue()));
+                } else {
+                    financialPlanTotals.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getIfadLoanValue() != null) {
+                    financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().add(financialPlanDetails.getIfadLoanValue()));
+                } else {
+                    financialPlanTotals.setIfadLoanValue(financialPlanDetails.getIfadLoanValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getEuValue() != null) {
+                    financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().add(financialPlanDetails.getEuValue()));
+                } else {
+                    financialPlanTotals.setEuValue(financialPlanDetails.getEuValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getIfadGrantValue() != null) {
+                    financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().add(financialPlanDetails.getIfadGrantValue()));
+                } else {
+                    financialPlanTotals.setIfadGrantValue(financialPlanDetails.getIfadGrantValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getFinancialInstitutionValue() != null) {
+                    financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().add(financialPlanDetails.getFinancialInstitutionValue()));
+                } else {
+                    financialPlanTotals.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue());
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (financialPlanTotals.getTotalsValue() != null) {
+                    financialPlanTotals.setTotalsValue(financialPlanTotals.getTotalsValue().add(financialPlanDetails.getTotalsValue()));
+                } else {
+                    financialPlanTotals.setTotalsValue(financialPlanDetails.getTotalsValue());
+                }
+            } catch (Exception e) {
             }
 
             try {
@@ -707,7 +771,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             } catch (Exception e) {
             }
 
-            componentToFinancialPlansMap.put(component, financialPlanDetails);
+            componentToFinancialPlansMap.put(components, financialPlanDetails);
         }
 
         try {
@@ -789,8 +853,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         return totalsToComponentToFinancialPlansMap;
     }
+
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
+
     @Override
     public void editSubActivity(SubActivityDetails subActivityDetails) throws MilesException {
 

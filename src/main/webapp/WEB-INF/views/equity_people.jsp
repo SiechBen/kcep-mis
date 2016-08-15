@@ -27,7 +27,7 @@
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
                                         <th>Name</th>
-                                        <th>Sex</th>
+                                        <th>Gender</th>
                                         <th>National id</th>
                                         <th>Date of birth</th>
                                         <th>Business name</th>

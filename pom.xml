@@ -27,7 +27,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies> 
+    <dependencies>  
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -94,12 +94,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
-        </dependency>
-        <!--Required for WebServices and RESTful WebServices-->
-        <dependency>
-            <groupId>org.apache.openejb</groupId>
-            <artifactId>tomee-webservices</artifactId>
-            <version>1.7.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.openejb</groupId>

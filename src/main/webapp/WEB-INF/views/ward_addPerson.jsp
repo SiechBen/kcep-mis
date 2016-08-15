@@ -45,7 +45,7 @@
                                 <input id="business-name" class="form-control">
                             </div>
                             <div class="form-group">
-                                Sex
+                                Gender
                                 <select id="sex" class="form-control">
                                     <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index"> 
                                         <option value="${sex.id}">${sex.sex}</option>

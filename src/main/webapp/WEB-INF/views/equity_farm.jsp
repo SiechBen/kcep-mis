@@ -208,15 +208,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                Input type
+                                Input collected
                                 <select id="input-type" class="form-control" required="true" onchange="updateStaticInputs()">
+                                    <option disabled selected>Select input type</option>
                                     <c:forEach var="inputType" items="${sessionScope.inputTypes}" varStatus="index">
                                         <option value="${inputType.id}">${inputType.type}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group">
-                                Input name
+                                Type/variety of input collected
                                 <select id="static-input" class="form-control">
                                     <c:forEach var="staticInput" items="${sessionScope.staticInputs}" varStatus="index">
                                         <option value="${staticInput.id}">${staticInput.name}</option>

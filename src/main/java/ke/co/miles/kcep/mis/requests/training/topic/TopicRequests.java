@@ -63,6 +63,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<TopicDetails> retrieveTopics() throws MilesException {
         List<Topic> topics = new ArrayList<>();
         q = em.createNamedQuery("Topic.findAll");
