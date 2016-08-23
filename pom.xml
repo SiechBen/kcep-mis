@@ -168,7 +168,6 @@
     </dependencies>
     
     <profiles>
-
         <profile>
             <id>tomee-embedded</id>
             <activation>
