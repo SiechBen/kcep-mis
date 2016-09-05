@@ -4,6 +4,7 @@
     Author     : siech
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -92,14 +93,14 @@
                                 </tr>
                             </thead>
                             <tbody> 
-                            <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
-                                <td>${index.count}</td>
-                                <td>${loan.amount}</td>
-                                <td>${loan.type}</td>
-                                <td>${loan.account.accountNumber}</td>
-                                </tr>
-                            </c:forEach>
+                                <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
+                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <td>${index.count}</td>
+                                        <td>${loan.amount}</td>
+                                        <td>${loan.type}</td>
+                                        <td>${loan.account.accountNumber}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table> 
                     </div>
@@ -112,23 +113,25 @@
                                     <th>Date collected</th>
                                     <th>Agro dealer name</th>
                                     <th>Agro dealer's business name</th>
-                                    <th>Input type</th>
                                     <th>Input name</th>
+                                    <th>Input type</th>
+                                    <th>Input variety</th>
                                     <th>Quantity</th>
                                 </tr>
                             </thead>
                             <tbody> 
-                            <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
-                                <td>${index.count}</td>
-                                <td>${inputsCollection.date}</td>
-                                <td>${inputsCollection.agroDealer.name}</td>
-                                <td>${inputsCollection.agroDealer.businessName}</td>
-                                <td>${inputsCollection.inputType.type}</td>
-                                <td>${inputsCollection.staticInput.name}</td>
-                                <td>${inputsCollection.quantity}</td>
-                                </tr>
-                            </c:forEach>
+                                <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
+                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <td>${index.count}</td>
+                                        <td>${inputsCollection.date}</td>
+                                        <td>${inputsCollection.agroDealer.name}</td>
+                                        <td>${inputsCollection.agroDealer.businessName}</td>
+                                        <td>${inputsCollection.inputType.type}</td>
+                                        <td>${inputsCollection.staticInput.name}</td>
+                                        <td>${inputsCollection.inputVariety.variety}</td>
+                                        <td>${inputsCollection.quantity}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table> 
                     </div>     
@@ -147,17 +150,17 @@
                                 </tr>
                             </thead>
                             <tbody> 
-                            <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
-                                <td>${index.count}</td>
-                                <td>${farmActivity.name}</td>
-                                <td>${farmActivity.yield}</td>
-                                <td>${farmActivity.date}</td>
-                                <td>${farmActivity.quantitySold}</td>
-                                <td>${farmActivity.quantityHarvested}</td>
-                                <td>${farmActivity.averageSellingPrice}</td>
-                                </tr>
-                            </c:forEach>
+                                <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
+                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <td>${index.count}</td>
+                                        <td>${farmActivity.name}</td>
+                                        <td>${farmActivity.yield}</td>
+                                        <td>${farmActivity.date}</td>
+                                        <td>${farmActivity.quantitySold}</td>
+                                        <td>${farmActivity.quantityHarvested}</td>
+                                        <td>${farmActivity.averageSellingPrice}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table> 
                     </div>
@@ -204,17 +207,25 @@
                     <div class="form-group">
                         Input collected
                         <select id="input-type" class="form-control" required="true" onchange="updateStaticInputs()">
-                            <option disabled selected>Select input type</option>
+                            <option disabled selected>Select input name</option>
                             <c:forEach var="inputType" items="${sessionScope.inputTypes}" varStatus="index">
                                 <option value="${inputType.id}">${inputType.type}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="form-group">
-                        Type/variety of input collected
-                        <select id="static-input" class="form-control">
+                        Type of input collected
+                        <select id="static-input" class="form-control" onchange="updateInputVarieties()">
                             <c:forEach var="staticInput" items="${sessionScope.staticInputs}" varStatus="index">
                                 <option value="${staticInput.id}">${staticInput.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Variety of input collected
+                        <select id="input-variety" class="form-control">
+                            <c:forEach var="inputVariety" items="${sessionScope.inputVarieties}" varStatus="index">
+                                <option value="${inputVariety.id}">${inputVariety.variety}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -245,11 +256,11 @@
                         <input type="date" id="farm-activity-date" class="form-control datefield">
                     </div>
                     <div class="form-group">
-                        Quantiy sold
+                        Quantity sold
                         <input type="number" id="quantity-sold" step="0.01" class="form-control" required="true">
                     </div>
                     <div class="form-group">
-                        Quantiy harvested
+                        Quantity harvested
                         <input type="number" id="quantity-harvested" step="0.01" class="form-control" required="true">
                     </div>
                     <div class="form-group">
