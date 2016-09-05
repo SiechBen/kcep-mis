@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StaticInput.findById", query = "SELECT s FROM StaticInput s WHERE s.id = :id"),
     @NamedQuery(name = "StaticInput.findByName", query = "SELECT s FROM StaticInput s WHERE s.name = :name")})
 public class StaticInput implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "staticInput")
+    private List<InputVariety> inputVarietyList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -115,6 +119,15 @@ public class StaticInput implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.StaticInput[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<InputVariety> getInputVarietyList() {
+        return inputVarietyList;
+    }
+
+    public void setInputVarietyList(List<InputVariety> inputVarietyList) {
+        this.inputVarietyList = inputVarietyList;
     }
     
 }

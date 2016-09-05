@@ -7,16 +7,13 @@ package ke.co.miles.kcep.mis.requests.input.type;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
-import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
 /**
  *
@@ -122,8 +119,6 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     @Override
     public InputTypeDetails convertInputTypeToInputTypeDetails(InputType inputType) {
 
-        StaticInputDetails staticInputDetails = null;
-
         InputTypeDetails inputTypeDetails = new InputTypeDetails(inputType.getId());
         inputTypeDetails.setType(inputType.getType());
 
@@ -143,6 +138,4 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     }
 
 //</editor-fold>
-    @EJB
-    private StaticInputRequestsLocal staticInputService;
 }

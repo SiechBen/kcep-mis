@@ -1097,12 +1097,14 @@ function addInputsCollection() {
                     data: "dateCollected=" + $("#date-collected").val() +
                             "&agroDealerId=" + $("#agro-dealer").val() +
                             "&staticInputId=" + $("#static-input").val() +
+                            "&inputVariety=" + $("#input-variety").val() +
                             "&inputTypeId=" + $("#input-type").val() +
                             "&quantity=" + $("#quantity").val(),
                     success: function (response) {
                         $("table#inputs-collection-table tbody").html(response);
                         $("#date-collected").val("");
                         $("#agro-dealer").val("");
+                        $("#input-variety").val("");
                         $("#input-type").val("");
                         $("#quantity").val("");
                     },
@@ -1117,6 +1119,7 @@ function addInputsCollection() {
         close: function () {
             $("#date-collected").val("");
             $("#agro-dealer").val("");
+            $("#input-variety").val("");
             $("#input-type").val("");
             $("#quantity").val("");
         }
@@ -1173,6 +1176,18 @@ function addFarmActivity() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Update Selects">
+function updateInputVarieties() {
+    $.ajax({
+        type: "POST",
+        url: "updateInputVarieties",
+        data: "staticInputId=" + $("#static-input").val(),
+        success: function (response) {
+            $("#input-variety").html(response);
+        },
+        dataType: "HTML"
+    });
+}
+
 function updateStaticInputs() {
     $.ajax({
         type: "POST",

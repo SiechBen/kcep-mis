@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -38,6 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Account.findByAccountNumber", query = "SELECT a FROM Account a WHERE a.accountNumber = :accountNumber"),
     @NamedQuery(name = "Account.findBySolId", query = "SELECT a FROM Account a WHERE a.solId = :solId")})
 public class Account implements Serializable {
+
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "savings")
+    private BigDecimal savings;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -139,6 +144,14 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Account[ id=" + id + " ]";
+    }
+
+    public BigDecimal getSavings() {
+        return savings;
+    }
+
+    public void setSavings(BigDecimal savings) {
+        this.savings = savings;
     }
     
 }

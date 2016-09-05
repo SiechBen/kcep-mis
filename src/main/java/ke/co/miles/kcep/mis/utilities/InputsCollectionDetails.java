@@ -109,6 +109,20 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
         this.staticInput = staticInput;
     }
 
+    /**
+     * @return the inputVariety
+     */
+    public InputVarietyDetails getInputVariety() {
+        return inputVariety;
+    }
+
+    /**
+     * @param inputVariety the inputVariety to set
+     */
+    public void setInputVariety(InputVarietyDetails inputVariety) {
+        this.inputVariety = inputVariety;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Date dateCollected;
@@ -117,5 +131,6 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
     private PersonDetails agroDealer;
     private InputTypeDetails inputType;
     private StaticInputDetails staticInput;
+    private InputVarietyDetails inputVariety;
 
 }
