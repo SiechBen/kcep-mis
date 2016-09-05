@@ -4,6 +4,7 @@
     Author     : siech
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -177,7 +178,7 @@
                     </div>   
                     <div class="form-group">
                         Loan Type
-                        <input type="text " class="form-control" id="loan-type" required="true">
+                        <input class="form-control" id="loan-type" required="true">
                     </div>   
                 </form>
             </div>
