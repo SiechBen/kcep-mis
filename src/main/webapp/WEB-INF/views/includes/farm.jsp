@@ -123,7 +123,7 @@
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
-                                        <td>${inputsCollection.date}</td>
+                                        <td>${inputsCollection.dateCollected}</td>
                                         <td>${inputsCollection.agroDealer.name}</td>
                                         <td>${inputsCollection.agroDealer.businessName}</td>
                                         <td>${inputsCollection.inputType.type}</td>

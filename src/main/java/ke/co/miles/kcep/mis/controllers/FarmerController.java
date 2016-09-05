@@ -226,7 +226,7 @@ public class FarmerController extends Controller {
                     List<InputVarietyDetails> inputVarieties;
                     try {
                         inputVarieties = inputVarietyService
-                                .retrieveInputVarieties(Short.valueOf(request.getParameter("staticInputId")));
+                                .retrieveInputVarieties(Integer.valueOf(request.getParameter("staticInputId")));
                         out.write("<option disabled selected>Select input variety</option>");
                         for (InputVarietyDetails inputVariety : inputVarieties) {
                             out.write("<option value=\"" + inputVariety.getId() + "\">" + inputVariety.getVariety() + "</option>");
@@ -507,6 +507,11 @@ public class FarmerController extends Controller {
             }
             try {
                 out.write("<td>" + inputsCollection.getStaticInput().getName() + "</td>");
+            } catch (Exception e) {
+                out.write("<td></td>");
+            }
+            try {
+                out.write("<td>" + inputsCollection.getInputVariety().getVariety() + "</td>");
             } catch (Exception e) {
                 out.write("<td></td>");
             }

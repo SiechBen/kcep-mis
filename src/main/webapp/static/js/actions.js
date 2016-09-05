@@ -1095,9 +1095,9 @@ function addInputsCollection() {
                     url: "doAddInputsCollection",
                     type: "POST",
                     data: "dateCollected=" + $("#date-collected").val() +
+                            "&inputVarietyId=" + $("#input-variety").val() +
                             "&agroDealerId=" + $("#agro-dealer").val() +
                             "&staticInputId=" + $("#static-input").val() +
-                            "&inputVariety=" + $("#input-variety").val() +
                             "&inputTypeId=" + $("#input-type").val() +
                             "&quantity=" + $("#quantity").val(),
                     success: function (response) {

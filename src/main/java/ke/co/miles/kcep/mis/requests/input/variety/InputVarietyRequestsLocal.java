@@ -74,6 +74,6 @@ public interface InputVarietyRequestsLocal {
      * @return the list of input varieties retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<InputVarietyDetails> retrieveInputVarieties(short staticInputId) throws MilesException;
+    public List<InputVarietyDetails> retrieveInputVarieties(int staticInputId) throws MilesException;
 
 }
