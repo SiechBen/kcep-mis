@@ -95,7 +95,7 @@
                                 <input type="hidden" id="trainee-ids" name="trainee-ids" value="">
                             </div>
                             <div class="form-group">
-                                Attendance sheet
+                                Attachments (e.g attendance sheet e.t.c)
                                 <input type="file" id="attendance-sheet" name="attendance-sheet" class="form-control">
                             </div>
                             <input type="submit" class="btn btn-outline btn-primary" value="Save training">
