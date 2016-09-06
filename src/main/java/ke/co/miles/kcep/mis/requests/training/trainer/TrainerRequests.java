@@ -11,13 +11,13 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.Person;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Trainer;
 import ke.co.miles.kcep.mis.entities.Training;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
@@ -35,14 +35,14 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
         if (trainerDetails == null) {
             throw new InvalidArgumentException("error_028_01");
-        } else if (trainerDetails.getPerson() == null) {
+        } else if (trainerDetails.getPhenomenon() == null) {
             throw new InvalidArgumentException("error_028_02");
         } else if (trainerDetails.getTraining() == null) {
             throw new InvalidArgumentException("error_028_03");
         }
 
         Trainer trainer = new Trainer();
-        trainer.setPerson(em.getReference(Person.class, trainerDetails.getPerson().getId()));
+        trainer.setPhenomenon(em.getReference(Phenomenon.class, trainerDetails.getPhenomenon().getId()));
         trainer.setTraining(em.getReference(Training.class, trainerDetails.getTraining().getId()));
 
         try {
@@ -187,7 +187,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
             throw new InvalidArgumentException("error_028_01");
         } else if (trainerDetails.getId() == null) {
             throw new InvalidArgumentException("error_028_04");
-        } else if (trainerDetails.getPerson() == null) {
+        } else if (trainerDetails.getPhenomenon() == null) {
             throw new InvalidArgumentException("error_028_02");
         } else if (trainerDetails.getTraining() == null) {
             throw new InvalidArgumentException("error_028_03");
@@ -195,7 +195,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
         Trainer trainer = new Trainer();
         trainer.setId(trainerDetails.getId());
-        trainer.setPerson(em.getReference(Person.class, trainerDetails.getPerson().getId()));
+        trainer.setPhenomenon(em.getReference(Phenomenon.class, trainerDetails.getPhenomenon().getId()));
         trainer.setTraining(em.getReference(Training.class, trainerDetails.getTraining().getId()));
 
         try {
@@ -225,7 +225,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public TrainerDetails convertTrainerToTrainerDetails(Trainer trainer) {
 
         TrainerDetails trainerDetails = new TrainerDetails(trainer.getId());
-        trainerDetails.setPerson(personService.convertPersonToPersonDetails(trainer.getPerson()));
+        trainerDetails.setPhenomenon(phenomenonService.convertPhenomenonToPhenomenonDetails(trainer.getPhenomenon()));
         trainerDetails.setTraining(trainingService.convertTrainingToTrainingDetails(trainer.getTraining()));
 
         return trainerDetails;
@@ -245,7 +245,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
 //</editor-fold>
     @EJB
-    private PersonRequestsLocal personService;
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private TrainingRequestsLocal trainingService;
 }

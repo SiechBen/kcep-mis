@@ -11,15 +11,18 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class TrainerDetails implements Serializable, Comparable<TrainerDetails> {
+public class CategoryDetails implements Serializable, Comparable<CategoryDetails> {
 
-    private static final long serialVersionUID = 1L;
-
-    public TrainerDetails() {
+    public CategoryDetails() {
     }
 
-    public TrainerDetails(Integer id) {
+    public CategoryDetails(Integer id) {
         this.id = id;
+    }
+
+    public CategoryDetails(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -30,20 +33,12 @@ public class TrainerDetails implements Serializable, Comparable<TrainerDetails> 
         this.id = id;
     }
 
-    public PhenomenonDetails getPhenomenon() {
-        return phenomenon;
+    public String getName() {
+        return name;
     }
 
-    public void setPhenomenon(PhenomenonDetails person) {
-        this.phenomenon = person;
-    }
-
-    public TrainingDetails getTraining() {
-        return training;
-    }
-
-    public void setTraining(TrainingDetails training) {
-        this.training = training;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -55,25 +50,26 @@ public class TrainerDetails implements Serializable, Comparable<TrainerDetails> 
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof TrainerDetails)) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof CategoryDetails)) {
             return false;
         }
-        TrainerDetails other = (TrainerDetails) object;
+        CategoryDetails other = (CategoryDetails) object;
         return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
     }
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Trainer[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.Category[ id=" + id + " ]";
     }
 
     @Override
-    public int compareTo(TrainerDetails o) {
+    public int compareTo(CategoryDetails o) {
         return this.id.compareTo(o.getId());
     }
 
+    private static final long serialVersionUID = 1L;
     private Integer id;
-    private PhenomenonDetails phenomenon;
-    private TrainingDetails training;
+    private String name;
 
 }
