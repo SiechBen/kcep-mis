@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputVariety;
 import ke.co.miles.kcep.mis.entities.StaticInput;
@@ -82,13 +81,12 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<InputVarietyDetails> retrieveInputVarieties(short staticInputId) throws MilesException {
+    public List<InputVarietyDetails> retrieveInputVarieties(int staticInputId) throws MilesException {
         List<InputVariety> inputVarieties = new ArrayList<>();
         q = em.createNamedQuery("InputVariety.findByStaticInputId");
         q.setParameter("staticInputId", staticInputId);
         try {
             inputVarieties = q.getResultList();
-            MilesDebugger.debug(inputVarieties);
         } catch (Exception e) {
         }
 

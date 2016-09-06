@@ -55,6 +55,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 
         account = new Account();
         account.setSolId(accountDetails.getSolId());
+        account.setSavings(accountDetails.getSavings());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
             account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
@@ -104,7 +105,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
-    public void editAccount(AccountDetails accountDetails) throws MilesException {
+    public AccountDetails editAccount(AccountDetails accountDetails) throws MilesException {
 
         if (accountDetails == null) {
             throw new InvalidArgumentException("error_043_01");
@@ -136,6 +137,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         account = em.find(Account.class, accountDetails.getId());
         account.setId(accountDetails.getId());
         account.setSolId(accountDetails.getSolId());
+        account.setSavings(accountDetails.getSavings());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
             account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
@@ -148,6 +150,8 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
+        
+        return convertAccountToAccountDetails(account);
 
     }
 
@@ -179,6 +183,10 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         }
         try {
             accountDetails.setSolId(account.getSolId());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setSavings(account.getSavings());
         } catch (Exception e) {
         }
         try {

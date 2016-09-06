@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -86,10 +87,26 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the savings
+     */
+    public BigDecimal getSavings() {
+        return savings;
+    }
+
+    /**
+     * @param savings the savings to set
+     */
+    public void setSavings(BigDecimal savings) {
+        this.savings = savings;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String accountNumber;
     private EblBranchDetails eblBranch;
     private String solId;
     private PersonDetails farmer;
+    private BigDecimal savings;
+
 }

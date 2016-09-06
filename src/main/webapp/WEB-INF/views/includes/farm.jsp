@@ -66,7 +66,12 @@
                         </table>
                     </div>
                     <div class="tab-pane fade" id="account">
-                        <h4>Account Details</h4>
+                        <div class="float-left">
+                            <h4>Account Details</h4>
+                        </div>
+                        <div class="float-right">
+                            <button onclick="editAccount('${sessionScope.account.accountNumber}', '${sessionScope.account.eblBranch.id}', '${sessionScope.account.solId}', '${sessionScope.account.savings}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
+                        </div>
                         <table id="account-table" class="table table-striped table-bordered table-hover data-table">                         
                             <tr>
                                 <th>Account Number</th>
@@ -79,6 +84,10 @@
                             <tr>
                                 <th>Sol Id</th>
                                 <td>${sessionScope.account.solId}</td>
+                            </tr>
+                            <tr>
+                                <th>Amount of savings</th>
+                                <td>${sessionScope.account.savings}</td>
                             </tr>
                         </table>
                     </div>
@@ -123,7 +132,7 @@
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
-                                        <td>${inputsCollection.date}</td>
+                                        <td>${inputsCollection.dateCollected}</td>
                                         <td>${inputsCollection.agroDealer.name}</td>
                                         <td>${inputsCollection.agroDealer.businessName}</td>
                                         <td>${inputsCollection.inputType.type}</td>
@@ -165,6 +174,40 @@
                         </table> 
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row dialog" id="account-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Account Number
+                        <input class="form-control" id="account-number" >
+                    </div>
+                    <div class="form-group">
+                        Ebl Branch
+                        <select  id="ebl-branch" class="form-control"> 
+                            <c:forEach var="eblBranch" items="${sessionScope.eblBranches}" varStatus="index">
+                                <option value="${eblBranch.id}">${eblBranch.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Sol id
+                        <input class="form-control" id="sol-id" >
+                    </div>
+                    <div class="form-group">
+                        Deposit(+) or withdrawal(-)
+                        <input type="number" step="0.01" class="form-control" id="change">
+                    </div>
+                    Savings
+                    <div class="form-group">
+                        <input type="number" step="0.01" class="form-control" id="savings"  readonly>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

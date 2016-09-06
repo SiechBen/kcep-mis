@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
+import ke.co.miles.kcep.mis.entities.InputVariety;
 import ke.co.miles.kcep.mis.entities.InputsCollection;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.StaticInput;
@@ -19,6 +20,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.variety.InputVarietyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 
@@ -53,6 +55,9 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         }
         if (inputsCollectionDetails.getStaticInput() != null) {
             inputsCollection.setStaticInput(em.getReference(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
+        }
+        if (inputsCollectionDetails.getInputVariety()!= null) {
+            inputsCollection.setInputVariety(em.getReference(InputVariety.class, inputsCollectionDetails.getInputVariety().getId()));
         }
 
         try {
@@ -112,6 +117,9 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         if (inputsCollectionDetails.getStaticInput() != null) {
             inputsCollection.setStaticInput(em.getReference(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
         }
+        if (inputsCollectionDetails.getInputVariety()!= null) {
+            inputsCollection.setInputVariety(em.getReference(InputVariety.class, inputsCollectionDetails.getInputVariety().getId()));
+        }
 
         try {
             em.merge(inputsCollection);
@@ -150,6 +158,10 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         } catch (Exception e) {
         }
         try {
+            inputsCollectionDetails.setInputVariety(inputVarietyService.convertInputVarietyToInputVarietyDetails(inputsCollection.getInputVariety()));
+        } catch (Exception e) {
+        }
+        try {
             inputsCollectionDetails.setAgroDealer((personService.convertPersonToPersonDetails(inputsCollection.getAgroDealer())));
         } catch (Exception e) {
         }
@@ -182,4 +194,6 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
     private InputTypeRequestsLocal inputTypeService;
     @EJB
     private StaticInputRequestsLocal staticInputService;
+    @EJB
+    private InputVarietyRequestsLocal inputVarietyService;
 }
