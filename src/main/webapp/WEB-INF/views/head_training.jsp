@@ -12,8 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - view training </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-                  <jsp:include page="includes/training.jsp"/>
-
+        <jsp:include page="includes/training.jsp"/>
 
     </jsp:attribute>
 </kcep:head>

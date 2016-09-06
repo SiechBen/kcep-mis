@@ -14,6 +14,5 @@
 
     <jsp:include page="includes/training.jsp"/>
 
-
     </jsp:attribute>
 </kcep:county>
