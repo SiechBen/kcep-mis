@@ -1358,7 +1358,7 @@ function addFinancialYear() {
 //<editor-fold defaultstate="collapsed" desc="Account">
 function editAccount(accountNumber, eblBranch, solId, savings) {
     $("#account-number").val(accountNumber);
-    $("#ebl-branch").val(eblBranch);
+    $("#ebl-branch option[value=" + eblBranch + "]").attr('selected', 'selected');
     $("#sol-id").val(solId);
     $("#change").val(0);
     $("#savings").val(savings);
@@ -1371,16 +1371,17 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditAccount",
+                    url: "editAccount",
                     type: "POST",
                     data: "accountNumber=" + $("#account-number").val() + "&eblBranch=" + $("#ebl-branch").val()
                             + "&solId=" + $("#sol-id").val() + "&savings=" + $("#savings").val(),
-                    success: function () {
+                    success: function (response) {
                         $("#account-number").val("");
                         $("#ebl-branch").val("");
                         $("#sol-id").val("");
                         $("#change").val("");
                         $("#savings").val("");
+                        $("#account").html(response);
                     }, error: function (response) {
                         showError("error_label", response.responseText);
                     },

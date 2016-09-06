@@ -283,7 +283,7 @@ public class FarmerController extends Controller {
                     return;
 
                 case "/editAccount":
-                    account = new AccountDetails();
+                    account = (AccountDetails) session.getAttribute("account");
                     try {
                         account.setAccountNumber((request.getParameter("accountNumber")));
                     } catch (Exception e) {
@@ -531,7 +531,7 @@ public class FarmerController extends Controller {
                 + "                            <h4>Account Details</h4>\n"
                 + "                        </div>\n"
                 + "                        <div class=\"float-right\">\n"
-                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','" + account.getEblBranch().getName() + "','" + account.getSolId() + "','" + account.getSavings() + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
+                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','" + account.getEblBranch().getId()+ "','" + account.getSolId() + "','" + account.getSavings() + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
                 + "                        </div>\n"
                 + "                        <table id=\"account-table\" class=\"table table-striped table-bordered table-hover data-table\">                         \n"
                 + "                            <tr>\n"
