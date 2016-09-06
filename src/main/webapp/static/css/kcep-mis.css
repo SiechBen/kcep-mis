@@ -393,3 +393,11 @@ table.dataTable thead .sorting:after {
 .reports-table th, td {
     overflow:auto;
 }
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}

@@ -45,7 +45,8 @@ import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
-@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection", "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties"})
+@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection",
+    "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/editAccount"})
 public class FarmerController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -75,6 +76,7 @@ public class FarmerController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -92,6 +94,7 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -109,6 +112,7 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -126,6 +130,7 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -143,6 +148,7 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -160,6 +166,7 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -176,6 +183,7 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
+                        urlPaths.add("/editAccount");
                         urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/updateInputVarieties");
                         urlPaths.add("/doAddFarmActivity");
@@ -260,6 +268,39 @@ public class FarmerController extends Controller {
                     List<LoanDetails> loans;
                     try {
                         loanService.addLoan(loan);
+                        loans = loanService.retrieveLoans(account.getId());
+                        session.setAttribute("loans", loans);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
+
+                    updateloansTable(request, response, loans);
+                    return;
+                    
+                case "/editAccount":
+                     account = new AccountDetails();
+                    try {
+                        account.setAccountNumber((request.getParameter("accountNumber")));
+                    } catch (Exception e) {
+                        account.setAccountNumber(null);
+                    }
+                    account.setEblBranch(request.getParameter("eblBranch"));
+                    if (account.getEblBranch().equals("null")) {
+                        account.setEblBranch(null);
+                    }
+                    AccountDetails account = (AccountDetails) session.getAttribute("account");
+                    try {
+                        account.setAccount(new AccountDetails(account.getId()));
+                    } catch (Exception e) {
+                        account.setAccount(null);
+                    }
+
+                    List<LoanDetails> loans;
+                    try {
+                        loanService.addLoan(account);
                         loans = loanService.retrieveLoans(account.getId());
                         session.setAttribute("loans", loans);
                     } catch (MilesException ex) {

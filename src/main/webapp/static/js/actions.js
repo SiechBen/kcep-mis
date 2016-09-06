@@ -129,12 +129,39 @@ function loadApplicationAttributes() {
 $("#actual-value").on("input", function () {
     var actualValue = $("#actual-value").val();
     var expectedValue = $("#expected-value").val();
+    if (actualValue.trim() === "") {
+        actualValue = 0;
+    }
+    if (expectedValue.trim() === "") {
+        expectedValue = 0;
+    }
     $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
 });
 $("#expected-value").on("input", function () {
     var actualValue = $("#actual-value").val();
     var expectedValue = $("#expected-value").val();
+    if (actualValue.trim() === "") {
+        actualValue = 0;
+    }
+    if (expectedValue.trim() === "") {
+        expectedValue = 0;
+    }
     $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Modify savings">
+$("#change").on("change", function () {
+    var savings = $("#savings").val();
+    var change = $("#change").val();
+    if (savings.trim() === "") {
+        savings = 0;
+    }
+    if (change.trim() === "") {
+        change = 0;
+    }
+    $("#savings").val((parseFloat(change) + parseFloat(savings)).toFixed(2));
+
 });
 //</editor-fold>
 
@@ -1326,4 +1353,50 @@ function addFinancialYear() {
         dataType: "HTML"
     });
 }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Account">
+function editAccount(accountNumber, eblBranch, solId, savings) {
+    $("#account-number").val(accountNumber);
+    $("#ebl-branch").val(eblBranch);
+    $("#sol-id").val(solId);
+    $("#change").val(0);
+    $("#savings").val(savings);
+    $("#account-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_account_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditAccount",
+                    type: "POST",
+                    data: "accountNumber=" + $("#account-number").val() + "&eblBranch=" + $("#ebl-branch").val()
+                            + "&solId=" + $("#sol-id").val() + "&savings=" + $("#savings").val(),
+                    success: function () {
+                        $("#account-number").val("");
+                        $("#ebl-branch").val("");
+                        $("#sol-id").val("");
+                        $("#change").val("");
+                        $("#savings").val("");
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#account-number").val("");
+            $("#ebl-branch").val("");
+            $("#sol-id").val("");
+            $("#change").val("");
+            $("#savings").val("");
+        }
+    });
+}
+
 //</editor-fold>

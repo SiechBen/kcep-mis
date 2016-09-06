@@ -55,6 +55,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 
         account = new Account();
         account.setSolId(accountDetails.getSolId());
+        account.setSavings(accountDetails.getSavings());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
             account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
@@ -136,6 +137,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         account = em.find(Account.class, accountDetails.getId());
         account.setId(accountDetails.getId());
         account.setSolId(accountDetails.getSolId());
+        account.setSavings(accountDetails.getSavings());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
             account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
@@ -179,6 +181,10 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         }
         try {
             accountDetails.setSolId(account.getSolId());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setSavings(account.getSavings());
         } catch (Exception e) {
         }
         try {
