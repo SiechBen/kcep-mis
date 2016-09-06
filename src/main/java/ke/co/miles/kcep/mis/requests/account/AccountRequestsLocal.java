@@ -36,7 +36,8 @@ public interface AccountRequestsLocal {
 
     /**
      *
-     * @param farmerId the unique identifier of the farmer whose account record is to be retrieved
+     * @param farmerId the unique identifier of the farmer whose account record
+     * is to be retrieved
      * @return the details of the account record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -47,8 +48,9 @@ public interface AccountRequestsLocal {
      * @param accountDetails details of the account record to be edited
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
+     * @return the modified account details
      */
-    public void editAccount(AccountDetails accountDetails) throws MilesException;
+    public AccountDetails editAccount(AccountDetails accountDetails) throws MilesException;
 
     /**
      *

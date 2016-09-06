@@ -105,7 +105,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
-    public void editAccount(AccountDetails accountDetails) throws MilesException {
+    public AccountDetails editAccount(AccountDetails accountDetails) throws MilesException {
 
         if (accountDetails == null) {
             throw new InvalidArgumentException("error_043_01");
@@ -150,6 +150,8 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
+        
+        return convertAccountToAccountDetails(account);
 
     }
 

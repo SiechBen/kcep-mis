@@ -70,7 +70,7 @@
                             <h4>Account Details</h4>
                         </div>
                         <div class="float-right">
-                            <button onclick="editAccount('${sessionScope.account.accountNumber}','${sessionScope.account.eblBranch.name}','${sessionScope.account.solId}','${sessionScope.account.savings}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
+                            <button onclick="editAccount('${sessionScope.account.accountNumber}', '${sessionScope.account.eblBranch.name}', '${sessionScope.account.solId}', '${sessionScope.account.savings}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
                         </div>
                         <table id="account-table" class="table table-striped table-bordered table-hover data-table">                         
                             <tr>
@@ -189,7 +189,11 @@
                     </div>
                     <div class="form-group">
                         Ebl Branch
-                        <input class="form-control" id="ebl-branch" >
+                        <select  id="ebl-branch" class="form-control"> 
+                            <c:forEach var="eblBranch" items="${sessionScope.eblBranches}" varStatus="index">
+                                <option id="${eblBranch.id}">${eblBranch.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         Sol id

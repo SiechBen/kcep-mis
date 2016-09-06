@@ -28,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
+import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.farmactivity.FarmActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.inputscollection.InputsCollectionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
@@ -36,6 +37,7 @@ import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.variety.InputVarietyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
+import ke.co.miles.kcep.mis.utilities.EblBranchDetails;
 import ke.co.miles.kcep.mis.utilities.FarmActivityDetails;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.InputVarietyDetails;
@@ -277,40 +279,43 @@ public class FarmerController extends Controller {
                         return;
                     }
 
-                    updateloansTable(request, response, loans);
+                    updateLoansTable(response, loans);
                     return;
-                    
+
                 case "/editAccount":
-                     account = new AccountDetails();
+                    account = new AccountDetails();
                     try {
                         account.setAccountNumber((request.getParameter("accountNumber")));
                     } catch (Exception e) {
                         account.setAccountNumber(null);
                     }
-                    account.setEblBranch(request.getParameter("eblBranch"));
-                    if (account.getEblBranch().equals("null")) {
+                    try {
+                        account.setEblBranch(new EblBranchDetails(Short.valueOf(request.getParameter("eblBranch"))));
+                    } catch (Exception e) {
                         account.setEblBranch(null);
                     }
-                    AccountDetails account = (AccountDetails) session.getAttribute("account");
                     try {
-                        account.setAccount(new AccountDetails(account.getId()));
+                        account.setSavings(new BigDecimal(request.getParameter("savings")));
                     } catch (Exception e) {
-                        account.setAccount(null);
+                        account.setEblBranch(null);
+                    }
+                    try {
+                        account.setSolId(request.getParameter("solId"));
+                    } catch (Exception e) {
+                        account.setSolId(null);
                     }
 
-                    List<LoanDetails> loans;
                     try {
-                        loanService.addLoan(account);
-                        loans = loanService.retrieveLoans(account.getId());
-                        session.setAttribute("loans", loans);
+                        account = accountService.editAccount(account);
+                        session.setAttribute("account", account);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.WARNING, getBundle().getString(ex.getCode()));
                         return;
                     }
 
-                    updateloansTable(request, response, loans);
+                    updateAccountTable(response, account);
                     return;
 
                 case "/doAddInputsCollection":
@@ -370,7 +375,7 @@ public class FarmerController extends Controller {
                         return;
                     }
 
-                    updateInputsCollectionsTable(request, response, inputsCollections);
+                    updateInputsCollectionsTable(response, inputsCollections);
                     return;
 
                 case "/doAddFarmActivity":
@@ -426,7 +431,7 @@ public class FarmerController extends Controller {
                         return;
                     }
 
-                    updateFarmActivitiesTable(request, response, farmActivities);
+                    updateFarmActivitiesTable(response, farmActivities);
                     return;
 
                 case "/head_farm":
@@ -485,6 +490,16 @@ public class FarmerController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 
+                    List<EblBranchDetails> eblBranches;
+                    try {
+                        eblBranches = eblBranchService.retrieveEblBranches();
+                        session.setAttribute("eblBranches", eblBranches);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
                     break;
 
                 default:
@@ -509,7 +524,36 @@ public class FarmerController extends Controller {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Update tables">
-    private void updateloansTable(HttpServletRequest request, HttpServletResponse response,
+    private void updateAccountTable(HttpServletResponse response, AccountDetails account) throws IOException {
+        PrintWriter out = response.getWriter();
+
+        out.write("                     <div class=\"float-left\">\n"
+                + "                            <h4>Account Details</h4>\n"
+                + "                        </div>\n"
+                + "                        <div class=\"float-right\">\n"
+                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','" + account.getEblBranch().getName() + "','" + account.getSolId() + "','" + account.getSavings() + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
+                + "                        </div>\n"
+                + "                        <table id=\"account-table\" class=\"table table-striped table-bordered table-hover data-table\">                         \n"
+                + "                            <tr>\n"
+                + "                                <th>Account Number</th>\n"
+                + "                                <td>" + account.getAccountNumber() + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Ebl Branch</th>\n"
+                + "                                <td>" + account.getEblBranch().getName() + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Sol Id</th>\n"
+                + "                                <td>" + account.getSolId() + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Amount of savings</th>\n"
+                + "                                <td>" + account.getSavings() + "</td>\n"
+                + "                            </tr>\n"
+                + "                        </table>");
+    }
+
+    private void updateLoansTable(HttpServletResponse response,
             List<LoanDetails> loans) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;
@@ -527,7 +571,7 @@ public class FarmerController extends Controller {
         }
     }
 
-    private void updateInputsCollectionsTable(HttpServletRequest request, HttpServletResponse response,
+    private void updateInputsCollectionsTable(HttpServletResponse response,
             List<InputsCollectionDetails> inputsCollections) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;
@@ -561,7 +605,7 @@ public class FarmerController extends Controller {
         }
     }
 
-    private void updateFarmActivitiesTable(HttpServletRequest request, HttpServletResponse response,
+    private void updateFarmActivitiesTable(HttpServletResponse response,
             List<FarmActivityDetails> farmActivities) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;
@@ -589,6 +633,8 @@ public class FarmerController extends Controller {
     private PersonRequestsLocal personService;
     @EJB
     private AccountRequestsLocal accountService;
+    @EJB
+    private EblBranchRequestsLocal eblBranchService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
     @EJB
