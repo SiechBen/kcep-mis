@@ -223,7 +223,7 @@
                     </div>   
                     <div class="form-group">
                         Loan Type
-                        <input type="text " class="form-control" id="loan-type" required="true">
+                        <input class="form-control" id="loan-type" required="true">
                     </div>   
                 </form>
             </div>

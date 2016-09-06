@@ -34,7 +34,7 @@
                                         <th>County</th>
                                         <th>Sub-county</th>
                                         <th>LPO number</th>
-                                        <th>Invoice or receipt</th>
+                                        <th>Attachments (e.g. invoice or receipt)</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
