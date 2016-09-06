@@ -65,7 +65,7 @@
                                 <input id="lpo-number" name="lpo-number" class="form-control">
                             </div>
                             <div class="form-group">
-                                Invoice or receipt
+                                Attachments (e.g. invoice or receipt)
                                 <input type="file" id="invoice-or-receipt" name="invoice-or-receipt" class="form-control">
                             </div>
                             <input type="submit" class="btn btn-outline btn-primary" value="Save procurement">

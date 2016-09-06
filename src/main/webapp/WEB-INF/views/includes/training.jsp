@@ -30,7 +30,7 @@
                                 <th>Ward</th>
                                 <th>Number of trainees</th>
                                 <th>Category of trainees</th>
-                                <th>Attachments(e.g attendance sheet e.t.c)</th>
+                                <th>Attachments(e.g attendance sheet)</th>
                             </tr>
                         </thead>
                         <tfoot>
