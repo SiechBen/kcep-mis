@@ -38,9 +38,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "InputVariety.findByVariety", query = "SELECT i FROM InputVariety i WHERE i.variety = :variety")})
 public class InputVariety implements Serializable {
 
-    @OneToMany(mappedBy = "inputVariety")
-    private List<InputsCollection> inputsCollectionList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +52,8 @@ public class InputVariety implements Serializable {
     @JoinColumn(name = "static_input", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private StaticInput staticInput;
+    @OneToMany(mappedBy = "inputVariety")
+    private List<InputsCollection> inputsCollectionList;
 
     public InputVariety() {
     }
@@ -92,6 +91,15 @@ public class InputVariety implements Serializable {
         this.staticInput = staticInput;
     }
 
+    @XmlTransient
+    public List<InputsCollection> getInputsCollectionList() {
+        return inputsCollectionList;
+    }
+
+    public void setInputsCollectionList(List<InputsCollection> inputsCollectionList) {
+        this.inputsCollectionList = inputsCollectionList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -115,15 +123,6 @@ public class InputVariety implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.InputVariety[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<InputsCollection> getInputsCollectionList() {
-        return inputsCollectionList;
-    }
-
-    public void setInputsCollectionList(List<InputsCollection> inputsCollectionList) {
-        this.inputsCollectionList = inputsCollectionList;
     }
     
 }

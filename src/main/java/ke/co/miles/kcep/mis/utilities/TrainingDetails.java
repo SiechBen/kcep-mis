@@ -82,11 +82,11 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.attendanceSheet = attendance;
     }
 
-    public PersonRoleDetail getCategoryOfTrainees() {
+    public PhenomenonDetails getCategoryOfTrainees() {
         return categoryOfTrainees;
     }
 
-    public void setCategoryOfTrainees(PersonRoleDetail categoryOfTrainees) {
+    public void setCategoryOfTrainees(PhenomenonDetails categoryOfTrainees) {
         this.categoryOfTrainees = categoryOfTrainees;
     }
 
@@ -138,6 +138,6 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
     private LocationDetails venue;
     private String attendanceSheet;
     private Integer numberOfTrainees;
-    private PersonRoleDetail categoryOfTrainees;
+    private PhenomenonDetails categoryOfTrainees;
 
 }

@@ -31,6 +31,7 @@ import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
@@ -327,13 +328,13 @@ public class WarehouseController extends Controller {
                         location.setLongitude(null);
                     }
 
-                    PersonDetails warehouseOperator = new PersonDetails();
+                    PhenomenonDetails warehouseOperator;
                     try {
-                        warehouseOperator.setId(Integer.valueOf(String.valueOf(request.getParameter("warehouseOperator"))));
+                        warehouseOperator = new PhenomenonDetails(Integer.valueOf(request.getParameter("warehouseOperator")));
                     } catch (Exception e) {
                         warehouseOperator = null;
                     }
-
+                    
                     WarehouseTypeDetails warehouseType = new WarehouseTypeDetails();
                     try {
                         warehouseType.setId(Short.valueOf(String.valueOf(request.getParameter("warehouseType"))));

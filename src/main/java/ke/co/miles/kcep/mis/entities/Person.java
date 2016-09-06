@@ -20,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -85,8 +84,6 @@ public class Person implements Serializable {
     private List<ExtensionAndFieldVisitData> extensionAndFieldVisitDataList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
     private List<FarmActivity> farmActivityList;
-    @OneToOne(mappedBy = "warehouseOperator")
-    private Warehouse warehouse;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<OnFarmTrialsAndDemonstrations> onFarmTrialsAndDemonstrationsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -117,8 +114,6 @@ public class Person implements Serializable {
     private List<InputsCollection> inputsCollectionList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Trainee> traineeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Trainer> trainerList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<ValidationWorkshops> validationWorkshopsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -241,14 +236,6 @@ public class Person implements Serializable {
         this.farmActivityList = farmActivityList;
     }
 
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
-    }
-
     @XmlTransient
     public List<OnFarmTrialsAndDemonstrations> getOnFarmTrialsAndDemonstrationsList() {
         return onFarmTrialsAndDemonstrationsList;
@@ -349,15 +336,6 @@ public class Person implements Serializable {
 
     public void setTraineeList(List<Trainee> traineeList) {
         this.traineeList = traineeList;
-    }
-
-    @XmlTransient
-    public List<Trainer> getTrainerList() {
-        return trainerList;
-    }
-
-    public void setTrainerList(List<Trainer> trainerList) {
-        this.trainerList = trainerList;
     }
 
     @XmlTransient

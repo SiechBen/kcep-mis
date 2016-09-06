@@ -11,20 +11,20 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
-import ke.co.miles.kcep.mis.entities.Person;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Warehouse;
 import ke.co.miles.kcep.mis.entities.WarehouseType;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
-import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
@@ -67,7 +67,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             warehouse.setUnits(em.getReference(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(em.getReference(Person.class, warehouseDetails.getWarehouseOperator().getId()));
+            warehouse.setWarehouseOperator(em.getReference(Phenomenon.class, warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
             warehouse.setWarehouseType(em.getReference(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
@@ -115,7 +115,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
-        
+
         System.out.println(warehouses);
 
         return convertWarehousesToWarehouseDetailsList(warehouses);
@@ -207,7 +207,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             warehouse.setUnits(em.getReference(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(em.getReference(Person.class, warehouseDetails.getWarehouseOperator().getId()));
+            warehouse.setWarehouseOperator(em.getReference(Phenomenon.class, warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
             warehouse.setWarehouseType(em.getReference(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
@@ -252,9 +252,9 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             measurementUnitDetails = measurementUnitService.convertMeasurementUnitToMeasurementUnitDetails(warehouse.getUnits());
         }
 
-        PersonDetails warehouseOperatorDetails = null;
+        PhenomenonDetails warehouseOperatorDetails = null;
         if (warehouse.getWarehouseOperator() != null) {
-            warehouseOperatorDetails = personService.convertPersonToPersonDetails(warehouse.getWarehouseOperator());
+            warehouseOperatorDetails = personService.convertPhenomenonToPhenomenonDetails(warehouse.getWarehouseOperator());
         }
 
         WarehouseTypeDetails warehouseTypeDetails = null;
@@ -289,7 +289,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 
 //</editor-fold>
     @EJB
-    private PersonRequestsLocal personService;
+    private PhenomenonRequestsLocal personService;
     @EJB
     private LocationRequestsLocal locationService;
     @EJB

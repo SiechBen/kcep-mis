@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import ke.co.miles.kcep.mis.entities.*;
 
 /**
  *
@@ -29,19 +28,19 @@ public class PhenomenonDetails implements Serializable, Comparable<PhenomenonDet
         this.id = id;
     }
 
-    public Category getCategory() {
+    public CategoryDetails getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryDetails category) {
         this.category = category;
     }
 
-    public PhenomenonType getPhenomenonType() {
+    public PhenomenonTypeDetails getPhenomenonType() {
         return phenomenonType;
     }
 
-    public void setPhenomenonType(PhenomenonType phenomenonType) {
+    public void setPhenomenonType(PhenomenonTypeDetails phenomenonType) {
         this.phenomenonType = phenomenonType;
     }
 
@@ -74,7 +73,7 @@ public class PhenomenonDetails implements Serializable, Comparable<PhenomenonDet
 
     private static final long serialVersionUID = 1L;
     private Integer id;
-    private Category category;
-    private PhenomenonType phenomenonType;
+    private CategoryDetails category;
+    private PhenomenonTypeDetails phenomenonType;
 
 }

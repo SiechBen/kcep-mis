@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
@@ -38,7 +39,7 @@ import ke.co.miles.kcep.mis.requests.training.trainer.TrainerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.TopicDetails;
 import ke.co.miles.kcep.mis.utilities.TraineeDetails;
@@ -350,6 +351,29 @@ public class TrainingController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+
+                    List<PhenomenonDetails> traineeCategories;
+                    try {
+                        traineeCategories = phenomenonService.retrieveTraineeCategories();
+                        session.setAttribute("traineeCategories", traineeCategories);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    List<PhenomenonDetails> trainerCategories;
+                    try {
+                        trainerCategories = phenomenonService.retrieveTrainerCategories();
+                        session.setAttribute("trainerCategories", trainerCategories);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
                     break;
 
                 case "/head_trainees":
@@ -379,7 +403,7 @@ public class TrainingController extends Controller {
                         session.setAttribute("training", training);
                         session.setAttribute("trainees", trainees);
                     }
-                    
+
                     return;
 
                 case "/county_addTraining":
@@ -423,6 +447,27 @@ public class TrainingController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+                    
+                    try {
+                        traineeCategories = phenomenonService.retrieveTraineeCategories();
+                        session.setAttribute("traineeCategories", traineeCategories);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        trainerCategories = phenomenonService.retrieveTrainerCategories();
+                        session.setAttribute("trainerCategories", trainerCategories);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+                    
                     break;
 
                 case "/sub_county_addTraining":
@@ -452,13 +497,34 @@ public class TrainingController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+                    
+                          try {
+                        traineeCategories = phenomenonService.retrieveTraineeCategories();
+                        session.setAttribute("traineeCategories", traineeCategories);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        trainerCategories = phenomenonService.retrieveTrainerCategories();
+                        session.setAttribute("trainerCategories", trainerCategories);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+                    
                     break;
 
                 case "/doAddTraining":
 
-                    PersonRoleDetail categoryOfTrainees;
+                    PhenomenonDetails categoryOfTrainees;
                     try {
-                        categoryOfTrainees = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("category-of-trainees"))));
+                        categoryOfTrainees = new PhenomenonDetails(Integer.valueOf(request.getParameter("category-of-trainees")));
                     } catch (Exception e) {
                         categoryOfTrainees = null;
                     }
@@ -561,12 +627,12 @@ public class TrainingController extends Controller {
                     String[] trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
                     TrainerDetails trainerRecord;
                     List<TrainerDetails> trainerRecords = new ArrayList<>();
-                    for (String trainerPersonId : trainerPersonIds) {
-                        PersonDetails trainerPerson = new PersonDetails();
+                    for (String trainerCategoryId : trainerPersonIds) {
+                        PhenomenonDetails trainerCategory = new PhenomenonDetails();
                         trainerRecord = new TrainerDetails();
                         try {
-                            trainerPerson.setId(Integer.valueOf(trainerPersonId));
-                            trainerRecord.setPerson(trainerPerson);
+                            trainerCategory.setId(Integer.valueOf(trainerCategoryId));
+                            trainerRecord.setPhenomenon(trainerCategory);
                             trainerRecords.add(trainerRecord);
                         } catch (Exception e) {
                         }
@@ -641,5 +707,7 @@ public class TrainingController extends Controller {
     private TrainingRequestsLocal trainingService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
 
 }

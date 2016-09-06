@@ -70,11 +70,11 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
         this.location = location;
     }
 
-    public PersonDetails getWarehouseOperator() {
+    public PhenomenonDetails getWarehouseOperator() {
         return warehouseOperator;
     }
 
-    public void setWarehouseOperator(PersonDetails warehouseOperator) {
+    public void setWarehouseOperator(PhenomenonDetails warehouseOperator) {
         this.warehouseOperator = warehouseOperator;
     }
 
@@ -133,7 +133,7 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
     private Boolean offersWrs;
     private LocationDetails location;
     private MeasurementUnitDetails units;
-    private PersonDetails warehouseOperator;
+    private PhenomenonDetails warehouseOperator;
     private WarehouseTypeDetails warehouseType;
 
 }

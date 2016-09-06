@@ -30,26 +30,14 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
     public int addInputVariety(InputVarietyDetails inputVarietyDetails) throws MilesException {
 
         if (inputVarietyDetails == null) {
-            throw new InvalidArgumentException("error_021_01");
+            throw new InvalidArgumentException("error_051_01");
         } else if (inputVarietyDetails.getVariety() != null && inputVarietyDetails.getVariety().length() > 45) {
-            throw new InvalidArgumentException("error_021_02");
+            throw new InvalidArgumentException("error_051_02");
         } else if (inputVarietyDetails.getStaticInput() == null) {
-            throw new InvalidArgumentException("error_021_03");
+            throw new InvalidArgumentException("error_051_03");
         }
 
-        InputVariety inputVariety;
-        q = em.createNamedQuery("InputVariety.findByName");
-        q.setParameter("inputVariety", inputVarietyDetails.getVariety());
-        try {
-            inputVariety = (InputVariety) q.getSingleResult();
-        } catch (Exception e) {
-            inputVariety = null;
-        }
-        if (inputVariety != null) {
-            throw new InvalidArgumentException("error_021_04");
-        }
-
-        inputVariety = new InputVariety();
+        InputVariety inputVariety = new InputVariety();
         inputVariety.setVariety(inputVarietyDetails.getVariety());
         inputVariety.setStaticInput(em.getReference(StaticInput.class, inputVarietyDetails.getId()));
 
@@ -113,30 +101,16 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
     public void editInputVariety(InputVarietyDetails inputVarietyDetails) throws MilesException {
 
         if (inputVarietyDetails == null) {
-            throw new InvalidArgumentException("error_021_01");
+            throw new InvalidArgumentException("error_051_01");
         } else if (inputVarietyDetails.getId() == null) {
-            throw new InvalidArgumentException("error_021_05");
+            throw new InvalidArgumentException("error_051_04");
         } else if (inputVarietyDetails.getVariety() != null && inputVarietyDetails.getVariety().length() > 45) {
-            throw new InvalidArgumentException("error_021_02");
+            throw new InvalidArgumentException("error_051_02");
         } else if (inputVarietyDetails.getStaticInput() == null) {
-            throw new InvalidArgumentException("error_021_03");
+            throw new InvalidArgumentException("error_051_03");
         }
 
-        InputVariety inputVariety;
-        q = em.createNamedQuery("InputVariety.findByName");
-        q.setParameter("inputVariety", inputVarietyDetails.getVariety());
-        try {
-            inputVariety = (InputVariety) q.getSingleResult();
-        } catch (Exception e) {
-            inputVariety = null;
-        }
-        if (inputVariety != null) {
-            if (inputVariety.getId().equals(inputVarietyDetails.getId())) {
-                throw new InvalidArgumentException("error_021_04");
-            }
-        }
-
-        inputVariety = em.find(InputVariety.class, inputVarietyDetails.getId());
+        InputVariety inputVariety = em.find(InputVariety.class, inputVarietyDetails.getId());
         inputVariety.setId(inputVarietyDetails.getId());
         inputVariety.setVariety(inputVarietyDetails.getVariety());
         inputVariety.setStaticInput(em.getReference(StaticInput.class, inputVarietyDetails.getId()));

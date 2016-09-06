@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -66,8 +65,8 @@ public class Warehouse implements Serializable {
     @ManyToOne
     private Location location;
     @JoinColumn(name = "warehouse_operator", referencedColumnName = "id")
-    @OneToOne
-    private Person warehouseOperator;
+    @ManyToOne
+    private Phenomenon warehouseOperator;
     @JoinColumn(name = "units", referencedColumnName = "id")
     @ManyToOne
     private MeasurementUnit units;
@@ -139,11 +138,11 @@ public class Warehouse implements Serializable {
         this.location = location;
     }
 
-    public Person getWarehouseOperator() {
+    public Phenomenon getWarehouseOperator() {
         return warehouseOperator;
     }
 
-    public void setWarehouseOperator(Person warehouseOperator) {
+    public void setWarehouseOperator(Phenomenon warehouseOperator) {
         this.warehouseOperator = warehouseOperator;
     }
 

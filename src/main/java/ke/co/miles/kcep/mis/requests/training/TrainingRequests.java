@@ -12,14 +12,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Location;
-import ke.co.miles.kcep.mis.entities.PersonRole;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Topic;
 import ke.co.miles.kcep.mis.entities.Training;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.topic.TopicRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
@@ -49,7 +49,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.getReference(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(em.getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
 
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
@@ -107,7 +107,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         }
         training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.getReference(PersonRole.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(em.getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
 
         training.setVenue(em.getReference(Location.class, trainingDetails.getVenue().getId()));
@@ -149,7 +149,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             trainingDetails.setVenue(locationService.convertLocationToLocationDetails(training.getVenue()));
         }
         if (training.getCategoryOfTrainees() != null) {
-            trainingDetails.setCategoryOfTrainees(trainingRoleService.convertPersonRoleToPersonRoleDetail(training.getCategoryOfTrainees()));
+            trainingDetails.setCategoryOfTrainees(phenomenonService.convertPhenomenonToPhenomenonDetails(training.getCategoryOfTrainees()));
         }
 
         if (trainingDetails.getAttendanceSheet() != null) {
@@ -183,6 +183,6 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
     @EJB
     private LocationRequestsLocal locationService;
     @EJB
-    private PersonRoleRequestsLocal trainingRoleService;
+    private PhenomenonRequestsLocal phenomenonService;
 
 }

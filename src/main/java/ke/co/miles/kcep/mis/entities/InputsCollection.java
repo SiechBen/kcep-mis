@@ -38,10 +38,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "InputsCollection.findByQuantity", query = "SELECT i FROM InputsCollection i WHERE i.quantity = :quantity")})
 public class InputsCollection implements Serializable {
 
-    @JoinColumn(name = "input_variety", referencedColumnName = "id")
-    @ManyToOne
-    private InputVariety inputVariety;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +53,9 @@ public class InputsCollection implements Serializable {
     @JoinColumn(name = "input_type", referencedColumnName = "id")
     @ManyToOne
     private InputType inputType;
+    @JoinColumn(name = "input_variety", referencedColumnName = "id")
+    @ManyToOne
+    private InputVariety inputVariety;
     @JoinColumn(name = "agro_dealer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person agroDealer;
@@ -106,6 +105,14 @@ public class InputsCollection implements Serializable {
         this.inputType = inputType;
     }
 
+    public InputVariety getInputVariety() {
+        return inputVariety;
+    }
+
+    public void setInputVariety(InputVariety inputVariety) {
+        this.inputVariety = inputVariety;
+    }
+
     public Person getAgroDealer() {
         return agroDealer;
     }
@@ -153,14 +160,6 @@ public class InputsCollection implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.InputsCollection[ id=" + id + " ]";
-    }
-
-    public InputVariety getInputVariety() {
-        return inputVariety;
-    }
-
-    public void setInputVariety(InputVariety inputVariety) {
-        this.inputVariety = inputVariety;
     }
     
 }

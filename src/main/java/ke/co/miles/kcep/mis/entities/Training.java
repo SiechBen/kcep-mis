@@ -68,7 +68,7 @@ public class Training implements Serializable {
     private Location venue;
     @JoinColumn(name = "category_of_trainees", referencedColumnName = "id")
     @ManyToOne
-    private PersonRole categoryOfTrainees;
+    private Phenomenon categoryOfTrainees;
     @JoinColumn(name = "topic", referencedColumnName = "id")
     @ManyToOne
     private Topic topic;
@@ -132,11 +132,11 @@ public class Training implements Serializable {
         this.venue = venue;
     }
 
-    public PersonRole getCategoryOfTrainees() {
+    public Phenomenon getCategoryOfTrainees() {
         return categoryOfTrainees;
     }
 
-    public void setCategoryOfTrainees(PersonRole categoryOfTrainees) {
+    public void setCategoryOfTrainees(Phenomenon categoryOfTrainees) {
         this.categoryOfTrainees = categoryOfTrainees;
     }
 

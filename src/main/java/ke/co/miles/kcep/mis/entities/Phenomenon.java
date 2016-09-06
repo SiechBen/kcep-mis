@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "phenomenon", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Phenomenon.findByPhenomenonTypeId", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId"),
     @NamedQuery(name = "Phenomenon.findAll", query = "SELECT p FROM Phenomenon p"),
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
@@ -136,5 +137,5 @@ public class Phenomenon implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
     }
-    
+
 }

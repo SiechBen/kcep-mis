@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -38,18 +39,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StaticInput.findByName", query = "SELECT s FROM StaticInput s WHERE s.name = :name")})
 public class StaticInput implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "staticInput")
-    private List<InputVariety> inputVarietyList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "staticInput")
+    private List<InputVariety> inputVarietyList;
     @OneToMany(mappedBy = "staticInput")
     private List<InputsCollection> inputsCollectionList;
     @JoinColumn(name = "input_type", referencedColumnName = "id")
@@ -61,6 +63,11 @@ public class StaticInput implements Serializable {
 
     public StaticInput(Integer id) {
         this.id = id;
+    }
+
+    public StaticInput(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -77,6 +84,15 @@ public class StaticInput implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlTransient
+    public List<InputVariety> getInputVarietyList() {
+        return inputVarietyList;
+    }
+
+    public void setInputVarietyList(List<InputVariety> inputVarietyList) {
+        this.inputVarietyList = inputVarietyList;
     }
 
     @XmlTransient
@@ -119,15 +135,6 @@ public class StaticInput implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.StaticInput[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<InputVariety> getInputVarietyList() {
-        return inputVarietyList;
-    }
-
-    public void setInputVarietyList(List<InputVariety> inputVarietyList) {
-        this.inputVarietyList = inputVarietyList;
     }
     
 }

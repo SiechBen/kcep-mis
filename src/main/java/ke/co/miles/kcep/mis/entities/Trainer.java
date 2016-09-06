@@ -32,19 +32,15 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Trainer.findById", query = "SELECT t FROM Trainer t WHERE t.id = :id")})
 public class Trainer implements Serializable {
 
-    @JoinColumn(name = "phenomenon", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Phenomenon phenomenon;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "person", referencedColumnName = "id")
+    @JoinColumn(name = "phenomenon", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Person person;
+    private Phenomenon phenomenon;
     @JoinColumn(name = "training", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Training training;
@@ -64,12 +60,12 @@ public class Trainer implements Serializable {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public Phenomenon getPhenomenon() {
+        return phenomenon;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPhenomenon(Phenomenon phenomenon) {
+        this.phenomenon = phenomenon;
     }
 
     public Training getTraining() {
@@ -103,14 +99,6 @@ public class Trainer implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Trainer[ id=" + id + " ]";
-    }
-
-    public Phenomenon getPhenomenon() {
-        return phenomenon;
-    }
-
-    public void setPhenomenon(Phenomenon phenomenon) {
-        this.phenomenon = phenomenon;
     }
     
 }

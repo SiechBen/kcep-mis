@@ -37,12 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
     @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
     @NamedQuery(name = "Account.findByAccountNumber", query = "SELECT a FROM Account a WHERE a.accountNumber = :accountNumber"),
+    @NamedQuery(name = "Account.findBySavings", query = "SELECT a FROM Account a WHERE a.savings = :savings"),
     @NamedQuery(name = "Account.findBySolId", query = "SELECT a FROM Account a WHERE a.solId = :solId")})
 public class Account implements Serializable {
-
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "savings")
-    private BigDecimal savings;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,6 +50,9 @@ public class Account implements Serializable {
     @Size(max = 45)
     @Column(name = "account_number")
     private String accountNumber;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "savings")
+    private BigDecimal savings;
     @Size(max = 45)
     @Column(name = "sol_id")
     private String solId;
@@ -86,6 +86,14 @@ public class Account implements Serializable {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public BigDecimal getSavings() {
+        return savings;
+    }
+
+    public void setSavings(BigDecimal savings) {
+        this.savings = savings;
     }
 
     public String getSolId() {
@@ -144,14 +152,6 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Account[ id=" + id + " ]";
-    }
-
-    public BigDecimal getSavings() {
-        return savings;
-    }
-
-    public void setSavings(BigDecimal savings) {
-        this.savings = savings;
     }
     
 }

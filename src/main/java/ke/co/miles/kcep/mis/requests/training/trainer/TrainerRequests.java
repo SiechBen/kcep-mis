@@ -17,7 +17,7 @@ import ke.co.miles.kcep.mis.entities.Training;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.phenomenon.PhenomenonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.TrainerDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;

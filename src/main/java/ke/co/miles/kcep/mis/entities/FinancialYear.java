@@ -62,10 +62,10 @@ public class FinancialYear implements Serializable {
         this.id = id;
     }
 
-    public FinancialYear(Short id, String financialYear, boolean current) {
+    public FinancialYear(Short id, String financialYear, boolean currentYear) {
         this.id = id;
         this.financialYear = financialYear;
-        this.currentYear = current;
+        this.currentYear = currentYear;
     }
 
     public Short getId() {
@@ -125,5 +125,5 @@ public class FinancialYear implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FinancialYear[ id=" + id + " ]";
     }
-
+    
 }
