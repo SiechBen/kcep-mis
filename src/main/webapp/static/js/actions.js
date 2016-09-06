@@ -87,7 +87,7 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis']
+        buttons: ['excel', 'colvis']
                 //"paging": true
     });
 });
@@ -97,7 +97,7 @@ $(function () {
         responsive: true,
         "scrollCollapse": true,
         dom: "Brt",
-        buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        buttons: [ 'excel', 'colvis']
     });
 });
 //</editor-fold>
