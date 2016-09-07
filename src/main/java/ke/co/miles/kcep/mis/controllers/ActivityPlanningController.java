@@ -57,7 +57,7 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
         urlPatterns = {"/activity_names", "/addActivityName", "/doAddActivityName", "/sub_activities",
             "/addSubActivity", "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
             "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names", "/addSubActivityName",
-            "/doAddSubActivityName"}
+            "/doAddSubActivityName", "/doEditActivityName", "/doDeleteActivityName"}
 )
 public class ActivityPlanningController extends Controller {
 
@@ -90,6 +90,8 @@ public class ActivityPlanningController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doEditActivityName");
+                            urlPaths.add("/doDeleteActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
@@ -241,6 +243,51 @@ public class ActivityPlanningController extends Controller {
 
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/doEditActivityName":
+                    try {
+                        activity = new ActivityNameDetails(Short.valueOf(request.getParameter("id")));
+                        activity.setName(request.getParameter("name"));
+                        activityNameService.addActivityName(activity);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+                    List<ActivityNameDetails> activityNames;
+
+                    try {
+                        activityNames = activityNameService.retrieveActivityNames();
+                        session.setAttribute("activityNames", activityNames);
+                        updateActivityNameTable(response, activityNames);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/doDeleteActivityName":
+                    try {
+                        activityNameService.removeActivityName(Short.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        activityNames = activityNameService.retrieveActivityNames();
+                        session.setAttribute("activityNames", activityNames);
+                        updateActivityNameTable(response, activityNames);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -601,6 +648,24 @@ public class ActivityPlanningController extends Controller {
         }
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Update tables">
+    private void updateActivityNameTable(HttpServletResponse response, List<ActivityNameDetails> activityNames) throws IOException {
+        PrintWriter out = response.getWriter();
+        int index = 0;
+        for (ActivityNameDetails activityName : activityNames) {
+            if (index % 2 == 0) {
+                out.write("<tr class=\"odd\">");
+            } else {
+                out.write("<tr>");
+            }
+            out.write("<td>" + ++index + "</td>\n"
+                    + "<td class=\"pointable\" onclick=\"loadSubActivityNamesWindow('" + activityName.getId() + "'}>" + activityName.getName() + "}</td>\n"
+                    + "<td><button onclick=\"editActivityName('" + activityName.getId() + "','" + activityName.getName() + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>"
+                    + "<td><button onclick=\"deleteActivityName('" + activityName.getId() + "')\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>"
+                    + "</tr>");
+        }
+    }
+    //</editor-fold>
     private static final Logger LOGGER = Logger.getLogger(ActivityPlanningController.class
             .getSimpleName());
 

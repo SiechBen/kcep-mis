@@ -181,6 +181,14 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
+    public void editTrainees(List<TraineeDetails> traineeDetailsList) throws MilesException {
+        for (TraineeDetails traineeDetails : traineeDetailsList) {
+            editTrainee(traineeDetails);
+        }
+        em.flush();
+    }
+
+    @Override
     public void editTrainee(TraineeDetails traineeDetails) throws MilesException {
 
         if (traineeDetails == null) {

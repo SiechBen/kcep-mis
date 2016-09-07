@@ -181,6 +181,14 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
+    public void editTrainers(List<TrainerDetails> trainerDetailsList) throws MilesException {
+        for (TrainerDetails trainerDetails : trainerDetailsList) {
+            editTrainer(trainerDetails);
+        }
+        em.flush();
+    }
+
+    @Override
     public void editTrainer(TrainerDetails trainerDetails) throws MilesException {
 
         if (trainerDetails == null) {

@@ -30,12 +30,12 @@ public interface TraineeRequestsLocal {
 
     /**
      *
-     * @param traineesDetailsList list of details of the trainee records to be
+     * @param traineeDetailsList list of details of the trainee records to be
      * created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void addTrainees(List<TraineeDetails> traineesDetailsList) throws MilesException;
+    public void addTrainees(List<TraineeDetails> traineeDetailsList) throws MilesException;
 
     /**
      *
@@ -110,5 +110,13 @@ public interface TraineeRequestsLocal {
      */
     public TraineeDetails convertTraineeToTraineeDetails(Trainee trainee);
 
+    /**
+     *
+     * @param traineeDetailsList list of details of the trainee records to be
+     * edit
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void editTrainees(List<TraineeDetails> traineeDetailsList) throws MilesException;
+
 }
-    

@@ -40,7 +40,7 @@ import ke.co.miles.kcep.mis.utilities.PersonDetails;
  *
  * @author siech
  */
-@WebServlet(name = "EVoucherController", urlPatterns = {"/addEVoucher", "/doAddEVoucher", "/eVouchers"})
+@WebServlet(name = "EVoucherController", urlPatterns = {"/addEVoucher", "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers"})
 @MultipartConfig
 public class EVoucherController extends Controller {
 
@@ -69,6 +69,8 @@ public class EVoucherController extends Controller {
                 if (rightsMap.equals("systemAdminSession") || rightsMap.equals("nationalOfficerSession")) {
                     if (rightsMaps.get(rightsMap)) {
                         urlPaths.add("/doAddEVoucher");
+                        urlPaths.add("/doEditEVoucher");
+                        urlPaths.add("/doDeleteEVoucher");
                         if (path.equals("/eVouchers")) {
                             path = "/head_eVouchers";
                             urlPaths.add(path);
@@ -80,6 +82,8 @@ public class EVoucherController extends Controller {
                 } else if (rightsMap.equals("equityPersonnelSession")) {
                     if (rightsMaps.get(rightsMap)) {
                         urlPaths.add("/doAddEVoucher");
+                        urlPaths.add("/doEditEVoucher");
+                        urlPaths.add("/doDeleteEVoucher");
                         if (path.equals("/eVouchers")) {
                             path = "/equity_eVouchers";
                             urlPaths.add(path);
@@ -192,13 +196,10 @@ public class EVoucherController extends Controller {
                     eVoucher.setPerson(person);
 
                     try {
-                        //Read in date string in the format MM/dd/yyyy and parse it to date
                         date = userDateFormat.parse(request.getParameter("date-redeemed"));
 
-                        //Format the date string to yyyy/MM/dd and parse it to date
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
 
-                        //Set the start date
                         eVoucher.setDateRedeemed(date);
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -210,8 +211,8 @@ public class EVoucherController extends Controller {
                     ServletContext context = getServletContext();
                     String realPath = context.getRealPath("/");
                     String filePath = realPath + "documents" + fileSeparator + "eVoucher" + fileSeparator + "inputs_logbook_pages";
-                    final Part filePart = request.getPart("inputs-loogbook-page");
-                    final String fileName = getFileName(filePart);
+                    Part filePart = request.getPart("inputs-loogbook-page");
+                    String fileName = getFileName(filePart);
                     FileOutputStream outStream;
                     InputStream inStream;
 
@@ -246,8 +247,101 @@ public class EVoucherController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(""), e);
                     }
                     return;
+
+                case "/doEditEVoucher":
+
+                    person = new PersonDetails();
+                    try {
+                        person.setId(Integer.valueOf(String.valueOf(request.getParameter("person"))));
+                    } catch (Exception e) {
+                        person = null;
+                    }
+
+                    inputType = new InputTypeDetails();
+                    try {
+                        inputType.setId(Short.valueOf(String.valueOf(request.getParameter("input-type"))));
+                    } catch (Exception e) {
+                        inputType = null;
+                    }
+
+                    try {
+                        eVoucher = new EVoucherDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        eVoucher = new EVoucherDetails();
+                    }
+                    try {
+                        eVoucher.setAmount(String.valueOf(request.getParameter("amount")));
+                    } catch (Exception e) {
+                        eVoucher.setAmount(null);
+                    }
+
+                    eVoucher.setInputType(inputType);
+                    eVoucher.setPerson(person);
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("date-redeemed"));
+
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+
+                        eVoucher.setDateRedeemed(date);
+                    } catch (ParseException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        eVoucher.setDateRedeemed(null);
+                    }
+
+                    context = getServletContext();
+                    realPath = context.getRealPath("/");
+                    filePath = realPath + "documents" + fileSeparator + "eVoucher" + fileSeparator + "inputs_logbook_pages";
+                    filePart = request.getPart("inputs-loogbook-page");
+                    fileName = getFileName(filePart);
+
+                    try {
+                        filePath = filePath + fileSeparator + fileName;
+                        new File(filePath).getParentFile().mkdirs();
+
+                        outStream = new FileOutputStream(filePath);
+                        inStream = filePart.getInputStream();
+
+                        final int startOffset = 0;
+                        final byte[] buffer = new byte[4096];
+                        while (inStream.read(buffer) > 0) {
+                            outStream.write(buffer, startOffset, buffer.length);
+                        }
+
+                        eVoucher.setInputsLogbookPage(filePath);
+                        outStream.close();
+
+                    } catch (FileNotFoundException e) {
+                        eVoucher.setInputsLogbookPage(null);
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    }
+
+                    try {
+                        eVoucherService.editEVoucher(eVoucher);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getMessage()));
+                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
+                    }
+                    return;
+
+                case "/doDeleteEvoucher":
+                    try {
+                        eVoucherService.removeEVoucher(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getMessage()));
+                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
+                    }
+
+                    return;
+
             }
-            //Use request dispatcher to foward request internally
+
             destination = "/WEB-INF/views" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);

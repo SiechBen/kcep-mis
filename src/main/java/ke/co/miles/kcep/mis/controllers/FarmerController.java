@@ -32,6 +32,7 @@ import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.farmactivity.FarmActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.inputscollection.InputsCollectionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
+import ke.co.miles.kcep.mis.requests.farmer.postharvestloss.PostHarvestLossRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.variety.InputVarietyRequestsLocal;
@@ -45,17 +46,20 @@ import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.PostHarvestLossDetails;
 import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
 @WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection",
-    "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/editAccount"})
+    "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/editAccount",
+    "/doAddPostHarvestLoss", "/doEditPostHarvestLoss", "/doDeletePostHarvestLoss"})
 public class FarmerController extends Controller {
 
     private static final long serialVersionUID = 1L;
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -78,6 +82,9 @@ public class FarmerController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddPostHarvestLoss");
+                            urlPaths.add("/doEditPostHarvestLoss");
+                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -96,6 +103,9 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddPostHarvestLoss");
+                            urlPaths.add("/doEditPostHarvestLoss");
+                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -114,6 +124,9 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddPostHarvestLoss");
+                            urlPaths.add("/doEditPostHarvestLoss");
+                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -132,6 +145,9 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddPostHarvestLoss");
+                            urlPaths.add("/doEditPostHarvestLoss");
+                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -150,6 +166,9 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddPostHarvestLoss");
+                            urlPaths.add("/doEditPostHarvestLoss");
+                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -168,6 +187,9 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doAddPostHarvestLoss");
+                            urlPaths.add("/doEditPostHarvestLoss");
+                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -185,6 +207,9 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
+                        urlPaths.add("/doAddPostHarvestLoss");
+                        urlPaths.add("/doEditPostHarvestLoss");
+                        urlPaths.add("/doDeletePostHarvestLoss");
                         urlPaths.add("/editAccount");
                         urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/updateInputVarieties");
@@ -434,6 +459,125 @@ public class FarmerController extends Controller {
                     updateFarmActivitiesTable(response, farmActivities);
                     return;
 
+                case "/doAddPostHarvestLoss":
+
+                    PostHarvestLossDetails postHarvestLoss = new PostHarvestLossDetails();
+
+                    try {
+                        postHarvestLoss.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setFamilyConsumption(null);
+                    }
+                    try {
+                        postHarvestLoss.setPostHarvestLosses(new Double(request.getParameter("postHarvestLoss")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setPostHarvestLosses(null);
+                    }
+                    try {
+                        postHarvestLoss.setQuantitySold(new Double(request.getParameter("quantitySold")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setQuantitySold(null);
+                    }
+                    try {
+                        postHarvestLoss.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setQuantityHarvested(null);
+                    }
+                    farmer = new PersonDetails();
+                    try {
+                        farmer = (PersonDetails) session.getAttribute("farmer");
+                        postHarvestLoss.setFarmer(farmer);
+                    } catch (Exception e) {
+                        postHarvestLoss.setFarmer(null);
+                    }
+
+                    List<PostHarvestLossDetails> postHarvestLosses;
+                    try {
+                        postHarvestLossService.addPostHarvestLoss(postHarvestLoss);
+                        postHarvestLosses = postHarvestLossService.retrievePostHarvestLosses(farmer.getId());
+                        session.setAttribute("postHarvestLosses", postHarvestLosses);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
+
+                    updatePostHarvestLossTable(response, postHarvestLosses);
+                    return;
+
+                case "/doEditPostHarvestLoss":
+
+                    try {
+                        postHarvestLoss = new PostHarvestLossDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        postHarvestLoss = new PostHarvestLossDetails();
+                    }
+
+                    try {
+                        postHarvestLoss.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setFamilyConsumption(null);
+                    }
+                    try {
+                        postHarvestLoss.setPostHarvestLosses(new Double(request.getParameter("postHarvestLosses")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setPostHarvestLosses(null);
+                    }
+                    try {
+                        postHarvestLoss.setQuantitySold(new Double(request.getParameter("quantitySold")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setQuantitySold(null);
+                    }
+                    try {
+                        postHarvestLoss.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
+                    } catch (Exception e) {
+                        postHarvestLoss.setQuantityHarvested(null);
+                    }
+                    farmer = new PersonDetails();
+                    try {
+                        farmer = (PersonDetails) session.getAttribute("farmer");
+                        postHarvestLoss.setFarmer(farmer);
+                    } catch (Exception e) {
+                        postHarvestLoss.setFarmer(null);
+                    }
+
+                    try {
+                        postHarvestLossService.editPostHarvestLoss(postHarvestLoss);
+                        postHarvestLosses = postHarvestLossService.retrievePostHarvestLosses(farmer.getId());
+                        session.setAttribute("postHarvestLosses", postHarvestLosses);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
+
+                    updatePostHarvestLossTable(response, postHarvestLosses);
+
+                    return;
+
+                case "/doDeletePostHarvestLoss":
+
+                    try {
+
+                        postHarvestLossService.removePostHarvestLoss(Integer.valueOf("id"));
+                        farmer = (PersonDetails) session.getAttribute("farmer");
+
+                        postHarvestLosses = postHarvestLossService.retrievePostHarvestLosses(farmer.getId());
+                        session.setAttribute("postHarvestLosses", postHarvestLosses);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
+
+                    updatePostHarvestLossTable(response, postHarvestLosses);
+
+                    return;
+
                 case "/head_farm":
                 case "/ward_farm":
                 case "/kalro_farm":
@@ -524,16 +668,19 @@ public class FarmerController extends Controller {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Update tables">
-    private void updateAccountTable(HttpServletResponse response, AccountDetails account) throws IOException {
+    private void updateAccountTable(HttpServletResponse response, AccountDetails account)
+            throws IOException {
         PrintWriter out = response.getWriter();
-
         out.write("                     <div class=\"float-left\">\n"
                 + "                            <h4>Account Details</h4>\n"
                 + "                        </div>\n"
                 + "                        <div class=\"float-right\">\n"
-                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','" + account.getEblBranch().getId()+ "','" + account.getSolId() + "','" + account.getSavings() + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
+                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','"
+                + account.getEblBranch().getId() + "','" + account.getSolId() + "','" + account.getSavings()
+                + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
                 + "                        </div>\n"
-                + "                        <table id=\"account-table\" class=\"table table-striped table-bordered table-hover data-table\">                         \n"
+                + "<table id=\"account-table\" "
+                + "class=\"table table-striped table-bordered table-hover data-table\">\n"
                 + "                            <tr>\n"
                 + "                                <th>Account Number</th>\n"
                 + "                                <td>" + account.getAccountNumber() + "</td>\n"
@@ -624,8 +771,27 @@ public class FarmerController extends Controller {
             out.write("<td>" + farmActivity.getAverageSellingPrice() + "</td>");
             out.write("</tr>");
         }
-        //</editor-fold>
     }
+
+    private void updatePostHarvestLossTable(HttpServletResponse response,
+            List<PostHarvestLossDetails> postHarvestLosses) throws IOException {
+        PrintWriter out = response.getWriter();
+        int index = 0;
+        for (PostHarvestLossDetails postHarvestLoss : postHarvestLosses) {
+            if (index % 2 == 0) {
+                out.write("<tr class=\"odd\">");
+            } else {
+                out.write("<tr>");
+            }
+            out.write("<td>" + ++index + "</td>");
+            out.write("<td>" + postHarvestLoss.getQuantityHarvested() + "</td>");
+            out.write("<td>" + postHarvestLoss.getQuantitySold() + "</td>");
+            out.write("<td>" + postHarvestLoss.getFamilyConsumption() + "</td>");
+            out.write("<td>" + postHarvestLoss.getPostHarvestLosses() + "</td>");
+            out.write("</tr>");
+        }
+    }
+    //</editor-fold>
     private static final Logger LOGGER = Logger.getLogger(FarmerController.class.getSimpleName());
     @EJB
     private LoanRequestsLocal loanService;
@@ -645,5 +811,7 @@ public class FarmerController extends Controller {
     private FarmActivityRequestsLocal farmActivityService;
     @EJB
     private InputsCollectionRequestsLocal inputsCollectionService;
+    @EJB
+    private PostHarvestLossRequestsLocal postHarvestLossService;
 
 }
