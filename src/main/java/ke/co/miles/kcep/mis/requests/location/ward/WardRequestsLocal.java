@@ -41,7 +41,7 @@ public interface WardRequestsLocal {
      * @return the list of ward record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<WardDetails> retrieveWards(int subCountyId) throws MilesException;
+    public List<WardDetails> retrieveWards(short subCountyId) throws MilesException;
 
     /**
      *

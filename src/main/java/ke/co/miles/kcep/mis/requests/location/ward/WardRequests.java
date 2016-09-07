@@ -84,7 +84,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<WardDetails> retrieveWards(int subCountyId) throws MilesException {
+    public List<WardDetails> retrieveWards(short subCountyId) throws MilesException {
         List<Ward> wards = new ArrayList<>();
         q = em.createNamedQuery("Ward.findBySubCountyId");
         q.setParameter("subCountyId", subCountyId);
