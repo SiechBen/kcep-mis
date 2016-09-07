@@ -27,8 +27,8 @@
                         Trainers
                         <select id="trainer" name="trainer" class="form-control" onchange="addToTrainers()">
                             <option selected>Select trainers</option>
-                            <c:forEach var="training" items="${sessionScope.people}" varStatus="index"> 
-                                <option value="${training.id}">${training.name}</option>
+                            <c:forEach var="trainerCategory" items="${sessionScope.trainerCategories}" varStatus="index"> 
+                                <option value="${trainerCategory.id}">${trainerCategory.category.name}</option>
                             </c:forEach>
                         </select> 
                         <input id="trainer-names" value="" class="form-control" readonly>
@@ -68,8 +68,8 @@
                     <div class="form-group">
                         Category of trainees
                         <select id="category-of-trainees" name="category-of-trainees" class="form-control">
-                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index"> 
-                                <option value="${personRole.id}">${personRole.personRole}</option>
+                            <c:forEach var="traineeCategory" items="${sessionScope.traineeCategories}" varStatus="index"> 
+                                <option value="${traineeCategory.id}">${traineeCategory.category.name}</option>
                             </c:forEach>
                         </select>  
                     </div>  
@@ -85,7 +85,7 @@
                         <input type="hidden" id="trainee-ids" name="trainee-ids" value="">
                     </div>
                     <div class="form-group">
-                         Attachments (e.g attendance sheet) 
+                        Attachments (e.g attendance sheet) 
                         <input type="file" id="attendance-sheet" name="attendance-sheet" class="form-control">
                     </div>
                     <input type="submit" class="btn btn-outline btn-primary" value="Save training">
