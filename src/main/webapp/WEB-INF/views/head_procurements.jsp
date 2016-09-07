@@ -35,8 +35,11 @@
                                         <th>Sub-county</th>
                                         <th>LPO number</th>
                                         <th>Attachments (e.g. invoice or receipt)</th>
+<<<<<<< HEAD
                                         <th>&nbsp;</th>
                                         <th>&nbsp;</th>
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -58,8 +61,11 @@
                                             <td>${procurement.subCounty}</td>
                                             <td>${procurement.lpoNumber}</td>
                                             <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
+<<<<<<< HEAD
                                             <td><button onclick="editProcurement('${procuremet.id}', '${procurement.item}', '${procurement.cost}','${procurement.datePurchased}','${procurement.serialNumber}','${procurement.description}', '${procurement.targetOffice}','${procurement.county.name}', '${procurement.subCounty}','${procurement.lpoNumber}' )"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                             <td><button onclick="deleteProcurement(${procuremet.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -69,6 +75,7 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     <div class="dialog" id="procurements-dialog">
         <div class="col-lg-12">
             <div class="panel-default">
@@ -124,4 +131,8 @@
         </div>
     </div>
         </jsp:attribute>
+=======
+
+    </jsp:attribute>
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 </kcep:head>

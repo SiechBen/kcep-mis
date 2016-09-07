@@ -25,8 +25,11 @@
                                 <th>Person</th>
                                 <th>Date redeemed</th>
                                 <th>Attachment i.e scanned pages/ photos from the inputs logging book</th>
+<<<<<<< HEAD
                                 <th>&nbsp;</th>
                                 <th>&nbsp;</th>
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                             </tr>
                         </thead>
                         <tfoot>
@@ -43,9 +46,12 @@
                                     <td>${eVoucher.person.name}</td>
                                     <td>${eVoucher.dateRedeemed}</td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
+<<<<<<< HEAD
                                     <td><button onclick="editVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.type}', '${eVoucher.person.name}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
 
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -54,6 +60,7 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
 
 <div class="row dialog" id="evouchers-dialog">
@@ -91,4 +98,6 @@
             </div>
         </div>
     </div>
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 </div>

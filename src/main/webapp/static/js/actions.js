@@ -620,6 +620,7 @@ function showTrainees(trainingId) {
         }, dataType: 'HTML'
     });
 }
+<<<<<<< HEAD
 
 function editTraining(id, startDate, endDate, topic, county, subCounty, ward, numberOfTrainees) {
     $("#start-date").val(startDate);
@@ -676,6 +677,8 @@ function editTraining(id, startDate, endDate, topic, county, subCounty, ward, nu
     });
 }
 
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
@@ -693,6 +696,7 @@ $("#e-voucher-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
+<<<<<<< HEAD
 
 function editVoucher(id, amount, type, name, date) {
     $("#e-voucher-amount").val(amount);
@@ -741,6 +745,8 @@ function editVoucher(id, amount, type, name, date) {
     });
 }
 
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Procurement">
@@ -763,6 +769,7 @@ $("#procurement-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
+<<<<<<< HEAD
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty) {
     $("#item").val(item);
     $("#cost").val(cost);
@@ -827,6 +834,8 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         }
     });
 }
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
@@ -1462,6 +1471,7 @@ function addActivityName() {
         dataType: "HTML"
     });
 }
+<<<<<<< HEAD
 
 function editActivityName(id, name) {
     $("#name").val(name);
@@ -1496,6 +1506,8 @@ function editActivityName(id, name) {
 }
 
 
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity name">
@@ -1582,8 +1594,12 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
                         $("#change").val("");
                         $("#savings").val("");
                         $("#account").html(response);
+<<<<<<< HEAD
                     },
                     error: function (response) {
+=======
+                    }, error: function (response) {
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                         showError("error_label", response.responseText);
                     },
                     dataType: "HTML"
@@ -1690,4 +1706,7 @@ function editPostHarvestLoss(id, quantityHarvested, familyConsumption, quantityS
 }
 
 //</editor-fold>
+<<<<<<< HEAD
 
+=======
+>>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
