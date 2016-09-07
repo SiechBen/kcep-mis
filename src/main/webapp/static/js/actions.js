@@ -91,13 +91,12 @@ $(function () {
                 //"paging": true
     });
 });
-
 $(function () {
     $('.reports-table').DataTable({
         responsive: true,
         "scrollCollapse": true,
         dom: "Brt",
-        buttons: [ 'excel', 'colvis']
+        buttons: ['excel', 'colvis']
     });
 });
 //</editor-fold>
@@ -161,7 +160,6 @@ $("#change").on("change", function () {
         change = 0;
     }
     $("#savings").val((parseFloat(change) + parseFloat(savings)).toFixed(2));
-
 });
 //</editor-fold>
 
@@ -1396,6 +1394,94 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
             $("#sol-id").val("");
             $("#change").val("");
             $("#savings").val("");
+        }
+    });
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Post havested loss">
+function addPostHarvestLoss() {
+    $("#post-harvest-loss-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_post_harvest_loss",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddPostHarvestLoss",
+                    type: "POST",
+                    data: "quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&familyConsumption=" + $("#family-consumption").val() +
+                            "&quantitySold=" + $("#quantity-harvested").val() +
+                            "&postHarvestLoss=" + $("#postHarvestLoss").val(),
+                    success: function (response) {
+                        $("table#post-harvest-loss-table tbody").html(response);
+                        $("#quantity-harvested").val("");
+                        $("#family-consumption").val("");
+                        $("#quantity-harvested").val("");
+                        $("#post-harvest-loss").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#quantity-harvested").val("");
+            $("#family-consumption").val("");
+            $("#quantity-harvested").val("");
+            $("#post-harvest-loss").val("");
+        }
+    });
+}
+
+function editPostHarvestLoss(id, quantityHarvested, familyConsumption, quantitySold, postHarvestLoss) {
+    $("#quantity-harvested").val(quantityHarvested);
+    $("#family-consumption").val(familyConsumption);
+    $("#quantity-harvested").val(quantitySold);
+    $("#post-harvest-loss").val(postHarvestLoss);
+    $("#post-harvest-loss-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_post_harvest_loss",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditPostHarvestLoss",
+                    type: "POST",
+                    data: "quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&familyConsumption=" + $("#family-consumption").val() +
+                            "&quantitySold=" + $("#quantity-harvested").val() +
+                            "&postHarvestLoss=" + $("#postHarvestLoss").val() +
+                            "&id=" + id,
+                    success: function (response) {
+                        $("table#post-harvest-loss-table tbody").html(response);
+                        $("#quantity-harvested").val("");
+                        $("#family-consumption").val("");
+                        $("#quantity-harvested").val("");
+                        $("#post-harvest-loss").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#quantity-harvested").val("");
+            $("#family-consumption").val("");
+            $("#quantity-harvested").val("");
+            $("#post-harvest-loss").val("");
         }
     });
 }

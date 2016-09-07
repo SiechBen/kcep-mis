@@ -30,6 +30,9 @@
                     <li>
                         <a href="#farm-activities" data-toggle="tab">Farm Activities</a>
                     </li>
+                    <li>
+                        <a href="#post-harvest-losses" data-toggle="tab">Post Harvest Losses</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="farm">
@@ -173,6 +176,35 @@
                             </tbody>
                         </table> 
                     </div>
+                    <div class="tab-pane fade" id="post-harvest-losses">
+                        <h4>Post Harvest Losses</h4>
+                        <table id="post-harvest-loss-table" class="table table-striped table-bordered table-hover data-table">                         
+                            <thead>
+                                <tr>
+                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="addPostHarvestLoss(); return false;">Add</button></th>
+                                    <th>Quantity harvested </th>
+                                    <th>Family consumption</th>
+                                    <th colspan="2">Quantity sold/taken to warehouse</th>
+                                    <th>Post-harvest Loss</th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                <c:forEach var="postHarvestLoss" items="${sessionScope.postHarvestLoss}" varStatus="index">
+                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <td>${index.count}</td>
+                                        <td>${postHarvestLoss.quantityHarvested}</td>
+                                        <td>${postHarvestLoss.familyConsumption}</td>
+                                        <td>${postHarvestLoss.quantitySold}</td>
+                                        <td>${postHarvestLoss.postHarvestLoss}</td>
+                                        <td><button onclick="editPostHarvestLoss('${postHarvestLoss.id}','${postHarvestLoss.quantityHarvested}','${postHarvestLoss.familyConsumption}''${postHarvestLoss.quantitySold}''${postHarvestLoss.postHarvestLoss}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deletePostHarvestLoss('${postHarvestLoss.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -310,6 +342,33 @@
                         Average selling price
                         <input type="number" id="average-selling-price" step="0.01" class="form-control" required="true">
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dialog" id="post-harvest-loss-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Quantity harvested
+                        <input id="quantity-harvested" class="form-control" type="number" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        Family consumption
+                        <input type="number" step="0.01" id="family-consumption" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Quantity sold/taken to warehouse
+                        <input type="number" step="0.01" id="quantity-sold" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Post-harvest loss
+                        <input type="number"   id="post-harvest-loss" step="0.01" class="form-control" >
+                    </div>
+
                 </form>
             </div>
         </div>
