@@ -37,7 +37,7 @@ import ke.co.miles.kcep.mis.utilities.ProcurementDetails;
  *
  * @author siech
  */
-@WebServlet(name = "ProcurementController", urlPatterns = {"/procurements", "/addProcurement", "/doAddProcurement"})
+@WebServlet(name = "ProcurementController", urlPatterns = {"/procurements", "/addProcurement", "/doAddProcurement", "/doEditProcurement", "/doDeleteProcurement"})
 @MultipartConfig
 public class ProcurementController extends Controller {
 
@@ -67,6 +67,8 @@ public class ProcurementController extends Controller {
                 if (rightsMap.equals("systemAdminSession") || rightsMap.equals("nationalOfficerSession")) {
                     if (rightsMaps.get(rightsMap)) {
                         urlPaths.add("/doAddProcurement");
+                        urlPaths.add("/doEditProcurement");
+                        urlPaths.add("/doDeleteProcurement");
                         if (path.equals("/procurements")) {
                             path = "/head_procurements";
                             urlPaths.add(path);
@@ -155,8 +157,8 @@ public class ProcurementController extends Controller {
                     String realPath = context.getRealPath("/");
                     String filePath = realPath + fileSeparator + "documents" + fileSeparator + "procurement"
                             + fileSeparator + "invoice_or_receipt";
-                    final Part filePart = request.getPart("invoice-or-receipt");
-                    final String fileName = getFileName(filePart);
+                    Part filePart = request.getPart("invoice-or-receipt");
+                    String fileName = getFileName(filePart);
 
                     if (fileName == null) {
                         procurement.setInvoiceOrReceipt(null);
@@ -200,6 +202,118 @@ public class ProcurementController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(""), e);
                     }
 
+                    return;
+
+                case "/doEditProcurement":
+
+                    county = new CountyDetails();
+                    try {
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
+                    } catch (Exception e) {
+                        county = null;
+                    }
+                    try {
+                        procurement = new ProcurementDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        procurement = new ProcurementDetails();
+                    }
+                    procurement.setCounty(county);
+                    procurement.setItem(String.valueOf(request.getParameter("item")));
+                    procurement.setSubCounty(String.valueOf(request.getParameter("sub-county")));
+                    procurement.setDescription(String.valueOf(request.getParameter("description")));
+                    procurement.setTargetOffice(String.valueOf(request.getParameter("target-office")));
+                    procurement.setLpoNumber(String.valueOf(request.getParameter("lpo-number")));
+                    procurement.setSerialNumber(String.valueOf(request.getParameter("serial-number")));
+                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-procurementd")));
+
+                    if (procurement.getDatePurchased().equals("null")) {
+                        procurement.setDatePurchased(null);
+                    }
+                    if (procurement.getDescription().equals("null")) {
+                        procurement.setDescription(null);
+                    }
+                    if (procurement.getItem().equals("null")) {
+                        procurement.setItem(null);
+                    }
+                    if (procurement.getLpoNumber().equals("null")) {
+                        procurement.setLpoNumber(null);
+                    }
+                    if (procurement.getSerialNumber().equals("null")) {
+                        procurement.setSerialNumber(null);
+                    }
+                    if (procurement.getSubCounty().equals("null")) {
+                        procurement.setSubCounty(null);
+                    }
+                    if (procurement.getTargetOffice().equals("null")) {
+                        procurement.setTargetOffice(null);
+                    }
+
+                    try {
+                        procurement.setCost(new BigDecimal(request.getParameter("cost")));
+                    } catch (Exception e) {
+                        procurement.setCost(null);
+                    }
+
+                    context = getServletContext();
+                    realPath = context.getRealPath("/");
+                    filePath = realPath + fileSeparator + "documents" + fileSeparator + "procurement"
+                            + fileSeparator + "invoice_or_receipt";
+                    filePart = request.getPart("invoice-or-receipt");
+                    fileName = getFileName(filePart);
+
+                    if (fileName == null) {
+                        procurement.setInvoiceOrReceipt(null);
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    } else {
+
+                        FileOutputStream outStream;
+                        InputStream inStream;
+
+                        try {
+                            filePath = filePath + fileSeparator + fileName;
+                            new File(filePath).getParentFile().mkdirs();//If parent directories do not exist
+
+                            outStream = new FileOutputStream(filePath);
+                            inStream = filePart.getInputStream();
+
+                            final int startOffset = 0;
+                            final byte[] buffer = new byte[4096];
+                            while (inStream.read(buffer) > 0) {
+                                outStream.write(buffer, startOffset, buffer.length);
+                            }
+
+                            procurement.setInvoiceOrReceipt(filePath);
+                            outStream.close();
+
+                        } catch (FileNotFoundException e) {
+                            procurement.setInvoiceOrReceipt(null);
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                            LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                        }
+                    }
+
+                    try {
+                        procurementService.editProcurement(procurement);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
+                    }
+
+                    return;
+                    
+                case "/doDeleteProcurement":
+                    try {
+                        procurementService.removeProcurement(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
                     return;
 
                 default:

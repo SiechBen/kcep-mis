@@ -51,7 +51,8 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  *
  * @author siech
  */
-@WebServlet(name = "TrainingController", urlPatterns = {"/training", "/addTraining", "/doAddTraining", "/loadTrainees", "/trainees"})
+@WebServlet(name = "TrainingController", urlPatterns = {"/training", "/addTraining", "/doAddTraining",
+    "/doEditTraining", "/doDeleteTraining", "/loadTrainees", "/trainees"})
 @MultipartConfig
 public class TrainingController extends Controller {
 
@@ -83,6 +84,8 @@ public class TrainingController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
@@ -109,6 +112,8 @@ public class TrainingController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
@@ -135,6 +140,8 @@ public class TrainingController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
@@ -161,6 +168,8 @@ public class TrainingController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
@@ -187,6 +196,8 @@ public class TrainingController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
@@ -447,7 +458,7 @@ public class TrainingController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
-                    
+
                     try {
                         traineeCategories = phenomenonService.retrieveTraineeCategories();
                         session.setAttribute("traineeCategories", traineeCategories);
@@ -467,7 +478,7 @@ public class TrainingController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
-                    
+
                     break;
 
                 case "/sub_county_addTraining":
@@ -497,8 +508,8 @@ public class TrainingController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
-                    
-                          try {
+
+                    try {
                         traineeCategories = phenomenonService.retrieveTraineeCategories();
                         session.setAttribute("traineeCategories", traineeCategories);
                     } catch (MilesException ex) {
@@ -517,7 +528,7 @@ public class TrainingController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     }
-                    
+
                     break;
 
                 case "/doAddTraining":
@@ -596,8 +607,8 @@ public class TrainingController extends Controller {
                     ServletContext context = getServletContext();
                     String realPath = context.getRealPath("/");
                     String filePath = realPath + "documents" + fileSeparator + "training" + fileSeparator + "attendance_sheets";
-                    final Part filePart = request.getPart("attendance-sheet");
-                    final String fileName = getFileName(filePart);
+                    Part filePart = request.getPart("attendance-sheet");
+                    String fileName = getFileName(filePart);
                     FileOutputStream outStream;
                     InputStream inStream;
 
@@ -669,6 +680,168 @@ public class TrainingController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
 
+                    return;
+
+                case "/doEditTraining":
+
+                    try {
+                        categoryOfTrainees = new PhenomenonDetails(Integer.valueOf(request.getParameter("category-of-trainees")));
+                    } catch (Exception e) {
+                        categoryOfTrainees = null;
+                    }
+
+                    subCounty = new SubCountyDetails();
+                    try {
+                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("training-sub-county"))));
+                    } catch (Exception e) {
+                        subCounty = null;
+                    }
+
+                    county = new CountyDetails();
+                    try {
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("training-county"))));
+                    } catch (Exception e) {
+                        county = null;
+                    }
+
+                    topic = new TopicDetails();
+                    try {
+                        topic.setId(Short.valueOf(String.valueOf(request.getParameter("topic"))));
+                    } catch (Exception e) {
+                        topic = null;
+                    }
+
+                    ward = new WardDetails();
+                    try {
+                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("training-ward"))));
+                    } catch (Exception e) {
+                        ward = null;
+                    }
+
+                    venue = new LocationDetails();
+                    venue.setSubCounty(subCounty);
+                    venue.setCounty(county);
+                    venue.setWard(ward);
+
+                    training = new TrainingDetails();
+                    try {
+                        training.setId(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        training.setNumberOfTrainees(Integer.valueOf(String.valueOf(request.getParameter("number-of-trainees"))));
+                    } catch (Exception e) {
+                        training.setNumberOfTrainees(null);
+                    }
+                    training.setTopic(topic);
+                    training.setCategoryOfTrainees(categoryOfTrainees);
+                    training.setVenue(venue);
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("start-date"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        training.setStartDate(date);
+                    } catch (ParseException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        training.setStartDate(null);
+                    }
+                    try {
+                        date = userDateFormat.parse(request.getParameter("end-date"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        training.setEndDate(date);
+                    } catch (ParseException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        training.setEndDate(null);
+                    }
+
+                    context = getServletContext();
+                    realPath = context.getRealPath("/");
+                    filePath = realPath + "documents" + fileSeparator + "training" + fileSeparator + "attendance_sheets";
+                    filePart = request.getPart("attendance-sheet");
+                    fileName = getFileName(filePart);
+
+                    try {
+                        filePath = filePath + fileSeparator + fileName;
+                        new File(filePath).getParentFile().mkdirs();
+
+                        outStream = new FileOutputStream(filePath);
+                        inStream = filePart.getInputStream();
+
+                        final int startOffset = 0;
+                        final byte[] buffer = new byte[1024];
+                        while (inStream.read(buffer) > 0) {
+                            outStream.write(buffer, startOffset, buffer.length);
+                        }
+
+                        training.setAttendanceSheet(filePath);
+                        outStream.close();
+
+                    } catch (FileNotFoundException e) {
+                        training.setAttendanceSheet(null);
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    }
+
+                    trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
+                    trainerRecords = new ArrayList<>();
+                    for (String trainerCategoryId : trainerPersonIds) {
+                        PhenomenonDetails trainerCategory = new PhenomenonDetails();
+                        trainerRecord = new TrainerDetails();
+                        try {
+                            trainerCategory.setId(Integer.valueOf(trainerCategoryId));
+                            trainerRecord.setPhenomenon(trainerCategory);
+                            trainerRecords.add(trainerRecord);
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    traineePersonIds = String.valueOf(request.getParameter("trainee-ids")).split("-");
+                    traineeRecords = new ArrayList<>();
+                    for (String traineePersonId : traineePersonIds) {
+                        PersonDetails traineePerson = new PersonDetails();
+                        traineeRecord = new TraineeDetails();
+                        try {
+                            traineePerson.setId(Integer.valueOf(traineePersonId));
+                            traineeRecord.setPerson(traineePerson);
+                            traineeRecords.add(traineeRecord);
+                        } catch (Exception e) {
+                        }
+                    }
+
+                    try {
+                        trainingService.editTraining(training);
+                        training.setId(training.getId());
+                        for (TrainerDetails trainerRecord1 : trainerRecords) {
+                            trainerRecord1.setTraining(training);
+                        }
+                        for (TraineeDetails traineeRecord1 : traineeRecords) {
+                            traineeRecord1.setTraining(training);
+                        }
+                        trainerService.editTrainers(trainerRecords);
+                        traineeService.editTrainees(traineeRecords);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, "", e);
+                    }
+
+                    return;
+
+                case "/doDeleteTraining":
+                    try {
+                        trainingService.removeTraining(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                    }
+                    
                     return;
 
                 default:

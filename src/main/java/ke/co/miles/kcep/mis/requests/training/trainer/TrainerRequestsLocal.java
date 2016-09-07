@@ -110,4 +110,13 @@ public interface TrainerRequestsLocal {
      */
     public TrainerDetails convertTrainerToTrainerDetails(Trainer trainer);
 
+    /**
+     *
+     * @param trainerDetailsList list of details of the trainer records to be
+     * edited
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void editTrainers(List<TrainerDetails> trainerDetailsList) throws MilesException;
+
 }

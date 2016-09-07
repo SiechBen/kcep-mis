@@ -46,7 +46,7 @@
                                     <td>${training.endDate}</td>
                                     <td>
                                         <c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}">
-                                            ${trainer.person.name} 
+                                            ${trainer.phenomenon.category.name} 
                                         </c:forEach>
                                     </td>
                                     <td>${training.topic.topic}</td>
@@ -54,7 +54,7 @@
                                     <td>${training.venue.subCounty.name}</td>
                                     <td>${training.venue.ward.name}</td>
                                     <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
-                                    <td>${training.categoryOfTrainees.personRole}</td>
+                                    <td>${training.categoryOfTrainees.category.name}</td>
                                     <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
                                 </tr>
                             </c:forEach>
