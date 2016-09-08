@@ -1425,7 +1425,7 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
     $("#farm-activity-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_post_harvest_loss",
+        title: "edit_farm_activity",
         modal: true,
         resizable: false,
         buttons: {
@@ -1470,6 +1470,39 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
             $("#quantity-harvested").val("");
             $("#family-consumption").val("");
             $("#average-selling-price").val("");
+        }
+    });
+}
+
+function deleteFarmActivity(id) {
+    $("#message").text("Are you sure you want to remove this farm activity?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delet_farm_activity",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteFarmActivity",
+                    type: "POST",
+                    data: "&id=" + id,
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            },
+            close: function () {
+            }
         }
     });
 }
