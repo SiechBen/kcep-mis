@@ -22,6 +22,8 @@
                                 <th>Equipment type</th>
                                 <th>Total count</th>
                                 <th>Status</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -36,6 +38,8 @@
                                     <td>${equipment.type}</td>
                                     <td>${equipment.totalCount}</td>
                                     <td>${equipment.status}</td>
+                                    <td><button onclick="doeditEquipment('${equipment.id}', '${equipment.type}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="dodeleteEquipment(${equipment.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -45,3 +49,26 @@
         </div>
     </div>
 </div>
+<div class="row dialog" id="equipment-form-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+
+                    <div class="form-group">
+                        Equipment type
+                        <input id="equipment-type" name="equipment-type" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Total Count
+                        <input type="number" id="equipment-total-count" name="equipment-total-count" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Equipment status
+                        <input id="equipment-status" name="equipment-status" class="form-control">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>

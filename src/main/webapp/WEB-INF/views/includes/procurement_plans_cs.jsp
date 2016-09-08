@@ -29,7 +29,6 @@
                                 <th>Complete REOI</th>
                                 <th>Complete BD</th>
                                 <th>*Approval by IFAD</th>
-                                <th>Approval by SDA</th>
                                 <th>Issue REOI</th>
                                 <th>Receive EOIS</th>
                                 <th>Establish short list</th>
@@ -46,6 +45,8 @@
                                 <th>*Approval by SDA/AG</th>
                                 <th>Sign contract</th>
                                 <th>Commence contract</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -73,7 +74,6 @@
                                     <td>${procurementPlanCs.establishShortList}</td>
                                     <td>${procurementPlanCs.completeRfp}</td>
                                     <td>${procurementPlanCs.approvalByIfad2}</td>
-                                    <td>${procurementPlanCs.approvalBySda}</td>
                                     <td>${procurementPlanCs.issueRfp}</td>
                                     <td>${procurementPlanCs.receiveProposals}</td>
                                     <td>${procurementPlanCs.evaluateTechnicalProposals}</td>
@@ -84,6 +84,8 @@
                                     <td>${procurementPlanCs.approvalBySdaOrAg}</td>
                                     <td>${procurementPlanCs.signContract}</td>
                                     <td>${procurementPlanCs.commenceContract}</td>
+                                    <td><button onclick="doEditProcurementPlansCs('${procurementPlanCs.id}', '${procurementPlanCs.procurementPlanType.type}', '${procurementPlanCs.description}','${procurementPlanCs.planVsActual.choice}', '${procurementPlanCs.cost}', '${procurementPlanCs.procurementMethod.method}', '${procurementPlanCs.submitTor}', '${procurementPlanCs.completeReoi}', '${procurementPlanCs.completeBd}', '${procurementPlanCs.approvalByIfad1}', '${procurementPlanCs.approvalBySda}', '${procurementPlanCs.issueReoi}', '${procurementPlanCs.receiveEois}', '${procurementPlanCs.establishShortList}', '${procurementPlanCs.completeRfp}', '${procurementPlanCs.approvalByIfad2}', '${procurementPlanCs.issueRfp}', '${procurementPlanCs.receiveProposals}', '${procurementPlanCs.evaluateTechnicalProposals}', '${procurementPlanCs.approvalByIfad3}', '${procurementPlanCs.negotiate}', '${procurementPlanCs.approvalByIfad4}', '${procurementPlanCs.award}', '${procurementPlanCs.approvalBySdaOrAg}', '${procurementPlanCs.signContract}', '${procurementPlanCs.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="doDeleteProcurementPlansCs(${procurementPlanCs.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -93,3 +95,143 @@
         </div>
     </div>
 </div>
+<div class="row dialog" id="procurement-plans-cs-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+
+                    <div class="form-group">
+                        Procurement plan type
+                        <select id="procurement-plan-type" class="form-control">
+                            <c:forEach var="procurementPlanType" items="${sessionScope.procurementPlanTypes}">
+                                <option value="${procurementPlanType.id}">${procurementPlanType.type}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Description
+                        <input id="description" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        IFAD prior review
+                        <select id="ifad-prior-review" class="form-control">
+                            <c:forEach var="ifadPriorReview" items="${sessionScope.ifadPriorReviewChoices}">
+                                <option value="${ifadPriorReview.id}">${ifadPriorReview.choice}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Plan vs Actual
+                        <select id="plan-vs-actual" class="form-control">
+                            <c:forEach var="planVsActual" items="${sessionScope.planVsActualChoices}">
+                                <option value="${planVsActual.id}">${planVsActual.choice}</option>
+                            </c:forEach>
+                        </select> 
+                    </div>  
+                    <div class="form-group">
+                        Cost [KES]
+                        <input id="cost"  type="number" step="0.01"  class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Procurement method
+                        <select id="procurement-method" class="form-control">
+                            <c:forEach var="procurementMethod" items="${sessionScope.procurementMethods}">
+                                <option value="${procurementMethod.id}">${procurementMethod.method}</option>
+                            </c:forEach>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        Submit TOR
+                        <input id="submit-tor" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Complete REOI
+                        <input id="complete-reoi" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Complete BD
+                        <input id="complete-bd" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        *Approval by IFAD
+                        <input id="approval-by-ifad1" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        *Approval by SDA
+                        <input id="approval-by-sda" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Issue REOI
+                        <input id="issue-reoi" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Receive EOIS
+                        <input id="receive-eois" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Evaluate bids
+                        <input id="evaluate-bids" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Establish short list
+                        <input id="establish-short-list" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Complete RFP
+                        <input id="complete-rfp" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        *Approval by IFAD
+                        <input id="approval-by-ifad2" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        *Approval by SDA
+                        <input id="approval-by-sda" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Issue RFP
+                        <input id="issue-rfp" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Receive proposals
+                        <input id="receive-proposals" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Evaluate technical proposals
+                        <input id="evaluate-technical-proposals" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        *Approval by IFAD
+                        <input id="approval-by-ifad3" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Negotiate
+                        <input id="negotiate" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        *Approval by IFAD
+                        <input id="approval-by-ifad4" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Award
+                        <input id="award" class="form-control datefield">
+                    </div>
+
+                    <div class="form-group">
+                        Approval by SDA/AG
+                        <input id="approval-by-sda-or-ag" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Sign contract
+                        <input id="sign-contract" class="form-control datefield">
+                    </div>
+                    <div class="form-group">
+                        Commence contract
+                        <input id="commence-contract" class="form-control datefield">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>

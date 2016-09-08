@@ -16,7 +16,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover data-table">
+                    <table class="table table-striped table-bordered table-hover data-table" id="e-voucher-table">
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEVoucher')">Add</button></th>
@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="row dialog" id="evouchers-dialog">
+<div class="row dialog" id="evoucher-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">
