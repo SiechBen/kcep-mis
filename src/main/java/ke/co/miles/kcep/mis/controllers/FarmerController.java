@@ -32,7 +32,6 @@ import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.farmactivity.FarmActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.inputscollection.InputsCollectionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
-import ke.co.miles.kcep.mis.requests.farmer.postharvestloss.PostHarvestLossRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.variety.InputVarietyRequestsLocal;
@@ -46,12 +45,11 @@ import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
-import ke.co.miles.kcep.mis.utilities.PostHarvestLossDetails;
 import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
 @WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection",
     "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/editAccount",
-    "/doAddPostHarvestLoss", "/doEditPostHarvestLoss", "/doDeletePostHarvestLoss"})
+    "/doEditFarmActivity", "/doDeleteFarmActivity"})
 public class FarmerController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -82,13 +80,12 @@ public class FarmerController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doAddPostHarvestLoss");
-                            urlPaths.add("/doEditPostHarvestLoss");
-                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -103,13 +100,12 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doAddPostHarvestLoss");
-                            urlPaths.add("/doEditPostHarvestLoss");
-                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -124,13 +120,12 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doAddPostHarvestLoss");
-                            urlPaths.add("/doEditPostHarvestLoss");
-                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -145,13 +140,12 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doAddPostHarvestLoss");
-                            urlPaths.add("/doEditPostHarvestLoss");
-                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -166,13 +160,12 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doAddPostHarvestLoss");
-                            urlPaths.add("/doEditPostHarvestLoss");
-                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -187,13 +180,12 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doAddPostHarvestLoss");
-                            urlPaths.add("/doEditPostHarvestLoss");
-                            urlPaths.add("/doDeletePostHarvestLoss");
                             urlPaths.add("/editAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -207,13 +199,12 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
-                        urlPaths.add("/doAddPostHarvestLoss");
-                        urlPaths.add("/doEditPostHarvestLoss");
-                        urlPaths.add("/doDeletePostHarvestLoss");
                         urlPaths.add("/editAccount");
                         urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/updateInputVarieties");
                         urlPaths.add("/doAddFarmActivity");
+                        urlPaths.add("/doEditFarmActivity");
+                        urlPaths.add("/doDeleteFarmActivity");
                         urlPaths.add("/doAddInputsCollection");
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {
@@ -405,6 +396,10 @@ public class FarmerController extends Controller {
 
                 case "/doAddFarmActivity":
                     FarmActivityDetails farmActivity = new FarmActivityDetails();
+                    farmActivity.setYield(request.getParameter("yield"));
+                    if (farmActivity.getYield().equals("null")) {
+                        farmActivity.setYield(null);
+                    }
                     farmActivity.setName(request.getParameter("farmActivityName"));
                     if (farmActivity.getName().equals("null")) {
                         farmActivity.setName(null);
@@ -415,11 +410,6 @@ public class FarmerController extends Controller {
                         farmActivity.setFarmer(farmer);
                     } catch (Exception e) {
                         farmActivity.setFarmer(null);
-                    }
-                    try {
-                        farmActivity.setYield(new Double(request.getParameter("yield")));
-                    } catch (Exception e) {
-                        farmActivity.setYield(null);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("farmActivityDate"));
@@ -437,6 +427,16 @@ public class FarmerController extends Controller {
                         farmActivity.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
                     } catch (Exception e) {
                         farmActivity.setQuantityHarvested(null);
+                    }
+                    try {
+                        farmActivity.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
+                    } catch (Exception e) {
+                        farmActivity.setFamilyConsumption(null);
+                    }
+                    try {
+                        farmActivity.setPostHarvestLoss(new Double(request.getParameter("farmActivity")));
+                    } catch (Exception e) {
+                        farmActivity.setPostHarvestLoss(null);
                     }
                     try {
                         farmActivity.setAverageSellingPrice(new BigDecimal(request.getParameter("averageSellingPrice")));
@@ -459,43 +459,64 @@ public class FarmerController extends Controller {
                     updateFarmActivitiesTable(response, farmActivities);
                     return;
 
-                case "/doAddPostHarvestLoss":
-
-                    PostHarvestLossDetails postHarvestLoss = new PostHarvestLossDetails();
-
+                case "/doEditFarmActivity":
                     try {
-                        postHarvestLoss.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
+                        farmActivity = new FarmActivityDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
-                        postHarvestLoss.setFamilyConsumption(null);
+                        farmActivity = new FarmActivityDetails();
                     }
-                    try {
-                        postHarvestLoss.setPostHarvestLosses(new Double(request.getParameter("postHarvestLoss")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setPostHarvestLosses(null);
+                    farmActivity.setYield(request.getParameter("yield"));
+                    if (farmActivity.getYield().equals("null")) {
+                        farmActivity.setYield(null);
                     }
-                    try {
-                        postHarvestLoss.setQuantitySold(new Double(request.getParameter("quantitySold")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setQuantitySold(null);
-                    }
-                    try {
-                        postHarvestLoss.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setQuantityHarvested(null);
+                    farmActivity.setName(request.getParameter("farmActivityName"));
+                    if (farmActivity.getName().equals("null")) {
+                        farmActivity.setName(null);
                     }
                     farmer = new PersonDetails();
                     try {
                         farmer = (PersonDetails) session.getAttribute("farmer");
-                        postHarvestLoss.setFarmer(farmer);
+                        farmActivity.setFarmer(farmer);
                     } catch (Exception e) {
-                        postHarvestLoss.setFarmer(null);
+                        farmActivity.setFarmer(null);
+                    }
+                    try {
+                        date = userDateFormat.parse(request.getParameter("farmActivityDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        farmActivity.setDateDone(date);
+                    } catch (Exception e) {
+                        farmActivity.setDateDone(null);
+                    }
+                    try {
+                        farmActivity.setQuantitySold(new Double(request.getParameter("quantitySold")));
+                    } catch (Exception e) {
+                        farmActivity.setQuantitySold(null);
+                    }
+                    try {
+                        farmActivity.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
+                    } catch (Exception e) {
+                        farmActivity.setQuantityHarvested(null);
+                    }
+                    try {
+                        farmActivity.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
+                    } catch (Exception e) {
+                        farmActivity.setFamilyConsumption(null);
+                    }
+                    try {
+                        farmActivity.setPostHarvestLoss(new Double(request.getParameter("farmActivity")));
+                    } catch (Exception e) {
+                        farmActivity.setPostHarvestLoss(null);
+                    }
+                    try {
+                        farmActivity.setAverageSellingPrice(new BigDecimal(request.getParameter("averageSellingPrice")));
+                    } catch (Exception e) {
+                        farmActivity.setAverageSellingPrice(null);
                     }
 
-                    List<PostHarvestLossDetails> postHarvestLosses;
                     try {
-                        postHarvestLossService.addPostHarvestLoss(postHarvestLoss);
-                        postHarvestLosses = postHarvestLossService.retrievePostHarvestLosses(farmer.getId());
-                        session.setAttribute("postHarvestLosses", postHarvestLosses);
+                        farmActivityService.editFarmActivity(farmActivity);
+                        farmActivities = farmActivityService.retrieveFarmActivities(farmer.getId());
+                        session.setAttribute("farmActivities", farmActivities);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -503,49 +524,16 @@ public class FarmerController extends Controller {
                         return;
                     }
 
-                    updatePostHarvestLossTable(response, postHarvestLosses);
+                    updateFarmActivitiesTable(response, farmActivities);
                     return;
 
-                case "/doEditPostHarvestLoss":
-
-                    try {
-                        postHarvestLoss = new PostHarvestLossDetails(Integer.valueOf(request.getParameter("id")));
-                    } catch (Exception e) {
-                        postHarvestLoss = new PostHarvestLossDetails();
-                    }
-
-                    try {
-                        postHarvestLoss.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setFamilyConsumption(null);
-                    }
-                    try {
-                        postHarvestLoss.setPostHarvestLosses(new Double(request.getParameter("postHarvestLosses")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setPostHarvestLosses(null);
-                    }
-                    try {
-                        postHarvestLoss.setQuantitySold(new Double(request.getParameter("quantitySold")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setQuantitySold(null);
-                    }
-                    try {
-                        postHarvestLoss.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
-                    } catch (Exception e) {
-                        postHarvestLoss.setQuantityHarvested(null);
-                    }
-                    farmer = new PersonDetails();
+                case "/doDeleteFarmActivity":
                     try {
                         farmer = (PersonDetails) session.getAttribute("farmer");
-                        postHarvestLoss.setFarmer(farmer);
-                    } catch (Exception e) {
-                        postHarvestLoss.setFarmer(null);
-                    }
 
-                    try {
-                        postHarvestLossService.editPostHarvestLoss(postHarvestLoss);
-                        postHarvestLosses = postHarvestLossService.retrievePostHarvestLosses(farmer.getId());
-                        session.setAttribute("postHarvestLosses", postHarvestLosses);
+                        farmActivityService.removeFarmActivity(Integer.valueOf(request.getParameter("id")));
+                        farmActivities = farmActivityService.retrieveFarmActivities(farmer.getId());
+                        session.setAttribute("farmActivities", farmActivities);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -553,29 +541,7 @@ public class FarmerController extends Controller {
                         return;
                     }
 
-                    updatePostHarvestLossTable(response, postHarvestLosses);
-
-                    return;
-
-                case "/doDeletePostHarvestLoss":
-
-                    try {
-
-                        postHarvestLossService.removePostHarvestLoss(Integer.valueOf("id"));
-                        farmer = (PersonDetails) session.getAttribute("farmer");
-
-                        postHarvestLosses = postHarvestLossService.retrievePostHarvestLosses(farmer.getId());
-                        session.setAttribute("postHarvestLosses", postHarvestLosses);
-
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
-                        return;
-                    }
-
-                    updatePostHarvestLossTable(response, postHarvestLosses);
-
+                    updateFarmActivitiesTable(response, farmActivities);
                     return;
 
                 case "/head_farm":
@@ -766,32 +732,19 @@ public class FarmerController extends Controller {
             out.write("<td>" + farmActivity.getName() + "</td>");
             out.write("<td>" + farmActivity.getYield() + "</td>");
             out.write("<td>" + farmActivity.getDateDone() + "</td>");
-            out.write("<td>" + farmActivity.getQuantitySold() + "</td>");
             out.write("<td>" + farmActivity.getQuantityHarvested() + "</td>");
+            out.write("<td>" + farmActivity.getFamilyConsumption() + "</td>");
+            out.write("<td>" + farmActivity.getQuantitySold() + "</td>");
+            out.write("<td>" + farmActivity.getPostHarvestLoss() + "</td>");
             out.write("<td>" + farmActivity.getAverageSellingPrice() + "</td>");
-            out.write("</tr>");
-        }
-    }
-
-    private void updatePostHarvestLossTable(HttpServletResponse response,
-            List<PostHarvestLossDetails> postHarvestLosses) throws IOException {
-        PrintWriter out = response.getWriter();
-        int index = 0;
-        for (PostHarvestLossDetails postHarvestLoss : postHarvestLosses) {
-            if (index % 2 == 0) {
-                out.write("<tr class=\"odd\">");
-            } else {
-                out.write("<tr>");
-            }
-            out.write("<td>" + ++index + "</td>");
-            out.write("<td>" + postHarvestLoss.getQuantityHarvested() + "</td>");
-            out.write("<td>" + postHarvestLoss.getQuantitySold() + "</td>");
-            out.write("<td>" + postHarvestLoss.getFamilyConsumption() + "</td>");
-            out.write("<td>" + postHarvestLoss.getPostHarvestLosses() + "</td>");
+            out.write("  <td><button onclick=\"editFarmActivity('" + farmActivity.getId() + "', '" + farmActivity.getQuantityHarvested() + "', '" + farmActivity.getFamilyConsumption() + "', '" + farmActivity.getQuantitySold() + "', '" + farmActivity.getPostHarvestLoss() + "', '" + farmActivity.getYield() + "', '" + farmActivity.getDateDone() + "', '" + farmActivity.getName() + "','" + farmActivity.getAverageSellingPrice() + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
+                    + "                                        <td><button onclick=\"deleteFarmActivity('" + farmActivity.getId() + ")\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>\n"
+                    + "                               ");
             out.write("</tr>");
         }
     }
     //</editor-fold>
+
     private static final Logger LOGGER = Logger.getLogger(FarmerController.class.getSimpleName());
     @EJB
     private LoanRequestsLocal loanService;
@@ -811,7 +764,5 @@ public class FarmerController extends Controller {
     private FarmActivityRequestsLocal farmActivityService;
     @EJB
     private InputsCollectionRequestsLocal inputsCollectionService;
-    @EJB
-    private PostHarvestLossRequestsLocal postHarvestLossService;
 
 }

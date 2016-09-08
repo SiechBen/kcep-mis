@@ -124,32 +124,32 @@ function loadApplicationAttributes() {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Indicator AV:EV ratio">
+//<editor-fold defaultstate="collapsed" desc="Indicator AV:EV ratio calculation">
 $("#actual-value").on("input", function () {
-    var actualValue = $("#actual-value").val();
-    var expectedValue = $("#expected-value").val();
-    if (actualValue.trim() === "") {
-        actualValue = 0;
-    }
-    if (expectedValue.trim() === "") {
-        expectedValue = 0;
-    }
-    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
+    calculateRatio();
 });
 $("#expected-value").on("input", function () {
+    calculateRatio();
+});
+
+function calculateRatio() {
+
     var actualValue = $("#actual-value").val();
     var expectedValue = $("#expected-value").val();
+
     if (actualValue.trim() === "") {
         actualValue = 0;
     }
     if (expectedValue.trim() === "") {
         expectedValue = 0;
     }
-    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
-});
+
+    $("#ratio").val((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2));
+
+}
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Modify savings">
+//<editor-fold defaultstate="collapsed" desc="Savings update calculation">
 $("#change").on("change", function () {
     var savings = $("#savings").val();
     var change = $("#change").val();
@@ -161,6 +161,43 @@ $("#change").on("change", function () {
     }
     $("#savings").val((parseFloat(change) + parseFloat(savings)).toFixed(2));
 });
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Post-harvest loss calculation">
+$("#quantity-harvested").on("change", function () {
+    calculatePostHarvestLoss();
+});
+$("#quantity-sold").on("change", function () {
+    calculatePostHarvestLoss();
+});
+$("#family-consumption").on("change", function () {
+    calculatePostHarvestLoss();
+});
+
+function calculatePostHarvestLoss() {
+    var quantityHarvested = $("#quantity-harvested").val();
+    var familyConsumption = $("#family-consumption").val();
+    var quantitySold = $("#quantity-sold").val();
+
+    if (quantityHarvested.trim() === "") {
+        quantityHarvested = 0;
+    }
+    if (familyConsumption.trim() === "") {
+        familyConsumption = 0;
+    }
+    if (quantitySold.trim() === "") {
+        quantitySold = 0;
+    }
+    console.log(quantityHarvested);
+    console.log(quantitySold);
+    console.log(familyConsumption);
+    console.log(parseFloat(quantityHarvested) - (parseFloat(familyConsumption) + parseFloat(quantitySold)));
+    console.log("");
+
+    $("#post-harvest-loss").val((parseFloat(quantityHarvested) -
+            (parseFloat(familyConsumption) + parseFloat(quantitySold))).toFixed(2));
+
+}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sliding form">
@@ -620,9 +657,9 @@ function showTrainees(trainingId) {
         }, dataType: 'HTML'
     });
 }
-<<<<<<< HEAD
 
 function editTraining(id, startDate, endDate, topic, county, subCounty, ward, numberOfTrainees) {
+
     $("#start-date").val(startDate);
     $("#end-date").val(endDate);
     $("#topic").val(topic);
@@ -630,6 +667,7 @@ function editTraining(id, startDate, endDate, topic, county, subCounty, ward, nu
     $("#sub-county").val(subCounty);
     $("#ward").val(ward);
     $("#number-of-trainees").val(numberOfTrainees);
+
     $("#training-dialog").dialog({
         width: 495,
         height: "auto",
@@ -676,9 +714,6 @@ function editTraining(id, startDate, endDate, topic, county, subCounty, ward, nu
         }
     });
 }
-
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
@@ -696,7 +731,6 @@ $("#e-voucher-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-<<<<<<< HEAD
 
 function editVoucher(id, amount, type, name, date) {
     $("#e-voucher-amount").val(amount);
@@ -719,7 +753,6 @@ function editVoucher(id, amount, type, name, date) {
                             "&e-voucher-input-type=" + $("#e-voucher-input-type").val() +
                             "&e-voucher-person=" + $("#e-voucher-person").val(name) +
                             "&date-redeemed=" + $("#date-redeemed").val(date),
-                    
                     success: function (response) {
                         $("#e-voucher-amount").val("");
                         $("#e-voucher-input-type").val("");
@@ -745,8 +778,6 @@ function editVoucher(id, amount, type, name, date) {
     });
 }
 
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Procurement">
@@ -769,7 +800,7 @@ $("#procurement-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-<<<<<<< HEAD
+
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty) {
     $("#item").val(item);
     $("#cost").val(cost);
@@ -834,8 +865,6 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         }
     });
 }
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
@@ -1345,16 +1374,20 @@ function addFarmActivity() {
                     data: "yield=" + $("#yield").val() +
                             "&quantitySold=" + $("#quantity-sold").val() +
                             "&farmActivityDate=" + $("#farm-activity-date").val() +
+                            "&postHarvestLoss=" + $("#post-harvest-loss").val() +
                             "&farmActivityName=" + $("#farm-activity-name").val() +
                             "&quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&familyConsumption=" + $("#family-consumption").val() +
                             "&averageSellingPrice=" + $("#average-selling-price").val(),
                     success: function (response) {
                         $("table#farm-activity-table tbody").html(response);
                         $("#yield").val("");
                         $("#quantity-sold").val("");
                         $("#farm-activity-date").val("");
+                        $("#post-harvest-loss").val("");
                         $("#farm-activity-name").val("");
                         $("#quantity-harvested").val("");
+                        $("#family-consumption").val("");
                         $("#average-selling-price").val("");
                     },
                     error: function (response) {
@@ -1369,8 +1402,73 @@ function addFarmActivity() {
             $("#yield").val("");
             $("#quantity-sold").val("");
             $("#farm-activity-date").val("");
+            $("#post-harvest-loss").val("");
             $("#farm-activity-name").val("");
             $("#quantity-harvested").val("");
+            $("#family-consumption").val("");
+            $("#average-selling-price").val("");
+        }
+    });
+}
+
+function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold, postHarvestLoss, yield, farmActivityDate, farmActivityName, averageSellingPrice) {
+
+    $("#yield").val(yield);
+    $("#quantity-sold").val(quantitySold);
+    $("#farm-activity-date").val(farmActivityDate);
+    $("#post-harvest-loss").val(postHarvestLoss);
+    $("#farm-activity-name").val(farmActivityName);
+    $("#quantity-harvested").val(quantityHarvested);
+    $("#quantity-harvested").val(quantityHarvested);
+    $("#family-consumption").val(familyConsumption);
+    $("#average-selling-price").val(averageSellingPrice);
+    $("#farm-activity-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_post_harvest_loss",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditFarmActivity",
+                    type: "POST",
+                    data: "yield=" + $("#yield").val() +
+                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&farmActivityDate=" + $("#farm-activity-date").val() +
+                            "&postHarvestLoss=" + $("#post-harvest-loss").val() +
+                            "&farmActivityName=" + $("#farm-activity-name").val() +
+                            "&quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&familyConsumption=" + $("#family-consumption").val() +
+                            "&averageSellingPrice=" + $("#average-selling-price").val() +
+                            "&id=" + id,
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                        $("#yield").val("");
+                        $("#quantity-sold").val("");
+                        $("#farm-activity-date").val("");
+                        $("#post-harvest-loss").val("");
+                        $("#farm-activity-name").val("");
+                        $("#quantity-harvested").val("");
+                        $("#family-consumption").val("");
+                        $("#average-selling-price").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#yield").val("");
+            $("#quantity-sold").val("");
+            $("#farm-activity-date").val("");
+            $("#post-harvest-loss").val("");
+            $("#farm-activity-name").val("");
+            $("#quantity-harvested").val("");
+            $("#family-consumption").val("");
             $("#average-selling-price").val("");
         }
     });
@@ -1471,7 +1569,6 @@ function addActivityName() {
         dataType: "HTML"
     });
 }
-<<<<<<< HEAD
 
 function editActivityName(id, name) {
     $("#name").val(name);
@@ -1504,10 +1601,6 @@ function editActivityName(id, name) {
         }
     });
 }
-
-
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity name">
@@ -1594,12 +1687,8 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
                         $("#change").val("");
                         $("#savings").val("");
                         $("#account").html(response);
-<<<<<<< HEAD
                     },
                     error: function (response) {
-=======
-                    }, error: function (response) {
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                         showError("error_label", response.responseText);
                     },
                     dataType: "HTML"
@@ -1618,95 +1707,3 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
 }
 
 //</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Post havested loss">
-function addPostHarvestLoss() {
-    $("#post-harvest-loss-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "add_post_harvest_loss",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Add": function () {
-                $.ajax({
-                    url: "doAddPostHarvestLoss",
-                    type: "POST",
-                    data: "quantityHarvested=" + $("#quantity-harvested").val() +
-                            "&familyConsumption=" + $("#family-consumption").val() +
-                            "&quantitySold=" + $("#quantity-harvested").val() +
-                            "&postHarvestLoss=" + $("#postHarvestLoss").val(),
-                    success: function (response) {
-                        $("table#post-harvest-loss-table tbody").html(response);
-                        $("#quantity-harvested").val("");
-                        $("#family-consumption").val("");
-                        $("#quantity-harvested").val("");
-                        $("#post-harvest-loss").val("");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#quantity-harvested").val("");
-            $("#family-consumption").val("");
-            $("#quantity-harvested").val("");
-            $("#post-harvest-loss").val("");
-        }
-    });
-}
-
-function editPostHarvestLoss(id, quantityHarvested, familyConsumption, quantitySold, postHarvestLoss) {
-    $("#quantity-harvested").val(quantityHarvested);
-    $("#family-consumption").val(familyConsumption);
-    $("#quantity-harvested").val(quantitySold);
-    $("#post-harvest-loss").val(postHarvestLoss);
-    $("#post-harvest-loss-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_post_harvest_loss",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditPostHarvestLoss",
-                    type: "POST",
-                    data: "quantityHarvested=" + $("#quantity-harvested").val() +
-                            "&familyConsumption=" + $("#family-consumption").val() +
-                            "&quantitySold=" + $("#quantity-harvested").val() +
-                            "&postHarvestLoss=" + $("#postHarvestLoss").val() +
-                            "&id=" + id,
-                    success: function (response) {
-                        $("table#post-harvest-loss-table tbody").html(response);
-                        $("#quantity-harvested").val("");
-                        $("#family-consumption").val("");
-                        $("#quantity-harvested").val("");
-                        $("#post-harvest-loss").val("");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#quantity-harvested").val("");
-            $("#family-consumption").val("");
-            $("#quantity-harvested").val("");
-            $("#post-harvest-loss").val("");
-        }
-    });
-}
-
-//</editor-fold>
-<<<<<<< HEAD
-
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407

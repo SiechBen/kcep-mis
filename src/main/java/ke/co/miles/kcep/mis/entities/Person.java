@@ -49,10 +49,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByPlotSize", query = "SELECT p FROM Person p WHERE p.plotSize = :plotSize"),
     @NamedQuery(name = "Person.findByApproved", query = "SELECT p FROM Person p WHERE p.approved = :approved")})
 public class Person implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
-    private List<PostHarvestLoss> postHarvestLossList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -428,14 +424,4 @@ public class Person implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Person[ id=" + id + " ]";
     }
-
-    @XmlTransient
-    public List<PostHarvestLoss> getPostHarvestLossList() {
-        return postHarvestLossList;
-    }
-
-    public void setPostHarvestLossList(List<PostHarvestLoss> postHarvestLossList) {
-        this.postHarvestLossList = postHarvestLossList;
-    }
-    
 }

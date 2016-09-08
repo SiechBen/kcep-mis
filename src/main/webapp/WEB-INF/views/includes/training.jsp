@@ -17,11 +17,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-<<<<<<< HEAD
                     <table id="training-form-table" class="table table-striped table-bordered table-hover data-table">
-=======
-                    <table class="table table-striped table-bordered table-hover data-table">
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addTraining')">Add</button></th>
@@ -34,13 +30,9 @@
                                 <th>Ward</th>
                                 <th>Number of trainees</th>
                                 <th>Category of trainees</th>
-<<<<<<< HEAD
-                                <th>Attachments(e.g attendance sheet)</th>\
-                                <th>&nbsp;</th>
-                                <th>&nbsp;</th>
-=======
                                 <th>Attachments(e.g attendance sheet)</th>
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -66,11 +58,8 @@
                                     <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
                                     <td>${training.categoryOfTrainees.category.name}</td>
                                     <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
-<<<<<<< HEAD
                                     <td><button onclick="editTraining('${training.id}', '${training.startDate}', '${training.endDate}', '${training.topic.topic}', '${training.venue.county.name}', '${training.venue.subCounty.name}', '${training.venue.ward.name}', '${training.numberOfTrainees}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteTraining(${training.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -80,7 +69,6 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 
 <div class="dialog" id="training-dialog">
     <div class="col-lg-12">
@@ -144,5 +132,3 @@
         </div>
     </div>
 </div>
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407

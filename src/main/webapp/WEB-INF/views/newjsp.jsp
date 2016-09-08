@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Farm Information of farmer <b>${sessionScope.farmer.name}</b>
@@ -132,7 +132,7 @@
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
-                                        <td>${inputsCollection.dateDone}</td>
+                                        <td>${inputsCollection.dateCollected}</td>
                                         <td>${inputsCollection.agroDealer.name}</td>
                                         <td>${inputsCollection.agroDealer.businessName}</td>
                                         <td>${inputsCollection.inputType.type}</td>
@@ -168,13 +168,12 @@
                                         <td>${index.count}</td>
                                         <td>${farmActivity.name}</td>
                                         <td>${farmActivity.yield}</td>
-                                        <td>${farmActivity.dateDone}</td>
+                                        <td>${farmActivity.date}</td>
                                         <td>${farmActivity.quantityHarvested}</td>
                                         <td>${farmActivity.familyConsumption}</td>
-                                        <td>${farmActivity.quantitySold}</td>
                                         <td>${farmActivity.postHarvestLoss}</td>
                                         <td>${farmActivity.averageSellingPrice}</td>
-                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '${farmActivity.dateDone}', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '${farmActivity.farmActivityDate}', '${farmActivity.farmActivityName}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                         <td><button onclick="deleteFarmActivity('${farmActivity.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
@@ -300,7 +299,7 @@
                     </div>
                     <div class="form-group">
                         Yield
-                        <input id="yield" class="form-control">
+                        <input  id="yield" class="form-control">
                     </div>
                     <div class="form-group">
                         Date

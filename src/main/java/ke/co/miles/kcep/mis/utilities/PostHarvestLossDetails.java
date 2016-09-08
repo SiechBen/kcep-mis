@@ -53,12 +53,12 @@ public class PostHarvestLossDetails extends EntityRequests implements Serializab
         this.quantitySold = quantitySold;
     }
 
-    public Double getPostHarvestLosses() {
-        return postHarvestLosses;
+    public Double getPostHarvestLoss() {
+        return postHarvestLoss;
     }
 
-    public void setPostHarvestLosses(Double postHarvestLosses) {
-        this.postHarvestLosses = postHarvestLosses;
+    public void setPostHarvestLoss(Double postHarvestLoss) {
+        this.postHarvestLoss = postHarvestLoss;
     }
 
     public PersonDetails getFarmer() {
@@ -94,7 +94,7 @@ public class PostHarvestLossDetails extends EntityRequests implements Serializab
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Double quantityHarvested;
-    private Double postHarvestLosses;
+    private Double postHarvestLoss;
     private Double familyConsumption;
     private Double quantitySold;
     private PersonDetails farmer;

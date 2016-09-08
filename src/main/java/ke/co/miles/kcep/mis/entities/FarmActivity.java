@@ -43,6 +43,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FarmActivity.findByAverageSellingPrice", query = "SELECT f FROM FarmActivity f WHERE f.averageSellingPrice = :averageSellingPrice")})
 public class FarmActivity implements Serializable {
 
+    @Column(name = "family_consumption")
+    private Double familyConsumption;
+    @Column(name = "post_harvest_loss")
+    private Double postHarvestLoss;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,7 +58,7 @@ public class FarmActivity implements Serializable {
     private String name;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "yield")
-    private Double yield;
+    private String yield;
     @Column(name = "date_done")
     @Temporal(TemporalType.DATE)
     private Date dateDone;
@@ -91,11 +95,11 @@ public class FarmActivity implements Serializable {
         this.name = name;
     }
 
-    public Double getYield() {
+    public String getYield() {
         return yield;
     }
 
-    public void setYield(Double yield) {
+    public void setYield(String yield) {
         this.yield = yield;
     }
 
@@ -163,5 +167,21 @@ public class FarmActivity implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmActivity[ id=" + id + " ]";
     }
-    
+
+    public Double getFamilyConsumption() {
+        return familyConsumption;
+    }
+
+    public void setFamilyConsumption(Double familyConsumption) {
+        this.familyConsumption = familyConsumption;
+    }
+
+    public Double getPostHarvestLoss() {
+        return postHarvestLoss;
+    }
+
+    public void setPostHarvestLoss(Double postHarvestLoss) {
+        this.postHarvestLoss = postHarvestLoss;
+    }
+
 }

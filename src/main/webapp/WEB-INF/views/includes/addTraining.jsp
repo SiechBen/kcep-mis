@@ -38,11 +38,7 @@
                         Topic
                         <select id="topic" name="topic" class="form-control">
                             <c:forEach var="topic" items="${applicationScope.topics}" varStatus="index"> 
-<<<<<<< HEAD
                                 <option value="${topic.id}">${topic.topic}</option>
-=======
-                                <option value="${topic.id}">${topic.description}</option>
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                             </c:forEach>
                         </select>  
                     </div>
@@ -69,10 +65,6 @@
                         Number of trainees
                         <input type="number" id="number-of-trainees" name="number-of-trainees" class="form-control">
                     </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                     <div class="form-group">
                         Category of trainees
                         <select id="category-of-trainees" name="category-of-trainees" class="form-control">

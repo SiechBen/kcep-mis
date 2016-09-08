@@ -38,11 +38,11 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
         this.name = name;
     }
 
-    public Double getYield() {
+    public String getYield() {
         return yield;
     }
 
-    public void setYield(Double yield) {
+    public void setYield(String yield) {
         this.yield = yield;
     }
 
@@ -118,14 +118,44 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
         this.farmer = farmer;
     }
 
+    /**
+     * @return the postHarvestLoss
+     */
+    public Double getPostHarvestLoss() {
+        return postHarvestLoss;
+    }
+
+    /**
+     * @param postHarvestLoss the postHarvestLoss to set
+     */
+    public void setPostHarvestLoss(Double postHarvestLoss) {
+        this.postHarvestLoss = postHarvestLoss;
+    }
+
+    /**
+     * @return the familyConsumption
+     */
+    public Double getFamilyConsumption() {
+        return familyConsumption;
+    }
+
+    /**
+     * @param familyConsumption the familyConsumption to set
+     */
+    public void setFamilyConsumption(Double familyConsumption) {
+        this.familyConsumption = familyConsumption;
+    }
+
     private static final long serialVersionUID = 1L;
-    private Date dateDone;
     private Integer id;
     private String name;
-    private Double yield;
+    private String yield;
+    private Date dateDone;
     private Double quantitySold;
     private PersonDetails farmer;
+    private Double postHarvestLoss;
     private Double quantityHarvested;
+    private Double familyConsumption;
     private BigDecimal averageSellingPrice;
 
 }

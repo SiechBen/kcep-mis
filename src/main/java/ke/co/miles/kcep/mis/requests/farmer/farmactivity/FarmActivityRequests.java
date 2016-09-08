@@ -35,6 +35,8 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
             throw new InvalidArgumentException("error_040_02");
         } else if (farmActivityDetails.getName() != null && farmActivityDetails.getName().trim().length() > 45) {
             throw new InvalidArgumentException("error_040_03");
+        } else if (farmActivityDetails.getYield() != null && farmActivityDetails.getYield().trim().length() > 45) {
+            throw new InvalidArgumentException("error_040_04");
         }
 
         FarmActivity farmActivity = new FarmActivity();
@@ -43,7 +45,9 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivity.setName(farmActivityDetails.getName());
         farmActivity.setQuantitySold(farmActivityDetails.getQuantitySold());
         farmActivity.setQuantityHarvested(farmActivityDetails.getQuantityHarvested());
+        farmActivity.setPostHarvestLoss(farmActivityDetails.getFamilyConsumption());
         farmActivity.setAverageSellingPrice(farmActivityDetails.getAverageSellingPrice());
+        farmActivity.setFamilyConsumption(farmActivityDetails.getFamilyConsumption());
         farmActivity.setFarmer(em.getReference(Person.class, farmActivityDetails.getFarmer().getId()));
 
         try {
@@ -100,6 +104,8 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
             throw new InvalidArgumentException("error_040_02");
         } else if (farmActivityDetails.getName() != null && farmActivityDetails.getName().trim().length() > 45) {
             throw new InvalidArgumentException("error_040_03");
+        } else if (farmActivityDetails.getYield()!= null && farmActivityDetails.getYield().trim().length() > 45) {
+            throw new InvalidArgumentException("error_040_04");
         }
 
         FarmActivity farmActivity = em.find(FarmActivity.class, farmActivityDetails.getId());
@@ -109,7 +115,9 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivity.setName(farmActivityDetails.getName());
         farmActivity.setQuantitySold(farmActivityDetails.getQuantitySold());
         farmActivity.setQuantityHarvested(farmActivityDetails.getQuantityHarvested());
+        farmActivity.setPostHarvestLoss(farmActivityDetails.getFamilyConsumption());
         farmActivity.setAverageSellingPrice(farmActivityDetails.getAverageSellingPrice());
+        farmActivity.setFamilyConsumption(farmActivityDetails.getFamilyConsumption());
         farmActivity.setFarmer(em.getReference(Person.class, farmActivityDetails.getFarmer().getId()));
 
         try {
@@ -140,7 +148,9 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
 
         FarmActivityDetails farmActivityDetails = new FarmActivityDetails(farmActivity.getId());
         farmActivityDetails.setAverageSellingPrice(farmActivity.getAverageSellingPrice());
+        farmActivityDetails.setFamilyConsumption(farmActivity.getFamilyConsumption());
         farmActivityDetails.setQuantityHarvested(farmActivity.getQuantityHarvested());
+        farmActivityDetails.setPostHarvestLoss(farmActivity.getPostHarvestLoss());
         farmActivityDetails.setQuantitySold(farmActivity.getQuantitySold());
         farmActivityDetails.setName(farmActivity.getName());
         farmActivityDetails.setYield(farmActivity.getYield());
