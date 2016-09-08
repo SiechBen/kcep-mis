@@ -155,6 +155,32 @@ public class WarehouseController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+
+                    PersonDetails nationalOfficer = (PersonDetails) session.getAttribute("person");
+
+                    List<SubCountyDetails> subCounties;
+                    try {
+                        subCounties = subCountyService.retrieveSubCounties(nationalOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
+                        return;
+                    }
+
+                    List<WardDetails> wards = new ArrayList<>();
+                    if (subCounties != null) {
+
+                        for (SubCountyDetails subCounty : subCounties) {
+                            try {
+                                wards.addAll(wardService.retrieveWards(subCounty.getId()));
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                                return;
+                            }
+                        }
+                    }
+
+                    session.setAttribute("subCounties", subCounties);
+                    session.setAttribute("wards", wards);
                     break;
 
                 case "/ward_warehouses":
@@ -200,29 +226,25 @@ public class WarehouseController extends Controller {
                         session.setAttribute("warehouses", warehouses);
                     }
 
-                    List<SubCountyDetails> subCounties;
                     try {
                         subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
+                        session.setAttribute("subCounties", subCounties);
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
                         return;
                     }
 
-                    List<WardDetails> wards = new ArrayList<>();
                     if (subCounties != null) {
 
                         for (SubCountyDetails subCounty : subCounties) {
                             try {
-                                wards.addAll(wardService.retrieveWards(subCounty.getId()));
+                                wards = new ArrayList<>();
+                                session.setAttribute("wards", wardService.retrieveWards(subCounty.getId()));
                             } catch (MilesException ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
                                 return;
                             }
                         }
-
-                        session.setAttribute("subCounties", subCounties);
-                        session.setAttribute("wards", wards);
-                        
                     }
 
                     try {
@@ -279,6 +301,7 @@ public class WarehouseController extends Controller {
                 case "/ward_addWarehouse":
                 case "/county_addWarehouse":
                 case "/sub_county_addWarehouse":
+
                     break;
 
                 case "/doAddWarehouse":
@@ -334,7 +357,7 @@ public class WarehouseController extends Controller {
                     } catch (Exception e) {
                         warehouseOperator = null;
                     }
-                    
+
                     WarehouseTypeDetails warehouseType = new WarehouseTypeDetails();
                     try {
                         warehouseType.setId(Short.valueOf(String.valueOf(request.getParameter("warehouseType"))));
@@ -348,7 +371,7 @@ public class WarehouseController extends Controller {
                     } catch (Exception e) {
                         warehouse.setCapacity(null);
                     }
-                    
+
                     warehouse.setCertified(Boolean.valueOf(String.valueOf(request.getParameter("certified"))));
                     warehouse.setOffersWrs(Boolean.valueOf(String.valueOf(request.getParameter("offersWrs"))));
                     warehouse.setName(String.valueOf(request.getParameter("name")));
@@ -381,7 +404,7 @@ public class WarehouseController extends Controller {
                     "Request dispatch to forward to: {0}", destination);
             try {
                 request.getRequestDispatcher(destination).forward(request, response);
-            } catch (ServletException | IOException e) {
+            } catch (ServletException | IOException e) {    
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
                 LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);

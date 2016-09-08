@@ -1,4 +1,5 @@
 var language = "en";
+
 //<editor-fold defaultstate="collapsed" desc="Metis menu">
 $(function () {
     $('#side-menu').metisMenu();
