@@ -725,7 +725,7 @@ $("#e-voucher-form").ajaxForm({
         $("#e-voucher-person").val("");
         $("#date-redeemed").val("");
         $("#inputs-loogbook-page").val("");
-        loadAjaxWindow('eVouchers');
+        loadAjaxWindow('eEVouchers');
         return;
     },
     error: function (response) {
@@ -733,11 +733,13 @@ $("#e-voucher-form").ajaxForm({
     }
 });
 
-function editVoucher(id, amount, type, name, date) {
+function editEVoucher(id, amount, inputType, person, dateRedeemed) {
+    $("#e-voucher-input-type").val(inputType);
+    $("#date-redeemed").val(dateRedeemed);
+    $("#e-voucher-input-type option[value=" + inputType + "]").attr('selected', 'selected');
+    $("#e-voucher-person option[value=" + person + "]").attr('selected', 'selected');
     $("#e-voucher-amount").val(amount);
-    $("#e-voucher-input-type").val(type);
-    $("#e-voucher-person").val(name);
-    $("#date-redeemed").val(date);
+    $("#e-voucher-person").val(person);
     $("#evouchers-dialog").dialog({
         width: 495,
         height: "auto",
@@ -747,16 +749,16 @@ function editVoucher(id, amount, type, name, date) {
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editVoucher",
+                    url: "doEditEVoucher",
                     type: "POST",
                     data: "id=" + id +
-                            "&e-voucher-amount=" + $("#e-voucher-amount").val() +
-                            "&e-voucher-input-type=" + $("#e-voucher-input-type").val() +
-                            "&e-voucher-person=" + $("#e-voucher-person").val(name) +
-                            "&date-redeemed=" + $("#date-redeemed").val(date),
+                            "&amount=" + $("#e-voucher-amount").val() +
+                            "&person=" + $("#e-voucher-person").val() +
+                            "&dateRedeemed=" + $("#date-redeemed").val() +
+                            "&inputType=" + $("#e-voucher-input-type").val(),
                     success: function (response) {
-                        $("#e-voucher-amount").val("");
                         $("#e-voucher-input-type").val("");
+                        $("#e-voucher-amount").val("");
                         $("#e-voucher-person").val("");
                         $("#date-redeemed").val("");
                         loadAjaxWindow("head_procurements");
@@ -1587,7 +1589,8 @@ function editActivityName(id, name) {
                     data: "name=" + $("#name").val() + "&id=" + id,
                     success: function (response) {
                         $("#name").val("");
-                        $("table #activity-name-table tbody").html(response);
+                        alert(response);
+                        $("table#activity-name-table tbody").html(response);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1706,5 +1709,4 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         }
     });
 }
-
 //</editor-fold>

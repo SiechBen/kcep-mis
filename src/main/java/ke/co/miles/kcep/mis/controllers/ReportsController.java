@@ -178,7 +178,7 @@ public class ReportsController extends Controller {
                                 summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId()));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 

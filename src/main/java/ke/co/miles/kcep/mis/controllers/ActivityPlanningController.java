@@ -254,7 +254,7 @@ public class ActivityPlanningController extends Controller {
                     try {
                         activity = new ActivityNameDetails(Short.valueOf(request.getParameter("id")));
                         activity.setName(request.getParameter("name"));
-                        activityNameService.addActivityName(activity);
+                        activityNameService.editActivityName(activity);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -658,11 +658,11 @@ public class ActivityPlanningController extends Controller {
             } else {
                 out.write("<tr>");
             }
-            out.write("<td>" + ++index + "</td>\n"
-                    + "<td class=\"pointable\" onclick=\"loadSubActivityNamesWindow('" + activityName.getId() + "'}>" + activityName.getName() + "}</td>\n"
-                    + "<td><button onclick=\"editActivityName('" + activityName.getId() + "','" + activityName.getName() + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>"
-                    + "<td><button onclick=\"deleteActivityName('" + activityName.getId() + "')\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>"
-                    + "</tr>");
+            out.write(" <td>" + ++index + "</td>\n"
+                    + "                                            <td class=\"pointable\" onclick=\"loadSubActivityNamesWindow(" + activityName.getId() + ")\">" + activityName.getName() + "</td>\n"
+                    + "                                            <td><button onclick=\"editActivityName('" + activityName.getId() + "', '" + activityName.getName() + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
+                    + "                                            <td><button onclick=\"deleteActivityName('" + activityName.getId() + "')\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>\n"
+                    + "                                        </tr>");
         }
     }
     //</editor-fold>

@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,8 +105,6 @@ public class EVoucherController extends Controller {
 
                 case "/equity_eVouchers":
                 case "/head_eVouchers":
-                    //Retrieve the list of eVouchers
-                    LOGGER.log(Level.INFO, "Retrieving the list of eVouchers");
                     List<EVoucherDetails> eVouchers;
                     try {
                         eVouchers = eVoucherService.retrieveEVouchers();
@@ -116,8 +115,6 @@ public class EVoucherController extends Controller {
                         return;
                     }
 
-                    //Avail the eVoucher in the application scope
-                    LOGGER.log(Level.INFO, "Avail the eVoucher in the application scope");
                     if (eVouchers != null) {
                         for (EVoucherDetails eVoucherDetails : eVouchers) {
                             if (eVoucherDetails.getInputsLogbookPage() != null) {
@@ -131,11 +128,7 @@ public class EVoucherController extends Controller {
                         }
                         session.setAttribute("eVouchers", eVouchers);
                     }
-                    break;
 
-                case "/equity_addEVoucher":
-                case "/head_addEVoucher":
-                    //Retrieve the list of people
                     List<PersonDetails> people;
                     try {
                         people = personService.retrievePeople();
@@ -146,12 +139,10 @@ public class EVoucherController extends Controller {
                         return;
                     }
 
-                    //Avail the people in the application scope
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
 
-                    //Retrieve the list of input types
                     List<InputTypeDetails> inputTypes;
                     try {
                         inputTypes = inputTypeService.retrieveInputTypes();
@@ -162,7 +153,6 @@ public class EVoucherController extends Controller {
                         return;
                     }
 
-                    //Avail the people in the application scope
                     if (inputTypes != null) {
                         session.setAttribute("inputTypes", inputTypes);
                     }
@@ -259,7 +249,7 @@ public class EVoucherController extends Controller {
 
                     inputType = new InputTypeDetails();
                     try {
-                        inputType.setId(Short.valueOf(String.valueOf(request.getParameter("input-type"))));
+                        inputType.setId(Short.valueOf(String.valueOf(request.getParameter("inputType"))));
                     } catch (Exception e) {
                         inputType = null;
                     }
@@ -279,7 +269,7 @@ public class EVoucherController extends Controller {
                     eVoucher.setPerson(person);
 
                     try {
-                        date = userDateFormat.parse(request.getParameter("date-redeemed"));
+                        date = userDateFormat.parse(request.getParameter("dateRedeemed"));
 
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
 
@@ -291,37 +281,41 @@ public class EVoucherController extends Controller {
                         eVoucher.setDateRedeemed(null);
                     }
 
-                    context = getServletContext();
-                    realPath = context.getRealPath("/");
-                    filePath = realPath + "documents" + fileSeparator + "eVoucher" + fileSeparator + "inputs_logbook_pages";
-                    filePart = request.getPart("inputs-loogbook-page");
-                    fileName = getFileName(filePart);
-
-                    try {
-                        filePath = filePath + fileSeparator + fileName;
-                        new File(filePath).getParentFile().mkdirs();
-
-                        outStream = new FileOutputStream(filePath);
-                        inStream = filePart.getInputStream();
-
-                        final int startOffset = 0;
-                        final byte[] buffer = new byte[4096];
-                        while (inStream.read(buffer) > 0) {
-                            outStream.write(buffer, startOffset, buffer.length);
-                        }
-
-                        eVoucher.setInputsLogbookPage(filePath);
-                        outStream.close();
-
-                    } catch (FileNotFoundException e) {
-                        eVoucher.setInputsLogbookPage(null);
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
-                    }
-
+//<editor-fold defaultstate="collapsed" desc="attachment">
+                    //                    context = getServletContext();
+//                    realPath = context.getRealPath("/");
+//                    filePath = realPath + "documents" + fileSeparator + "eVoucher" + fileSeparator + "inputs_logbook_pages";
+//                    filePart = request.getPart("inputs-loogbook-page");
+//                    fileName = getFileName(filePart);
+//
+//                    try {
+//                        filePath = filePath + fileSeparator + fileName;
+//                        new File(filePath).getParentFile().mkdirs();
+//
+//                        outStream = new FileOutputStream(filePath);
+//                        inStream = filePart.getInputStream();
+//
+//                        final int startOffset = 0;
+//                        final byte[] buffer = new byte[4096];
+//                        while (inStream.read(buffer) > 0) {
+//                            outStream.write(buffer, startOffset, buffer.length);
+//                        }
+//
+//                        eVoucher.setInputsLogbookPage(filePath);
+//                        outStream.close();
+//
+//                    } catch (FileNotFoundException e) {
+//                        eVoucher.setInputsLogbookPage(null);
+//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+//                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+//                    }
+//</editor-fold>
                     try {
                         eVoucherService.editEVoucher(eVoucher);
+                        eVouchers = eVoucherService.retrieveEVouchers();
+                        session.setAttribute("eVouchers", eVouchers);
+                        updateEVoucherTable(response, eVouchers);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getMessage()));
@@ -368,5 +362,27 @@ public class EVoucherController extends Controller {
     private PersonRequestsLocal personService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
+
+    //<editor-fold defaultstate="collapsed" desc="Update tables">
+    private void updateEVoucherTable(HttpServletResponse response, List<EVoucherDetails> eVouchers) throws IOException {
+        PrintWriter out = response.getWriter();
+        int index = 0;
+        for (EVoucherDetails eVoucher : eVouchers) {
+            if (index % 2 == 0) {
+                out.write("<tr class=\"odd\">");
+            } else {
+                out.write("<tr>");
+            }
+            out.write(" <td>${index.count}</td>\n"
+                    + "                                    <td>${eVoucher.amount}</td>\n"
+                    + "                                    <td>${eVoucher.inputType.type}</td>\n"
+                    + "                                    <td>${eVoucher.person.name}</td>\n"
+                    + "                                    <td>${eVoucher.dateRedeemed}</td>\n"
+                    + "                                    <td><a onclick=\"loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')\" target=\"_blank\">${eVoucher.fileName}</a></td>\n"
+                    + "                                    <td><button onclick=\"editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '${eVoucher.dateRedeemed}')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
+                    + "                                    <td><button onclick=\"deleteVoucher(${eVoucher.id})\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>");
+        }
+    }
+//</editor-fold>
 
 }

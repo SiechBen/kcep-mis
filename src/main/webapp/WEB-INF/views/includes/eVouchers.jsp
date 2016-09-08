@@ -43,7 +43,7 @@
                                     <td>${eVoucher.person.name}</td>
                                     <td>${eVoucher.dateRedeemed}</td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
-                                    <td><button onclick="editVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.type}', '${eVoucher.person.name}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -60,7 +60,6 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-
                     <div class="form-group">
                         Amount
                         <input id="e-voucher-amount" name="amount" class="form-control">
@@ -85,7 +84,6 @@
                         Date redeemed
                         <input id="date-redeemed" name="date-redeemed" class="form-control datefield">
                     </div>
-
                 </form>
             </div>
         </div>
