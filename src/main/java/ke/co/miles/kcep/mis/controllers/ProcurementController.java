@@ -123,7 +123,7 @@ public class ProcurementController extends Controller {
                     procurement.setTargetOffice(String.valueOf(request.getParameter("target-office")));
                     procurement.setLpoNumber(String.valueOf(request.getParameter("lpo-number")));
                     procurement.setSerialNumber(String.valueOf(request.getParameter("serial-number")));
-                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-procurementd")));
+                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-purchased")));
 
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
@@ -224,7 +224,7 @@ public class ProcurementController extends Controller {
                     procurement.setTargetOffice(String.valueOf(request.getParameter("target-office")));
                     procurement.setLpoNumber(String.valueOf(request.getParameter("lpo-number")));
                     procurement.setSerialNumber(String.valueOf(request.getParameter("serial-number")));
-                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-procurementd")));
+                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-purchased")));
 
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
@@ -304,7 +304,7 @@ public class ProcurementController extends Controller {
                     }
 
                     return;
-                    
+
                 case "/doDeleteProcurement":
                     try {
                         procurementService.removeProcurement(Integer.valueOf(request.getParameter("id")));

@@ -35,11 +35,8 @@
                                         <th>Sub-county</th>
                                         <th>LPO number</th>
                                         <th>Attachments (e.g. invoice or receipt)</th>
-<<<<<<< HEAD
                                         <th>&nbsp;</th>
                                         <th>&nbsp;</th>
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -61,11 +58,8 @@
                                             <td>${procurement.subCounty}</td>
                                             <td>${procurement.lpoNumber}</td>
                                             <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
-<<<<<<< HEAD
-                                            <td><button onclick="editProcurement('${procuremet.id}', '${procurement.item}', '${procurement.cost}','${procurement.datePurchased}','${procurement.serialNumber}','${procurement.description}', '${procurement.targetOffice}','${procurement.county.name}', '${procurement.subCounty}','${procurement.lpoNumber}' )"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                            <td><button onclick="editProcurement('${procuremet.id}', '${procurement.item}', '${procurement.cost}', '${procurement.datePurchased}', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.name}', '${procurement.subCounty}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                             <td><button onclick="deleteProcurement(${procuremet.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
-=======
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -75,13 +69,12 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-    <div class="dialog" id="procurements-dialog">
-        <div class="col-lg-12">
-            <div class="panel-default">
-                <div class="panel-body">
-                    <form role="form">
-                        <div class="form-group">
+        <div class="dialog" id="procurements-dialog">
+            <div class="col-lg-12">
+                <div class="panel-default">
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
                                 Item
                                 <input id="item" name="item" class="form-control">
                             </div>
@@ -125,14 +118,10 @@
                                 LPO number
                                 <input id="lpo-number" name="lpo-number" class="form-control">
                             </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-        </jsp:attribute>
-=======
-
     </jsp:attribute>
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
 </kcep:head>
