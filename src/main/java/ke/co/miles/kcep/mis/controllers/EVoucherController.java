@@ -329,7 +329,7 @@ public class EVoucherController extends Controller {
                     }
                     return;
 
-                case "/doDeleteEvoucher":
+                case "/doDeleteEVoucher":
                     try {
                         eVoucherService.removeEVoucher(Integer.valueOf(request.getParameter("id")));
                     } catch (MilesException e) {

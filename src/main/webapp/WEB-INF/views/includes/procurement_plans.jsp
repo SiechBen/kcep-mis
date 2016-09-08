@@ -66,8 +66,14 @@
                                     <td>${procurementPlan.approvalBySdaOrAg}</td>
                                     <td>${procurementPlan.signContract}</td>
                                     <td>${procurementPlan.commenceContract}</td>
-                                    <td><button onclick="doeditProcurement_plans('${procurementPlan.id}', '${procurementPlan.procurementPlanType.type}', '${procurementPlan.description}', '${procurementPlan.ifadPriorReview.choice}', '${procurementPlan.planVsActual.choice}', '${procurementPlan.cost}', '${procurementPlan.procurementMethod.method}${procurementPlan.completeBd}', '${procurementPlan.approvalByIfad1}', '${procurementPlan.approvalBySda}', '${procurementPlan.issueBd}', '${procurementPlan.receiveBids}', '${procurementPlan.evaluateBids}', '${procurementPlan.approvalByIfad2}', '${procurementPlan.award}', '${procurementPlan.approvalBySdaOrAg}', '${procurementPlan.signContract}', '${procurementPlan.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="dodeleteProcurement_plans(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.type}',
+                                                '${procurementPlan.description}','${procurementPlan.ifadPriorReview.choice}','${procurementPlan.planVsActual.choice}',
+                                                '${procurementPlan.cost}','${procurementPlan.procurementMethod.method}','${procurementPlan.completeBd}',
+                                                '${procurementPlan.approvalByIfad1}','${procurementPlan.approvalBySda}','${procurementPlan.issueBd}',
+                                                '${procurementPlan.receiveBids}','${procurementPlan.evaluateBids}','${procurementPlan.approvalByIfad2}',
+                                                '${procurementPlan.award}','${procurementPlan.approvalBySdaOrAg}','${procurementPlan.signContract}',
+                                                '${procurementPlan.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deleteProcurementPlan(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

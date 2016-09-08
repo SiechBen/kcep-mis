@@ -175,7 +175,7 @@
                                         <td>${farmActivity.postHarvestLoss}</td>
                                         <td>${farmActivity.averageSellingPrice}</td>
                                         <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '${farmActivity.dateDone}', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteFarmActivity('${farmActivity.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

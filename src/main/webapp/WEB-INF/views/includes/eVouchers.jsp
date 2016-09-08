@@ -16,7 +16,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover data-table">
+                    <table class="table table-striped table-bordered table-hover data-table" id="e-voucher-table">
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEVoucher')">Add</button></th>
@@ -43,8 +43,8 @@
                                     <td>${eVoucher.person.name}</td>
                                     <td>${eVoucher.dateRedeemed}</td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
-                                    <td><button onclick="editVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.type}', '${eVoucher.person.name}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deleteVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.type}', '${eVoucher.person.name}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deleteEVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -55,7 +55,7 @@
     </div>
 </div>
 
-<div class="row dialog" id="evouchers-dialog">
+<div class="row dialog" id="evoucher-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">

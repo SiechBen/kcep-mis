@@ -600,7 +600,7 @@ function updateCounts() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Training">
-$("#training-form").ajaxForm({
+$("#training").ajaxForm({
     success: function () {
         $("#start-date").val("");
         $("#end-date").val("");
@@ -706,6 +706,40 @@ function editTraining(id, startDate, endDate, topic, county, subCounty, ward, nu
         }
     });
 }
+
+function deleteTraining(id) {
+    $("#message").text("Are you sure you want to remove this Training?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_training",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteTraining",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#training-table tbody").html(response);
+
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
@@ -723,7 +757,8 @@ $("#e-voucher-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-function editVoucher(id, amount, type, name, date) {
+
+function editEVoucher(id, amount, type, name, date) {
     $("#e-voucher-amount").val(amount);
     $("#e-voucher-input-type").val(type);
     $("#e-voucher-person").val(name);
@@ -769,6 +804,39 @@ function editVoucher(id, amount, type, name, date) {
     });
 }
 
+function deleteEVoucher(id) {
+    $("#message").text("Are you sure you want to remove this e-voucher?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_e_voucher",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteEVoucher",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#e-voucher-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Procurement">
@@ -791,7 +859,8 @@ $("#procurement-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-function editProcurement(id, item, cost, date, serial, description, office, county, subcounty) {
+
+function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
     $("#item").val(item);
     $("#cost").val(cost);
     $("#date-purchased").val(date);
@@ -800,7 +869,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
     $("#target-office").val(office);
     $("#county").val(county);
     $("#sub-county").val(subcounty);
-    $("#lpo-number").val(subcounty);
+    $("#lpo-number").val(lpoNumber);
     $("#procurements-dialog").dialog({
         width: 495,
         height: "auto",
@@ -855,6 +924,39 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         }
     });
 }
+function deleteProcuremenet(id) {
+    $("#message").text("Are you sure you want to remove this procurement?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_procurement",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteProcurement",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#procurement-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
@@ -889,6 +991,38 @@ function addWarehouse() {
             showError("error_label", response.responseText);
         },
         dataType: "HTML"
+    });
+}
+function deleteWarehouse(id) {
+    $("#message").text("Are you sure you want to remove this warehouse?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_warehouse",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteWarehouse",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#warehouse-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
     });
 }
 
@@ -973,6 +1107,39 @@ function addEquipment(warehouseId) {
         dataType: "HTML"
     });
 }
+function deleteEquipment(id) {
+    $("#message").text("Are you sure you want to remove this equipment?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_equipment",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteEquipment",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#equipment-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Feedback">
@@ -1140,6 +1307,114 @@ function addProcurementPlan() {
         , dataType: "HTML"
     });
 }
+function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planVsActualchoice,
+        description, cost, method, completeBd, approvalByIfad1, approvalBySda, issueBd, receiveBids
+        , evaluateBids, approvalByIfad2, award, approvalBySdaOrAg, signContract, commenceContract) {
+    $("#type").val(type);
+    $("#description").val(description);
+    $("#ifadPriorReviewchoice").val(ifadPriorReviewchoice);
+    $("#planVsActualchoice").val(planVsActualchoice);
+    $("#description").val(description);
+    $("#cost").val(cost);
+    $("#county").val(county);
+    $("#method").val(method);
+    $("#completeBd").val(approvalByIfad1);
+    $("#approvalBySda").val(approvalBySda);
+    $("#issueBd").val(issueBd);
+    $("#evaluateBids").val(evaluateBids);
+    $("#approvalByIfad2").val(approvalByIfad2);
+    $("#award").val(award);
+    $("#approvalBySdaOrAg").val(approvalBySdaOrAg);
+    $("#signContract").val(signContract);
+    $("#commenceContract").val(commenceContract);
+
+    $("#procurements-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_procurement_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "editProcurement",
+                    type: "POST",
+                    data:
+                            "type=" + $("#type").val() +
+                            "&cost=" + $("#cost").val() +
+                            "&date-purchased=" + $("#date-purchased").val() +
+                            "&serial-number=" + $("#serial-number").val() +
+                            "&description=" + $("#description").val() +
+                            "&target-office=" + $("#target-office").val() +
+                            "&procurement-county=" + $("#procurement-county").val() +
+                            "&procurement-sub-county=" + $("#procurement-sub-county").val() +
+                            "&lpo-number=" + $("#lpo-number").val(),
+                    success: function (response) {
+                        $("#item").va("");
+                        $("#cost").val("");
+                        $("#date-purchased").val("");
+                        $("#serial-number").val("");
+                        $("#description").val("");
+                        $("#target-office").val("");
+                        $("#procurement-county").val("");
+                        $("#procurement-sub-county").val("");
+                        $("#lpo-number").val("");
+                        loadAjaxWindow("head_procurements");
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#item").va("");
+            $("#cost").val("");
+            $("#date-purchased").val("");
+            $("#serial-number").val("");
+            $("#description").val("");
+            $("#target-office").val("");
+            $("#procurement-county").val("");
+            $("#procurement-sub-county").val("");
+            $("#lpo-number").val("");
+        }
+    });
+}
+function deleteProcurementPlan(id) {
+    $("#message").text("Are you sure you want to remove this procurement plan?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_procurement_plan",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteProcurementPlan",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#procurement-plan-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Procurement plan -cs">
@@ -1210,6 +1485,39 @@ function addProcurementPlanCs() {
         , dataType: "HTML"
     });
 }
+function deleteProcurementPlanCs(id) {
+    $("#message").text("Are you sure you want to remove this procurement plan cs?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_procurement_plan_cs",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteProcurementPlanCs",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#procurement-plan-cs-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 
 function doEditProcurementPlansCs(id, type, description,
         planVsActual, cost, method, submitTor, completeReoi, completeBd,
@@ -1386,6 +1694,39 @@ function addPerformanceIndicator() {
         dataType: "HTML"
     });
 }
+function deletePerformanceIndicator(id) {
+    $("#message").text("Are you sure you want to remove this performance indicator?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_performance_indicator",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeletePerformanceIndicator",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#performance-indicator-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm">
@@ -1556,7 +1897,7 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
     $("#farm-activity-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_post_harvest_loss",
+        title: "edit_farm_activity",
         modal: true,
         resizable: false,
         buttons: {
@@ -1601,6 +1942,39 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
             $("#quantity-harvested").val("");
             $("#family-consumption").val("");
             $("#average-selling-price").val("");
+        }
+    });
+}
+
+function deleteFarmActivity(id) {
+    $("#message").text("Are you sure you want to remove this farm activity?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_farm_activity",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteFarmActivity",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
         }
     });
 }
@@ -1732,6 +2106,39 @@ function editActivityName(id, name) {
         }
     });
 }
+function deleteActivityName(id) {
+    $("#message").text("Are you sure you want to remove this activity name?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_activity_name",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteActivityName",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#activity-name-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity name">
@@ -1789,6 +2196,39 @@ function addFinancialYear() {
         dataType: "HTML"
     });
 }
+function deleteFinancialYear(id) {
+    $("#message").text("Are you sure you want to remove this financial year?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_financial_yaer",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteFinancialYear",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#financial-yaer-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Account">
@@ -1833,6 +2273,42 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
             $("#sol-id").val("");
             $("#change").val("");
             $("#savings").val("");
+        }
+    });
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Activity planning">
+function deleteActivityPlanning(id) {
+    $("#message").text("Are you sure you want to remove this activity planning?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_activity_planning",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteActivityPlanning",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#activity-planning-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
         }
     });
 }
