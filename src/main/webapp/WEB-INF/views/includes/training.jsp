@@ -17,7 +17,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table id="training-form-table" class="table table-striped table-bordered table-hover data-table">
+                    <table id="training-table" class="table table-striped table-bordered table-hover data-table">
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addTraining')">Add</button></th>
