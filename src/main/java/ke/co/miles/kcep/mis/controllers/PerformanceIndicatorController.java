@@ -123,45 +123,25 @@ public class PerformanceIndicatorController extends Controller {
                 case "/county_performance_indicators":
                 case "/region_performance_indicators":
 
-                    List<PerformanceIndicatorDetails> performanceIndicators;
                     try {
-                        performanceIndicators = performanceIndicatorService.retrievePerformanceIndicators();
+                        session.setAttribute("performanceIndicators", performanceIndicatorService.retrievePerformanceIndicators());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during performance indicator retrieval", ex);
                         return;
                     }
 
-                    if (performanceIndicators != null) {
-                        session.setAttribute("performanceIndicators", performanceIndicators);
-                    }
-                    break;
-
-                case "/head_addPerformanceIndicator":
-                case "/county_addPerformanceIndicator":
-                case "/region_addPerformanceIndicator":
-
-                    List<PerformanceIndicatorTypeDetails> performanceIndicatorTypes;
                     try {
-                        performanceIndicatorTypes = performanceIndicatorTypeService.retrievePerformanceIndicatorTypes();
+                        session.setAttribute("performanceIndicatorTypes", performanceIndicatorTypeService.retrievePerformanceIndicatorTypes());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of performance indicator types ", ex);
                         return;
                     }
 
-                    if (performanceIndicatorTypes != null) {
-                        session.setAttribute("performanceIndicatorTypes", performanceIndicatorTypes);
-                    }
-
-                    List<ResultHierarchyDetails> resultHierarchies;
                     try {
-                        resultHierarchies = resultHierarchyService.retrieveResultHierarchies();
+                        session.setAttribute("resultHierarchies", resultHierarchyService.retrieveResultHierarchies());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of result hierarchies ", ex);
                         return;
-                    }
-
-                    if (resultHierarchies != null) {
-                        session.setAttribute("resultHierarchies", resultHierarchies);
                     }
 
                     break;

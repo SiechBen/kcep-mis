@@ -58,7 +58,7 @@
                                     <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
                                     <td>${training.categoryOfTrainees.category.name}</td>
                                     <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
-                                    <td><button onclick="editTraining('${training.id}', '${training.startDate}', '${training.endDate}', '${training.topic.topic}', '${training.venue.county.name}', '${training.venue.subCounty.name}', '${training.venue.ward.name}', '${training.numberOfTrainees}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editTraining('${training.id}', '${training.startDate}', '${training.endDate}', '${training.topic.topic}','${training.venue.id}', '${training.venue.county.name}', '${training.venue.subCounty.name}', '${training.venue.ward.name}', '${training.numberOfTrainees}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteTraining(${training.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

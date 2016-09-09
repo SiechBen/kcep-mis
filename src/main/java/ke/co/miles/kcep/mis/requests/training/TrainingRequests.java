@@ -100,12 +100,17 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setId(trainingDetails.getId());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
-        training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
+        if (training.getAttendanceSheet() != null) {
+            training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
+        }
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         if (training.getTopic() != null) {
             training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
-        training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
+        try {
+            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
+        } catch (Exception e) {
+        }
         if (trainingDetails.getCategoryOfTrainees() != null) {
             training.setCategoryOfTrainees(em.getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
         }

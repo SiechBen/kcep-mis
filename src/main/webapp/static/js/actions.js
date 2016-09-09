@@ -755,10 +755,10 @@ function showTrainees(trainingId) {
     });
 }
 
-function editTraining(id, startDate, endDate, topic, county, subCounty, ward, numberOfTrainees) {
+function editTraining(id, startDate, endDate, topic, location, county, subCounty, ward, numberOfTrainees) {
 
-    $("#start-date").val(startDate);
-    $("#end-date").val(endDate);
+    $("#start-date").val(startDate.replace(/-/g, "/"));
+    $("#end-date").val(endDate.replace(/-/g, "/"));
     $("#topic").val(topic);
     $("#county").val(county);
     $("#sub-county").val(subCounty);
@@ -773,13 +773,13 @@ function editTraining(id, startDate, endDate, topic, county, subCounty, ward, nu
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editTraining",
+                    url: "doEditTraining",
                     type: "POST",
-                    data: "startDate=" + $("#start-date").val() + "&endDate=" +
+                    data: "start-date=" + $("#start-date").val() + "&end-date=" +
                             $("#end-date").val() + "&topic=" + $("#topic").val()
                             + "&county=" + $("#county").val() + "&sub-county="
-                            + $("#sub-county").val() + "&ward="
-                            + $("#ward").val() + "&numberofTrainees="
+                            + $("#sub-county").val() + "&location=" + location + "&ward="
+                            + $("#ward").val() + "&number-of-trainees="
                             + $("#number-of-trainees").val() + "&id=" + id,
                     success: function () {
                         $("#start-date").val("");
@@ -854,7 +854,7 @@ $("#e-voucher-form").ajaxForm({
         $("#e-voucher-person").val("");
         $("#date-redeemed").val("");
         $("#inputs-loogbook-page").val("");
-        loadAjaxWindow('eEVouchers');
+        loadAjaxWindow('EVouchers');
         return;
     },
     error: function (response) {
@@ -911,7 +911,7 @@ function editEVoucher(id, amount, inputType, person, dateRedeemed) {
     });
 }
 
-function deleteEVoucher(id) {
+function deletEVoucher(id) {
     $("#message").text("Are you sure you want to remove this e-voucher?");
     $("#message-dialog").dialog({
         width: 495,
@@ -922,7 +922,7 @@ function deleteEVoucher(id) {
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteEVoucher",
+                    url: "doDeletEVoucher",
                     type: "POST",
                     data: "id=" + id,
                     success: function (response) {
@@ -1101,6 +1101,78 @@ function addWarehouse() {
         dataType: "HTML"
     });
 }
+
+function editWarehouse(id, name, capacity, units, offers, certification, subCounty, county, latitude, longitude, operator) {
+    $("#warehouse-name").val(name);
+    $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
+    $("#capacity").val(capacity);
+    $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
+    $("#offers-wrs").val(offers);
+    $("#certified").val(certification);
+    $("#warehouse-latitude").val(latitude);
+    $("#warehouse-longitude").val(longitude);
+    $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
+    $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    $("#warehouse-type option[value=" + operator + "]").val(operator);
+    $("#warehouse-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_warehouse_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditWarehouse",
+                    type: "POST",
+                    data: "id=" + id + "&name=" + $("#warehouse-name").val() +
+                            "&warehouseOperator=" + $("#warehouse-operator").val() +
+                            "&capacity=" + $("#capacity").val() +
+                            "&capacityUnits=" + $("#capacity-units").val() +
+                            "&offersWrs=" + $("#offers-wrs").val() +
+                            "&certified=" + $("#certified").val() +
+                            "&latitude=" + $("#warehouse-latitude").val() +
+                            "&longitude=" + $("#warehouse-longitude").val() +
+                            "&county=" + $("#warehouse-county").val() +
+                            "&subCounty=" + $("#warehouse-sub-county").val() +
+                            "&warehouseType=" + $("#warehouse-type").val(),
+                    success: function (response) {
+                        $("#warehouse-name").val("");
+                        $("#warehouse-operator").val("");
+                        $("#capacity").val("");
+                        $("#capacity-units").val("");
+                        $("#offers-wrs").val("");
+                        $("#certified").val("");
+                        $("#warehouse-latitude").val("");
+                        $("#warehouse-longitude").val("");
+                        $("#warehouse-county").val("");
+                        $("#warehouse-sub-county").val("");
+                        $("#warehouse-type").val("");
+                        $("#warehouse").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#warehouse-name").val("");
+            $("#warehouse-operator").val("");
+            $("#capacity").val("");
+            $("#capacity-units").val("");
+            $("#offers-wrs").val("");
+            $("#certified").val("");
+            $("#warehouse-latitude").val("");
+            $("#warehouse-longitude").val("");
+            $("#warehouse-county").val("");
+            $("#warehouse-sub-county").val("");
+            $("#warehouse-type").val("");
+        }
+    });
+}
 function deleteWarehouse(id) {
     $("#message").text("Are you sure you want to remove this warehouse?");
     $("#message-dialog").dialog({
@@ -1229,11 +1301,10 @@ function editEquipment(id, type, count, status) {
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doeditEquipment",
+                    url: "doEditEquipment",
                     type: "POST",
                     data:
-                            "&id=" + id +
-                            "&equipmentType=" + $("#equipment-type").val() +
+                            "id=" + id + "&equipmentType=" + $("#equipment-type").val() +
                             "&equipmentTotalCount=" + $("#equipment-total-count").val() +
                             "&equipmentStatus=" + $("#equipment-status").val(),
                     success: function (response) {
@@ -1491,8 +1562,8 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
                     url: "editProcurement",
                     type: "POST",
                     data:
-                            "&id=" + id +
-                            "procurementPlanType=" + $("#procurement-plan-type").val() +
+                            "id=" + id +
+                            "&procurementPlanType=" + $("#procurement-plan-type").val() +
                             "&description=" + $("#description").val() +
                             "&ifadPriorReview=" + $("#ifad-prior-review").val() +
                             "&planVsActual=" + $("#plan-vs-actual").val() +
@@ -1874,8 +1945,8 @@ function addPerformanceIndicator() {
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
         baselineDate, baselineValue, yearOfUse, actualValue, expectedValue, ratio) {
-    $("#performance-indicator-type").val(type);
-    $("#result-hierarchy").val(resultHierarchyDescription);
+    $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
+    $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
     $("#description").val(description);
     $("#baseline-date").val(baselineDate);
     $("#baseline-value").val(baselineValue);
@@ -1892,7 +1963,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editPerfomanceIndicator",
+                    url: "doEditPerfomanceIndicator",
                     type: "POST",
                     data:
                             "&id=" + id +

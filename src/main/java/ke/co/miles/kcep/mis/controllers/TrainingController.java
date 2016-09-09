@@ -718,7 +718,11 @@ public class TrainingController extends Controller {
                         ward = null;
                     }
 
-                    venue = new LocationDetails();
+                    try {
+                        venue = new LocationDetails(Integer.valueOf(request.getParameter("location")));
+                    } catch (Exception e) {
+                        venue = new LocationDetails();
+                    }
                     venue.setSubCounty(subCounty);
                     venue.setCounty(county);
                     venue.setWard(ward);
@@ -759,35 +763,34 @@ public class TrainingController extends Controller {
                         training.setEndDate(null);
                     }
 
-                    context = getServletContext();
-                    realPath = context.getRealPath("/");
-                    filePath = realPath + "documents" + fileSeparator + "training" + fileSeparator + "attendance_sheets";
-                    filePart = request.getPart("attendance-sheet");
-                    fileName = getFileName(filePart);
-
-                    try {
-                        filePath = filePath + fileSeparator + fileName;
-                        new File(filePath).getParentFile().mkdirs();
-
-                        outStream = new FileOutputStream(filePath);
-                        inStream = filePart.getInputStream();
-
-                        final int startOffset = 0;
-                        final byte[] buffer = new byte[1024];
-                        while (inStream.read(buffer) > 0) {
-                            outStream.write(buffer, startOffset, buffer.length);
-                        }
-
-                        training.setAttendanceSheet(filePath);
-                        outStream.close();
-
-                    } catch (FileNotFoundException e) {
-                        training.setAttendanceSheet(null);
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
-                    }
-
+//                    context = getServletContext();
+//                    realPath = context.getRealPath("/");
+//                    filePath = realPath + "documents" + fileSeparator + "training" + fileSeparator + "attendance_sheets";
+//                    filePart = request.getPart("attendance-sheet");
+//                    fileName = getFileName(filePart);
+//
+//                    try {
+//                        filePath = filePath + fileSeparator + fileName;
+//                        new File(filePath).getParentFile().mkdirs();
+//
+//                        outStream = new FileOutputStream(filePath);
+//                        inStream = filePart.getInputStream();
+//
+//                        final int startOffset = 0;
+//                        final byte[] buffer = new byte[1024];
+//                        while (inStream.read(buffer) > 0) {
+//                            outStream.write(buffer, startOffset, buffer.length);
+//                        }
+//
+//                        training.setAttendanceSheet(filePath);
+//                        outStream.close();
+//
+//                    } catch (FileNotFoundException e) {
+//                        training.setAttendanceSheet(null);
+//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+//                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+//                    }
                     trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
                     trainerRecords = new ArrayList<>();
                     for (String trainerCategoryId : trainerPersonIds) {
@@ -841,7 +844,7 @@ public class TrainingController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
                     }
-                    
+
                     return;
 
                 default:

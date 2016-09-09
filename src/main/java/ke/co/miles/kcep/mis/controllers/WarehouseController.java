@@ -55,10 +55,7 @@ public class WarehouseController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession();
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -477,7 +474,12 @@ public class WarehouseController extends Controller {
                         warehouseType = null;
                     }
 
-                    warehouse = new WarehouseDetails();
+                    try {
+                        warehouse = new WarehouseDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        warehouse = new WarehouseDetails();
+                    }
+
                     try {
                         warehouse.setCapacity(Integer.valueOf(String.valueOf(request.getParameter("capacity"))));
                     } catch (Exception e) {
@@ -497,7 +499,7 @@ public class WarehouseController extends Controller {
                     }
 
                     try {
-                        warehouseService.addWarehouse(warehouse);
+                        warehouseService.editWarehouse(warehouse);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
