@@ -786,20 +786,7 @@ public class ActivityPlanningController extends Controller {
                      annualIndicatorRecords = new ArrayList<>();
 
                     try {
-                        subActivity.setId(subActivityService.addSubActivity(subActivity));
-                        for (String annualIndicatorId : annualIndicatorIds) {
-                            PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
-                            annualIndicatorRecord = new AnnualIndicatorDetails();
-                            try {
-                                performanceIndicator.setId(Short.valueOf(annualIndicatorId));
-                                annualIndicatorRecord.setPerformanceIndicator(performanceIndicator);
-                                annualIndicatorRecord.setSubActivity(subActivity);
-                                annualIndicatorRecords.add(annualIndicatorRecord);
-                            } catch (Exception e) {
-                            }
-                        }
-                        annualIndicatorService.addAnnualIndicators(annualIndicatorRecords);
-
+                        subActivityService.editSubActivity(subActivity);                       
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -808,6 +795,19 @@ public class ActivityPlanningController extends Controller {
 
                     return;
 
+                    case "/doDeleteSubActivity":
+                    try {
+                        subActivityService.removeSubActivity(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                    }
+                    
+                    return;
+
+                    
+                    
                 default:
                     break;
             }

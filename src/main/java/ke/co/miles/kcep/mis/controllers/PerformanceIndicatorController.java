@@ -70,6 +70,8 @@ public class PerformanceIndicatorController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/doEditPerformanceIndicator");
+                            urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/head_performance_indicators";
                                 urlPaths.add(path);
@@ -82,6 +84,8 @@ public class PerformanceIndicatorController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/doEditPerformanceIndicator");
+                            urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/region_performance_indicators";
                                 urlPaths.add(path);
@@ -94,6 +98,8 @@ public class PerformanceIndicatorController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/doEditPerformanceIndicator");
+                            urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/county_performance_indicators";
                                 urlPaths.add(path);
@@ -239,12 +245,11 @@ public class PerformanceIndicatorController extends Controller {
                     }
 
                     break;
-                    
+
                 case "/doEditPerformanceIndicator":
 
                     //PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
-                    
-                     performanceIndicator = new PerformanceIndicatorDetails();
+                    performanceIndicator = new PerformanceIndicatorDetails();
                     try {
                         performanceIndicator.setId(Short.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
@@ -315,11 +320,22 @@ public class PerformanceIndicatorController extends Controller {
                     }
 
                     try {
-                        performanceIndicatorService.addPerformanceIndicator(performanceIndicator);
+                        performanceIndicatorService.editPerformanceIndicator(performanceIndicator);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, "", e);
+                    }
+
+                    return;
+
+                case "/doDeletePerformanceIndicator":
+                    try {
+                        performanceIndicatorService.removePerformanceIndicator(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
                     }
 
                     return;
