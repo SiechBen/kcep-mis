@@ -43,21 +43,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             throw new InvalidArgumentException("error_008_01");
         }
 
-        Warehouse warehouse;
-        if (warehouseDetails.getWarehouseOperator() != null) {
-            q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
-            q.setParameter("warehouseOperatorId", warehouseDetails.getWarehouseOperator().getId());
-            try {
-                warehouse = (Warehouse) q.getSingleResult();
-            } catch (Exception e) {
-                warehouse = null;
-            }
-            if (warehouse != null) {
-                throw new InvalidArgumentException("error_008_02");
-            }
-        }
-
-        warehouse = new Warehouse();
+        Warehouse warehouse = new Warehouse();
         warehouse.setOffersWrs(warehouseDetails.getOffersWrs());
         warehouse.setName(warehouseDetails.getName());
         warehouse.setCapacity(warehouseDetails.getCapacity());
@@ -177,26 +163,10 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             throw new InvalidArgumentException("error_008_01");
         }
         if (warehouseDetails.getId() == null) {
-            throw new InvalidArgumentException("error_008_03");
+            throw new InvalidArgumentException("error_008_02");
         }
 
-        Warehouse warehouse;
-        if (warehouseDetails.getWarehouseOperator() != null) {
-            q = em.createNamedQuery("Warehouse.findByWarehouseOperatorId");
-            q.setParameter("warehouseOperatorId", warehouseDetails.getWarehouseOperator().getId());
-            try {
-                warehouse = (Warehouse) q.getSingleResult();
-            } catch (Exception e) {
-                warehouse = null;
-            }
-            if (warehouse != null) {
-                if (!warehouse.getId().equals(warehouseDetails.getId())) {
-                    throw new InvalidArgumentException("error_008_02");
-                }
-            }
-        }
-
-        warehouse = em.find(Warehouse.class, warehouseDetails.getId());
+        Warehouse warehouse = em.find(Warehouse.class, warehouseDetails.getId());
         warehouse.setId(warehouseDetails.getId());
         warehouse.setOffersWrs(warehouseDetails.getOffersWrs());
         warehouse.setName(warehouseDetails.getName());
