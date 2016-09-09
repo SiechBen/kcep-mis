@@ -44,7 +44,7 @@
                                     <td>${eVoucher.dateRedeemed}</td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
                                     <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deleteVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="deleteEVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

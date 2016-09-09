@@ -96,7 +96,7 @@ $(function () {
         responsive: true,
         "scrollCollapse": true,
         dom: "Brt",
-        buttons: ['excel', 'colvis']
+        buttons: ['excel', 'print', 'colvis']
     });
 });
 //</editor-fold>
@@ -760,12 +760,12 @@ $("#e-voucher-form").ajaxForm({
 
 function editEVoucher(id, amount, inputType, person, dateRedeemed) {
     $("#e-voucher-input-type").val(inputType);
+    dateRedeemed = dateRedeemed.replace(/-/g, "/");
     $("#date-redeemed").val(dateRedeemed);
     $("#e-voucher-input-type option[value=" + inputType + "]").attr('selected', 'selected');
     $("#e-voucher-person option[value=" + person + "]").attr('selected', 'selected');
     $("#e-voucher-amount").val(amount);
-    $("#e-voucher-person").val(person);
-    $("#evouchers-dialog").dialog({
+    $("#evoucher-dialog").dialog({
         width: 495,
         height: "auto",
         title: "edit_evouchers_label",
@@ -786,7 +786,8 @@ function editEVoucher(id, amount, inputType, person, dateRedeemed) {
                         $("#e-voucher-amount").val("");
                         $("#e-voucher-person").val("");
                         $("#date-redeemed").val("");
-                        loadAjaxWindow("head_procurements");
+//                        loadAjaxWindow("eVouchers");
+                        $("table#e-voucher-table tbody").html(response);
                         return;
                     },
                     error: function (response) {
@@ -821,6 +822,7 @@ function deleteEVoucher(id) {
                     type: "POST",
                     data: "id=" + id,
                     success: function (response) {
+//                        loadAjaxWindow("eVouchers");
                         $("table#e-voucher-table tbody").html(response);
                     },
                     error: function (response) {
