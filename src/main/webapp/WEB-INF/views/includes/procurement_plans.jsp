@@ -10,7 +10,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                List of procurement plans
+                List of procurement plans-ncs
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">

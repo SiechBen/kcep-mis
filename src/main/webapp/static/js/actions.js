@@ -750,7 +750,7 @@ $("#e-voucher-form").ajaxForm({
         $("#e-voucher-person").val("");
         $("#date-redeemed").val("");
         $("#inputs-loogbook-page").val("");
-        loadAjaxWindow('eEVouchers');
+        loadAjaxWindow('EVouchers');
         return;
     },
     error: function (response) {
@@ -807,7 +807,7 @@ function editEVoucher(id, amount, inputType, person, dateRedeemed) {
     });
 }
 
-function deleteEVoucher(id) {
+function deletEVoucher(id) {
     $("#message").text("Are you sure you want to remove this e-voucher?");
     $("#message-dialog").dialog({
         width: 495,
@@ -818,7 +818,7 @@ function deleteEVoucher(id) {
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteEVoucher",
+                    url: "doDeletEVoucher",
                     type: "POST",
                     data: "id=" + id,
                     success: function (response) {
@@ -997,6 +997,80 @@ function addWarehouse() {
         dataType: "HTML"
     });
 }
+
+function editWarehouse(id, name, capacity, units, offers, certification, subCounty, county, latitude, longitude, operator) {
+    $("#warehouse-name").val(name);
+    $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
+    $("#capacity").val(capacity);
+    $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
+    $("#offers-wrs").val(offers);
+    $("#certified").val(certification);
+    $("#warehouse-latitude").val(latitude);
+    $("#warehouse-longitude").val(longitude);
+    $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
+    $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    $("#warehouse-type option[value=" + operator + "]").val(operator);
+    $("#warehouse-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_warehouse_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditWarehouse",
+                    type: "POST",
+                    data:
+                            "&id=" + id +
+                            "name=" + $("#warehouse-name").val() +
+                            "&warehouseOperator=" + $("#warehouse-operator").val() +
+                            "&capacity=" + $("#capacity").val() +
+                            "&capacityUnits=" + $("#capacity-units").val() +
+                            "&offersWrs=" + $("#offers-wrs").val() +
+                            "&certified=" + $("#certified").val() +
+                            "&latitude=" + $("#warehouse-latitude").val() +
+                            "&longitude=" + $("#warehouse-longitude").val() +
+                            "&county=" + $("#warehouse-county").val() +
+                            "&subCounty=" + $("#warehouse-sub-county").val() +
+                            "&warehouseType=" + $("#warehouse-type").val(),
+                    success: function (response) {
+                        $("#warehouse-name").val("");
+                        $("#warehouse-operator").val("");
+                        $("#capacity").val("");
+                        $("#capacity-units").val("");
+                        $("#offers-wrs").val("");
+                        $("#certified").val("");
+                        $("#warehouse-latitude").val("");
+                        $("#warehouse-longitude").val("");
+                        $("#warehouse-county").val("");
+                        $("#warehouse-sub-county").val("");
+                        $("#warehouse-type").val("");
+                        $("#warehouse").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#warehouse-name").val("");
+            $("#warehouse-operator").val("");
+            $("#capacity").val("");
+            $("#capacity-units").val("");
+            $("#offers-wrs").val("");
+            $("#certified").val("");
+            $("#warehouse-latitude").val("");
+            $("#warehouse-longitude").val("");
+            $("#warehouse-county").val("");
+            $("#warehouse-sub-county").val("");
+            $("#warehouse-type").val("");
+        }
+    });
+}
 function deleteWarehouse(id) {
     $("#message").text("Are you sure you want to remove this warehouse?");
     $("#message-dialog").dialog({
@@ -1125,7 +1199,7 @@ function editEquipment(id, type, count, status) {
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doeditEquipment",
+                    url: "doEditEquipment",
                     type: "POST",
                     data:
                             "&id=" + id +
