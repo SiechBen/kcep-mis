@@ -163,6 +163,43 @@ public class EquipmentController extends Controller {
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
+                    
+                    break;
+                    
+                case "/doEditEquipment":
+
+                    
+                    
+                     newEquipment = new EquipmentDetails();
+                    try {
+                        newEquipment.setId(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+                    
+                    newEquipment.setStatus(String.valueOf(request.getParameter("equipmentStatus")));
+                    newEquipment.setTotalCount(Integer.valueOf(String.valueOf(request.getParameter("equipmentTotalCount"))));
+                    newEquipment.setWarehouse(warehouse);
+
+                    try {
+                        newEquipment.setType(String.valueOf(request.getParameter("equipmentType")));
+                    } catch (NumberFormatException e) {
+                        newEquipment.setTotalCount(null);
+                    }
+
+                    if (newEquipment.getStatus().equals("null")) {
+                        newEquipment.setStatus(null);
+                    }
+                    if (newEquipment.getType().equals("null")) {
+                        newEquipment.setType(null);
+                    }
+
+                    try {
+                        equipmentService.addEquipment(newEquipment);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
 
                     return;
 

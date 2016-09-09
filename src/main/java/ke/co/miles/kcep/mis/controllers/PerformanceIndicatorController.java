@@ -238,6 +238,90 @@ public class PerformanceIndicatorController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
 
+                    break;
+                    
+                case "/doEditPerformanceIndicator":
+
+                    //PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
+                    
+                     performanceIndicator = new PerformanceIndicatorDetails();
+                    try {
+                        performanceIndicator.setId(Short.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+                    performanceIndicator.setDescription(request.getParameter("description"));
+
+                    try {
+                        performanceIndicator.setExpectedValue(Double.valueOf(request.getParameter("expectedValue")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setExpectedValue(null);
+                    }
+
+                    try {
+                        performanceIndicator.setBaselineValue(Double.valueOf(request.getParameter("baselineValue")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setBaselineValue(null);
+                    }
+
+                    try {
+                        performanceIndicator.setActualValue(Double.valueOf(request.getParameter("actualValue")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setActualValue(null);
+                    }
+
+                    try {
+                        performanceIndicator.setRatio(Double.valueOf(request.getParameter("ratio")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setRatio(null);
+                        try {
+                            performanceIndicator.setRatio(Double.
+                                    parseDouble(decimalFormat.format((performanceIndicator.getActualValue()
+                                            / performanceIndicator.getExpectedValue()) * 100
+                                    )));
+                        } catch (NumberFormatException ex) {
+                        }
+
+                    }
+
+                    try {
+                        resultHierarchy = new ResultHierarchyDetails(Short.valueOf(request.getParameter("resultHierarchy")));
+                    } catch (Exception e) {
+                        resultHierarchy = null;
+                    }
+
+                    try {
+                        performanceIndicatorType = new PerformanceIndicatorTypeDetails(Short.valueOf(request.getParameter("performanceIndicatorType")));
+                    } catch (Exception e) {
+                        performanceIndicatorType = null;
+                    }
+
+                    performanceIndicator.setResultHierarchy(resultHierarchy);
+                    performanceIndicator.setPerformanceIndicatorType(performanceIndicatorType);
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("baselineDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        performanceIndicator.setBaselineDate(date);
+                    } catch (ParseException e) {
+                        response.getWriter().write(getBundle().getString("string_parse_error"));
+                        LOGGER.log(Level.WARNING, getBundle().getString("string_parse_error"), e);
+                        performanceIndicator.setBaselineDate(null);
+                    }
+
+                    try {
+                        performanceIndicator.setYearOfUse(Short.valueOf(request.getParameter("yearOfUse")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setYearOfUse(null);
+                    }
+
+                    try {
+                        performanceIndicatorService.addPerformanceIndicator(performanceIndicator);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, "", e);
+                    }
+
                     return;
 
                 default:
