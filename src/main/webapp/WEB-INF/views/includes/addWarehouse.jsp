@@ -21,8 +21,8 @@
                     <div class="form-group">
                         Warehouse operator
                         <select id="warehouse-operator" class="form-control">
-                            <c:forEach var="person" items="${sessionScope.people}" varStatus="index"> 
-                                <option value="${person.id}">${person.name}</option>
+                            <c:forEach var="warehouseOperator" items="${sessionScope.warehouseOperators}" varStatus="index"> 
+                                <option value="${warehouseOperator.id}">${warehouseOperator.category.name}</option>
                             </c:forEach>
                         </select>    
                     </div>

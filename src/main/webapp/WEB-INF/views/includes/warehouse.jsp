@@ -43,7 +43,7 @@
                                     <td>${warehouse.certified}</td>
                                     <td>${warehouse.location.subCounty.name}, ${warehouse.location.county.name}</td>
                                     <td>${warehouse.location.latitude}, ${warehouse.location.longitude}</td>
-                                    <td>${warehouse.warehouseOperator.name}</td>
+                                    <td>${warehouse.warehouseOperator.category.name}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

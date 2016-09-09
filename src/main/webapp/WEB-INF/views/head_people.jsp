@@ -25,7 +25,7 @@
                             <table id="people-table" class="table table-striped table-bordered table-hover data-table">
                                 <thead>
                                     <tr>
-                                        <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
+                                        <td><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></td>
                                         <th>Name</th>
                                         <th>Gender</th>
                                         <th>National id</th>

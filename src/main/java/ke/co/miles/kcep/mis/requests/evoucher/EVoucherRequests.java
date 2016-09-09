@@ -102,7 +102,9 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
 
         EVoucher eVoucher = em.find(EVoucher.class, eVoucherDetails.getId());
         eVoucher.setId(eVoucherDetails.getId());
-        eVoucher.setInputsLogbookPage(eVoucherDetails.getInputsLogbookPage());
+        if (eVoucherDetails.getInputsLogbookPage() != null) {
+            eVoucher.setInputsLogbookPage(eVoucherDetails.getInputsLogbookPage());
+        }
         eVoucher.setAmount(eVoucherDetails.getAmount());
         eVoucher.setDateRedeemed(eVoucherDetails.getDateRedeemed());
         try {

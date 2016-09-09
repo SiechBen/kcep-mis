@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
@@ -326,6 +327,9 @@ public class EVoucherController extends Controller {
                 case "/doDeleteEVoucher":
                     try {
                         eVoucherService.removeEVoucher(Integer.valueOf(request.getParameter("id")));
+                        eVouchers = eVoucherService.retrieveEVouchers();
+                        session.setAttribute("eVouchers", eVouchers);
+                        updateEVoucherTable(response, eVouchers);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getMessage()));
@@ -373,14 +377,16 @@ public class EVoucherController extends Controller {
             } else {
                 out.write("<tr>");
             }
-            out.write(" <td>${index.count}</td>\n"
-                    + "                                    <td>${eVoucher.amount}</td>\n"
-                    + "                                    <td>${eVoucher.inputType.type}</td>\n"
-                    + "                                    <td>${eVoucher.person.name}</td>\n"
-                    + "                                    <td>${eVoucher.dateRedeemed}</td>\n"
-                    + "                                    <td><a onclick=\"loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')\" target=\"_blank\">${eVoucher.fileName}</a></td>\n"
-                    + "                                    <td><button onclick=\"editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '${eVoucher.dateRedeemed}')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
-                    + "                                    <td><button onclick=\"deleteVoucher(${eVoucher.id})\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>");
+            MilesDebugger.debug(eVoucher.getInputsLogbookPage());
+            MilesDebugger.debug(eVoucher.getFileName());
+            out.write(" <td>" + ++index + "</td>\n"
+                    + "                                    <td>" + eVoucher.getAmount() + "</td>\n"
+                    + "                                    <td>" + eVoucher.getInputType().getType() + "</td>\n"
+                    + "                                    <td>" + eVoucher.getPerson().getName() + "</td>\n"
+                    + "                                    <td>" + eVoucher.getDateRedeemed() + "</td>\n"
+                    + "                                    <td><a onclick=\"loadAjaxWindow('download?filePath=" + (eVoucher.getInputsLogbookPage() == null ? "" : eVoucher.getInputsLogbookPage()) + "')\" target=\"_blank\">" + eVoucher.getFileName() + "</a></td>\n"
+                    + "                                    <td><button onclick=\"editEVoucher('" + eVoucher.getId() + "', '" + eVoucher.getAmount() + "', '" + eVoucher.getInputType().getId() + "', '" + eVoucher.getPerson().getId() + "', '" + eVoucher.getDateRedeemed() + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
+                    + "                                    <td><button onclick=\"deleteEVoucher(" + eVoucher.getId() + ")\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>");
         }
     }
 //</editor-fold>
