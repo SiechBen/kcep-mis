@@ -57,7 +57,8 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
         urlPatterns = {"/activity_names", "/addActivityName", "/doAddActivityName", "/sub_activities",
             "/addSubActivity", "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
             "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names", "/addSubActivityName",
-            "/doAddSubActivityName", "/doEditActivityName", "/doDeleteActivityName"}
+            "/doAddSubActivityName", "/doEditActivityName", "/doDeleteActivityName",
+            "/doEditSubActivity", "/doDeleteSubActivity"}
 )
 public class ActivityPlanningController extends Controller {
 
@@ -89,6 +90,8 @@ public class ActivityPlanningController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doEditActivityName");
                             urlPaths.add("/doDeleteActivityName");
@@ -137,6 +140,8 @@ public class ActivityPlanningController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPlanning");
                             urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/sub_activities":
@@ -156,6 +161,8 @@ public class ActivityPlanningController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPlanning");
                             urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/sub_activities":
@@ -622,11 +629,11 @@ public class ActivityPlanningController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, "", ex);
                     }
-                    break;
-                    
+                    return;
+
                 case "/doEditSubActivity":
 
-                     subActivity = new SubActivityDetails();
+                    subActivity = new SubActivityDetails();
                     try {
                         subActivity.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
@@ -781,9 +788,9 @@ public class ActivityPlanningController extends Controller {
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }
-                
-                 annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
-                     annualIndicatorRecords = new ArrayList<>();
+
+                    annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
+                    annualIndicatorRecords = new ArrayList<>();
 
                     try {
                         subActivityService.editSubActivity(subActivity);                       
