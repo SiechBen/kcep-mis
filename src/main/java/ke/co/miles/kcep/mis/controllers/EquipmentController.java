@@ -60,6 +60,8 @@ public class EquipmentController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doDeleteEquipment");
                             if (path.equals("/equipment")) {
                                 path = "/head_equipment";
                                 urlPaths.add(path);
@@ -72,6 +74,8 @@ public class EquipmentController extends Controller {
                     case "warehouseOperatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doDeleteEquipment");
                             if (path.equals("/equipment")) {
                                 path = "/warehouse_equipment";
                                 urlPaths.add(path);
@@ -84,6 +88,8 @@ public class EquipmentController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doDeleteEquipment");
                             if (path.equals("/equipment")) {
                                 path = "/ward_equipment";
                                 urlPaths.add(path);
@@ -162,6 +168,52 @@ public class EquipmentController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    break;
+
+                case "/doEditEquipment":
+
+                    newEquipment = new EquipmentDetails();
+                    try {
+                        newEquipment.setId(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+
+                    newEquipment.setStatus(String.valueOf(request.getParameter("equipmentStatus")));
+                    newEquipment.setTotalCount(Integer.valueOf(String.valueOf(request.getParameter("equipmentTotalCount"))));
+                    newEquipment.setWarehouse(warehouse);
+
+                    try {
+                        newEquipment.setType(String.valueOf(request.getParameter("equipmentType")));
+                    } catch (NumberFormatException e) {
+                        newEquipment.setTotalCount(null);
+                    }
+
+                    if (newEquipment.getStatus().equals("null")) {
+                        newEquipment.setStatus(null);
+                    }
+                    if (newEquipment.getType().equals("null")) {
+                        newEquipment.setType(null);
+                    }
+
+                    try {
+                        equipmentService.editEquipment(newEquipment);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    return;
+
+                case "/doDeleteEquipment":
+                    try {
+                        equipmentService.removeEquipment(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
                     }
 
                     return;

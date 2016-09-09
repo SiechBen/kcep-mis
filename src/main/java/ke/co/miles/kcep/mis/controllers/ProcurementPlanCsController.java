@@ -68,6 +68,8 @@ public class ProcurementPlanCsController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/head_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -80,6 +82,8 @@ public class ProcurementPlanCsController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/region_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -92,6 +96,8 @@ public class ProcurementPlanCsController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/county_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -406,6 +412,276 @@ public class ProcurementPlanCsController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, "", e);
+                    }
+                    break;
+
+                case "/doEditProcurementPlanCs":
+
+                    // ProcurementPlanCsDetails procurementPlanCs = new ProcurementPlanCsDetails();
+                    procurementPlanCs = new ProcurementPlanCsDetails();
+                    try {
+                        procurementPlanCs.setId(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        procurementPlanCs.setCost(new BigDecimal(request.getParameter("cost")));
+                    } catch (Exception e) {
+                        procurementPlanCs.setCost(null);
+                    }
+
+                    procurementPlanCs.setDescription(request.getParameter("description"));
+                    if (procurementPlanCs.getDescription().equals("null")) {
+                        procurementPlanCs.setDescription(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("approvalByIfad1"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setApprovalByIfad1(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setApprovalByIfad1(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("approvalByIfad2"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setApprovalByIfad2(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setApprovalByIfad2(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("approvalByIfad3"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setApprovalByIfad3(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setApprovalByIfad3(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("approvalByIfad4"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setApprovalByIfad4(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setApprovalByIfad4(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("approvalBySda"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setApprovalBySda(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setApprovalBySda(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("approvalBySdaOrAg"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setApprovalBySdaOrAg(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setApprovalBySdaOrAg(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("completeBd"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setCompleteBd(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setCompleteBd(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("submitTor"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setSubmitTor(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setSubmitTor(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("completeReoi"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setCompleteReoi(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setCompleteReoi(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("completeRfp"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setCompleteRfp(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setCompleteRfp(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("issueReoi"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setIssueReoi(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setIssueReoi(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("receiveEois"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setReceiveEois(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setReceiveEois(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("establishShortList"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setEstablishShortList(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setEstablishShortList(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("issueRfp"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setIssueRfp(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setIssueRfp(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("receiveProposals"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setReceiveProposals(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setReceiveProposals(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("evaluateTechnicalProposals"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setEvaluateTechnicalProposals(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setEvaluateTechnicalProposals(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("negotiate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setNegotiate(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setNegotiate(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("award"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setAward(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setAward(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("signContract"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setSignContract(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setSignContract(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("commenceContract"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurementPlanCs.setCommenceContract(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"), ex);
+                        procurementPlanCs.setCommenceContract(null);
+                    }
+
+                    try {
+                        planVsActual = PlanVsActualDetail.getPlanVsActualDetail(Short
+                                .valueOf(request.getParameter("planVsActual")));
+                    } catch (Exception e) {
+                        planVsActual = null;
+                    }
+
+                    try {
+                        ifadPriorReview = IfadPriorReviewDetail.getIfadPriorReviewDetail(Short.valueOf(request.getParameter("ifadPriorReview")));
+                    } catch (Exception e) {
+                        ifadPriorReview = null;
+                    }
+
+                    try {
+                        procurementPlanType = ProcurementPlanTypeDetail.getProcurementPlanTypeDetail(Short.valueOf(request.getParameter("procurementPlanType")));
+                    } catch (Exception e) {
+                        procurementPlanType = null;
+                    }
+
+                    try {
+                        procurementMethod = new ProcurementMethodDetails(Short.valueOf(request.getParameter("procurementMethod")));
+                    } catch (Exception e) {
+                        procurementMethod = null;
+                    }
+
+                    procurementPlanCs.setPlanVsActual(planVsActual);
+                    procurementPlanCs.setIfadPriorReview(ifadPriorReview);
+                    procurementPlanCs.setProcurementMethod(procurementMethod);
+                    procurementPlanCs.setProcurementPlanType(procurementPlanType);
+
+                    try {
+                        procurementPlanCsService.editProcurementPlanCs(procurementPlanCs);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, "", e);
+                    }
+
+                    return;
+
+                case "/doDeleteProcurementPlanCs":
+                    try {
+                        procurementPlanCsService.removeProcurementPlanCs(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
                     }
 
                     return;
