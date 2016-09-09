@@ -4,6 +4,6 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>jdbc/kcep-mis</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
+        <properties/>
     </persistence-unit>
 </persistence>

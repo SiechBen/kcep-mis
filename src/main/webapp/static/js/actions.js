@@ -597,6 +597,110 @@ function updateCounts() {
     });
 }
 
+function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmerGroup, farmerSubGroup, county, subCounty, ward, phone, email) {
+    $("#person-name").val(name);
+    $("#gender").val(sex);
+    $("#person-nationalId").val(nationalId);
+    $("#dateOfBirth").val(dateOfBirth);
+    $("#person-businessName").val(businessName);
+    $("#person-farmerGroup").val(farmerGroup);
+    $("#person-farmerSubGroup").val(farmerSubGroup);
+    $("#person-county").val(county);
+    $("#person-sub-County").val(subCounty);
+    $("#ward").val(ward);
+    $("#person-phone").val(phone);
+    $("#person-email").val(email);
+    $("#person-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_person_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "editPerson",
+                    type: "POST",
+                    data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
+                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
+                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
+                "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
+                "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
+                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
+                "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
+                "&dateOfBirth=" + $("#date-of-birth").val(),
+        success: function () {
+
+            $("#sex").val("");
+            $("#email").val("");
+            $("#phone").val("");
+            $("#national-id").val("");
+            $("#date-of-birth").val("");
+            $("#person-name").val("");
+            $("#farmer-group").val("");
+            $("#person-ward").val("");
+            $("#postal-address").val("");
+            $("#person-county").val("");
+            $("#business-name").val("");
+            $("#farmer-sub-group").val("");
+            $("#person-sub-county").val("");
+            loadAjaxWindow('people');
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#start-date").val("");
+            $("#end-date").val("");
+            $("#topic").val("");
+            $("#county").val("");
+            $("#usbCounty").val("");
+            $("#ward").val("");
+            $("#numberofTrainees").val("");
+        }
+    });
+}
+
+function deletePerson(id) {
+    $("#message").text("Are you sure you want to remove this Training?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_training",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteTraining",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#training-table tbody").html(response);
+
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Training">
@@ -1968,7 +2072,7 @@ function addInputsCollection() {
         }
     });
 }
-//</editor-fold>
+//</editor-fold>editPerson
 
 //<editor-fold defaultstate="collapsed" desc="Farm activity">
 function addFarmActivity() {
