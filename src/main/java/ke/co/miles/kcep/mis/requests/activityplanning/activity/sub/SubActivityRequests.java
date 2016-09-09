@@ -99,7 +99,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setImplementingPartner(em.getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
         subActivity.setMeasurementUnit(em.getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         subActivity.setResponsePcu(em.getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
-        subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
+        try {
+            subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
+        } catch (Exception e) {
+        }
 
         try {
             em.persist(subActivity);
@@ -282,7 +285,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
                     }
                 } catch (Exception e) {
-                }                
+                }
             }
 
             try {
@@ -609,7 +612,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
                     }
                 } catch (Exception e) {
-                }                
+                }
             }
 
             try {
@@ -856,7 +859,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
-
     @Override
     public void editSubActivity(SubActivityDetails subActivityDetails) throws MilesException {
 
@@ -907,7 +909,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setImplementingPartner(em.getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
         subActivity.setMeasurementUnit(em.getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         subActivity.setResponsePcu(em.getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
-        subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
+        try {
+            subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
+        } catch (Exception e) {
+        }
 
         try {
             em.merge(subActivity);
