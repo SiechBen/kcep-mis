@@ -1,0 +1,19 @@
+
+Records were read successfully from data/Agro-dealers.xlsx.
+
+It took  16 seconds to complete the read.
+
+Schema kcep_mis was successfully populated.
+
+It took  524 seconds to complete the population.
+
+
+
+Records were read successfully from data/Farmers.xlsx.
+
+It took  47 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  22962 seconds to complete the population.
+
