@@ -622,6 +622,189 @@ public class ActivityPlanningController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, "", ex);
                     }
+                    break;
+                    
+                case "/doEditSubActivity":
+
+                     subActivity = new SubActivityDetails();
+                    try {
+                        subActivity.setId(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+                    subActivity.setProcurementPlan(request.getParameter("procurementPlan"));
+                    subActivity.setExpectedOutcome(request.getParameter("expectedOutcome"));
+                    subActivity.setDescription(request.getParameter("description"));
+                    subActivity.setAnnualWorkplanReferenceCode(
+                            request.getParameter("annualWorkplanReferenceCode"));
+                    try {
+                        subActivity.setTotals(new BigDecimal(request.getParameter("totals")));
+                    } catch (NumberFormatException e) {
+                        subActivity.setTotals(null);
+                    }
+                    try {
+                        subActivity.setUnitCost(new BigDecimal(request.getParameter("unitCost")));
+                    } catch (NumberFormatException e) {
+                        subActivity.setUnitCost(null);
+                    }
+                    try {
+                        subActivity.setAwpbTarget(new BigDecimal(request.getParameter("awpbTarget")));
+                    } catch (NumberFormatException e) {
+                        subActivity.setAwpbTarget(null);
+                    }
+                    try {
+                        subActivity.setValueAchieved(new BigDecimal(request.getParameter("valueAchieved")));
+                    } catch (Exception e) {
+                        subActivity.setValueAchieved(null);
+                    }
+                    try {
+                        subActivity.setAllocatedBudget(new BigDecimal(request.getParameter("allocatedBudget")));
+                    } catch (Exception e) {
+                        subActivity.setAllocatedBudget(null);
+                    }
+                    try {
+                        subActivity.setGokPercentage(new Double(request.getParameter("gokPercentage")));
+                    } catch (Exception e) {
+                        subActivity.setGokPercentage(null);
+                    }
+                    try {
+                        subActivity.setIfadLoanPercentage(new Double(
+                                request.getParameter("ifadLoanPercentage")));
+                    } catch (Exception e) {
+                        subActivity.setIfadLoanPercentage(null);
+                    }
+                    try {
+                        subActivity.setIfadGrantPercentage(new Double(
+                                request.getParameter("ifadGrantPercentage")));
+                    } catch (Exception e) {
+                        subActivity.setIfadGrantPercentage(null);
+                    }
+                    try {
+                        subActivity.setBeneficiariesPercentage(new Double(
+                                request.getParameter("gokPercentage")));
+                    } catch (Exception e) {
+                        subActivity.setBeneficiariesPercentage(null);
+                    }
+                    try {
+                        subActivity.setEuPercentage(new Double(request.getParameter("euPercentage")));
+                    } catch (Exception e) {
+                        subActivity.setEuPercentage(null);
+                    }
+                    try {
+                        subActivity.setFinancialInstitutionPercentage(new Double(
+                                request.getParameter("financialInstitutionPercentage")));
+                    } catch (Exception e) {
+                        subActivity.setFinancialInstitutionPercentage(null);
+                    }
+                    try {
+                        subActivity.setProgrammeTarget(new BigDecimal(
+                                request.getParameter("programmeTarget")));
+                    } catch (Exception e) {
+                        subActivity.setProgrammeTarget(null);
+                    }
+                    try {
+                        subActivity.setFinancialYear(new FinancialYearDetails(
+                                Short.valueOf(request.getParameter("financialYear"))));
+                    } catch (NumberFormatException e) {
+                        subActivity.setTotals(null);
+                    }
+                    try {
+                        subActivity.setComponent(new ComponentDetails(Short.valueOf(
+                                request.getParameter("component"))));
+                    } catch (Exception e) {
+                        subActivity.setComponent(null);
+                    }
+                    try {
+                        subActivity.setActivityName(new ActivityNameDetails(
+                                Short.valueOf(request.getParameter("activityName"))));
+                    } catch (Exception e) {
+                        subActivity.setActivityName(null);
+                    }
+                    try {
+                        subActivity.setSubComponent(new SubComponentDetails(
+                                Short.valueOf(request.getParameter("subComponent"))));
+                    } catch (Exception e) {
+                        subActivity.setSubComponent(null);
+                    }
+                    try {
+                        subActivity.setResponsePcu(new ResponsePcuDetails(
+                                Short.valueOf(request.getParameter("responsePcu"))));
+                    } catch (Exception e) {
+                        subActivity.setResponsePcu(null);
+                    }
+                    try {
+                        subActivity.setSubActivityName(new SubActivityNameDetails(
+                                Short.valueOf(request.getParameter("subActivityName"))));
+                    } catch (Exception e) {
+                        subActivity.setSubComponent(null);
+                    }
+                    try {
+                        subActivity.setExpenditureCategory(new ExpenditureCategoryDetails(
+                                Short.valueOf(request.getParameter("expenditureCategory"))));
+                    } catch (Exception e) {
+                        subActivity.setExpenditureCategory(null);
+                    }
+                    try {
+                        subActivity.setImplementingPartner(new ImplementingPartnerDetails(
+                                Short.valueOf(request.getParameter("implementingPartner"))));
+                    } catch (Exception e) {
+                        subActivity.setImplementingPartner(null);
+                    }
+                    try {
+                        subActivity.setPerformanceIndicator(new PerformanceIndicatorDetails(
+                                Short.valueOf(request.getParameter("performanceIndicator"))));
+                    } catch (Exception e) {
+                        subActivity.setPerformanceIndicator(null);
+                    }
+                    try {
+                        subActivity.setMeasurementUnit(new MeasurementUnitDetails(
+                                Short.valueOf(request.getParameter("measurementUnit"))));
+                    } catch (Exception e) {
+                        subActivity.setMeasurementUnit(null);
+                    }
+                    try {
+                        date = userDateFormat.parse(request.getParameter("startDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        subActivity.setStartDate(date);
+                    } catch (Exception ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
+                        subActivity.setStartDate(null);
+                    }
+                    try {
+                        date = userDateFormat.parse(request.getParameter("endDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        subActivity.setEndDate(date);
+                    } catch (Exception ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
+                        subActivity.setEndDate(null);
+                    }
+                
+                 annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
+                     annualIndicatorRecords = new ArrayList<>();
+
+                    try {
+                        subActivity.setId(subActivityService.addSubActivity(subActivity));
+                        for (String annualIndicatorId : annualIndicatorIds) {
+                            PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
+                            annualIndicatorRecord = new AnnualIndicatorDetails();
+                            try {
+                                performanceIndicator.setId(Short.valueOf(annualIndicatorId));
+                                annualIndicatorRecord.setPerformanceIndicator(performanceIndicator);
+                                annualIndicatorRecord.setSubActivity(subActivity);
+                                annualIndicatorRecords.add(annualIndicatorRecord);
+                            } catch (Exception e) {
+                            }
+                        }
+                        annualIndicatorService.addAnnualIndicators(annualIndicatorRecords);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
 
                     return;
 
