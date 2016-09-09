@@ -415,7 +415,6 @@ public class WarehouseController extends Controller {
 
                 case "/doEditWarehouse":
 
-                    // CountyDetails county = new CountyDetails();
                     county = new CountyDetails();
                     try {
                         county.setId(Short.valueOf(request.getParameter("id")));

@@ -77,6 +77,8 @@ public class PersonController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             urlPaths.add("/changeCounter");
                             switch (path) {
                                 case "/people":
@@ -103,6 +105,8 @@ public class PersonController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/kalro_people";
@@ -128,6 +132,8 @@ public class PersonController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/region_people";
@@ -153,6 +159,8 @@ public class PersonController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/county_people";
@@ -178,6 +186,8 @@ public class PersonController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/sub_county_people";
@@ -203,6 +213,8 @@ public class PersonController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/ward_people";
@@ -228,6 +240,8 @@ public class PersonController extends Controller {
                     case "agroDealerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/agro_dealer_people";
@@ -541,6 +555,118 @@ public class PersonController extends Controller {
 
                     try {
                         personService.addPerson(person, personRole);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    break;
+
+                case "/doEditPerson":
+
+                     contact = new ContactDetails();
+                    contact.setEmail(String.valueOf(request.getParameter("email")));
+                    contact.setPhone(String.valueOf(request.getParameter("phoneNumber")));
+                    contact.setPostalAddress(String.valueOf(request.getParameter("postalAddress")));
+
+                     farmerGroup = new FarmerGroupDetails();
+                    try {
+                        farmerGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerGroup"))));
+                    } catch (Exception e) {
+                        farmerGroup = null;
+                    }
+
+                     farmerSubGroup = new FarmerSubGroupDetails();
+                    try {
+                        farmerSubGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerSubGroup"))));
+                    } catch (Exception e) {
+                        farmerSubGroup = null;
+                    }
+
+                     subCounty = new SubCountyDetails();
+                    try {
+                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
+                    } catch (Exception e) {
+                        subCounty = null;
+                    }
+
+                     county = new CountyDetails();
+                    try {
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
+                    } catch (Exception e) {
+                        county = null;
+                    }
+
+                     ward = new WardDetails();
+                    try {
+                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
+                    } catch (Exception e) {
+                        ward = null;
+                    }
+
+                     location = new LocationDetails();
+                    location.setSubCounty(subCounty);
+                    location.setCounty(county);
+                    location.setWard(ward);
+
+                    try {
+                        personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
+                    } catch (Exception e) {
+                        personRole = null;
+                    }
+
+                     
+                     person = new PersonDetails();
+                    try {
+                        person.setId(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+                    person.setBusinessName(String.valueOf(request.getParameter("businessName")));
+
+                    person.setContact(contact);
+                    person.setFarmerGroup(farmerGroup);
+                    person.setFarmerSubGroup(farmerSubGroup);
+                    person.setLocation(location);
+                    person.setName(String.valueOf(request.getParameter("name")));
+                    person.setNationalId(String.valueOf(request.getParameter("nationalId")));
+                    if (person.getBusinessName().equals("null")) {
+                        person.setBusinessName(null);
+                    }
+                    if (person.getNationalId().equals("null")) {
+                        person.setNationalId(null);
+                    }
+                    if (person.getName().equals("null")) {
+                        person.setName(null);
+                    }
+                    if (contact.getEmail().equals("null")) {
+                        contact.setEmail(null);
+                    }
+                    if (contact.getPhone().equals("null")) {
+                        contact.setPhone(null);
+                    }
+                    if (contact.getPostalAddress().equals("null")) {
+                        contact.setPostalAddress(null);
+                    }
+                    try {
+                        person.setSex(SexDetail.getSexDetail(Short.valueOf(String.valueOf(request.getParameter("sex")))));
+                    } catch (Exception e) {
+                        person.setSex(null);
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("dateOfBirth"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        person.setDateOfBirth(date);
+                    } catch (ParseException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        person.setDateOfBirth(null);
+                    }
+
+                    try {
+                        personService.editPerson(person, personRole);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
