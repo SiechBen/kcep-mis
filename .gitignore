@@ -1,0 +1,4 @@
+lib/
+*.mwb.bak
+target/
+src/main/webapp/WEB-INF/resources.xml
