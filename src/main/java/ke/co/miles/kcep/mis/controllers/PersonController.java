@@ -674,6 +674,17 @@ public class PersonController extends Controller {
                     }
 
                     return;
+                    
+                     case "/doDeletePerson":
+                    try {
+                        personService.removePerson(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                    }
+
+                    return;
 
                 case "/head_farm":
                 case "/ward_farm":
