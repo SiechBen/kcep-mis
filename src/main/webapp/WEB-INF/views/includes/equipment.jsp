@@ -15,7 +15,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover data-table">
+                    <table class="table table-striped table-bordered table-hover data-table" id="equipment-table">
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEquipment')">Add</button></th>
@@ -38,8 +38,8 @@
                                     <td>${equipment.type}</td>
                                     <td>${equipment.totalCount}</td>
                                     <td>${equipment.status}</td>
-                                    <td><button onclick="doeditEquipment('${equipment.id}', '${equipment.type}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="dodeleteEquipment(${equipment.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="editEquipment('${equipment.id}', '${equipment.type}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deleteEquipment(${equipment.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

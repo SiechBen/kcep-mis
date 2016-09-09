@@ -939,7 +939,7 @@ function deleteProcuremenet(id) {
                 $.ajax({
                     url: "doDeleteProcurement",
                     type: "POST",
-                    data: "id=" + id,
+                    data: "&id=" + id,
                     success: function (response) {
                         $("table#procurement-table tbody").html(response);
                     },
@@ -1947,7 +1947,7 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
         }
     });
 }
-
+//
 function deleteFarmActivity(id) {
     $("#message").text("Are you sure you want to remove this farm activity?");
     $("#message-dialog").dialog({

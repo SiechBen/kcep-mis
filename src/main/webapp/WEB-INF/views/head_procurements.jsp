@@ -21,7 +21,7 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover data-table">
+                            <table class="table table-striped table-bordered table-hover data-table" id="procurement-table">
                                 <thead>
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addProcurement')">Add</button></th>
@@ -59,7 +59,7 @@
                                             <td>${procurement.lpoNumber}</td>
                                             <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
                                             <td><button onclick="editProcurement('${procuremet.id}', '${procurement.item}', '${procurement.cost}', '${procurement.datePurchased}', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.name}', '${procurement.subCounty}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                            <td><button onclick="deleteProcurement(${procuremet.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                            <td><button onclick="deleteProcuremenet(${procuremet.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
