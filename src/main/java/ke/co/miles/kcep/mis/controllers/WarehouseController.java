@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
@@ -302,6 +303,17 @@ public class WarehouseController extends Controller {
                 case "/county_addWarehouse":
                 case "/sub_county_addWarehouse":
 
+                    List<PhenomenonDetails> warehouseOperators;
+                    try {
+                        warehouseOperators = phenomenonService.retrieveWarehouseOperators();
+                        session.setAttribute("warehouseOperators", warehouseOperators);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
                     break;
 
                 case "/doAddWarehouse":
@@ -497,7 +509,7 @@ public class WarehouseController extends Controller {
                     "Request dispatch to forward to: {0}", destination);
             try {
                 request.getRequestDispatcher(destination).forward(request, response);
-            } catch (ServletException | IOException e) {    
+            } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
                 LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
@@ -519,5 +531,7 @@ public class WarehouseController extends Controller {
     private WardRequestsLocal wardService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
 
 }
