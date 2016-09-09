@@ -158,11 +158,15 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
     @Override
     public SubActivityNameDetails convertSubActivityNameToSubActivityNameDetails(SubActivityName subActivityName) {
 
-        SubActivityNameDetails subActivityNameDetails = new SubActivityNameDetails(subActivityName.getId());
-        subActivityNameDetails.setName(subActivityName.getName());
-        subActivityNameDetails.setActivityName(activityNameService.
-                convertActivityNameToActivityNameDetails(subActivityName.getActivityName()));
-        return subActivityNameDetails;
+        if (subActivityName != null) {
+            SubActivityNameDetails subActivityNameDetails = new SubActivityNameDetails(subActivityName.getId());
+            subActivityNameDetails.setName(subActivityName.getName());
+            subActivityNameDetails.setActivityName(activityNameService.
+                    convertActivityNameToActivityNameDetails(subActivityName.getActivityName()));
+            return subActivityNameDetails;
+        } else {
+            return null;
+        }
 
     }
 

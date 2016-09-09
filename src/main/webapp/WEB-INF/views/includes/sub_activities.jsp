@@ -87,6 +87,14 @@
                                     <td>${subActivity.beneficiariesPercentage}</td>
                                     <td>${subActivity.euPercentage}</td>
                                     <td>${subActivity.financialInstitutionPercentage}</td>
+                                    <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.type}',
+                                                     '${procurementPlan.description}', '${procurementPlan.ifadPriorReview.choice}', '${procurementPlan.planVsActual.choice}',
+                                                     '${procurementPlan.cost}', '${procurementPlan.procurementMethod.method}', '${procurementPlan.completeBd}',
+                                                     '${procurementPlan.approvalByIfad1}', '${procurementPlan.approvalBySda}', '${procurementPlan.issueBd}',
+                                                     '${procurementPlan.receiveBids}', '${procurementPlan.evaluateBids}', '${procurementPlan.approvalByIfad2}',
+                                                     '${procurementPlan.award}', '${procurementPlan.approvalBySdaOrAg}', '${procurementPlan.signContract}',
+                                                     '${procurementPlan.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deleteProcurementPlan(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
