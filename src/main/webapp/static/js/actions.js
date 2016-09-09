@@ -651,10 +651,10 @@ function showTrainees(trainingId) {
     });
 }
 
-function editTraining(id, startDate, endDate, topic, county, subCounty, ward, numberOfTrainees) {
+function editTraining(id, startDate, endDate, topic, location, county, subCounty, ward, numberOfTrainees) {
 
-    $("#start-date").val(startDate);
-    $("#end-date").val(endDate);
+    $("#start-date").val(startDate.replace(/-/g, "/"));
+    $("#end-date").val(endDate.replace(/-/g, "/"));
     $("#topic").val(topic);
     $("#county").val(county);
     $("#sub-county").val(subCounty);
@@ -669,13 +669,13 @@ function editTraining(id, startDate, endDate, topic, county, subCounty, ward, nu
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editTraining",
+                    url: "doEditTraining",
                     type: "POST",
-                    data: "startDate=" + $("#start-date").val() + "&endDate=" +
+                    data: "start-date=" + $("#start-date").val() + "&end-date=" +
                             $("#end-date").val() + "&topic=" + $("#topic").val()
                             + "&county=" + $("#county").val() + "&sub-county="
-                            + $("#sub-county").val() + "&ward="
-                            + $("#ward").val() + "&numberofTrainees="
+                            + $("#sub-county").val() + "&location=" + location + "&ward="
+                            + $("#ward").val() + "&number-of-trainees="
                             + $("#number-of-trainees").val() + "&id=" + id,
                     success: function () {
                         $("#start-date").val("");
@@ -1021,9 +1021,7 @@ function editWarehouse(id, name, capacity, units, offers, certification, subCoun
                 $.ajax({
                     url: "doEditWarehouse",
                     type: "POST",
-                    data:
-                            "&id=" + id +
-                            "name=" + $("#warehouse-name").val() +
+                    data: "id=" + id + "&name=" + $("#warehouse-name").val() +
                             "&warehouseOperator=" + $("#warehouse-operator").val() +
                             "&capacity=" + $("#capacity").val() +
                             "&capacityUnits=" + $("#capacity-units").val() +
@@ -1202,8 +1200,7 @@ function editEquipment(id, type, count, status) {
                     url: "doEditEquipment",
                     type: "POST",
                     data:
-                            "&id=" + id +
-                            "&equipmentType=" + $("#equipment-type").val() +
+                            "id=" + id + "&equipmentType=" + $("#equipment-type").val() +
                             "&equipmentTotalCount=" + $("#equipment-total-count").val() +
                             "&equipmentStatus=" + $("#equipment-status").val(),
                     success: function (response) {
@@ -1461,8 +1458,8 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
                     url: "editProcurement",
                     type: "POST",
                     data:
-                            "&id=" + id +
-                            "procurementPlanType=" + $("#procurement-plan-type").val() +
+                            "id=" + id +
+                            "&procurementPlanType=" + $("#procurement-plan-type").val() +
                             "&description=" + $("#description").val() +
                             "&ifadPriorReview=" + $("#ifad-prior-review").val() +
                             "&planVsActual=" + $("#plan-vs-actual").val() +
@@ -1844,8 +1841,8 @@ function addPerformanceIndicator() {
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
         baselineDate, baselineValue, yearOfUse, actualValue, expectedValue, ratio) {
-    $("#performance-indicator-type").val(type);
-    $("#result-hierarchy").val(resultHierarchyDescription);
+    $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
+    $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
     $("#description").val(description);
     $("#baseline-date").val(baselineDate);
     $("#baseline-value").val(baselineValue);
@@ -1862,7 +1859,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editPerfomanceIndicator",
+                    url: "doEditPerfomanceIndicator",
                     type: "POST",
                     data:
                             "&id=" + id +

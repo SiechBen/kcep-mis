@@ -508,6 +508,17 @@ public class WarehouseController extends Controller {
 
                     return;
 
+                case "/doDeleteWarehouse":
+                    try {
+                        warehouseService.removeWarehouse(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                    }
+
+                    return;
+
                 default:
                     break;
             }

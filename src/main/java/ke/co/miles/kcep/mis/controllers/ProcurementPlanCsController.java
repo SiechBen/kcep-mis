@@ -68,6 +68,8 @@ public class ProcurementPlanCsController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/head_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -80,6 +82,8 @@ public class ProcurementPlanCsController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/region_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -92,6 +96,8 @@ public class ProcurementPlanCsController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/county_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -408,18 +414,16 @@ public class ProcurementPlanCsController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
                     break;
-                    
+
                 case "/doEditProcurementPlanCs":
 
-                   // ProcurementPlanCsDetails procurementPlanCs = new ProcurementPlanCsDetails();
-
-                     procurementPlanCs = new ProcurementPlanCsDetails();
+                    // ProcurementPlanCsDetails procurementPlanCs = new ProcurementPlanCsDetails();
+                    procurementPlanCs = new ProcurementPlanCsDetails();
                     try {
                         procurementPlanCs.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
                     }
-                    
-                    
+
                     try {
                         procurementPlanCs.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
@@ -662,11 +666,22 @@ public class ProcurementPlanCsController extends Controller {
                     procurementPlanCs.setProcurementPlanType(procurementPlanType);
 
                     try {
-                        procurementPlanCsService.addProcurementPlanCs(procurementPlanCs);
+                        procurementPlanCsService.editProcurementPlanCs(procurementPlanCs);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, "", e);
+                    }
+
+                    return;
+
+                case "/doDeleteProcurementPlanCs":
+                    try {
+                        procurementPlanCsService.removeProcurementPlanCs(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
                     }
 
                     return;
