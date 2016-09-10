@@ -401,3 +401,8 @@ table.dataTable thead .sorting:after {
 .float-right {
     float: right;
 }
+
+.farmer-row {
+    cursor: pointer;
+    color:#ACE892;
+}

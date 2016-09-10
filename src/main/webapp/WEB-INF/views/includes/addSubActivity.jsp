@@ -23,14 +23,14 @@
                                 <option value="${financialYear.id}">${financialYear.financialYear}</option>
                             </c:forEach>
                         </select>
+                    </div> 
+                    <div class="form-group">
+                        Annual workplan reference code
+                        <input id="annual-workplan-reference-code" class="form-control">
                     </div>   
                     <div class="form-group">
                         Expected outcome
                         <input id="expected-outcome" class="form-control">
-                    </div>   
-                    <div class="form-group">
-                        Annual workplan reference code
-                        <input id="annual-workplan-reference-code" class="form-control">
                     </div>   
                     <div class="form-group">
                         Component

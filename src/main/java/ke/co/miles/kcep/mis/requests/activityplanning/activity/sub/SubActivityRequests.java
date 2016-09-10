@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
@@ -106,8 +107,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         try {
             getEm().persist(subActivity);
-            getEm().flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 

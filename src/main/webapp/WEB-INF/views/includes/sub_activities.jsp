@@ -19,8 +19,8 @@
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
-                                <th>Expected outcome</th>
                                 <th>Annual workplan reference code</th>
+                                <th>Expected outcome</th>
                                 <th>Component</th>
                                 <th>Sub-component</th>
                                 <th>Annual indicators</th>
@@ -122,14 +122,14 @@
                                 <option value="${financialYear.id}">${financialYear.financialYear}</option>
                             </c:forEach>
                         </select>
-                    </div>   
-                    <div class="form-group">
-                        Expected outcome
-                        <input id="expected-outcome" class="form-control">
-                    </div>   
+                    </div> 
                     <div class="form-group">
                         Annual workplan reference code
                         <input id="annual-workplan-reference-code" class="form-control">
+                    </div> 
+                    <div class="form-group">
+                        Expected outcome
+                        <input id="expected-outcome" class="form-control">
                     </div>   
                     <div class="form-group">
                         Component
