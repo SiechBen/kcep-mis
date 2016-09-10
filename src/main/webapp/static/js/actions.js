@@ -1696,16 +1696,19 @@ function addProcurementPlan() {
     });
 }
 
-function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planVsActualchoice,
-        cost, method, completeBd, approvalByIfad1, approvalBySda, issueBd, receiveBids
+function editProcurementPlan(id, procurementPlanType, description, ifadPriorReviewchoice, planVsActualchoice,
+        cost, procurementMethod, completeBd, approvalByIfad1, approvalBySda, issueBd, receiveBids
         , evaluateBids, approvalByIfad2, award, approvalBySdaOrAg, signContract, commenceContract) {
-
-    $("#procurement-plan-type").val(type);
+    if (procurementPlanType !== "")
+        $("#procurement-plan-type option[value=" + procurementPlanType + "]").attr('selected', 'selected');
     $("#description").val(description);
-    $("#ifad-prior-review").val(ifadPriorReviewchoice);
-    $("#plan-vs-actual").val(planVsActualchoice);
+    if (ifadPriorReviewchoice !== "")
+        $("#ifad-prior-review option[value=" + ifadPriorReviewchoice + "]").attr('selected', 'selected');
+    if (planVsActualchoice !== "")
+        $("#plan-vs-actual option[value=" + planVsActualchoice + "]").attr('selected', 'selected');
     $("#cost").val(cost);
-    $("#procurement-method").val(method);
+    if (procurementMethod !== "")
+        $("#procurement-method option[value=" + procurementMethod + "]").attr('selected', 'selected');
     $("#complete-bd").val(completeBd);
     $("#approval-by-ifad1").val(approvalByIfad1);
     $("#approval-by-ifad2").val(approvalByIfad2);
@@ -1748,23 +1751,7 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
                             "&signContract=" + $("#sign-contract").val() +
                             "&commenceContract=" + $("#commence-contract").val(),
                     success: function () {
-                        $("#procurement-plan-type").val("");
-                        $("#description").val("");
-                        $("#ifad-prior-review").val("");
-                        $("#plan-vs-actual").val("");
-                        $("#cost").val("");
-                        $("#procurement-method").val("");
-                        $("#complete-bd").val("");
-                        $("#approval-by-ifad1").val("");
-                        $("#approval-by-ifad2").val("");
-                        $("#approval-by-sda").val("");
-                        $("#approval-by-sda-or-ag").val("");
-                        $("#issue-bd").val("");
-                        $("#receive-bids").val("");
-                        $("#evaluate-bids").val("");
-                        $("#award").val("");
-                        $("#sign-contract").val("");
-                        $("#commence-contract").val("");
+                        emptyProcurementPlanFields();
                         loadAjaxWindow("procurement_plans");
                         return;
                     }, error: function (response) {
@@ -1773,29 +1760,35 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
                     dataType: "HTML"
                 });
                 $(this).dialog("close");
+            },
+            "Exit": function () {
+                emptyProcurementPlanFields();
+                $(this).dialog("close");
             }
         },
         close: function () {
-            $("#procurement-plan-type").val("");
-            $("#description").val("");
-            $("#ifad-prior-review").val("");
-            $("#plan-vs-actual").val("");
-            $("#cost").val("");
-            $("#procurement-method").val("");
-            $("#complete-bd").val("");
-            $("#approval-by-ifad1").val("");
-            $("#approval-by-ifad2").val("");
-            $("#approval-by-sda").val("");
-            $("#approval-by-sda-or-ag").val("");
-            $("#issue-bd").val("");
-            $("#receive-bids").val("");
-            $("#evaluate-bids").val("");
-            $("#award").val("");
-            $("#sign-contract").val("");
-            $("#commence-contract").val("");
-            loadAjaxWindow("procurement_plans");
         }
     });
+}
+
+function emptyProcurementPlanFields() {
+    $("#procurement-plan-type").val("");
+    $("#description").val("");
+    $("#ifad-prior-review").val("");
+    $("#plan-vs-actual").val("");
+    $("#cost").val("");
+    $("#procurement-method").val("");
+    $("#complete-bd").val("");
+    $("#approval-by-ifad1").val("");
+    $("#approval-by-ifad2").val("");
+    $("#approval-by-sda").val("");
+    $("#approval-by-sda-or-ag").val("");
+    $("#issue-bd").val("");
+    $("#receive-bids").val("");
+    $("#evaluate-bids").val("");
+    $("#award").val("");
+    $("#sign-contract").val("");
+    $("#commence-contract").val("");
 }
 
 function deleteProcurementPlan(id) {
@@ -1812,8 +1805,9 @@ function deleteProcurementPlan(id) {
                     url: "doDeleteProcurementPlan",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#procurement-plan-table tbody").html(response);
+                    success: function () {
+                        loadAjaxWindow("procurement_plans");
+                        return;
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
