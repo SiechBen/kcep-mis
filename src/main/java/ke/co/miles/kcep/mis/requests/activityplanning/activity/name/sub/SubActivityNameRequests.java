@@ -70,6 +70,19 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<SubActivityNameDetails> retrieveSubActivityNames() throws MilesException {
+        List<SubActivityName> activities = new ArrayList<>();
+        setQ(getEm().createNamedQuery("SubActivityName.findAll"));
+        try {
+            activities = getQ().getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertActivitiesToSubActivityNameDetailsList(activities);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<SubActivityNameDetails> retrieveSubActivityNames(short activityNameId) throws MilesException {
         List<SubActivityName> activities = new ArrayList<>();
         setQ(getEm().createNamedQuery("SubActivityName.findByActivityNameId"));

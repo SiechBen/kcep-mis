@@ -117,7 +117,7 @@
                     <div class="form-group">
                         Financial year
                         <select id="financial-year" class="form-control">
-                            <option value="">Select financial years</option>
+                            <option value="">Select financial year</option>
                             <c:forEach var="financialYear" items="${sessionScope.financialYears}" varStatus="counter">
                                 <option value="${financialYear.id}">${financialYear.financialYear}</option>
                             </c:forEach>

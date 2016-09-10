@@ -622,29 +622,29 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
                     url: "editPerson",
                     type: "POST",
                     data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
-                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
-                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
-                "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
-                "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
-                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
-                "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
-                "&dateOfBirth=" + $("#date-of-birth").val(),
-        success: function () {
+                            "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
+                            "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
+                            "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
+                            "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
+                            "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
+                            "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
+                            "&dateOfBirth=" + $("#date-of-birth").val(),
+                    success: function () {
 
-            $("#sex").val("");
-            $("#email").val("");
-            $("#phone").val("");
-            $("#national-id").val("");
-            $("#date-of-birth").val("");
-            $("#person-name").val("");
-            $("#farmer-group").val("");
-            $("#person-ward").val("");
-            $("#postal-address").val("");
-            $("#person-county").val("");
-            $("#business-name").val("");
-            $("#farmer-sub-group").val("");
-            $("#person-sub-county").val("");
-            loadAjaxWindow('people');
+                        $("#sex").val("");
+                        $("#email").val("");
+                        $("#phone").val("");
+                        $("#national-id").val("");
+                        $("#date-of-birth").val("");
+                        $("#person-name").val("");
+                        $("#farmer-group").val("");
+                        $("#person-ward").val("");
+                        $("#postal-address").val("");
+                        $("#person-county").val("");
+                        $("#business-name").val("");
+                        $("#farmer-sub-group").val("");
+                        $("#person-sub-county").val("");
+                        loadAjaxWindow('people');
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
@@ -2311,7 +2311,7 @@ function addInputsCollection() {
         }
     });
 }
-//</editor-fold>editPerson
+//</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm activity">
 function addFarmActivity() {

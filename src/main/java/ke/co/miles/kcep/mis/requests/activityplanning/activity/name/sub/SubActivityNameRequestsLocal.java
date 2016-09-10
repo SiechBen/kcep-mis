@@ -39,6 +39,13 @@ public interface SubActivityNameRequestsLocal {
 
     /**
      *
+     * @return the list of sub activity name record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<SubActivityNameDetails> retrieveSubActivityNames() throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the sub activity name record to be
      * retrieved
      * @return the details of the sub activity name record retrieved

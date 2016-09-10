@@ -368,9 +368,8 @@ public class ActivityPlanningController extends Controller {
 
                     }
 
-                    HashMap<SubActivityDetails, List<AnnualIndicatorDetails>> subActivityMap;
                     try {
-                        subActivityMap = annualIndicatorService.retrieveSubActivities();
+                        session.setAttribute("subActivityMap", annualIndicatorService.retrieveSubActivities());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -378,8 +377,14 @@ public class ActivityPlanningController extends Controller {
                         return;
                     }
 
-                    session.setAttribute("subActivityMap", subActivityMap);
-
+                    try {
+                        session.setAttribute("subActivityNames", subActivityNameService.retrieveSubActivityNames());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
                     } catch (MilesException ex) {
@@ -792,7 +797,7 @@ public class ActivityPlanningController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, "", ex);
                     }
-                    
+
                     return;
 
                 case "/doDeleteSubActivity":
@@ -806,19 +811,6 @@ public class ActivityPlanningController extends Controller {
 
                     return;
 
-                    case "/doDeleteSubActivity":
-                    try {
-                        subActivityService.removeSubActivity(Integer.valueOf(request.getParameter("id")));
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
-                    }
-                    
-                    return;
-
-                    
-                    
                 default:
                     break;
             }
