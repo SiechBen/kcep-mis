@@ -254,46 +254,46 @@ public class ProcurementController extends Controller {
                         procurement.setCost(null);
                     }
 
-                    context = getServletContext();
-                    realPath = context.getRealPath("/");
-                    filePath = realPath + fileSeparator + "documents" + fileSeparator + "procurement"
-                            + fileSeparator + "invoice_or_receipt";
-                    filePart = request.getPart("invoice-or-receipt");
-                    fileName = getFileName(filePart);
-
-                    if (fileName == null) {
-                        procurement.setInvoiceOrReceipt(null);
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
-                    } else {
-
-                        FileOutputStream outStream;
-                        InputStream inStream;
-
-                        try {
-                            filePath = filePath + fileSeparator + fileName;
-                            new File(filePath).getParentFile().mkdirs();//If parent directories do not exist
-
-                            outStream = new FileOutputStream(filePath);
-                            inStream = filePart.getInputStream();
-
-                            final int startOffset = 0;
-                            final byte[] buffer = new byte[4096];
-                            while (inStream.read(buffer) > 0) {
-                                outStream.write(buffer, startOffset, buffer.length);
-                            }
-
-                            procurement.setInvoiceOrReceipt(filePath);
-                            outStream.close();
-
-                        } catch (FileNotFoundException e) {
-                            procurement.setInvoiceOrReceipt(null);
-                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                            response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
-                            LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
-                        }
-                    }
+//                    context = getServletContext();
+//                    realPath = context.getRealPath("/");
+//                    filePath = realPath + fileSeparator + "documents" + fileSeparator + "procurement"
+//                            + fileSeparator + "invoice_or_receipt";
+//                    filePart = request.getPart("invoice-or-receipt");
+//                    fileName = getFileName(filePart);
+//
+//                    if (fileName == null) {
+//                        procurement.setInvoiceOrReceipt(null);
+//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+//                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+//                    } else {
+//
+//                        FileOutputStream outStream;
+//                        InputStream inStream;
+//
+//                        try {
+//                            filePath = filePath + fileSeparator + fileName;
+//                            new File(filePath).getParentFile().mkdirs();//If parent directories do not exist
+//
+//                            outStream = new FileOutputStream(filePath);
+//                            inStream = filePart.getInputStream();
+//
+//                            final int startOffset = 0;
+//                            final byte[] buffer = new byte[4096];
+//                            while (inStream.read(buffer) > 0) {
+//                                outStream.write(buffer, startOffset, buffer.length);
+//                            }
+//
+//                            procurement.setInvoiceOrReceipt(filePath);
+//                            outStream.close();
+//
+//                        } catch (FileNotFoundException e) {
+//                            procurement.setInvoiceOrReceipt(null);
+//                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                            response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+//                            LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+//                        }
+//                    }
 
                     try {
                         procurementService.editProcurement(procurement);

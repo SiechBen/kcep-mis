@@ -622,29 +622,29 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
                     url: "editPerson",
                     type: "POST",
                     data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
-                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
-                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
-                "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
-                "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
-                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
-                "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
-                "&dateOfBirth=" + $("#date-of-birth").val(),
-        success: function () {
+                            "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
+                            "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
+                            "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
+                            "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
+                            "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
+                            "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
+                            "&dateOfBirth=" + $("#date-of-birth").val(),
+                    success: function () {
 
-            $("#sex").val("");
-            $("#email").val("");
-            $("#phone").val("");
-            $("#national-id").val("");
-            $("#date-of-birth").val("");
-            $("#person-name").val("");
-            $("#farmer-group").val("");
-            $("#person-ward").val("");
-            $("#postal-address").val("");
-            $("#person-county").val("");
-            $("#business-name").val("");
-            $("#farmer-sub-group").val("");
-            $("#person-sub-county").val("");
-            loadAjaxWindow('people');
+                        $("#sex").val("");
+                        $("#email").val("");
+                        $("#phone").val("");
+                        $("#national-id").val("");
+                        $("#date-of-birth").val("");
+                        $("#person-name").val("");
+                        $("#farmer-group").val("");
+                        $("#person-ward").val("");
+                        $("#postal-address").val("");
+                        $("#person-county").val("");
+                        $("#business-name").val("");
+                        $("#farmer-sub-group").val("");
+                        $("#person-sub-county").val("");
+                        loadAjaxWindow('people');
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
@@ -987,10 +987,10 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editProcurement",
+                    url: "doEditProcurement",
                     type: "POST",
-                    data:
-                            "item=" + $("#item").val() +
+                    data: "id=" + id +
+                            "&item=" + $("#item").val() +
                             "&cost=" + $("#cost").val() +
                             "&date-purchased=" + $("#date-purchased").val() +
                             "&serial-number=" + $("#serial-number").val() +
@@ -1009,8 +1009,8 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                         $("#procurement-county").val("");
                         $("#procurement-sub-county").val("");
                         $("#lpo-number").val("");
-                        loadAjaxWindow("head_procurements");
-                        return;
+                        $("table#procurement-table tbody").html(response);
+
                     }, error: function (response) {
                         showError("error_label", response.responseText);
                     },
@@ -1032,6 +1032,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         }
     });
 }
+
 function deleteProcuremenet(id) {
     $("#message").text("Are you sure you want to remove this procurement?");
     $("#message-dialog").dialog({
@@ -1173,6 +1174,7 @@ function editWarehouse(id, name, capacity, units, offers, certification, subCoun
         }
     });
 }
+
 function deleteWarehouse(id) {
     $("#message").text("Are you sure you want to remove this warehouse?");
     $("#message-dialog").dialog({
@@ -1765,7 +1767,6 @@ function deleteProcurementPlanCs(id) {
         }
     });
 }
-
 
 function doEditProcurementPlansCs(id, type, description,
         planVsActual, cost, method, submitTor, completeReoi, completeBd,

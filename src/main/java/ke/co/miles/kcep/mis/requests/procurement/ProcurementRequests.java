@@ -110,7 +110,9 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurement.setTargetOffice(procurementDetails.getTargetOffice());
         procurement.setSerialNumber(procurementDetails.getSerialNumber());
         procurement.setDatePurchased(procurementDetails.getDatePurchased());
-        procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
+        if (procurementDetails.getInvoiceOrReceipt() != null) {
+            procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
+        }
         if (procurementDetails.getCounty() != null) {
             procurement.setCounty(em.getReference(County.class, procurementDetails.getCounty().getId()));
         }
