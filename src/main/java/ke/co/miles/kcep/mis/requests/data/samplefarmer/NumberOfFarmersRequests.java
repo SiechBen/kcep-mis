@@ -48,20 +48,20 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
         NumberOfFarmers numberOfFarmers = new NumberOfFarmers();
         numberOfFarmers.setNumber(numberOfFarmersDetails.getNumber());
         if (numberOfFarmersDetails.getSex().getId() != null) {
-            numberOfFarmers.setSex(em.getReference(Sex.class, numberOfFarmersDetails.getSex().getId()));
+            numberOfFarmers.setSex(getEm().getReference(Sex.class, numberOfFarmersDetails.getSex().getId()));
         }
         if (numberOfFarmersDetails.getAgeBracket().getId() != null) {
-            numberOfFarmers.setAgeBracket(em.getReference(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
+            numberOfFarmers.setAgeBracket(getEm().getReference(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
         }
         if (numberOfFarmersDetails.getNumberDescription().getId() != null) {
-            numberOfFarmers.setNumberDescription(em.getReference(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
+            numberOfFarmers.setNumberDescription(getEm().getReference(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
         }
         if (numberOfFarmersDetails.getSampledFarmerData().getId() != null) {
-            numberOfFarmers.setSampledFarmerData(em.getReference(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
+            numberOfFarmers.setSampledFarmerData(getEm().getReference(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
         }
         try {
-            em.persist(numberOfFarmers);
-            em.flush();
+            getEm().persist(numberOfFarmers);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -75,11 +75,11 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
     @Override
     public NumberOfFarmersDetails retrieveNumberOfFarmers(int id) throws MilesException {
 
-        q = em.createNamedQuery("NumberOfFarmers.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("NumberOfFarmers.findById"));
+        getQ().setParameter("id", id);
         NumberOfFarmers numberOfFarmers;
         try {
-            numberOfFarmers = (NumberOfFarmers) q.getSingleResult();
+            numberOfFarmers = (NumberOfFarmers) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -91,10 +91,10 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
     @Override
     public List<NumberOfFarmersDetails> retrievePeople() throws MilesException {
 
-        q = em.createNamedQuery("NumberOfFarmers.findAll");
+        setQ(getEm().createNamedQuery("NumberOfFarmers.findAll"));
         List<NumberOfFarmers> people;
         try {
-            people = q.getResultList();
+            people = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -117,25 +117,25 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
             throw new InvalidArgumentException("error_001_03");
         }
 
-        NumberOfFarmers numberOfFarmers = em.find(NumberOfFarmers.class, numberOfFarmersDetails.getId());
+        NumberOfFarmers numberOfFarmers = getEm().find(NumberOfFarmers.class, numberOfFarmersDetails.getId());
         numberOfFarmers.setId(numberOfFarmersDetails.getId());
         numberOfFarmers.setNumber(numberOfFarmersDetails.getNumber());
         if (numberOfFarmersDetails.getSex().getId() != null) {
-            numberOfFarmers.setSex(em.getReference(Sex.class, numberOfFarmersDetails.getSex().getId()));
+            numberOfFarmers.setSex(getEm().getReference(Sex.class, numberOfFarmersDetails.getSex().getId()));
         }
         if (numberOfFarmersDetails.getAgeBracket().getId() != null) {
-            numberOfFarmers.setAgeBracket(em.getReference(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
+            numberOfFarmers.setAgeBracket(getEm().getReference(AgeBracket.class, numberOfFarmersDetails.getAgeBracket().getId()));
         }
         if (numberOfFarmersDetails.getNumberDescription().getId() != null) {
-            numberOfFarmers.setNumberDescription(em.getReference(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
+            numberOfFarmers.setNumberDescription(getEm().getReference(NumberDescription.class, numberOfFarmersDetails.getNumberDescription().getId()));
         }
         if (numberOfFarmersDetails.getSampledFarmerData().getId() != null) {
-            numberOfFarmers.setSampledFarmerData(em.getReference(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
+            numberOfFarmers.setSampledFarmerData(getEm().getReference(SampledFarmerData.class, numberOfFarmersDetails.getSampledFarmerData().getId()));
         }
 
         try {
-            em.merge(numberOfFarmers);
-            em.flush();
+            getEm().merge(numberOfFarmers);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -147,9 +147,9 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
     @Override
     public void removeNumberOfFarmers(int id) throws MilesException {
 
-        NumberOfFarmers numberOfFarmers = em.find(NumberOfFarmers.class, id);
+        NumberOfFarmers numberOfFarmers = getEm().find(NumberOfFarmers.class, id);
         try {
-            em.remove(numberOfFarmers);
+            getEm().remove(numberOfFarmers);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

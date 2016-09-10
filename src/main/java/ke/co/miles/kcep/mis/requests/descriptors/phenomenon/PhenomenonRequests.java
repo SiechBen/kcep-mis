@@ -40,11 +40,11 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         }
 
         Phenomenon phenomenon = new Phenomenon();
-        phenomenon.setCategory(em.getReference(Category.class, phenomenonDetails.getCategory().getId()));
-        phenomenon.setPhenomenonType(em.getReference(PhenomenonType.class, phenomenonDetails.getPhenomenonType().getId()));
+        phenomenon.setCategory(getEm().getReference(Category.class, phenomenonDetails.getCategory().getId()));
+        phenomenon.setPhenomenonType(getEm().getReference(PhenomenonType.class, phenomenonDetails.getPhenomenonType().getId()));
 
         try {
-            em.persist(phenomenon);
+            getEm().persist(phenomenon);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -56,7 +56,7 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         for (PhenomenonDetails phenomenonDetails : phenomenonDetailsList) {
             addPhenomenon(phenomenonDetails);
         }
-        em.flush();
+        getEm().flush();
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
@@ -64,10 +64,10 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
     @SuppressWarnings("unchecked")
     private List<PhenomenonDetails> retrievePhenomena(int phenomenonTypeId) throws MilesException {
         List<Phenomenon> phenomena = new ArrayList<>();
-        q = em.createNamedQuery("Phenomenon.findByPhenomenonTypeId");
-        q.setParameter("phenomenonTypeId", phenomenonTypeId);
+        setQ(getEm().createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        getQ().setParameter("phenomenonTypeId", phenomenonTypeId);
         try {
-            phenomena = q.getResultList();
+            phenomena = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -79,10 +79,10 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
     public List<PhenomenonDetails> retrieveWarehouseOperators() throws MilesException {
 
         PhenomenonType phenomenonType;
-        q = em.createNamedQuery("PhenomenonType.findByName");
-        q.setParameter("name", "Warehouse operator");
+        setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
+        getQ().setParameter("name", "Warehouse operator");
         try {
-            phenomenonType = (PhenomenonType) q.getSingleResult();
+            phenomenonType = (PhenomenonType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -95,10 +95,10 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
     public List<PhenomenonDetails> retrieveTraineeCategories() throws MilesException {
 
         PhenomenonType phenomenonType;
-        q = em.createNamedQuery("PhenomenonType.findByName");
-        q.setParameter("name", "Category of trainees");
+        setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
+        getQ().setParameter("name", "Category of trainees");
         try {
-            phenomenonType = (PhenomenonType) q.getSingleResult();
+            phenomenonType = (PhenomenonType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -111,10 +111,10 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
     public List<PhenomenonDetails> retrieveTrainerCategories() throws MilesException {
 
         PhenomenonType phenomenonType;
-        q = em.createNamedQuery("PhenomenonType.findByName");
-        q.setParameter("name", "Category of trainers");
+        setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
+        getQ().setParameter("name", "Category of trainers");
         try {
-            phenomenonType = (PhenomenonType) q.getSingleResult();
+            phenomenonType = (PhenomenonType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -125,10 +125,10 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
     @Override
     public PhenomenonDetails retrievePhenomenon(int id) throws MilesException {
         Phenomenon phenomenon;
-        q = em.createNamedQuery("Phenomenon.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Phenomenon.findById"));
+        getQ().setParameter("id", id);
         try {
-            phenomenon = (Phenomenon) q.getSingleResult();
+            phenomenon = (Phenomenon) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -153,12 +153,12 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 
         Phenomenon phenomenon = new Phenomenon();
         phenomenon.setId(phenomenonDetails.getId());
-        phenomenon.setCategory(em.getReference(Category.class, phenomenonDetails.getCategory().getId()));
-        phenomenon.setPhenomenonType(em.getReference(PhenomenonType.class, phenomenonDetails.getPhenomenonType().getId()));
+        phenomenon.setCategory(getEm().getReference(Category.class, phenomenonDetails.getCategory().getId()));
+        phenomenon.setPhenomenonType(getEm().getReference(PhenomenonType.class, phenomenonDetails.getPhenomenonType().getId()));
 
         try {
-            em.merge(phenomenon);
-            em.flush();
+            getEm().merge(phenomenon);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -169,9 +169,9 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removePhenomenon(int id) throws MilesException {
-        Phenomenon phenomenon = em.find(Phenomenon.class, id);
+        Phenomenon phenomenon = getEm().find(Phenomenon.class, id);
         try {
-            em.remove(phenomenon);
+            getEm().remove(phenomenon);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

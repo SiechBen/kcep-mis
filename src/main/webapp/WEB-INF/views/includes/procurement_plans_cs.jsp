@@ -84,7 +84,7 @@
                                     <td>${procurementPlanCs.approvalBySdaOrAg}</td>
                                     <td>${procurementPlanCs.signContract}</td>
                                     <td>${procurementPlanCs.commenceContract}</td>
-                                    <td><button onclick="doEditProcurementPlansCs('${procurementPlanCs.id}', '${procurementPlanCs.procurementPlanType.type}', '${procurementPlanCs.description}','${procurementPlanCs.planVsActual.choice}', '${procurementPlanCs.cost}', '${procurementPlanCs.procurementMethod.method}', '${procurementPlanCs.submitTor}', '${procurementPlanCs.completeReoi}', '${procurementPlanCs.completeBd}', '${procurementPlanCs.approvalByIfad1}', '${procurementPlanCs.approvalBySda}', '${procurementPlanCs.issueReoi}', '${procurementPlanCs.receiveEois}', '${procurementPlanCs.establishShortList}', '${procurementPlanCs.completeRfp}', '${procurementPlanCs.approvalByIfad2}', '${procurementPlanCs.issueRfp}', '${procurementPlanCs.receiveProposals}', '${procurementPlanCs.evaluateTechnicalProposals}', '${procurementPlanCs.approvalByIfad3}', '${procurementPlanCs.negotiate}', '${procurementPlanCs.approvalByIfad4}', '${procurementPlanCs.award}', '${procurementPlanCs.approvalBySdaOrAg}', '${procurementPlanCs.signContract}', '${procurementPlanCs.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="doEditProcurementPlansCs('${procurementPlanCs.id}', '${procurementPlanCs.procurementPlanType.type}', '${procurementPlanCs.description}', '${procurementPlanCs.planVsActual.choice}', '${procurementPlanCs.cost}', '${procurementPlanCs.procurementMethod.method}', '${procurementPlanCs.submitTor}', '${procurementPlanCs.completeReoi}', '${procurementPlanCs.completeBd}', '${procurementPlanCs.approvalByIfad1}', '${procurementPlanCs.approvalBySda}', '${procurementPlanCs.issueReoi}', '${procurementPlanCs.receiveEois}', '${procurementPlanCs.establishShortList}', '${procurementPlanCs.completeRfp}', '${procurementPlanCs.approvalByIfad2}', '${procurementPlanCs.issueRfp}', '${procurementPlanCs.receiveProposals}', '${procurementPlanCs.evaluateTechnicalProposals}', '${procurementPlanCs.approvalByIfad3}', '${procurementPlanCs.negotiate}', '${procurementPlanCs.approvalByIfad4}', '${procurementPlanCs.award}', '${procurementPlanCs.approvalBySdaOrAg}', '${procurementPlanCs.signContract}', '${procurementPlanCs.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="doDeleteProcurementPlansCs(${procurementPlanCs.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -100,7 +100,6 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-
                     <div class="form-group">
                         Procurement plan type
                         <select id="procurement-plan-type" class="form-control">
@@ -230,8 +229,8 @@
                         Commence contract
                         <input id="commence-contract" class="form-control datefield">
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
+</div>

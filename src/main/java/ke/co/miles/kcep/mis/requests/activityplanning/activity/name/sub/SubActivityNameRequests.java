@@ -40,10 +40,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         }
 
         SubActivityName subActivityName;
-        q = em.createNamedQuery("SubActivityName.findByName");
-        q.setParameter("name", subActivityNameDetails.getName());
+        setQ(getEm().createNamedQuery("SubActivityName.findByName"));
+        getQ().setParameter("name", subActivityNameDetails.getName());
         try {
-            subActivityName = (SubActivityName) q.getSingleResult();
+            subActivityName = (SubActivityName) getQ().getSingleResult();
         } catch (Exception e) {
             subActivityName = null;
         }
@@ -53,11 +53,11 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 
         subActivityName = new SubActivityName();
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
+        subActivityName.setActivityName(getEm().getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
-            em.persist(subActivityName);
-            em.flush();
+            getEm().persist(subActivityName);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -72,10 +72,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
     @SuppressWarnings("unchecked")
     public List<SubActivityNameDetails> retrieveSubActivityNames(short activityNameId) throws MilesException {
         List<SubActivityName> activities = new ArrayList<>();
-        q = em.createNamedQuery("SubActivityName.findByActivityNameId");
-        q.setParameter("activityNameId", activityNameId);
+        setQ(getEm().createNamedQuery("SubActivityName.findByActivityNameId"));
+        getQ().setParameter("activityNameId", activityNameId);
         try {
-            activities = q.getResultList();
+            activities = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -85,10 +85,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
     @Override
     public SubActivityNameDetails retrieveSubActivityName(int id) throws MilesException {
         SubActivityName subActivityName;
-        q = em.createNamedQuery("SubActivityName.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("SubActivityName.findById"));
+        getQ().setParameter("id", id);
         try {
-            subActivityName = (SubActivityName) q.getSingleResult();
+            subActivityName = (SubActivityName) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -114,10 +114,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         }
 
         SubActivityName subActivityName;
-        q = em.createNamedQuery("SubActivityName.findByName");
-        q.setParameter("name", subActivityNameDetails.getName());
+        setQ(getEm().createNamedQuery("SubActivityName.findByName"));
+        getQ().setParameter("name", subActivityNameDetails.getName());
         try {
-            subActivityName = (SubActivityName) q.getSingleResult();
+            subActivityName = (SubActivityName) getQ().getSingleResult();
         } catch (Exception e) {
             subActivityName = null;
         }
@@ -127,14 +127,14 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
             }
         }
 
-        subActivityName = em.find(SubActivityName.class, subActivityNameDetails.getId());
+        subActivityName = getEm().find(SubActivityName.class, subActivityNameDetails.getId());
         subActivityName.setId(subActivityNameDetails.getId());
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
+        subActivityName.setActivityName(getEm().getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
-            em.merge(subActivityName);
-            em.flush();
+            getEm().merge(subActivityName);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -145,9 +145,9 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeSubActivityName(int id) throws MilesException {
-        SubActivityName subActivityName = em.find(SubActivityName.class, id);
+        SubActivityName subActivityName = getEm().find(SubActivityName.class, id);
         try {
-            em.remove(subActivityName);
+            getEm().remove(subActivityName);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

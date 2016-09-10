@@ -40,11 +40,11 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         }
 
         Ward ward;
-        q = em.createNamedQuery("Ward.findByNameAndSubCountyId");
-        q.setParameter("name", wardDetails.getName());
-        q.setParameter("subCountyId", wardDetails.getSubCounty().getId());
+        setQ(getEm().createNamedQuery("Ward.findByNameAndSubCountyId"));
+        getQ().setParameter("name", wardDetails.getName());
+        getQ().setParameter("subCountyId", wardDetails.getSubCounty().getId());
         try {
-            ward = (Ward) q.getSingleResult();
+            ward = (Ward) getQ().getSingleResult();
         } catch (Exception e) {
             ward = null;
         }
@@ -54,11 +54,11 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
 
         ward = new Ward();
         ward.setName(wardDetails.getName());
-        ward.setSubCounty(em.getReference(SubCounty.class, wardDetails.getSubCounty().getId()));
+        ward.setSubCounty(getEm().getReference(SubCounty.class, wardDetails.getSubCounty().getId()));
 
         try {
-            em.persist(ward);
-            em.flush();
+            getEm().persist(ward);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -73,9 +73,9 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
     @SuppressWarnings("unchecked")
     public List<WardDetails> retrieveWards() throws MilesException {
         List<Ward> wards = new ArrayList<>();
-        q = em.createNamedQuery("Ward.findAll");
+        setQ(getEm().createNamedQuery("Ward.findAll"));
         try {
-            wards = q.getResultList();
+            wards = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -86,10 +86,10 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
     @SuppressWarnings("unchecked")
     public List<WardDetails> retrieveWards(short subCountyId) throws MilesException {
         List<Ward> wards = new ArrayList<>();
-        q = em.createNamedQuery("Ward.findBySubCountyId");
-        q.setParameter("subCountyId", subCountyId);
+        setQ(getEm().createNamedQuery("Ward.findBySubCountyId"));
+        getQ().setParameter("subCountyId", subCountyId);
         try {
-            wards = q.getResultList();
+            wards = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -99,10 +99,10 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
     @Override
     public WardDetails retrieveWard(int id) throws MilesException {
         Ward ward;
-        q = em.createNamedQuery("Ward.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Ward.findById"));
+        getQ().setParameter("id", id);
         try {
-            ward = (Ward) q.getSingleResult();
+            ward = (Ward) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -128,11 +128,11 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         }
 
         Ward ward;
-        q = em.createNamedQuery("Ward.findByNameAndSubCountyId");
-        q.setParameter("name", wardDetails.getName());
-        q.setParameter("subCountyId", wardDetails.getSubCounty().getId());
+        setQ(getEm().createNamedQuery("Ward.findByNameAndSubCountyId"));
+        getQ().setParameter("name", wardDetails.getName());
+        getQ().setParameter("subCountyId", wardDetails.getSubCounty().getId());
         try {
-            ward = (Ward) q.getSingleResult();
+            ward = (Ward) getQ().getSingleResult();
         } catch (Exception e) {
             ward = null;
         }
@@ -142,14 +142,14 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
             }
         }
 
-        ward = em.find(Ward.class, wardDetails.getId());
+        ward = getEm().find(Ward.class, wardDetails.getId());
         ward.setId(wardDetails.getId());
         ward.setName(wardDetails.getName());
-        ward.setSubCounty(em.getReference(SubCounty.class, wardDetails.getSubCounty().getId()));
+        ward.setSubCounty(getEm().getReference(SubCounty.class, wardDetails.getSubCounty().getId()));
 
         try {
-            em.merge(ward);
-            em.flush();
+            getEm().merge(ward);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -160,9 +160,9 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeWard(int id) throws MilesException {
-        Ward ward = em.find(Ward.class, id);
+        Ward ward = getEm().find(Ward.class, id);
         try {
-            em.remove(ward);
+            getEm().remove(ward);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

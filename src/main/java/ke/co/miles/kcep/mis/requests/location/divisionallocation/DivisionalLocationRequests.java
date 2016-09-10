@@ -35,10 +35,10 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         }
 
         DivisionalLocation divisionalLocation;
-        q = em.createNamedQuery("DivisionalLocation.findByName");
-        q.setParameter("name", divisionalLocationDetails.getName());
+        setQ(getEm().createNamedQuery("DivisionalLocation.findByName"));
+        getQ().setParameter("name", divisionalLocationDetails.getName());
         try {
-            divisionalLocation = (DivisionalLocation) q.getSingleResult();
+            divisionalLocation = (DivisionalLocation) getQ().getSingleResult();
         } catch (Exception e) {
             divisionalLocation = null;
         }
@@ -50,8 +50,8 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         divisionalLocation.setName(divisionalLocationDetails.getName());
 
         try {
-            em.persist(divisionalLocation);
-            em.flush();
+            getEm().persist(divisionalLocation);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
     @SuppressWarnings("unchecked")
     public List<DivisionalLocationDetails> retrieveDivisionalLocations() throws MilesException {
         List<DivisionalLocation> divisionalLocations = new ArrayList<>();
-        q = em.createNamedQuery("DivisionalLocation.findAll");
+        setQ(getEm().createNamedQuery("DivisionalLocation.findAll"));
         try {
-            divisionalLocations = q.getResultList();
+            divisionalLocations = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -79,10 +79,10 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
     @SuppressWarnings("unchecked")
     public List<DivisionalLocationDetails> retrieveDivisionalLocations(short countyId) throws MilesException {
         List<DivisionalLocation> divisionalLocations = new ArrayList<>();
-        q = em.createNamedQuery("DivisionalLocation.findByCountyId");
-        q.setParameter("countyId", countyId);
+        setQ(getEm().createNamedQuery("DivisionalLocation.findByCountyId"));
+        getQ().setParameter("countyId", countyId);
         try {
-            divisionalLocations = q.getResultList();
+            divisionalLocations = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -92,10 +92,10 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
     @Override
     public DivisionalLocationDetails retrieveDivisionalLocation(int id) throws MilesException {
         DivisionalLocation divisionalLocation;
-        q = em.createNamedQuery("DivisionalLocation.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("DivisionalLocation.findById"));
+        getQ().setParameter("id", id);
         try {
-            divisionalLocation = (DivisionalLocation) q.getSingleResult();
+            divisionalLocation = (DivisionalLocation) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -119,10 +119,10 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         }
 
         DivisionalLocation divisionalLocation;
-        q = em.createNamedQuery("DivisionalLocation.findByName");
-        q.setParameter("name", divisionalLocationDetails.getName());
+        setQ(getEm().createNamedQuery("DivisionalLocation.findByName"));
+        getQ().setParameter("name", divisionalLocationDetails.getName());
         try {
-            divisionalLocation = (DivisionalLocation) q.getSingleResult();
+            divisionalLocation = (DivisionalLocation) getQ().getSingleResult();
         } catch (Exception e) {
             divisionalLocation = null;
         }
@@ -132,13 +132,13 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
             }
         }
 
-        divisionalLocation = em.find(DivisionalLocation.class, divisionalLocationDetails.getId());
+        divisionalLocation = getEm().find(DivisionalLocation.class, divisionalLocationDetails.getId());
         divisionalLocation.setId(divisionalLocationDetails.getId());
         divisionalLocation.setName(divisionalLocationDetails.getName());
 
         try {
-            em.merge(divisionalLocation);
-            em.flush();
+            getEm().merge(divisionalLocation);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -149,9 +149,9 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeDivisionalLocation(int id) throws MilesException {
-        DivisionalLocation divisionalLocation = em.find(DivisionalLocation.class, id);
+        DivisionalLocation divisionalLocation = getEm().find(DivisionalLocation.class, id);
         try {
-            em.remove(divisionalLocation);
+            getEm().remove(divisionalLocation);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

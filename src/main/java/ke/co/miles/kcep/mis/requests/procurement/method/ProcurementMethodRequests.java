@@ -35,10 +35,10 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         }
 
         ProcurementMethod procurementMethod;
-        q = em.createNamedQuery("ProcurementMethod.findByName");
-        q.setParameter("procurementMethod", procurementMethodDetails.getMethod());
+        setQ(getEm().createNamedQuery("ProcurementMethod.findByName"));
+        getQ().setParameter("procurementMethod", procurementMethodDetails.getMethod());
         try {
-            procurementMethod = (ProcurementMethod) q.getSingleResult();
+            procurementMethod = (ProcurementMethod) getQ().getSingleResult();
         } catch (Exception e) {
             procurementMethod = null;
         }
@@ -50,8 +50,8 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         procurementMethod.setMethod(procurementMethodDetails.getMethod());
 
         try {
-            em.persist(procurementMethod);
-            em.flush();
+            getEm().persist(procurementMethod);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
     @Override
     public List<ProcurementMethodDetails> retrieveProcurementMethods() throws MilesException {
         List<ProcurementMethod> procurementMethods = new ArrayList<>();
-        q = em.createNamedQuery("ProcurementMethod.findAll");
+        setQ(getEm().createNamedQuery("ProcurementMethod.findAll"));
         try {
-            procurementMethods = q.getResultList();
+            procurementMethods = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
     @Override
     public ProcurementMethodDetails retrieveProcurementMethod(int id) throws MilesException {
         ProcurementMethod procurementMethod;
-        q = em.createNamedQuery("ProcurementMethod.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("ProcurementMethod.findById"));
+        getQ().setParameter("id", id);
         try {
-            procurementMethod = (ProcurementMethod) q.getSingleResult();
+            procurementMethod = (ProcurementMethod) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         }
 
         ProcurementMethod procurementMethod;
-        q = em.createNamedQuery("ProcurementMethod.findByName");
-        q.setParameter("procurementMethod", procurementMethodDetails.getMethod());
+        setQ(getEm().createNamedQuery("ProcurementMethod.findByName"));
+        getQ().setParameter("procurementMethod", procurementMethodDetails.getMethod());
         try {
-            procurementMethod = (ProcurementMethod) q.getSingleResult();
+            procurementMethod = (ProcurementMethod) getQ().getSingleResult();
         } catch (Exception e) {
             procurementMethod = null;
         }
@@ -117,13 +117,13 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
             }
         }
 
-        procurementMethod = em.find(ProcurementMethod.class, procurementMethodDetails.getId());
+        procurementMethod = getEm().find(ProcurementMethod.class, procurementMethodDetails.getId());
         procurementMethod.setId(procurementMethodDetails.getId());
         procurementMethod.setMethod(procurementMethodDetails.getMethod());
 
         try {
-            em.merge(procurementMethod);
-            em.flush();
+            getEm().merge(procurementMethod);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeProcurementMethod(int id) throws MilesException {
-        ProcurementMethod procurementMethod = em.find(ProcurementMethod.class, id);
+        ProcurementMethod procurementMethod = getEm().find(ProcurementMethod.class, id);
         try {
-            em.remove(procurementMethod);
+            getEm().remove(procurementMethod);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

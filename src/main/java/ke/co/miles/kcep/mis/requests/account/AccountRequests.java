@@ -42,10 +42,10 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         }
 
         Account account;
-        q = em.createNamedQuery("Account.findByAccountNumber");
-        q.setParameter("accountNumber", accountDetails.getAccountNumber());
+        setQ(getEm().createNamedQuery("Account.findByAccountNumber"));
+        getQ().setParameter("accountNumber", accountDetails.getAccountNumber());
         try {
-            account = (Account) q.getSingleResult();
+            account = (Account) getQ().getSingleResult();
         } catch (Exception e) {
             account = null;
         }
@@ -58,13 +58,13 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         account.setSavings(accountDetails.getSavings());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
-            account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
+            account.setEblBranch(getEm().getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
         }
-        account.setFarmer(em.getReference(Person.class, accountDetails.getFarmer().getId()));
+        account.setFarmer(getEm().getReference(Person.class, accountDetails.getFarmer().getId()));
 
         try {
-            em.persist(account);
-            em.flush();
+            getEm().persist(account);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -79,9 +79,9 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
     @SuppressWarnings("unchecked")
     public List<AccountDetails> retrieveCounties() throws MilesException {
         List<Account> accounts = new ArrayList<>();
-        q = em.createNamedQuery("Account.findAll");
+        setQ(getEm().createNamedQuery("Account.findAll"));
         try {
-            accounts = q.getResultList();
+            accounts = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -91,10 +91,10 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
     @Override
     public AccountDetails retrieveAccount(int farmerId) throws MilesException {
         Account account;
-        q = em.createNamedQuery("Account.findByFarmerId");
-        q.setParameter("farmerId", farmerId);
+        setQ(getEm().createNamedQuery("Account.findByFarmerId"));
+        getQ().setParameter("farmerId", farmerId);
         try {
-            account = (Account) q.getSingleResult();
+            account = (Account) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -120,10 +120,10 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         }
 
         Account account;
-        q = em.createNamedQuery("Account.findByAccountNumber");
-        q.setParameter("accountNumber", accountDetails.getAccountNumber());
+        setQ(getEm().createNamedQuery("Account.findByAccountNumber"));
+        getQ().setParameter("accountNumber", accountDetails.getAccountNumber());
         try {
-            account = (Account) q.getSingleResult();
+            account = (Account) getQ().getSingleResult();
         } catch (Exception e) {
             account = null;
         }
@@ -134,19 +134,19 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
             }
         }
 
-        account = em.find(Account.class, accountDetails.getId());
+        account = getEm().find(Account.class, accountDetails.getId());
         account.setId(accountDetails.getId());
         account.setSolId(accountDetails.getSolId());
         account.setSavings(accountDetails.getSavings());
         account.setAccountNumber(accountDetails.getAccountNumber());
         if (accountDetails.getEblBranch() != null) {
-            account.setEblBranch(em.getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
+            account.setEblBranch(getEm().getReference(EblBranch.class, accountDetails.getEblBranch().getId()));
         }
-        account.setFarmer(em.getReference(Person.class, accountDetails.getFarmer().getId()));
+        account.setFarmer(getEm().getReference(Person.class, accountDetails.getFarmer().getId()));
 
         try {
-            em.merge(account);
-            em.flush();
+            getEm().merge(account);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -159,9 +159,9 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeAccount(int id) throws MilesException {
-        Account account = em.find(Account.class, id);
+        Account account = getEm().find(Account.class, id);
         try {
-            em.remove(account);
+            getEm().remove(account);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

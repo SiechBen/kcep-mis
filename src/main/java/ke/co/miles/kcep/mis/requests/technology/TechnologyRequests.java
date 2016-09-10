@@ -45,14 +45,14 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         technology.setTargetSubCounties(technologyDetails.getTargetSubCounties());
         technology.setNumberOfStudiesConducted(technologyDetails.getNumberOfStudiesConducted());
         try {
-            technology.setKalroOfficer(em.getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
+            technology.setKalroOfficer(getEm().getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             technology.setKalroOfficer(null);
         }
 
         try {
-            em.persist(technology);
-            em.flush();
+            getEm().persist(technology);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
     @Override
     public List<TechnologyDetails> retrieveTechnologies() throws MilesException {
         List<Technology> technologies = new ArrayList<>();
-        q = em.createNamedQuery("Technology.findAll");
+        setQ(getEm().createNamedQuery("Technology.findAll"));
         try {
-            technologies = q.getResultList();
+            technologies = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
     @Override
     public TechnologyDetails retrieveTechnology(int id) throws MilesException {
         Technology technology;
-        q = em.createNamedQuery("Technology.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Technology.findById"));
+        getQ().setParameter("id", id);
         try {
-            technology = (Technology) q.getSingleResult();
+            technology = (Technology) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -106,21 +106,21 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
             throw new InvalidArgumentException("error_026_04");
         }
 
-        Technology technology = em.find(Technology.class, technologyDetails.getId());
+        Technology technology = getEm().find(Technology.class, technologyDetails.getId());
         technology.setId(technologyDetails.getId());
         technology.setName(technologyDetails.getName());
         technology.setTypePurpose(technologyDetails.getTypePurpose());
         technology.setTargetSubCounties(technologyDetails.getTargetSubCounties());
         technology.setNumberOfStudiesConducted(technologyDetails.getNumberOfStudiesConducted());
         try {
-            technology.setKalroOfficer(em.getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
+            technology.setKalroOfficer(getEm().getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             technology.setKalroOfficer(null);
         }
 
         try {
-            em.merge(technology);
-            em.flush();
+            getEm().merge(technology);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -131,9 +131,9 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeTechnology(int id) throws MilesException {
-        Technology technology = em.find(Technology.class, id);
+        Technology technology = getEm().find(Technology.class, id);
         try {
-            em.remove(technology);
+            getEm().remove(technology);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

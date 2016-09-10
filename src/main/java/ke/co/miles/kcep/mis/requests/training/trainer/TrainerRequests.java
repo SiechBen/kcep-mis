@@ -42,11 +42,11 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         }
 
         Trainer trainer = new Trainer();
-        trainer.setPhenomenon(em.getReference(Phenomenon.class, trainerDetails.getPhenomenon().getId()));
-        trainer.setTraining(em.getReference(Training.class, trainerDetails.getTraining().getId()));
+        trainer.setPhenomenon(getEm().getReference(Phenomenon.class, trainerDetails.getPhenomenon().getId()));
+        trainer.setTraining(getEm().getReference(Training.class, trainerDetails.getTraining().getId()));
 
         try {
-            em.persist(trainer);
+            getEm().persist(trainer);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -58,7 +58,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         for (TrainerDetails trainerDetails : trainerDetailsList) {
             addTrainer(trainerDetails);
         }
-        em.flush();
+        getEm().flush();
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
@@ -68,10 +68,10 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveWardTrainings(short wardId) throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
-        q = em.createNamedQuery("Training.findByWardId");
-        q.setParameter("wardId", wardId);
+        setQ(getEm().createNamedQuery("Training.findByWardId"));
+        getQ().setParameter("wardId", wardId);
         try {
-            trainings = q.getResultList();
+            trainings = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -90,10 +90,10 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveCountyTrainings(short countyId) throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
-        q = em.createNamedQuery("Training.findByCountyId");
-        q.setParameter("countyId", countyId);
+        setQ(getEm().createNamedQuery("Training.findByCountyId"));
+        getQ().setParameter("countyId", countyId);
         try {
-            trainings = q.getResultList();
+            trainings = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -112,10 +112,10 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveSubCountyTrainings(short subCountyId) throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
-        q = em.createNamedQuery("Training.findBySubCountyId");
-        q.setParameter("subCountyId", subCountyId);
+        setQ(getEm().createNamedQuery("Training.findBySubCountyId"));
+        getQ().setParameter("subCountyId", subCountyId);
         try {
-            trainings = q.getResultList();
+            trainings = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
-        q = em.createNamedQuery("Training.findAll");
+        setQ(getEm().createNamedQuery("Training.findAll"));
         try {
-            trainings = q.getResultList();
+            trainings = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -154,10 +154,10 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     @SuppressWarnings("unchecked")
     public List<TrainerDetails> retrieveTrainers(int trainingId) throws MilesException {
         List<Trainer> trainers = new ArrayList<>();
-        q = em.createNamedQuery("Trainer.findByTrainingId");
-        q.setParameter("trainingId", trainingId);
+        setQ(getEm().createNamedQuery("Trainer.findByTrainingId"));
+        getQ().setParameter("trainingId", trainingId);
         try {
-            trainers = q.getResultList();
+            trainers = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -167,10 +167,10 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     @Override
     public TrainerDetails retrieveTrainer(int id) throws MilesException {
         Trainer trainer;
-        q = em.createNamedQuery("Trainer.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Trainer.findById"));
+        getQ().setParameter("id", id);
         try {
-            trainer = (Trainer) q.getSingleResult();
+            trainer = (Trainer) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -185,7 +185,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         for (TrainerDetails trainerDetails : trainerDetailsList) {
             editTrainer(trainerDetails);
         }
-        em.flush();
+        getEm().flush();
     }
 
     @Override
@@ -203,12 +203,12 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
         Trainer trainer = new Trainer();
         trainer.setId(trainerDetails.getId());
-        trainer.setPhenomenon(em.getReference(Phenomenon.class, trainerDetails.getPhenomenon().getId()));
-        trainer.setTraining(em.getReference(Training.class, trainerDetails.getTraining().getId()));
+        trainer.setPhenomenon(getEm().getReference(Phenomenon.class, trainerDetails.getPhenomenon().getId()));
+        trainer.setTraining(getEm().getReference(Training.class, trainerDetails.getTraining().getId()));
 
         try {
-            em.merge(trainer);
-            em.flush();
+            getEm().merge(trainer);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -219,9 +219,9 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeTrainer(int id) throws MilesException {
-        Trainer trainer = em.find(Trainer.class, id);
+        Trainer trainer = getEm().find(Trainer.class, id);
         try {
-            em.remove(trainer);
+            getEm().remove(trainer);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

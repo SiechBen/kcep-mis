@@ -46,17 +46,17 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         if (training.getTopic() != null) {
-            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
+            training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
 
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
 
         try {
-            em.persist(training);
-            em.flush();
+            getEm().persist(training);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -70,10 +70,10 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
     @Override
     public TrainingDetails retrieveTraining(int id) throws MilesException {
         Training training;
-        q = em.createNamedQuery("Training.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Training.findById"));
+        getQ().setParameter("id", id);
         try {
-            training = (Training) q.getSingleResult();
+            training = (Training) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -96,25 +96,25 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 
         locationService.editLocation(trainingDetails.getVenue());
 
-        Training training = em.find(Training.class, trainingDetails.getId());
+        Training training = getEm().find(Training.class, trainingDetails.getId());
         training.setId(trainingDetails.getId());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         if (training.getTopic() != null) {
-            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
+            training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
-        training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
+        training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
         }
 
-        training.setVenue(em.getReference(Location.class, trainingDetails.getVenue().getId()));
+        training.setVenue(getEm().getReference(Location.class, trainingDetails.getVenue().getId()));
 
         try {
-            em.merge(training);
-            em.flush();
+            getEm().merge(training);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -125,9 +125,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeTraining(int id) throws MilesException {
-        Training training = em.find(Training.class, id);
+        Training training = getEm().find(Training.class, id);
         try {
-            em.remove(training);
+            getEm().remove(training);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

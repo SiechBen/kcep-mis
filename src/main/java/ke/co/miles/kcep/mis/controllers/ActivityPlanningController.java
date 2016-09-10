@@ -379,11 +379,7 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     session.setAttribute("subActivityMap", subActivityMap);
-                    break;
 
-                case "/head_addSubActivity":
-                case "/county_addSubActivity":
-                case "/region_addSubActivity":
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
                     } catch (MilesException ex) {
@@ -789,24 +785,19 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setEndDate(null);
                     }
 
-                    annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
-                    annualIndicatorRecords = new ArrayList<>();
-
                     try {
-                        subActivity.setId(subActivityService.addSubActivity(subActivity));
-                        for (String annualIndicatorId : annualIndicatorIds) {
-                            PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
-                            annualIndicatorRecord = new AnnualIndicatorDetails();
-                            try {
-                                performanceIndicator.setId(Short.valueOf(annualIndicatorId));
-                                annualIndicatorRecord.setPerformanceIndicator(performanceIndicator);
-                                annualIndicatorRecord.setSubActivity(subActivity);
-                                annualIndicatorRecords.add(annualIndicatorRecord);
-                            } catch (Exception e) {
-                            }
-                        }
-                        annualIndicatorService.addAnnualIndicators(annualIndicatorRecords);
+                        subActivityService.editSubActivity(subActivity);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    
+                    return;
 
+                case "/doDeleteSubActivity":
+                    try {
+                        subActivityService.removeSubActivity(Integer.valueOf(request.getParameter("id")));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -818,9 +809,7 @@ public class ActivityPlanningController extends Controller {
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
-
             LOGGER.log(Level.INFO,
                     "Request dispatch to forward to: {0}", destination);
             try {
@@ -829,7 +818,6 @@ public class ActivityPlanningController extends Controller {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
                 LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
-
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

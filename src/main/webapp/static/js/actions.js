@@ -1277,6 +1277,172 @@ function addSubActivity() {
     });
 }
 
+function editSubActivity(id, financialYear, expectedOutcome, annualWorkplanReferenceCode, component, subComponent,
+        activityName, subActvityName, startDate, endDate, measurementUnit, unitCost, awpbTarget,
+        programmeTarget, totals, responsePcu, implementingPartner, procurementPlan, description,
+        valueAchieved, allocatedBudget, expenditureCategory, gokPercentage,
+        ifadLoanPercentage, ifadGrantPercentage, beneficiariesPercentage, euPercentage, financialInstitutionPercentage) {
+    if (financialYear !== "")
+        $("#financial-year option[value=" + financialYear + "]").attr('selected', 'selected');
+    $("#expected-outcome").val(expectedOutcome);
+    $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
+    $("#component option[value=" + component + "]").attr('selected', 'selected');
+    if (subComponent !== "")
+        $("#sub-component option[value=" + subComponent + "]").attr('selected', 'selected');
+    if (activityName !== "")
+        $("#activity-name option[value=" + activityName + "]").attr('selected', 'selected');
+    if (subActvityName !== "")
+        $("#sub-activity-name option[value=" + subActvityName + "]").attr('selected', 'selected');
+    $("#start-date").val(startDate.replace(/-/g, "/"));
+    $("#end-date").val(endDate.replace(/-/g, "/"));
+    if (measurementUnit !== "")
+        $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
+    $("#unit-cost").val(unitCost);
+    $("#awpb-target").val(awpbTarget);
+    $("#programme-target").val(programmeTarget);
+    $("#totals").val(totals);
+    if (responsePcu !== "")
+        $("#response-pcu option[value=" + responsePcu + "]").attr('selected', 'selected');
+    if (implementingPartner !== "")
+        $("#implementing-partner option[value=" + implementingPartner + "]").attr('selected', 'selected');
+    $("#procurement-plan").val(procurementPlan);
+    $("#description").val(description);
+    $("#value-achieved").val(valueAchieved);
+    $("#allocated-budget").val(allocatedBudget);
+    if (expenditureCategory !== "")
+        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
+    $("#gok-percentage").val(gokPercentage);
+    $("#ifad-loan-percentage").val(ifadLoanPercentage);
+    $("#ifad-grant-percentage").val(ifadGrantPercentage);
+    $("#beneficiaries-percentage").val(beneficiariesPercentage);
+    $("#eu-percentage").val(euPercentage);
+    $("#financial-institution-percentage").val(financialInstitutionPercentage);
+    $("#sub-activity-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_sub_activity",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditSubActivity",
+                    type: "POST",
+                    data: "id=" + id + "&financialYear=" + $("#financial-year").val() +
+                            "&expectedOutcome=" + $("#expected-outcome").val() +
+                            "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                            "&component=" + $("#component").val() +
+                            "&subComponent=" + $("#sub-component").val() +
+                            "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
+                            "&activityName=" + $("#activity-name").val() +
+                            "&subActivityName=" + $("#sub-activity-name").val() +
+                            "&startDate=" + $("#start-date").val() +
+                            "&endDate=" + $("#end-date").val() +
+                            "&measurementUnit=" + $("#measurement-unit").val() +
+                            "&unitCost=" + $("#unit-cost").val() +
+                            "&awpbTarget=" + $("#awpb-target").val() +
+                            "&programmeTarget=" + $("#programme-target").val() +
+                            "&totals=" + $("#totals").val() +
+                            "&responsePcu=" + $("#response-pcu").val() +
+                            "&implementingPartner=" + $("#implementing-partner").val() +
+                            "&procurementPlan=" + $("#procurement-plan").val() +
+                            "&description=" + $("#description").val() +
+                            "&valueAchieved=" + $("#value-achieved").val() +
+                            "&allocatedBudget=" + $("#allocated-budget").val() +
+                            "&expenditureCategory=" + $("#expected-category").val() +
+                            "&gokPercentage=" + $("#gok-percentage").val() +
+                            "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
+                            "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
+                            "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
+                            "&euPercentage=" + $("#eu-percentage").val() +
+                            "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
+                    success: function () {
+                        emptySubActivityFields();
+                        loadAjaxWindow("sub_activities");
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "Exit": function () {
+                emptySubActivityFields();
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            emptySubActivityFields();
+        }
+    });
+}
+
+function emptySubActivityFields() {
+    $("#financial-year").val("");
+    $("#expected-outcome").val("");
+    $("#annual-workplan-reference-code").val("");
+    $("#component").val("");
+    $("#sub-component").val("");
+    $("#annual-indicator").val("");
+    $("#annual-indicator-ids").val("");
+    $("#activity-name").val("");
+    $("#sub-activity-name").val("");
+    $("#start-date").val("");
+    $("#end-date").val("");
+    $("#measurement-unit").val("");
+    $("#unit-cost").val("");
+    $("#awpb-target").val("");
+    $("#programme-target").val("");
+    $("#totals").val("");
+    $("#response-pcu").val("");
+    $("#implementing-partner").val("");
+    $("#procurement-plan").val("");
+    $("#description").val("");
+    $("#value-achieved").val("");
+    $("#allocated-budget").val("");
+    $("#expected-category").val("");
+    $("#gok-percentage").val("");
+    $("#ifad-loan-percentage").val("");
+    $("#ifad-grant-percentage").val("");
+    $("#beneficiaries-percentage").val("");
+    $("#eu-percentage").val("");
+    $("#financial-institution-percentage").val("");
+}
+
+function deleteSubActivity(id) {
+    $("#message").text("Are you sure you want to remove this sub-activity?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_sub_activity",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteSubActivity",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadAjaxWindow("sub_activities");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 function loadSubActivitiesWindow(activityPlanningId) {
     var target = "subActivities";
     $.ajax({
@@ -1354,6 +1520,7 @@ function addProcurementPlan() {
         , dataType: "HTML"
     });
 }
+
 function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planVsActualchoice,
         cost, method, completeBd, approvalByIfad1, approvalBySda, issueBd, receiveBids
         , evaluateBids, approvalByIfad2, award, approvalBySdaOrAg, signContract, commenceContract) {
@@ -1378,13 +1545,13 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
     $("#procurement-plans-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_procurement_label",
+        title: "edit_procurement_plan_label",
         resizable: false,
         modal: false,
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editProcurement",
+                    url: "doEditProcurementPlan",
                     type: "POST",
                     data:
                             "&id=" + id +
@@ -1455,6 +1622,7 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
         }
     });
 }
+
 function deleteProcurementPlan(id) {
     $("#message").text("Are you sure you want to remove this procurement plan?");
     $("#message-dialog").dialog({
@@ -2417,40 +2585,4 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         }
     });
 }
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Activity planning">
-function deleteActivityPlanning(id) {
-    $("#message").text("Are you sure you want to remove this activity planning?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_activity_planning",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteActivityPlanning",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function (response) {
-                        $("table#activity-planning-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
 //</editor-fold>

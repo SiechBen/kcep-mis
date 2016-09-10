@@ -36,7 +36,7 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
         contact.setPostalAddress(contactDetails.getPostalAddress());
 
         try {
-            em.persist(contact);
+            getEm().persist(contact);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -53,14 +53,14 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
             throw new InvalidArgumentException("error_002_01");
         }
 
-        Contact contact = em.find(Contact.class, contactDetails.getId());
+        Contact contact = getEm().find(Contact.class, contactDetails.getId());
         contact.setId(contactDetails.getId());
         contact.setEmail(contactDetails.getEmail());
         contact.setPhone(contactDetails.getPhone());
         contact.setPostalAddress(contactDetails.getPostalAddress());
 
         try {
-            em.merge(contact);
+            getEm().merge(contact);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -71,9 +71,9 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
 
     @Override
     public void removeContact(int id) throws MilesException {
-        Contact contact = em.find(Contact.class, id);
+        Contact contact = getEm().find(Contact.class, id);
         try {
-            em.remove(contact);
+            getEm().remove(contact);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

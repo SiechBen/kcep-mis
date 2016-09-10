@@ -40,11 +40,11 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
         }
 
         SubComponent subComponent;
-        q = em.createNamedQuery("SubComponent.findBySubComponentAndComponentId");
-        q.setParameter("subComponent", subComponentDetails.getSubComponent());
-        q.setParameter("componentId", subComponentDetails.getComponent().getId());
+        setQ(getEm().createNamedQuery("SubComponent.findBySubComponentAndComponentId"));
+        getQ().setParameter("subComponent", subComponentDetails.getSubComponent());
+        getQ().setParameter("componentId", subComponentDetails.getComponent().getId());
         try {
-            subComponent = (SubComponent) q.getSingleResult();
+            subComponent = (SubComponent) getQ().getSingleResult();
         } catch (Exception e) {
             subComponent = null;
         }
@@ -54,11 +54,11 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 
         subComponent = new SubComponent();
         subComponent.setSubComponent(subComponentDetails.getSubComponent());
-        subComponent.setComponent(em.getReference(Component.class, subComponentDetails.getComponent().getId()));
+        subComponent.setComponent(getEm().getReference(Component.class, subComponentDetails.getComponent().getId()));
 
         try {
-            em.persist(subComponent);
-            em.flush();
+            getEm().persist(subComponent);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -72,9 +72,9 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
     @Override
     public List<SubComponentDetails> retrieveSubComponents() throws MilesException {
         List<SubComponent> subComponents = new ArrayList<>();
-        q = em.createNamedQuery("SubComponent.findAll");
+        setQ(getEm().createNamedQuery("SubComponent.findAll"));
         try {
-            subComponents = q.getResultList();
+            subComponents = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -84,10 +84,10 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
     @Override
     public SubComponentDetails retrieveSubComponent(int id) throws MilesException {
         SubComponent subComponent;
-        q = em.createNamedQuery("SubComponent.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("SubComponent.findById"));
+        getQ().setParameter("id", id);
         try {
-            subComponent = (SubComponent) q.getSingleResult();
+            subComponent = (SubComponent) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -113,11 +113,11 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
         }
 
         SubComponent subComponent;
-        q = em.createNamedQuery("SubComponent.findBySubComponentAndComponentId");
-        q.setParameter("subComponent", subComponentDetails.getSubComponent());
-        q.setParameter("componentId", subComponentDetails.getComponent().getId());
+        setQ(getEm().createNamedQuery("SubComponent.findBySubComponentAndComponentId"));
+        getQ().setParameter("subComponent", subComponentDetails.getSubComponent());
+        getQ().setParameter("componentId", subComponentDetails.getComponent().getId());
         try {
-            subComponent = (SubComponent) q.getSingleResult();
+            subComponent = (SubComponent) getQ().getSingleResult();
         } catch (Exception e) {
             subComponent = null;
         }
@@ -127,14 +127,14 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
             }
         }
 
-        subComponent = em.find(SubComponent.class, subComponentDetails.getId());
+        subComponent = getEm().find(SubComponent.class, subComponentDetails.getId());
         subComponent.setId(subComponentDetails.getId());
         subComponent.setSubComponent(subComponentDetails.getSubComponent());
-        subComponent.setComponent(em.getReference(Component.class, subComponentDetails.getComponent().getId()));
+        subComponent.setComponent(getEm().getReference(Component.class, subComponentDetails.getComponent().getId()));
 
         try {
-            em.merge(subComponent);
-            em.flush();
+            getEm().merge(subComponent);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -145,9 +145,9 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeSubComponent(int id) throws MilesException {
-        SubComponent subComponent = em.find(SubComponent.class, id);
+        SubComponent subComponent = getEm().find(SubComponent.class, id);
         try {
-            em.remove(subComponent);
+            getEm().remove(subComponent);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
