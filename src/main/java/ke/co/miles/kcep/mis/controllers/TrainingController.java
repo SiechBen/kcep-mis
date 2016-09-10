@@ -30,6 +30,7 @@ import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
@@ -57,19 +58,26 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
 public class TrainingController extends Controller {
 
     private static final long serialVersionUID = 1L;
+    private String path;
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+
+        doTrainingControl(request, response, session);
+
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Do training control">
+    private void doTrainingControl(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException {
+
         response.setContentType("text/html;charset=UTF-8");
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
-
-        //Get the user session
-        HttpSession session = request.getSession(false);
-
-        //Get the user path
-        String path = request.getServletPath();
+        path = request.getServletPath();
         String destination;
 
         String fileSeparator = File.separator;
@@ -259,6 +267,9 @@ public class TrainingController extends Controller {
                         }
                         session.setAttribute("trainingMap", trainingMap);
                     }
+
+                    availSessionAttributes(session, response);
+
                     break;
 
                 case "/ward_training":
@@ -287,6 +298,9 @@ public class TrainingController extends Controller {
                         }
                         session.setAttribute("trainingMap", trainingMap);
                     }
+
+                    availSessionAttributes(session, response);
+
                     break;
 
                 case "/county_training":
@@ -315,6 +329,9 @@ public class TrainingController extends Controller {
                         }
                         session.setAttribute("trainingMap", trainingMap);
                     }
+
+                    availSessionAttributes(session, response);
+
                     break;
 
                 case "/sub_county_training":
@@ -343,6 +360,9 @@ public class TrainingController extends Controller {
                         }
                         session.setAttribute("trainingMap", trainingMap);
                     }
+
+                    availSessionAttributes(session, response);
+
                     break;
 
                 case "/head_addTraining":
@@ -387,13 +407,6 @@ public class TrainingController extends Controller {
 
                     break;
 
-                case "/head_trainees":
-                case "/kalro_trainees":
-                case "/ward_trainees":
-                case "/county_trainees":
-                case "/sub_county_trainees":
-                    break;
-
                 case "/loadTrainees":
 
                     int trainingId = Integer.valueOf(request.getParameter("trainingId"));
@@ -417,83 +430,15 @@ public class TrainingController extends Controller {
 
                     return;
 
-                case "/county_addTraining":
-
-                    countyDeskOfficer = (PersonDetails) session.getAttribute("person");
-
-                    List<SubCountyDetails> subCounties;
-                    try {
-                        subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
-                        return;
-                    }
-
-                    List<WardDetails> wards = new ArrayList<>();
-                    if (subCounties != null) {
-
-                        for (SubCountyDetails subCounty : subCounties) {
-                            try {
-                                wards.addAll(wardService.retrieveWards(subCounty.getId()));
-                            } catch (MilesException ex) {
-                                LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
-                                return;
-                            }
-                        }
-
-                        session.setAttribute("subCounties", subCounties);
-                        session.setAttribute("wards", wards);
-
-                    }
-
-                    try {
-                        people = personService.retrievePeople();
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        traineeCategories = phenomenonService.retrieveTraineeCategories();
-                        session.setAttribute("traineeCategories", traineeCategories);
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    try {
-                        trainerCategories = phenomenonService.retrieveTrainerCategories();
-                        session.setAttribute("trainerCategories", trainerCategories);
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    break;
-
                 case "/sub_county_addTraining":
 
                     countyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        wards = wardService.retrieveWards(countyDeskOfficer.getLocation().getSubCounty().getId());
+                        session.setAttribute("wards", wardService.retrieveWards(countyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
                         return;
-                    }
-
-                    if (wards != null) {
-                        session.setAttribute("wards", wards);
                     }
 
                     try {
@@ -680,7 +625,10 @@ public class TrainingController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
 
-                    return;
+                    path = "training";
+                    doTrainingControl(request, response, session);
+
+                    break;
 
                 case "/doEditTraining":
 
@@ -763,34 +711,6 @@ public class TrainingController extends Controller {
                         training.setEndDate(null);
                     }
 
-//                    context = getServletContext();
-//                    realPath = context.getRealPath("/");
-//                    filePath = realPath + "documents" + fileSeparator + "training" + fileSeparator + "attendance_sheets";
-//                    filePart = request.getPart("attendance-sheet");
-//                    fileName = getFileName(filePart);
-//
-//                    try {
-//                        filePath = filePath + fileSeparator + fileName;
-//                        new File(filePath).getParentFile().mkdirs();
-//
-//                        outStream = new FileOutputStream(filePath);
-//                        inStream = filePart.getInputStream();
-//
-//                        final int startOffset = 0;
-//                        final byte[] buffer = new byte[1024];
-//                        while (inStream.read(buffer) > 0) {
-//                            outStream.write(buffer, startOffset, buffer.length);
-//                        }
-//
-//                        training.setAttendanceSheet(filePath);
-//                        outStream.close();
-//
-//                    } catch (FileNotFoundException e) {
-//                        training.setAttendanceSheet(null);
-//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
-//                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
-//                    }
                     trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
                     trainerRecords = new ArrayList<>();
                     for (String trainerCategoryId : trainerPersonIds) {
@@ -870,9 +790,75 @@ public class TrainingController extends Controller {
     }
 
     //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Avail attributes">
+    private void availSessionAttributes(HttpSession session, HttpServletResponse response) throws
+            IOException {
+        PersonDetails person = (PersonDetails) session.getAttribute("person");
+
+        try {
+            session.setAttribute("counties", countyService.retrieveCounties());
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of counties", ex);
+            return;
+        }
+
+        List<SubCountyDetails> subCounties;
+        try {
+            subCounties = subCountyService.retrieveSubCounties(person.getLocation().getCounty().getId());
+        } catch (MilesException ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
+            return;
+        }
+
+        List<WardDetails> wards = new ArrayList<>();
+        if (subCounties != null) {
+
+            for (SubCountyDetails subCounty : subCounties) {
+                try {
+                    wards.addAll(wardService.retrieveWards(subCounty.getId()));
+                } catch (MilesException ex) {
+                    LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                    return;
+                }
+            }
+
+            session.setAttribute("subCounties", subCounties);
+            session.setAttribute("wards", wards);
+
+        }
+
+        try {
+            session.setAttribute("people", personService.retrievePeople());
+        } catch (MilesException ex) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(getBundle().getString(ex.getCode()));
+            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+            return;
+        }
+
+        try {
+            session.setAttribute("traineeCategories", phenomenonService.retrieveTraineeCategories());
+        } catch (MilesException ex) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(getBundle().getString(ex.getCode()));
+            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+            return;
+        }
+
+        try {
+            session.setAttribute("trainerCategories", phenomenonService.retrieveTrainerCategories());
+        } catch (MilesException ex) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(getBundle().getString(ex.getCode()));
+            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+        }
+    }
+//</editor-fold>
     private static final Logger LOGGER = Logger.getLogger(TrainingController.class.getSimpleName());
     @EJB
     private WardRequestsLocal wardService;
+    @EJB
+    private CountyRequestsLocal countyService;
     @EJB
     private PersonRequestsLocal personService;
     @EJB

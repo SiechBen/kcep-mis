@@ -33,7 +33,7 @@
 
         <title> ${title} </title>
 
-        <link href="static/plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="static/plugins/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
         <link href="static/plugins/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/jquery.dataTables.min.css">
         <link href="static/plugins/datatables/media/css/buttons.dataTables.min.css" rel="stylesheet">
