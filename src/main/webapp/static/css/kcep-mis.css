@@ -378,7 +378,7 @@ table.dataTable thead .sorting:after {
 
 .pointable {
     cursor: pointer;
-    color: #3C659C
+    color: #3C659C;
 }
 
 .body-title {
@@ -400,4 +400,13 @@ table.dataTable thead .sorting:after {
 
 .float-right {
     float: right;
+}
+
+.odd {
+    background-color: #f9f9f9;
+}
+
+.farmer-row {
+    cursor: pointer;
+    background-color: #E0F3CD;
 }

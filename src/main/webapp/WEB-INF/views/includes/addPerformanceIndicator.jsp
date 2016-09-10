@@ -58,7 +58,7 @@
                         Ratio( = (AV/EV) * 100)
                         <input id="ratio" class="form-control" readonly="true">
                     </div>
-                    <button type="button" class="btn btn-outline btn-primary" onclick="addPerformanceIndicator()">Save Indicator</button>
+                    <button type="button" class="btn btn-outline btn-primary" onclick="addPerformanceIndicator()">Save indicator</button>
                 </form>
             </div>
         </div>

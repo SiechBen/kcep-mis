@@ -17,7 +17,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover data-table">
+                    <table class="table table-bordered table-hover data-table">
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
@@ -71,10 +71,10 @@
                             <c:forEach var="person" items="${sessionScope.people}" varStatus="index">
                                 <c:choose>
                                     <c:when test="${person.personRoleId == 1}">
-                                        <tr <c:if test="${index.count % 2 == 0}"> class="odd pointable" onclick="loadFarmWindow('${person.id}')"</c:if><c:if test="${index.count % 2 != 0}"> class="pointable" onclick="loadFarmWindow('${person.id}')"</c:if>>
+                                        <tr class="farmer-row" onclick="loadFarmWindow('${person.id}')">
                                         </c:when>
                                         <c:otherwise>
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                            <tr class="odd">
                                         </c:otherwise>
                                     </c:choose>
                                     <td>${index.count}</td>
@@ -91,9 +91,9 @@
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.sex}', '${person.nationalId}',
-                                                    '${person.dateOfBirth}', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
-                                                    '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
-                                                    '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                '${person.dateOfBirth}', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
+                                                '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
+                                                '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletePerson('${person.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -121,7 +121,7 @@
                         National ID 
                         <input type="person-nationalid" id="nationalid" name="nationalid" class="form-control">
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         Date Of Birth
                         <input type="dateOfBirth" id="nationalid" name="nationalid" class="form-control">
                     </div>
@@ -165,7 +165,7 @@
                         Phone
                         <input id="person-phone" name="person-phone" class="form-control">
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         Email
                         <input id="person-email" name="person-email" class="form-control">
                     </div>
