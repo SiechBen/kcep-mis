@@ -1150,7 +1150,7 @@ function editWarehouse(id, name, capacity, units, offers, certified, location, s
                         $("#warehouse-county").val("");
                         $("#warehouse-sub-county").val("");
                         $("#warehouse-type").val("");
-                        $("#warehouse").html(response);
+                        loadAjaxWindow("warehouses");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1189,8 +1189,8 @@ function deleteWarehouse(id) {
                     url: "doDeleteWarehouse",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#warehouse-table tbody").html(response);
+                    success: function () {
+                        loadAjaxWindow("warehouses");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
