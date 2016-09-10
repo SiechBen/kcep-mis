@@ -806,6 +806,19 @@ public class ActivityPlanningController extends Controller {
 
                     return;
 
+                    case "/doDeleteSubActivity":
+                    try {
+                        subActivityService.removeSubActivity(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                    }
+                    
+                    return;
+
+                    
+                    
                 default:
                     break;
             }

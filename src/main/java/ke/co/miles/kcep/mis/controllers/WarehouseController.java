@@ -42,7 +42,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
  *
  * @author siech
  */
-@WebServlet(name = "WarehouseController", urlPatterns = {"/warehouses", "/addWarehouse", "/doAddWarehouse"})
+@WebServlet(name = "WarehouseController", urlPatterns = {"/warehouses", "/addWarehouse", "/doAddWarehouse", "/doEditWarehouse", "/doDeleteWarehouse"})
 public class WarehouseController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -55,10 +55,7 @@ public class WarehouseController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession();
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -72,6 +69,8 @@ public class WarehouseController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
+                            urlPaths.add("/doEditWarehouse");
+                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/head_warehouses";
                                 urlPaths.add(path);
@@ -84,6 +83,8 @@ public class WarehouseController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
+                            urlPaths.add("/doEditWarehouse");
+                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/ward_warehouses";
                                 urlPaths.add(path);
@@ -96,6 +97,8 @@ public class WarehouseController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
+                            urlPaths.add("/doEditWarehouse");
+                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/sub_county_warehouses";
                                 urlPaths.add(path);
@@ -108,6 +111,8 @@ public class WarehouseController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
+                            urlPaths.add("/doEditWarehouse");
+                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/county_warehouses";
                                 urlPaths.add(path);
@@ -402,13 +407,12 @@ public class WarehouseController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
-                    } 
+                    }
                     break;
-                    
+
                 case "/doEditWarehouse":
 
-                   // CountyDetails county = new CountyDetails();
-                     county = new CountyDetails();
+                    county = new CountyDetails();
                     try {
                         county.setId(Short.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
@@ -426,21 +430,21 @@ public class WarehouseController extends Controller {
                         ward = null;
                     }
 
-                     subCounty = new SubCountyDetails();
+                    subCounty = new SubCountyDetails();
                     try {
                         subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
 
-                     measurementUnit = new MeasurementUnitDetails();
+                    measurementUnit = new MeasurementUnitDetails();
                     try {
                         measurementUnit.setId(Short.valueOf(String.valueOf(request.getParameter("capacityUnits"))));
                     } catch (Exception e) {
                         county = null;
                     }
 
-                     location = new LocationDetails();
+                    location = new LocationDetails();
                     location.setCounty(county);
                     location.setWard(ward);
                     location.setSubCounty(subCounty);
@@ -463,14 +467,19 @@ public class WarehouseController extends Controller {
                         warehouseOperator = null;
                     }
 
-                     warehouseType = new WarehouseTypeDetails();
+                    warehouseType = new WarehouseTypeDetails();
                     try {
                         warehouseType.setId(Short.valueOf(String.valueOf(request.getParameter("warehouseType"))));
                     } catch (Exception e) {
                         warehouseType = null;
                     }
 
-                     warehouse = new WarehouseDetails();
+                    try {
+                        warehouse = new WarehouseDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        warehouse = new WarehouseDetails();
+                    }
+
                     try {
                         warehouse.setCapacity(Integer.valueOf(String.valueOf(request.getParameter("capacity"))));
                     } catch (Exception e) {
@@ -490,11 +499,22 @@ public class WarehouseController extends Controller {
                     }
 
                     try {
-                        warehouseService.addWarehouse(warehouse);
+                        warehouseService.editWarehouse(warehouse);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    return;
+
+                case "/doDeleteWarehouse":
+                    try {
+                        warehouseService.removeWarehouse(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
                     }
 
                     return;

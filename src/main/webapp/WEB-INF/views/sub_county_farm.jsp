@@ -12,7 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - national officer </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-           <jsp:include page="includes/farm.jsp"/>
+        <jsp:include page="includes/farm.jsp"/>
 
     </jsp:attribute>
 </kcep:sub_county>
