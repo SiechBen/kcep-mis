@@ -2134,10 +2134,9 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditPerfomanceIndicator",
+                    url: "doEditPerformanceIndicator",
                     type: "POST",
-                    data:
-                            "&id=" + id +
+                    data:   "id=" + id +
                             "&performanceIndicatorType=" + $("#performance-indicator-type").val() +
                             "&resultHierarchy=" + $("#result-hierarchy").val() +
                             "&expectedValue=" + $("#expected-value").val() +
@@ -2147,7 +2146,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&description=" + $("#description").val() +
                             "&yearOfUse=" + $("#year-of-use").val() +
                             "&ratio=" + $("#ratio").val(),
-                    success: function (response) {
+                    success: function () {
                         emptyPerformanceIndicatorFields();
                         loadAjaxWindow("performance_indicators");
                     },
@@ -2179,8 +2178,8 @@ function deletePerformanceIndicator(id) {
                     url: "doDeletePerformanceIndicator",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#performance-indicator-table tbody").html(response);
+                    success: function () {
+                        loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);

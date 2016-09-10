@@ -50,8 +50,8 @@
                                     <td>${performanceIndicator.actualValue}</td>
                                     <td>${performanceIndicator.expectedValue}</td>
                                     <td>${performanceIndicator.ratio}</td>
-                                    <td><button onclick="editPerformanceIndicator('${perfomanceIndicator.id}','${performanceIndicator.performanceIndicatorType.type}','${performanceIndicator.resultHierarchy.description}','${performanceIndicator.description}','${performanceIndicator.baselineDate}','${performanceIndicator.baselineValue}','${performanceIndicator.yearOfUse}','${performanceIndicator.actualValue}','${performanceIndicator.expectedValue}','${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deletePerformanceIndicator(${perfomanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="editPerformanceIndicator('${performanceIndicator.id}','${performanceIndicator.performanceIndicatorType.type}','${performanceIndicator.resultHierarchy.description}','${performanceIndicator.description}','${performanceIndicator.baselineDate}','${performanceIndicator.baselineValue}','${performanceIndicator.yearOfUse}','${performanceIndicator.actualValue}','${performanceIndicator.expectedValue}','${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deletePerformanceIndicator(${performanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

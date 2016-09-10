@@ -266,7 +266,6 @@ public class PerformanceIndicatorController extends Controller {
                                     )));
                         } catch (NumberFormatException ex) {
                         }
-
                     }
 
                     try {
@@ -324,7 +323,6 @@ public class PerformanceIndicatorController extends Controller {
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
 
             LOGGER.log(Level.INFO,
