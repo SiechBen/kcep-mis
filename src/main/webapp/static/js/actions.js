@@ -987,10 +987,10 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editProcurement",
+                    url: "doEditProcurement",
                     type: "POST",
-                    data:
-                            "item=" + $("#item").val() +
+                    data: "id=" + id +
+                            "&item=" + $("#item").val() +
                             "&cost=" + $("#cost").val() +
                             "&date-purchased=" + $("#date-purchased").val() +
                             "&serial-number=" + $("#serial-number").val() +
@@ -1000,7 +1000,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                             "&procurement-sub-county=" + $("#procurement-sub-county").val() +
                             "&lpo-number=" + $("#lpo-number").val(),
                     success: function (response) {
-                        $("#item").va("");
+                        $("#item").val("");
                         $("#cost").val("");
                         $("#date-purchased").val("");
                         $("#serial-number").val("");
@@ -1009,7 +1009,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                         $("#procurement-county").val("");
                         $("#procurement-sub-county").val("");
                         $("#lpo-number").val("");
-                        loadAjaxWindow("head_procurements");
+                        loadAjaxWindow('procurements');
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
@@ -1020,7 +1020,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
             }
         },
         close: function () {
-            $("#item").va("");
+            $("#item").val("");
             $("#cost").val("");
             $("#date-purchased").val("");
             $("#serial-number").val("");
@@ -1032,6 +1032,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
         }
     });
 }
+
 function deleteProcuremenet(id) {
     $("#message").text("Are you sure you want to remove this procurement?");
     $("#message-dialog").dialog({
@@ -1175,6 +1176,7 @@ function editWarehouse(id, name, capacity, units, offers, certified, location, s
         }
     });
 }
+
 function deleteWarehouse(id) {
     $("#message").text("Are you sure you want to remove this warehouse?");
     $("#message-dialog").dialog({
@@ -1931,39 +1933,38 @@ function deleteProcurementPlanCs(id) {
     });
 }
 
-
-function doEditProcurementPlansCs(id, type, description,
+function editProcurementPlansCs(id, type, description,
         planVsActual, cost, method, submitTor, completeReoi, completeBd,
         approvalByIfad1, approvalBySda, issueReoi, receiveEois, establishShortList,
         completeRfp, approvalByIfad2, issueRfp, receiveProposals, evaluateProposals,
         approvalByIfad3, negotiate, approvalByIfad4,
         award, approvalBySdaOrAg, signContract, commenceContract) {
 
-    $("#procurement-plan-type").val(type);
+    $("#procurement-plan-type option[value=" + type + "]").attr('selected', 'selected');
     $("#description").val(description);
-    $("#plan-vs-actual").val(planVsActual);
+    $("#plan-vs-actual option[value=" + planVsActual + "]").attr('selected', 'selected');
     $("#cost").val(cost);
-    $("#procurement-method").val(method);
-    $("#submit-tor").val(submitTor);
-    $("#complete-reoi").val(completeReoi);
-    $("#complete-bd").val(completeBd);
-    $("#approval-by-ifad1").val(approvalByIfad1);
-    $("#approval-by-ifad2").val(approvalByIfad2);
-    $("#approval-by-ifad3").val(approvalByIfad3);
-    $("#approval-by-ifad4").val(approvalByIfad4);
-    $("#approval-by-sda").val(approvalBySda);
-    $("#approval-by-sda-or-ag").val(approvalBySdaOrAg);
-    $("#issue-reoi").val(issueReoi);
-    $("#receive-eois").val(receiveEois);
-    $("#establish-short-list").val(establishShortList);
-    $("#complete-rfp").val(completeRfp);
-    $("#issue-rfp").val(issueRfp);
-    $("#receive-proposals").val(receiveProposals);
-    $("#evaluate-technical-proposals").val(evaluateProposals);
-    $("#negotiate").val(negotiate);
-    $("#award").val(award);
-    $("#sign-contract").val(signContract);
-    $("#commence-contract").val(commenceContract);
+    $("#procurement-method option[value=" + method + "]").attr('selected', 'selected');
+    $("#submit-tor").val(submitTor.replace(/-/g, "/"));
+    $("#complete-reoi").val(completeReoi.replace(/-/g, "/"));
+    $("#complete-bd").val(completeBd.replace(/-/g, "/"));
+    $("#approval-by-ifad1").val(approvalByIfad1.replace(/-/g, "/"));
+    $("#approval-by-ifad2").val(approvalByIfad2.replace(/-/g, "/"));
+    $("#approval-by-ifad3").val(approvalByIfad3.replace(/-/g, "/"));
+    $("#approval-by-ifad4").val(approvalByIfad4.replace(/-/g, "/"));
+    $("#approval-by-sda").val(approvalBySda.replace(/-/g, "/"));
+    $("#approval-by-sda-or-ag").val(approvalBySdaOrAg.replace(/-/g, "/"));
+    $("#issue-reoi").val(issueReoi.replace(/-/g, "/"));
+    $("#receive-eois").val(receiveEois.replace(/-/g, "/"));
+    $("#establish-short-list").val(establishShortList.replace(/-/g, "/"));
+    $("#complete-rfp").val(completeRfp.replace(/-/g, "/"));
+    $("#issue-rfp").val(issueRfp.replace(/-/g, "/"));
+    $("#receive-proposals").val(receiveProposals.replace(/-/g, "/"));
+    $("#evaluate-technical-proposals").val(evaluateProposals.replace(/-/g, "/"));
+    $("#negotiate").val(negotiate.replace(/-/g, "/"));
+    $("#award").val(award.replace(/-/g, "/"));
+    $("#sign-contract").val(signContract.replace(/-/g, "/"));
+    $("#commence-contract").val(commenceContract.replace(/-/g, "/"));
 
     $("#procurement-plans-cs-dialog").dialog({
         width: 495,
@@ -1976,7 +1977,7 @@ function doEditProcurementPlansCs(id, type, description,
                 $.ajax({
                     url: "doEditProcurementPlanCs",
                     type: "POST",
-                    data: "&id=" + id +
+                    data: "id=" + id +
                             "&procurementPlanType=" + $("#procurement-plan-type").val() +
                             "&description=" + $("#description").val() +
                             "&ifadPriorReview=" + $("#ifad-prior-review").val() +
@@ -2089,15 +2090,7 @@ function addPerformanceIndicator() {
                 "&yearOfUse=" + $("#year-of-use").val() +
                 "&ratio=" + $("#ratio").val(),
         success: function () {
-            $("#performance-indicator-type").val();
-            $("#result-hierarchy").val();
-            $("#description").val();
-            $("#baseline-date").val();
-            $("#baseline-value").val();
-            $("#year-of-use").val();
-            $("#actual-value").val();
-            $("#expected-value").val();
-            $("#ratio").val();
+            emptyPerformanceIndicatorFields();
             loadAjaxWindow("performance_indicators");
             return;
         },
@@ -2106,6 +2099,19 @@ function addPerformanceIndicator() {
         },
         dataType: "HTML"
     });
+}
+
+function emptyPerformanceIndicatorFields() {
+    $("#performance-indicator-type").val("");
+    $("#result-hierarchy").val("");
+    $("#description").val("");
+    $("#baseline-date").val("");
+    $("#baseline-value").val("");
+    $("#year-of-use").val("");
+    $("#actual-value").val("");
+    $("#expected-value").val("");
+    $("#ratio").val("");
+
 }
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
@@ -2142,16 +2148,8 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&yearOfUse=" + $("#year-of-use").val() +
                             "&ratio=" + $("#ratio").val(),
                     success: function (response) {
-                        $("#performance-indicator-type").val();
-                        $("#result-hierarchy").val();
-                        $("#description").val();
-                        $("#baseline-date").val();
-                        $("#baseline-value").val();
-                        $("#year-of-use").val();
-                        $("#actual-value").val();
-                        $("#expected-value").val();
-                        $("#ratio").val();
-                        $("#account").html(response);
+                        emptyPerformanceIndicatorFields();
+                        loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2162,18 +2160,11 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
             }
         },
         close: function () {
-            $("#performance-indicator-type").val();
-            $("#result-hierarchy").val();
-            $("#description").val();
-            $("#baseline-date").val();
-            $("#baseline-value").val();
-            $("#year-of-use").val();
-            $("#actual-value").val();
-            $("#expected-value").val();
-            $("#ratio").val();
+            emptyPerformanceIndicatorFields();
         }
     });
 }
+
 function deletePerformanceIndicator(id) {
     $("#message").text("Are you sure you want to remove this performance indicator?");
     $("#message-dialog").dialog({

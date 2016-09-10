@@ -36,7 +36,9 @@ import ke.co.miles.kcep.mis.utilities.ProcurementPlanTypeDetail;
  *
  * @author siech
  */
-@WebServlet(name = "ProcurementPlanCsController", urlPatterns = {"/procurement_plans_cs", "/addProcurementPlanCs", "/doAddProcurementPlanCs"})
+@WebServlet(name = "ProcurementPlanCsController", 
+        urlPatterns = {"/procurement_plans_cs", "/addProcurementPlanCs", 
+            "/doAddProcurementPlanCs","/doEditProcurementPlanCs", "/doDeleteProcurementPlanCs"})
 public class ProcurementPlanCsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -121,34 +123,18 @@ public class ProcurementPlanCsController extends Controller {
                 case "/county_procurement_plans_cs":
                 case "/region_procurement_plans_cs":
 
-                    List<ProcurementPlanCsDetails> procurementPlans;
                     try {
-                        procurementPlans = procurementPlanCsService.retrieveProcurementPlansCs();
+                        session.setAttribute("procurementPlansCs", procurementPlanCsService.retrieveProcurementPlansCs());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during procurement plans retrieval", ex);
                         return;
                     }
 
-                    if (procurementPlans != null) {
-                        session.setAttribute("procurementPlansCs", procurementPlans);
-                    }
-
-                    break;
-
-                case "/head_addProcurementPlanCs":
-                case "/county_addProcurementPlanCs":
-                case "/region_addProcurementPlanCs":
-
-                    List<ProcurementMethodDetails> procurementMethods;
                     try {
-                        procurementMethods = procurementMethodService.retrieveProcurementMethods();
+                        session.setAttribute("procurementMethods", procurementMethodService.retrieveProcurementMethods());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of procurement methods", ex);
                         return;
-                    }
-
-                    if (procurementMethods != null) {
-                        session.setAttribute("procurementMethods", procurementMethods);
                     }
 
                     session.setAttribute("ifadPriorReviewChoices", IfadPriorReviewDetail.values());
@@ -417,7 +403,6 @@ public class ProcurementPlanCsController extends Controller {
 
                 case "/doEditProcurementPlanCs":
 
-                    // ProcurementPlanCsDetails procurementPlanCs = new ProcurementPlanCsDetails();
                     procurementPlanCs = new ProcurementPlanCsDetails();
                     try {
                         procurementPlanCs.setId(Integer.valueOf(request.getParameter("id")));
