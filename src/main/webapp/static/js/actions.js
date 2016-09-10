@@ -1102,13 +1102,13 @@ function addWarehouse() {
     });
 }
 
-function editWarehouse(id, name, capacity, units, offers, certification, subCounty, county, latitude, longitude, operator) {
+function editWarehouse(id, name, capacity, units, offers, certified, location, subCounty, county, latitude, longitude, operator) {
     $("#warehouse-name").val(name);
     $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
     $("#capacity").val(capacity);
     $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
     $("#offers-wrs").val(offers);
-    $("#certified").val(certification);
+    $("#certified").val(certified);
     $("#warehouse-latitude").val(latitude);
     $("#warehouse-longitude").val(longitude);
     $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
@@ -1125,7 +1125,9 @@ function editWarehouse(id, name, capacity, units, offers, certification, subCoun
                 $.ajax({
                     url: "doEditWarehouse",
                     type: "POST",
-                    data: "id=" + id + "&name=" + $("#warehouse-name").val() +
+                    data: "id=" + id +
+                            "&location=" + location +
+                            "&name=" + $("#warehouse-name").val() +
                             "&warehouseOperator=" + $("#warehouse-operator").val() +
                             "&capacity=" + $("#capacity").val() +
                             "&capacityUnits=" + $("#capacity-units").val() +
@@ -1288,7 +1290,7 @@ function addEquipment(warehouseId) {
     });
 }
 
-function editEquipment(id, type, count, status) {
+function editEquipment(id, warehouseId, type, count, status) {
     $("#equipment-total-count").val(count);
     $("#equipment-status").val(status);
     $("#equipment-type").val(type);
@@ -1312,6 +1314,7 @@ function editEquipment(id, type, count, status) {
                         $("#equipment-status").val("");
                         $("#equipment-type").val("");
                         $("#equipment").html(response);
+                        loadEquimentWindow()(warehouseId);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1329,7 +1332,7 @@ function editEquipment(id, type, count, status) {
     });
 }
 
-function deleteEquipment(id) {
+function deleteEquipment(id, warehouseId) {
     $("#message").text("Are you sure you want to remove this equipment?");
     $("#message-dialog").dialog({
         width: 495,
@@ -1343,8 +1346,8 @@ function deleteEquipment(id) {
                     url: "doDeleteEquipment",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#equipment-table tbody").html(response);
+                    success: function () {
+                        loadEquimentWindow()(warehouseId);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
