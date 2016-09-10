@@ -71,10 +71,10 @@
                             <c:forEach var="person" items="${sessionScope.people}" varStatus="index">
                                 <c:choose>
                                     <c:when test="${person.personRoleId == 1}">
-                                        <tr <c:if test="${index.count % 2 == 0}"> class="farmer-row" onclick="loadFarmWindow('${person.id}')"</c:if><c:if test="${index.count % 2 != 0}"> class="pointable" onclick="loadFarmWindow('${person.id}')"</c:if>>
+                                        <tr <c:if test="${index.count % 2 == 0}">class="farmer-row"</c:if> onclick="loadFarmWindow('${person.id}')">
                                         </c:when>
                                         <c:otherwise>
-                                        <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                        <tr <c:if test="${index.count % 2 == 0}"> class="odd"</c:if>>
                                         </c:otherwise>
                                     </c:choose>
                                     <td>${index.count}</td>
@@ -121,7 +121,7 @@
                         National ID 
                         <input type="person-nationalid" id="nationalid" name="nationalid" class="form-control">
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         Date Of Birth
                         <input type="dateOfBirth" id="nationalid" name="nationalid" class="form-control">
                     </div>
@@ -165,7 +165,7 @@
                         Phone
                         <input id="person-phone" name="person-phone" class="form-control">
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         Email
                         <input id="person-email" name="person-email" class="form-control">
                     </div>
