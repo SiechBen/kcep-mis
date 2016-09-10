@@ -136,7 +136,15 @@ public class WarehouseController extends Controller {
 
                 case "/head_warehouses":
 
-                    //Retrieve the list of warehouses
+                    try {
+                        session.setAttribute("warehouseOperators", phenomenonService.retrieveWarehouseOperators());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
                     List<WarehouseDetails> warehouses;
                     try {
                         warehouses = warehouseService.retrieveWarehouses();
@@ -145,7 +153,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    //Avail the warehouses in the application scope
                     if (warehouses != null) {
                         session.setAttribute("warehouses", warehouses);
                     }
@@ -200,7 +207,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    //Avail the warehouses in the application scope
                     if (warehouses != null) {
                         session.setAttribute("warehouses", warehouses);
                     }
@@ -244,7 +250,6 @@ public class WarehouseController extends Controller {
 
                         for (SubCountyDetails subCounty : subCounties) {
                             try {
-                                wards = new ArrayList<>();
                                 session.setAttribute("wards", wardService.retrieveWards(subCounty.getId()));
                             } catch (MilesException ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
@@ -301,24 +306,6 @@ public class WarehouseController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
-                    break;
-
-                case "/head_addWarehouse":
-                case "/ward_addWarehouse":
-                case "/county_addWarehouse":
-                case "/sub_county_addWarehouse":
-
-                    List<PhenomenonDetails> warehouseOperators;
-                    try {
-                        warehouseOperators = phenomenonService.retrieveWarehouseOperators();
-                        session.setAttribute("warehouseOperators", warehouseOperators);
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
                     break;
 
                 case "/doAddWarehouse":
@@ -408,7 +395,7 @@ public class WarehouseController extends Controller {
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
-                    break;
+                    return;
 
                 case "/doEditWarehouse":
 
@@ -444,7 +431,11 @@ public class WarehouseController extends Controller {
                         county = null;
                     }
 
-                    location = new LocationDetails();
+                    try {
+                        location = new LocationDetails(Integer.valueOf(request.getParameter("location")));
+                    } catch (Exception e) {
+                        location = new LocationDetails();
+                    }
                     location.setCounty(county);
                     location.setWard(ward);
                     location.setSubCounty(subCounty);

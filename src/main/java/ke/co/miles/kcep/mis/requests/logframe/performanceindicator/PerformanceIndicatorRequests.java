@@ -48,14 +48,14 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
         performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
-        performanceIndicator.setResultHierarchy(em.getReference(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
+        performanceIndicator.setResultHierarchy(getEm().getReference(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(em.getReference(PerformanceIndicatorType.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
+            performanceIndicator.setPerformanceIndicatorType(getEm().getReference(PerformanceIndicatorType.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
         }
 
         try {
-            em.persist(performanceIndicator);
-            em.flush();
+            getEm().persist(performanceIndicator);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -70,9 +70,9 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     @SuppressWarnings("unchecked")
     public List<PerformanceIndicatorDetails> retrievePerformanceIndicators() throws MilesException {
         List<PerformanceIndicator> performanceIndicators = new ArrayList<>();
-        q = em.createNamedQuery("PerformanceIndicator.findAll");
+        setQ(getEm().createNamedQuery("PerformanceIndicator.findAll"));
         try {
-            performanceIndicators = q.getResultList();
+            performanceIndicators = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -82,10 +82,10 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     @Override
     public PerformanceIndicatorDetails retrievePerformanceIndicator(int id) throws MilesException {
         PerformanceIndicator performanceIndicator;
-        q = em.createNamedQuery("PerformanceIndicator.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("PerformanceIndicator.findById"));
+        getQ().setParameter("id", id);
         try {
-            performanceIndicator = (PerformanceIndicator) q.getSingleResult();
+            performanceIndicator = (PerformanceIndicator) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -110,7 +110,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             throw new InvalidArgumentException("error_040_04");
         }
 
-        PerformanceIndicator performanceIndicator = em.find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
+        PerformanceIndicator performanceIndicator = getEm().find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
         performanceIndicator.setId(performanceIndicatorDetails.getId());
         performanceIndicator.setRatio(performanceIndicatorDetails.getRatio());
         performanceIndicator.setYearOfUse(performanceIndicatorDetails.getYearOfUse());
@@ -120,17 +120,17 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
         performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(em.getReference(PerformanceIndicatorType.class,
+            performanceIndicator.setPerformanceIndicatorType(getEm().getReference(PerformanceIndicatorType.class,
                     performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
         }
         if (performanceIndicatorDetails.getResultHierarchy() != null) {
-            performanceIndicator.setResultHierarchy(em.getReference(ResultHierarchy.class,
+            performanceIndicator.setResultHierarchy(getEm().getReference(ResultHierarchy.class,
                     performanceIndicatorDetails.getResultHierarchy().getId()));
         }
 
         try {
-            em.merge(performanceIndicator);
-            em.flush();
+            getEm().merge(performanceIndicator);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -141,9 +141,9 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removePerformanceIndicator(int id) throws MilesException {
-        PerformanceIndicator performanceIndicator = em.find(PerformanceIndicator.class, id);
+        PerformanceIndicator performanceIndicator = getEm().find(PerformanceIndicator.class, id);
         try {
-            em.remove(performanceIndicator);
+            getEm().remove(performanceIndicator);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

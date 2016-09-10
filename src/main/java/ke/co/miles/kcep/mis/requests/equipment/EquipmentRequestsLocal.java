@@ -38,7 +38,8 @@ public interface EquipmentRequestsLocal {
 
     /**
      *
-     * @param warehouseId the unique identifier for the warehouse to which the equipment belongs
+     * @param warehouseId the unique identifier for the warehouse to which the
+     * equipment belongs
      * @return the list of equipment record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -54,8 +55,16 @@ public interface EquipmentRequestsLocal {
 
     /**
      *
-     * @param id unique identifier of the equipment record to be
-     * removed
+     * @param warehouseId unique identifier of the warehouse to which the
+     * equipment record to be removed is situated
+     * @throws MilesException when the database is in an incorrect state or when
+     * the unique identifier is not given
+     */
+    public void removeWarehouseEquipment(int warehouseId) throws MilesException;
+
+    /**
+     *
+     * @param id unique identifier of the equipment record to be * removed
      * @throws MilesException when the database is in an incorrect state or when
      * the unique identifier is not given
      */

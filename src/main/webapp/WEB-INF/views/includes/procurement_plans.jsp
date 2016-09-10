@@ -10,7 +10,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                List of procurement plans-ncs
+                List of procurement plans - ncs
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -42,7 +42,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="17"> List of procurement plans</td>
+                                <td colspan="17"> List of procurement plans - ncs</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -66,13 +66,13 @@
                                     <td>${procurementPlan.approvalBySdaOrAg}</td>
                                     <td>${procurementPlan.signContract}</td>
                                     <td>${procurementPlan.commenceContract}</td>
-                                    <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.type}',
-                                                '${procurementPlan.description}','${procurementPlan.ifadPriorReview.choice}','${procurementPlan.planVsActual.choice}',
-                                                '${procurementPlan.cost}','${procurementPlan.procurementMethod.method}','${procurementPlan.completeBd}',
-                                                '${procurementPlan.approvalByIfad1}','${procurementPlan.approvalBySda}','${procurementPlan.issueBd}',
-                                                '${procurementPlan.receiveBids}','${procurementPlan.evaluateBids}','${procurementPlan.approvalByIfad2}',
-                                                '${procurementPlan.award}','${procurementPlan.approvalBySdaOrAg}','${procurementPlan.signContract}',
-                                                '${procurementPlan.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.id}',
+                                                    '${procurementPlan.description}', '${procurementPlan.ifadPriorReview.id}', '${procurementPlan.planVsActual.id}',
+                                                    '${procurementPlan.cost}', '${procurementPlan.procurementMethod.id}', '${procurementPlan.completeBd}',
+                                                    '${procurementPlan.approvalByIfad1}', '${procurementPlan.approvalBySda}', '${procurementPlan.issueBd}',
+                                                    '${procurementPlan.receiveBids}', '${procurementPlan.evaluateBids}', '${procurementPlan.approvalByIfad2}',
+                                                    '${procurementPlan.award}', '${procurementPlan.approvalBySdaOrAg}', '${procurementPlan.signContract}',
+                                                    '${procurementPlan.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteProcurementPlan(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -89,7 +89,6 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-
                     <div class="form-group">
                         Procurement plan type
                         <select id="procurement-plan-type" class="form-control">
@@ -174,8 +173,8 @@
                         Commence contract
                         <input id="commence-contract" class="form-control datefield">
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
+</div>

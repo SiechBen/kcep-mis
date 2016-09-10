@@ -40,11 +40,11 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         }
 
         SubCounty subCounty;
-        q = em.createNamedQuery("SubCounty.findByNameAndCountyId");
-        q.setParameter("name", subCountyDetails.getName());
-        q.setParameter("countyId", subCountyDetails.getCounty().getId());
+        setQ(getEm().createNamedQuery("SubCounty.findByNameAndCountyId"));
+        getQ().setParameter("name", subCountyDetails.getName());
+        getQ().setParameter("countyId", subCountyDetails.getCounty().getId());
         try {
-            subCounty = (SubCounty) q.getSingleResult();
+            subCounty = (SubCounty) getQ().getSingleResult();
         } catch (Exception e) {
             subCounty = null;
         }
@@ -54,11 +54,11 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
 
         subCounty = new SubCounty();
         subCounty.setName(subCountyDetails.getName());
-        subCounty.setCounty(em.getReference(County.class, subCountyDetails.getCounty().getId()));
+        subCounty.setCounty(getEm().getReference(County.class, subCountyDetails.getCounty().getId()));
 
         try {
-            em.persist(subCounty);
-            em.flush();
+            getEm().persist(subCounty);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -73,9 +73,9 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
     @SuppressWarnings("unchecked")
     public List<SubCountyDetails> retrieveSubCounties() throws MilesException {
         List<SubCounty> subCountys = new ArrayList<>();
-        q = em.createNamedQuery("SubCounty.findAll");
+        setQ(getEm().createNamedQuery("SubCounty.findAll"));
         try {
-            subCountys = q.getResultList();
+            subCountys = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -86,10 +86,10 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
     @SuppressWarnings("unchecked")
     public List<SubCountyDetails> retrieveSubCounties(short countyId) throws MilesException {
         List<SubCounty> subCountys = new ArrayList<>();
-        q = em.createNamedQuery("SubCounty.findByCountyId");
-        q.setParameter("countyId", countyId);
+        setQ(getEm().createNamedQuery("SubCounty.findByCountyId"));
+        getQ().setParameter("countyId", countyId);
         try {
-            subCountys = q.getResultList();
+            subCountys = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -99,10 +99,10 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
     @Override
     public SubCountyDetails retrieveSubCounty(int id) throws MilesException {
         SubCounty subCounty;
-        q = em.createNamedQuery("SubCounty.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("SubCounty.findById"));
+        getQ().setParameter("id", id);
         try {
-            subCounty = (SubCounty) q.getSingleResult();
+            subCounty = (SubCounty) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -128,11 +128,11 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         }
 
         SubCounty subCounty;
-        q = em.createNamedQuery("SubCounty.findByNameAndCountyId");
-        q.setParameter("name", subCountyDetails.getName());
-        q.setParameter("countyId", subCountyDetails.getCounty().getId());
+        setQ(getEm().createNamedQuery("SubCounty.findByNameAndCountyId"));
+        getQ().setParameter("name", subCountyDetails.getName());
+        getQ().setParameter("countyId", subCountyDetails.getCounty().getId());
         try {
-            subCounty = (SubCounty) q.getSingleResult();
+            subCounty = (SubCounty) getQ().getSingleResult();
         } catch (Exception e) {
             subCounty = null;
         }
@@ -142,14 +142,14 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
             }
         }
 
-        subCounty = em.find(SubCounty.class, subCountyDetails.getId());
+        subCounty = getEm().find(SubCounty.class, subCountyDetails.getId());
         subCounty.setId(subCountyDetails.getId());
         subCounty.setName(subCountyDetails.getName());
-        subCounty.setCounty(em.getReference(County.class, subCountyDetails.getCounty().getId()));
+        subCounty.setCounty(getEm().getReference(County.class, subCountyDetails.getCounty().getId()));
 
         try {
-            em.merge(subCounty);
-            em.flush();
+            getEm().merge(subCounty);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -160,9 +160,9 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeSubCounty(int id) throws MilesException {
-        SubCounty subCounty = em.find(SubCounty.class, id);
+        SubCounty subCounty = getEm().find(SubCounty.class, id);
         try {
-            em.remove(subCounty);
+            getEm().remove(subCounty);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

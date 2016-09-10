@@ -35,10 +35,10 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
         }
 
         PerformanceIndicatorType performanceIndicatorType;
-        q = em.createNamedQuery("PerformanceIndicatorType.findByType");
-        q.setParameter("type", performanceIndicatorTypeDetails.getType());
+        setQ(getEm().createNamedQuery("PerformanceIndicatorType.findByType"));
+        getQ().setParameter("type", performanceIndicatorTypeDetails.getType());
         try {
-            performanceIndicatorType = (PerformanceIndicatorType) q.getSingleResult();
+            performanceIndicatorType = (PerformanceIndicatorType) getQ().getSingleResult();
         } catch (Exception e) {
             performanceIndicatorType = null;
         }
@@ -50,8 +50,8 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
         performanceIndicatorType.setType(performanceIndicatorTypeDetails.getType());
 
         try {
-            em.persist(performanceIndicatorType);
-            em.flush();
+            getEm().persist(performanceIndicatorType);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
     @Override
     public List<PerformanceIndicatorTypeDetails> retrievePerformanceIndicatorTypes() throws MilesException {
         List<PerformanceIndicatorType> performanceIndicatorTypes = new ArrayList<>();
-        q = em.createNamedQuery("PerformanceIndicatorType.findAll");
+        setQ(getEm().createNamedQuery("PerformanceIndicatorType.findAll"));
         try {
-            performanceIndicatorTypes = q.getResultList();
+            performanceIndicatorTypes = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
     @Override
     public PerformanceIndicatorTypeDetails retrievePerformanceIndicatorType(int id) throws MilesException {
         PerformanceIndicatorType performanceIndicatorType;
-        q = em.createNamedQuery("PerformanceIndicatorType.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("PerformanceIndicatorType.findById"));
+        getQ().setParameter("id", id);
         try {
-            performanceIndicatorType = (PerformanceIndicatorType) q.getSingleResult();
+            performanceIndicatorType = (PerformanceIndicatorType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
         }
 
         PerformanceIndicatorType performanceIndicatorType;
-        q = em.createNamedQuery("PerformanceIndicatorType.findByType");
-        q.setParameter("type", performanceIndicatorTypeDetails.getType());
+        setQ(getEm().createNamedQuery("PerformanceIndicatorType.findByType"));
+        getQ().setParameter("type", performanceIndicatorTypeDetails.getType());
         try {
-            performanceIndicatorType = (PerformanceIndicatorType) q.getSingleResult();
+            performanceIndicatorType = (PerformanceIndicatorType) getQ().getSingleResult();
         } catch (Exception e) {
             performanceIndicatorType = null;
         }
@@ -117,13 +117,13 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
             }
         }
 
-        performanceIndicatorType = em.find(PerformanceIndicatorType.class, performanceIndicatorTypeDetails.getId());
+        performanceIndicatorType = getEm().find(PerformanceIndicatorType.class, performanceIndicatorTypeDetails.getId());
         performanceIndicatorType.setId(performanceIndicatorTypeDetails.getId());
         performanceIndicatorType.setType(performanceIndicatorTypeDetails.getType());
 
         try {
-            em.merge(performanceIndicatorType);
-            em.flush();
+            getEm().merge(performanceIndicatorType);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class PerformanceIndicatorTypeRequests extends EntityRequests implements 
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removePerformanceIndicatorType(int id) throws MilesException {
-        PerformanceIndicatorType performanceIndicatorType = em.find(PerformanceIndicatorType.class, id);
+        PerformanceIndicatorType performanceIndicatorType = getEm().find(PerformanceIndicatorType.class, id);
         try {
-            em.remove(performanceIndicatorType);
+            getEm().remove(performanceIndicatorType);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

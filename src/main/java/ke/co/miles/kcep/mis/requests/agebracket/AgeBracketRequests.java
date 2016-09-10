@@ -35,10 +35,10 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         }
 
         AgeBracket ageBracket;
-        q = em.createNamedQuery("AgeBracket.findByBracket");
-        q.setParameter("bracket", ageBracketDetails.getBracket());
+        setQ(getEm().createNamedQuery("AgeBracket.findByBracket"));
+        getQ().setParameter("bracket", ageBracketDetails.getBracket());
         try {
-            ageBracket = (AgeBracket) q.getSingleResult();
+            ageBracket = (AgeBracket) getQ().getSingleResult();
         } catch (Exception e) {
             ageBracket = null;
         }
@@ -50,8 +50,8 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         ageBracket.setBracket(ageBracketDetails.getBracket());
 
         try {
-            em.persist(ageBracket);
-            em.flush();
+            getEm().persist(ageBracket);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
     @Override
     public List<AgeBracketDetails> retrieveAgeBrackets() throws MilesException {
         List<AgeBracket> ageBrackets = new ArrayList<>();
-        q = em.createNamedQuery("AgeBracket.findAll");
+        setQ(getEm().createNamedQuery("AgeBracket.findAll"));
         try {
-            ageBrackets = q.getResultList();
+            ageBrackets = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
     @Override
     public AgeBracketDetails retrieveAgeBracket(int id) throws MilesException {
         AgeBracket ageBracket;
-        q = em.createNamedQuery("AgeBracket.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("AgeBracket.findById"));
+        getQ().setParameter("id", id);
         try {
-            ageBracket = (AgeBracket) q.getSingleResult();
+            ageBracket = (AgeBracket) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         }
 
         AgeBracket ageBracket;
-        q = em.createNamedQuery("AgeBracket.findByBracket");
-        q.setParameter("bracket", ageBracketDetails.getBracket());
+        setQ(getEm().createNamedQuery("AgeBracket.findByBracket"));
+        getQ().setParameter("bracket", ageBracketDetails.getBracket());
         try {
-            ageBracket = (AgeBracket) q.getSingleResult();
+            ageBracket = (AgeBracket) getQ().getSingleResult();
         } catch (Exception e) {
             ageBracket = null;
         }
@@ -117,12 +117,12 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
             }
         }
 
-        ageBracket = em.find(AgeBracket.class, ageBracketDetails.getId());
+        ageBracket = getEm().find(AgeBracket.class, ageBracketDetails.getId());
         ageBracket.setBracket(ageBracketDetails.getBracket());
 
         try {
-            em.merge(ageBracket);
-            em.flush();
+            getEm().merge(ageBracket);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -133,9 +133,9 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeAgeBracket(int id) throws MilesException {
-        AgeBracket ageBracket = em.find(AgeBracket.class, id);
+        AgeBracket ageBracket = getEm().find(AgeBracket.class, id);
         try {
-            em.remove(ageBracket);
+            getEm().remove(ageBracket);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

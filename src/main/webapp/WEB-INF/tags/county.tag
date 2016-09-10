@@ -22,7 +22,7 @@
             <a onclick="loadAjaxWindow('sub_activities')"><i class="fa fa-edit fa-fw"></i> Activity planning </a>
         </li>
         <li>
-            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans </a>
+            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans - ncs </a>
         </li>
         <li>
             <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plans - cs </a>
@@ -40,7 +40,6 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">County Desk Officer</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
             <div>         
                 <jsp:invoke fragment="pagecontent" />

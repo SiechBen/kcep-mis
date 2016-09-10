@@ -1103,13 +1103,13 @@ function addWarehouse() {
     });
 }
 
-function editWarehouse(id, name, capacity, units, offers, certification, subCounty, county, latitude, longitude, operator) {
+function editWarehouse(id, name, capacity, units, offers, certified, location, subCounty, county, latitude, longitude, operator) {
     $("#warehouse-name").val(name);
     $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
     $("#capacity").val(capacity);
     $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
     $("#offers-wrs").val(offers);
-    $("#certified").val(certification);
+    $("#certified").val(certified);
     $("#warehouse-latitude").val(latitude);
     $("#warehouse-longitude").val(longitude);
     $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
@@ -1126,7 +1126,9 @@ function editWarehouse(id, name, capacity, units, offers, certification, subCoun
                 $.ajax({
                     url: "doEditWarehouse",
                     type: "POST",
-                    data: "id=" + id + "&name=" + $("#warehouse-name").val() +
+                    data: "id=" + id +
+                            "&location=" + location +
+                            "&name=" + $("#warehouse-name").val() +
                             "&warehouseOperator=" + $("#warehouse-operator").val() +
                             "&capacity=" + $("#capacity").val() +
                             "&capacityUnits=" + $("#capacity-units").val() +
@@ -1149,7 +1151,7 @@ function editWarehouse(id, name, capacity, units, offers, certification, subCoun
                         $("#warehouse-county").val("");
                         $("#warehouse-sub-county").val("");
                         $("#warehouse-type").val("");
-                        $("#warehouse").html(response);
+                        loadAjaxWindow("warehouses");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1189,8 +1191,8 @@ function deleteWarehouse(id) {
                     url: "doDeleteWarehouse",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#warehouse-table tbody").html(response);
+                    success: function () {
+                        loadAjaxWindow("warehouses");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1290,7 +1292,7 @@ function addEquipment(warehouseId) {
     });
 }
 
-function editEquipment(id, type, count, status) {
+function editEquipment(id, warehouseId, type, count, status) {
     $("#equipment-total-count").val(count);
     $("#equipment-status").val(status);
     $("#equipment-type").val(type);
@@ -1314,6 +1316,7 @@ function editEquipment(id, type, count, status) {
                         $("#equipment-status").val("");
                         $("#equipment-type").val("");
                         $("#equipment").html(response);
+                        loadEquimentWindow()(warehouseId);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1331,7 +1334,7 @@ function editEquipment(id, type, count, status) {
     });
 }
 
-function deleteEquipment(id) {
+function deleteEquipment(id, warehouseId) {
     $("#message").text("Are you sure you want to remove this equipment?");
     $("#message-dialog").dialog({
         width: 495,
@@ -1345,8 +1348,8 @@ function deleteEquipment(id) {
                     url: "doDeleteEquipment",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#equipment-table tbody").html(response);
+                    success: function () {
+                        loadEquimentWindow()(warehouseId);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1454,6 +1457,172 @@ function addSubActivity() {
     });
 }
 
+function editSubActivity(id, financialYear, expectedOutcome, annualWorkplanReferenceCode, component, subComponent,
+        activityName, subActvityName, startDate, endDate, measurementUnit, unitCost, awpbTarget,
+        programmeTarget, totals, responsePcu, implementingPartner, procurementPlan, description,
+        valueAchieved, allocatedBudget, expenditureCategory, gokPercentage,
+        ifadLoanPercentage, ifadGrantPercentage, beneficiariesPercentage, euPercentage, financialInstitutionPercentage) {
+    if (financialYear !== "")
+        $("#financial-year option[value=" + financialYear + "]").attr('selected', 'selected');
+    $("#expected-outcome").val(expectedOutcome);
+    $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
+    $("#component option[value=" + component + "]").attr('selected', 'selected');
+    if (subComponent !== "")
+        $("#sub-component option[value=" + subComponent + "]").attr('selected', 'selected');
+    if (activityName !== "")
+        $("#activity-name option[value=" + activityName + "]").attr('selected', 'selected');
+    if (subActvityName !== "")
+        $("#sub-activity-name option[value=" + subActvityName + "]").attr('selected', 'selected');
+    $("#start-date").val(startDate.replace(/-/g, "/"));
+    $("#end-date").val(endDate.replace(/-/g, "/"));
+    if (measurementUnit !== "")
+        $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
+    $("#unit-cost").val(unitCost);
+    $("#awpb-target").val(awpbTarget);
+    $("#programme-target").val(programmeTarget);
+    $("#totals").val(totals);
+    if (responsePcu !== "")
+        $("#response-pcu option[value=" + responsePcu + "]").attr('selected', 'selected');
+    if (implementingPartner !== "")
+        $("#implementing-partner option[value=" + implementingPartner + "]").attr('selected', 'selected');
+    $("#procurement-plan").val(procurementPlan);
+    $("#description").val(description);
+    $("#value-achieved").val(valueAchieved);
+    $("#allocated-budget").val(allocatedBudget);
+    if (expenditureCategory !== "")
+        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
+    $("#gok-percentage").val(gokPercentage);
+    $("#ifad-loan-percentage").val(ifadLoanPercentage);
+    $("#ifad-grant-percentage").val(ifadGrantPercentage);
+    $("#beneficiaries-percentage").val(beneficiariesPercentage);
+    $("#eu-percentage").val(euPercentage);
+    $("#financial-institution-percentage").val(financialInstitutionPercentage);
+    $("#sub-activity-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_sub_activity",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditSubActivity",
+                    type: "POST",
+                    data: "id=" + id + "&financialYear=" + $("#financial-year").val() +
+                            "&expectedOutcome=" + $("#expected-outcome").val() +
+                            "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                            "&component=" + $("#component").val() +
+                            "&subComponent=" + $("#sub-component").val() +
+                            "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
+                            "&activityName=" + $("#activity-name").val() +
+                            "&subActivityName=" + $("#sub-activity-name").val() +
+                            "&startDate=" + $("#start-date").val() +
+                            "&endDate=" + $("#end-date").val() +
+                            "&measurementUnit=" + $("#measurement-unit").val() +
+                            "&unitCost=" + $("#unit-cost").val() +
+                            "&awpbTarget=" + $("#awpb-target").val() +
+                            "&programmeTarget=" + $("#programme-target").val() +
+                            "&totals=" + $("#totals").val() +
+                            "&responsePcu=" + $("#response-pcu").val() +
+                            "&implementingPartner=" + $("#implementing-partner").val() +
+                            "&procurementPlan=" + $("#procurement-plan").val() +
+                            "&description=" + $("#description").val() +
+                            "&valueAchieved=" + $("#value-achieved").val() +
+                            "&allocatedBudget=" + $("#allocated-budget").val() +
+                            "&expenditureCategory=" + $("#expected-category").val() +
+                            "&gokPercentage=" + $("#gok-percentage").val() +
+                            "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
+                            "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
+                            "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
+                            "&euPercentage=" + $("#eu-percentage").val() +
+                            "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
+                    success: function () {
+                        emptySubActivityFields();
+                        loadAjaxWindow("sub_activities");
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "Exit": function () {
+                emptySubActivityFields();
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            emptySubActivityFields();
+        }
+    });
+}
+
+function emptySubActivityFields() {
+    $("#financial-year").val("");
+    $("#expected-outcome").val("");
+    $("#annual-workplan-reference-code").val("");
+    $("#component").val("");
+    $("#sub-component").val("");
+    $("#annual-indicator").val("");
+    $("#annual-indicator-ids").val("");
+    $("#activity-name").val("");
+    $("#sub-activity-name").val("");
+    $("#start-date").val("");
+    $("#end-date").val("");
+    $("#measurement-unit").val("");
+    $("#unit-cost").val("");
+    $("#awpb-target").val("");
+    $("#programme-target").val("");
+    $("#totals").val("");
+    $("#response-pcu").val("");
+    $("#implementing-partner").val("");
+    $("#procurement-plan").val("");
+    $("#description").val("");
+    $("#value-achieved").val("");
+    $("#allocated-budget").val("");
+    $("#expected-category").val("");
+    $("#gok-percentage").val("");
+    $("#ifad-loan-percentage").val("");
+    $("#ifad-grant-percentage").val("");
+    $("#beneficiaries-percentage").val("");
+    $("#eu-percentage").val("");
+    $("#financial-institution-percentage").val("");
+}
+
+function deleteSubActivity(id) {
+    $("#message").text("Are you sure you want to remove this sub-activity?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_sub_activity",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteSubActivity",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadAjaxWindow("sub_activities");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 function loadSubActivitiesWindow(activityPlanningId) {
     var target = "subActivities";
     $.ajax({
@@ -1531,16 +1700,20 @@ function addProcurementPlan() {
         , dataType: "HTML"
     });
 }
-function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planVsActualchoice,
-        cost, method, completeBd, approvalByIfad1, approvalBySda, issueBd, receiveBids
-        , evaluateBids, approvalByIfad2, award, approvalBySdaOrAg, signContract, commenceContract) {
 
-    $("#procurement-plan-type").val(type);
+function editProcurementPlan(id, procurementPlanType, description, ifadPriorReviewchoice, planVsActualchoice,
+        cost, procurementMethod, completeBd, approvalByIfad1, approvalBySda, issueBd, receiveBids
+        , evaluateBids, approvalByIfad2, award, approvalBySdaOrAg, signContract, commenceContract) {
+    if (procurementPlanType !== "")
+        $("#procurement-plan-type option[value=" + procurementPlanType + "]").attr('selected', 'selected');
     $("#description").val(description);
-    $("#ifad-prior-review").val(ifadPriorReviewchoice);
-    $("#plan-vs-actual").val(planVsActualchoice);
+    if (ifadPriorReviewchoice !== "")
+        $("#ifad-prior-review option[value=" + ifadPriorReviewchoice + "]").attr('selected', 'selected');
+    if (planVsActualchoice !== "")
+        $("#plan-vs-actual option[value=" + planVsActualchoice + "]").attr('selected', 'selected');
     $("#cost").val(cost);
-    $("#procurement-method").val(method);
+    if (procurementMethod !== "")
+        $("#procurement-method option[value=" + procurementMethod + "]").attr('selected', 'selected');
     $("#complete-bd").val(completeBd);
     $("#approval-by-ifad1").val(approvalByIfad1);
     $("#approval-by-ifad2").val(approvalByIfad2);
@@ -1555,13 +1728,13 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
     $("#procurement-plans-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_procurement_label",
+        title: "edit_procurement_plan_label",
         resizable: false,
         modal: false,
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editProcurement",
+                    url: "doEditProcurementPlan",
                     type: "POST",
                     data:
                             "id=" + id +
@@ -1583,23 +1756,7 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
                             "&signContract=" + $("#sign-contract").val() +
                             "&commenceContract=" + $("#commence-contract").val(),
                     success: function () {
-                        $("#procurement-plan-type").val("");
-                        $("#description").val("");
-                        $("#ifad-prior-review").val("");
-                        $("#plan-vs-actual").val("");
-                        $("#cost").val("");
-                        $("#procurement-method").val("");
-                        $("#complete-bd").val("");
-                        $("#approval-by-ifad1").val("");
-                        $("#approval-by-ifad2").val("");
-                        $("#approval-by-sda").val("");
-                        $("#approval-by-sda-or-ag").val("");
-                        $("#issue-bd").val("");
-                        $("#receive-bids").val("");
-                        $("#evaluate-bids").val("");
-                        $("#award").val("");
-                        $("#sign-contract").val("");
-                        $("#commence-contract").val("");
+                        emptyProcurementPlanFields();
                         loadAjaxWindow("procurement_plans");
                         return;
                     }, error: function (response) {
@@ -1608,30 +1765,37 @@ function editProcurementPlan(id, type, description, ifadPriorReviewchoice, planV
                     dataType: "HTML"
                 });
                 $(this).dialog("close");
+            },
+            "Exit": function () {
+                emptyProcurementPlanFields();
+                $(this).dialog("close");
             }
         },
         close: function () {
-            $("#procurement-plan-type").val("");
-            $("#description").val("");
-            $("#ifad-prior-review").val("");
-            $("#plan-vs-actual").val("");
-            $("#cost").val("");
-            $("#procurement-method").val("");
-            $("#complete-bd").val("");
-            $("#approval-by-ifad1").val("");
-            $("#approval-by-ifad2").val("");
-            $("#approval-by-sda").val("");
-            $("#approval-by-sda-or-ag").val("");
-            $("#issue-bd").val("");
-            $("#receive-bids").val("");
-            $("#evaluate-bids").val("");
-            $("#award").val("");
-            $("#sign-contract").val("");
-            $("#commence-contract").val("");
-            loadAjaxWindow("procurement_plans");
         }
     });
 }
+
+function emptyProcurementPlanFields() {
+    $("#procurement-plan-type").val("");
+    $("#description").val("");
+    $("#ifad-prior-review").val("");
+    $("#plan-vs-actual").val("");
+    $("#cost").val("");
+    $("#procurement-method").val("");
+    $("#complete-bd").val("");
+    $("#approval-by-ifad1").val("");
+    $("#approval-by-ifad2").val("");
+    $("#approval-by-sda").val("");
+    $("#approval-by-sda-or-ag").val("");
+    $("#issue-bd").val("");
+    $("#receive-bids").val("");
+    $("#evaluate-bids").val("");
+    $("#award").val("");
+    $("#sign-contract").val("");
+    $("#commence-contract").val("");
+}
+
 function deleteProcurementPlan(id) {
     $("#message").text("Are you sure you want to remove this procurement plan?");
     $("#message-dialog").dialog({
@@ -1646,8 +1810,9 @@ function deleteProcurementPlan(id) {
                     url: "doDeleteProcurementPlan",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#procurement-plan-table tbody").html(response);
+                    success: function () {
+                        loadAjaxWindow("procurement_plans");
+                        return;
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2144,7 +2309,7 @@ function addInputsCollection() {
         }
     });
 }
-//</editor-fold>editPerson
+//</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm activity">
 function addFarmActivity() {
@@ -2593,40 +2758,4 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         }
     });
 }
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Activity planning">
-function deleteActivityPlanning(id) {
-    $("#message").text("Are you sure you want to remove this activity planning?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_activity_planning",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteActivityPlanning",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function (response) {
-                        $("table#activity-planning-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
 //</editor-fold>

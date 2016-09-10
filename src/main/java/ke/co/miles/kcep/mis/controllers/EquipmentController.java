@@ -30,7 +30,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
  *
  * @author siech
  */
-@WebServlet(name = "EquipmentController", urlPatterns = {"/equipment", "/addEquipment", "/doAddEquipment"})
+@WebServlet(name = "EquipmentController", urlPatterns = {"/equipment", "/doEditEquipment", "/addEquipment", "/doAddEquipment"})
 public class EquipmentController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -43,10 +43,7 @@ public class EquipmentController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession();
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -138,9 +135,6 @@ public class EquipmentController extends Controller {
                     }
 
                     break;
-                case "/addEquipment":
-
-                    break;
 
                 case "/doAddEquipment":
 
@@ -170,7 +164,7 @@ public class EquipmentController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
 
-                    break;
+                    return;
 
                 case "/doEditEquipment":
 

@@ -46,12 +46,12 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurement.setDatePurchased(procurementDetails.getDatePurchased());
         procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
         if (procurementDetails.getCounty() != null) {
-            procurement.setCounty(em.getReference(County.class, procurementDetails.getCounty().getId()));
+            procurement.setCounty(getEm().getReference(County.class, procurementDetails.getCounty().getId()));
         }
 
         try {
-            em.persist(procurement);
-            em.flush();
+            getEm().persist(procurement);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
     @SuppressWarnings("unchecked")
     public List<ProcurementDetails> retrieveProcurements() throws MilesException {
         List<Procurement> procurements = new ArrayList<>();
-        q = em.createNamedQuery("Procurement.findAll");
+        setQ(getEm().createNamedQuery("Procurement.findAll"));
         try {
-            procurements = q.getResultList();
+            procurements = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
     @Override
     public ProcurementDetails retrieveProcurement(int id) throws MilesException {
         Procurement procurement;
-        q = em.createNamedQuery("Procurement.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Procurement.findById"));
+        getQ().setParameter("id", id);
         try {
-            procurement = (Procurement) q.getSingleResult();
+            procurement = (Procurement) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -100,7 +100,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
             throw new InvalidArgumentException("error_018_02");
         }
 
-        Procurement procurement = em.find(Procurement.class, procurementDetails.getId());
+        Procurement procurement = getEm().find(Procurement.class, procurementDetails.getId());
         procurement.setId(procurementDetails.getId());
         procurement.setCost(procurementDetails.getCost());
         procurement.setItem(procurementDetails.getItem());
@@ -114,12 +114,12 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
             procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
         }
         if (procurementDetails.getCounty() != null) {
-            procurement.setCounty(em.getReference(County.class, procurementDetails.getCounty().getId()));
+            procurement.setCounty(getEm().getReference(County.class, procurementDetails.getCounty().getId()));
         }
 
         try {
-            em.merge(procurement);
-            em.flush();
+            getEm().merge(procurement);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -130,9 +130,9 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeProcurement(int id) throws MilesException {
-        Procurement procurement = em.find(Procurement.class, id);
+        Procurement procurement = getEm().find(Procurement.class, id);
         try {
-            em.remove(procurement);
+            getEm().remove(procurement);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

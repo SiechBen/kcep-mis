@@ -73,14 +73,14 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         procurementPlanCs.setCommenceContract(procurementPlanCsDetails.getCommenceContract());
         procurementPlanCs.setApprovalBySdaOrAg(procurementPlanCsDetails.getApprovalBySdaOrAg());
         procurementPlanCs.setEvaluateTechnicalProposals(procurementPlanCsDetails.getEvaluateTechnicalProposals());
-        procurementPlanCs.setPlanVsActual(em.getReference(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
-        procurementPlanCs.setIfadPriorReview(em.getReference(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
-        procurementPlanCs.setProcurementMethod(em.getReference(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
-        procurementPlanCs.setProcurementPlanType(em.getReference(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
+        procurementPlanCs.setPlanVsActual(getEm().getReference(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
+        procurementPlanCs.setIfadPriorReview(getEm().getReference(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
+        procurementPlanCs.setProcurementMethod(getEm().getReference(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
+        procurementPlanCs.setProcurementPlanType(getEm().getReference(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
 
         try {
-            em.persist(procurementPlanCs);
-            em.flush();
+            getEm().persist(procurementPlanCs);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -95,9 +95,9 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
     @SuppressWarnings("unchecked")
     public List<ProcurementPlanCsDetails> retrieveProcurementPlansCs() throws MilesException {
         List<ProcurementPlanCs> procurementPlanCss = new ArrayList<>();
-        q = em.createNamedQuery("ProcurementPlanCs.findAll");
+        setQ(getEm().createNamedQuery("ProcurementPlanCs.findAll"));
         try {
-            procurementPlanCss = q.getResultList();
+            procurementPlanCss = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -107,10 +107,10 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
     @Override
     public ProcurementPlanCsDetails retrieveProcurementPlanCs(int id) throws MilesException {
         ProcurementPlanCs procurementPlanCs;
-        q = em.createNamedQuery("ProcurementPlanCs.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("ProcurementPlanCs.findById"));
+        getQ().setParameter("id", id);
         try {
-            procurementPlanCs = (ProcurementPlanCs) q.getSingleResult();
+            procurementPlanCs = (ProcurementPlanCs) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -141,7 +141,7 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
             }
         }
 
-        ProcurementPlanCs procurementPlanCs = em.find(ProcurementPlanCs.class, procurementPlanCsDetails.getId());
+        ProcurementPlanCs procurementPlanCs = getEm().find(ProcurementPlanCs.class, procurementPlanCsDetails.getId());
         procurementPlanCs.setId(procurementPlanCsDetails.getId());
         procurementPlanCs.setCost(procurementPlanCsDetails.getCost());
         procurementPlanCs.setAward(procurementPlanCsDetails.getAward());
@@ -164,13 +164,13 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         procurementPlanCs.setCommenceContract(procurementPlanCsDetails.getCommenceContract());
         procurementPlanCs.setApprovalBySdaOrAg(procurementPlanCsDetails.getApprovalBySdaOrAg());
         procurementPlanCs.setEvaluateTechnicalProposals(procurementPlanCsDetails.getEvaluateTechnicalProposals());
-        procurementPlanCs.setPlanVsActual(em.getReference(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
-        procurementPlanCs.setIfadPriorReview(em.getReference(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
-        procurementPlanCs.setProcurementMethod(em.getReference(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
-        procurementPlanCs.setProcurementPlanType(em.getReference(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
+        procurementPlanCs.setPlanVsActual(getEm().getReference(PlanVsActual.class, procurementPlanCsDetails.getPlanVsActual().getId()));
+        procurementPlanCs.setIfadPriorReview(getEm().getReference(IfadPriorReview.class, procurementPlanCsDetails.getIfadPriorReview().getId()));
+        procurementPlanCs.setProcurementMethod(getEm().getReference(ProcurementMethod.class, procurementPlanCsDetails.getProcurementMethod().getId()));
+        procurementPlanCs.setProcurementPlanType(getEm().getReference(ProcurementPlanType.class, procurementPlanCsDetails.getProcurementPlanType().getId()));
         try {
-            em.merge(procurementPlanCs);
-            em.flush();
+            getEm().merge(procurementPlanCs);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -181,9 +181,9 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeProcurementPlanCs(int id) throws MilesException {
-        ProcurementPlanCs procurementPlanCs = em.find(ProcurementPlanCs.class, id);
+        ProcurementPlanCs procurementPlanCs = getEm().find(ProcurementPlanCs.class, id);
         try {
-            em.remove(procurementPlanCs);
+            getEm().remove(procurementPlanCs);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

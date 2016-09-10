@@ -34,8 +34,8 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
         inputType.setType(inputTypeDetails.getType());
 
         try {
-            em.persist(inputType);
-            em.flush();
+            getEm().persist(inputType);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -49,11 +49,11 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     @Override
     public InputTypeDetails retrieveInputType(int id) throws MilesException {
 
-        q = em.createNamedQuery("InputType.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("InputType.findById"));
+        getQ().setParameter("id", id);
         InputType inputType;
         try {
-            inputType = (InputType) q.getSingleResult();
+            inputType = (InputType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,10 +65,10 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     @Override
     public List<InputTypeDetails> retrieveInputTypes() throws MilesException {
 
-        q = em.createNamedQuery("InputType.findAll");
+        setQ(getEm().createNamedQuery("InputType.findAll"));
         List<InputType> inputTypes;
         try {
-            inputTypes = q.getResultList();
+            inputTypes = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -87,13 +87,13 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
             throw new InvalidArgumentException("error_020_02");
         }
 
-        InputType inputType = em.find(InputType.class, inputTypeDetails.getId());
+        InputType inputType = getEm().find(InputType.class, inputTypeDetails.getId());
         inputType.setId(inputTypeDetails.getId());
         inputType.setType(inputTypeDetails.getType());
 
         try {
-            em.merge(inputType);
-            em.flush();
+            getEm().merge(inputType);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -105,9 +105,9 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     @Override
     public void removeInputType(int id) throws MilesException {
 
-        InputType inputType = em.find(InputType.class, id);
+        InputType inputType = getEm().find(InputType.class, id);
         try {
-            em.remove(inputType);
+            getEm().remove(inputType);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

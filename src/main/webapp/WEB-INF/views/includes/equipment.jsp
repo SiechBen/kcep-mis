@@ -38,8 +38,8 @@
                                     <td>${equipment.type}</td>
                                     <td>${equipment.totalCount}</td>
                                     <td>${equipment.status}</td>
-                                    <td><button onclick="editEquipment('${equipment.id}', '${equipment.type}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deleteEquipment(${equipment.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="editEquipment('${equipment.id}', '${equipment.warehouse.id}', '${equipment.type}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deleteEquipment('${equipment.id}', '${equipment.warehouse.id}', )"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

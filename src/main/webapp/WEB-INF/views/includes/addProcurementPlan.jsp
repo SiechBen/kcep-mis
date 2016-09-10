@@ -10,7 +10,7 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Procurement plan-ncs details
+                Procurement plan - ncs details
             </div>
             <div class="panel-body">
                 <form role="form">

@@ -40,11 +40,11 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         Loan loan = new Loan();
         loan.setType(loanDetails.getType());
         loan.setAmount(loanDetails.getAmount());
-        loan.setAccount(em.getReference(Account.class, loanDetails.getAccount().getId()));
+        loan.setAccount(getEm().getReference(Account.class, loanDetails.getAccount().getId()));
 
         try {
-            em.persist(loan);
-            em.flush();
+            getEm().persist(loan);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -58,11 +58,11 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
     @Override
     public LoanDetails retrieveLoan(int id) throws MilesException {
 
-        q = em.createNamedQuery("Loan.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Loan.findById"));
+        getQ().setParameter("id", id);
         Loan loan;
         try {
-            loan = (Loan) q.getSingleResult();
+            loan = (Loan) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -75,11 +75,11 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
     @SuppressWarnings("unchecked")
     public List<LoanDetails> retrieveLoans(int accountId) throws MilesException {
 
-        q = em.createNamedQuery("Loan.findByAccountId");
-        q.setParameter("accountId", accountId);
+        setQ(getEm().createNamedQuery("Loan.findByAccountId"));
+        getQ().setParameter("accountId", accountId);
         List<Loan> loans;
         try {
-            loans = q.getResultList();
+            loans = getQ().getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -102,15 +102,15 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
             throw new InvalidArgumentException("error_046_03");
         }
 
-        Loan loan = em.find(Loan.class, loanDetails.getId());
+        Loan loan = getEm().find(Loan.class, loanDetails.getId());
         loan.setId(loanDetails.getId());
         loan.setType(loanDetails.getType());
         loan.setAmount(loanDetails.getAmount());
-        loan.setAccount(em.getReference(Account.class, loanDetails.getAccount().getId()));
+        loan.setAccount(getEm().getReference(Account.class, loanDetails.getAccount().getId()));
 
         try {
-            em.merge(loan);
-            em.flush();
+            getEm().merge(loan);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -122,9 +122,9 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
     @Override
     public void removeLoan(int id) throws MilesException {
 
-        Loan loan = em.find(Loan.class, id);
+        Loan loan = getEm().find(Loan.class, id);
         try {
-            em.remove(loan);
+            getEm().remove(loan);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

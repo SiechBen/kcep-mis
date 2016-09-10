@@ -1,5 +1,5 @@
 <%-- 
-    Document   : warehouse
+    Document   : warehouses
     Created on : Sep 7, 2016, 9:59:22 AM
     Author     : ronne
 --%>
@@ -46,7 +46,7 @@
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.location.subCounty.name}, ${warehouse.location.county.name}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.location.latitude}, ${warehouse.location.longitude}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.warehouseOperator.category.name}</td>
-                                    <td><button onclick="editWarehouse('${warehouse.id}', '${warehouse.name}', '${warehouse.capacity}','${warehouse.units.id}', '${warehouse.offersWrs}','${warehouse.certified}', '${warehouse.location.subCounty.id}', '${warehouse.location.county.id}', '${warehouse.location.latitude}', '${warehouse.location.longitude}', '${warehouse.warehouseOperator.id}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editWarehouse('${warehouse.id}', '${warehouse.name}', '${warehouse.capacity}', '${warehouse.units.id}', '${warehouse.offersWrs}', '${warehouse.certified}', '${warehouse.location.id}', '${warehouse.location.subCounty.id}', '${warehouse.location.county.id}', '${warehouse.location.latitude}', '${warehouse.location.longitude}', '${warehouse.warehouseOperator.id}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteWarehouse(${warehouse.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

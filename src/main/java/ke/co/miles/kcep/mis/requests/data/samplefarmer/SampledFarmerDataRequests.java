@@ -39,14 +39,14 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
         sampledFarmerData.setPostHarvestLosses(sampledFarmerDataDetails.getPostHarvestLosses());
         sampledFarmerData.setSeason(sampledFarmerDataDetails.getSeason());
         sampledFarmerData.setProductivityPerCropPerFarmer(sampledFarmerDataDetails.getProductivityPerCropPerFarmer());
-        sampledFarmerData.setWardExtensionOfficer(em.getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
+        sampledFarmerData.setWardExtensionOfficer(getEm().getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
         if (sampledFarmerData.getWardExtensionOfficer().getId() != null) {
-            sampledFarmerData.setWardExtensionOfficer(em.getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
+            sampledFarmerData.setWardExtensionOfficer(getEm().getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {
-            em.persist(sampledFarmerData);
-            em.flush();
+            getEm().persist(sampledFarmerData);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -60,9 +60,9 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
     @Override
     public List<SampledFarmerDataDetails> retrieveData() throws MilesException {
         List<SampledFarmerData> sampledFarmerDatas = new ArrayList<>();
-        q = em.createNamedQuery("SampledFarmerData.findAll");
+        setQ(getEm().createNamedQuery("SampledFarmerData.findAll"));
         try {
-            sampledFarmerDatas = q.getResultList();
+            sampledFarmerDatas = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -72,10 +72,10 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
     @Override
     public SampledFarmerDataDetails retrieveData(int id) throws MilesException {
         SampledFarmerData sampledFarmerData;
-        q = em.createNamedQuery("SampledFarmerData.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("SampledFarmerData.findById"));
+        getQ().setParameter("id", id);
         try {
-            sampledFarmerData = (SampledFarmerData) q.getSingleResult();
+            sampledFarmerData = (SampledFarmerData) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -96,18 +96,18 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
             throw new InvalidArgumentException("error_012_02");
         }
 
-        SampledFarmerData sampledFarmerData = em.find(SampledFarmerData.class, sampledFarmerDataDetails.getId());
+        SampledFarmerData sampledFarmerData = getEm().find(SampledFarmerData.class, sampledFarmerDataDetails.getId());
         sampledFarmerData.setId(sampledFarmerDataDetails.getId());
         sampledFarmerData.setSeason(sampledFarmerDataDetails.getSeason());
         sampledFarmerData.setPostHarvestLosses(sampledFarmerDataDetails.getPostHarvestLosses());
         sampledFarmerData.setProductivityPerCropPerFarmer(sampledFarmerDataDetails.getProductivityPerCropPerFarmer());
         if (sampledFarmerData.getWardExtensionOfficer().getId() != null) {
-            sampledFarmerData.setWardExtensionOfficer(em.getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
+            sampledFarmerData.setWardExtensionOfficer(getEm().getReference(Person.class, sampledFarmerDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {
-            em.merge(sampledFarmerData);
-            em.flush();
+            getEm().merge(sampledFarmerData);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -118,9 +118,9 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeData(int id) throws MilesException {
-        SampledFarmerData sampledFarmerData = em.find(SampledFarmerData.class, id);
+        SampledFarmerData sampledFarmerData = getEm().find(SampledFarmerData.class, id);
         try {
-            em.remove(sampledFarmerData);
+            getEm().remove(sampledFarmerData);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

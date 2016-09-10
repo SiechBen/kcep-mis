@@ -35,10 +35,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         }
 
         Topic topic;
-        q = em.createNamedQuery("Topic.findByTopic");
-        q.setParameter("topic", topicDetails.getTopic());
+        setQ(getEm().createNamedQuery("Topic.findByTopic"));
+        getQ().setParameter("topic", topicDetails.getTopic());
         try {
-            topic = (Topic) q.getSingleResult();
+            topic = (Topic) getQ().getSingleResult();
         } catch (Exception e) {
             topic = null;
         }
@@ -50,8 +50,8 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         topic.setTopic(topicDetails.getTopic());
 
         try {
-            em.persist(topic);
-            em.flush();
+            getEm().persist(topic);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     @SuppressWarnings("unchecked")
     public List<TopicDetails> retrieveTopics() throws MilesException {
         List<Topic> topics = new ArrayList<>();
-        q = em.createNamedQuery("Topic.findAll");
+        setQ(getEm().createNamedQuery("Topic.findAll"));
         try {
-            topics = q.getResultList();
+            topics = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     @Override
     public TopicDetails retrieveTopic(int id) throws MilesException {
         Topic topic;
-        q = em.createNamedQuery("Topic.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("Topic.findById"));
+        getQ().setParameter("id", id);
         try {
-            topic = (Topic) q.getSingleResult();
+            topic = (Topic) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -105,10 +105,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         }
 
         Topic topic;
-        q = em.createNamedQuery("Topic.findByTopic");
-        q.setParameter("topic", topicDetails.getTopic());
+        setQ(getEm().createNamedQuery("Topic.findByTopic"));
+        getQ().setParameter("topic", topicDetails.getTopic());
         try {
-            topic = (Topic) q.getSingleResult();
+            topic = (Topic) getQ().getSingleResult();
         } catch (Exception e) {
             topic = null;
         }
@@ -118,13 +118,13 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
             }
         }
 
-        topic = em.find(Topic.class, topicDetails.getId());
+        topic = getEm().find(Topic.class, topicDetails.getId());
         topic.setId(topicDetails.getId());
         topic.setTopic(topicDetails.getTopic());
 
         try {
-            em.merge(topic);
-            em.flush();
+            getEm().merge(topic);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -135,9 +135,9 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeTopic(int id) throws MilesException {
-        Topic topic = em.find(Topic.class, id);
+        Topic topic = getEm().find(Topic.class, id);
         try {
-            em.remove(topic);
+            getEm().remove(topic);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

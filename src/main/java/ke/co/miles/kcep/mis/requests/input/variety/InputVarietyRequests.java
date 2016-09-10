@@ -39,11 +39,11 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
 
         InputVariety inputVariety = new InputVariety();
         inputVariety.setVariety(inputVarietyDetails.getVariety());
-        inputVariety.setStaticInput(em.getReference(StaticInput.class, inputVarietyDetails.getId()));
+        inputVariety.setStaticInput(getEm().getReference(StaticInput.class, inputVarietyDetails.getId()));
 
         try {
-            em.persist(inputVariety);
-            em.flush();
+            getEm().persist(inputVariety);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -58,9 +58,9 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
     @SuppressWarnings("unchecked")
     public List<InputVarietyDetails> retrieveInputVarieties() throws MilesException {
         List<InputVariety> inputVarieties = new ArrayList<>();
-        q = em.createNamedQuery("InputVariety.findAll");
+        setQ(getEm().createNamedQuery("InputVariety.findAll"));
         try {
-            inputVarieties = q.getResultList();
+            inputVarieties = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -71,10 +71,10 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
     @Override
     public List<InputVarietyDetails> retrieveInputVarieties(int staticInputId) throws MilesException {
         List<InputVariety> inputVarieties = new ArrayList<>();
-        q = em.createNamedQuery("InputVariety.findByStaticInputId");
-        q.setParameter("staticInputId", staticInputId);
+        setQ(getEm().createNamedQuery("InputVariety.findByStaticInputId"));
+        getQ().setParameter("staticInputId", staticInputId);
         try {
-            inputVarieties = q.getResultList();
+            inputVarieties = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -84,10 +84,10 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
     @Override
     public InputVarietyDetails retrieveInputVariety(int id) throws MilesException {
         InputVariety inputVariety;
-        q = em.createNamedQuery("InputVariety.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("InputVariety.findById"));
+        getQ().setParameter("id", id);
         try {
-            inputVariety = (InputVariety) q.getSingleResult();
+            inputVariety = (InputVariety) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -110,14 +110,14 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
             throw new InvalidArgumentException("error_051_03");
         }
 
-        InputVariety inputVariety = em.find(InputVariety.class, inputVarietyDetails.getId());
+        InputVariety inputVariety = getEm().find(InputVariety.class, inputVarietyDetails.getId());
         inputVariety.setId(inputVarietyDetails.getId());
         inputVariety.setVariety(inputVarietyDetails.getVariety());
-        inputVariety.setStaticInput(em.getReference(StaticInput.class, inputVarietyDetails.getId()));
+        inputVariety.setStaticInput(getEm().getReference(StaticInput.class, inputVarietyDetails.getId()));
 
         try {
-            em.merge(inputVariety);
-            em.flush();
+            getEm().merge(inputVariety);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -128,9 +128,9 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeInputVariety(int id) throws MilesException {
-        InputVariety inputVariety = em.find(InputVariety.class, id);
+        InputVariety inputVariety = getEm().find(InputVariety.class, id);
         try {
-            em.remove(inputVariety);
+            getEm().remove(inputVariety);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

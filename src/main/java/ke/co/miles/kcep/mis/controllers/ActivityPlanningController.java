@@ -368,9 +368,8 @@ public class ActivityPlanningController extends Controller {
 
                     }
 
-                    HashMap<SubActivityDetails, List<AnnualIndicatorDetails>> subActivityMap;
                     try {
-                        subActivityMap = annualIndicatorService.retrieveSubActivities();
+                        session.setAttribute("subActivityMap", annualIndicatorService.retrieveSubActivities());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -378,12 +377,14 @@ public class ActivityPlanningController extends Controller {
                         return;
                     }
 
-                    session.setAttribute("subActivityMap", subActivityMap);
-                    break;
-
-                case "/head_addSubActivity":
-                case "/county_addSubActivity":
-                case "/region_addSubActivity":
+                    try {
+                        session.setAttribute("subActivityNames", subActivityNameService.retrieveSubActivityNames());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
                     } catch (MilesException ex) {
@@ -789,11 +790,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setEndDate(null);
                     }
 
-                    annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
-                    annualIndicatorRecords = new ArrayList<>();
-
                     try {
-                        subActivityService.editSubActivity(subActivity);                       
+                        subActivityService.editSubActivity(subActivity);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -802,25 +800,21 @@ public class ActivityPlanningController extends Controller {
 
                     return;
 
-                    case "/doDeleteSubActivity":
+                case "/doDeleteSubActivity":
                     try {
                         subActivityService.removeSubActivity(Integer.valueOf(request.getParameter("id")));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
                     }
-                    
+
                     return;
 
-                    
-                    
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
-
             LOGGER.log(Level.INFO,
                     "Request dispatch to forward to: {0}", destination);
             try {
@@ -829,7 +823,6 @@ public class ActivityPlanningController extends Controller {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
                 LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
-
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

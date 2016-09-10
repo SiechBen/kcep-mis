@@ -12,7 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - view warehouses </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="includes/warehouse.jsp"/>
+        <jsp:include page="includes/warehouses.jsp"/>
 
     </jsp:attribute>
 </kcep:sub_county>

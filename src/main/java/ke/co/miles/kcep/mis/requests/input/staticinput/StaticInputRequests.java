@@ -38,10 +38,10 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
         }
 
         StaticInput staticInput;
-        q = em.createNamedQuery("StaticInput.findByName");
-        q.setParameter("staticInput", staticInputDetails.getName());
+        setQ(getEm().createNamedQuery("StaticInput.findByName"));
+        getQ().setParameter("staticInput", staticInputDetails.getName());
         try {
-            staticInput = (StaticInput) q.getSingleResult();
+            staticInput = (StaticInput) getQ().getSingleResult();
         } catch (Exception e) {
             staticInput = null;
         }
@@ -51,11 +51,11 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 
         staticInput = new StaticInput();
         staticInput.setName(staticInputDetails.getName());
-        staticInput.setInputType(em.getReference(InputType.class, staticInputDetails.getId()));
+        staticInput.setInputType(getEm().getReference(InputType.class, staticInputDetails.getId()));
 
         try {
-            em.persist(staticInput);
-            em.flush();
+            getEm().persist(staticInput);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -70,9 +70,9 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
     @SuppressWarnings("unchecked")
     public List<StaticInputDetails> retrieveStaticInputs() throws MilesException {
         List<StaticInput> staticInputs = new ArrayList<>();
-        q = em.createNamedQuery("StaticInput.findAll");
+        setQ(getEm().createNamedQuery("StaticInput.findAll"));
         try {
-            staticInputs = q.getResultList();
+            staticInputs = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -83,10 +83,10 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
     @Override
     public List<StaticInputDetails> retrieveStaticInputs(short inputTypeId) throws MilesException {
         List<StaticInput> staticInputs = new ArrayList<>();
-        q = em.createNamedQuery("StaticInput.findByInputTypeId");
-        q.setParameter("inputTypeId", inputTypeId);
+        setQ(getEm().createNamedQuery("StaticInput.findByInputTypeId"));
+        getQ().setParameter("inputTypeId", inputTypeId);
         try {
-            staticInputs = q.getResultList();
+            staticInputs = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -96,10 +96,10 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
     @Override
     public StaticInputDetails retrieveStaticInput(int id) throws MilesException {
         StaticInput staticInput;
-        q = em.createNamedQuery("StaticInput.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("StaticInput.findById"));
+        getQ().setParameter("id", id);
         try {
-            staticInput = (StaticInput) q.getSingleResult();
+            staticInput = (StaticInput) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -123,10 +123,10 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
         }
 
         StaticInput staticInput;
-        q = em.createNamedQuery("StaticInput.findByName");
-        q.setParameter("staticInput", staticInputDetails.getName());
+        setQ(getEm().createNamedQuery("StaticInput.findByName"));
+        getQ().setParameter("staticInput", staticInputDetails.getName());
         try {
-            staticInput = (StaticInput) q.getSingleResult();
+            staticInput = (StaticInput) getQ().getSingleResult();
         } catch (Exception e) {
             staticInput = null;
         }
@@ -136,14 +136,14 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
             }
         }
 
-        staticInput = em.find(StaticInput.class, staticInputDetails.getId());
+        staticInput = getEm().find(StaticInput.class, staticInputDetails.getId());
         staticInput.setId(staticInputDetails.getId());
         staticInput.setName(staticInputDetails.getName());
-        staticInput.setInputType(em.getReference(InputType.class, staticInputDetails.getId()));
+        staticInput.setInputType(getEm().getReference(InputType.class, staticInputDetails.getId()));
 
         try {
-            em.merge(staticInput);
-            em.flush();
+            getEm().merge(staticInput);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -154,9 +154,9 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeStaticInput(int id) throws MilesException {
-        StaticInput staticInput = em.find(StaticInput.class, id);
+        StaticInput staticInput = getEm().find(StaticInput.class, id);
         try {
-            em.remove(staticInput);
+            getEm().remove(staticInput);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

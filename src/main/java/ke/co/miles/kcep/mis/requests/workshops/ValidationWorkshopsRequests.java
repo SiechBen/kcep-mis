@@ -38,14 +38,14 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         try {
-            validationWorkshops.setKalroOfficer(em.getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
+            validationWorkshops.setKalroOfficer(getEm().getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             validationWorkshops.setKalroOfficer(null);
         }
 
         try {
-            em.persist(validationWorkshops);
-            em.flush();
+            getEm().persist(validationWorkshops);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -59,9 +59,9 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
     @Override
     public List<ValidationWorkshopsDetails> retrieveTechnologies() throws MilesException {
         List<ValidationWorkshops> technologies = new ArrayList<>();
-        q = em.createNamedQuery("ValidationWorkshops.findAll");
+        setQ(getEm().createNamedQuery("ValidationWorkshops.findAll"));
         try {
-            technologies = q.getResultList();
+            technologies = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -71,10 +71,10 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
     @Override
     public ValidationWorkshopsDetails retrieveValidationWorkshops(int id) throws MilesException {
         ValidationWorkshops validationWorkshops;
-        q = em.createNamedQuery("ValidationWorkshops.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("ValidationWorkshops.findById"));
+        getQ().setParameter("id", id);
         try {
-            validationWorkshops = (ValidationWorkshops) q.getSingleResult();
+            validationWorkshops = (ValidationWorkshops) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -93,20 +93,20 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
             throw new InvalidArgumentException("error_025_02");
         }
 
-        ValidationWorkshops validationWorkshops = em.find(ValidationWorkshops.class, validationWorkshopsDetails.getId());
+        ValidationWorkshops validationWorkshops = getEm().find(ValidationWorkshops.class, validationWorkshopsDetails.getId());
         validationWorkshops.setId(validationWorkshopsDetails.getId());
         validationWorkshops.setAttendanceSheet(validationWorkshopsDetails.getAttendanceSheet());
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         validationWorkshops.setNoInEasternRegion(validationWorkshopsDetails.getNoInEasternRegion());
         try {
-            validationWorkshops.setKalroOfficer(em.getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
+            validationWorkshops.setKalroOfficer(getEm().getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
             validationWorkshops.setKalroOfficer(null);
         }
 
         try {
-            em.merge(validationWorkshops);
-            em.flush();
+            getEm().merge(validationWorkshops);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -117,9 +117,9 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeValidationWorkshops(int id) throws MilesException {
-        ValidationWorkshops validationWorkshops = em.find(ValidationWorkshops.class, id);
+        ValidationWorkshops validationWorkshops = getEm().find(ValidationWorkshops.class, id);
         try {
-            em.remove(validationWorkshops);
+            getEm().remove(validationWorkshops);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

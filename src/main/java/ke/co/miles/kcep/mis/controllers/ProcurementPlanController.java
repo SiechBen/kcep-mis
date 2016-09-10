@@ -6,12 +6,10 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -36,7 +34,9 @@ import ke.co.miles.kcep.mis.utilities.ProcurementPlanTypeDetail;
  *
  * @author siech
  */
-@WebServlet(name = "ProcurementPlanController", urlPatterns = {"/procurement_plans", "/addProcurementPlan", "/doAddProcurementPlan"})
+@WebServlet(name = "ProcurementPlanController",
+        urlPatterns = {"/procurement_plans", "/addProcurementPlan",
+            "/doAddProcurementPlan", "/doEditProcurementPlan", "/doDeleteProcurementPlan"})
 public class ProcurementPlanController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -45,15 +45,11 @@ public class ProcurementPlanController extends Controller {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession();
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -121,33 +117,18 @@ public class ProcurementPlanController extends Controller {
                 case "/county_procurement_plans":
                 case "/region_procurement_plans":
 
-                    List<ProcurementPlanDetails> procurementPlans;
                     try {
-                        procurementPlans = procurementPlanService.retrieveProcurementPlans();
+                        session.setAttribute("procurementPlans", procurementPlanService.retrieveProcurementPlans());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during procurement plans retrieval", ex);
                         return;
                     }
 
-                    if (procurementPlans != null) {
-                        session.setAttribute("procurementPlans", procurementPlans);
-                    }
-                    break;
-
-                case "/head_addProcurementPlan":
-                case "/county_addProcurementPlan":
-                case "/region_addProcurementPlan":
-
-                    List<ProcurementMethodDetails> procurementMethods;
                     try {
-                        procurementMethods = procurementMethodService.retrieveProcurementMethods();
+                        session.setAttribute("procurementMethods", procurementMethodService.retrieveProcurementMethods());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of procurement methods", ex);
                         return;
-                    }
-
-                    if (procurementMethods != null) {
-                        session.setAttribute("procurementMethods", procurementMethods);
                     }
 
                     session.setAttribute("ifadPriorReviewChoices", IfadPriorReviewDetail.values());
@@ -323,7 +304,7 @@ public class ProcurementPlanController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
 
-                    break;
+                    return;
 
                 case "/doEditProcurementPlan":
 
@@ -509,18 +490,14 @@ public class ProcurementPlanController extends Controller {
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
-
-            LOGGER.log(Level.INFO,
-                    "Request dispatch to forward to: {0}", destination);
+            LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
             try {
                 request.getRequestDispatcher(destination).forward(request, response);
             } catch (ServletException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
                 LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"), e);
-
             }
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

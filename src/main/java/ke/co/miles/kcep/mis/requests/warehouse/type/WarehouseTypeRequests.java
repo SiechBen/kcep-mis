@@ -35,10 +35,10 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
         }
 
         WarehouseType warehouseType;
-        q = em.createNamedQuery("WarehouseType.findByType");
-        q.setParameter("type", warehouseTypeDetails.getType());
+        setQ(getEm().createNamedQuery("WarehouseType.findByType"));
+        getQ().setParameter("type", warehouseTypeDetails.getType());
         try {
-            warehouseType = (WarehouseType) q.getSingleResult();
+            warehouseType = (WarehouseType) getQ().getSingleResult();
         } catch (Exception e) {
             warehouseType = null;
         }
@@ -50,8 +50,8 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
         warehouseType.setType(warehouseTypeDetails.getType());
 
         try {
-            em.persist(warehouseType);
-            em.flush();
+            getEm().persist(warehouseType);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
     @Override
     public List<WarehouseTypeDetails> retrieveWarehouseTypes() throws MilesException {
         List<WarehouseType> warehouseTypes = new ArrayList<>();
-        q = em.createNamedQuery("WarehouseType.findAll");
+        setQ(getEm().createNamedQuery("WarehouseType.findAll"));
         try {
-            warehouseTypes = q.getResultList();
+            warehouseTypes = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
     @Override
     public WarehouseTypeDetails retrieveWarehouseType(int id) throws MilesException {
         WarehouseType warehouseType;
-        q = em.createNamedQuery("WarehouseType.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("WarehouseType.findById"));
+        getQ().setParameter("id", id);
         try {
-            warehouseType = (WarehouseType) q.getSingleResult();
+            warehouseType = (WarehouseType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
         }
 
         WarehouseType warehouseType;
-        q = em.createNamedQuery("WarehouseType.findByType");
-        q.setParameter("type", warehouseTypeDetails.getType());
+        setQ(getEm().createNamedQuery("WarehouseType.findByType"));
+        getQ().setParameter("type", warehouseTypeDetails.getType());
         try {
-            warehouseType = (WarehouseType) q.getSingleResult();
+            warehouseType = (WarehouseType) getQ().getSingleResult();
         } catch (Exception e) {
             warehouseType = null;
         }
@@ -117,13 +117,13 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
             }
         }
 
-        warehouseType = em.find(WarehouseType.class, warehouseTypeDetails.getId());
+        warehouseType = getEm().find(WarehouseType.class, warehouseTypeDetails.getId());
         warehouseType.setId(warehouseTypeDetails.getId());
         warehouseType.setType(warehouseTypeDetails.getType());
 
         try {
-            em.merge(warehouseType);
-            em.flush();
+            getEm().merge(warehouseType);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class WarehouseTypeRequests extends EntityRequests implements WarehouseTy
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeWarehouseType(int id) throws MilesException {
-        WarehouseType warehouseType = em.find(WarehouseType.class, id);
+        WarehouseType warehouseType = getEm().find(WarehouseType.class, id);
         try {
-            em.remove(warehouseType);
+            getEm().remove(warehouseType);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

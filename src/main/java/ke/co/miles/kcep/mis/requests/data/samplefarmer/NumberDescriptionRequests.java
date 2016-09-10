@@ -35,10 +35,10 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         }
 
         NumberDescription numberDescription;
-        q = em.createNamedQuery("NumberDescription.findByDescription");
-        q.setParameter("bracket", numberDescriptionDetails.getDescription());
+        setQ(getEm().createNamedQuery("NumberDescription.findByDescription"));
+        getQ().setParameter("bracket", numberDescriptionDetails.getDescription());
         try {
-            numberDescription = (NumberDescription) q.getSingleResult();
+            numberDescription = (NumberDescription) getQ().getSingleResult();
         } catch (Exception e) {
             numberDescription = null;
         }
@@ -50,8 +50,8 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         numberDescription.setDescription(numberDescriptionDetails.getDescription());
 
         try {
-            em.persist(numberDescription);
-            em.flush();
+            getEm().persist(numberDescription);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
     @Override
     public List<NumberDescriptionDetails> retrieveNumberDescriptions() throws MilesException {
         List<NumberDescription> numberDescriptions = new ArrayList<>();
-        q = em.createNamedQuery("NumberDescription.findAll");
+        setQ(getEm().createNamedQuery("NumberDescription.findAll"));
         try {
-            numberDescriptions = q.getResultList();
+            numberDescriptions = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
     @Override
     public NumberDescriptionDetails retrieveNumberDescription(int id) throws MilesException {
         NumberDescription numberDescription;
-        q = em.createNamedQuery("NumberDescription.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("NumberDescription.findById"));
+        getQ().setParameter("id", id);
         try {
-            numberDescription = (NumberDescription) q.getSingleResult();
+            numberDescription = (NumberDescription) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         }
 
         NumberDescription numberDescription;
-        q = em.createNamedQuery("NumberDescription.findByDescription");
-        q.setParameter("bracket", numberDescriptionDetails.getDescription());
+        setQ(getEm().createNamedQuery("NumberDescription.findByDescription"));
+        getQ().setParameter("bracket", numberDescriptionDetails.getDescription());
         try {
-            numberDescription = (NumberDescription) q.getSingleResult();
+            numberDescription = (NumberDescription) getQ().getSingleResult();
         } catch (Exception e) {
             numberDescription = null;
         }
@@ -117,12 +117,12 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
             }
         }
 
-        numberDescription = em.find(NumberDescription.class, numberDescriptionDetails.getId());
+        numberDescription = getEm().find(NumberDescription.class, numberDescriptionDetails.getId());
         numberDescription.setDescription(numberDescriptionDetails.getDescription());
 
         try {
-            em.merge(numberDescription);
-            em.flush();
+            getEm().merge(numberDescription);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -133,9 +133,9 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeNumberDescription(int id) throws MilesException {
-        NumberDescription numberDescription = em.find(NumberDescription.class, id);
+        NumberDescription numberDescription = getEm().find(NumberDescription.class, id);
         try {
-            em.remove(numberDescription);
+            getEm().remove(numberDescription);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

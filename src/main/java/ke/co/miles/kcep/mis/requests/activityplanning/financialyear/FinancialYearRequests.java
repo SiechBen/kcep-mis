@@ -35,10 +35,10 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         }
 
         FinancialYear financialYear;
-        q = em.createNamedQuery("FinancialYear.findByFinancialYear");
-        q.setParameter("financialYear", financialYearDetails.getFinancialYear());
+        setQ(getEm().createNamedQuery("FinancialYear.findByFinancialYear"));
+        getQ().setParameter("financialYear", financialYearDetails.getFinancialYear());
         try {
-            financialYear = (FinancialYear) q.getSingleResult();
+            financialYear = (FinancialYear) getQ().getSingleResult();
         } catch (Exception e) {
             financialYear = null;
         }
@@ -47,10 +47,10 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         }
 
         if (financialYear != null && financialYear.getCurrentYear()) {
-            q = em.createNamedQuery("FinancialYear.findByCurrentYear");
-            q.setParameter("currentYear", financialYearDetails.getCurrentYear());
+            setQ(getEm().createNamedQuery("FinancialYear.findByCurrentYear"));
+            getQ().setParameter("currentYear", financialYearDetails.getCurrentYear());
             try {
-                financialYear = (FinancialYear) q.getSingleResult();
+                financialYear = (FinancialYear) getQ().getSingleResult();
             } catch (Exception e) {
                 financialYear = null;
             }
@@ -64,8 +64,8 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         financialYear.setCurrentYear(financialYearDetails.getCurrentYear());
 
         try {
-            em.persist(financialYear);
-            em.flush();
+            getEm().persist(financialYear);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -80,9 +80,9 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
     @SuppressWarnings("unchecked")
     public List<FinancialYearDetails> retrieveFinancialYears() throws MilesException {
         List<FinancialYear> financialYears = new ArrayList<>();
-        q = em.createNamedQuery("FinancialYear.findAll");
+        setQ(getEm().createNamedQuery("FinancialYear.findAll"));
         try {
-            financialYears = q.getResultList();
+            financialYears = getQ().getResultList();
         } catch (Exception e) {
         }
 
@@ -93,10 +93,10 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
     @SuppressWarnings("unchecked")
     public FinancialYearDetails retrieveCurrentFinancialYear() throws MilesException {
         FinancialYear financialYear = new FinancialYear();
-        q = em.createNamedQuery("FinancialYear.findByCurrentYear");
-        q.setParameter("currentYear", Boolean.TRUE);
+        setQ(getEm().createNamedQuery("FinancialYear.findByCurrentYear"));
+        getQ().setParameter("currentYear", Boolean.TRUE);
         try {
-            financialYear = (FinancialYear) q.getSingleResult();
+            financialYear = (FinancialYear) getQ().getSingleResult();
         } catch (Exception e) {
         }
 
@@ -106,10 +106,10 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
     @Override
     public FinancialYearDetails retrieveFinancialYear(int id) throws MilesException {
         FinancialYear financialYear;
-        q = em.createNamedQuery("FinancialYear.findById");
-        q.setParameter("id", id);
+        setQ(getEm().createNamedQuery("FinancialYear.findById"));
+        getQ().setParameter("id", id);
         try {
-            financialYear = (FinancialYear) q.getSingleResult();
+            financialYear = (FinancialYear) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -133,10 +133,10 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         }
 
         FinancialYear financialYear;
-        q = em.createNamedQuery("FinancialYear.findByFinancialYear");
-        q.setParameter("financialYear", financialYearDetails.getFinancialYear());
+        setQ(getEm().createNamedQuery("FinancialYear.findByFinancialYear"));
+        getQ().setParameter("financialYear", financialYearDetails.getFinancialYear());
         try {
-            financialYear = (FinancialYear) q.getSingleResult();
+            financialYear = (FinancialYear) getQ().getSingleResult();
         } catch (Exception e) {
             financialYear = null;
         }
@@ -147,10 +147,10 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         }
 
         if (financialYear != null && financialYear.getCurrentYear()) {
-            q = em.createNamedQuery("FinancialYear.findByCurrentYear");
-            q.setParameter("currentYear", financialYearDetails.getCurrentYear());
+            setQ(getEm().createNamedQuery("FinancialYear.findByCurrentYear"));
+            getQ().setParameter("currentYear", financialYearDetails.getCurrentYear());
             try {
-                financialYear = (FinancialYear) q.getSingleResult();
+                financialYear = (FinancialYear) getQ().getSingleResult();
             } catch (Exception e) {
                 financialYear = null;
             }
@@ -159,13 +159,13 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
             }
         }
 
-        financialYear = em.find(FinancialYear.class, financialYearDetails.getId());
+        financialYear = getEm().find(FinancialYear.class, financialYearDetails.getId());
         financialYear.setFinancialYear(financialYearDetails.getFinancialYear());
         financialYear.setCurrentYear(financialYearDetails.getCurrentYear());
 
         try {
-            em.merge(financialYear);
-            em.flush();
+            getEm().merge(financialYear);
+            getEm().flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -176,9 +176,9 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeFinancialYear(int id) throws MilesException {
-        FinancialYear financialYear = em.find(FinancialYear.class, id);
+        FinancialYear financialYear = getEm().find(FinancialYear.class, id);
         try {
-            em.remove(financialYear);
+            getEm().remove(financialYear);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
