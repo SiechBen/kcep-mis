@@ -135,9 +135,6 @@ public class EquipmentController extends Controller {
                     }
 
                     break;
-                case "/addEquipment":
-
-                    break;
 
                 case "/doAddEquipment":
 
@@ -167,7 +164,7 @@ public class EquipmentController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
 
-                    break;
+                    return;
 
                 case "/doEditEquipment":
 
