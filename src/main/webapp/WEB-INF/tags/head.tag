@@ -51,6 +51,9 @@
         <li>
             <a onclick="loadAjaxWindow('reports')"><i class="fa fa-edit fa-fw"></i> Reports </a>
         </li>
+        <li>
+            <a herf="192.168.1.6:8080/ODKAggregate/"><i class="fa fa-edit fa-fw"></i> Surveys </a>
+        </li>
     </jsp:attribute>
     <jsp:attribute name="content">
         <div id="page-wrapper">

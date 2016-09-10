@@ -151,7 +151,7 @@
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addFarmActivity(); return false;">Add</button></th>
                                     <th>Farm activity name</th>
-                                    <th>Yield</th>
+                                    <th>Crop</th>
                                     <th>Date</th>
                                     <th>Quantity harvested</th>
                                     <th>Family consumption</th>
@@ -299,7 +299,7 @@
                         <input id="farm-activity-name" class="form-control" required="true">
                     </div>
                     <div class="form-group">
-                        Yield
+                        Crop
                         <input id="yield" class="form-control">
                     </div>
                     <div class="form-group">
