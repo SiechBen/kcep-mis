@@ -136,7 +136,6 @@ public class WarehouseController extends Controller {
 
                 case "/head_warehouses":
 
-                    //Retrieve the list of warehouses
                     List<WarehouseDetails> warehouses;
                     try {
                         warehouses = warehouseService.retrieveWarehouses();
@@ -145,7 +144,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    //Avail the warehouses in the application scope
                     if (warehouses != null) {
                         session.setAttribute("warehouses", warehouses);
                     }
@@ -200,7 +198,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    //Avail the warehouses in the application scope
                     if (warehouses != null) {
                         session.setAttribute("warehouses", warehouses);
                     }
@@ -408,7 +405,7 @@ public class WarehouseController extends Controller {
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
-                    break;
+                    return;
 
                 case "/doEditWarehouse":
 

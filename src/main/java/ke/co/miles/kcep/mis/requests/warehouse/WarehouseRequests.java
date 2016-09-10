@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -198,10 +199,11 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     public void removeWarehouse(int id) throws MilesException {
 
         Warehouse warehouse = getEm().find(Warehouse.class, id);
-        equipmentService.removeEquipment(warehouse.getId());
+        equipmentService.removeWarehouseEquipment(warehouse.getId());
         try {
             getEm().remove(warehouse);
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 

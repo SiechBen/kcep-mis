@@ -123,9 +123,38 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
 //<editor-fold defaultstate="collapsed" desc="Delete">
 
     @Override
+    @SuppressWarnings("unchecked")
+    public void removeWarehouseEquipment(int warehouseId) throws MilesException {
+
+        List<Equipment> equipmentList = new ArrayList<>();
+        setQ(getEm().createNamedQuery("Equipment.findByWarehouseId"));
+        getQ().setParameter("warehouseId", warehouseId);
+        try {
+            equipmentList = getQ().getResultList();
+        } catch (Exception e) {
+        }
+        if (!equipmentList.isEmpty()) {
+            for (Equipment equipment : equipmentList) {
+                removeEquipment(equipment);
+            }
+        }
+
+    }
+
+    @Override
     public void removeEquipment(int id) throws MilesException {
 
         Equipment equipment = getEm().find(Equipment.class, id);
+        try {
+            getEm().remove(equipment);
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+    }
+
+    private void removeEquipment(Equipment equipment) throws MilesException {
+
         try {
             getEm().remove(equipment);
         } catch (Exception e) {

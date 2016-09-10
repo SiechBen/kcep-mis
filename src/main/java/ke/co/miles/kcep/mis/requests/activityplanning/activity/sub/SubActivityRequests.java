@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
@@ -875,9 +874,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             throw new InvalidArgumentException("error_017_05");
         }
 
-        MilesDebugger.debug(subActivityDetails.getId());
         SubActivity subActivity = getEm().find(SubActivity.class, subActivityDetails.getId());
-        MilesDebugger.debug(subActivity);
         subActivity.setId(subActivityDetails.getId());
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
         subActivity.setExpectedOutcome(subActivityDetails.getExpectedOutcome());
@@ -943,7 +940,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             getEm().remove(subActivity);
         } catch (Exception e) {
-            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
     }
