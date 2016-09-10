@@ -36,7 +36,9 @@ import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PerformanceIndicatorController", urlPatterns = {"/performance_indicators", "/addPerformanceIndicator", "/doAddPerformanceIndicator"})
+@WebServlet(name = "PerformanceIndicatorController", 
+        urlPatterns = {"/performance_indicators", "/addPerformanceIndicator", 
+            "/doEditPerformanceIndicator","/doDeletePerformanceIndicator","/doAddPerformanceIndicator"})
 public class PerformanceIndicatorController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -224,11 +226,10 @@ public class PerformanceIndicatorController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
 
-                    break;
+                    return;
 
                 case "/doEditPerformanceIndicator":
 
-                    //PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
                     performanceIndicator = new PerformanceIndicatorDetails();
                     try {
                         performanceIndicator.setId(Short.valueOf(request.getParameter("id")));

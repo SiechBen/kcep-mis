@@ -2089,15 +2089,7 @@ function addPerformanceIndicator() {
                 "&yearOfUse=" + $("#year-of-use").val() +
                 "&ratio=" + $("#ratio").val(),
         success: function () {
-            $("#performance-indicator-type").val();
-            $("#result-hierarchy").val();
-            $("#description").val();
-            $("#baseline-date").val();
-            $("#baseline-value").val();
-            $("#year-of-use").val();
-            $("#actual-value").val();
-            $("#expected-value").val();
-            $("#ratio").val();
+            emptyPerformanceIndicatorFields();
             loadAjaxWindow("performance_indicators");
             return;
         },
@@ -2106,6 +2098,19 @@ function addPerformanceIndicator() {
         },
         dataType: "HTML"
     });
+}
+
+function emptyPerformanceIndicatorFields() {
+    $("#performance-indicator-type").val("");
+    $("#result-hierarchy").val("");
+    $("#description").val("");
+    $("#baseline-date").val("");
+    $("#baseline-value").val("");
+    $("#year-of-use").val("");
+    $("#actual-value").val("");
+    $("#expected-value").val("");
+    $("#ratio").val("");
+
 }
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
@@ -2142,16 +2147,8 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&yearOfUse=" + $("#year-of-use").val() +
                             "&ratio=" + $("#ratio").val(),
                     success: function (response) {
-                        $("#performance-indicator-type").val();
-                        $("#result-hierarchy").val();
-                        $("#description").val();
-                        $("#baseline-date").val();
-                        $("#baseline-value").val();
-                        $("#year-of-use").val();
-                        $("#actual-value").val();
-                        $("#expected-value").val();
-                        $("#ratio").val();
-                        $("#account").html(response);
+                        emptyPerformanceIndicatorFields();
+                        loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2162,18 +2159,11 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
             }
         },
         close: function () {
-            $("#performance-indicator-type").val();
-            $("#result-hierarchy").val();
-            $("#description").val();
-            $("#baseline-date").val();
-            $("#baseline-value").val();
-            $("#year-of-use").val();
-            $("#actual-value").val();
-            $("#expected-value").val();
-            $("#ratio").val();
+            emptyPerformanceIndicatorFields();
         }
     });
 }
+
 function deletePerformanceIndicator(id) {
     $("#message").text("Are you sure you want to remove this performance indicator?");
     $("#message-dialog").dialog({
