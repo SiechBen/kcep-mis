@@ -28,8 +28,8 @@ public interface PhenomenonRequestsLocal {
 
     /**
      *
-     * @param phenomenaDetailsList list of details of the phenomenon records
-     * to be created
+     * @param phenomenaDetailsList list of details of the phenomenon records to
+     * be created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
@@ -41,7 +41,6 @@ public interface PhenomenonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PhenomenonDetails> retrieveWarehouseOperators() throws MilesException;
-    
 
     /**
      *
@@ -49,14 +48,14 @@ public interface PhenomenonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PhenomenonDetails> retrieveTraineeCategories() throws MilesException;
-    
+
     /**
      *
      * @return the list of categories of trainers
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PhenomenonDetails> retrieveTrainerCategories() throws MilesException;
-    
+
     /**
      *
      * @param id the unique identifier of the phenomenon record to be retrieved
@@ -86,5 +85,12 @@ public interface PhenomenonRequestsLocal {
      * @return the details of the converted phenomenon
      */
     public PhenomenonDetails convertPhenomenonToPhenomenonDetails(Phenomenon phenomenon);
+
+    /**
+     *
+     * @return the list of gfss codes retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveGFSSCodes() throws MilesException;
 
 }

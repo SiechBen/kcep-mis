@@ -26,6 +26,7 @@
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addProcurement')">Add</button></th>
                                         <th>Item</th>
+                                        <th>Item</th>
                                         <th>Cost[KES]</th>
                                         <th>Date purchased</th>
                                         <th>Serial/plate number</th>
@@ -48,7 +49,8 @@
                                     <c:forEach var="procurement" items="${sessionScope.procurements}" varStatus="index">
                                         <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                             <td>${index.count}</td>
-                                            <td>${procurement.item}</td>
+                                            <td>${procurement.item.category.name}</td>
+                                            <td>${procurement.item.category.name}</td>
                                             <td>${procurement.cost}</td>
                                             <td>${procurement.datePurchased}</td>
                                             <td>${procurement.serialNumber}</td>
@@ -76,7 +78,11 @@
                         <form role="form">
                             <div class="form-group">
                                 Item
-                                <input id="item" name="item" class="form-control">
+                                <select id="item" name="item" class="form-control">
+                                    <c:forEach var="item" items="${applicationScope.items}" varStatus="index"> 
+                                        <option value="${item.id}">${item.category.name}</option>
+                                    </c:forEach>
+                                </select>  
                             </div>
                             <div class="form-group">
                                 Cost[KES]

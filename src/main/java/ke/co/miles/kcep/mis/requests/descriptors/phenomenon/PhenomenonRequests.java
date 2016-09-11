@@ -61,19 +61,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
 
+    @Override
     @SuppressWarnings("unchecked")
-    private List<PhenomenonDetails> retrievePhenomena(int phenomenonTypeId) throws MilesException {
-        List<Phenomenon> phenomena = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
-        getQ().setParameter("phenomenonTypeId", phenomenonTypeId);
+    public List<PhenomenonDetails> retrieveGFSSCodes() throws MilesException {
+
+        PhenomenonType phenomenonType;
+        setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
+        getQ().setParameter("name", "GFSS code");
         try {
-            phenomena = getQ().getResultList();
+            phenomenonType = (PhenomenonType) getQ().getSingleResult();
         } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
         }
 
-        return convertPhenomenaToPhenomenonDetailsList(phenomena);
+        return retrievePhenomena(phenomenonType.getId());
     }
-
+    
     @Override
     @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveWarehouseOperators() throws MilesException {
@@ -122,6 +125,19 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         return retrievePhenomena(phenomenonType.getId());
     }
 
+    @SuppressWarnings("unchecked")
+    private List<PhenomenonDetails> retrievePhenomena(int phenomenonTypeId) throws MilesException {
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(getEm().createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        getQ().setParameter("phenomenonTypeId", phenomenonTypeId);
+        try {
+            phenomena = getQ().getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonDetailsList(phenomena);
+    }
+    
     @Override
     public PhenomenonDetails retrievePhenomenon(int id) throws MilesException {
         Phenomenon phenomenon;

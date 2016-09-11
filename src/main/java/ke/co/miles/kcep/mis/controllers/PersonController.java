@@ -45,7 +45,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson", "/userProfile", "/changeCounter"})
+@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson","/doEditPerson","/doDeletePerson", "/userProfile", "/changeCounter"})
 public class PersonController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -561,7 +561,7 @@ public class PersonController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
 
-                    break;
+                    return;
 
                 case "/doEditPerson":
 

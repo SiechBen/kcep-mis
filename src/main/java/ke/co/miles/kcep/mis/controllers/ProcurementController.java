@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.procurement.ProcurementRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.ProcurementDetails;
@@ -88,21 +88,19 @@ public class ProcurementController extends Controller {
             switch (path) {
 
                 case "/head_procurements":
-                    //Retrieve the list of procurements
-                    List<ProcurementDetails> procurements;
                     try {
-                        procurements = procurementService.retrieveProcurements();
+                        session.setAttribute("procurements", procurementService.retrieveProcurements());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
                         return;
                     }
 
-                    //Avail the procurements in the application scope
-                    if (procurements != null) {
-                        session.setAttribute("procurements", procurements);
+                    try {
+                        session.setAttribute("items", phenomenonService.retrieveGFSSCodes());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
+                        return;
                     }
-                    break;
-                case "/head_addProcurement":
 
                     break;
 
@@ -294,7 +292,6 @@ public class ProcurementController extends Controller {
 //                            LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
 //                        }
 //                    }
-
                     try {
                         procurementService.editProcurement(procurement);
                     } catch (MilesException e) {
@@ -376,5 +373,7 @@ public class ProcurementController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(ProcurementController.class.getSimpleName());
     @EJB
     private ProcurementRequestsLocal procurementService;
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
 
 }
