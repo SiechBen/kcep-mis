@@ -5,11 +5,6 @@
  */
 package ke.co.miles.population.kcep.mis;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -52,7 +47,7 @@ public class FarmerRequests {
         Statement statement;
         MessageDigest messageDigest;
         String password, likelyEmail;
-        int j =0;
+        int j = 0;
 
 //        int firstRow = Integer.parseInt(JOptionPane.showInputDialog("Kindly enter the row number of the first record."));
 //        int lastRow = Integer.parseInt(JOptionPane.showInputDialog("Kindly enter the row number of the last record."));
@@ -206,7 +201,7 @@ public class FarmerRequests {
                 //Create the person's user account record
                 statement.executeUpdate("INSERT INTO user_account(person, username, password, person_role) VALUES (" + personId + ",'" + person.getContact().getEmail() + "','" + password + "'," + PersonRoleDetail.FARMER.getId() + ")");
 
-                System.out.println(++j +" "+person.getName() + " saved successfully");
+                System.out.println(++j + " " + person.getName() + " saved successfully");
 
             } catch (SQLException e) {
                 System.err.println("An error occurred: " + e);
@@ -214,32 +209,8 @@ public class FarmerRequests {
 
         }
 //</editor-fold>
-        long endTime = System.currentTimeMillis();
-        long timeTaken = endTime - startTime;
-        try {
-            System.out.format("Time taken to populate schema %s was %d seconds%n%n", "kcep_mis", timeTaken / 60);
-            FileWriter fileWriter = new FileWriter("data/time_taken.txt", true);
-            new File("data/time_taken.txt").getParentFile().mkdir();
-            try (PrintWriter printWriter = new PrintWriter(new BufferedWriter(fileWriter))) {
-                printWriter.println("Schema %s was successfully populated" + "kcep_mis" + ".");
-                printWriter.println("\nIt took  " + timeTaken / 60 + " seconds to complete the population.\n");
-                //<editor-fold defaultstate="collapsed" desc="TimeUnit">
-//                printWriter.write("Reading started at "
-//                        + String.format("%02d:%02d:%02d",
-//                                TimeUnit.MILLISECONDS.toHours(startTime),
-//                                TimeUnit.MILLISECONDS.toMinutes(startTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(startTime)),
-//                                TimeUnit.MILLISECONDS.toSeconds(startTime) - TimeUnit.MILLISECONDS.toSeconds(TimeUnit.MILLISECONDS.toMinutes(startTime))) + " \n");
-//                printWriter.write("Reading stopped at "
-//                        + String.format("%02d:%02d:%02d",
-//                                TimeUnit.MILLISECONDS.toHours(endTime),
-//                                TimeUnit.MILLISECONDS.toMinutes(endTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(endTime)),
-//                                TimeUnit.MILLISECONDS.toSeconds(endTime) - TimeUnit.MILLISECONDS.toSeconds(TimeUnit.MILLISECONDS.toMinutes(endTime))) + " \n");
 
-//</editor-fold>
-                printWriter.flush();
-            }
-        } catch (IOException e) {
-        }
+        PopulationTimer.recordPopulationTime(startTime);
 
     }
 
