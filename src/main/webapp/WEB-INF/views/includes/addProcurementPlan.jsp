@@ -98,7 +98,7 @@
                         Commence contract
                         <input id="commence-contract" class="form-control datefield">
                     </div>
-                    <button type="button" class="btn btn-outline btn-primary" onclick="addProcurementPlan()">Save procurement plan</button>
+                    <button type="button" class="btn btn-outline btn-primary" onclick="addProcurementPlan()">Save procurement plan -ncs</button>
                 </form>
             </div>
         </div>
