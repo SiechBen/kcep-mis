@@ -68,8 +68,23 @@ public class CategoryDetails implements Serializable, Comparable<CategoryDetails
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the parent
+     */
+    public CategoryDetails getParent() {
+        return parent;
+    }
+
+    /**
+     * @param parent the parent to set
+     */
+    public void setParent(CategoryDetails parent) {
+        this.parent = parent;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
-
+    private CategoryDetails parent;
+    
 }

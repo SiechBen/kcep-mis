@@ -271,17 +271,11 @@
                             <li>
                                 <a onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                             </li>
-                            <li>
-                                <a herf="192.168.1.6:8080/ODKAggregate/"><i class="fa fa-edit fa-fw"></i> Surveys </a>
-                            </li>
-
                             ${menuitems}
 
                         </ul>
                     </div>
-                    <!-- /.sidebar-collapse -->
                 </div>
-                <!-- /.navbar-static-side -->
             </nav>
 
             <div>         

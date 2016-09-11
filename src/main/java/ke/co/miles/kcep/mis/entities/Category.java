@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,6 +37,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Category.findById", query = "SELECT c FROM Category c WHERE c.id = :id"),
     @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name")})
 public class Category implements Serializable {
+
+    @OneToMany(mappedBy = "parent")
+    private List<Category> categoryList;
+    @JoinColumn(name = "parent", referencedColumnName = "id")
+    @ManyToOne
+    private Category parent;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -110,6 +118,23 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Category[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public Category getParent() {
+        return parent;
+    }
+
+    public void setParent(Category parent) {
+        this.parent = parent;
     }
     
 }
