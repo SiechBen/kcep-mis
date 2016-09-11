@@ -28,7 +28,7 @@ public class MysqlConnection {
 
             connection = DriverManager.getConnection(url, user, password);
             if (connection != null) {
-                System.out.println("Connected to the kcep_mis database");
+                System.out.println("Connected to the kcep_mis database\n");
                 return connection;
             }
 

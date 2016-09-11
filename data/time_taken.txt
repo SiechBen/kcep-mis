@@ -17,3 +17,237 @@ Schema %s was successfully populatedkcep_mis.
 
 It took  22962 seconds to complete the population.
 
+
+Records were read successfully from data/Farmers.xlsx.
+
+It took  53 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  17736 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  22 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  11 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  20 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  20 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  19 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  18 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  22 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  133 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  132 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  130 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  125 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  129 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  134 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  126 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  120 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  130 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  77 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  68 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  67 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  69 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  92 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  11 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  105 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  105 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  95 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  10 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  100 seconds to complete the population.
+
+
+Records were read successfully from data/GFSS.xlsx.
+
+It took  9 seconds to complete the read.
+
+Schema %s was successfully populatedkcep_mis.
+
+It took  107 seconds to complete the population.
+
