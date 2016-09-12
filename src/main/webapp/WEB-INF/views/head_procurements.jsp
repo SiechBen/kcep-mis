@@ -55,7 +55,7 @@
                                             <td>${procurement.description}</td>
                                             <td>${procurement.targetOffice}</td>
                                             <td>${procurement.county.name}</td>
-                                            <td>${procurement.subCounty}</td>
+                                            <td>${procurement.subCounty.name}</td>
                                             <td>${procurement.lpoNumber}</td>
                                             <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
                                             <td><button onclick="editProcurement('${procurement.id}', '${procurement.item.id}', '${procurement.cost}', '${procurement.datePurchased}', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>

@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubCounty.findByName", query = "SELECT s FROM SubCounty s WHERE s.name = :name")})
 public class SubCounty implements Serializable {
 
+    @OneToMany(mappedBy = "subCounty")
+    private List<Procurement> procurementList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,6 +131,15 @@ public class SubCounty implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubCounty[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Procurement> getProcurementList() {
+        return procurementList;
+    }
+
+    public void setProcurementList(List<Procurement> procurementList) {
+        this.procurementList = procurementList;
     }
     
 }

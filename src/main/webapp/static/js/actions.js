@@ -1551,7 +1551,7 @@ $("#procurement-form").ajaxForm({
 });
 
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
-    $("#item option[value=" + item + "]").attr('selected', 'selected'));
+    $("#item option[value=" + item + "]").attr('selected', 'selected');
     $("#cost").val(cost);
     $("#date-purchased").val(date);
     $("#serial-number").val(serial);
@@ -1578,10 +1578,10 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                             "&serial-number=" + $("#serial-number").val() +
                             "&description=" + $("#description").val() +
                             "&target-office=" + $("#target-office").val() +
-                            "&procurement-county=" + $("#procurement-county").val() +
-                            "&procurement-sub-county=" + $("#procurement-sub-county").val() +
+                            "&county=" + $("#procurement-county").val() +
+                            "&sub-county=" + $("#procurement-sub-county").val() +
                             "&lpo-number=" + $("#lpo-number").val(),
-                    success: function (response) {
+                    success: function () {
                         $("#item").val("");
                         $("#cost").val("");
                         $("#date-purchased").val("");

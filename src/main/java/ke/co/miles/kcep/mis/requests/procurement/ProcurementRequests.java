@@ -14,11 +14,13 @@ import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Procurement;
+import ke.co.miles.kcep.mis.entities.SubCounty;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.ProcurementDetails;
 
@@ -39,7 +41,6 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
 
         Procurement procurement = new Procurement();
         procurement.setCost(procurementDetails.getCost());
-        procurement.setSubCounty(procurementDetails.getSubCounty());
         procurement.setDescription(procurementDetails.getDescription());
         procurement.setLpoNumber(procurementDetails.getLpoNumber());
         procurement.setTargetOffice(procurementDetails.getTargetOffice());
@@ -51,6 +52,9 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         }
         if (procurementDetails.getCounty() != null) {
             procurement.setCounty(getEm().getReference(County.class, procurementDetails.getCounty().getId()));
+        }
+        if (procurementDetails.getSubCounty() != null) {
+            procurement.setSubCounty(getEm().getReference(SubCounty.class, procurementDetails.getSubCounty().getId()));
         }
 
         try {
@@ -107,7 +111,6 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         Procurement procurement = getEm().find(Procurement.class, procurementDetails.getId());
         procurement.setId(procurementDetails.getId());
         procurement.setCost(procurementDetails.getCost());
-        procurement.setSubCounty(procurementDetails.getSubCounty());
         procurement.setDescription(procurementDetails.getDescription());
         procurement.setLpoNumber(procurementDetails.getLpoNumber());
         procurement.setTargetOffice(procurementDetails.getTargetOffice());
@@ -121,6 +124,9 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         }
         if (procurementDetails.getCounty() != null) {
             procurement.setCounty(getEm().getReference(County.class, procurementDetails.getCounty().getId()));
+        }
+        if (procurementDetails.getSubCounty() != null) {
+            procurement.setSubCounty(getEm().getReference(SubCounty.class, procurementDetails.getSubCounty().getId()));
         }
 
         try {
@@ -151,7 +157,10 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         ProcurementDetails procurementDetails = new ProcurementDetails(procurement.getId());
         CountyDetails countyDetails = null;
         if (procurement.getCounty() != null) {
-            countyDetails = countyService.convertCountyToCountyDetails(procurement.getCounty());
+            procurementDetails.setCounty(countyService.convertCountyToCountyDetails(procurement.getCounty()));
+        }
+        if (procurement.getSubCounty() != null) {
+            procurementDetails.setSubCounty(subCountyService.convertSubCountyToSubCountyDetails(procurement.getSubCounty()));
         }
         if (procurement.getItem() != null) {
             procurementDetails.setItem(phenomenonService.convertPhenomenonToPhenomenonDetails(procurement.getItem()));
@@ -162,9 +171,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurementDetails.setTargetOffice(procurement.getTargetOffice());
         procurementDetails.setLpoNumber(procurement.getLpoNumber());
         procurementDetails.setDescription(procurement.getDescription());
-        procurementDetails.setSubCounty(procurement.getSubCounty());
         procurementDetails.setCost(procurement.getCost());
-        procurementDetails.setCounty(countyDetails);
 
         if (procurementDetails.getInvoiceOrReceipt() != null) {
             String[] folders = procurementDetails.getInvoiceOrReceipt().split(File.separator);
@@ -190,6 +197,8 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
 //</editor-fold>
     @EJB
     private CountyRequestsLocal countyService;
+    @EJB
+    private SubCountyRequestsLocal subCountyService;
     @EJB
     private PhenomenonRequestsLocal phenomenonService;
 }

@@ -42,6 +42,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Procurement.findByInvoiceOrReceipt", query = "SELECT p FROM Procurement p WHERE p.invoiceOrReceipt = :invoiceOrReceipt")})
 public class Procurement implements Serializable {
 
+    @JoinColumn(name = "sub_county", referencedColumnName = "id")
+    @ManyToOne
+    private SubCounty subCounty;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,9 +63,6 @@ public class Procurement implements Serializable {
     @Size(max = 45)
     @Column(name = "target_office")
     private String targetOffice;
-    @Size(max = 45)
-    @Column(name = "sub_county")
-    private String subCounty;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "cost")
     private BigDecimal cost;
@@ -126,14 +126,6 @@ public class Procurement implements Serializable {
         this.targetOffice = targetOffice;
     }
 
-    public String getSubCounty() {
-        return subCounty;
-    }
-
-    public void setSubCounty(String subCounty) {
-        this.subCounty = subCounty;
-    }
-
     public BigDecimal getCost() {
         return cost;
     }
@@ -188,15 +180,20 @@ public class Procurement implements Serializable {
             return false;
         }
         Procurement other = (Procurement) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Procurement[ id=" + id + " ]";
+    }
+
+    public SubCounty getSubCounty() {
+        return subCounty;
+    }
+
+    public void setSubCounty(SubCounty subCounty) {
+        this.subCounty = subCounty;
     }
 
 }
