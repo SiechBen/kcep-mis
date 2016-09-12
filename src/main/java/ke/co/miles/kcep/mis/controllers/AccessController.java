@@ -180,6 +180,7 @@ public class AccessController extends Controller {
                         case "Equity":
                             rightsMaps.clear();
                             rightsMaps.put("equityPersonnelSession", true);
+                            session.setAttribute("home", "/equity");
                             break;
 
                         case "Warehouse Operator":

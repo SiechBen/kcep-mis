@@ -14,7 +14,6 @@
             <div class="panel-heading">
                 List of training
             </div>
-            <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <table id="training-table" class="table table-striped table-bordered table-hover data-table">

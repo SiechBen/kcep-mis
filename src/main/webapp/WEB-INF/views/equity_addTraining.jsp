@@ -1,6 +1,6 @@
 <%-- 
-    Document   : county_addTraining
-    Created on : Jun 25, 2016, 4:10:02 PM
+    Document   : equity_addTraining
+    Created on : Sep 12, 2016, 1:05:37 PM
     Author     : siech
 --%>
 
@@ -8,11 +8,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:county>
+<kcep:equity>
     <jsp:attribute name="pagetitle"> KCEP-MIS - add training </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="includes/addTraining.jsp"/>
         
     </jsp:attribute>
-</kcep:county>
+</kcep:equity>>

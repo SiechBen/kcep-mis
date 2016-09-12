@@ -19,10 +19,13 @@
             <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
         </li>
         <li>
+            <a onclick="loadAjaxWindow('training')"><i class="fa fa-edit fa-fw"></i> Training </a>
+        </li>
+        <li>
             <a onclick="loadAjaxWindow('eVouchers')"><i class="fa fa-edit fa-fw"></i> E-vouchers </a>
         </li>
         <li>
-            <a herf="192.168.1.6:8080/ODKAggregate/"><i class="fa fa-edit fa-fw"></i> Surveys </a>
+            <a herf="http://192.168.1.6:8080/ODKAggregate/" target="_blank"><i class="fa fa-edit fa-fw"></i> Surveys </a>
         </li>
     </jsp:attribute>
     <jsp:attribute name="content">

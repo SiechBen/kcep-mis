@@ -55,14 +55,12 @@
                                 <td colspan="3" class="divider"></td>
                             </tr>
                             <tr>
-                                <td> &nbsp; </td>
                                 <td colspan="3"> <strong>Female</strong> </td>
                                 <td colspan="3"> <strong>Male</strong> </td>
                                 <td> <strong>Total</strong> </td>
-                                <td colspan="5"> &nbsp; </td>
+                                <td colspan="6"> &nbsp; </td>
                             </tr>
                             <tr>
-                                <td> &nbsp; </td>
                                 <td> <strong>Youth(<35 years old)</strong> </td>
                                 <td> <strong>Elderly(>35 years old)</strong> </td>
                                 <td> <strong>Female Total</strong> </td>
@@ -70,10 +68,9 @@
                                 <td> <strong>Elderly(>35 years old)</strong> </td>
                                 <td> <strong>Male Total</strong> </td>
                                 <td> &nbsp; </td>
-                                <td colspan="5"> &nbsp; </td>
+                                <td colspan="6"> &nbsp; </td>
                             </tr>
                             <tr id="people-summary">
-                                <td> &nbsp; </td>
                                 <td> ${sessionScope.femaleYouth} </td>
                                 <td> ${sessionScope.femaleElders} </td>
                                 <td> ${sessionScope.femaleTotal} </td>
@@ -81,10 +78,9 @@
                                 <td> ${sessionScope.maleElders} </td>
                                 <td> ${sessionScope.maleTotal} </td>
                                 <td> ${sessionScope.total} </td>
-                                <td colspan="5"> &nbsp; </td>
+                                <td colspan="6"> &nbsp; </td>
                             </tr>
                             <tr>
-                                <td> <strong>Total</strong> </td>
                                 <td> ${sessionScope.femaleYouth} </td>
                                 <td> ${sessionScope.femaleElders} </td>
                                 <td> ${sessionScope.femaleTotal} </td>
@@ -92,7 +88,7 @@
                                 <td> ${sessionScope.maleElders} </td>
                                 <td> ${sessionScope.maleTotal} </td>
                                 <td> ${sessionScope.total} </td>
-                                <td colspan="5"> &nbsp; </td>
+                                <td colspan="6"> &nbsp; </td>
                             </tr>
                         </tfoot>
                         <tbody>

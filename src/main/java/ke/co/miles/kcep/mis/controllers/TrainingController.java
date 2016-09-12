@@ -111,6 +111,33 @@ public class TrainingController extends Controller {
                     }
 
                     break;
+                    
+                case "/equity_training":
+
+                    try {
+                        trainingMap = trainerService.retrieveTrainings();
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                            if (trainingDetails.getAttendanceSheet() != null) {
+                                try {
+                                    String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
+                                    String fileName = folders[folders.length - 1];
+                                    trainingDetails.setFileName(fileName);
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                        session.setAttribute("trainingMap", trainingMap);
+                    }
+
+                    break;
 
                 case "/ward_training":
 
@@ -704,6 +731,34 @@ public class TrainingController extends Controller {
                 switch (rightsMap) {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/head_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/head_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/head_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/head_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");

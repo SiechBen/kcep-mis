@@ -76,7 +76,6 @@ public class PersonController extends Controller {
                 switch (rightsMap) {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
-                    case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
@@ -104,6 +103,26 @@ public class PersonController extends Controller {
                             }
                         }
                         break;
+                    case "equityPersonnelSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
+                            urlPaths.add("/changeCounter");
+                            switch (path) {
+                                case "/people":
+                                    path = "/equity_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/head_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
@@ -112,14 +131,6 @@ public class PersonController extends Controller {
                             switch (path) {
                                 case "/people":
                                     path = "/kalro_people";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addPerson":
-                                    path = "/kalro_addPerson";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editPerson":
-                                    path = "/kalro_editPerson";
                                     urlPaths.add(path);
                                     break;
                                 case "/userProfile":
@@ -222,14 +233,6 @@ public class PersonController extends Controller {
                                     path = "/ward_people";
                                     urlPaths.add(path);
                                     break;
-                                case "/addPerson":
-                                    path = "/ward_addPerson";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editPerson":
-                                    path = "/ward_editPerson";
-                                    urlPaths.add(path);
-                                    break;
                                 case "/userProfile":
                                     path = "/ward_userProfile";
                                     urlPaths.add(path);
@@ -247,14 +250,6 @@ public class PersonController extends Controller {
                             switch (path) {
                                 case "/people":
                                     path = "/agro_dealer_people";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addPerson":
-                                    path = "/agro_dealer_addPerson";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editPerson":
-                                    path = "/agro_dealer_editPerson";
                                     urlPaths.add(path);
                                     break;
                                 case "/userProfile":

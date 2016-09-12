@@ -19,7 +19,7 @@
             <a onclick="loadAjaxWindow('equipment')"><i class="fa fa-edit fa-fw"></i> Equipment </a>
         </li>
         <li>
-            <a herf="192.168.1.6:8080/ODKAggregate/"><i class="fa fa-edit fa-fw"></i> Surveys </a>
+            <a href="http://192.168.1.6:8080/ODKAggregate/" target="_blank"><i class="fa fa-edit fa-fw"></i> Surveys </a>
         </li>
     </jsp:attribute>
     <jsp:attribute name="content">

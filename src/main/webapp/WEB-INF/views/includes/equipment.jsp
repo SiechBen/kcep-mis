@@ -65,31 +65,31 @@
                                     <th colspan="2"> &nbsp; </th>
                                 </tr>
                                 <tr>
-                                    <th>Crop</th>
-                                    <th>Date</th>
-                                    <th>Quantity harvested</th>
-                                    <th>Family consumption</th>
-                                    <th>Quantity sold</th>
-                                    <th>Post harvest loss</th>
-                                    <th>Average selling price</th>
+                                    <th> &nbsp; </th>
+                                    <th> Quantity(bags) </th>
+                                    <th> Produce type </th>
+                                    <th> Selling date </th>
+                                    <th> Quantity(bags) </th>
+                                    <th> Produce type </th>
+                                    <th> Selling price per bag </th>
+                                    <th> Sold to who? </th>
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody> 
-                                <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
+                                <c:forEach var="warehouseOperation" items="${sessionScope.warehouseOperations}" varStatus="index">
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
-                                        <td>${farmActivity.name}</td>
-                                        <td>${farmActivity.yield}</td>
-                                        <td>${farmActivity.dateDone}</td>
-                                        <td>${farmActivity.quantityHarvested}</td>
-                                        <td>${farmActivity.familyConsumption}</td>
-                                        <td>${farmActivity.quantitySold}</td>
-                                        <td>${farmActivity.postHarvestLoss}</td>
-                                        <td>${farmActivity.averageSellingPrice}</td>
-                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '${farmActivity.dateDone}', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td>${warehouseOperation.quantityBrought}</td>
+                                        <td>${warehouseOperation.produceTypeBrought}</td>
+                                        <td>${warehouseOperation.sellingDate}</td>
+                                        <td>${warehouseOperation.quantitySold}</td>
+                                        <td>${warehouseOperation.produceTypeSold}</td>
+                                        <td>${warehouseOperation.sellingPrice}</td>
+                                        <td>${warehouseOperation.buyer}</td>
+                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought}', '${warehouseOperation.sellingDate}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -124,34 +124,51 @@
         </div>
     </div> 
 </div> 
-<div class="row dialog" id="account-dialog">
+<div class="row dialog" id="warehouse-operation-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-                    <div class="form-group">
-                        Account Number
-                        <input class="form-control" id="account-number" >
+                      <th> Quantity(bags) </th>
+                                    <th> Produce type </th>
+                                    <th> Selling date </th>
+                                    <th> Quantity(bags) </th>
+                                    <th> Produce type </th>
+                                    <th> Selling price per bag </th>
+                                    <th> Sold to who? </th>
+                              
+                                    <div class="form-group">
+                        Quantity(bags)
+                        <input id="warehouse-operation" class="form-control" required="true">
+                    </div>
+                              
+                                    <div class="form-group">
+                        Produce type
+                        <input id="warehouse-operation" class="form-control" required="true">
                     </div>
                     <div class="form-group">
-                        Ebl Branch
-                        <select  id="ebl-branch" class="form-control"> 
-                            <c:forEach var="eblBranch" items="${sessionScope.eblBranches}" varStatus="index">
-                                <option value="${eblBranch.id}">${eblBranch.name}</option>
-                            </c:forEach>
-                        </select>
+                        Selling date
+                        <input type="date" id="farm-activity-date" class="form-control datefield">
                     </div>
                     <div class="form-group">
-                        Sol id
-                        <input class="form-control" id="sol-id" >
+                        Quantity (bags)
+                        <input type="number" step="0.01" id="quantity-harvested" class="form-control">
                     </div>
                     <div class="form-group">
-                        Deposit(+) or withdrawal(-)
-                        <input type="number" step="0.01" class="form-control" id="change">
+                        Family consumption
+                        <input type="number" step="0.01" id="family-consumption" class="form-control">
                     </div>
-                    Savings
                     <div class="form-group">
-                        <input type="number" step="0.01" class="form-control" id="savings"  readonly>
+                        Quantity sold/taken to warehouse
+                        <input type="number" step="0.01" id="quantity-sold" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Post-harvest loss
+                        <input type="number"  id="post-harvest-loss" step="0.01" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        Average selling price
+                        <input type="number" id="average-selling-price" step="0.01" class="form-control">
                     </div>
                 </form>
             </div>
