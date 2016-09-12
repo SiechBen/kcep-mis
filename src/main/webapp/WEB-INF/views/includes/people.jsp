@@ -55,16 +55,44 @@
                                 <td colspan="3" class="divider"></td>
                             </tr>
                             <tr>
-                                <td> Total number </td>
-                                <td> Female count </td>
-                                <td> Male count </td>
-                                <td colspan="10"> &nbsp; </td>
+                                <td> &nbsp; </td>
+                                <td colspan="3"> <strong>Female</strong> </td>
+                                <td colspan="3"> <strong>Male</strong> </td>
+                                <td> <strong>Total</strong> </td>
+                                <td colspan="5"> &nbsp; </td>
+                            </tr>
+                            <tr>
+                                <td> &nbsp; </td>
+                                <td> <strong>Youth(<35 years old)</strong> </td>
+                                <td> <strong>Elderly(>35 years old)</strong> </td>
+                                <td> <strong>Female Total</strong> </td>
+                                <td> <strong>Youth(<35 years old)</strong> </td>
+                                <td> <strong>Elderly(>35 years old)</strong> </td>
+                                <td> <strong>Male Total</strong> </td>
+                                <td> &nbsp; </td>
+                                <td colspan="5"> &nbsp; </td>
                             </tr>
                             <tr id="people-summary">
-                                <td> ${sessionScope.totalCount} </td>
-                                <td> ${sessionScope.femaleCount} </td>
-                                <td> ${sessionScope.maleCount} </td>
-                                <td colspan="10"> &nbsp; </td>
+                                <td> &nbsp; </td>
+                                <td> ${sessionScope.femaleYouth} </td>
+                                <td> ${sessionScope.femaleElders} </td>
+                                <td> ${sessionScope.femaleTotal} </td>
+                                <td> ${sessionScope.maleYouth} </td>
+                                <td> ${sessionScope.maleElders} </td>
+                                <td> ${sessionScope.maleTotal} </td>
+                                <td> ${sessionScope.total} </td>
+                                <td colspan="5"> &nbsp; </td>
+                            </tr>
+                            <tr>
+                                <td> <strong>Total</strong> </td>
+                                <td> ${sessionScope.femaleYouth} </td>
+                                <td> ${sessionScope.femaleElders} </td>
+                                <td> ${sessionScope.femaleTotal} </td>
+                                <td> ${sessionScope.maleYouth} </td>
+                                <td> ${sessionScope.maleElders} </td>
+                                <td> ${sessionScope.maleTotal} </td>
+                                <td> ${sessionScope.total} </td>
+                                <td colspan="5"> &nbsp; </td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -74,7 +102,7 @@
                                         <tr class="farmer-row" onclick="loadFarmWindow('${person.id}')">
                                         </c:when>
                                         <c:otherwise>
-                                            <tr class="odd">
+                                        <tr class="odd">
                                         </c:otherwise>
                                     </c:choose>
                                     <td>${index.count}</td>
@@ -91,10 +119,10 @@
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.sex}', '${person.nationalId}',
-                                                '${person.dateOfBirth}', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
-                                                '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
-                                                '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deletePerson('${person.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                                    '${person.dateOfBirth}', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
+                                                    '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
+                                                    '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -104,6 +132,7 @@
         </div>
     </div>
 </div>
+
 <div class="dialog" id="person-dialog">
     <div class="col-lg-12">
         <div class="panel-default">

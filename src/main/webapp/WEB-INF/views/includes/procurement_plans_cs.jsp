@@ -56,7 +56,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="procurementPlanCs" items="${sessionScope.procurementPlansCs}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td>${procurementPlanCs.procurementPlanType.type}</td>
                                     <td>${procurementPlanCs.description}</td>

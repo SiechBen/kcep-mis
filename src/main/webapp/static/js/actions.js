@@ -619,18 +619,25 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editPerson",
+                    url: "doEditPerson",
                     type: "POST",
-                    data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
-                            "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
-                            "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
-                            "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
-                            "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
-                            "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
-                            "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
+                    data: "id=" + id + 
+                            "&name=" + $("#person-name").val() + 
+                            "&nationalId=" + $("#national-id").val() +
+                            "&businessName=" + $("#business-name").val() + 
+                            "&sex=" + $("#sex").val() +
+                            "&farmerGroup=" + $("#farmer-group").val() + 
+                            "&phoneNumber=" + $("#phone").val() +
+                            "&email=" + $("#email").val() + 
+                            "&businessName=" + $("#business-name").val() +
+                            "&county=" + $("#person-county").val() + 
+                            "&subCounty=" + $("#person-sub-county").val() +
+                            "&personRole=" + $("#person-role").val() + 
+                            "&ward=" + $("#person-ward").val() +
+                            "&farmerSubGroup=" + $("#farmer-sub-group").val() + 
+                            "&postalAddress=" + $("#postal-address").val() +
                             "&dateOfBirth=" + $("#date-of-birth").val(),
                     success: function () {
-
                         $("#sex").val("");
                         $("#email").val("");
                         $("#phone").val("");
@@ -667,7 +674,7 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
 }
 
 function deletePerson(id) {
-    $("#message").text("Are you sure you want to remove this Training?");
+    $("#message").text("Are you sure you want to remove this person?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
@@ -677,12 +684,11 @@ function deletePerson(id) {
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteTraining",
+                    url: "doDeletePerson",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#training-table tbody").html(response);
-
+                    success: function () {
+                        loadAjaxWindow("people");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -699,8 +705,6 @@ function deletePerson(id) {
         }
     });
 }
-
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Training">
@@ -1797,7 +1801,7 @@ function emptyProcurementPlanFields() {
 }
 
 function deleteProcurementPlan(id) {
-    $("#message").text("Are you sure you want to remove this procurement plan?");
+    $("#message").text("Are you sure you want to remove this procurement plan - ncs?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",

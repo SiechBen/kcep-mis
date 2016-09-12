@@ -45,7 +45,9 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  *
  * @author siech
  */
-@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson", "/doAddPerson","/doEditPerson","/doDeletePerson", "/userProfile", "/changeCounter"})
+@WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson",
+    "/doAddPerson", "/doEditPerson", "/doDeletePerson", "/userProfile",
+    "/changeCounter"})
 public class PersonController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -565,47 +567,47 @@ public class PersonController extends Controller {
 
                 case "/doEditPerson":
 
-                     contact = new ContactDetails();
+                    contact = new ContactDetails();
                     contact.setEmail(String.valueOf(request.getParameter("email")));
                     contact.setPhone(String.valueOf(request.getParameter("phoneNumber")));
                     contact.setPostalAddress(String.valueOf(request.getParameter("postalAddress")));
 
-                     farmerGroup = new FarmerGroupDetails();
+                    farmerGroup = new FarmerGroupDetails();
                     try {
                         farmerGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerGroup"))));
                     } catch (Exception e) {
                         farmerGroup = null;
                     }
 
-                     farmerSubGroup = new FarmerSubGroupDetails();
+                    farmerSubGroup = new FarmerSubGroupDetails();
                     try {
                         farmerSubGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerSubGroup"))));
                     } catch (Exception e) {
                         farmerSubGroup = null;
                     }
 
-                     subCounty = new SubCountyDetails();
+                    subCounty = new SubCountyDetails();
                     try {
                         subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
 
-                     county = new CountyDetails();
+                    county = new CountyDetails();
                     try {
                         county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }
 
-                     ward = new WardDetails();
+                    ward = new WardDetails();
                     try {
                         ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
                         ward = null;
                     }
 
-                     location = new LocationDetails();
+                    location = new LocationDetails();
                     location.setSubCounty(subCounty);
                     location.setCounty(county);
                     location.setWard(ward);
@@ -616,8 +618,7 @@ public class PersonController extends Controller {
                         personRole = null;
                     }
 
-                     
-                     person = new PersonDetails();
+                    person = new PersonDetails();
                     try {
                         person.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
@@ -674,8 +675,8 @@ public class PersonController extends Controller {
                     }
 
                     return;
-                    
-                     case "/doDeletePerson":
+
+                case "/doDeletePerson":
                     try {
                         personService.removePerson(Integer.valueOf(request.getParameter("id")));
                     } catch (MilesException ex) {

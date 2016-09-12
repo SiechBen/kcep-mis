@@ -48,15 +48,15 @@
                     <div class="form-group">
                         Sub-county
                         <select id="training-sub-county" name="training-sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index"> 
-                                <option value="${subCounty.id}">${subCountytopic.topic}</option>
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
+                                <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>  
                     </div>
                     <div class="form-group">
                         Ward
                         <select id="training-ward" name="ward" class="form-control">
-                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index"> 
+                            <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index"> 
                                 <option value="${ward.id}">${ward.name}</option>
                             </c:forEach>
                         </select>  

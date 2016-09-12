@@ -41,7 +41,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="trainee" items="${sessionScope.trainees}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td>${trainee.person.name}</td>
                                     <td>${trainee.person.nationalId}</td>

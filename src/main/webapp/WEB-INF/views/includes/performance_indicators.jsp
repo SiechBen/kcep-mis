@@ -39,7 +39,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="performanceIndicator" items="${sessionScope.performanceIndicators}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td>${performanceIndicator.performanceIndicatorType.type}</td>
                                     <td>${performanceIndicator.resultHierarchy.description}</td>
@@ -67,7 +67,6 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-
                     <div class="form-group">
                         Performance indicator type
                         <select id="performance-indicator-type" class="form-control">

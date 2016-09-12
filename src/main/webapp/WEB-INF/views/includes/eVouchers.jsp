@@ -36,7 +36,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="eVoucher" items="${sessionScope.eVouchers}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td>${eVoucher.amount}</td>
                                     <td>${eVoucher.inputType.type}</td>

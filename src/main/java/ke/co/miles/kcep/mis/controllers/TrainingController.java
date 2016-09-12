@@ -59,19 +59,12 @@ public class TrainingController extends Controller {
 
     private static final long serialVersionUID = 1L;
     private String path;
+    private ArrayList<String> urlPaths;
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
-        doTrainingControl(request, response, session);
-
-    }
-//</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Do training control">
-    private void doTrainingControl(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException {
 
         response.setContentType("text/html;charset=UTF-8");
 
@@ -81,159 +74,8 @@ public class TrainingController extends Controller {
         String destination;
 
         String fileSeparator = File.separator;
-
-        @SuppressWarnings("unchecked")
-        HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
-        ArrayList<String> urlPaths = new ArrayList<>();
-        if (rightsMaps != null) {
-            for (String rightsMap : rightsMaps.keySet()) {
-                switch (rightsMap) {
-                    case "systemAdminSession":
-                    case "nationalOfficerSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddTraining");
-                            urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
-                            urlPaths.add("/loadTrainees");
-                            switch (path) {
-                                case "/training":
-                                    path = "/head_training";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/trainees":
-                                    path = "/head_trainees";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addTraining":
-                                    path = "/head_addTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editTraining":
-                                    path = "/head_editTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    case "kalroSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddTraining");
-                            urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
-                            urlPaths.add("/loadTrainees");
-                            switch (path) {
-                                case "/training":
-                                    path = "/kalro_training";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/trainees":
-                                    path = "/kalro_trainees";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addTraining":
-                                    path = "/kalro_addTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editTraining":
-                                    path = "/kalro_editTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    case "waoSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddTraining");
-                            urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
-                            urlPaths.add("/loadTrainees");
-                            switch (path) {
-                                case "/training":
-                                    path = "/ward_training";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/trainees":
-                                    path = "/ward_trainees";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addTraining":
-                                    path = "/ward_addTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editTraining":
-                                    path = "/ward_editTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    case "countyDeskOfficerSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddTraining");
-                            urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
-                            urlPaths.add("/loadTrainees");
-                            switch (path) {
-                                case "/training":
-                                    path = "/county_training";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/trainees":
-                                    path = "/county_trainees";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addTraining":
-                                    path = "/county_addTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editTraining":
-                                    path = "/county_editTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    case "subCountyDeskOfficerSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddTraining");
-                            urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
-                            urlPaths.add("/loadTrainees");
-                            switch (path) {
-                                case "/training":
-                                    path = "/sub_county_training";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/trainees":
-                                    path = "/sub_county_trainees";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/addTraining":
-                                    path = "/sub_county_addTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                case "/editTraining":
-                                    path = "/sub_county_editTraining";
-                                    urlPaths.add(path);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        
+        switchPaths(session);
 
         if (urlPaths.contains(path)) {
 
@@ -267,8 +109,6 @@ public class TrainingController extends Controller {
                         }
                         session.setAttribute("trainingMap", trainingMap);
                     }
-
-                    availSessionAttributes(session, response);
 
                     break;
 
@@ -625,8 +465,8 @@ public class TrainingController extends Controller {
                         LOGGER.log(Level.INFO, "", e);
                     }
 
-                    path = "training";
-                    doTrainingControl(request, response, session);
+                    path = "/training";
+                    switchPaths(session);
 
                     break;
 
@@ -789,7 +629,6 @@ public class TrainingController extends Controller {
         }
     }
 
-    //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Avail attributes">
     private void availSessionAttributes(HttpSession session, HttpServletResponse response) throws
             IOException {
@@ -854,6 +693,164 @@ public class TrainingController extends Controller {
         }
     }
 //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Switch paths">
+
+    private void switchPaths(HttpSession session) throws IOException {
+        @SuppressWarnings("unchecked")
+        HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
+        urlPaths = new ArrayList<>();
+        if (rightsMaps != null) {
+            for (String rightsMap : rightsMaps.keySet()) {
+                switch (rightsMap) {
+                    case "systemAdminSession":
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/head_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/head_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/head_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/head_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "kalroSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/kalro_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/kalro_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/kalro_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/kalro_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "waoSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/ward_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/ward_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/ward_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/ward_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "countyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/county_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/county_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/county_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/county_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "subCountyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/sub_county_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/sub_county_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/sub_county_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/sub_county_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+//</editor-fold>
+
     private static final Logger LOGGER = Logger.getLogger(TrainingController.class.getSimpleName());
     @EJB
     private WardRequestsLocal wardService;

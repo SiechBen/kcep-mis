@@ -93,7 +93,7 @@
                                     </thead>
                                     <tbody> 
                                         <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
-                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                            <tr>
                                                 <td>${index.count}</td>
                                                 <td>${loan.amount}</td>
                                                 <td>${loan.type}</td>
@@ -119,7 +119,7 @@
                                     </thead>
                                     <tbody> 
                                         <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
-                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                            <tr>
                                                 <td>${index.count}</td>
                                                 <td>${inputsCollection.date}</td>
                                                 <td>${inputsCollection.agroDealer.name}</td>
@@ -148,7 +148,7 @@
                                     </thead>
                                     <tbody> 
                                         <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
-                                            <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                            <tr>
                                                 <td>${index.count}</td>
                                                 <td>${farmActivity.name}</td>
                                                 <td>${farmActivity.yield}</td>

@@ -57,7 +57,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="subActivity" items="${sessionScope.subActivityMap.keySet()}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td>${subActivity.expectedOutcome}</td>
                                     <td>${subActivity.annualWorkplanReferenceCode}</td>

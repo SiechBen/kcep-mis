@@ -42,7 +42,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="training" items="${sessionScope.trainingMap.keySet()}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td>${training.startDate}</td>
                                     <td>${training.endDate}</td>

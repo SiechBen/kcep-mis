@@ -37,7 +37,7 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="warehouse" items="${sessionScope.warehouses}" varStatus="index">
-                                <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <tr>
                                     <td>${index.count}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.name}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.capacity} ${warehouse.units.unit}</td>

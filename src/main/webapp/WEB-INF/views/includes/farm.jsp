@@ -164,7 +164,7 @@
                             </thead>
                             <tbody> 
                                 <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
-                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                    <tr>
                                         <td>${index.count}</td>
                                         <td>${farmActivity.name}</td>
                                         <td>${farmActivity.yield}</td>
