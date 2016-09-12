@@ -62,7 +62,7 @@ public class SubComponentDetails implements Serializable, Comparable<SubComponen
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubComponent[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SubComponentDetails[ id=" + id + " ]";
     }
 
     @Override

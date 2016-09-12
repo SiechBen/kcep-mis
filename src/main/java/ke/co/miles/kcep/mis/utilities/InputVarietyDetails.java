@@ -67,7 +67,7 @@ public class InputVarietyDetails implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.InputVariety[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.InputVarietyDetails[ id=" + id + " ]";
     }
 
     private static final long serialVersionUID = 1L;

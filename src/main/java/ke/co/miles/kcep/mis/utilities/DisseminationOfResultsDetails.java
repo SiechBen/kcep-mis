@@ -72,7 +72,7 @@ public class DisseminationOfResultsDetails implements Serializable, Comparable<D
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.DisseminationOfResults[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.DisseminationOfResultsDetails[ id=" + id + " ]";
     }
 
     @Override

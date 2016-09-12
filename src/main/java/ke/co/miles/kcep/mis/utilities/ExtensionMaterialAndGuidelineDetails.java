@@ -64,7 +64,7 @@ public class ExtensionMaterialAndGuidelineDetails implements Serializable, Compa
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ExtensionMaterialAndGuideline[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ExtensionMaterialAndGuidelineDetails[ id=" + id + " ]";
     }
 
     @Override

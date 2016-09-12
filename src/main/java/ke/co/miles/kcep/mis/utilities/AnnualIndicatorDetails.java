@@ -62,7 +62,7 @@ public class AnnualIndicatorDetails implements Serializable, Comparable<AnnualIn
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.AnnualIndicator[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.AnnualIndicatorDetails[ id=" + id + " ]";
     }
 
     @Override

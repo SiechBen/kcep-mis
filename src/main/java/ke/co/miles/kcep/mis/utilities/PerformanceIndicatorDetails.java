@@ -119,7 +119,7 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.PerformanceIndicator[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails[ id=" + id + " ]";
     }
 
     @Override

@@ -38,15 +38,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FarmActivity.findByName", query = "SELECT f FROM FarmActivity f WHERE f.name = :name"),
     @NamedQuery(name = "FarmActivity.findByYield", query = "SELECT f FROM FarmActivity f WHERE f.yield = :yield"),
     @NamedQuery(name = "FarmActivity.findByDateDone", query = "SELECT f FROM FarmActivity f WHERE f.dateDone = :dateDone"),
-    @NamedQuery(name = "FarmActivity.findByQuantitySold", query = "SELECT f FROM FarmActivity f WHERE f.quantitySold = :quantitySold"),
     @NamedQuery(name = "FarmActivity.findByQuantityHarvested", query = "SELECT f FROM FarmActivity f WHERE f.quantityHarvested = :quantityHarvested"),
+    @NamedQuery(name = "FarmActivity.findByFamilyConsumption", query = "SELECT f FROM FarmActivity f WHERE f.familyConsumption = :familyConsumption"),
+    @NamedQuery(name = "FarmActivity.findByQuantitySold", query = "SELECT f FROM FarmActivity f WHERE f.quantitySold = :quantitySold"),
+    @NamedQuery(name = "FarmActivity.findByPostHarvestLoss", query = "SELECT f FROM FarmActivity f WHERE f.postHarvestLoss = :postHarvestLoss"),
     @NamedQuery(name = "FarmActivity.findByAverageSellingPrice", query = "SELECT f FROM FarmActivity f WHERE f.averageSellingPrice = :averageSellingPrice")})
 public class FarmActivity implements Serializable {
 
-    @Column(name = "family_consumption")
-    private Double familyConsumption;
-    @Column(name = "post_harvest_loss")
-    private Double postHarvestLoss;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,16 +54,21 @@ public class FarmActivity implements Serializable {
     @Size(max = 45)
     @Column(name = "name")
     private String name;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Size(max = 45)
     @Column(name = "yield")
     private String yield;
     @Column(name = "date_done")
     @Temporal(TemporalType.DATE)
     private Date dateDone;
-    @Column(name = "quantity_sold")
-    private Double quantitySold;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "quantity_harvested")
     private Double quantityHarvested;
+    @Column(name = "family_consumption")
+    private Double familyConsumption;
+    @Column(name = "quantity_sold")
+    private Double quantitySold;
+    @Column(name = "post_harvest_loss")
+    private Double postHarvestLoss;
     @Column(name = "average_selling_price")
     private BigDecimal averageSellingPrice;
     @JoinColumn(name = "farmer", referencedColumnName = "id")
@@ -111,6 +114,22 @@ public class FarmActivity implements Serializable {
         this.dateDone = dateDone;
     }
 
+    public Double getQuantityHarvested() {
+        return quantityHarvested;
+    }
+
+    public void setQuantityHarvested(Double quantityHarvested) {
+        this.quantityHarvested = quantityHarvested;
+    }
+
+    public Double getFamilyConsumption() {
+        return familyConsumption;
+    }
+
+    public void setFamilyConsumption(Double familyConsumption) {
+        this.familyConsumption = familyConsumption;
+    }
+
     public Double getQuantitySold() {
         return quantitySold;
     }
@@ -119,12 +138,12 @@ public class FarmActivity implements Serializable {
         this.quantitySold = quantitySold;
     }
 
-    public Double getQuantityHarvested() {
-        return quantityHarvested;
+    public Double getPostHarvestLoss() {
+        return postHarvestLoss;
     }
 
-    public void setQuantityHarvested(Double quantityHarvested) {
-        this.quantityHarvested = quantityHarvested;
+    public void setPostHarvestLoss(Double postHarvestLoss) {
+        this.postHarvestLoss = postHarvestLoss;
     }
 
     public BigDecimal getAverageSellingPrice() {
@@ -167,21 +186,5 @@ public class FarmActivity implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmActivity[ id=" + id + " ]";
     }
-
-    public Double getFamilyConsumption() {
-        return familyConsumption;
-    }
-
-    public void setFamilyConsumption(Double familyConsumption) {
-        this.familyConsumption = familyConsumption;
-    }
-
-    public Double getPostHarvestLoss() {
-        return postHarvestLoss;
-    }
-
-    public void setPostHarvestLoss(Double postHarvestLoss) {
-        this.postHarvestLoss = postHarvestLoss;
-    }
-
+    
 }

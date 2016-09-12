@@ -64,7 +64,7 @@ public class TrainerDetails implements Serializable, Comparable<TrainerDetails> 
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Trainer[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.TrainerDetails[ id=" + id + " ]";
     }
 
     @Override

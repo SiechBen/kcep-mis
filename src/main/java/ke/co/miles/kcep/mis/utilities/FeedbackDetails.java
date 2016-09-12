@@ -77,7 +77,7 @@ public class FeedbackDetails implements Serializable, Comparable<FeedbackDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Feedback[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.FeedbackDetails[ id=" + id + " ]";
     }
 
     @Override

@@ -58,7 +58,7 @@ public class TopicDetails implements Serializable, Comparable<TopicDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.TrainingTopic[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.TrainingTopicDetails[ id=" + id + " ]";
     }
 
     @Override

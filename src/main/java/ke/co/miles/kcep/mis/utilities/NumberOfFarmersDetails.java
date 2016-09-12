@@ -88,7 +88,7 @@ public class NumberOfFarmersDetails implements Serializable, Comparable<NumberOf
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.NumberOfFarmers[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.NumberOfFarmersDetails[ id=" + id + " ]";
     }
 
     @Override

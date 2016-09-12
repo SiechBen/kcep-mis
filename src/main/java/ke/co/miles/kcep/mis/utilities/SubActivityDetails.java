@@ -278,7 +278,7 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SubActivityDetails[ id=" + id + " ]";
     }
 
     @Override

@@ -26,7 +26,6 @@
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addProcurement')">Add</button></th>
                                         <th>Item</th>
-                                        <th>Item</th>
                                         <th>Cost[KES]</th>
                                         <th>Date purchased</th>
                                         <th>Serial/plate number</th>
@@ -49,8 +48,7 @@
                                     <c:forEach var="procurement" items="${sessionScope.procurements}" varStatus="index">
                                         <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                             <td>${index.count}</td>
-                                            <td>${procurement.item}</td>
-                                            <td>${procurement.item}</td>
+                                            <td>${procurement.item.category.name} - ${procurement.item.category.child.name}</td>
                                             <td>${procurement.cost}</td>
                                             <td>${procurement.datePurchased}</td>
                                             <td>${procurement.serialNumber}</td>
@@ -60,7 +58,7 @@
                                             <td>${procurement.subCounty}</td>
                                             <td>${procurement.lpoNumber}</td>
                                             <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
-                                            <td><button onclick="editProcurement('${procurement.id}', '${procurement.item}', '${procurement.cost}', '${procurement.datePurchased}', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.name}', '${procurement.subCounty}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                            <td><button onclick="editProcurement('${procurement.id}', '${procurement.item.id}', '${procurement.cost}', '${procurement.datePurchased}', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                             <td><button onclick="deleteProcuremenet(${procurement.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                         </tr>
                                     </c:forEach>
@@ -79,8 +77,8 @@
                             <div class="form-group">
                                 Item
                                 <select id="item" name="item" class="form-control">
-                                    <c:forEach var="item" items="${applicationScope.items}" varStatus="index"> 
-                                        <option value="${item.id}">${item.category.name}</option>
+                                    <c:forEach var="item" items="${sessionScope.items}" varStatus="index"> 
+                                        <option value="${item.id}">${item.category.name} - ${item.category.child.name}</option>
                                     </c:forEach>
                                 </select>  
                             </div>
@@ -97,7 +95,7 @@
                                 <input id="serial-number" name="serial-number" class="form-control">
                             </div>
                             <div class="form-group">
-                                Item description/particulars
+                                Item description / particulars
                                 <input id="description" name="description" class="form-control">
                             </div>
                             <div class="form-group">

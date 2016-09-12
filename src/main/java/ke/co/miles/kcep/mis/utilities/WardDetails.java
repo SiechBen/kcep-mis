@@ -64,7 +64,7 @@ public class WardDetails implements Serializable, Comparable<WardDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Ward[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.WardDetails[ id=" + id + " ]";
     }
 
     @Override

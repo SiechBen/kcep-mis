@@ -49,7 +49,7 @@ public enum RegionDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Region[ name=" + name + " ]";
+        return "ke.co.miles.kcep.mis.utilities.RegionDetails[ name=" + name + " ]";
     }
 
     private Short id;

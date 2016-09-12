@@ -103,7 +103,7 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.FinancialPlanDetails[ totals=" + getTotalsValue()+ " ]";
+        return "ke.co.miles.kcep.mis.utilities.FinancialPlanDetailsDetails[ totals=" + getTotalsValue()+ " ]";
     }
 
     @Override

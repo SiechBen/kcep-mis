@@ -22,7 +22,11 @@
                         <form id="procurement-form" role="form" action="doAddProcurement" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 Item
-                                <input id="item" name="item" class="form-control">
+                                <select id="item" name="item" class="form-control">
+                                    <c:forEach var="item" items="${sessionScope.items}" varStatus="index"> 
+                                        <option value="${item.id}">${item.category.name} - ${item.category.child.name}</option>
+                                    </c:forEach>
+                                </select>  
                             </div>
                             <div class="form-group">
                                 Cost[KES]
@@ -37,7 +41,7 @@
                                 <input id="serial-number" name="serial-number" class="form-control">
                             </div>
                             <div class="form-group">
-                                Item description/particulars
+                                Item description / particulars
                                 <input id="description" name="description" class="form-control">
                             </div>
                             <div class="form-group">

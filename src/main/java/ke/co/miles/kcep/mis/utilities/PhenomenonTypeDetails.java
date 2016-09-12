@@ -60,7 +60,7 @@ public class PhenomenonTypeDetails implements Serializable, Comparable<Phenomeno
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.PhenomenonType[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PhenomenonTypeDetails[ id=" + id + " ]";
     }
 
     @Override

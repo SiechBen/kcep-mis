@@ -72,7 +72,7 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Equipment[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.EquipmentDetails[ id=" + id + " ]";
     }
 
     @Override

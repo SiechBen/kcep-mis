@@ -61,7 +61,7 @@ public class DesignationInGroupDetails implements Serializable, Comparable<Desig
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.DesignationInGroup[ designation=" + designation + " ]";
+        return "ke.co.miles.kcep.mis.utilities.DesignationInGroupDetails[ designation=" + designation + " ]";
     }
 
     @Override

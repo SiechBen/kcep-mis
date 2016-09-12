@@ -33,16 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "category", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Category.findByChildId", query = "SELECT c FROM Category c WHERE c.child.id = :childId"),
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
     @NamedQuery(name = "Category.findById", query = "SELECT c FROM Category c WHERE c.id = :id"),
     @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name")})
 public class Category implements Serializable {
-
-    @OneToMany(mappedBy = "parent")
-    private List<Category> categoryList;
-    @JoinColumn(name = "parent", referencedColumnName = "id")
-    @ManyToOne
-    private Category parent;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,11 +47,16 @@ public class Category implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Phenomenon> phenomenonList;
+    @OneToMany(mappedBy = "child")
+    private List<Category> categoryList;
+    @JoinColumn(name = "child", referencedColumnName = "id")
+    @ManyToOne
+    private Category child;
 
     public Category() {
     }
@@ -95,6 +95,23 @@ public class Category implements Serializable {
         this.phenomenonList = phenomenonList;
     }
 
+    @XmlTransient
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public Category getChild() {
+        return child;
+    }
+
+    public void setChild(Category child) {
+        this.child = child;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -118,23 +135,6 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Category[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Category> getCategoryList() {
-        return categoryList;
-    }
-
-    public void setCategoryList(List<Category> categoryList) {
-        this.categoryList = categoryList;
-    }
-
-    public Category getParent() {
-        return parent;
-    }
-
-    public void setParent(Category parent) {
-        this.parent = parent;
     }
     
 }

@@ -105,7 +105,7 @@ public class FarmerGroupRecordDetails implements Serializable, Comparable<Farmer
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.FarmerGroupRecord[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.FarmerGroupRecordDetails[ id=" + id + " ]";
     }
 
     @Override

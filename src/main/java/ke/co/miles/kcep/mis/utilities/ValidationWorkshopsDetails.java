@@ -80,7 +80,7 @@ public class ValidationWorkshopsDetails implements Serializable, Comparable<Vali
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ValidationWorkshops[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ValidationWorkshopsDetails[ id=" + id + " ]";
     }
 
     @Override

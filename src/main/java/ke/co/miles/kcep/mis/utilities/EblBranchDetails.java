@@ -59,7 +59,7 @@ public class EblBranchDetails implements Serializable, Comparable<EblBranchDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.EblBranch[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.EblBranchDetails[ id=" + id + " ]";
     }
 
     @Override

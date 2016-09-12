@@ -89,7 +89,7 @@ public class EVoucherDetails implements Serializable, Comparable<EVoucherDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.EVoucher[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.EVoucherDetails[ id=" + id + " ]";
     }
 
     @Override

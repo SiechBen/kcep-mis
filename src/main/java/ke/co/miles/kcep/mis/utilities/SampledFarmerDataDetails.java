@@ -80,7 +80,7 @@ public class SampledFarmerDataDetails implements Serializable, Comparable<Sample
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.SampledFarmerData[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SampledFarmerDataDetails[ id=" + id + " ]";
     }
 
     @Override

@@ -45,7 +45,7 @@ public enum PlanVsActualDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.PlanVsActual[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PlanVsActualDetails[ id=" + id + " ]";
     }
 
     private static final long serialVersionUID = 1L;

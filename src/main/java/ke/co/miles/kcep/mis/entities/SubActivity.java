@@ -131,7 +131,7 @@ public class SubActivity implements Serializable {
     @ManyToOne(optional = false)
     private ResponsePcu responsePcu;
     @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private SubActivityName subActivityName;
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
     @ManyToOne(optional = false)

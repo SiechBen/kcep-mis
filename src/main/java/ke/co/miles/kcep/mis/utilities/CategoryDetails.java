@@ -60,7 +60,7 @@ public class CategoryDetails implements Serializable, Comparable<CategoryDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Category[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.CategoryDetails[ id=" + id + " ]";
     }
 
     @Override
@@ -69,22 +69,22 @@ public class CategoryDetails implements Serializable, Comparable<CategoryDetails
     }
 
     /**
-     * @return the parent
+     * @return the child
      */
-    public CategoryDetails getParent() {
-        return parent;
+    public CategoryDetails getChild() {
+        return child;
     }
 
     /**
-     * @param parent the parent to set
+     * @param child the child to set
      */
-    public void setParent(CategoryDetails parent) {
-        this.parent = parent;
+    public void setChild(CategoryDetails child) {
+        this.child = child;
     }
 
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
-    private CategoryDetails parent;
-    
+    private CategoryDetails child;
+
 }

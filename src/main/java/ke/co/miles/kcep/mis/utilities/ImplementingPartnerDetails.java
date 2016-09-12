@@ -56,7 +56,7 @@ public class ImplementingPartnerDetails implements Serializable, Comparable<Impl
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ImplementingPartner[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails[ id=" + id + " ]";
     }
 
     @Override

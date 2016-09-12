@@ -37,7 +37,7 @@ public enum ProcurementPlanTypeDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ProcurementPlanType[ id=" + getId() + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ProcurementPlanTypeDetails[ id=" + getId() + " ]";
     }
 
     /**

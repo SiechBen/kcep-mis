@@ -70,7 +70,7 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ResultHierarchy[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails[ id=" + id + " ]";
     }
 
     @Override

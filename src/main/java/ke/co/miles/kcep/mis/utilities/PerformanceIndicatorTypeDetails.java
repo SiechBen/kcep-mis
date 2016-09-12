@@ -54,7 +54,7 @@ public class PerformanceIndicatorTypeDetails implements Serializable, Comparable
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.PerformanceIndicatorType[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PerformanceIndicatorTypeDetails[ id=" + id + " ]";
     }
 
     @Override

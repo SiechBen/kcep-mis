@@ -72,7 +72,7 @@ public class TechnologyTargetCountyDetails implements Serializable, Comparable<T
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.TechnologyTargetCountyDetails[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.TechnologyTargetCountyDetailsDetails[ id=" + id + " ]";
     }
 
     @Override

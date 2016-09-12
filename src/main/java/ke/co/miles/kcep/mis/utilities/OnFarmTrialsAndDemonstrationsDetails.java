@@ -88,7 +88,7 @@ public class OnFarmTrialsAndDemonstrationsDetails implements Serializable, Compa
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.OnFarmTrialsAndDemonstrations[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.OnFarmTrialsAndDemonstrationsDetails[ id=" + id + " ]";
     }
 
     @Override

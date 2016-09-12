@@ -149,12 +149,13 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
     public CategoryDetails convertCategoryToCategoryDetails(Category category) {
 
         CategoryDetails categoryDetails = new CategoryDetails();
+        categoryDetails.setName(category.getName());
         try {
             categoryDetails.setId(category.getId());
         } catch (Exception e) {
         }
         try {
-            categoryDetails.setName(category.getName());
+            categoryDetails.setChild(convertCategoryToCategoryDetails(category.getChild()));
         } catch (Exception e) {
         }
         return categoryDetails;

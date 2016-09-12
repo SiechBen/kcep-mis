@@ -62,7 +62,7 @@ public class VillageDetails implements Serializable, Comparable<VillageDetails> 
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Village[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.VillageDetails[ id=" + id + " ]";
     }
 
     @Override

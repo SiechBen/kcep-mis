@@ -88,7 +88,7 @@ public class TechnologyDetails implements Serializable, Comparable<TechnologyDet
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Technology[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.TechnologyDetails[ id=" + id + " ]";
     }
 
     @Override

@@ -46,7 +46,7 @@ public class DivisionalLocationDetails implements Serializable, Comparable<Divis
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.DivisionalLocation[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.DivisionalLocationDetails[ id=" + id + " ]";
     }
 
     /**

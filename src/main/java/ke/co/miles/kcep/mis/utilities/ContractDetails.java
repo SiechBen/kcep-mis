@@ -48,7 +48,7 @@ public class ContractDetails implements Serializable, Comparable<ContractDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Contract[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ContractDetails[ id=" + id + " ]";
     }
 
     @Override

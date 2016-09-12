@@ -68,7 +68,7 @@ public class FinancialYearDetails implements Serializable, Comparable<FinancialY
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.FinancialYear[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.FinancialYearDetails[ id=" + id + " ]";
     }
 
     @Override

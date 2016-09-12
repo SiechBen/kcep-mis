@@ -36,9 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
-    @OneToMany(mappedBy = "item")
-    private List<Procurement> procurementList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +44,8 @@ public class Phenomenon implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "warehouseOperator")
     private List<Warehouse> warehouseList;
+    @OneToMany(mappedBy = "item")
+    private List<Procurement> procurementList;
     @OneToMany(mappedBy = "categoryOfTrainees")
     private List<Training> trainingList;
     @JoinColumn(name = "category", referencedColumnName = "id")
@@ -80,6 +79,15 @@ public class Phenomenon implements Serializable {
 
     public void setWarehouseList(List<Warehouse> warehouseList) {
         this.warehouseList = warehouseList;
+    }
+
+    @XmlTransient
+    public List<Procurement> getProcurementList() {
+        return procurementList;
+    }
+
+    public void setProcurementList(List<Procurement> procurementList) {
+        this.procurementList = procurementList;
     }
 
     @XmlTransient
@@ -140,14 +148,5 @@ public class Phenomenon implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
     }
-
-    @XmlTransient
-    public List<Procurement> getProcurementList() {
-        return procurementList;
-    }
-
-    public void setProcurementList(List<Procurement> procurementList) {
-        this.procurementList = procurementList;
-    }
-
+    
 }

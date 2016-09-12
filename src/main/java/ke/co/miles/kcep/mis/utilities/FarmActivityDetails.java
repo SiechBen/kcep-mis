@@ -96,7 +96,7 @@ public class FarmActivityDetails implements Serializable, Comparable<FarmActivit
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.FarmActivity[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.FarmActivityDetails[ id=" + id + " ]";
     }
 
     @Override

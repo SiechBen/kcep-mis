@@ -31,7 +31,9 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.procurement.ProcurementRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.ProcurementDetails;
+import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 
 /**
  *
@@ -106,31 +108,26 @@ public class ProcurementController extends Controller {
 
                 case "/doAddProcurement":
 
-                    CountyDetails county = new CountyDetails();
-                    try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
-                    } catch (Exception e) {
-                        county = null;
-                    }
-
                     ProcurementDetails procurement = new ProcurementDetails();
-                    procurement.setCounty(county);
-                    procurement.setItem(String.valueOf(request.getParameter("item")));
-                    procurement.setSubCounty(String.valueOf(request.getParameter("sub-county")));
-                    procurement.setDescription(String.valueOf(request.getParameter("description")));
-                    procurement.setTargetOffice(String.valueOf(request.getParameter("target-office")));
-                    procurement.setLpoNumber(String.valueOf(request.getParameter("lpo-number")));
-                    procurement.setSerialNumber(String.valueOf(request.getParameter("serial-number")));
-                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-purchased")));
+                    procurement.setDescription(request.getParameter("description"));
+                    procurement.setTargetOffice(request.getParameter("target-office"));
+                    procurement.setLpoNumber(request.getParameter("lpo-number"));
+                    procurement.setSerialNumber(request.getParameter("serial-number"));
+                    procurement.setDatePurchased(request.getParameter("date-purchased"));
+                    try {
+                        procurement.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        procurement.setSubCounty(new SubCountyDetails(Short.valueOf(request.getParameter("sub-county"))));
+                    } catch (Exception e) {
+                    }
 
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
                     }
                     if (procurement.getDescription().equals("null")) {
                         procurement.setDescription(null);
-                    }
-                    if (procurement.getItem().equals("null")) {
-                        procurement.setItem(null);
                     }
                     if (procurement.getLpoNumber().equals("null")) {
                         procurement.setLpoNumber(null);
@@ -144,11 +141,14 @@ public class ProcurementController extends Controller {
                     if (procurement.getTargetOffice().equals("null")) {
                         procurement.setTargetOffice(null);
                     }
-
                     try {
                         procurement.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
                         procurement.setCost(null);
+                    }
+                    try {
+                        procurement.setItem(new PhenomenonDetails(Integer.valueOf(request.getParameter("item"))));
+                    } catch (Exception e) {
                     }
 
                     ServletContext context = getServletContext();
@@ -204,34 +204,30 @@ public class ProcurementController extends Controller {
 
                 case "/doEditProcurement":
 
-                    county = new CountyDetails();
-                    try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
-                    } catch (Exception e) {
-                        county = null;
-                    }
                     try {
                         procurement = new ProcurementDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
                         procurement = new ProcurementDetails();
                     }
-                    procurement.setCounty(county);
-                    procurement.setItem(String.valueOf(request.getParameter("item")));
-                    procurement.setSubCounty(String.valueOf(request.getParameter("sub-county")));
-                    procurement.setDescription(String.valueOf(request.getParameter("description")));
-                    procurement.setTargetOffice(String.valueOf(request.getParameter("target-office")));
-                    procurement.setLpoNumber(String.valueOf(request.getParameter("lpo-number")));
-                    procurement.setSerialNumber(String.valueOf(request.getParameter("serial-number")));
-                    procurement.setDatePurchased(String.valueOf(request.getParameter("date-purchased")));
+                    procurement.setDescription(request.getParameter("description"));
+                    procurement.setTargetOffice(request.getParameter("target-office"));
+                    procurement.setLpoNumber(request.getParameter("lpo-number"));
+                    procurement.setSerialNumber(request.getParameter("serial-number"));
+                    procurement.setDatePurchased(request.getParameter("date-purchased"));
+                    try {
+                        procurement.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        procurement.setSubCounty(new SubCountyDetails(Short.valueOf(request.getParameter("sub-county"))));
+                    } catch (Exception e) {
+                    }
 
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
                     }
                     if (procurement.getDescription().equals("null")) {
                         procurement.setDescription(null);
-                    }
-                    if (procurement.getItem().equals("null")) {
-                        procurement.setItem(null);
                     }
                     if (procurement.getLpoNumber().equals("null")) {
                         procurement.setLpoNumber(null);
@@ -245,11 +241,14 @@ public class ProcurementController extends Controller {
                     if (procurement.getTargetOffice().equals("null")) {
                         procurement.setTargetOffice(null);
                     }
-
                     try {
                         procurement.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
                         procurement.setCost(null);
+                    }
+                    try {
+                        procurement.setItem(new PhenomenonDetails(Integer.valueOf(request.getParameter("item"))));
+                    } catch (Exception e) {
                     }
 
 //                    context = getServletContext();

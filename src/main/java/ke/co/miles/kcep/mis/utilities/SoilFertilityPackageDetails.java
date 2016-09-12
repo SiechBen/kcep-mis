@@ -88,7 +88,7 @@ public class SoilFertilityPackageDetails implements Serializable, Comparable<Soi
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SoilFertilityPackage[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SoilFertilityPackageDetails[ id=" + id + " ]";
     }
 
     @Override

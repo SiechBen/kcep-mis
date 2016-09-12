@@ -56,7 +56,7 @@ public class CountyDetails implements Serializable, Comparable<CountyDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.County[ name=" + name + " ]";
+        return "ke.co.miles.kcep.mis.utilities.CountyDetails[ name=" + name + " ]";
     }
 
     @Override

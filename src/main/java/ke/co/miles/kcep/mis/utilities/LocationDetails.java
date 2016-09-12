@@ -89,7 +89,7 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Location[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.LocationDetails[ id=" + id + " ]";
     }
 
     @Override

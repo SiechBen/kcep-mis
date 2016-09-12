@@ -62,7 +62,7 @@ public class SubActivityNameDetails implements Serializable, Comparable<SubActiv
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivityName[ name=" + name + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SubActivityNameDetails[ name=" + name + " ]";
     }
 
     @Override

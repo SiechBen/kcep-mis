@@ -71,7 +71,7 @@ public class LoanDetails implements Serializable, Comparable<LoanDetails> {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Loan[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.LoanDetails[ id=" + id + " ]";
     }
 
     @Override

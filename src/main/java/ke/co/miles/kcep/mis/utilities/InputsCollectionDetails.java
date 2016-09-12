@@ -87,7 +87,7 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.InputsCollection[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.InputsCollectionDetails[ id=" + id + " ]";
     }
 
     @Override

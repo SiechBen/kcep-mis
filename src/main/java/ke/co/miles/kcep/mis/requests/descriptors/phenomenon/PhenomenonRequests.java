@@ -76,7 +76,7 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 
         return retrievePhenomena(phenomenonType.getId());
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveWarehouseOperators() throws MilesException {
@@ -92,7 +92,7 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 
         return retrievePhenomena(phenomenonType.getId());
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveTraineeCategories() throws MilesException {
@@ -135,9 +135,9 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         } catch (Exception e) {
         }
 
-        return convertPhenomenaToPhenomenonDetailsList(phenomena);
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
-    
+
     @Override
     public PhenomenonDetails retrievePhenomenon(int id) throws MilesException {
         Phenomenon phenomenon;
@@ -203,10 +203,9 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         phenomenonDetails.setPhenomenonType(phenomenonTypeService.convertPhenomenonTypeToPhenomenonTypeDetails(phenomenon.getPhenomenonType()));
 
         return phenomenonDetails;
-
     }
 
-    private List<PhenomenonDetails> convertPhenomenaToPhenomenonDetailsList(List<Phenomenon> phenomena) {
+    private List<PhenomenonDetails> convertPhenomenaToPhenomenonaDetails(List<Phenomenon> phenomena) {
 
         List<PhenomenonDetails> phenomenonDetailsList = new ArrayList<>();
         for (Phenomenon phenomenon : phenomena) {
@@ -214,7 +213,6 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         }
 
         return phenomenonDetailsList;
-
     }
 
 //</editor-fold>

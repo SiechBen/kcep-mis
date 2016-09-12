@@ -59,7 +59,7 @@ public class ExpenditureCategoryDetails implements Serializable, Comparable<Expe
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ExpenditureCategory[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails[ id=" + id + " ]";
     }
 
     @Override

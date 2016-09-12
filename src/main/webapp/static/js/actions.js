@@ -947,127 +947,6 @@ function deletEVoucher(id) {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Procurement">
-$("#procurement-form").ajaxForm({
-    success: function () {
-        $("#item").val("");
-        $("#cost").val("");
-        $("#date-purchased").val("");
-        $("#serial-number").val("");
-        $("#description").val("");
-        $("#target-office").val("");
-        $("#procurement-county").val("");
-        $("#procurement-sub-county").val("");
-        $("#lpo-number").val("");
-        $("#invoice-or-receipt").val("");
-        loadAjaxWindow('procurements');
-        return;
-    },
-    error: function (response) {
-        showError("error_label", response.responseText);
-    }
-});
-
-function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
-    $("#item").val(item);
-    $("#cost").val(cost);
-    $("#date-purchased").val(date);
-    $("#serial-number").val(serial);
-    $("#description").val(description);
-    $("#target-office").val(office);
-    $("#county").val(county);
-    $("#sub-county").val(subcounty);
-    $("#lpo-number").val(lpoNumber);
-    $("#procurements-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_procurement_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditProcurement",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&item=" + $("#item").val() +
-                            "&cost=" + $("#cost").val() +
-                            "&date-purchased=" + $("#date-purchased").val() +
-                            "&serial-number=" + $("#serial-number").val() +
-                            "&description=" + $("#description").val() +
-                            "&target-office=" + $("#target-office").val() +
-                            "&procurement-county=" + $("#procurement-county").val() +
-                            "&procurement-sub-county=" + $("#procurement-sub-county").val() +
-                            "&lpo-number=" + $("#lpo-number").val(),
-                    success: function (response) {
-                        $("#item").val("");
-                        $("#cost").val("");
-                        $("#date-purchased").val("");
-                        $("#serial-number").val("");
-                        $("#description").val("");
-                        $("#target-office").val("");
-                        $("#procurement-county").val("");
-                        $("#procurement-sub-county").val("");
-                        $("#lpo-number").val("");
-                        loadAjaxWindow('procurements');
-                        return;
-                    }, error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#item").val("");
-            $("#cost").val("");
-            $("#date-purchased").val("");
-            $("#serial-number").val("");
-            $("#description").val("");
-            $("#target-office").val("");
-            $("#procurement-county").val("");
-            $("#procurement-sub-county").val("");
-            $("#lpo-number").val("");
-        }
-    });
-}
-
-function deleteProcuremenet(id) {
-    $("#message").text("Are you sure you want to remove this procurement?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_procurement",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteProcurement",
-                    type: "POST",
-                    data: "&id=" + id,
-                    success: function (response) {
-                        $("table#procurement-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-//</editor-fold>
-
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
 function addWarehouse() {
     $.ajax({
@@ -1650,6 +1529,127 @@ function addToAnnualIndicators() {
 }
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Procurement">
+$("#procurement-form").ajaxForm({
+    success: function () {
+        $("#item").val("");
+        $("#cost").val("");
+        $("#date-purchased").val("");
+        $("#serial-number").val("");
+        $("#description").val("");
+        $("#target-office").val("");
+        $("#procurement-county").val("");
+        $("#procurement-sub-county").val("");
+        $("#lpo-number").val("");
+        $("#invoice-or-receipt").val("");
+        loadAjaxWindow('procurements');
+        return;
+    },
+    error: function (response) {
+        showError("error_label", response.responseText);
+    }
+});
+
+function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
+    $("#item option[value=" + item + "]").attr('selected', 'selected'));
+    $("#cost").val(cost);
+    $("#date-purchased").val(date);
+    $("#serial-number").val(serial);
+    $("#description").val(description);
+    $("#target-office").val(office);
+    $("#county option[value=" + county + "]").attr('selected', 'selected');
+    $("#sub-county option[value=" + subcounty + "]").attr('selected', 'selected');
+    $("#lpo-number").val(lpoNumber);
+    $("#procurements-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_procurement_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditProcurement",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&item=" + $("#item").val() +
+                            "&cost=" + $("#cost").val() +
+                            "&date-purchased=" + $("#date-purchased").val() +
+                            "&serial-number=" + $("#serial-number").val() +
+                            "&description=" + $("#description").val() +
+                            "&target-office=" + $("#target-office").val() +
+                            "&procurement-county=" + $("#procurement-county").val() +
+                            "&procurement-sub-county=" + $("#procurement-sub-county").val() +
+                            "&lpo-number=" + $("#lpo-number").val(),
+                    success: function (response) {
+                        $("#item").val("");
+                        $("#cost").val("");
+                        $("#date-purchased").val("");
+                        $("#serial-number").val("");
+                        $("#description").val("");
+                        $("#target-office").val("");
+                        $("#procurement-county").val("");
+                        $("#procurement-sub-county").val("");
+                        $("#lpo-number").val("");
+                        loadAjaxWindow('procurements');
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#item").val("");
+            $("#cost").val("");
+            $("#date-purchased").val("");
+            $("#serial-number").val("");
+            $("#description").val("");
+            $("#target-office").val("");
+            $("#procurement-county").val("");
+            $("#procurement-sub-county").val("");
+            $("#lpo-number").val("");
+        }
+    });
+}
+
+function deleteProcuremenet(id) {
+    $("#message").text("Are you sure you want to remove this procurement?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_procurement",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteProcurement",
+                    type: "POST",
+                    data: "&id=" + id,
+                    success: function (response) {
+                        $("table#procurement-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Procurement plan">
 function addProcurementPlan() {
 
@@ -2136,7 +2136,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                 $.ajax({
                     url: "doEditPerformanceIndicator",
                     type: "POST",
-                    data:   "id=" + id +
+                    data: "id=" + id +
                             "&performanceIndicatorType=" + $("#performance-indicator-type").val() +
                             "&resultHierarchy=" + $("#result-hierarchy").val() +
                             "&expectedValue=" + $("#expected-value").val() +

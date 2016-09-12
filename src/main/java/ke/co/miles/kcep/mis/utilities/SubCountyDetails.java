@@ -64,7 +64,7 @@ public class SubCountyDetails implements Serializable, Comparable<SubCountyDetai
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubCounty[ sub-county=" + getName() + " ]";
+        return "ke.co.miles.kcep.mis.utilities.SubCountyDetails[ sub-county=" + getName() + " ]";
     }
 
     @Override

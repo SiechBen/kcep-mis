@@ -79,7 +79,7 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.AccountDetails[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.AccountDetailsDetails[ id=" + id + " ]";
     }
 
     @Override

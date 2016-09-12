@@ -54,7 +54,7 @@ public class ResponsePcuDetails implements Serializable, Comparable<ResponsePcuD
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ResponsePcu[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ResponsePcuDetails[ id=" + id + " ]";
     }
 
     @Override

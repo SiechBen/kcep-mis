@@ -56,7 +56,7 @@ public class ActivityNameDetails implements Serializable, Comparable<ActivityNam
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Activity[ name=" + name + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ActivityDetails[ name=" + name + " ]";
     }
 
     @Override

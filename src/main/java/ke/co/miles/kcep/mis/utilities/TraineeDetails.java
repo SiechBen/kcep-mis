@@ -62,7 +62,7 @@ public class TraineeDetails implements Serializable, Comparable<TraineeDetails> 
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.Trainee[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.TraineeDetails[ id=" + id + " ]";
     }
 
     @Override

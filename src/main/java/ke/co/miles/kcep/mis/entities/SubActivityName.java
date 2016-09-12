@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,7 +49,7 @@ public class SubActivityName implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivityName")
+    @OneToMany(mappedBy = "subActivityName")
     private List<SubActivity> subActivityList;
     @JoinColumn(name = "activity_name", referencedColumnName = "id")
     @ManyToOne(optional = false)

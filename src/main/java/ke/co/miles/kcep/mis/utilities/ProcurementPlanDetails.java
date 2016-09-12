@@ -184,7 +184,7 @@ public class ProcurementPlanDetails implements Serializable, Comparable<Procurem
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ProcurementPlan[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ProcurementPlanDetails[ id=" + id + " ]";
     }
 
     @Override

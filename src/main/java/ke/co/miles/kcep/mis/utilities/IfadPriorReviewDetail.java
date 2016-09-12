@@ -45,7 +45,7 @@ public enum IfadPriorReviewDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.IfadPriorReview[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.IfadPriorReviewDetails[ id=" + id + " ]";
     }
 
 }

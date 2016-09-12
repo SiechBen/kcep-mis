@@ -88,7 +88,7 @@ public class PostHarvestLossDetails extends EntityRequests implements Serializab
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.PostHarvestLoss[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PostHarvestLossDetails[ id=" + id + " ]";
     }
 
     private static final long serialVersionUID = 1L;

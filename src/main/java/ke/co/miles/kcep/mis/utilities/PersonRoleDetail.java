@@ -72,7 +72,7 @@ public enum PersonRoleDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.PersonRole[ personRole=" + personRole + " ]";
+        return "ke.co.miles.kcep.mis.utilities.PersonRoleDetails[ personRole=" + personRole + " ]";
     }
 
     private final Short id;

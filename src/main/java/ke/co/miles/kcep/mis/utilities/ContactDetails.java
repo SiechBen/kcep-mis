@@ -72,7 +72,7 @@ public class ContactDetails implements Serializable, Comparable<ContactDetails> 
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Contact[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ContactDetails[ id=" + id + " ]";
     }
 
     @Override

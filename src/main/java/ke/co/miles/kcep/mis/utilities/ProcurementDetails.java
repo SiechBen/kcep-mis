@@ -31,11 +31,11 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
         this.id = id;
     }
 
-    public String getItem() {
+    public PhenomenonDetails getItem() {
         return item;
     }
 
-    public void setItem(String item) {
+    public void setItem(PhenomenonDetails item) {
         this.item = item;
     }
 
@@ -79,11 +79,11 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
         this.county = county;
     }
 
-    public String getSubCounty() {
+    public SubCountyDetails getSubCounty() {
         return subCounty;
     }
 
-    public void setSubCounty(String subCounty) {
+    public void setSubCounty(SubCountyDetails subCounty) {
         this.subCounty = subCounty;
     }
 
@@ -129,7 +129,7 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.Procurement[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ProcurementDetails[ id=" + id + " ]";
     }
 
     @Override
@@ -152,16 +152,16 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
     }
 
     private Integer id;
-    private String item;
     private BigDecimal cost;
     private String fileName;
-    private String subCounty;
     private String lpoNumber;
     private String description;
     private String targetOffice;
     private String serialNumber;
     private String datePurchased;
     private CountyDetails county;
+    private PhenomenonDetails item;
     private String invoiceOrReceipt;
+    private SubCountyDetails subCounty;
 
 }

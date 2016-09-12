@@ -54,7 +54,7 @@ public class ProcurementMethodDetails implements Serializable, Comparable<Procur
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.ProcurementMethod[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.utilities.ProcurementMethodDetails[ id=" + id + " ]";
     }
 
     @Override
