@@ -24,7 +24,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public int addTopic(TopicDetails topicDetails) throws MilesException {
+    public short addTopic(TopicDetails topicDetails) throws MilesException {
 
         if (topicDetails == null) {
             throw new InvalidArgumentException("error_033_01");
@@ -64,9 +64,24 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<TopicDetails> retrieveTopics() throws MilesException {
+    public List<TopicDetails> retrieveTrainingModules() throws MilesException {
+        List<Topic> trainingModules = new ArrayList<>();
+        setQ(getEm().createNamedQuery("Topic.findByModule"));
+        getQ().setParameter("module", null);
+        try {
+            trainingModules = getQ().getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertTopicsToTopicDetailsList(trainingModules);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<TopicDetails> retrieveTopics(short moduleId) throws MilesException {
         List<Topic> topics = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Topic.findAll"));
+        setQ(getEm().createNamedQuery("Topic.findByModuleId"));
+        getQ().setParameter("moduleId", moduleId);
         try {
             topics = getQ().getResultList();
         } catch (Exception e) {
@@ -76,7 +91,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     }
 
     @Override
-    public TopicDetails retrieveTopic(int id) throws MilesException {
+    public TopicDetails retrieveTopic(short id) throws MilesException {
         Topic topic;
         setQ(getEm().createNamedQuery("Topic.findById"));
         getQ().setParameter("id", id);
@@ -134,7 +149,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
-    public void removeTopic(int id) throws MilesException {
+    public void removeTopic(short id) throws MilesException {
         Topic topic = getEm().find(Topic.class, id);
         try {
             getEm().remove(topic);
@@ -149,14 +164,17 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     public TopicDetails convertTopicToTopicDetails(Topic topic) {
 
         TopicDetails topicDetails = new TopicDetails();
+        topicDetails.setTopic(topic.getTopic());
         try {
             topicDetails.setId(topic.getId());
         } catch (Exception e) {
+            return null;
         }
         try {
-            topicDetails.setTopic(topic.getTopic());
+            topicDetails.setModule(convertTopicToTopicDetails(topic.getModule()));
         } catch (Exception e) {
         }
+        
         return topicDetails;
 
     }

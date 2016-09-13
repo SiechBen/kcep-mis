@@ -8,11 +8,14 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,11 +33,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "topic", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Topic.findByModule", query = "SELECT t FROM Topic t WHERE t.module = :module"),
+    @NamedQuery(name = "Topic.findByModuleId", query = "SELECT t FROM Topic t WHERE t.module.id = :moduleId"),
     @NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t"),
     @NamedQuery(name = "Topic.findById", query = "SELECT t FROM Topic t WHERE t.id = :id"),
     @NamedQuery(name = "Topic.findByTopic", query = "SELECT t FROM Topic t WHERE t.topic = :topic")})
 public class Topic implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
+    private List<Topic> topicList;
+    @JoinColumn(name = "module", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Topic module;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,5 +120,22 @@ public class Topic implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Topic[ id=" + id + " ]";
     }
-    
+
+    @XmlTransient
+    public List<Topic> getTopicList() {
+        return topicList;
+    }
+
+    public void setTopicList(List<Topic> topicList) {
+        this.topicList = topicList;
+    }
+
+    public Topic getModule() {
+        return module;
+    }
+
+    public void setModule(Topic module) {
+        this.module = module;
+    }
+
 }

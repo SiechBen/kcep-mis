@@ -23,6 +23,7 @@
                                 <th>Start date</th>
                                 <th>End date</th>
                                 <th>Trainer</th>
+                                <th>Module</th>
                                 <th>Topic</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
@@ -36,7 +37,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="8"> List of training </td>
+                                <td colspan="14"> List of training </td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -50,6 +51,7 @@
                                             ${trainer.phenomenon.category.name} 
                                         </c:forEach>
                                     </td>
+                                    <td>${training.topic.module.topic}</td>
                                     <td>${training.topic.topic}</td>
                                     <td>${training.venue.county.name}</td>
                                     <td>${training.venue.subCounty.name}</td>
@@ -74,7 +76,6 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-
                     <div class="form-group">
                         Start date
                         <input id="start-date" name="start-date" class="form-control datefield">
@@ -95,9 +96,17 @@
                         <input type="hidden" id="trainer-ids" name="trainer-ids" value="">
                     </div>
                     <div class="form-group">
+                        Training module
+                        <select id="training-module" name="training-module" class="form-control" onchange="updateTopics()">
+                            <c:forEach var="trainingModule" items="${applicationScope.trainingModules}" varStatus="index"> 
+                                <option value="${trainingModule.id}">${trainingModule.topic}</option>
+                            </c:forEach>
+                        </select>  
+                    </div>
+                    <div class="form-group">
                         Topic
                         <select id="topic" name="topic" class="form-control">
-                            <c:forEach var="topic" items="${applicationScope.topics}" varStatus="index"> 
+                            <c:forEach var="topic" items="${sessionScope.topics}" varStatus="index"> 
                                 <option value="${topic.id}">${topic.topic}</option>
                             </c:forEach>
                         </select>  

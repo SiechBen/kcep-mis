@@ -129,47 +129,43 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-                      <th> Quantity(bags) </th>
-                                    <th> Produce type </th>
-                                    <th> Selling date </th>
-                                    <th> Quantity(bags) </th>
-                                    <th> Produce type </th>
-                                    <th> Selling price per bag </th>
-                                    <th> Sold to who? </th>
-                              
-                                    <div class="form-group">
-                        Quantity(bags)
-                        <input id="warehouse-operation" class="form-control" required="true">
+                    <div class="form-group">
+                        Quantity brought(bags)
+                        <input id="quantity-brought" class="form-control">
                     </div>
-                              
-                                    <div class="form-group">
-                        Produce type
-                        <input id="warehouse-operation" class="form-control" required="true">
+                    <div class="form-group">
+                        Produce type brought
+                        <select id="produce-type-brought" class="form-control">
+                            <option disabled selected>Select produce type</option>
+                            <c:forEach var="produceType" items="${sessionScope.produceTypes}" varStatus="index">
+                                <option value="${produceType.id}">${produceType.type}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         Selling date
-                        <input type="date" id="farm-activity-date" class="form-control datefield">
+                        <input type="date" id="selling-date" class="form-control datefield">
                     </div>
                     <div class="form-group">
-                        Quantity (bags)
-                        <input type="number" step="0.01" id="quantity-harvested" class="form-control">
+                        Quantity sold(bags)
+                        <input type="number" id="quantity-sold" class="form-control">
                     </div>
                     <div class="form-group">
-                        Family consumption
-                        <input type="number" step="0.01" id="family-consumption" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        Quantity sold/taken to warehouse
-                        <input type="number" step="0.01" id="quantity-sold" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        Post-harvest loss
-                        <input type="number"  id="post-harvest-loss" step="0.01" class="form-control" readonly>
-                    </div>
-                    <div class="form-group">
-                        Average selling price
-                        <input type="number" id="average-selling-price" step="0.01" class="form-control">
-                    </div>
+                        Produce type sold
+                        <select id="produce-type-sold" class="form-control">
+                            <option disabled selected>Select produce type</option>
+                            <c:forEach var="produceType" items="${sessionScope.produceTypes}" varStatus="index">
+                                <option value="${produceType.id}">${produceType.type}</option>
+                            </c:forEach>
+                        </select>
+                        <div class="form-group">
+                            Selling price per bag
+                            <input type="number" step="0.01" id="selling-price" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            Sold to who?
+                            <input id="buyer" class="form-control" readonly>
+                        </div>
                 </form>
             </div>
         </div>

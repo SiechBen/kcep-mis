@@ -13,10 +13,6 @@ import java.io.Serializable;
  */
 public class TopicDetails implements Serializable, Comparable<TopicDetails> {
 
-    private static final long serialVersionUID = 1L;
-    private Short id;
-    private String topic;
-
     public TopicDetails() {
     }
 
@@ -65,5 +61,24 @@ public class TopicDetails implements Serializable, Comparable<TopicDetails> {
     public int compareTo(TopicDetails o) {
         return this.id.compareTo(o.getId());
     }
+
+    /**
+     * @return the module
+     */
+    public TopicDetails getModule() {
+        return module;
+    }
+
+    /**
+     * @param module the module to set
+     */
+    public void setModule(TopicDetails module) {
+        this.module = module;
+    }
+
+    private static final long serialVersionUID = 1L;
+    private Short id;
+    private String topic;
+    private TopicDetails module;
 
 }

@@ -42,7 +42,11 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
  *
  * @author siech
  */
-@WebServlet(name = "WarehouseController", urlPatterns = {"/warehouses", "/addWarehouse", "/doAddWarehouse", "/doEditWarehouse", "/doDeleteWarehouse"})
+@WebServlet(name = "WarehouseController",
+        urlPatterns = {"/warehouses", "/addWarehouse",
+            "/doAddWarehouse", "/doEditWarehouse", "/addWarehouseOperation",
+            "/doAddWarehouseOperation", "/doEditWarehouseOperation",
+            "/doDeleteWarehouseOperation", "/doDeleteWarehouse"})
 public class WarehouseController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -71,6 +75,10 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
+                            urlPaths.add("/addWarehouseOperation");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/head_warehouses";
                                 urlPaths.add(path);
@@ -85,6 +93,10 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
+                            urlPaths.add("/addWarehouseOperation");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/ward_warehouses";
                                 urlPaths.add(path);
@@ -99,6 +111,10 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
+                            urlPaths.add("/addWarehouseOperation");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/sub_county_warehouses";
                                 urlPaths.add(path);
@@ -113,6 +129,10 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
+                            urlPaths.add("/addWarehouseOperation");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/county_warehouses";
                                 urlPaths.add(path);

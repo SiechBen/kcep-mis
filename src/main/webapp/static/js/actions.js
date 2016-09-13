@@ -621,20 +621,20 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
                 $.ajax({
                     url: "doEditPerson",
                     type: "POST",
-                    data: "id=" + id + 
-                            "&name=" + $("#person-name").val() + 
+                    data: "id=" + id +
+                            "&name=" + $("#person-name").val() +
                             "&nationalId=" + $("#national-id").val() +
-                            "&businessName=" + $("#business-name").val() + 
-                            "&sex=" + $("#sex").val() +
-                            "&farmerGroup=" + $("#farmer-group").val() + 
-                            "&phoneNumber=" + $("#phone").val() +
-                            "&email=" + $("#email").val() + 
                             "&businessName=" + $("#business-name").val() +
-                            "&county=" + $("#person-county").val() + 
+                            "&sex=" + $("#sex").val() +
+                            "&farmerGroup=" + $("#farmer-group").val() +
+                            "&phoneNumber=" + $("#phone").val() +
+                            "&email=" + $("#email").val() +
+                            "&businessName=" + $("#business-name").val() +
+                            "&county=" + $("#person-county").val() +
                             "&subCounty=" + $("#person-sub-county").val() +
-                            "&personRole=" + $("#person-role").val() + 
+                            "&personRole=" + $("#person-role").val() +
                             "&ward=" + $("#person-ward").val() +
-                            "&farmerSubGroup=" + $("#farmer-sub-group").val() + 
+                            "&farmerSubGroup=" + $("#farmer-sub-group").val() +
                             "&postalAddress=" + $("#postal-address").val() +
                             "&dateOfBirth=" + $("#date-of-birth").val(),
                     success: function () {
@@ -2455,6 +2455,18 @@ function deleteFarmActivity(id) {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Update Selects">
+function updateTopics() {
+    $.ajax({
+        type: "POST",
+        url: "updateTopics",
+        data: "moduleId=" + $("#training-module").val(),
+        success: function (response) {
+            $("#topic").html(response);
+        },
+        dataType: "HTML"
+    });
+}
+
 function updateInputVarieties() {
     $.ajax({
         type: "POST",

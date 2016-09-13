@@ -35,9 +35,17 @@
                         <input type="hidden" id="trainer-ids" name="trainer-ids" value="">
                     </div>
                     <div class="form-group">
+                        Training module
+                        <select id="training-module" name="training-module" class="form-control" onchange="updateTopics()">
+                            <c:forEach var="trainingModule" items="${applicationScope.trainingModules}" varStatus="index"> 
+                                <option value="${trainingModule.id}">${trainingModule.topic}</option>
+                            </c:forEach>
+                        </select>  
+                    </div>
+                    <div class="form-group">
                         Topic
                         <select id="topic" name="topic" class="form-control">
-                            <c:forEach var="topic" items="${applicationScope.topics}" varStatus="index"> 
+                            <c:forEach var="topic" items="${sessionScope.topics}" varStatus="index"> 
                                 <option value="${topic.id}">${topic.topic}</option>
                             </c:forEach>
                         </select>  

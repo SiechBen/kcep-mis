@@ -25,14 +25,23 @@ public interface TopicRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addTopic(TopicDetails topicDetails) throws MilesException;
+    public short addTopic(TopicDetails topicDetails) throws MilesException;
 
     /**
      *
+     * @return the list of training modules details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<TopicDetails> retrieveTrainingModules() throws MilesException;
+    
+    /**
+     *
+     * @param moduleId the unique identifier of the training module for
+     * which the list of training topics to be retrieved fall under
      * @return the list of topic record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<TopicDetails> retrieveTopics() throws MilesException;
+    public List<TopicDetails> retrieveTopics(short moduleId) throws MilesException;
 
     /**
      *
@@ -40,7 +49,7 @@ public interface TopicRequestsLocal {
      * @return the details of the topic record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public TopicDetails retrieveTopic(int id) throws MilesException;
+    public TopicDetails retrieveTopic(short id) throws MilesException;
 
     /**
      *
@@ -55,7 +64,7 @@ public interface TopicRequestsLocal {
      * @param id the unique identifier of the topic record to be removed
      * @throws MilesException when the database is in an incorrect state
      */
-    public void removeTopic(int id) throws MilesException;
+    public void removeTopic(short id) throws MilesException;
 
     /**
      *

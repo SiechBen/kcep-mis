@@ -41,7 +41,6 @@ import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
-import ke.co.miles.kcep.mis.utilities.TopicDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
@@ -122,15 +121,11 @@ public abstract class Controller extends HttpServlet {
             getServletContext().setAttribute("performanceIndicators", performanceIndicators);
         }
 
-        List<TopicDetails> topics;
         try {
-            topics = topicService.retrieveTopics();
+            getServletContext().setAttribute("trainingModules", topicService.retrieveTrainingModules());
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of topics", e);
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of training modules", e);
             return;
-        }
-        if (topics != null) {
-            getServletContext().setAttribute("topics", topics);
         }
 
         List<FeedbackDetails> feedbackList;

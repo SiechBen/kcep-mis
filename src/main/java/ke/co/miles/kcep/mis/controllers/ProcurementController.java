@@ -39,7 +39,9 @@ import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
  *
  * @author siech
  */
-@WebServlet(name = "ProcurementController", urlPatterns = {"/procurements", "/addProcurement", "/doAddProcurement", "/doEditProcurement", "/doDeleteProcurement"})
+@WebServlet(name = "ProcurementController", urlPatterns = {"/procurements", 
+    "/addProcurement", "/doAddProcurement", "/doEditProcurement", 
+    "/doDeleteProcurement"})
 @MultipartConfig
 public class ProcurementController extends Controller {
 
