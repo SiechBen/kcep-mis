@@ -32,10 +32,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e"),
     @NamedQuery(name = "Equipment.findById", query = "SELECT e FROM Equipment e WHERE e.id = :id"),
     @NamedQuery(name = "Equipment.findByType", query = "SELECT e FROM Equipment e WHERE e.type = :type"),
+    @NamedQuery(name = "Equipment.findBySerialNumber", query = "SELECT e FROM Equipment e WHERE e.serialNumber = :serialNumber"),
     @NamedQuery(name = "Equipment.findByTotalCount", query = "SELECT e FROM Equipment e WHERE e.totalCount = :totalCount"),
     @NamedQuery(name = "Equipment.findByStatus", query = "SELECT e FROM Equipment e WHERE e.status = :status")})
 public class Equipment implements Serializable {
 
+    @Size(max = 45)
+    @Column(name = "serial_number")
+    private String serialNumber;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -124,6 +128,14 @@ public class Equipment implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Equipment[ id=" + id + " ]";
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
     
 }

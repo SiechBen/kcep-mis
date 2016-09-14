@@ -29,6 +29,7 @@
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEquipment')">Add</button></th>
                                     <th>Equipment type</th>
+                                    <th>Serial number</th>
                                     <th>Total count</th>
                                     <th>Status</th>
                                     <th>&nbsp;</th>
@@ -45,9 +46,10 @@
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
                                         <td>${equipment.type}</td>
+                                        <td>${equipment.serialNumber}</td>
                                         <td>${equipment.totalCount}</td>
                                         <td>${equipment.status}</td>
-                                        <td><button onclick="editEquipment('${equipment.id}', '${equipment.warehouse.id}', '${equipment.type}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="editEquipment('${equipment.id}', '${equipment.warehouse.id}', '${equipment.type}', '${equipment.serialNumber}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                         <td><button onclick="deleteEquipment('${equipment.id}', '${equipment.warehouse.id}', )"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
@@ -109,6 +111,10 @@
                     <div class="form-group">
                         Equipment type
                         <input id="equipment-type" name="equipment-type" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Serial number
+                        <input id="serial-number" name="serial-number" class="form-control">
                     </div>
                     <div class="form-group">
                         Total Count

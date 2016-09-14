@@ -9,16 +9,15 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:head>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - view procurements </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - view equipment procurements </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        List of procurements
+                        Equipment procurements
                     </div>
-                    <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover data-table" id="procurement-table">
@@ -41,7 +40,7 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8"> List of procurements</td>
+                                        <td colspan="8"> Equipment procurements</td>
                                     </tr>
                                 </tfoot>
                                 <tbody>

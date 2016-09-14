@@ -1159,9 +1159,12 @@ function addEquipment(warehouseId) {
     $.ajax({
         url: "doAddEquipment",
         type: "POST",
-        data: "equipmentType=" + $("#equipment-type").val() + "&equipmentTotalCount=" + $("#equipment-total-count").val() +
-                "&equipmentStatus=" + $("#equipment-status").val(),
+        data: "equipmentType=" + $("#equipment-type").val() +
+                "&serialNumber=" + $("#serial-number").val() +
+                "&equipmentStatus=" + $("#equipment-status").val() +
+                "&equipmentTotalCount=" + $("#equipment-total-count").val(),
         success: function () {
+            $("#serial-number").val("");
             $("#equipment-total-count").val("");
             $("#equipment-status").val("");
             $("#equipment-type").val("");
@@ -1175,8 +1178,9 @@ function addEquipment(warehouseId) {
     });
 }
 
-function editEquipment(id, warehouseId, type, count, status) {
+function editEquipment(id, warehouseId, type, serialNumber, count, status) {
     $("#equipment-total-count").val(count);
+    $("#serial-number").val(serialNumber);
     $("#equipment-status").val(status);
     $("#equipment-type").val(type);
     $("#equipment-form-dialog").dialog({
@@ -1190,15 +1194,16 @@ function editEquipment(id, warehouseId, type, count, status) {
                 $.ajax({
                     url: "doEditEquipment",
                     type: "POST",
-                    data:
-                            "id=" + id + "&equipmentType=" + $("#equipment-type").val() +
-                            "&equipmentTotalCount=" + $("#equipment-total-count").val() +
-                            "&equipmentStatus=" + $("#equipment-status").val(),
+                    data: "id=" + id +
+                            "&serialNumber=" + $("#serial-number").val() +
+                            "&equipmentType=" + $("#equipment-type").val() +
+                            "&equipmentStatus=" + $("#equipment-status").val() +
+                            "&equipmentTotalCount=" + $("#equipment-total-count").val(),
                     success: function (response) {
                         $("#equipment-total-count").val("");
                         $("#equipment-status").val("");
                         $("#equipment-type").val("");
-                        $("#equipment").html(response);
+                        $("#serial-number").val("");
                         loadEquimentWindow()(warehouseId);
                     },
                     error: function (response) {

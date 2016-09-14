@@ -94,10 +94,25 @@ public class EquipmentDetails implements Serializable, Comparable<EquipmentDetai
         this.warehouse = warehouse;
     }
 
+    /**
+     * @return the serialNumber
+     */
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    /**
+     * @param serialNumber the serialNumber to set
+     */
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     private Integer id;
     private String type;
     private String status;
     private Integer totalCount;
+    private String serialNumber;
     private WarehouseDetails warehouse;
 
 }

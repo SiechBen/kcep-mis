@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.equipment;
+package ke.co.miles.kcep.mis.requests.warehouse.equipment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +34,19 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
             throw new InvalidArgumentException("error_009_01");
         } else if (equipmentDetails.getWarehouse() == null) {
             throw new InvalidArgumentException("error_009_02");
+        } else if (equipmentDetails.getType() != null && equipmentDetails.
+                getType().trim().length() > 45) {
+            throw new InvalidArgumentException("error_009_03");
+        } else if (equipmentDetails.getSerialNumber() != null && equipmentDetails.
+                getSerialNumber().trim().length() > 45) {
+            throw new InvalidArgumentException("error_009_04");
         }
 
         Equipment equipment = new Equipment();
         equipment.setType(equipmentDetails.getType());
         equipment.setStatus(equipmentDetails.getStatus());
         equipment.setTotalCount(equipmentDetails.getTotalCount());
+        equipment.setSerialNumber(equipmentDetails.getSerialNumber());
         if (equipmentDetails.getWarehouse().getId() != null) {
             equipment.setWarehouse(getEm().getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
@@ -97,9 +104,15 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         if (equipmentDetails == null) {
             throw new InvalidArgumentException("error_009_01");
         } else if (equipmentDetails.getId() == null) {
-            throw new InvalidArgumentException("error_009_03");
+            throw new InvalidArgumentException("error_009_05");
         } else if (equipmentDetails.getWarehouse() == null) {
             throw new InvalidArgumentException("error_009_02");
+        } else if (equipmentDetails.getType() != null && equipmentDetails.
+                getType().trim().length() > 45) {
+            throw new InvalidArgumentException("error_009_03");
+        } else if (equipmentDetails.getSerialNumber() != null && equipmentDetails.
+                getSerialNumber().trim().length() > 45) {
+            throw new InvalidArgumentException("error_009_04");
         }
 
         Equipment equipment = getEm().find(Equipment.class, equipmentDetails.getId());
@@ -107,6 +120,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         equipment.setType(equipmentDetails.getType());
         equipment.setStatus(equipmentDetails.getStatus());
         equipment.setTotalCount(equipmentDetails.getTotalCount());
+        equipment.setSerialNumber(equipmentDetails.getSerialNumber());
         if (equipmentDetails.getWarehouse().getId() != null) {
             equipment.setWarehouse(getEm().getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
@@ -174,6 +188,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         }
 
         EquipmentDetails equipmentDetails = new EquipmentDetails(equipment.getId());
+        equipmentDetails.setSerialNumber(equipment.getSerialNumber());
         equipmentDetails.setTotalCount(equipment.getTotalCount());
         equipmentDetails.setWarehouse(warehouseDetails);
         equipmentDetails.setStatus(equipment.getStatus());

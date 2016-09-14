@@ -16,7 +16,7 @@
             <div class="col-lg-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Procurement details
+                        Equipment procurement details
                     </div>
                     <div class="panel-body">
                         <form id="procurement-form" role="form" action="doAddProcurement" method="POST" enctype="multipart/form-data">

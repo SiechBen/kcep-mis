@@ -11,7 +11,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                List of sub-activites
+                Annual Workplan Budget
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -52,7 +52,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="8"> List of sub-activities </td>
+                                <td colspan="8"> Annual Workplan Budget </td>
                             </tr>
                         </tfoot>
                         <tbody>

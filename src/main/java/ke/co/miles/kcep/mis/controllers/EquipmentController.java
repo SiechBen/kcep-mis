@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.warehouse.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.EquipmentDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 
@@ -139,21 +139,22 @@ public class EquipmentController extends Controller {
                 case "/doAddEquipment":
 
                     EquipmentDetails newEquipment = new EquipmentDetails();
-                    newEquipment.setStatus(String.valueOf(request.getParameter("equipmentStatus")));
-                    newEquipment.setTotalCount(Integer.valueOf(String.valueOf(request.getParameter("equipmentTotalCount"))));
                     newEquipment.setWarehouse(warehouse);
-
-                    try {
-                        newEquipment.setType(String.valueOf(request.getParameter("equipmentType")));
-                    } catch (NumberFormatException e) {
-                        newEquipment.setTotalCount(null);
+                    newEquipment.setStatus(request.getParameter("equipmentStatus"));
+                    newEquipment.setType(request.getParameter("equipmentType"));
+                    newEquipment.setSerialNumber(request.getParameter("serialNumber"));
+                    if (newEquipment.getSerialNumber().equals("null")) {
+                        newEquipment.setSerialNumber(null);
                     }
-
                     if (newEquipment.getStatus().equals("null")) {
                         newEquipment.setStatus(null);
                     }
                     if (newEquipment.getType().equals("null")) {
                         newEquipment.setType(null);
+                    }
+                    try {
+                        newEquipment.setTotalCount(Integer.valueOf(request.getParameter("equipmentTotalCount")));
+                    } catch (Exception e) {
                     }
 
                     try {
@@ -173,22 +174,22 @@ public class EquipmentController extends Controller {
                         newEquipment.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
                     }
-
-                    newEquipment.setStatus(String.valueOf(request.getParameter("equipmentStatus")));
-                    newEquipment.setTotalCount(Integer.valueOf(String.valueOf(request.getParameter("equipmentTotalCount"))));
                     newEquipment.setWarehouse(warehouse);
-
-                    try {
-                        newEquipment.setType(String.valueOf(request.getParameter("equipmentType")));
-                    } catch (NumberFormatException e) {
-                        newEquipment.setTotalCount(null);
+                    newEquipment.setStatus(request.getParameter("equipmentStatus"));
+                    newEquipment.setType(request.getParameter("equipmentType"));
+                    newEquipment.setSerialNumber(request.getParameter("serialNumber"));
+                    if (newEquipment.getSerialNumber().equals("null")) {
+                        newEquipment.setSerialNumber(null);
                     }
-
                     if (newEquipment.getStatus().equals("null")) {
                         newEquipment.setStatus(null);
                     }
                     if (newEquipment.getType().equals("null")) {
                         newEquipment.setType(null);
+                    }
+                    try {
+                        newEquipment.setTotalCount(Integer.valueOf(request.getParameter("equipmentTotalCount")));
+                    } catch (Exception e) {
                     }
 
                     try {

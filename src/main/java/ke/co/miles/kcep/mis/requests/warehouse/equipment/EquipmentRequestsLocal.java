@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.equipment;
+package ke.co.miles.kcep.mis.requests.warehouse.equipment;
 
 import java.util.List;
 import javax.ejb.Local;

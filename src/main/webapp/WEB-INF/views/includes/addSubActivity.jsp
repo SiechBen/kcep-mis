@@ -11,7 +11,7 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Sub-activity details
+                Annual Workplan Budget item
             </div>
             <div class="panel-body">
                 <form role="form">

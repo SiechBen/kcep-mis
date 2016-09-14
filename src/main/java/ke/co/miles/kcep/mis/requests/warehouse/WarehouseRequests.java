@@ -19,7 +19,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.equipment.EquipmentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.warehouse.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
