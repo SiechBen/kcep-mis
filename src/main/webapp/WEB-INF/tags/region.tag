@@ -13,38 +13,28 @@
 <%@attribute name="pagetitle" required="true" %>
 
 <kcep:genericpage>
+
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
+
     <jsp:attribute name="menuitems">
-        <li>
-            <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
-        </li>       
-        <li>
-            <a onclick="loadAjaxWindow('sub_activities')"><i class="fa fa-edit fa-fw"></i> Activity planning </a>
-        </li>
-        <li>
-            <a onclick="loadAjaxWindow('procurement_plans')"><i class="fa fa-edit fa-fw"></i> Procurement plans - ncs</a>
-        </li>
-        <li>
-            <a onclick="loadAjaxWindow('procurement_plans_cs')"><i class="fa fa-edit fa-fw"></i> Procurement plans - cs </a>
-        </li>
-        <li>
-            <a onclick="loadAjaxWindow('performance_indicators')"><i class="fa fa-edit fa-fw"></i> Performance indicators </a>
-        </li>
-        <li>
-            <a href="http://192.168.1.6:8080/ODKAggregate/" target="_blank"><i class="fa fa-edit fa-fw"></i> Surveys </a>
-        </li>
+        <jsp:include page="../tags/includes/people_item.jsp"/>
+        <jsp:include page="../tags/includes/procurements_item.jsp"/>
+        <jsp:include page="../tags/includes/performance_indicators_item.jsp"/>
+        <jsp:include page="../tags/includes/surveys_item.jsp"/>
+
     </jsp:attribute>
+
     <jsp:attribute name="content">
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Regional Project Coordinator</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
             <div>         
                 <jsp:invoke fragment="pagecontent" />
             </div>
         </div>
     </jsp:attribute>
+
 </kcep:genericpage>

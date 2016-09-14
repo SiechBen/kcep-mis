@@ -558,7 +558,6 @@ function addPerson() {
                 "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
                 "&dateOfBirth=" + $("#date-of-birth").val(),
         success: function () {
-
             $("#sex").val("");
             $("#email").val("");
             $("#phone").val("");
@@ -683,18 +682,19 @@ function deletePerson(id) {
         resizable: false,
         buttons: {
             "Yes": function () {
-                $.ajax({
-                    url: "doDeletePerson",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function () {
-                        loadAjaxWindow("people");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
+//                $.ajax({
+//                    url: "doDeletePerson",
+//                    type: "POST",
+//                    data: "id=" + id,
+//                    success: function () {
+//                        loadAjaxWindow("people");
+//                    },
+//                    error: function (response) {
+//                        showError("error_label", response.responseText);
+//                    },
+//                    dataType: "HTML"
+//                });
+                loadAjaxWindow("people");
                 $(this).dialog("close");
             },
             "No": function () {

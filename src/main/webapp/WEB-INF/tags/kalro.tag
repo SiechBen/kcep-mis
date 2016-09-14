@@ -13,21 +13,16 @@
 <%@attribute name="pagetitle" required="true" %>
 
 <kcep:genericpage>
+
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
+
     <jsp:attribute name="menuitems">
-        <li>
-            <a onclick="loadAjaxWindow('kalro')"><i class="fa fa-table fa-fw"></i> KALRO </a>
-        </li>       
-        <li>
-            <a onclick="loadAjaxWindow('people')"><i class="fa fa-edit fa-fw"></i> People </a>
-        </li>
-        <li>
-            <a onclick="loadAjaxWindow('training')"><i class="fa fa-edit fa-fw"></i> Training </a>
-        </li>
-        <li>
-            <a href="http://192.168.1.6:8080/ODKAggregate/"><i class="fa fa-edit fa-fw"></i> Surveys </a>
-        </li>
+        <jsp:include page="../tags/includes/kalro_item.jsp"/>
+        <jsp:include page="../tags/includes/people_item.jsp"/>
+        <jsp:include page="../tags/includes/training_item.jsp"/>
+        <jsp:include page="../tags/includes/surveys_item.jsp"/>
     </jsp:attribute>
+
     <jsp:attribute name="content">
         <div id="page-wrapper">
             <div class="row">
@@ -40,5 +35,6 @@
             </div>
         </div>
     </jsp:attribute>
+
 </kcep:genericpage>
 

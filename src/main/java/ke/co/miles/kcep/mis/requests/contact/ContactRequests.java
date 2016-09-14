@@ -54,7 +54,6 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
         }
 
         Contact contact = getEm().find(Contact.class, contactDetails.getId());
-        contact.setId(contactDetails.getId());
         contact.setEmail(contactDetails.getEmail());
         contact.setPhone(contactDetails.getPhone());
         contact.setPostalAddress(contactDetails.getPostalAddress());

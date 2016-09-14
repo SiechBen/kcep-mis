@@ -13,15 +13,13 @@
 <%@attribute name="pagetitle" required="true" %>
 
 <kcep:genericpage>
+
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
+
     <jsp:attribute name="menuitems">
-        <li>
-            <a onclick="loadAjaxWindow('equipment')"><i class="fa fa-edit fa-fw"></i> Equipment </a>
-        </li>
-        <li>
-            <a href="http://192.168.1.6:8080/ODKAggregate/" target="_blank"><i class="fa fa-edit fa-fw"></i> Surveys </a>
-        </li>
+        <jsp:include page="../tags/includes/equipment_item.jsp"/>
     </jsp:attribute>
+
     <jsp:attribute name="content">
         <div id="page-wrapper">
             <div class="row">
@@ -34,4 +32,5 @@
             </div>
         </div>
     </jsp:attribute>
+
 </kcep:genericpage>

@@ -8,7 +8,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,11 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Topic.findByTopic", query = "SELECT t FROM Topic t WHERE t.topic = :topic")})
 public class Topic implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
-    private List<Topic> topicList;
-    @JoinColumn(name = "module", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Topic module;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +50,11 @@ public class Topic implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "topic")
     private String topic;
+    @OneToMany(mappedBy = "module")
+    private List<Topic> topicList;
+    @JoinColumn(name = "module", referencedColumnName = "id")
+    @ManyToOne
+    private Topic module;
     @OneToMany(mappedBy = "topic")
     private List<Training> trainingList;
 
@@ -85,6 +84,23 @@ public class Topic implements Serializable {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    @XmlTransient
+    public List<Topic> getTopicList() {
+        return topicList;
+    }
+
+    public void setTopicList(List<Topic> topicList) {
+        this.topicList = topicList;
+    }
+
+    public Topic getModule() {
+        return module;
+    }
+
+    public void setModule(Topic module) {
+        this.module = module;
     }
 
     @XmlTransient
@@ -120,22 +136,5 @@ public class Topic implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Topic[ id=" + id + " ]";
     }
-
-    @XmlTransient
-    public List<Topic> getTopicList() {
-        return topicList;
-    }
-
-    public void setTopicList(List<Topic> topicList) {
-        this.topicList = topicList;
-    }
-
-    public Topic getModule() {
-        return module;
-    }
-
-    public void setModule(Topic module) {
-        this.module = module;
-    }
-
+    
 }

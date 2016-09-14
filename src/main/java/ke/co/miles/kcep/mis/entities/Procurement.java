@@ -36,15 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Procurement.findBySerialNumber", query = "SELECT p FROM Procurement p WHERE p.serialNumber = :serialNumber"),
     @NamedQuery(name = "Procurement.findByDescription", query = "SELECT p FROM Procurement p WHERE p.description = :description"),
     @NamedQuery(name = "Procurement.findByTargetOffice", query = "SELECT p FROM Procurement p WHERE p.targetOffice = :targetOffice"),
-    @NamedQuery(name = "Procurement.findBySubCounty", query = "SELECT p FROM Procurement p WHERE p.subCounty = :subCounty"),
     @NamedQuery(name = "Procurement.findByCost", query = "SELECT p FROM Procurement p WHERE p.cost = :cost"),
     @NamedQuery(name = "Procurement.findByLpoNumber", query = "SELECT p FROM Procurement p WHERE p.lpoNumber = :lpoNumber"),
     @NamedQuery(name = "Procurement.findByInvoiceOrReceipt", query = "SELECT p FROM Procurement p WHERE p.invoiceOrReceipt = :invoiceOrReceipt")})
 public class Procurement implements Serializable {
 
-    @JoinColumn(name = "sub_county", referencedColumnName = "id")
-    @ManyToOne
-    private SubCounty subCounty;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,6 +71,9 @@ public class Procurement implements Serializable {
     @JoinColumn(name = "item", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon item;
+    @JoinColumn(name = "sub_county", referencedColumnName = "id")
+    @ManyToOne
+    private SubCounty subCounty;
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
@@ -158,6 +157,14 @@ public class Procurement implements Serializable {
         this.item = item;
     }
 
+    public SubCounty getSubCounty() {
+        return subCounty;
+    }
+
+    public void setSubCounty(SubCounty subCounty) {
+        this.subCounty = subCounty;
+    }
+
     public County getCounty() {
         return county;
     }
@@ -180,20 +187,15 @@ public class Procurement implements Serializable {
             return false;
         }
         Procurement other = (Procurement) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Procurement[ id=" + id + " ]";
     }
-
-    public SubCounty getSubCounty() {
-        return subCounty;
-    }
-
-    public void setSubCounty(SubCounty subCounty) {
-        this.subCounty = subCounty;
-    }
-
+    
 }

@@ -452,9 +452,9 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public void removePerson(int id) throws MilesException {
 
         Person person = getEm().find(Person.class, id);
-        contactService.removeContact(person.getContact().getId());
+//        contactService.removeContact(person.getContact().getId());
         try {
-            getEm().remove(person);
+//            getEm().remove(person);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

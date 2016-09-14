@@ -12,9 +12,12 @@
 <%@attribute name="pagetitle" required="true" %>
 
 <kcep:genericpage>
+
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
+
     <jsp:attribute name="menuitems">     
     </jsp:attribute>
+
     <jsp:attribute name="content">
         <div id="page-wrapper">
             <div class="row">
@@ -27,4 +30,5 @@
             </div>
         </div>
     </jsp:attribute>
+
 </kcep:genericpage>
