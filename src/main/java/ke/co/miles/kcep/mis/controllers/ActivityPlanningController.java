@@ -360,7 +360,7 @@ public class ActivityPlanningController extends Controller {
                 case "/county_sub_activities":
                 case "/region_sub_activities":
                     try {
-                        session.setAttribute("items", phenomenonService.retrieveGFSSCodes());
+                        session.setAttribute("gfssCodes", phenomenonService.retrieveGFSSCodes());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
                         return;

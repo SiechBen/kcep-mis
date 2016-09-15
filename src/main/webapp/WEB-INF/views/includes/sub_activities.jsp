@@ -53,19 +53,20 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="8"> Annual Workplan Budget </td>
+                                <td colspan="31"> Annual Workplan Budget </td>
                             </tr>
                         </tfoot>
                         <tbody>
                             <c:forEach var="subActivity" items="${sessionScope.subActivityMap.keySet()}" varStatus="index">
                                 <tr>
                                     <td>${index.count}</td>
-                                    <td>${subActivity.expectedOutcome}</td>
                                     <td>${subActivity.annualWorkplanReferenceCode}</td>
-                                    <td>${subActivity.gfssCode.category.name} - ${procurement.gfssCode.category.child.name}</td>
+                                    <td>${subActivity.gfssCode.category.name} - ${subActivity.gfssCode.category.child.name}</td>
+                                    <td>${subActivity.expectedOutcome}</td>
                                     <td>${subActivity.component.component}</td>
                                     <td>${subActivity.subComponent.subComponent}</td>
-                                    <td>  <c:forEach var="annualIndicator" items="${sessionScope.subActivityMap.get(subActivity)}" varStatus="index">
+                                    <td>  
+                                        <c:forEach var="annualIndicator" items="${sessionScope.subActivityMap.get(subActivity)}" varStatus="index">
                                             ${annualIndicator.performanceIndicator.description}
                                         </c:forEach>
                                     </td>
@@ -73,7 +74,7 @@
                                     <td>${subActivity.subActivityName.name}</td>
                                     <td>${subActivity.startDate}</td>
                                     <td>${subActivity.endDate}</td>
-                                    <td>${subActivity.measurementUnit.unit}(${subActivity.measurementUnit.symbol}</td>
+                                    <td>${subActivity.measurementUnit.unit}(${subActivity.measurementUnit.symbol})</td>
                                     <td>${subActivity.unitCost}</td>
                                     <td>${subActivity.awpbTarget}</td>
                                     <td>${subActivity.programmeTarget}</td>
@@ -91,15 +92,35 @@
                                     <td>${subActivity.beneficiariesPercentage}</td>
                                     <td>${subActivity.euPercentage}</td>
                                     <td>${subActivity.financialInstitutionPercentage}</td>
-                                    <td><button onclick="editSubActivity('${subActivity.id}', '${subActivity.financialYear.id}', '${subActivity.expectedOutcome}',
-                                                    '${subActivity.annualWorkplanReferenceCode}', '${subActivity.component.id}', '${subActivity.subComponent.id}',
-                                                    '${subActivity.activityName.id}', '${subActivity.subActivityName.id}', '${subActivity.startDate}', '${subActivity.endDate}',
-                                                    '${subActivity.measurementUnit.id}', '${subActivity.unitCost}', '${subActivity.awpbTarget}',
-                                                    '${subActivity.programmeTarget}', '${subActivity.totals}', '${subActivity.responsePcu.name}',
-                                                    '${subActivity.implementingPartner.id}', '${subActivity.procurementPlan}', '${subActivity.description}',
-                                                    '${subActivity.valueAchieved}', '${subActivity.allocatedBudget}', '${subActivity.expenditureCategory.id}',
-                                                    '${subActivity.gokPercentage}', '${subActivity.ifadLoanPercentage}', '${subActivity.ifadGrantPercentage}',
-                                                    '${subActivity.beneficiariesPercentage}', '${subActivity.euPercentage}', '${subActivity.financialInstitutionPercentage}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editSubActivity('${subActivity.id}',
+                                                    '${subActivity.financialYear.id}',
+                                                    '${subActivity.annualWorkplanReferenceCode}',
+                                                    '${subActivity.gfssCode.id}',
+                                                    '${subActivity.expectedOutcome}',
+                                                    '${subActivity.component.id}',
+                                                    '${subActivity.subComponent.id}',
+                                                    '${subActivity.activityName.id}',
+                                                    '${subActivity.subActivityName.id}',
+                                                    '${subActivity.startDate}',
+                                                    '${subActivity.endDate}',
+                                                    '${subActivity.measurementUnit.id}',
+                                                    '${subActivity.unitCost}',
+                                                    '${subActivity.awpbTarget}',
+                                                    '${subActivity.programmeTarget}',
+                                                    '${subActivity.totals}',
+                                                    '${subActivity.responsePcu.name}',
+                                                    '${subActivity.implementingPartner.id}',
+                                                    '${subActivity.procurementPlan}',
+                                                    '${subActivity.description}',
+                                                    '${subActivity.valueAchieved}',
+                                                    '${subActivity.allocatedBudget}',
+                                                    '${subActivity.expenditureCategory.id}',
+                                                    '${subActivity.gokPercentage}',
+                                                    '${subActivity.ifadLoanPercentage}',
+                                                    '${subActivity.ifadGrantPercentage}',
+                                                    '${subActivity.beneficiariesPercentage}',
+                                                    '${subActivity.euPercentage}',
+                                                    '${subActivity.financialInstitutionPercentage}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteSubActivity(${subActivity.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

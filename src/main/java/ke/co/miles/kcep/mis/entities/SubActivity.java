@@ -40,8 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
-    @NamedQuery(name = "SubActivity.findByExpectedOutcome", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome = :expectedOutcome"),
     @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
+    @NamedQuery(name = "SubActivity.findByExpectedOutcome", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome = :expectedOutcome"),
     @NamedQuery(name = "SubActivity.findByStartDate", query = "SELECT s FROM SubActivity s WHERE s.startDate = :startDate"),
     @NamedQuery(name = "SubActivity.findByEndDate", query = "SELECT s FROM SubActivity s WHERE s.endDate = :endDate"),
     @NamedQuery(name = "SubActivity.findByUnitCost", query = "SELECT s FROM SubActivity s WHERE s.unitCost = :unitCost"),
@@ -60,22 +60,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
-    @JoinColumn(name = "gfss_code", referencedColumnName = "id")
-    @ManyToOne
-    private Phenomenon gfssCode;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 200)
-    @Column(name = "expected_outcome")
-    private String expectedOutcome;
     @Size(max = 20)
     @Column(name = "annual_workplan_reference_code")
     private String annualWorkplanReferenceCode;
+    @Size(max = 200)
+    @Column(name = "expected_outcome")
+    private String expectedOutcome;
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
     private Date startDate;
@@ -131,6 +127,9 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private MeasurementUnit measurementUnit;
+    @JoinColumn(name = "gfss_code", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon gfssCode;
     @JoinColumn(name = "response_pcu", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResponsePcu responsePcu;
@@ -158,20 +157,20 @@ public class SubActivity implements Serializable {
         this.id = id;
     }
 
-    public String getExpectedOutcome() {
-        return expectedOutcome;
-    }
-
-    public void setExpectedOutcome(String expectedOutcome) {
-        this.expectedOutcome = expectedOutcome;
-    }
-
     public String getAnnualWorkplanReferenceCode() {
         return annualWorkplanReferenceCode;
     }
 
     public void setAnnualWorkplanReferenceCode(String annualWorkplanReferenceCode) {
         this.annualWorkplanReferenceCode = annualWorkplanReferenceCode;
+    }
+
+    public String getExpectedOutcome() {
+        return expectedOutcome;
+    }
+
+    public void setExpectedOutcome(String expectedOutcome) {
+        this.expectedOutcome = expectedOutcome;
     }
 
     public Date getStartDate() {
@@ -350,6 +349,14 @@ public class SubActivity implements Serializable {
         this.measurementUnit = measurementUnit;
     }
 
+    public Phenomenon getGfssCode() {
+        return gfssCode;
+    }
+
+    public void setGfssCode(Phenomenon gfssCode) {
+        this.gfssCode = gfssCode;
+    }
+
     public ResponsePcu getResponsePcu() {
         return responsePcu;
     }
@@ -406,14 +413,6 @@ public class SubActivity implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
-    }
-
-    public Phenomenon getGfssCode() {
-        return gfssCode;
-    }
-
-    public void setGfssCode(Phenomenon gfssCode) {
-        this.gfssCode = gfssCode;
     }
     
 }

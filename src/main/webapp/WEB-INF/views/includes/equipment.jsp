@@ -38,7 +38,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="8"> List of e-vouchers </td>
+                                    <td colspan="7"> List of e-vouchers </td>
                                 </tr>
                             </tfoot>
                             <tbody>

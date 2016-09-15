@@ -19,7 +19,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
@@ -127,9 +126,6 @@ public class EquipmentController extends Controller {
                         int warehouseId = Integer.valueOf(request.getParameter("warehouseId"));
                         session.setAttribute("warehouse", new WarehouseDetails(warehouseId));
                         session.setAttribute("equipment", equipmentService.retrieveEquipmentList(warehouseId));
-                        for (EquipmentDetails equipmentDetails : equipmentService.retrieveEquipmentList(warehouseId)) {
-                            MilesDebugger.debug(equipmentDetails);
-                        }
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.setContentType("text/html;charset=UTF-8");
@@ -137,7 +133,6 @@ public class EquipmentController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
                     } catch (NumberFormatException ex) {
-                        MilesDebugger.debug(ex);
                     }
 
                     break;

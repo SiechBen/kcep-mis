@@ -1281,8 +1281,9 @@ function addSubActivity() {
         url: "doAddSubActivity",
         type: "POST",
         data: "financialYear=" + $("#financial-year").val() +
-                "&expectedOutcome=" + $("#expected-outcome").val() +
                 "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                "&gfssCode=" + $("#gfss-code").val() +
+                "&expectedOutcome=" + $("#expected-outcome").val() +
                 "&component=" + $("#component").val() +
                 "&subComponent=" + $("#sub-component").val() +
                 "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
@@ -1309,35 +1310,7 @@ function addSubActivity() {
                 "&euPercentage=" + $("#eu-percentage").val() +
                 "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
         success: function () {
-            $("#financial-year").val("");
-            $("#expected-outcome").val("");
-            $("#annual-workplan-reference-code").val("");
-            $("#component").val("");
-            $("#sub-component").val("");
-            $("#annual-indicator").val("");
-            $("#annual-indicator-ids").val("");
-            $("#activity-name").val("");
-            $("#sub-activity-name").val("");
-            $("#start-date").val("");
-            $("#end-date").val("");
-            $("#measurement-unit").val("");
-            $("#unit-cost").val("");
-            $("#awpb-target").val("");
-            $("#programme-target").val("");
-            $("#totals").val("");
-            $("#response-pcu").val("");
-            $("#implementing-partner").val("");
-            $("#procurement-plan").val("");
-            $("#description").val("");
-            $("#value-achieved").val("");
-            $("#allocated-budget").val("");
-            $("#expected-category").val("");
-            $("#gok-percentage").val("");
-            $("#ifad-loan-percentage").val("");
-            $("#ifad-grant-percentage").val("");
-            $("#beneficiaries-percentage").val("");
-            $("#eu-percentage").val("");
-            $("#financial-institution-percentage").val();
+            clearSubActivityFields();
             loadAjaxWindow("sub_activities");
             return;
         },
@@ -1348,15 +1321,17 @@ function addSubActivity() {
     });
 }
 
-function editSubActivity(id, financialYear, expectedOutcome, annualWorkplanReferenceCode, component, subComponent,
+function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCode, expectedOutcome, component, subComponent,
         activityName, subActvityName, startDate, endDate, measurementUnit, unitCost, awpbTarget,
         programmeTarget, totals, responsePcu, implementingPartner, procurementPlan, description,
         valueAchieved, allocatedBudget, expenditureCategory, gokPercentage,
         ifadLoanPercentage, ifadGrantPercentage, beneficiariesPercentage, euPercentage, financialInstitutionPercentage) {
     if (financialYear !== "")
         $("#financial-year option[value=" + financialYear + "]").attr('selected', 'selected');
-    $("#expected-outcome").val(expectedOutcome);
     $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
+    if (gfssCode !== "")
+        $("#gfss-code option[value=" + gfssCode + "]").attr('selected', 'selected');
+    $("#expected-outcome").val(expectedOutcome);
     $("#component option[value=" + component + "]").attr('selected', 'selected');
     if (subComponent !== "")
         $("#sub-component option[value=" + subComponent + "]").attr('selected', 'selected');
@@ -1399,9 +1374,11 @@ function editSubActivity(id, financialYear, expectedOutcome, annualWorkplanRefer
                 $.ajax({
                     url: "doEditSubActivity",
                     type: "POST",
-                    data: "id=" + id + "&financialYear=" + $("#financial-year").val() +
-                            "&expectedOutcome=" + $("#expected-outcome").val() +
+                    data: "id=" + id +
+                            "&financialYear=" + $("#financial-year").val() +
                             "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                            "&gfssCode=" + $("#gfss-code").val() +
+                            "&expectedOutcome=" + $("#expected-outcome").val() +
                             "&component=" + $("#component").val() +
                             "&subComponent=" + $("#sub-component").val() +
                             "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
@@ -1428,7 +1405,7 @@ function editSubActivity(id, financialYear, expectedOutcome, annualWorkplanRefer
                             "&euPercentage=" + $("#eu-percentage").val() +
                             "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
                     success: function () {
-                        emptySubActivityFields();
+                        clearSubActivityFields();
                         loadAjaxWindow("sub_activities");
                         return;
                     }, error: function (response) {
@@ -1439,46 +1416,14 @@ function editSubActivity(id, financialYear, expectedOutcome, annualWorkplanRefer
                 $(this).dialog("close");
             },
             "Exit": function () {
-                emptySubActivityFields();
+                clearSubActivityFields();
                 $(this).dialog("close");
             }
         },
         close: function () {
-            emptySubActivityFields();
+            clearSubActivityFields();
         }
     });
-}
-
-function emptySubActivityFields() {
-    $("#financial-year").val("");
-    $("#expected-outcome").val("");
-    $("#annual-workplan-reference-code").val("");
-    $("#component").val("");
-    $("#sub-component").val("");
-    $("#annual-indicator").val("");
-    $("#annual-indicator-ids").val("");
-    $("#activity-name").val("");
-    $("#sub-activity-name").val("");
-    $("#start-date").val("");
-    $("#end-date").val("");
-    $("#measurement-unit").val("");
-    $("#unit-cost").val("");
-    $("#awpb-target").val("");
-    $("#programme-target").val("");
-    $("#totals").val("");
-    $("#response-pcu").val("");
-    $("#implementing-partner").val("");
-    $("#procurement-plan").val("");
-    $("#description").val("");
-    $("#value-achieved").val("");
-    $("#allocated-budget").val("");
-    $("#expected-category").val("");
-    $("#gok-percentage").val("");
-    $("#ifad-loan-percentage").val("");
-    $("#ifad-grant-percentage").val("");
-    $("#beneficiaries-percentage").val("");
-    $("#eu-percentage").val("");
-    $("#financial-institution-percentage").val("");
 }
 
 function deleteSubActivity(id) {
@@ -1512,6 +1457,39 @@ function deleteSubActivity(id) {
         close: function () {
         }
     });
+}
+
+function clearSubActivityFields() {
+    $("#financial-year").val("");
+    $("#annual-workplan-reference-code").val("");
+    $("#gfss-code").val("");
+    $("#expected-outcome").val("");
+    $("#component").val("");
+    $("#sub-component").val("");
+    $("#annual-indicator").val("");
+    $("#annual-indicator-ids").val("");
+    $("#activity-name").val("");
+    $("#sub-activity-name").val("");
+    $("#start-date").val("");
+    $("#end-date").val("");
+    $("#measurement-unit").val("");
+    $("#unit-cost").val("");
+    $("#awpb-target").val("");
+    $("#programme-target").val("");
+    $("#totals").val("");
+    $("#response-pcu").val("");
+    $("#implementing-partner").val("");
+    $("#procurement-plan").val("");
+    $("#description").val("");
+    $("#value-achieved").val("");
+    $("#allocated-budget").val("");
+    $("#expected-category").val("");
+    $("#gok-percentage").val("");
+    $("#ifad-loan-percentage").val("");
+    $("#ifad-grant-percentage").val("");
+    $("#beneficiaries-percentage").val("");
+    $("#eu-percentage").val("");
+    $("#financial-institution-percentage").val("");
 }
 
 function loadSubActivitiesWindow(activityPlanningId) {

@@ -36,15 +36,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
-    @OneToMany(mappedBy = "gfssCode")
-    private List<SubActivity> subActivityList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @OneToMany(mappedBy = "gfssCode")
+    private List<SubActivity> subActivityList;
     @OneToMany(mappedBy = "warehouseOperator")
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "item")
@@ -73,6 +72,15 @@ public class Phenomenon implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
+    }
+
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
     }
 
     @XmlTransient
@@ -150,15 +158,6 @@ public class Phenomenon implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<SubActivity> getSubActivityList() {
-        return subActivityList;
-    }
-
-    public void setSubActivityList(List<SubActivity> subActivityList) {
-        this.subActivityList = subActivityList;
     }
     
 }
