@@ -39,8 +39,8 @@ import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
  *
  * @author siech
  */
-@WebServlet(name = "ProcurementController", urlPatterns = {"/procurements", 
-    "/addProcurement", "/doAddProcurement", "/doEditProcurement", 
+@WebServlet(name = "ProcurementController", urlPatterns = {"/procurements",
+    "/addProcurement", "/doAddProcurement", "/doEditProcurement",
     "/doDeleteProcurement"})
 @MultipartConfig
 public class ProcurementController extends Controller {
@@ -114,6 +114,7 @@ public class ProcurementController extends Controller {
                     procurement.setDescription(request.getParameter("description"));
                     procurement.setTargetOffice(request.getParameter("target-office"));
                     procurement.setLpoNumber(request.getParameter("lpo-number"));
+                    procurement.setItem(request.getParameter("item"));
                     procurement.setSerialNumber(request.getParameter("serial-number"));
                     procurement.setDatePurchased(request.getParameter("date-purchased"));
                     try {
@@ -125,6 +126,9 @@ public class ProcurementController extends Controller {
                     } catch (Exception e) {
                     }
 
+                    if (procurement.getItem().equals("null")) {
+                        procurement.setItem(null);
+                    }
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
                     }
@@ -146,7 +150,7 @@ public class ProcurementController extends Controller {
                         procurement.setCost(null);
                     }
                     try {
-                        procurement.setItem(new PhenomenonDetails(Integer.valueOf(request.getParameter("item"))));
+                        procurement.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
                     }
 
@@ -211,6 +215,7 @@ public class ProcurementController extends Controller {
                     procurement.setDescription(request.getParameter("description"));
                     procurement.setTargetOffice(request.getParameter("target-office"));
                     procurement.setLpoNumber(request.getParameter("lpo-number"));
+                    procurement.setItem(request.getParameter("item"));
                     procurement.setSerialNumber(request.getParameter("serial-number"));
                     procurement.setDatePurchased(request.getParameter("date-purchased"));
                     try {
@@ -222,6 +227,9 @@ public class ProcurementController extends Controller {
                     } catch (Exception e) {
                     }
 
+                    if (procurement.getItem().equals("null")) {
+                        procurement.setItem(null);
+                    }
                     if (procurement.getDatePurchased().equals("null")) {
                         procurement.setDatePurchased(null);
                     }
@@ -243,7 +251,7 @@ public class ProcurementController extends Controller {
                         procurement.setCost(null);
                     }
                     try {
-                        procurement.setItem(new PhenomenonDetails(Integer.valueOf(request.getParameter("item"))));
+                        procurement.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
                     }
 

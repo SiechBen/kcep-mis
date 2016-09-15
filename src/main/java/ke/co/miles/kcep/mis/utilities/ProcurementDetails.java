@@ -31,12 +31,12 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
         this.id = id;
     }
 
-    public PhenomenonDetails getItem() {
-        return item;
+    public PhenomenonDetails getGfssCode() {
+        return gfssCode;
     }
 
-    public void setItem(PhenomenonDetails item) {
-        this.item = item;
+    public void setGfssCode(PhenomenonDetails gfssCode) {
+        this.gfssCode = gfssCode;
     }
 
     public String getDatePurchased() {
@@ -151,7 +151,22 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
         this.fileName = fileName;
     }
 
+    /**
+     * @return the item
+     */
+    public String getItem() {
+        return item;
+    }
+
+    /**
+     * @param item the item to set
+     */
+    public void setItem(String item) {
+        this.item = item;
+    }
+
     private Integer id;
+    private String item;
     private BigDecimal cost;
     private String fileName;
     private String lpoNumber;
@@ -160,8 +175,8 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
     private String serialNumber;
     private String datePurchased;
     private CountyDetails county;
-    private PhenomenonDetails item;
     private String invoiceOrReceipt;
     private SubCountyDetails subCounty;
+    private PhenomenonDetails gfssCode;
 
 }

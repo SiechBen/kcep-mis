@@ -46,7 +46,7 @@ public class Phenomenon implements Serializable {
     private List<SubActivity> subActivityList;
     @OneToMany(mappedBy = "warehouseOperator")
     private List<Warehouse> warehouseList;
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "gfssCode")
     private List<Procurement> procurementList;
     @OneToMany(mappedBy = "categoryOfTrainees")
     private List<Training> trainingList;

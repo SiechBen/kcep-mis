@@ -21,7 +21,6 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.ProcurementDetails;
 
 /**
@@ -40,6 +39,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         }
 
         Procurement procurement = new Procurement();
+        procurement.setItem(procurementDetails.getItem());
         procurement.setCost(procurementDetails.getCost());
         procurement.setDescription(procurementDetails.getDescription());
         procurement.setLpoNumber(procurementDetails.getLpoNumber());
@@ -47,8 +47,8 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurement.setSerialNumber(procurementDetails.getSerialNumber());
         procurement.setDatePurchased(procurementDetails.getDatePurchased());
         procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
-        if (procurementDetails.getItem() != null) {
-            procurement.setItem(getEm().getReference(Phenomenon.class, procurementDetails.getItem().getId()));
+        if (procurementDetails.getGfssCode() != null) {
+            procurement.setGfssCode(getEm().getReference(Phenomenon.class, procurementDetails.getGfssCode().getId()));
         }
         if (procurementDetails.getCounty() != null) {
             procurement.setCounty(getEm().getReference(County.class, procurementDetails.getCounty().getId()));
@@ -110,14 +110,15 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
 
         Procurement procurement = getEm().find(Procurement.class, procurementDetails.getId());
         procurement.setId(procurementDetails.getId());
+        procurement.setItem(procurementDetails.getItem());
         procurement.setCost(procurementDetails.getCost());
         procurement.setDescription(procurementDetails.getDescription());
         procurement.setLpoNumber(procurementDetails.getLpoNumber());
         procurement.setTargetOffice(procurementDetails.getTargetOffice());
         procurement.setSerialNumber(procurementDetails.getSerialNumber());
         procurement.setDatePurchased(procurementDetails.getDatePurchased());
-        if (procurementDetails.getItem() != null) {
-            procurement.setItem(getEm().getReference(Phenomenon.class, procurementDetails.getItem().getId()));
+        if (procurementDetails.getGfssCode() != null) {
+            procurement.setGfssCode(getEm().getReference(Phenomenon.class, procurementDetails.getGfssCode().getId()));
         }
         if (procurementDetails.getInvoiceOrReceipt() != null) {
             procurement.setInvoiceOrReceipt(procurementDetails.getInvoiceOrReceipt());
@@ -155,15 +156,14 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
     private ProcurementDetails convertProcurementToProcurementDetails(Procurement procurement) {
 
         ProcurementDetails procurementDetails = new ProcurementDetails(procurement.getId());
-        CountyDetails countyDetails = null;
         if (procurement.getCounty() != null) {
             procurementDetails.setCounty(countyService.convertCountyToCountyDetails(procurement.getCounty()));
         }
         if (procurement.getSubCounty() != null) {
             procurementDetails.setSubCounty(subCountyService.convertSubCountyToSubCountyDetails(procurement.getSubCounty()));
         }
-        if (procurement.getItem() != null) {
-            procurementDetails.setItem(phenomenonService.convertPhenomenonToPhenomenonDetails(procurement.getItem()));
+        if (procurement.getGfssCode() != null) {
+            procurementDetails.setGfssCode(phenomenonService.convertPhenomenonToPhenomenonDetails(procurement.getGfssCode()));
         }
         procurementDetails.setInvoiceOrReceipt(procurement.getInvoiceOrReceipt());
         procurementDetails.setDatePurchased(procurement.getDatePurchased());
@@ -171,6 +171,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         procurementDetails.setTargetOffice(procurement.getTargetOffice());
         procurementDetails.setLpoNumber(procurement.getLpoNumber());
         procurementDetails.setDescription(procurement.getDescription());
+        procurementDetails.setItem(procurement.getItem());
         procurementDetails.setCost(procurement.getCost());
 
         if (procurementDetails.getInvoiceOrReceipt() != null) {

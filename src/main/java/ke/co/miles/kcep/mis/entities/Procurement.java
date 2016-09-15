@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Procurement.findByItemId", query = "SELECT p FROM Procurement p WHERE p.item.id = :itemId"),
     @NamedQuery(name = "Procurement.findAll", query = "SELECT p FROM Procurement p"),
     @NamedQuery(name = "Procurement.findById", query = "SELECT p FROM Procurement p WHERE p.id = :id"),
+    @NamedQuery(name = "Procurement.findByItem", query = "SELECT p FROM Procurement p WHERE p.item = :item"),
     @NamedQuery(name = "Procurement.findByDatePurchased", query = "SELECT p FROM Procurement p WHERE p.datePurchased = :datePurchased"),
     @NamedQuery(name = "Procurement.findBySerialNumber", query = "SELECT p FROM Procurement p WHERE p.serialNumber = :serialNumber"),
     @NamedQuery(name = "Procurement.findByDescription", query = "SELECT p FROM Procurement p WHERE p.description = :description"),
@@ -47,6 +48,9 @@ public class Procurement implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 45)
+    @Column(name = "item")
+    private String item;
     @Size(max = 45)
     @Column(name = "date_purchased")
     private String datePurchased;
@@ -68,9 +72,9 @@ public class Procurement implements Serializable {
     @Size(max = 300)
     @Column(name = "invoice_or_receipt")
     private String invoiceOrReceipt;
-    @JoinColumn(name = "item", referencedColumnName = "id")
+    @JoinColumn(name = "gfss_code", referencedColumnName = "id")
     @ManyToOne
-    private Phenomenon item;
+    private Phenomenon gfssCode;
     @JoinColumn(name = "sub_county", referencedColumnName = "id")
     @ManyToOne
     private SubCounty subCounty;
@@ -91,6 +95,14 @@ public class Procurement implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 
     public String getDatePurchased() {
@@ -149,12 +161,12 @@ public class Procurement implements Serializable {
         this.invoiceOrReceipt = invoiceOrReceipt;
     }
 
-    public Phenomenon getItem() {
-        return item;
+    public Phenomenon getGfssCode() {
+        return gfssCode;
     }
 
-    public void setItem(Phenomenon item) {
-        this.item = item;
+    public void setGfssCode(Phenomenon gfssCode) {
+        this.gfssCode = gfssCode;
     }
 
     public SubCounty getSubCounty() {

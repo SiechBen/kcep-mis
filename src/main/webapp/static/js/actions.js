@@ -1522,16 +1522,7 @@ function addToAnnualIndicators() {
 //<editor-fold defaultstate="collapsed" desc="Procurement">
 $("#procurement-form").ajaxForm({
     success: function () {
-        $("#item").val("");
-        $("#cost").val("");
-        $("#date-purchased").val("");
-        $("#serial-number").val("");
-        $("#description").val("");
-        $("#target-office").val("");
-        $("#procurement-county").val("");
-        $("#procurement-sub-county").val("");
-        $("#lpo-number").val("");
-        $("#invoice-or-receipt").val("");
+        clearProcurementFields();
         loadAjaxWindow('procurements');
         return;
     },
@@ -1541,7 +1532,8 @@ $("#procurement-form").ajaxForm({
 });
 
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
-    $("#item option[value=" + item + "]").attr('selected', 'selected');
+//    $("#item option[value=" + item + "]").attr('selected', 'selected');
+    $("#item").val(item);
     $("#cost").val(cost);
     $("#date-purchased").val(date);
     $("#serial-number").val(serial);
@@ -1572,15 +1564,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                             "&sub-county=" + $("#procurement-sub-county").val() +
                             "&lpo-number=" + $("#lpo-number").val(),
                     success: function () {
-                        $("#item").val("");
-                        $("#cost").val("");
-                        $("#date-purchased").val("");
-                        $("#serial-number").val("");
-                        $("#description").val("");
-                        $("#target-office").val("");
-                        $("#procurement-county").val("");
-                        $("#procurement-sub-county").val("");
-                        $("#lpo-number").val("");
+                        clearProcurementFields();
                         loadAjaxWindow('procurements');
                         return;
                     }, error: function (response) {
@@ -1592,15 +1576,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
             }
         },
         close: function () {
-            $("#item").val("");
-            $("#cost").val("");
-            $("#date-purchased").val("");
-            $("#serial-number").val("");
-            $("#description").val("");
-            $("#target-office").val("");
-            $("#procurement-county").val("");
-            $("#procurement-sub-county").val("");
-            $("#lpo-number").val("");
+            clearProcurementFields();
         }
     });
 }
@@ -1620,7 +1596,7 @@ function deleteProcuremenet(id) {
                     type: "POST",
                     data: "&id=" + id,
                     success: function (response) {
-                        $("table#procurement-table tbody").html(response);
+                        loadAjaxWindow('procurements');
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1636,6 +1612,18 @@ function deleteProcuremenet(id) {
         close: function () {
         }
     });
+}
+
+function clearProcurementFields() {
+    $("#item").val("");
+    $("#cost").val("");
+    $("#date-purchased").val("");
+    $("#serial-number").val("");
+    $("#description").val("");
+    $("#target-office").val("");
+    $("#procurement-county").val("");
+    $("#procurement-sub-county").val("");
+    $("#lpo-number").val("");
 }
 
 //</editor-fold>
