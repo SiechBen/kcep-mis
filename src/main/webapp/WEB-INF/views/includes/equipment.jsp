@@ -50,7 +50,7 @@
                                         <td>${equipment.totalCount}</td>
                                         <td>${equipment.status}</td>
                                         <td><button onclick="editEquipment('${equipment.id}', '${equipment.warehouse.id}', '${equipment.type}', '${equipment.serialNumber}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteEquipment('${equipment.id}', '${equipment.warehouse.id}', )"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td><button onclick="deleteEquipment('${equipment.id}', '${equipment.warehouse.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -164,14 +164,15 @@
                                 <option value="${produceType.id}">${produceType.type}</option>
                             </c:forEach>
                         </select>
-                        <div class="form-group">
-                            Selling price per bag
-                            <input type="number" step="0.01" id="selling-price" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            Sold to who?
-                            <input id="buyer" class="form-control" readonly>
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        Selling price per bag
+                        <input type="number" step="0.01" id="selling-price" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Sold to who?
+                        <input id="buyer" class="form-control" readonly>
+                    </div>
                 </form>
             </div>
         </div>

@@ -515,9 +515,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (Person person : people) {
 
-            PersonDetails personDetails;
-            personDetails = convertPersonToPersonDetails(person);
-            personDetailsList.add(personDetails);
+            personDetailsList.add(convertPersonToPersonDetails(person));
 
         }
 
@@ -532,6 +530,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             PersonDetails personDetails;
             personDetails = convertPersonToPersonDetails(userAccount.getPerson());
             personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
+            personDetails.setPersonRole(userAccount.getPersonRole().getPersonRole());
             personDetailsList.add(personDetails);
 
         }

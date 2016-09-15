@@ -29,6 +29,14 @@
                         <input id="annual-workplan-reference-code" class="form-control">
                     </div>   
                     <div class="form-group">
+                        GFS code
+                        <select id="gfss-code" name="gfss-code" class="form-control">
+                            <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index"> 
+                                <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.child.name}</option>
+                            </c:forEach>
+                        </select>  
+                    </div>
+                    <div class="form-group">
                         Expected outcome
                         <input id="expected-outcome" class="form-control">
                     </div>   

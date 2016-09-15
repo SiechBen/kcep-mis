@@ -22,6 +22,7 @@ import ke.co.miles.kcep.mis.entities.ExpenditureCategory;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
 import ke.co.miles.kcep.mis.entities.ImplementingPartner;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.ResponsePcu;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.entities.SubActivityName;
@@ -37,6 +38,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.Expend
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
@@ -103,6 +105,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivity.setSubActivityName(getEm().getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
         } catch (Exception e) {
+        }
+        if (subActivityDetails.getGfssCode() != null) {
+            subActivity.setGfssCode(getEm().getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
         }
 
         try {
@@ -923,6 +928,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setSubActivityName(getEm().getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
         } catch (Exception e) {
         }
+        if (subActivityDetails.getGfssCode() != null) {
+            subActivity.setGfssCode(getEm().getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
+        }
 
         try {
             getEm().merge(subActivity);
@@ -992,6 +1000,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivityDetails.setFinancialYear(financialYearService.
                     convertFinancialYearToFinancialYearDetails(subActivity.getFinancialYear()));
         }
+        if (subActivity.getGfssCode() != null) {
+            subActivityDetails.setGfssCode(phenomenonService.convertPhenomenonToPhenomenonDetails(subActivity.getGfssCode()));
+        }
 
         return subActivityDetails;
 
@@ -1010,6 +1021,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="EJB injections">
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private ActivityNameRequestsLocal activityService;
     @EJB

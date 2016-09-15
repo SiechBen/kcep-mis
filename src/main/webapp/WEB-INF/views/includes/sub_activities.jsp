@@ -20,6 +20,7 @@
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
                                 <th>Annual workplan reference code</th>
+                                <th>GFS code</th>
                                 <th>Expected outcome</th>
                                 <th>Component</th>
                                 <th>Sub-component</th>
@@ -61,6 +62,7 @@
                                     <td>${index.count}</td>
                                     <td>${subActivity.expectedOutcome}</td>
                                     <td>${subActivity.annualWorkplanReferenceCode}</td>
+                                    <td>${subActivity.gfssCode.category.name} - ${procurement.gfssCode.category.child.name}</td>
                                     <td>${subActivity.component.component}</td>
                                     <td>${subActivity.subComponent.subComponent}</td>
                                     <td>  <c:forEach var="annualIndicator" items="${sessionScope.subActivityMap.get(subActivity)}" varStatus="index">
@@ -127,6 +129,14 @@
                         Annual workplan reference code
                         <input id="annual-workplan-reference-code" class="form-control">
                     </div> 
+                    <div class="form-group">
+                        GFS code
+                        <select id="gfss-code" name="gfss-code" class="form-control">
+                            <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index"> 
+                                <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.child.name}</option>
+                            </c:forEach>
+                        </select>  
+                    </div>
                     <div class="form-group">
                         Expected outcome
                         <input id="expected-outcome" class="form-control">

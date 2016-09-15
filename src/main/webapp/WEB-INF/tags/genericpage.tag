@@ -269,7 +269,7 @@
                                 <!-- /input-group -->
                             </li>
                             <li>
-                                <a onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+                                <a href="#" onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                             </li>
                             ${menuitems}
 

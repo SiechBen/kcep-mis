@@ -22,6 +22,7 @@
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
                                 <th>Name</th>
+                                <th>Person role</th>
                                 <th>Gender</th>
                                 <th>National id</th>
                                 <th>Date of birth</th>
@@ -103,6 +104,7 @@
                                     </c:choose>
                                     <td>${index.count}</td>
                                     <td>${person.name}</td>
+                                    <td>${person.personRole}</td>
                                     <td>${person.sex.sex}</td>
                                     <td>${person.nationalId}</td>
                                     <td>${person.dateOfBirth}</td>

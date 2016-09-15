@@ -286,9 +286,24 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the gfssCode
+     */
+    public PhenomenonDetails getGfssCode() {
+        return gfssCode;
+    }
+
+    /**
+     * @param gfssCode the gfssCode to set
+     */
+    public void setGfssCode(PhenomenonDetails gfssCode) {
+        this.gfssCode = gfssCode;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String annualWorkplanReferenceCode;
+    private PhenomenonDetails gfssCode;
     private String expectedOutcome;
     private Date startDate;
     private Date endDate;

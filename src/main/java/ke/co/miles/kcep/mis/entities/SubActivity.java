@@ -60,6 +60,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
+    @JoinColumn(name = "gfss_code", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon gfssCode;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -402,6 +406,14 @@ public class SubActivity implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
+    }
+
+    public Phenomenon getGfssCode() {
+        return gfssCode;
+    }
+
+    public void setGfssCode(Phenomenon gfssCode) {
+        this.gfssCode = gfssCode;
     }
     
 }

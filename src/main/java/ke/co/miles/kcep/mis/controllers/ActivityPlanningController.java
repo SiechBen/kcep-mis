@@ -33,6 +33,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.Expend
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
@@ -43,6 +44,7 @@ import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
 import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.ResponsePcuDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
@@ -358,6 +360,13 @@ public class ActivityPlanningController extends Controller {
                 case "/county_sub_activities":
                 case "/region_sub_activities":
                     try {
+                        session.setAttribute("items", phenomenonService.retrieveGFSSCodes());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
+                        return;
+                    }
+
+                    try {
                         session.setAttribute("subActivities", subActivityService.retrieveSubActivities());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -384,7 +393,7 @@ public class ActivityPlanningController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, "", ex);
                     }
-                    
+
                     try {
                         session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
                     } catch (MilesException ex) {
@@ -587,6 +596,10 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
+                        subActivity.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
+                    } catch (Exception e) {
+                    }
+                    try {
                         date = userDateFormat.parse(request.getParameter("startDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setStartDate(date);
@@ -770,6 +783,10 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
+                        subActivity.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
+                    } catch (Exception e) {
+                    }
+                    try {
                         date = userDateFormat.parse(request.getParameter("startDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setStartDate(date);
@@ -853,17 +870,19 @@ public class ActivityPlanningController extends Controller {
             .getSimpleName());
 
     @EJB
-    private ActivityNameRequestsLocal activityNameService;
-    @EJB
-    private SubActivityRequestsLocal subActivityService;
-    @EJB
     private ComponentRequestsLocal componentService;
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private ResponsePcuRequestsLocal responsePcuService;
     @EJB
-    private FinancialYearRequestsLocal financialYearService;
+    private SubActivityRequestsLocal subActivityService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
+    @EJB
+    private ActivityNameRequestsLocal activityNameService;
+    @EJB
+    private FinancialYearRequestsLocal financialYearService;
     @EJB
     private AnnualIndicatorRequestsLocal annualIndicatorService;
     @EJB
@@ -871,9 +890,9 @@ public class ActivityPlanningController extends Controller {
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
-    private ImplementingPartnerRequestsLocal implementingPartnerService;
-    @EJB
     private ExpenditureCategoryRequestsLocal expenditureCategoryService;
+    @EJB
+    private ImplementingPartnerRequestsLocal implementingPartnerService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
 }

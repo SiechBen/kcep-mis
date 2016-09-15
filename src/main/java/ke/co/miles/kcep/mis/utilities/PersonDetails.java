@@ -203,6 +203,20 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         this.plotSize = plotSize;
     }
 
+    /**
+     * @return the personRole
+     */
+    public String getPersonRole() {
+        return personRole;
+    }
+
+    /**
+     * @param personRole the personRole to set
+     */
+    public void setPersonRole(String personRole) {
+        this.personRole = personRole;
+    }
+
     private Integer id;
     private String age;
     private String name;
@@ -210,6 +224,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     private Date dateOfBirth;
     private Double plotSize;
     private String nationalId;
+    private String personRole;
     private Short personRoleId;
     private String businessName;
     private ContactDetails contact;

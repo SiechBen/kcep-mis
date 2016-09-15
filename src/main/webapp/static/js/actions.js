@@ -1159,7 +1159,8 @@ function addEquipment(warehouseId) {
     $.ajax({
         url: "doAddEquipment",
         type: "POST",
-        data: "equipmentType=" + $("#equipment-type").val() +
+        data: "warehouseId=" + warehouseId +
+                "&equipmentType=" + $("#equipment-type").val() +
                 "&serialNumber=" + $("#serial-number").val() +
                 "&equipmentStatus=" + $("#equipment-status").val() +
                 "&equipmentTotalCount=" + $("#equipment-total-count").val(),
@@ -1168,7 +1169,7 @@ function addEquipment(warehouseId) {
             $("#equipment-total-count").val("");
             $("#equipment-status").val("");
             $("#equipment-type").val("");
-            loadEquimentWindow()(warehouseId);
+            loadEquimentWindow(warehouseId);
             return;
         },
         error: function (response) {
@@ -1195,16 +1196,17 @@ function editEquipment(id, warehouseId, type, serialNumber, count, status) {
                     url: "doEditEquipment",
                     type: "POST",
                     data: "id=" + id +
+                            "&warehouseId=" + warehouseId +
                             "&serialNumber=" + $("#serial-number").val() +
                             "&equipmentType=" + $("#equipment-type").val() +
                             "&equipmentStatus=" + $("#equipment-status").val() +
                             "&equipmentTotalCount=" + $("#equipment-total-count").val(),
-                    success: function (response) {
+                    success: function () {
                         $("#equipment-total-count").val("");
                         $("#equipment-status").val("");
                         $("#equipment-type").val("");
                         $("#serial-number").val("");
-                        loadEquimentWindow()(warehouseId);
+                        loadEquimentWindow(warehouseId);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1227,7 +1229,7 @@ function deleteEquipment(id, warehouseId) {
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_equipment",
+        title: "delete_equipment_label",
         modal: true,
         resizable: false,
         buttons: {
@@ -1235,9 +1237,10 @@ function deleteEquipment(id, warehouseId) {
                 $.ajax({
                     url: "doDeleteEquipment",
                     type: "POST",
-                    data: "id=" + id,
+                    data: "id=" + id +
+                            "&warehouseId=" + warehouseId,
                     success: function () {
-                        loadEquimentWindow()(warehouseId);
+                        loadEquimentWindow(warehouseId);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
