@@ -658,19 +658,19 @@ public class TrainingController extends Controller {
                             urlPaths.add("/loadTrainees");
                             switch (path) {
                                 case "/training":
-                                    path = "/head_training";
+                                    path = "/equity_training";
                                     urlPaths.add(path);
                                     break;
                                 case "/trainees":
-                                    path = "/head_trainees";
+                                    path = "/equity_trainees";
                                     urlPaths.add(path);
                                     break;
                                 case "/addTraining":
-                                    path = "/head_addTraining";
+                                    path = "/equity_addTraining";
                                     urlPaths.add(path);
                                     break;
                                 case "/editTraining":
-                                    path = "/head_editTraining";
+                                    path = "/equity_editTraining";
                                     urlPaths.add(path);
                                     break;
                                 default:

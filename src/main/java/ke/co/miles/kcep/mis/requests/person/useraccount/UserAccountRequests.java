@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.useraccount;
+package ke.co.miles.kcep.mis.requests.person.useraccount;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -105,14 +105,15 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    public List<Person> filterPeople(List<Person> people, PersonRoleDetail personRoleDetail) throws MilesException {
+    public List<Person> filterPeople(List<Person> people,
+            PersonRoleDetail personRoleDetail) throws MilesException {
 
         List<Person> filteredPeople = new ArrayList<>();
         setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIdAndPersonId"));
 
         for (Person person : people) {
-            getQ().setParameter("personRoleId", personRoleDetail.getId());
             getQ().setParameter("personId", person.getId());
+            getQ().setParameter("personRoleId", personRoleDetail.getId());
             try {
                 filteredPeople.add(person);
             } catch (NoResultException e) {
@@ -127,10 +128,32 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
     }
 
     @Override
-    public UserAccountDetails retrieveUserAccount(String username, String hashedPassword) throws MilesException {
-        //Method for retrieving user account record from the database
+    public List<Person> filterPeople(List<Person> people,
+            PersonRoleDetail... personRoleDetails) throws MilesException {
 
-        //Checking validity of details
+        List<Person> filteredPeople = new ArrayList<>();
+        setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIdsAndPersonId"));
+
+        for (Person person : people) {
+            getQ().setParameter("personId", person.getId());
+            getQ().setParameter("personRoleId1", personRoleDetails[0].getId());
+            getQ().setParameter("personRoleId2", personRoleDetails[1].getId());
+            try {
+                filteredPeople.add(person);
+            } catch (NoResultException e) {
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "", e);
+                throw new InvalidStateException("error_000_01");
+            }
+        }
+
+        return filteredPeople;
+
+    }
+
+    @Override
+    public UserAccountDetails retrieveUserAccount(String username,
+            String hashedPassword) throws MilesException {
         if (username == null || username.trim().length() == 0) {
             throw new InvalidArgumentException("error_015_02");
         } else if (username.trim().length() > 150) {
@@ -141,7 +164,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_05");
         }
 
-        //Retrieving person record from the database
         setQ(getEm().createNamedQuery("UserAccount.findByUsernameAndPassword"));
         getQ().setParameter("username", username);
         getQ().setParameter("password", hashedPassword);
@@ -154,20 +176,16 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidStateException("error_000_01");
         }
 
-        //Returning the details list of user account record
         return convertUserAccountToUserAccountDetails(userAccount);
     }
 
     @Override
-    public UserAccountDetails retrieveUserAccountByPersonId(Integer personId) throws MilesException {
-        //Method for retrieving user account record from the database
-
-        //Checking validity of details
+    public UserAccountDetails retrieveUserAccountByPersonId(Integer personId)
+            throws MilesException {
         if (personId == null) {
             throw new InvalidArgumentException("error_015_06");
         }
 
-        //Retrieving person record from the database
         setQ(getEm().createNamedQuery("UserAccount.findByPersonId"));
         getQ().setParameter("personId", personId);
         UserAccount userAccount;
@@ -179,16 +197,12 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidStateException("error_000_01");
         }
 
-        //Returning the details of user account record
         return convertUserAccountToUserAccountDetails(userAccount);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<UserAccountDetails> retrieveUserAccounts() throws MilesException {
-        //Method for retrieving user account records from the database
-
-        //Retrieving user account records from the database
         setQ(getEm().createNamedQuery("UserAccount.findAll"));
         List<UserAccount> userAccounts = new ArrayList<>();
         try {
@@ -197,7 +211,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidStateException("error_000_01");
         }
 
-        //Returning the details list of user account records
         return convertUserAccountsToUserAccountDetailsList(userAccounts);
     }
 

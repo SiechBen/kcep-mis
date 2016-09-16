@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.useraccount;
+package ke.co.miles.kcep.mis.requests.person.useraccount;
 
 import java.util.List;
 import javax.ejb.Local;
@@ -60,7 +60,8 @@ public interface UserAccountRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the user credentials are incorrect
      */
-    public UserAccountDetails retrieveUserAccount(String username, String password) throws MilesException;
+    public UserAccountDetails retrieveUserAccount(String username,
+            String password) throws MilesException;
 
     /**
      *
@@ -68,7 +69,8 @@ public interface UserAccountRequestsLocal {
      * @return the user account retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public UserAccountDetails retrieveUserAccountByPersonId(Integer personId) throws MilesException;
+    public UserAccountDetails retrieveUserAccountByPersonId(Integer personId)
+            throws MilesException;
 
     /**
      *
@@ -81,9 +83,20 @@ public interface UserAccountRequestsLocal {
      *
      * @param people the list of people to be filtered
      * @param personRoleDetail the person role to use as filter
-     * @return the list of farmers resulting from the filter
+     * @return the resultant list of filtered people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<Person> filterPeople(List<Person> people, PersonRoleDetail personRoleDetail) throws MilesException;
+    public List<Person> filterPeople(List<Person> people,
+            PersonRoleDetail personRoleDetail) throws MilesException;
+
+    /**
+     *
+     * @param people the list of people to be filtered
+     * @param personRoleDetails the person roles to be used as filter
+     * @return the resultant list of filtered people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<Person> filterPeople(List<Person> people,
+            PersonRoleDetail... personRoleDetails) throws MilesException;
 
 }

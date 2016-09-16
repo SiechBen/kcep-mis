@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
@@ -107,7 +108,6 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             urlPaths.add("/changeCounter");
                             switch (path) {
                                 case "/people":
@@ -313,18 +313,68 @@ public class PersonController extends Controller {
                     if (people == null || people.isEmpty()) {
                         try {
                             long startTime = System.currentTimeMillis();
-                            System.out.println("Started retrieving at: " + startTime);
-                            people = personService.retrievePeople();
+                            MilesDebugger.debug("Started retrieving list of people at: " + startTime);
+
+                            session.setAttribute("people", personService.retrievePeople());
+
                             long endTime = System.currentTimeMillis();
-                            System.out.println("Finished retrieving at: " + endTime);
-                            System.out.println("Time taken: " + (endTime - startTime) / 1000);
+                            MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
+                            MilesDebugger.debug("Time taken: " + (endTime - startTime) / 1000);
                         } catch (MilesException ex) {
                             LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                             return;
                         }
+                    }
+                    break;
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
+                case "/equity_people":
+
+                    try {
+                        countMap = personService.countAllPeople();
+                        int femaleCount = 0,
+                                maleCount = 0,
+                                totalCount = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female":
+                                    femaleCount = countMap.get(countType);
+                                    break;
+                                case "Male":
+                                    maleCount = countMap.get(countType);
+                                    break;
+                                default:
+                                    totalCount = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("totalCount", totalCount);
+                        session.setAttribute("femaleCount", femaleCount);
+                        session.setAttribute("maleCount", maleCount);
+                        session.setAttribute("countOptions", PersonRoleDetail.values());
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+
+                    }
+
+                    people = (List<PersonDetails>) session.getAttribute("people");
+                    if (people == null || people.isEmpty()) {
+                        try {
+                            long startTime = System.currentTimeMillis();
+                            MilesDebugger.debug("Started retrieving list of people at: " + startTime);
+
+                            session.setAttribute("people", personService.retrieveFarmersAndAgroDealers());
+
+                            long endTime = System.currentTimeMillis();
+                            MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
+                            MilesDebugger.debug("Time taken: " + (endTime - startTime) / 1000);
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                            return;
                         }
                     }
                     break;

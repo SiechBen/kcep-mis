@@ -302,8 +302,8 @@ public abstract class Controller extends HttpServlet {
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
 
-    protected DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    protected DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+    protected final DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    protected final DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
     protected Date date;
     protected final String fileSeparator = File.separator;
 

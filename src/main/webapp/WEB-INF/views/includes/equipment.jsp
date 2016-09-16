@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : equipment
     Created on : Sep 7, 2016, 12:26:40 PM
     Author     : ronne
@@ -10,7 +10,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                List of equipment in ${sessionScope.warehouse.name} warehouse
+                Equipment and warehouse operations in ${sessionScope.warehouse.name} warehouse
             </div>
             <div class="panel-body">
                 <ul class="nav nav-tabs">
@@ -24,7 +24,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="equipment">
                         <h4>Equipment Details</h4>
-                        <table id="equipment-table" class="table table-striped table-bordered table-hover data-table">                         
+                        <table id="equipment-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEquipment')">Add</button></th>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="tab-pane fade" id="warehouse-operations">
                         <h4>Warehouse operations</h4>
-                        <table id="warehouse-operations-table" class="table table-striped table-bordered table-hover data-table">                         
+                        <table id="warehouse-operations-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addWarehouseOperation(); return false;">Add</button></th>
@@ -79,7 +79,7 @@
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
-                            <tbody> 
+                            <tbody>
                                 <c:forEach var="warehouseOperation" items="${sessionScope.warehouseOperations}" varStatus="index">
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
@@ -128,8 +128,8 @@
                 </form>
             </div>
         </div>
-    </div> 
-</div> 
+    </div>
+</div>
 <div class="row dialog" id="warehouse-operation-dialog">
     <div class="col-lg-12">
         <div class="panel-default">

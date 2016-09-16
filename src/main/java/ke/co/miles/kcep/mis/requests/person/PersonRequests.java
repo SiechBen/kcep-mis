@@ -31,7 +31,7 @@ import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.subgroup.FarmerSubGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
-import ke.co.miles.kcep.mis.requests.useraccount.UserAccountRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.useraccount.UserAccountRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
 import ke.co.miles.kcep.mis.utilities.FarmerSubGroupDetails;
@@ -48,7 +48,7 @@ import ke.co.miles.kcep.mis.utilities.UserAccountDetails;
 @Stateless
 public class PersonRequests extends EntityRequests implements PersonRequestsLocal {
 
-//<editor-fold defaultstate="collapsed" desc="Create">  
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     public int addPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail) throws MilesException {
 
@@ -145,7 +145,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @SuppressWarnings("unchecked")
     @Override
-    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail) throws MilesException {
+    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail)
+            throws MilesException {
 
         List<UserAccount> female = new ArrayList<>();
         setQ(getEm().createNamedQuery("UserAccount.findBySexAndPersonRoleId"));
@@ -177,7 +178,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveRegionPeople(short regionId) throws MilesException {
+    public List<PersonDetails> retrieveRegionPeople(short regionId)
+            throws MilesException {
 
         List<County> counties = new ArrayList<>();
         setQ(getEm().createNamedQuery("County.findByReqionId"));
@@ -194,7 +196,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         for (County county : counties) {
             getQ().setParameter("countyId", county.getId());
             try {
-                peopleDetailsList.addAll(convertPeopleToPersonDetailsList(getQ().getResultList()));
+                peopleDetailsList.addAll(
+                        convertPeopleToPersonDetailsList(getQ().getResultList()));
             } catch (Exception e) {
                 throw new InvalidStateException("error_000_01");
             }
@@ -205,13 +208,15 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveCountyPeople(short countyId) throws MilesException {
+    public List<PersonDetails> retrieveCountyPeople(short countyId)
+            throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
         setQ(getEm().createNamedQuery("Person.findByCountyId"));
         getQ().setParameter("countyId", countyId);
         try {
-            peopleDetailsList = convertPeopleToPersonDetailsList(getQ().getResultList());
+            peopleDetailsList
+                    = convertPeopleToPersonDetailsList(getQ().getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -237,7 +242,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveSubCountyPeople(short subCountyId) throws MilesException {
+    public List<PersonDetails> retrieveSubCountyPeople(short subCountyId)
+            throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
         setQ(getEm().createNamedQuery("Person.findBySubCountyId"));
@@ -253,7 +259,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId) throws MilesException {
+    public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId)
+            throws MilesException {
         List<PersonDetails> peopleDetailsList = null;
         List<Person> people;
 
@@ -266,7 +273,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
         if (people != null && !people.isEmpty()) {
-            peopleDetailsList = convertPeopleToPersonDetailsList(userAccountService.filterPeople(people, PersonRoleDetail.FARMER));
+            peopleDetailsList = convertPeopleToPersonDetailsList(
+                    userAccountService.filterPeople(people, PersonRoleDetail.FARMER));
         }
 
         return peopleDetailsList;
@@ -275,28 +283,13 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveKalroPeople() throws MilesException {
-        List<PersonDetails> peopleDetailsList = null;
-        List<Person> people;
-
-        setQ(getEm().createNamedQuery("Person.findAll"));
-        try {
-            people = getQ().getResultList();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
-
-        if (people != null && !people.isEmpty()) {
-            peopleDetailsList = convertPeopleToPersonDetailsList(userAccountService.filterPeople(people, PersonRoleDetail.KALRO_OFFICER));
-        }
-
-        return peopleDetailsList;
+        return retrievePeople(PersonRoleDetail.KALRO_OFFICER);
     }
 
     @Override
-    public Map<PersonDetails, PersonRoleDetail> retrievePerson(String username, String password) throws MilesException {
-        //Method for retrieving person record from the database
+    public Map<PersonDetails, PersonRoleDetail> retrievePerson(String username,
+            String password) throws MilesException {
 
-        //Checking validity of details
         if (username == null || username.trim().length() == 0) {
             throw new InvalidArgumentException("error_015_02");
         } else if (username.trim().length() > 150) {
@@ -307,7 +300,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throw new InvalidArgumentException("error_015_05");
         }
 
-        //Get the hashed password
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
@@ -315,27 +307,29 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throw new AlgorithmException("error_0016_01");
         }
 
-        String hashedPassword = accessService.generateSHAPassword(messageDigest, password);
-
-        //Retrieve the user account record from the database
+        String hashedPassword
+                = accessService.generateSHAPassword(messageDigest, password);
         UserAccountDetails userAccountDetails;
         try {
-            userAccountDetails = userAccountService.retrieveUserAccount(username, hashedPassword);
+            userAccountDetails
+                    = userAccountService.retrieveUserAccount(username,
+                            hashedPassword);
         } catch (MilesException e) {
             throw e;
         }
 
-        //Creating and valuating a map of person details to their user group
-        Map<PersonDetails, PersonRoleDetail> personToPersonRoleMap = new HashMap<>();
-        personToPersonRoleMap.put(userAccountDetails.getPerson(), userAccountDetails.getPersonRole());
+        Map<PersonDetails, PersonRoleDetail> personToPersonRoleMap
+                = new HashMap<>();
+        personToPersonRoleMap.put(userAccountDetails.getPerson(),
+                userAccountDetails.getPersonRole());
 
-        //Returning the details list of person record
         return personToPersonRoleMap;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail) throws MilesException {
+    public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail)
+            throws MilesException {
         setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleId"));
         getQ().setParameter("personRoleId", personRoleDetail.getId());
         List<UserAccount> userAccounts;
@@ -369,6 +363,27 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrievePeople() throws MilesException {
 
         setQ(getEm().createNamedQuery("UserAccount.findAll"));
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = getQ().getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveFarmersAndAgroDealers()
+            throws MilesException {
+
+        setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIds"));
+        getQ().setParameter("personRoleId1",
+                PersonRoleDetail.AGRO_DEALER.getId());
+        getQ().setParameter("personRoleId2",
+                PersonRoleDetail.FARMER.getId());
+
         List<UserAccount> userAccounts;
         try {
             userAccounts = getQ().getResultList();
@@ -462,28 +477,35 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
 //</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="Convert"> 
+//<editor-fold defaultstate="collapsed" desc="Convert">
     @Override
     public PersonDetails convertPersonToPersonDetails(Person person) {
 
         ContactDetails contactDetails = null;
         if (person.getContact() != null) {
-            contactDetails = contactService.convertContactToContactDetails(person.getContact());
+            contactDetails
+                    = contactService.convertContactToContactDetails(
+                            person.getContact());
         }
 
         LocationDetails locationDetails = null;
         if (person.getLocation() != null) {
-            locationDetails = locationService.convertLocationToLocationDetails(person.getLocation());
+            locationDetails = locationService.
+                    convertLocationToLocationDetails(person.getLocation());
         }
 
         FarmerGroupDetails farmerGroupDetails = null;
         if (person.getFarmerGroup() != null) {
-            farmerGroupDetails = farmerGroupService.convertFarmerGroupToFarmerGroupDetails(person.getFarmerGroup());
+            farmerGroupDetails = farmerGroupService.
+                    convertFarmerGroupToFarmerGroupDetails(
+                            person.getFarmerGroup());
         }
 
         FarmerSubGroupDetails farmerSubGroupDetails = null;
         if (person.getFarmerSubGroup() != null) {
-            farmerSubGroupDetails = farmerSubGroupService.convertFarmerSubGroupToFarmerSubGroupDetails(person.getFarmerSubGroup());
+            farmerSubGroupDetails = farmerSubGroupService.
+                    convertFarmerSubGroupToFarmerSubGroupDetails(
+                            person.getFarmerSubGroup());
         }
 
         PersonDetails personDetails;
@@ -496,8 +518,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         personDetails.setName(person.getName());
         personDetails.setLocation(locationDetails);
         personDetails.setPlotSize(person.getPlotSize());
-        personDetails.setNationalId(person.getNationalId());
         personDetails.setFarmerGroup(farmerGroupDetails);
+        personDetails.setNationalId(person.getNationalId());
         personDetails.setDateOfBirth(person.getDateOfBirth());
         personDetails.setFarmerSubGroup(farmerSubGroupDetails);
         personDetails.setBusinessName(person.getBusinessName());
@@ -510,7 +532,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     }
 
-    private List<PersonDetails> convertPeopleToPersonDetailsList(List<Person> people) {
+    private List<PersonDetails>
+            convertPeopleToPersonDetailsList(List<Person> people) {
 
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (Person person : people) {
@@ -523,14 +546,17 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     }
 
-    private List<PersonDetails> convertUserAccountsToPeople(List<UserAccount> userAccounts) {
+    private List<PersonDetails>
+            convertUserAccountsToPeople(List<UserAccount> userAccounts) {
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (UserAccount userAccount : userAccounts) {
 
-            PersonDetails personDetails;
-            personDetails = convertPersonToPersonDetails(userAccount.getPerson());
-            personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
-            personDetails.setPersonRole(userAccount.getPersonRole().getPersonRole());
+            PersonDetails personDetails
+                    = convertPersonToPersonDetails(userAccount.getPerson());
+            personDetails.setPersonRoleId(
+                    userAccount.getPersonRole().getId());
+            personDetails.setPersonRole(
+                    userAccount.getPersonRole().getPersonRole());
             personDetailsList.add(personDetails);
 
         }

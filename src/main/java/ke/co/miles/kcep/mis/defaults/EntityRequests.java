@@ -46,5 +46,5 @@ public class EntityRequests {
     public void setQ(Query q) {
         this.q = q;
     }
-    
+
 }

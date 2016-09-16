@@ -29,7 +29,8 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail) throws MilesException;
+    public int addPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail)
+            throws MilesException;
 
     /**
      *
@@ -55,7 +56,8 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the login credentials are invalid or non-existent in the database
      */
-    public Map<PersonDetails, PersonRoleDetail> retrievePerson(String username, String password) throws MilesException;
+    public Map<PersonDetails, PersonRoleDetail>
+            retrievePerson(String username, String password) throws MilesException;
 
     /**
      *
@@ -64,7 +66,8 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail) throws MilesException;
+    public void editPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail)
+            throws MilesException;
 
     /**
      *
@@ -126,6 +129,24 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @return the list of farmers and agro-dealers(These people are relevant to
+     * Equity bank; e-voucher scheme).
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public Object retrieveFarmersAndAgroDealers() throws MilesException;
+
+    /**
+     * Retrieve people of a certain person role
+     *
+     * @param personRoleDetail the person role of people to be retrieved
+     * @return the people retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail)
+            throws MilesException;
+
+    /**
+     *
      * @param wardId the unique identifier of the ward to which the people
      * belong
      * @return the list of retrieved people
@@ -139,7 +160,8 @@ public interface PersonRequestsLocal {
      * @return the map of counts
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail) throws MilesException;
+    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail)
+            throws MilesException;
 
     /**
      *
@@ -147,14 +169,5 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public HashMap<String, Integer> countAllPeople() throws MilesException;
-
-    /**
-     * Retrieve people of a certain person role
-     *
-     * @param personRoleDetail the person role of people to be retrieved
-     * @return the people retrieved
-     * @throws MilesException when the database is in an incorrect state
-     */
-    public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail) throws MilesException;
 
 }

@@ -58,8 +58,6 @@ public class EVoucherController extends Controller {
         String path = request.getServletPath();
         String destination;
 
-        final String fileSeparator = File.separator;
-
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
@@ -127,9 +125,8 @@ public class EVoucherController extends Controller {
                         session.setAttribute("eVouchers", eVouchers);
                     }
 
-                    List<PersonDetails> people;
                     try {
-                        people = personService.retrievePeople();
+                        session.setAttribute("eVoucherPeople", personService.retrieveFarmersAndAgroDealers());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -137,22 +134,13 @@ public class EVoucherController extends Controller {
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    List<InputTypeDetails> inputTypes;
                     try {
-                        inputTypes = inputTypeService.retrieveInputTypes();
+                        session.setAttribute("inputTypes", inputTypeService.retrieveInputTypes());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                         return;
-                    }
-
-                    if (inputTypes != null) {
-                        session.setAttribute("inputTypes", inputTypes);
                     }
 
                     break;
