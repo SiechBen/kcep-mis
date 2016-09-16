@@ -224,7 +224,7 @@ $(function () {
      */
     $('#slider-navigation').show();
     /*
-     when clicking on a navigation link 
+     when clicking on a navigation link
      the form slides to the corresponding fieldset
      */
     $('#slider-navigation a').bind('click', function (e) {
@@ -234,14 +234,14 @@ $(function () {
         $this.parent().addClass('selected');
         /*
          we store the position of the link
-         in the current variable	
+         in the current variable
          */
         current = $this.parent().index() + 1;
         /*
          animate / slide to the next or to the corresponding
          fieldset. The order of the links in the navigation
          is the order of the fieldsets.
-         Also, after sliding, we trigger the focus on the first 
+         Also, after sliding, we trigger the focus on the first
          input element of the new fieldset
          If we clicked on the last link (confirmation), then we validate
          all the fieldsets, otherwise we validate the previous one
@@ -353,7 +353,7 @@ $(function () {
      */
     $('.slider-submit-button').bind('click', function () {
         if ($('.sliding-form').data('errors')) {
-            alert('Please correct the errors in the Form');
+            showError("error_label", 'Please correct the errors in the Form');
             return false;
         }
     });
@@ -710,21 +710,14 @@ function deletePerson(id) {
 //<editor-fold defaultstate="collapsed" desc="Training">
 $("#training").ajaxForm({
     success: function () {
-        $("#start-date").val("");
-        $("#end-date").val("");
-        $("#trainer").val("");
-        $("#topic").val("");
-        $("#venue").val("");
-        $("#number-of-trainees").val("");
-        $("#category-of-trainees").val("");
-        $("#attendance-sheet").val("");
-        loadAjaxWindow('training');
+        clearTrainingFields();
         return;
     },
     error: function (response) {
         showError("error_label", response.responseText);
     }
 });
+
 function addToTrainers() {
     $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
     if ($("#trainer-names").val() === "") {
@@ -759,14 +752,18 @@ function showTrainees(trainingId) {
     });
 }
 
-function editTraining(id, startDate, endDate, topic, location, county, subCounty, ward, numberOfTrainees) {
+function editTraining(id, startDate, endDate, topic, venue, county, subCounty, ward, numberOfTrainees) {
 
     $("#start-date").val(startDate.replace(/-/g, "/"));
     $("#end-date").val(endDate.replace(/-/g, "/"));
-    $("#topic").val(topic);
-    $("#county").val(county);
-    $("#sub-county").val(subCounty);
-    $("#ward").val(ward);
+    if (topic !== "")
+        $("#topic option[value=" + topic + "]").attr('selected', 'selected');
+    if (county !== "")
+        $("#training-county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#training-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#training-ward option[value=" + ward + "]").attr('selected', 'selected');
     $("#number-of-trainees").val(numberOfTrainees);
     $("#training-dialog").dialog({
         width: 495,
@@ -779,22 +776,18 @@ function editTraining(id, startDate, endDate, topic, location, county, subCounty
                 $.ajax({
                     url: "doEditTraining",
                     type: "POST",
-                    data: "start-date=" + $("#start-date").val() + "&end-date=" +
-                            $("#end-date").val() + "&topic=" + $("#topic").val()
-                            + "&county=" + $("#county").val() + "&sub-county="
-                            + $("#sub-county").val() + "&location=" + location + "&ward="
-                            + $("#ward").val() + "&number-of-trainees="
-                            + $("#number-of-trainees").val() + "&id=" + id,
+                    data: "id=" + id +
+                            "&startDate=" + $("#start-date").val() +
+                            "&endDate=" + $("#end-date").val() +
+                            "&topic=" + $("#topic").val() +
+                            "&county=" + $("#training-county").val() +
+                            "&subCounty=" + $("#training-sub-county").val() +
+                            "&venue=" + venue +
+                            "&ward=" + $("#training-ward").val() +
+                            "&numberOfTrainees=" + $("#number-of-trainees").val(),
                     success: function () {
-                        $("#start-date").val("");
-                        $("#end-date").val("");
-                        $("#topic").val("");
-                        $("#county").val("");
-                        $("#sub-county").val("");
-                        $("#ward").val("");
-                        $("#number-of-trainees").val("");
+                        clearTrainingFields();
                         loadAjaxWindow("training");
-                        return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
                     },
@@ -804,13 +797,7 @@ function editTraining(id, startDate, endDate, topic, location, county, subCounty
             }
         },
         close: function () {
-            $("#start-date").val("");
-            $("#end-date").val("");
-            $("#topic").val("");
-            $("#county").val("");
-            $("#usbCounty").val("");
-            $("#ward").val("");
-            $("#numberofTrainees").val("");
+            clearTrainingFields();
         }
     });
 }
@@ -829,9 +816,8 @@ function deleteTraining(id) {
                     url: "doDeleteTraining",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#training-table tbody").html(response);
-
+                    success: function () {
+                        loadAjaxWindow("training");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -847,6 +833,16 @@ function deleteTraining(id) {
         close: function () {
         }
     });
+}
+
+function clearTrainingFields() {
+    $("#start-date").val("");
+    $("#end-date").val("");
+    $("#topic").val("");
+    $("#training-county").val("");
+    $("#training-sub-county").val("");
+    $("#training-ward").val("");
+    $("#number-of-trainees").val("");
 }
 //</editor-fold>
 
@@ -1734,7 +1730,7 @@ function editProcurementPlan(id, procurementPlanType, description, ifadPriorRevi
                             "&signContract=" + $("#sign-contract").val() +
                             "&commenceContract=" + $("#commence-contract").val(),
                     success: function () {
-                        emptyProcurementPlanFields();
+                        clearProcurementPlanFields();
                         loadAjaxWindow("procurement_plans");
                         return;
                     }, error: function (response) {
@@ -1745,7 +1741,7 @@ function editProcurementPlan(id, procurementPlanType, description, ifadPriorRevi
                 $(this).dialog("close");
             },
             "Exit": function () {
-                emptyProcurementPlanFields();
+                clearProcurementPlanFields();
                 $(this).dialog("close");
             }
         },
@@ -1754,7 +1750,7 @@ function editProcurementPlan(id, procurementPlanType, description, ifadPriorRevi
     });
 }
 
-function emptyProcurementPlanFields() {
+function clearProcurementPlanFields() {
     $("#procurement-plan-type").val("");
     $("#description").val("");
     $("#ifad-prior-review").val("");
@@ -2068,7 +2064,7 @@ function addPerformanceIndicator() {
                 "&yearOfUse=" + $("#year-of-use").val() +
                 "&ratio=" + $("#ratio").val(),
         success: function () {
-            emptyPerformanceIndicatorFields();
+            clearPerformanceIndicatorFields();
             loadAjaxWindow("performance_indicators");
             return;
         },
@@ -2079,7 +2075,7 @@ function addPerformanceIndicator() {
     });
 }
 
-function emptyPerformanceIndicatorFields() {
+function clearPerformanceIndicatorFields() {
     $("#performance-indicator-type").val("");
     $("#result-hierarchy").val("");
     $("#description").val("");
@@ -2125,7 +2121,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&yearOfUse=" + $("#year-of-use").val() +
                             "&ratio=" + $("#ratio").val(),
                     success: function () {
-                        emptyPerformanceIndicatorFields();
+                        clearPerformanceIndicatorFields();
                         loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
@@ -2137,7 +2133,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
             }
         },
         close: function () {
-            emptyPerformanceIndicatorFields();
+            clearPerformanceIndicatorFields();
         }
     });
 }
@@ -2554,7 +2550,6 @@ function editActivityName(id, name) {
                     data: "name=" + $("#name").val() + "&id=" + id,
                     success: function (response) {
                         $("#name").val("");
-                        alert(response);
                         $("table#activity-name-table tbody").html(response);
                     },
                     error: function (response) {

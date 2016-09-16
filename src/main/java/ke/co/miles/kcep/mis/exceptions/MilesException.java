@@ -8,6 +8,8 @@ package ke.co.miles.kcep.mis.exceptions;
 import java.util.ResourceBundle;
 
 /**
+ * thrown when arguments are incorrectly specified or when the database is in an
+ * incorrect state
  *
  * @author siech
  */
@@ -44,6 +46,7 @@ public class MilesException extends Exception {
         return message;
     }
 
+    private static final long serialVersionUID = 1L;
     private final String code;
     private final String message;
     private final ResourceBundle resourceBundle;

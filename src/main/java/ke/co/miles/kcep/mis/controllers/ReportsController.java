@@ -41,9 +41,7 @@ public class ReportsController extends Controller {
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
-
         HttpSession session = request.getSession();
-
         String path = request.getServletPath();
         String destination;
 

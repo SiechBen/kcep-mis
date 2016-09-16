@@ -11,13 +11,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
-import ke.co.miles.kcep.mis.entities.PerformanceIndicatorType;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.ResultHierarchy;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
-import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.type.PerformanceIndicatorTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 
 /**
@@ -50,7 +50,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
         performanceIndicator.setResultHierarchy(getEm().getReference(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(getEm().getReference(PerformanceIndicatorType.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
+            performanceIndicator.setPerformanceIndicatorType(getEm().getReference(Phenomenon.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
         }
 
         try {
@@ -120,7 +120,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
         performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(getEm().getReference(PerformanceIndicatorType.class,
+            performanceIndicator.setPerformanceIndicatorType(getEm().getReference(Phenomenon.class,
                     performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
         }
         if (performanceIndicatorDetails.getResultHierarchy() != null) {
@@ -151,6 +151,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
+    @Override
     public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator) {
 
         PerformanceIndicatorDetails performanceIndicatorDetails = new PerformanceIndicatorDetails(performanceIndicator.getId());
@@ -162,8 +163,8 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicatorDetails.setYearOfUse(performanceIndicator.getYearOfUse());
         performanceIndicatorDetails.setRatio(performanceIndicator.getRatio());
         if (performanceIndicator.getResultHierarchy() != null) {
-            performanceIndicatorDetails.setPerformanceIndicatorType(performanceIndicatorTypeService.
-                    convertPerformanceIndicatorTypeToPerformanceIndicatorTypeDetails(performanceIndicator.getPerformanceIndicatorType()));
+            performanceIndicatorDetails.setPerformanceIndicatorType(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(performanceIndicator.getPerformanceIndicatorType()));
         }
         if (performanceIndicator.getResultHierarchy() != null) {
             performanceIndicatorDetails.setResultHierarchy(resultHierarchyService.
@@ -191,5 +192,5 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     @EJB
     private ResultHierarchyRequestsLocal resultHierarchyService;
     @EJB
-    private PerformanceIndicatorTypeRequestsLocal performanceIndicatorTypeService;
+    private PhenomenonRequestsLocal phenomenonService;
 }

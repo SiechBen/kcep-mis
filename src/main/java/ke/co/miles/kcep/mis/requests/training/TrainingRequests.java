@@ -49,9 +49,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class,
+                    trainingDetails.getCategoryOfTrainees().getId()));
         }
-
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
 
         try {
@@ -100,21 +100,17 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setId(trainingDetails.getId());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
-        if (training.getAttendanceSheet() != null) {
+        training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
+        if (trainingDetails.getAttendanceSheet() != null) {
             training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         }
-        training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
-        if (training.getTopic() != null) {
+        if (trainingDetails.getTopic() != null) {
             training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
-        }
-        try {
-            training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
-        } catch (Exception e) {
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
+            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class,
+                    trainingDetails.getCategoryOfTrainees().getId()));
         }
-
         training.setVenue(getEm().getReference(Location.class, trainingDetails.getVenue().getId()));
 
         try {

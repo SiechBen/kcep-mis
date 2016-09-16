@@ -94,10 +94,17 @@ public interface PhenomenonRequestsLocal {
     public List<PhenomenonDetails> retrieveGFSSCodes() throws MilesException;
 
     /**
-     * 
+     *
      * @return the list of banks retrieved
-     * @throws MilesException 
+     * @throws MilesException when the database is in an incorrect state
      */
     public List<PhenomenonDetails> retrieveBanks() throws MilesException;
+
+    /**
+     *
+     * @return the list of performance indicator types
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrievePerformanceIndicatorTypes() throws MilesException;
 
 }

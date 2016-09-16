@@ -54,10 +54,7 @@ public class EVoucherController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession(false);
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 

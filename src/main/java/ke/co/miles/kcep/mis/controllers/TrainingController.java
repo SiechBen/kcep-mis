@@ -75,8 +75,6 @@ public class TrainingController extends Controller {
         path = request.getServletPath();
         String destination;
 
-        String fileSeparator = File.separator;
-
         switchPaths(session);
 
         if (urlPaths.contains(path)) {
@@ -98,35 +96,14 @@ public class TrainingController extends Controller {
                 case "/head_training":
                 case "/kalro_training":
 
-                    HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
-                    try {
-                        trainingMap = trainerService.retrieveTrainings();
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    if (!trainingMap.isEmpty()) {
-                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
-                            if (trainingDetails.getAttendanceSheet() != null) {
-                                try {
-                                    String[] folders = trainingDetails.
-                                            getAttendanceSheet().split(fileSeparator);
-                                    String fileName = folders[folders.length - 1];
-                                    trainingDetails.setFileName(fileName);
-                                } catch (Exception e) {
-                                }
-                            }
-                        }
-                        session.setAttribute("trainingMap", trainingMap);
-                    }
+                    availHeadTrainingMap(response, session);
+                    availSessionAttributes(session, response);
 
                     break;
 
                 case "/equity_training":
 
+                    HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
                     try {
                         trainingMap = trainerService.retrieveTrainings();
                     } catch (MilesException ex) {
@@ -149,6 +126,7 @@ public class TrainingController extends Controller {
                         }
                         session.setAttribute("trainingMap", trainingMap);
                     }
+                    availSessionAttributes(session, response);
 
                     break;
 
@@ -499,12 +477,15 @@ public class TrainingController extends Controller {
                         }
                         trainerService.addTrainers(trainerRecords);
                         traineeService.addTrainees(traineeRecords);
+
+                        session.setAttribute("training", trainingService.retrieveTraining(trainingId));
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, "", e);
                     }
 
+                    availHeadTrainingMap(response, session);
                     path = "/training";
                     switchPaths(session);
 
@@ -512,22 +493,18 @@ public class TrainingController extends Controller {
 
                 case "/doEditTraining":
 
-                    try {
-                        categoryOfTrainees = new PhenomenonDetails(Integer.valueOf(request.getParameter("category-of-trainees")));
-                    } catch (Exception e) {
-                        categoryOfTrainees = null;
-                    }
-
                     subCounty = new SubCountyDetails();
                     try {
-                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("training-sub-county"))));
+                        subCounty.setId(Short.valueOf(String.valueOf(
+                                request.getParameter("subCounty"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
 
                     county = new CountyDetails();
                     try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("training-county"))));
+                        county.setId(Short.valueOf(String.valueOf(
+                                request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }
@@ -541,13 +518,13 @@ public class TrainingController extends Controller {
 
                     ward = new WardDetails();
                     try {
-                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("training-ward"))));
+                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
                         ward = null;
                     }
 
                     try {
-                        venue = new LocationDetails(Integer.valueOf(request.getParameter("location")));
+                        venue = new LocationDetails(Integer.valueOf(request.getParameter("venue")));
                     } catch (Exception e) {
                         venue = new LocationDetails();
                     }
@@ -562,16 +539,16 @@ public class TrainingController extends Controller {
                     }
 
                     try {
-                        training.setNumberOfTrainees(Integer.valueOf(String.valueOf(request.getParameter("number-of-trainees"))));
+                        training.setNumberOfTrainees(Integer.valueOf(
+                                String.valueOf(request.getParameter("numberOfTrainees"))));
                     } catch (Exception e) {
                         training.setNumberOfTrainees(null);
                     }
                     training.setTopic(topic);
-                    training.setCategoryOfTrainees(categoryOfTrainees);
                     training.setVenue(venue);
 
                     try {
-                        date = userDateFormat.parse(request.getParameter("start-date"));
+                        date = userDateFormat.parse(request.getParameter("startDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         training.setStartDate(date);
                     } catch (ParseException ex) {
@@ -581,7 +558,7 @@ public class TrainingController extends Controller {
                         training.setStartDate(null);
                     }
                     try {
-                        date = userDateFormat.parse(request.getParameter("end-date"));
+                        date = userDateFormat.parse(request.getParameter("endDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         training.setEndDate(date);
                     } catch (ParseException ex) {
@@ -591,43 +568,8 @@ public class TrainingController extends Controller {
                         training.setEndDate(null);
                     }
 
-                    trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");
-                    trainerRecords = new ArrayList<>();
-                    for (String trainerCategoryId : trainerPersonIds) {
-                        PhenomenonDetails trainerCategory = new PhenomenonDetails();
-                        trainerRecord = new TrainerDetails();
-                        try {
-                            trainerCategory.setId(Integer.valueOf(trainerCategoryId));
-                            trainerRecord.setPhenomenon(trainerCategory);
-                            trainerRecords.add(trainerRecord);
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    traineePersonIds = String.valueOf(request.getParameter("trainee-ids")).split("-");
-                    traineeRecords = new ArrayList<>();
-                    for (String traineePersonId : traineePersonIds) {
-                        PersonDetails traineePerson = new PersonDetails();
-                        traineeRecord = new TraineeDetails();
-                        try {
-                            traineePerson.setId(Integer.valueOf(traineePersonId));
-                            traineeRecord.setPerson(traineePerson);
-                            traineeRecords.add(traineeRecord);
-                        } catch (Exception e) {
-                        }
-                    }
-
                     try {
                         trainingService.editTraining(training);
-                        training.setId(training.getId());
-                        for (TrainerDetails trainerRecord1 : trainerRecords) {
-                            trainerRecord1.setTraining(training);
-                        }
-                        for (TraineeDetails traineeRecord1 : traineeRecords) {
-                            traineeRecord1.setTraining(training);
-                        }
-                        trainerService.editTrainers(trainerRecords);
-                        traineeService.editTrainees(traineeRecords);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
@@ -861,41 +803,38 @@ public class TrainingController extends Controller {
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Avail attributes">
 
-    private void availSessionAttributes(HttpSession session, HttpServletResponse response) throws
-            IOException {
-        PersonDetails person = (PersonDetails) session.getAttribute("person");
+    private void availHeadTrainingMap(HttpServletResponse response,
+            HttpSession session) throws IOException {
 
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
         try {
-            session.setAttribute("counties", countyService.retrieveCounties());
+            trainingMap = trainerService.retrieveTrainings();
         } catch (MilesException ex) {
-            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of counties", ex);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(getBundle().getString(ex.getCode()));
+            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
             return;
         }
 
-        List<SubCountyDetails> subCounties;
-        try {
-            subCounties = subCountyService.retrieveSubCounties(person.getLocation().getCounty().getId());
-        } catch (MilesException ex) {
-            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
-            return;
-        }
-
-        List<WardDetails> wards = new ArrayList<>();
-        if (subCounties != null) {
-
-            for (SubCountyDetails subCounty : subCounties) {
-                try {
-                    wards.addAll(wardService.retrieveWards(subCounty.getId()));
-                } catch (MilesException ex) {
-                    LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
-                    return;
+        if (!trainingMap.isEmpty()) {
+            for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                if (trainingDetails.getAttendanceSheet() != null) {
+                    try {
+                        String[] folders = trainingDetails.
+                                getAttendanceSheet().split(fileSeparator);
+                        String fileName = folders[folders.length - 1];
+                        trainingDetails.setFileName(fileName);
+                    } catch (Exception e) {
+                    }
                 }
             }
-
-            session.setAttribute("subCounties", subCounties);
-            session.setAttribute("wards", wards);
-
+            session.setAttribute("trainingMap", trainingMap);
         }
+
+    }
+
+    private void availSessionAttributes(HttpSession session,
+            HttpServletResponse response) throws IOException {
 
         try {
             session.setAttribute("people", personService.retrievePeople());

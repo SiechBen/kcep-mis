@@ -164,17 +164,16 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     public TopicDetails convertTopicToTopicDetails(Topic topic) {
 
         TopicDetails topicDetails = new TopicDetails();
-        topicDetails.setTopic(topic.getTopic());
-        try {
-            topicDetails.setId(topic.getId());
-        } catch (Exception e) {
-            return null;
+        if (topic == null) {
+            return new TopicDetails();
         }
+        topicDetails.setTopic(topic.getTopic());
+        topicDetails.setId(topic.getId());
         try {
             topicDetails.setModule(convertTopicToTopicDetails(topic.getModule()));
         } catch (Exception e) {
         }
-        
+
         return topicDetails;
 
     }

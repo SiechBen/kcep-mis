@@ -93,11 +93,11 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         this.resultHierarchy = resultHierarchy;
     }
 
-    public PerformanceIndicatorTypeDetails getPerformanceIndicatorType() {
+    public PhenomenonDetails getPerformanceIndicatorType() {
         return performanceIndicatorType;
     }
 
-    public void setPerformanceIndicatorType(PerformanceIndicatorTypeDetails performanceIndicatorType) {
+    public void setPerformanceIndicatorType(PhenomenonDetails performanceIndicatorType) {
         this.performanceIndicatorType = performanceIndicatorType;
     }
 
@@ -137,6 +137,6 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     private Double expectedValue;
     private Double ratio;
     private ResultHierarchyDetails resultHierarchy;
-    private PerformanceIndicatorTypeDetails performanceIndicatorType;
+    private PhenomenonDetails performanceIndicatorType;
 
 }

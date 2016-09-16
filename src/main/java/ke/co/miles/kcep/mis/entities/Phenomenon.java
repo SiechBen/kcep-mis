@@ -36,9 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
-    @OneToMany(mappedBy = "issuingBank")
-    private List<Loan> loanList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,10 +44,14 @@ public class Phenomenon implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "gfssCode")
     private List<SubActivity> subActivityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicatorType")
+    private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "warehouseOperator")
     private List<Warehouse> warehouseList;
     @OneToMany(mappedBy = "gfssCode")
     private List<Procurement> procurementList;
+    @OneToMany(mappedBy = "issuingBank")
+    private List<Loan> loanList;
     @OneToMany(mappedBy = "categoryOfTrainees")
     private List<Training> trainingList;
     @JoinColumn(name = "category", referencedColumnName = "id")
@@ -87,6 +88,15 @@ public class Phenomenon implements Serializable {
     }
 
     @XmlTransient
+    public List<PerformanceIndicator> getPerformanceIndicatorList() {
+        return performanceIndicatorList;
+    }
+
+    public void setPerformanceIndicatorList(List<PerformanceIndicator> performanceIndicatorList) {
+        this.performanceIndicatorList = performanceIndicatorList;
+    }
+
+    @XmlTransient
     public List<Warehouse> getWarehouseList() {
         return warehouseList;
     }
@@ -102,6 +112,15 @@ public class Phenomenon implements Serializable {
 
     public void setProcurementList(List<Procurement> procurementList) {
         this.procurementList = procurementList;
+    }
+
+    @XmlTransient
+    public List<Loan> getLoanList() {
+        return loanList;
+    }
+
+    public void setLoanList(List<Loan> loanList) {
+        this.loanList = loanList;
     }
 
     @XmlTransient
@@ -161,15 +180,6 @@ public class Phenomenon implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Loan> getLoanList() {
-        return loanList;
-    }
-
-    public void setLoanList(List<Loan> loanList) {
-        this.loanList = loanList;
     }
     
 }

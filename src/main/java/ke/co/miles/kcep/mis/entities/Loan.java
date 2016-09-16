@@ -95,6 +95,14 @@ public class Loan implements Serializable {
         this.account = account;
     }
 
+    public Phenomenon getIssuingBank() {
+        return issuingBank;
+    }
+
+    public void setIssuingBank(Phenomenon issuingBank) {
+        this.issuingBank = issuingBank;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,19 +127,5 @@ public class Loan implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Loan[ id=" + id + " ]";
     }
-
-    /**
-     * @return the issuingBank
-     */
-    public Phenomenon getIssuingBank() {
-        return issuingBank;
-    }
-
-    /**
-     * @param issuingBank the issuingBank to set
-     */
-    public void setIssuingBank(Phenomenon issuingBank) {
-        this.issuingBank = issuingBank;
-    }
-
+    
 }

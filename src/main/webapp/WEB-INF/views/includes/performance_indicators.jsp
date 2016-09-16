@@ -41,7 +41,7 @@
                             <c:forEach var="performanceIndicator" items="${sessionScope.performanceIndicators}" varStatus="index">
                                 <tr>
                                     <td>${index.count}</td>
-                                    <td>${performanceIndicator.performanceIndicatorType.type}</td>
+                                    <td>${performanceIndicator.performanceIndicatorType.category.name}</td>
                                     <td>${performanceIndicator.resultHierarchy.description}</td>
                                     <td>${performanceIndicator.description}</td>
                                     <td>${performanceIndicator.baselineDate}</td>
@@ -50,7 +50,17 @@
                                     <td>${performanceIndicator.actualValue}</td>
                                     <td>${performanceIndicator.expectedValue}</td>
                                     <td>${performanceIndicator.ratio}</td>
-                                    <td><button onclick="editPerformanceIndicator('${performanceIndicator.id}','${performanceIndicator.performanceIndicatorType.type}','${performanceIndicator.resultHierarchy.description}','${performanceIndicator.description}','${performanceIndicator.baselineDate}','${performanceIndicator.baselineValue}','${performanceIndicator.yearOfUse}','${performanceIndicator.actualValue}','${performanceIndicator.expectedValue}','${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editPerformanceIndicator(
+                                                    '${performanceIndicator.id}',
+                                                    '${performanceIndicator.performanceIndicatorType.id}',
+                                                    '${performanceIndicator.resultHierarchy.id}',
+                                                    '${performanceIndicator.description}',
+                                                    '${performanceIndicator.baselineDate}',
+                                                    '${performanceIndicator.baselineValue}',
+                                                    '${performanceIndicator.yearOfUse}',
+                                                    '${performanceIndicator.actualValue}',
+                                                    '${performanceIndicator.expectedValue}',
+                                                    '${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletePerformanceIndicator(${performanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -71,7 +81,7 @@
                         Performance indicator type
                         <select id="performance-indicator-type" class="form-control">
                             <c:forEach var="performanceIndicatorType" items="${sessionScope.performanceIndicatorTypes}">
-                                <option value="${performanceIndicatorType.id}">${performanceIndicatorType.type}</option>
+                                <option value="${performanceIndicatorType.id}">${performanceIndicatorType.category.name}</option>
                             </c:forEach>
                         </select> 
                     </div>
@@ -109,10 +119,10 @@
                     </div>
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)
-                        <input id="ratio" class="form-control" readonly="true">
+                        <input id="ratio" class="form-control" readonly>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
+</div>

@@ -24,20 +24,20 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
-import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.type.PerformanceIndicatorTypeRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
-import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorTypeDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
 
 /**
  *
  * @author siech
  */
-@WebServlet(name = "PerformanceIndicatorController", 
-        urlPatterns = {"/performance_indicators", "/addPerformanceIndicator", 
-            "/doEditPerformanceIndicator","/doDeletePerformanceIndicator","/doAddPerformanceIndicator"})
+@WebServlet(name = "PerformanceIndicatorController",
+        urlPatterns = {"/performance_indicators", "/addPerformanceIndicator",
+            "/doEditPerformanceIndicator", "/doDeletePerformanceIndicator", "/doAddPerformanceIndicator"})
 public class PerformanceIndicatorController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -125,14 +125,16 @@ public class PerformanceIndicatorController extends Controller {
                 case "/region_performance_indicators":
 
                     try {
-                        session.setAttribute("performanceIndicators", performanceIndicatorService.retrievePerformanceIndicators());
+                        session.setAttribute("performanceIndicators",
+                                performanceIndicatorService.retrievePerformanceIndicators());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during performance indicator retrieval", ex);
                         return;
                     }
 
                     try {
-                        session.setAttribute("performanceIndicatorTypes", performanceIndicatorTypeService.retrievePerformanceIndicatorTypes());
+                        session.setAttribute("performanceIndicatorTypes",
+                                phenomenonService.retrievePerformanceIndicatorTypes());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of performance indicator types ", ex);
                         return;
@@ -191,9 +193,10 @@ public class PerformanceIndicatorController extends Controller {
                         resultHierarchy = null;
                     }
 
-                    PerformanceIndicatorTypeDetails performanceIndicatorType;
+                    PhenomenonDetails performanceIndicatorType;
                     try {
-                        performanceIndicatorType = new PerformanceIndicatorTypeDetails(Short.valueOf(request.getParameter("performanceIndicatorType")));
+                        performanceIndicatorType = new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("performanceIndicatorType")));
                     } catch (Exception e) {
                         performanceIndicatorType = null;
                     }
@@ -274,7 +277,8 @@ public class PerformanceIndicatorController extends Controller {
                     }
 
                     try {
-                        performanceIndicatorType = new PerformanceIndicatorTypeDetails(Short.valueOf(request.getParameter("performanceIndicatorType")));
+                        performanceIndicatorType = new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("performanceIndicatorType")));
                     } catch (Exception e) {
                         performanceIndicatorType = null;
                     }
@@ -345,7 +349,7 @@ public class PerformanceIndicatorController extends Controller {
             .getSimpleName());
 
     @EJB
-    private PerformanceIndicatorTypeRequestsLocal performanceIndicatorTypeService;
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private ResultHierarchyRequestsLocal resultHierarchyService;
     @EJB

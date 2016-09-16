@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.defaults;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -304,4 +305,6 @@ public abstract class Controller extends HttpServlet {
     protected DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     protected DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
     protected Date date;
+    protected final String fileSeparator = File.separator;
+
 }

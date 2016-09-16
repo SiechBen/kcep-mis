@@ -73,8 +73,8 @@ public class PerformanceIndicator implements Serializable {
     @Column(name = "ratio")
     private Double ratio;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
-    @ManyToOne
-    private PerformanceIndicatorType performanceIndicatorType;
+    @ManyToOne(optional = false)
+    private Phenomenon performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
@@ -157,11 +157,11 @@ public class PerformanceIndicator implements Serializable {
         this.ratio = ratio;
     }
 
-    public PerformanceIndicatorType getPerformanceIndicatorType() {
+    public Phenomenon getPerformanceIndicatorType() {
         return performanceIndicatorType;
     }
 
-    public void setPerformanceIndicatorType(PerformanceIndicatorType performanceIndicatorType) {
+    public void setPerformanceIndicatorType(Phenomenon performanceIndicatorType) {
         this.performanceIndicatorType = performanceIndicatorType;
     }
 

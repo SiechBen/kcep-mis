@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : training
     Created on : Sep 6, 2016, 12:55:48 AM
     Author     : qortez
@@ -6,7 +6,6 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -19,7 +18,8 @@
                     <table id="training-table" class="table table-striped table-bordered table-hover data-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addTraining')">Add</button></th>
+                                <th><button type="button" class="btn btn-outline btn-primary"
+                                            onclick="loadAjaxWindow('addTraining')">Add</button></th>
                                 <th>Start date</th>
                                 <th>End date</th>
                                 <th>Trainer</th>
@@ -48,7 +48,7 @@
                                     <td>${training.endDate}</td>
                                     <td>
                                         <c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}">
-                                            ${trainer.phenomenon.category.name} 
+                                            ${trainer.phenomenon.category.name}
                                         </c:forEach>
                                     </td>
                                     <td>${training.topic.module.topic}</td>
@@ -58,8 +58,18 @@
                                     <td>${training.venue.ward.name}</td>
                                     <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
                                     <td>${training.categoryOfTrainees.category.name}</td>
-                                    <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
-                                    <td><button onclick="editTraining('${training.id}', '${training.startDate}', '${training.endDate}', '${training.topic.topic}','${training.venue.id}', '${training.venue.county.name}', '${training.venue.subCounty.name}', '${training.venue.ward.name}', '${training.numberOfTrainees}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><a href="download?filePath=${training.attendanceSheet}"
+                                           target="_blank">${training.fileName}</a></td>
+                                    <td><button onclick="editTraining(
+                                                    '${training.id}',
+                                                    '${training.startDate}',
+                                                    '${training.endDate}',
+                                                    '${training.topic.id}',
+                                                    '${training.venue.id}',
+                                                    '${training.venue.county.id}',
+                                                    '${training.venue.subCounty.id}',
+                                                    '${training.venue.ward.id}',
+                                                    '${training.numberOfTrainees}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteTraining(${training.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -82,59 +92,52 @@
                     </div>
                     <div class="form-group">
                         End date
-                        <input id="end-date" name="end-date" class="form-control datefield">  
-                    </div>
-                    <div class="form-group">
-                        Trainers
-                        <select id="trainer" name="trainer" class="form-control" onchange="addToTrainers()">
-                            <option selected>Select trainers</option>
-                            <c:forEach var="trainerCategory" items="${sessionScope.trainerCategories}" varStatus="index"> 
-                                <option value="${trainerCategory.id}">${trainerCategory.category.name}</option>
-                            </c:forEach>
-                        </select> 
-                        <input id="trainer-names" value="" class="form-control" readonly>
-                        <input type="hidden" id="trainer-ids" name="trainer-ids" value="">
+                        <input id="end-date" name="end-date" class="form-control datefield">
                     </div>
                     <div class="form-group">
                         Training module
                         <select id="training-module" name="training-module" class="form-control" onchange="updateTopics()">
-                            <c:forEach var="trainingModule" items="${applicationScope.trainingModules}" varStatus="index"> 
+                            <c:forEach var="trainingModule" items="${applicationScope.trainingModules}" varStatus="index">
                                 <option value="${trainingModule.id}">${trainingModule.topic}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Topic
                         <select id="topic" name="topic" class="form-control">
-                            <c:forEach var="topic" items="${sessionScope.topics}" varStatus="index"> 
+                            <c:forEach var="topic" items="${sessionScope.topics}" varStatus="index">
                                 <option value="${topic.id}">${topic.topic}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" id="training-county" name="training-county" value="${sessionScope.person.location.county.id}">
+                        County
+                        <select id="training-county" name="training-county" class="form-control">
+                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
+                                <option value="${county.id}">${county.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county
                         <select id="training-sub-county" name="training-sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index"> 
-                                <option value="${subCounty.id}">${subCountytopic.topic}</option>
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                                <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Ward
                         <select id="training-ward" name="ward" class="form-control">
-                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index"> 
+                            <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index">
                                 <option value="${ward.id}">${ward.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Number of trainees
-                        <input type="number" id="number-of-trainees" name="number-of-trainees" class="form-control">
+                        <input type="number" step="1" id="number-of-trainees" name="number-of-trainees" class="form-control">
                     </div>
-
                 </form>
             </div>
         </div>

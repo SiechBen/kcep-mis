@@ -18,7 +18,7 @@
                         Performance indicator type
                         <select id="performance-indicator-type" class="form-control">
                             <c:forEach var="performanceIndicatorType" items="${sessionScope.performanceIndicatorTypes}">
-                                <option value="${performanceIndicatorType.id}">${performanceIndicatorType.type}</option>
+                                <option value="${performanceIndicatorType.id}">${performanceIndicatorType.category.name}</option>
                             </c:forEach>
                         </select> 
                     </div>
