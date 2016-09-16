@@ -94,7 +94,8 @@
                     <div class="tab-pane fade" id="loan">
                         <h4>Loan Details</h4>
                         <table id="loan-table" class="table table-striped table-bordered table-hover data-table">                         
-                            <thead>     <tr>
+                            <thead>     
+                                <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addLoan(); return false;">Add</button></th>
                                     <th>Loan Amount</th>
                                     <th>Loan Type</th>
@@ -104,13 +105,13 @@
                             </thead>
                             <tbody> 
                                 <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
-                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                    <tr>
                                         <td>${index.count}</td>
                                         <td>${loan.amount}</td>
                                         <td>${loan.type}</td>
                                         <td>${loan.account.accountNumber}</td>
                                         <td>${loan.issuingBank.category.name}</td>
-                                    </tr>
+                                    </tr>       
                                 </c:forEach>
                             </tbody>
                         </table> 
@@ -132,7 +133,7 @@
                             </thead>
                             <tbody> 
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
-                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                    <tr>
                                         <td>${index.count}</td>
                                         <td>${inputsCollection.dateDone}</td>
                                         <td>${inputsCollection.agroDealer.name}</td>
@@ -239,7 +240,7 @@
                         Issuing bank
                         <select id="issuing-bank" class="form-control">
                             <c:forEach var="issuingBank" items="${sessionScope.issuingBanks}" varStatus="index">
-                                <option value="${issuingBank.id}">${issuingBank.variety}</option>
+                                <option value="${issuingBank.id}">${issuingBank.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

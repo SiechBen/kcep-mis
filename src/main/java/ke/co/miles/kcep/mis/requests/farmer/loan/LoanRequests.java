@@ -145,7 +145,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
     public LoanDetails convertLoanToLoanDetails(Loan loan) {
 
         LoanDetails loanDetails = new LoanDetails(loan.getId());
-        if (loanDetails.getIssuingBank() != null) {
+        if (loan.getIssuingBank() != null) {
             loanDetails.setIssuingBank(phenomenonService.convertPhenomenonToPhenomenonDetails(loan.getIssuingBank()));
         }
         loanDetails.setAccount(accountService.convertAccountToAccountDetails(loan.getAccount()));

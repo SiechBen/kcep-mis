@@ -681,11 +681,7 @@ public class FarmerController extends Controller {
         PrintWriter out = response.getWriter();
         int index = 0;
         for (LoanDetails loan : loans) {
-            if (index % 2 == 0) {
-                out.write("<tr class=\"odd\">");
-            } else {
-                out.write("<tr>");
-            }
+            out.write("<tr>");
             out.write("<td>" + ++index + "</td>");
             out.write("<td>" + loan.getAmount() + "</td>");
             out.write("<td>" + loan.getType() + "</td>");
@@ -700,11 +696,7 @@ public class FarmerController extends Controller {
         PrintWriter out = response.getWriter();
         int index = 0;
         for (InputsCollectionDetails inputsCollection : inputsCollections) {
-            if (index % 2 == 0) {
-                out.write("<tr class=\"odd\">");
-            } else {
-                out.write("<tr>");
-            }
+            out.write("<tr>");
             out.write("<td>" + ++index + "</td>");
             out.write("<td>" + inputsCollection.getDateCollected() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getName() + "</td>");
@@ -734,11 +726,7 @@ public class FarmerController extends Controller {
         PrintWriter out = response.getWriter();
         int index = 0;
         for (FarmActivityDetails farmActivity : farmActivities) {
-            if (index % 2 == 0) {
-                out.write("<tr class=\"odd\">");
-            } else {
-                out.write("<tr>");
-            }
+            out.write("<tr>");
             out.write("<td>" + ++index + "</td>");
             out.write("<td>" + farmActivity.getName() + "</td>");
             out.write("<td>" + farmActivity.getYield() + "</td>");
