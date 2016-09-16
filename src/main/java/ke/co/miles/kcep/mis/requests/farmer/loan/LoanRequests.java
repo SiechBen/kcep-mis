@@ -12,10 +12,12 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Account;
 import ke.co.miles.kcep.mis.entities.Loan;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
 
 /**
@@ -41,6 +43,9 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         loan.setType(loanDetails.getType());
         loan.setAmount(loanDetails.getAmount());
         loan.setAccount(getEm().getReference(Account.class, loanDetails.getAccount().getId()));
+        if (loanDetails.getIssuingBank() != null) {
+            loan.setIssuingBank(getEm().getReference(Phenomenon.class, loanDetails.getIssuingBank().getId()));
+        }
 
         try {
             getEm().persist(loan);
@@ -107,6 +112,9 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         loan.setType(loanDetails.getType());
         loan.setAmount(loanDetails.getAmount());
         loan.setAccount(getEm().getReference(Account.class, loanDetails.getAccount().getId()));
+        if (loanDetails.getIssuingBank() != null) {
+            loan.setIssuingBank(getEm().getReference(Phenomenon.class, loanDetails.getIssuingBank().getId()));
+        }
 
         try {
             getEm().merge(loan);
@@ -137,6 +145,9 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
     public LoanDetails convertLoanToLoanDetails(Loan loan) {
 
         LoanDetails loanDetails = new LoanDetails(loan.getId());
+        if (loanDetails.getIssuingBank() != null) {
+            loanDetails.setIssuingBank(phenomenonService.convertPhenomenonToPhenomenonDetails(loan.getIssuingBank()));
+        }
         loanDetails.setAccount(accountService.convertAccountToAccountDetails(loan.getAccount()));
         loanDetails.setType(loan.getType());
         loanDetails.setAmount(loan.getAmount());
@@ -159,4 +170,6 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
 //</editor-fold>
     @EJB
     private AccountRequestsLocal accountService;
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
 }

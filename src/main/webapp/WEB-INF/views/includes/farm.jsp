@@ -99,6 +99,7 @@
                                     <th>Loan Amount</th>
                                     <th>Loan Type</th>
                                     <th>Account Number</th>
+                                    <th>Issuing Bank</th>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -108,6 +109,7 @@
                                         <td>${loan.amount}</td>
                                         <td>${loan.type}</td>
                                         <td>${loan.account.accountNumber}</td>
+                                        <td>${loan.issuingBank.category.name}</td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -233,6 +235,14 @@
                         Loan Type
                         <input class="form-control" id="loan-type" required="true">
                     </div>   
+                    <div class="form-group">
+                        Issuing bank
+                        <select id="issuing-bank" class="form-control">
+                            <c:forEach var="issuingBank" items="${sessionScope.issuingBanks}" varStatus="index">
+                                <option value="${issuingBank.id}">${issuingBank.variety}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>

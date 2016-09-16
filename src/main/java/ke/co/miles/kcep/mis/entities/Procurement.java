@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "procurement", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Procurement.findByItemId", query = "SELECT p FROM Procurement p WHERE p.item.id = :itemId"),
+    @NamedQuery(name = "Procurement.findByGfssCodeId", query = "SELECT p FROM Procurement p WHERE p.gfssCode.id = :gfssCodeId"),
     @NamedQuery(name = "Procurement.findAll", query = "SELECT p FROM Procurement p"),
     @NamedQuery(name = "Procurement.findById", query = "SELECT p FROM Procurement p WHERE p.id = :id"),
     @NamedQuery(name = "Procurement.findByItem", query = "SELECT p FROM Procurement p WHERE p.item = :item"),
@@ -199,10 +199,7 @@ public class Procurement implements Serializable {
             return false;
         }
         Procurement other = (Procurement) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

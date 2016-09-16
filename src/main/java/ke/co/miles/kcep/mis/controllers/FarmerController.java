@@ -29,6 +29,7 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
 import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.farmactivity.FarmActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.inputscollection.InputsCollectionRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
@@ -45,10 +46,11 @@ import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 
 @WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection",
-    "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/editAccount",
+    "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/doEditAccount",
     "/doEditFarmActivity", "/doDeleteFarmActivity"})
 public class FarmerController extends Controller {
 
@@ -80,7 +82,7 @@ public class FarmerController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/editAccount");
+                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -100,7 +102,7 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/editAccount");
+                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -120,7 +122,7 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/editAccount");
+                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -140,7 +142,7 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/editAccount");
+                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -160,7 +162,7 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/editAccount");
+                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -180,7 +182,7 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/editAccount");
+                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -199,7 +201,7 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
-                        urlPaths.add("/editAccount");
+                        urlPaths.add("/doEditAccount");
                         urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/updateInputVarieties");
                         urlPaths.add("/doAddFarmActivity");
@@ -282,6 +284,12 @@ public class FarmerController extends Controller {
                     } catch (Exception e) {
                         loan.setAccount(null);
                     }
+                    try {
+                        loan.setIssuingBank(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("issuingBank"))));
+                    } catch (Exception e) {
+                        loan.setAccount(null);
+                    }
 
                     List<LoanDetails> loans;
                     try {
@@ -298,7 +306,7 @@ public class FarmerController extends Controller {
                     updateLoansTable(response, loans);
                     return;
 
-                case "/editAccount":
+                case "/doEditAccount":
                     account = (AccountDetails) session.getAttribute("account");
                     try {
                         account.setAccountNumber((request.getParameter("accountNumber")));
@@ -569,10 +577,12 @@ public class FarmerController extends Controller {
                         LOGGER.log(Level.INFO, ("An error occurred"), ex.getMessage());
                         break;
                     }
+
                     try {
                         account = accountService.retrieveAccount(farmerId);
                         session.setAttribute("account", account);
                         session.setAttribute("loans", loanService.retrieveLoans(account.getId()));
+                        session.setAttribute("issuingBanks", phenomenonService.retrieveBanks());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -641,7 +651,7 @@ public class FarmerController extends Controller {
                 + "                            <h4>Account Details</h4>\n"
                 + "                        </div>\n"
                 + "                        <div class=\"float-right\">\n"
-                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','"
+                + "                            <button onclick=\"doEditAccount('" + account.getAccountNumber() + "','"
                 + account.getEblBranch().getId() + "','" + account.getSolId() + "','" + account.getSavings()
                 + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
                 + "                        </div>\n"
@@ -680,6 +690,7 @@ public class FarmerController extends Controller {
             out.write("<td>" + loan.getAmount() + "</td>");
             out.write("<td>" + loan.getType() + "</td>");
             out.write("<td>" + loan.getAccount().getAccountNumber() + "</td>");
+            out.write("<td>" + loan.getIssuingBank().getCategory().getName() + "</td>");
             out.write("</tr>");
         }
     }
@@ -756,6 +767,8 @@ public class FarmerController extends Controller {
     private EblBranchRequestsLocal eblBranchService;
     @EJB
     private InputTypeRequestsLocal inputTypeService;
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private StaticInputRequestsLocal staticInputService;
     @EJB

@@ -93,4 +93,11 @@ public interface PhenomenonRequestsLocal {
      */
     public List<PhenomenonDetails> retrieveGFSSCodes() throws MilesException;
 
+    /**
+     * 
+     * @return the list of banks retrieved
+     * @throws MilesException 
+     */
+    public List<PhenomenonDetails> retrieveBanks() throws MilesException;
+
 }

@@ -79,10 +79,25 @@ public class LoanDetails implements Serializable, Comparable<LoanDetails> {
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the issuingBank
+     */
+    public PhenomenonDetails getIssuingBank() {
+        return issuingBank;
+    }
+
+    /**
+     * @param issuingBank the issuingBank to set
+     */
+    public void setIssuingBank(PhenomenonDetails issuingBank) {
+        this.issuingBank = issuingBank;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private BigDecimal amount;
     private String type;
     private AccountDetails account;
+    private PhenomenonDetails issuingBank;
 
 }

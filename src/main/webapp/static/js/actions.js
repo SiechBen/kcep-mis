@@ -2210,11 +2210,13 @@ function addLoan() {
                     url: "doAddLoan",
                     type: "POST",
                     data: "amount=" + $("#loan-amount").val() +
-                            "&type=" + $("#loan-type").val(),
+                            "&type=" + $("#loan-type").val() +
+                            "&issuingBank=" + $("#issuing-bank").val(),
                     success: function (response) {
                         $("table#loan-table tbody").html(response);
                         $("#loan-amount").val("");
                         $("#loan-type").val("");
+                        $("#issuing-bank").val("");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2227,6 +2229,7 @@ function addLoan() {
         close: function () {
             $("#loan-amount").val("");
             $("#loan-type").val("");
+            $("#issuing-bank").val("");
         }
     });
 }

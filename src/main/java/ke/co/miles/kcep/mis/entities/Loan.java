@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "loan", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Loan.findByGfssCodeId", query = "SELECT l FROM Loan l WHERE l.gfssCode.id = :gfssCodeId"),
     @NamedQuery(name = "Loan.findByAccountId", query = "SELECT l FROM Loan l WHERE l.account.id = :accountId"),
     @NamedQuery(name = "Loan.findAll", query = "SELECT l FROM Loan l"),
     @NamedQuery(name = "Loan.findById", query = "SELECT l FROM Loan l WHERE l.id = :id"),
@@ -51,6 +52,9 @@ public class Loan implements Serializable {
     @JoinColumn(name = "account", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Account account;
+    @JoinColumn(name = "issuing_bank", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon issuingBank;
 
     public Loan() {
     }
@@ -115,5 +119,19 @@ public class Loan implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Loan[ id=" + id + " ]";
     }
-    
+
+    /**
+     * @return the issuingBank
+     */
+    public Phenomenon getIssuingBank() {
+        return issuingBank;
+    }
+
+    /**
+     * @param issuingBank the issuingBank to set
+     */
+    public void setIssuingBank(Phenomenon issuingBank) {
+        this.issuingBank = issuingBank;
+    }
+
 }

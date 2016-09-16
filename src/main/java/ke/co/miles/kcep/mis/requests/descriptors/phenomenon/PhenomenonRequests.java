@@ -63,73 +63,66 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<PhenomenonDetails> retrieveBanks() throws MilesException {
+
+        setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
+        getQ().setParameter("name", "Bank");
+
+        return retrievePhenomena();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveGFSSCodes() throws MilesException {
 
-        PhenomenonType phenomenonType;
         setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
         getQ().setParameter("name", "GFSS code");
-        try {
-            phenomenonType = (PhenomenonType) getQ().getSingleResult();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
 
-        return retrievePhenomena(phenomenonType.getId());
+        return retrievePhenomena();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveWarehouseOperators() throws MilesException {
 
-        PhenomenonType phenomenonType;
         setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
         getQ().setParameter("name", "Warehouse operator");
-        try {
-            phenomenonType = (PhenomenonType) getQ().getSingleResult();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
 
-        return retrievePhenomena(phenomenonType.getId());
+        return retrievePhenomena();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveTraineeCategories() throws MilesException {
 
-        PhenomenonType phenomenonType;
         setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
         getQ().setParameter("name", "Category of trainees");
-        try {
-            phenomenonType = (PhenomenonType) getQ().getSingleResult();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
 
-        return retrievePhenomena(phenomenonType.getId());
+        return retrievePhenomena();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveTrainerCategories() throws MilesException {
 
-        PhenomenonType phenomenonType;
         setQ(getEm().createNamedQuery("PhenomenonType.findByName"));
         getQ().setParameter("name", "Category of trainers");
+
+        return retrievePhenomena();
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<PhenomenonDetails> retrievePhenomena() throws MilesException {
+        PhenomenonType phenomenonType;
         try {
             phenomenonType = (PhenomenonType) getQ().getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        return retrievePhenomena(phenomenonType.getId());
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<PhenomenonDetails> retrievePhenomena(int phenomenonTypeId) throws MilesException {
         List<Phenomenon> phenomena = new ArrayList<>();
         setQ(getEm().createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
-        getQ().setParameter("phenomenonTypeId", phenomenonTypeId);
+        getQ().setParameter("phenomenonTypeId", phenomenonType.getId());
         try {
             phenomena = getQ().getResultList();
         } catch (Exception e) {
