@@ -1084,7 +1084,7 @@ function clearWarehouseFields() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Warehouse operatorion">
+//<editor-fold defaultstate="collapsed" desc="Warehouse operation">
 function addWarehouseOperation(warehouseId) {
     $("#warehouse-operation-dialog").dialog({
         width: 495,
@@ -1095,20 +1095,16 @@ function addWarehouseOperation(warehouseId) {
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doAddWarehouseOperatorion",
+                    url: "doAddWarehouseOperation",
                     type: "POST",
-                    data: "name=" + $("#warehouse-name").val() +
-                            "&warehouseOperator=" + $("#warehouse-operator").val() +
-                            "&capacity=" + $("#capacity").val() +
-                            "&capacityUnits=" + $("#capacity-units").val() +
-                            "&offersWrs=" + $("#offers-wrs").val() +
-                            "&certified=" + $("#certified").val() +
-                            "&latitude=" + $("#warehouse-latitude").val() +
-                            "&longitude=" + $("#warehouse-longitude").val() +
-                            "&county=" + $("#warehouse-county").val() +
-                            "&subCounty=" + $("#warehouse-sub-county").val() +
-                            "&ward=" + $("#warehouse-ward").val() +
-                            "&warehouseType=" + $("#warehouse-type").val(),
+                    data: "warehouseId=" + warehouseId +
+                            "&quantityBrought=" + $("#quantity-brought").val() +
+                            "&produceTypeBrought=" + $("#produce-type-brought").val() +
+                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&produceTypeSold=" + $("#produce-type-sold").val() +
+                            "&sellingDate=" + $("#selling-date").val() +
+                            "&sellingPrice=" + $("#selling-price").val() +
+                            "&buyer=" + $("#buyer").val(),
                     success: function () {
                         clearWarehouseOperationFields();
                         loadEquimentWindow(warehouseId);
@@ -1128,19 +1124,15 @@ function addWarehouseOperation(warehouseId) {
     });
 }
 
-function editWarehouseOperation(id, warehouseId, name, capacity, units, offers,
-        certified, location, subCounty, county, latitude, longitude, operator) {
-    $("#warehouse-name").val(name);
-    $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
-    $("#capacity").val(capacity);
-    $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
-    $("#offers-wrs").val(offers);
-    $("#certified").val(certified);
-    $("#warehouse-latitude").val(latitude);
-    $("#warehouse-longitude").val(longitude);
-    $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
-    $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
-    $("#warehouse-type option[value=" + operator + "]").val(operator);
+function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBrought,
+        quantitySold, produceTypeSold, sellingDate, sellingPrice, buyer) {
+    $("#quantity-brought").val(quantityBrought);
+    $("#produce-type-brought").val(produceTypeBrought);
+    $("#quantity-sold").val(quantitySold);
+    $("#produce-type-sold").val(produceTypeSold);
+    $("#selling-date").val(sellingDate);
+    $("#selling-price").val(sellingPrice);
+    $("#buyer").val(buyer);
     $("#warehouse-dialog").dialog({
         width: 495,
         height: "auto",
@@ -1153,19 +1145,16 @@ function editWarehouseOperation(id, warehouseId, name, capacity, units, offers,
                     url: "doEditWarehouse",
                     type: "POST",
                     data: "id=" + id +
-                            "&location=" + location +
-                            "&name=" + $("#warehouse-name").val() +
-                            "&warehouseOperator=" + $("#warehouse-operator").val() +
-                            "&capacity=" + $("#capacity").val() +
-                            "&capacityUnits=" + $("#capacity-units").val() +
-                            "&offersWrs=" + $("#offers-wrs").val() +
-                            "&certified=" + $("#certified").val() +
-                            "&latitude=" + $("#warehouse-latitude").val() +
-                            "&longitude=" + $("#warehouse-longitude").val() +
-                            "&county=" + $("#warehouse-county").val() +
-                            "&subCounty=" + $("#warehouse-sub-county").val() +
-                            "&warehouseType=" + $("#warehouse-type").val(),
+                            "&warehouseId=" + warehouseId +
+                            "&quantityBrought=" + $("#quantity-brought").val() +
+                            "&produceTypeBrought=" + $("#produce-type-brought").val() +
+                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&produceTypeSold=" + $("#produce-type-sold").val() +
+                            "&sellingDate=" + $("#selling-date").val() +
+                            "&sellingPrice=" + $("#selling-price").val() +
+                            "&buyer=" + $("#buyer").val(),
                     success: function () {
+                        clearWarehouseOperationFields();
                         loadEquimentWindow(warehouseId);
                     },
                     error: function (response) {
@@ -1183,7 +1172,7 @@ function editWarehouseOperation(id, warehouseId, name, capacity, units, offers,
 }
 
 function deleteWarehouseOperation(id, warehouseId) {
-    $("#message").text("Are you sure you want to remove this warehouse?");
+    $("#message").text("Are you sure you want to remove this warehouse operation?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
@@ -1197,6 +1186,7 @@ function deleteWarehouseOperation(id, warehouseId) {
                     type: "POST",
                     data: "id=" + id,
                     success: function () {
+                        clearWarehouseOperationFields();
                         loadEquimentWindow(warehouseId);
                     },
                     error: function (response) {
@@ -1216,17 +1206,13 @@ function deleteWarehouseOperation(id, warehouseId) {
 }
 
 function clearWarehouseOperationFields() {
-    $("#warehouse-name").val("");
-    $("#warehouse-operator").val("");
-    $("#capacity").val("");
-    $("#capacity-units").val("");
-    $("#offers-wrs").val("");
-    $("#certified").val("");
-    $("#warehouse-latitude").val("");
-    $("#warehouse-longitude").val("");
-    $("#warehouse-county").val("");
-    $("#warehouse-sub-county").val("");
-    $("#warehouse-type").val("");
+    $("#quantity-brought").val("");
+    $("#produce-type-brought").val("");
+    $("#quantity-sold").val("");
+    $("#produce-type-sold").val("");
+    $("#selling-date").val("");
+    $("#selling-price").val("");
+    $("#buyer").val("");
 }
 
 //</editor-fold>

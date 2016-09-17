@@ -43,7 +43,8 @@ public class WarehouseController extends Controller {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         Locale locale = request.getLocale();
@@ -54,7 +55,8 @@ public class WarehouseController extends Controller {
         String destination;
 
         @SuppressWarnings("unchecked")
-        HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
+        HashMap<String, Boolean> rightsMaps
+                = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {

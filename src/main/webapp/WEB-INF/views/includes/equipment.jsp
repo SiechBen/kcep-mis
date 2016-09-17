@@ -61,7 +61,7 @@
                         <table id="warehouse-operations-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="addWarehouseOperation(); return false;">Add</button></th>
+                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="addWarehouseOperation(${sessionScope.warehouse.id}); return false;">Add</button></th>
                                     <th colspan="2"> Produce brought in(bags) </th>
                                     <th colspan="5"> Produce sold </th>
                                     <th colspan="2"> &nbsp; </th>

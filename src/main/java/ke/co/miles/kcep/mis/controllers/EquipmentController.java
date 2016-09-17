@@ -35,7 +35,9 @@ import ke.co.miles.kcep.mis.utilities.WarehouseOperationDetails;
  * @author siech
  */
 @WebServlet(name = "EquipmentController", urlPatterns = {"/equipment",
-    "/doEditEquipment", "/doEditWarehouseOperation", "/addEquipment", "/addWarehouseOperation", "/doAddEquipment", "/doAddWarehouseOperation", "/doDeleteEquipment", "/doDeleteWarehouseOperation"})
+    "/doEditEquipment", "/doEditWarehouseOperation", "/addEquipment",
+    "/addWarehouseOperation", "/doAddEquipment", "/doAddWarehouseOperation",
+    "/doDeleteEquipment", "/doDeleteWarehouseOperation"})
 public class EquipmentController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -265,11 +267,9 @@ public class EquipmentController extends Controller {
                     } catch (Exception e) {
                     }
                     try {
-                        warehouseOperation.setSellingDate(
-                                databaseDateFormat.parse(
-                                        userDateFormat.format(
-                                                userDateFormat.parse(
-                                                        request.getParameter("sellingDate")))));
+                        date = userDateFormat.parse(request.getParameter("sellingDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        warehouseOperation.setSellingDate(date);
                     } catch (ParseException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
@@ -329,11 +329,9 @@ public class EquipmentController extends Controller {
                     } catch (Exception e) {
                     }
                     try {
-                        warehouseOperation.setSellingDate(
-                                databaseDateFormat.parse(
-                                        userDateFormat.format(
-                                                userDateFormat.parse(
-                                                        request.getParameter("sellingDate")))));
+                        date = userDateFormat.parse(request.getParameter("sellingDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        warehouseOperation.setSellingDate(date);
                     } catch (ParseException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
