@@ -115,14 +115,14 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
     /**
      * @return the warehouseType
      */
-    public WarehouseTypeDetails getWarehouseType() {
+    public PhenomenonDetails getWarehouseType() {
         return warehouseType;
     }
 
     /**
      * @param warehouseType the warehouseType to set
      */
-    public void setWarehouseType(WarehouseTypeDetails warehouseType) {
+    public void setWarehouseType(PhenomenonDetails warehouseType) {
         this.warehouseType = warehouseType;
     }
 
@@ -133,7 +133,7 @@ public class WarehouseDetails implements Serializable, Comparable<WarehouseDetai
     private Boolean offersWrs;
     private LocationDetails location;
     private MeasurementUnitDetails units;
+    private PhenomenonDetails warehouseType;
     private PhenomenonDetails warehouseOperator;
-    private WarehouseTypeDetails warehouseType;
 
 }

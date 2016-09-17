@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : addWarehouse
     Created on : Sep 7, 2016, 9:32:29 AM
     Author     : ronne
@@ -21,18 +21,18 @@
                     <div class="form-group">
                         Warehouse operator
                         <select id="warehouse-operator" class="form-control">
-                            <c:forEach var="warehouseOperator" items="${sessionScope.warehouseOperators}" varStatus="index"> 
+                            <c:forEach var="warehouseOperator" items="${sessionScope.warehouseOperators}" varStatus="index">
                                 <option value="${warehouseOperator.id}">${warehouseOperator.category.name}</option>
                             </c:forEach>
-                        </select>    
+                        </select>
                     </div>
                     <div class="form-group">
                         Warehouse type
                         <select id="warehouse-type" class="form-control">
-                            <c:forEach var="warehouseType" items="${applicationScope.warehouseTypes}" varStatus="index"> 
-                                <option value="${warehouseType.id}">${warehouseType.type}</option>
+                            <c:forEach var="warehouseType" items="${applicationScope.warehouseTypes}" varStatus="index">
+                                <option value="${warehouseType.id}">${warehouseType.category.name}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Capacity
@@ -41,24 +41,24 @@
                     <div class="form-group">
                         Units
                         <select id="capacity-units" class="form-control">
-                            <c:forEach var="measurementUnit" items="${applicationScope.measurementUnits}" varStatus="index"> 
+                            <c:forEach var="measurementUnit" items="${applicationScope.measurementUnits}" varStatus="index">
                                 <option value="${measurementUnit.id}">${measurementUnit.unit}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Offers WRS services?
                         <select id="offers-wrs" class="form-control">
                             <option value="true">Yes</option>
                             <option value="false">No</option>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Certified?
                         <select id="certified" class="form-control">
                             <option value="true">Yes</option>
                             <option value="false">No</option>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Latitude
@@ -74,18 +74,18 @@
                     <div class="form-group">
                         Sub-county
                         <select id="warehouse-sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index"> 
+                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Ward
                         <select id="warehouse-ward" class="form-control">
-                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index"> 
+                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">
                                 <option value="${ward.id}">${ward.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <button type="button" class="btn btn-outline btn-primary" onclick="addWarehouse()">Save warehouse</button>
                 </form>

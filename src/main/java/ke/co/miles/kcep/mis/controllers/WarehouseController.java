@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +30,6 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
-import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
 /**
  *
@@ -44,9 +37,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
  */
 @WebServlet(name = "WarehouseController",
         urlPatterns = {"/warehouses", "/addWarehouse",
-            "/doAddWarehouse", "/doEditWarehouse", "/addWarehouseOperation",
-            "/doAddWarehouseOperation", "/doEditWarehouseOperation",
-            "/doDeleteWarehouseOperation", "/doDeleteWarehouse"})
+            "/doAddWarehouse", "/doEditWarehouse", "/doDeleteWarehouse"})
 public class WarehouseController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -54,7 +45,6 @@ public class WarehouseController extends Controller {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
@@ -75,10 +65,6 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
-                            urlPaths.add("/addWarehouseOperation");
-                            urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/head_warehouses";
                                 urlPaths.add(path);
@@ -93,10 +79,6 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
-                            urlPaths.add("/addWarehouseOperation");
-                            urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/ward_warehouses";
                                 urlPaths.add(path);
@@ -111,10 +93,6 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
-                            urlPaths.add("/addWarehouseOperation");
-                            urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/sub_county_warehouses";
                                 urlPaths.add(path);
@@ -129,10 +107,6 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
-                            urlPaths.add("/addWarehouseOperation");
-                            urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/warehouses")) {
                                 path = "/county_warehouses";
                                 urlPaths.add(path);
@@ -330,38 +304,34 @@ public class WarehouseController extends Controller {
 
                 case "/doAddWarehouse":
 
-                    CountyDetails county = new CountyDetails();
-                    try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
-                    } catch (Exception e) {
-                        county = null;
-                    }
-
-                    WardDetails ward = new WardDetails();
-                    try {
-                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
-                    } catch (Exception e) {
-                        ward = null;
-                    }
-
-                    SubCountyDetails subCounty = new SubCountyDetails();
-                    try {
-                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
-                    } catch (Exception e) {
-                        subCounty = null;
-                    }
-
-                    MeasurementUnitDetails measurementUnit = new MeasurementUnitDetails();
-                    try {
-                        measurementUnit.setId(Short.valueOf(String.valueOf(request.getParameter("capacityUnits"))));
-                    } catch (Exception e) {
-                        county = null;
-                    }
-
+                    WarehouseDetails warehouse = new WarehouseDetails();
                     LocationDetails location = new LocationDetails();
-                    location.setCounty(county);
-                    location.setWard(ward);
-                    location.setSubCounty(subCounty);
+
+                    try {
+                        location.setCounty(new CountyDetails(Short.valueOf(
+                                String.valueOf(request.getParameter("county")))));
+                    } catch (Exception e) {
+                        location.setCounty(null);
+                    }
+                    try {
+                        location.setSubCounty(new SubCountyDetails(Short.valueOf(
+                                String.valueOf(request.getParameter("subCounty")))));
+                    } catch (Exception e) {
+                        location.setSubCounty(null);
+                    }
+                    try {
+                        location.setWard(new WardDetails(Short.valueOf(
+                                String.valueOf(request.getParameter("ward")))));
+                    } catch (Exception e) {
+                        location.setWard(null);
+                    }
+
+                    try {
+                        warehouse.setUnits(new MeasurementUnitDetails(
+                                Short.valueOf(String.valueOf(request.getParameter("capacityUnits")))));
+                    } catch (Exception e) {
+                    }
+
                     try {
                         location.setLatitude(new BigDecimal(String.valueOf(request.getParameter("latitude"))));
                         try {
@@ -375,21 +345,20 @@ public class WarehouseController extends Controller {
                         location.setLongitude(null);
                     }
 
-                    PhenomenonDetails warehouseOperator;
                     try {
-                        warehouseOperator = new PhenomenonDetails(Integer.valueOf(request.getParameter("warehouseOperator")));
+                        warehouse.setWarehouseOperator(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("warehouseOperator"))));
                     } catch (Exception e) {
-                        warehouseOperator = null;
+                        warehouse.setWarehouseOperator(null);
                     }
 
-                    WarehouseTypeDetails warehouseType = new WarehouseTypeDetails();
                     try {
-                        warehouseType.setId(Short.valueOf(String.valueOf(request.getParameter("warehouseType"))));
+                        warehouse.setWarehouseType(new PhenomenonDetails(
+                                Integer.valueOf(String.valueOf(request.getParameter("warehouseType")))));
                     } catch (Exception e) {
-                        warehouseType = null;
+                        warehouse.setWarehouseType(null);
                     }
 
-                    WarehouseDetails warehouse = new WarehouseDetails();
                     try {
                         warehouse.setCapacity(Integer.valueOf(String.valueOf(request.getParameter("capacity"))));
                     } catch (Exception e) {
@@ -399,9 +368,6 @@ public class WarehouseController extends Controller {
                     warehouse.setCertified(Boolean.valueOf(String.valueOf(request.getParameter("certified"))));
                     warehouse.setOffersWrs(Boolean.valueOf(String.valueOf(request.getParameter("offersWrs"))));
                     warehouse.setName(String.valueOf(request.getParameter("name")));
-                    warehouse.setWarehouseOperator(warehouseOperator);
-                    warehouse.setWarehouseType(warehouseType);
-                    warehouse.setUnits(measurementUnit);
                     warehouse.setLocation(location);
 
                     if (warehouse.getName().equals("null")) {
@@ -415,50 +381,47 @@ public class WarehouseController extends Controller {
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
                     }
+
                     return;
 
                 case "/doEditWarehouse":
 
-                    county = new CountyDetails();
                     try {
-                        county.setId(Short.valueOf(request.getParameter("id")));
+                        warehouse = new WarehouseDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        warehouse = new WarehouseDetails();
                     }
-                    try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
-                    } catch (Exception e) {
-                        county = null;
-                    }
-
-                    ward = new WardDetails();
-                    try {
-                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
-                    } catch (Exception e) {
-                        ward = null;
-                    }
-
-                    subCounty = new SubCountyDetails();
-                    try {
-                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
-                    } catch (Exception e) {
-                        subCounty = null;
-                    }
-
-                    measurementUnit = new MeasurementUnitDetails();
-                    try {
-                        measurementUnit.setId(Short.valueOf(String.valueOf(request.getParameter("capacityUnits"))));
-                    } catch (Exception e) {
-                        county = null;
-                    }
-
                     try {
                         location = new LocationDetails(Integer.valueOf(request.getParameter("location")));
                     } catch (Exception e) {
                         location = new LocationDetails();
                     }
-                    location.setCounty(county);
-                    location.setWard(ward);
-                    location.setSubCounty(subCounty);
+
+                    try {
+                        location.setCounty(new CountyDetails(Short.valueOf(
+                                String.valueOf(request.getParameter("county")))));
+                    } catch (Exception e) {
+                        location.setCounty(null);
+                    }
+                    try {
+                        location.setSubCounty(new SubCountyDetails(Short.valueOf(
+                                String.valueOf(request.getParameter("subCounty")))));
+                    } catch (Exception e) {
+                        location.setSubCounty(null);
+                    }
+                    try {
+                        location.setWard(new WardDetails(Short.valueOf(
+                                String.valueOf(request.getParameter("ward")))));
+                    } catch (Exception e) {
+                        location.setWard(null);
+                    }
+
+                    try {
+                        warehouse.setUnits(new MeasurementUnitDetails(
+                                Short.valueOf(String.valueOf(request.getParameter("capacityUnits")))));
+                    } catch (Exception e) {
+                    }
+
                     try {
                         location.setLatitude(new BigDecimal(String.valueOf(request.getParameter("latitude"))));
                         try {
@@ -473,22 +436,17 @@ public class WarehouseController extends Controller {
                     }
 
                     try {
-                        warehouseOperator = new PhenomenonDetails(Integer.valueOf(request.getParameter("warehouseOperator")));
+                        warehouse.setWarehouseOperator(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("warehouseOperator"))));
                     } catch (Exception e) {
-                        warehouseOperator = null;
-                    }
-
-                    warehouseType = new WarehouseTypeDetails();
-                    try {
-                        warehouseType.setId(Short.valueOf(String.valueOf(request.getParameter("warehouseType"))));
-                    } catch (Exception e) {
-                        warehouseType = null;
+                        warehouse.setWarehouseOperator(null);
                     }
 
                     try {
-                        warehouse = new WarehouseDetails(Integer.valueOf(request.getParameter("id")));
+                        warehouse.setWarehouseType(new PhenomenonDetails(
+                                Integer.valueOf(String.valueOf(request.getParameter("warehouseType")))));
                     } catch (Exception e) {
-                        warehouse = new WarehouseDetails();
+                        warehouse.setWarehouseType(null);
                     }
 
                     try {
@@ -500,9 +458,6 @@ public class WarehouseController extends Controller {
                     warehouse.setCertified(Boolean.valueOf(String.valueOf(request.getParameter("certified"))));
                     warehouse.setOffersWrs(Boolean.valueOf(String.valueOf(request.getParameter("offersWrs"))));
                     warehouse.setName(String.valueOf(request.getParameter("name")));
-                    warehouse.setWarehouseOperator(warehouseOperator);
-                    warehouse.setWarehouseType(warehouseType);
-                    warehouse.setUnits(measurementUnit);
                     warehouse.setLocation(location);
 
                     if (warehouse.getName().equals("null")) {

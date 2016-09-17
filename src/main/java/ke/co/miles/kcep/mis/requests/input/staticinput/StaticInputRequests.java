@@ -23,15 +23,18 @@ import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
  * @author siech
  */
 @Stateless
-public class StaticInputRequests extends EntityRequests implements StaticInputRequestsLocal {
+public class StaticInputRequests extends EntityRequests
+        implements StaticInputRequestsLocal {
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public int addStaticInput(StaticInputDetails staticInputDetails) throws MilesException {
+    public int addStaticInput(StaticInputDetails staticInputDetails)
+            throws MilesException {
 
         if (staticInputDetails == null) {
             throw new InvalidArgumentException("error_021_01");
-        } else if (staticInputDetails.getName() != null && staticInputDetails.getName().length() > 45) {
+        } else if (staticInputDetails.getName() != null
+                && staticInputDetails.getName().length() > 45) {
             throw new InvalidArgumentException("error_021_02");
         } else if (staticInputDetails.getInputType() == null) {
             throw new InvalidArgumentException("error_021_03");
@@ -51,7 +54,8 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 
         staticInput = new StaticInput();
         staticInput.setName(staticInputDetails.getName());
-        staticInput.setInputType(getEm().getReference(InputType.class, staticInputDetails.getId()));
+        staticInput.setInputType(getEm().getReference(InputType.class,
+                staticInputDetails.getId()));
 
         try {
             getEm().persist(staticInput);
@@ -68,6 +72,20 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<StaticInputDetails> retrieveProduceTypes() throws MilesException {
+        List<StaticInput> staticInputs = new ArrayList<>();
+        setQ(getEm().createNamedQuery("StaticInput.findByInputTypeId"));
+        getQ().setParameter("inputTypeId", 1);
+        try {
+            staticInputs = getQ().getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertStaticInputsToStaticInputDetailsList(staticInputs);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<StaticInputDetails> retrieveStaticInputs() throws MilesException {
         List<StaticInput> staticInputs = new ArrayList<>();
         setQ(getEm().createNamedQuery("StaticInput.findAll"));
@@ -81,7 +99,8 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<StaticInputDetails> retrieveStaticInputs(short inputTypeId) throws MilesException {
+    public List<StaticInputDetails> retrieveStaticInputs(short inputTypeId)
+            throws MilesException {
         List<StaticInput> staticInputs = new ArrayList<>();
         setQ(getEm().createNamedQuery("StaticInput.findByInputTypeId"));
         getQ().setParameter("inputTypeId", inputTypeId);
@@ -110,13 +129,15 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 //<editor-fold defaultstate="collapsed" desc="Update">
 
     @Override
-    public void editStaticInput(StaticInputDetails staticInputDetails) throws MilesException {
+    public void editStaticInput(StaticInputDetails staticInputDetails)
+            throws MilesException {
 
         if (staticInputDetails == null) {
             throw new InvalidArgumentException("error_021_01");
         } else if (staticInputDetails.getId() == null) {
             throw new InvalidArgumentException("error_021_05");
-        } else if (staticInputDetails.getName() != null && staticInputDetails.getName().length() > 45) {
+        } else if (staticInputDetails.getName() != null
+                && staticInputDetails.getName().length() > 45) {
             throw new InvalidArgumentException("error_021_02");
         } else if (staticInputDetails.getInputType() == null) {
             throw new InvalidArgumentException("error_021_03");
@@ -139,7 +160,8 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
         staticInput = getEm().find(StaticInput.class, staticInputDetails.getId());
         staticInput.setId(staticInputDetails.getId());
         staticInput.setName(staticInputDetails.getName());
-        staticInput.setInputType(getEm().getReference(InputType.class, staticInputDetails.getId()));
+        staticInput.setInputType(getEm().getReference(InputType.class,
+                staticInputDetails.getId()));
 
         try {
             getEm().merge(staticInput);
@@ -165,7 +187,8 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public StaticInputDetails convertStaticInputToStaticInputDetails(StaticInput staticInput) {
+    public StaticInputDetails convertStaticInputToStaticInputDetails(
+            StaticInput staticInput) {
 
         StaticInputDetails staticInputDetails;
         try {
@@ -180,11 +203,13 @@ public class StaticInputRequests extends EntityRequests implements StaticInputRe
 
     }
 
-    private List<StaticInputDetails> convertStaticInputsToStaticInputDetailsList(List<StaticInput> staticInputs) {
+    private List<StaticInputDetails> convertStaticInputsToStaticInputDetailsList(
+            List<StaticInput> staticInputs) {
 
         List<StaticInputDetails> staticInputDetailsList = new ArrayList<>();
         for (StaticInput staticInput : staticInputs) {
-            staticInputDetailsList.add(convertStaticInputToStaticInputDetails(staticInput));
+            staticInputDetailsList.add(convertStaticInputToStaticInputDetails(
+                    staticInput));
         }
 
         return staticInputDetailsList;

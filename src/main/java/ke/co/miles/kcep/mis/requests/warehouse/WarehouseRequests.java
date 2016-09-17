@@ -14,20 +14,14 @@ import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Warehouse;
-import ke.co.miles.kcep.mis.entities.WarehouseType;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.warehouse.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
-import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.LocationDetails;
-import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
-import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
+import ke.co.miles.kcep.mis.requests.warehouse.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
-import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
 /**
  *
@@ -35,7 +29,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
  */
 @Stateless
 public class WarehouseRequests extends EntityRequests implements WarehouseRequestsLocal {
-//<editor-fold defaultstate="collapsed" desc="Create">  
+//<editor-fold defaultstate="collapsed" desc="Create">
 
     @Override
     public int addWarehouse(WarehouseDetails warehouseDetails) throws MilesException {
@@ -51,13 +45,16 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.addLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
-            warehouse.setUnits(getEm().getReference(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
+            warehouse.setUnits(getEm().getReference(MeasurementUnit.class,
+                    warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(getEm().getReference(Phenomenon.class, warehouseDetails.getWarehouseOperator().getId()));
+            warehouse.setWarehouseOperator(getEm().getReference(Phenomenon.class,
+                    warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
-            warehouse.setWarehouseType(getEm().getReference(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
+            warehouse.setWarehouseType(getEm().getReference(Phenomenon.class,
+                    warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
@@ -175,13 +172,16 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.editLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
-            warehouse.setUnits(getEm().getReference(MeasurementUnit.class, warehouseDetails.getUnits().getId()));
+            warehouse.setUnits(getEm().getReference(MeasurementUnit.class,
+                    warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(getEm().getReference(Phenomenon.class, warehouseDetails.getWarehouseOperator().getId()));
+            warehouse.setWarehouseOperator(getEm().getReference(Phenomenon.class,
+                    warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
-            warehouse.setWarehouseType(getEm().getReference(WarehouseType.class, warehouseDetails.getWarehouseType().getId()));
+            warehouse.setWarehouseType(getEm().getReference(Phenomenon.class,
+                    warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
@@ -210,39 +210,36 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     }
 
 //</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="Convert"> 
+//<editor-fold defaultstate="collapsed" desc="Convert">
     @Override
     public WarehouseDetails convertWarehouseToWarehouseDetails(Warehouse warehouse) {
 
-        LocationDetails locationDetails = null;
-        if (warehouse.getLocation() != null) {
-            locationDetails = locationService.convertLocationToLocationDetails(warehouse.getLocation());
-        }
-
-        MeasurementUnitDetails measurementUnitDetails = null;
-        if (warehouse.getUnits() != null) {
-            measurementUnitDetails = measurementUnitService.convertMeasurementUnitToMeasurementUnitDetails(warehouse.getUnits());
-        }
-
-        PhenomenonDetails warehouseOperatorDetails = null;
-        if (warehouse.getWarehouseOperator() != null) {
-            warehouseOperatorDetails = personService.convertPhenomenonToPhenomenonDetails(warehouse.getWarehouseOperator());
-        }
-
-        WarehouseTypeDetails warehouseTypeDetails = null;
-        if (warehouse.getWarehouseType() != null) {
-            warehouseTypeDetails = warehouseTypeService.convertWarehouseTypeToWarehouseTypeDetails(warehouse.getWarehouseType());
-        }
-
         WarehouseDetails warehouseDetails = new WarehouseDetails(warehouse.getId());
-        warehouseDetails.setWarehouseOperator(warehouseOperatorDetails);
-        warehouseDetails.setWarehouseType(warehouseTypeDetails);
+
+        if (warehouse.getLocation() != null) {
+            warehouseDetails.setLocation(locationService
+                    .convertLocationToLocationDetails(warehouse.getLocation()));
+        }
+
+        if (warehouse.getUnits() != null) {
+            warehouseDetails.setUnits(measurementUnitService
+                    .convertMeasurementUnitToMeasurementUnitDetails(warehouse.getUnits()));
+        }
+
+        if (warehouse.getWarehouseOperator() != null) {
+            warehouseDetails.setWarehouseOperator(phenomenonService
+                    .convertPhenomenonToPhenomenonDetails(warehouse.getWarehouseOperator()));
+        }
+
+        if (warehouse.getWarehouseType() != null) {
+            warehouseDetails.setWarehouseType(phenomenonService
+                    .convertPhenomenonToPhenomenonDetails(warehouse.getWarehouseType()));
+        }
+
         warehouseDetails.setOffersWrs(warehouse.getOffersWrs());
         warehouseDetails.setCertified(warehouse.getCertified());
         warehouseDetails.setCapacity(warehouse.getCapacity());
-        warehouseDetails.setUnits(measurementUnitDetails);
         warehouseDetails.setName(warehouse.getName());
-        warehouseDetails.setLocation(locationDetails);
 
         return warehouseDetails;
 
@@ -261,13 +258,11 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
 
 //</editor-fold>
     @EJB
-    private PhenomenonRequestsLocal personService;
-    @EJB
     private LocationRequestsLocal locationService;
     @EJB
     private EquipmentRequestsLocal equipmentService;
     @EJB
-    private WarehouseTypeRequestsLocal warehouseTypeService;
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
 

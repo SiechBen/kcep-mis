@@ -6,6 +6,8 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -20,23 +22,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.equipment.EquipmentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.warehouse.operation.WarehouseOperationRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.EquipmentDetails;
+import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
+import ke.co.miles.kcep.mis.utilities.WarehouseOperationDetails;
 
 /**
  *
  * @author siech
  */
 @WebServlet(name = "EquipmentController", urlPatterns = {"/equipment",
-    "/doEditEquipment", "/addEquipment", "/doAddEquipment", "/doDeleteEquipment"})
+    "/doEditEquipment", "/doEditWarehouseOperation", "/addEquipment", "/addWarehouseOperation", "/doAddEquipment", "/doAddWarehouseOperation", "/doDeleteEquipment", "/doDeleteWarehouseOperation"})
 public class EquipmentController extends Controller {
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         Locale locale = request.getLocale();
@@ -56,8 +62,11 @@ public class EquipmentController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doEditWarehouseOperation");
                             urlPaths.add("/doDeleteEquipment");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/head_equipment";
                                 urlPaths.add(path);
@@ -70,8 +79,11 @@ public class EquipmentController extends Controller {
                     case "warehouseOperatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doEditWarehouseOperation");
                             urlPaths.add("/doDeleteEquipment");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/warehouse_equipment";
                                 urlPaths.add(path);
@@ -84,8 +96,11 @@ public class EquipmentController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doEditWarehouseOperation");
                             urlPaths.add("/doDeleteEquipment");
+                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/ward_equipment";
                                 urlPaths.add(path);
@@ -123,6 +138,7 @@ public class EquipmentController extends Controller {
                     try {
                         int warehouseId = Integer.valueOf(request.getParameter("warehouseId"));
                         session.setAttribute("warehouse", new WarehouseDetails(warehouseId));
+                        session.setAttribute("produceTypes", staticInputService.retrieveProduceTypes());
                         session.setAttribute("equipment", equipmentService.retrieveEquipmentList(warehouseId));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -212,10 +228,146 @@ public class EquipmentController extends Controller {
 
                     return;
 
+                case "/doAddWarehouseOperation":
+
+                    WarehouseOperationDetails warehouseOperation
+                            = new WarehouseOperationDetails();
+                    warehouseOperation.setWarehouse(warehouse);
+                    warehouseOperation.setBuyer(request.getParameter("buyer"));
+                    if (warehouseOperation.getBuyer().equals("null")) {
+                        warehouseOperation.setBuyer(null);
+                    }
+                    try {
+                        warehouseOperation.setQuantityBrought(Double.valueOf(
+                                request.getParameter("quantityBrought")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setQuantitySold(Double.valueOf(
+                                request.getParameter("quantitySold")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setSellingPrice(new BigDecimal(
+                                request.getParameter("sellingPrice")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setProduceTypeBrought(
+                                new StaticInputDetails(Integer.valueOf(
+                                        request.getParameter("produceTypeBrought"))));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setProduceTypeSold(
+                                new StaticInputDetails(Integer.valueOf(
+                                        request.getParameter("produceTypeSold"))));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setSellingDate(
+                                databaseDateFormat.parse(
+                                        userDateFormat.format(
+                                                userDateFormat.parse(
+                                                        request.getParameter("sellingDate")))));
+                    } catch (ParseException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        warehouseOperation.setSellingDate(null);
+                    }
+
+                    try {
+                        warehouseOperationService
+                                .addWarehouseOperation(warehouseOperation);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    return;
+
+                case "/doEditWarehouseOperation":
+
+                    try {
+                        warehouseOperation = new WarehouseOperationDetails(
+                                Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        warehouseOperation = new WarehouseOperationDetails();
+                    }
+                    warehouseOperation.setWarehouse(warehouse);
+                    warehouseOperation.setBuyer(request.getParameter("buyer"));
+                    if (warehouseOperation.getBuyer().equals("null")) {
+                        warehouseOperation.setBuyer(null);
+                    }
+                    try {
+                        warehouseOperation.setQuantityBrought(Double.valueOf(
+                                request.getParameter("quantityBrought")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setQuantitySold(Double.valueOf(
+                                request.getParameter("quantitySold")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setSellingPrice(new BigDecimal(
+                                request.getParameter("sellingPrice")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setProduceTypeBrought(
+                                new StaticInputDetails(Integer.valueOf(
+                                        request.getParameter("produceTypeBrought"))));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setProduceTypeSold(
+                                new StaticInputDetails(Integer.valueOf(
+                                        request.getParameter("produceTypeSold"))));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        warehouseOperation.setSellingDate(
+                                databaseDateFormat.parse(
+                                        userDateFormat.format(
+                                                userDateFormat.parse(
+                                                        request.getParameter("sellingDate")))));
+                    } catch (ParseException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        warehouseOperation.setSellingDate(null);
+                    }
+
+                    try {
+                        warehouseOperationService
+                                .editWarehouseOperation(warehouseOperation);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    return;
+
+                case "/doDeleteWarehouseOperation":
+                    try {
+                        warehouseOperationService.removeWarehouseOperation(
+                                Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                    }
+
+                    return;
+
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
+
             destination = "/WEB-INF/views" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
@@ -238,6 +390,8 @@ public class EquipmentController extends Controller {
     @EJB
     private EquipmentRequestsLocal equipmentService;
     @EJB
-    private PersonRequestsLocal personService;
+    private StaticInputRequestsLocal staticInputService;
+    @EJB
+    private WarehouseOperationRequestsLocal warehouseOperationService;
 
 }

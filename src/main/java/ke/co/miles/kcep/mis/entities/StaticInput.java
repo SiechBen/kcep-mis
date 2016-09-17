@@ -39,6 +39,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StaticInput.findByName", query = "SELECT s FROM StaticInput s WHERE s.name = :name")})
 public class StaticInput implements Serializable {
 
+    @OneToMany(mappedBy = "produceTypeBrought")
+    private List<WarehouseOperation> warehouseOperationList;
+    @OneToMany(mappedBy = "produceTypeSold")
+    private List<WarehouseOperation> warehouseOperationList1;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,6 +140,24 @@ public class StaticInput implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.StaticInput[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<WarehouseOperation> getWarehouseOperationList() {
+        return warehouseOperationList;
+    }
+
+    public void setWarehouseOperationList(List<WarehouseOperation> warehouseOperationList) {
+        this.warehouseOperationList = warehouseOperationList;
+    }
+
+    @XmlTransient
+    public List<WarehouseOperation> getWarehouseOperationList1() {
+        return warehouseOperationList1;
+    }
+
+    public void setWarehouseOperationList1(List<WarehouseOperation> warehouseOperationList1) {
+        this.warehouseOperationList1 = warehouseOperationList1;
     }
     
 }

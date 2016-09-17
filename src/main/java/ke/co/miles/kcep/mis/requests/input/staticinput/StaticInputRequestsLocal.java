@@ -26,7 +26,8 @@ public interface StaticInputRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addStaticInput(StaticInputDetails staticInputDetails) throws MilesException;
+    public int addStaticInput(StaticInputDetails staticInputDetails)
+            throws MilesException;
 
     /**
      *
@@ -50,7 +51,8 @@ public interface StaticInputRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editStaticInput(StaticInputDetails staticInputDetails) throws MilesException;
+    public void editStaticInput(StaticInputDetails staticInputDetails)
+            throws MilesException;
 
     /**
      *
@@ -64,7 +66,8 @@ public interface StaticInputRequestsLocal {
      * @param staticInput the static input to be converted to details
      * @return the result of the conversion
      */
-    public StaticInputDetails convertStaticInputToStaticInputDetails(StaticInput staticInput);
+    public StaticInputDetails convertStaticInputToStaticInputDetails(
+            StaticInput staticInput);
 
     /**
      *
@@ -73,6 +76,14 @@ public interface StaticInputRequestsLocal {
      * @return the list of static inputs retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<StaticInputDetails> retrieveStaticInputs(short inputTypeId) throws MilesException;
+    public List<StaticInputDetails> retrieveStaticInputs(short inputTypeId)
+            throws MilesException;
+
+    /**
+     *
+     * @return the list of produce types retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<StaticInputDetails> retrieveProduceTypes() throws MilesException;
 
 }

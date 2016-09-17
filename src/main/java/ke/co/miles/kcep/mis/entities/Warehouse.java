@@ -44,6 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Warehouse.findByCertified", query = "SELECT w FROM Warehouse w WHERE w.certified = :certified")})
 public class Warehouse implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouse")
+    private List<WarehouseOperation> warehouseOperationList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,7 +74,7 @@ public class Warehouse implements Serializable {
     private MeasurementUnit units;
     @JoinColumn(name = "warehouse_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private WarehouseType warehouseType;
+    private Phenomenon warehouseType;
 
     public Warehouse() {
     }
@@ -154,11 +156,11 @@ public class Warehouse implements Serializable {
         this.units = units;
     }
 
-    public WarehouseType getWarehouseType() {
+    public Phenomenon getWarehouseType() {
         return warehouseType;
     }
 
-    public void setWarehouseType(WarehouseType warehouseType) {
+    public void setWarehouseType(Phenomenon warehouseType) {
         this.warehouseType = warehouseType;
     }
 
@@ -186,5 +188,14 @@ public class Warehouse implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Warehouse[ id=" + id + " ]";
     }
-    
+
+    @XmlTransient
+    public List<WarehouseOperation> getWarehouseOperationList() {
+        return warehouseOperationList;
+    }
+
+    public void setWarehouseOperationList(List<WarehouseOperation> warehouseOperationList) {
+        this.warehouseOperationList = warehouseOperationList;
+    }
+
 }

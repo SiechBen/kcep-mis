@@ -9,10 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
@@ -33,17 +32,7 @@ import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIn
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.topic.TopicRequestsLocal;
-import ke.co.miles.kcep.mis.requests.warehouse.type.WarehouseTypeRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.CountyDetails;
-import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
-import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
-import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
-import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
-import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
-import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
-import ke.co.miles.kcep.mis.utilities.WardDetails;
-import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetails;
 
 /**
  *
@@ -111,15 +100,12 @@ public abstract class Controller extends HttpServlet {
     //<editor-fold defaultstate="collapsed" desc="Avail application attributes">
     protected void availApplicationAttributes() {
 
-        List<PerformanceIndicatorDetails> performanceIndicators;
         try {
-            performanceIndicators = performanceIndicatorService.retrievePerformanceIndicators();
+            getServletContext().setAttribute("performanceIndicators",
+                    performanceIndicatorService.retrievePerformanceIndicators());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of topics", e);
             return;
-        }
-        if (performanceIndicators != null) {
-            getServletContext().setAttribute("performanceIndicators", performanceIndicators);
         }
 
         try {
@@ -129,126 +115,70 @@ public abstract class Controller extends HttpServlet {
             return;
         }
 
-        List<FeedbackDetails> feedbackList;
         try {
-            feedbackList = feedbackService.retrieveFeedback();
+            getServletContext().setAttribute("feedbackList", feedbackService.retrieveFeedback());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An error occurred during feedback records retrieval", e);
             return;
         }
-        if (feedbackList != null) {
-            getServletContext().setAttribute("feedbackList", feedbackList);
-        }
 
         try {
-            feedbackList = feedbackService.retrieveLatestFeedback();
+            getServletContext().setAttribute("latestFeedbackList", feedbackService.retrieveLatestFeedback());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
             return;
         }
-        if (feedbackList != null) {
-            getServletContext().setAttribute("latestFeedbackList", feedbackList);
-        }
 
-        List<WarehouseTypeDetails> warehouseTypes;
         try {
-            warehouseTypes = warehouseTypeService.retrieveWarehouseTypes();
+            getServletContext().setAttribute("warehouseTypes", phenomenonService.retrieveWarehouseTypes());
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", e);
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of warehouse types", e);
             return;
         }
-        if (warehouseTypes != null) {
-            getServletContext().setAttribute("warehouseTypes", warehouseTypes);
-        }
 
-        //Retrieve the list of counties
-        List<CountyDetails> counties;
         try {
-            counties = countyService.retrieveCounties();
+            getServletContext().setAttribute("counties", countyService.retrieveCounties());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
             return;
         }
 
-        //Avail the counties in the application scope
-        if (counties != null) {
-            getServletContext().setAttribute("counties", counties);
-        }
-
-        //Retrieve the list of sub counties
-        List<SubCountyDetails> subCounties;
         try {
-            subCounties = subCountyService.retrieveSubCounties();
+            getServletContext().setAttribute("subCounties", subCountyService.retrieveSubCounties());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
             return;
         }
 
-        //Avail the sub-counties in the application scope
-        if (subCounties != null) {
-            getServletContext().setAttribute("subCounties", subCounties);
-        }
-
-        //Retrieve the list of wards
-        List<WardDetails> wards;
         try {
-            wards = wardService.retrieveWards();
+            getServletContext().setAttribute("wards", wardService.retrieveWards());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
             return;
         }
 
-        //Avail the wards in the application scope
-        if (wards != null) {
-            getServletContext().setAttribute("wards", wards);
-        }
-
-        //Retrieve the list of person roles
-        List<PersonRoleDetail> personRoles;
         try {
-            personRoles = personRoleService.retrievePersonRoles();
+            getServletContext().setAttribute("personRoles", personRoleService.retrievePersonRoles());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during person roles retrieval", ex);
             return;
         }
 
-        //Avail the counties in the application scope
-        if (personRoles != null) {
-            getServletContext().setAttribute("personRoles", personRoles);
-        }
-
-        //Retrieve the list of farmer groups
-        List<FarmerGroupDetails> farmerGroups;
         try {
-            farmerGroups = farmerGroupService.retrieveFarmerGroups();
+            getServletContext().setAttribute("farmerGroups", farmerGroupService.retrieveFarmerGroups());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during farmer groups retrieval", ex);
             return;
         }
 
-        //Avail the counties in the application scope
-        if (farmerGroups != null) {
-            getServletContext().setAttribute("farmerGroups", farmerGroups);
-        }
+        getServletContext().setAttribute("sexes", Arrays.asList(SexDetail.values()));
 
-        //Retrieve the list of sex values
-        List<SexDetail> sexValues = new ArrayList<>();
-        sexValues.addAll(Arrays.asList(SexDetail.values()));
-
-        //Avail the sex values in the application scope
-        getServletContext().setAttribute("sexes", sexValues);
-
-        //Retrieve the list of measurement units
-        List<MeasurementUnitDetails> measurementUnits;
         try {
-            measurementUnits = measurementUnitService.retrieveMeasurementUnits();
+            getServletContext().setAttribute("measurementUnits",
+                    measurementUnitService.retrieveMeasurementUnits());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during measurement units retrieval", ex);
-            return;
         }
-
-        //Avail the measurement units in the application scope
-        getServletContext().setAttribute("measurementUnits", measurementUnits);
 
     }
 //</editor-fold>
@@ -296,7 +226,7 @@ public abstract class Controller extends HttpServlet {
     @EJB
     private SubCountyRequestsLocal subCountyService;
     @EJB
-    private WarehouseTypeRequestsLocal warehouseTypeService;
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB

@@ -84,13 +84,13 @@
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
                                         <td>${warehouseOperation.quantityBrought}</td>
-                                        <td>${warehouseOperation.produceTypeBrought}</td>
+                                        <td>${warehouseOperation.produceTypeBrought.name}</td>
                                         <td>${warehouseOperation.sellingDate}</td>
                                         <td>${warehouseOperation.quantitySold}</td>
-                                        <td>${warehouseOperation.produceTypeSold}</td>
+                                        <td>${warehouseOperation.produceTypeSold.name}</td>
                                         <td>${warehouseOperation.sellingPrice}</td>
                                         <td>${warehouseOperation.buyer}</td>
-                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought}', '${warehouseOperation.sellingDate}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought.id}', '${warehouseOperation.sellingDate}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold.id}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                         <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<div class="row dialog" id="equipment-form-dialog">
+<div class="row dialog" id="equipment-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">
@@ -130,6 +130,7 @@
         </div>
     </div>
 </div>
+
 <div class="row dialog" id="warehouse-operation-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
@@ -144,7 +145,7 @@
                         <select id="produce-type-brought" class="form-control">
                             <option disabled selected>Select produce type</option>
                             <c:forEach var="produceType" items="${sessionScope.produceTypes}" varStatus="index">
-                                <option value="${produceType.id}">${produceType.type}</option>
+                                <option value="${produceType.id}">${produceType.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -161,7 +162,7 @@
                         <select id="produce-type-sold" class="form-control">
                             <option disabled selected>Select produce type</option>
                             <c:forEach var="produceType" items="${sessionScope.produceTypes}" varStatus="index">
-                                <option value="${produceType.id}">${produceType.type}</option>
+                                <option value="${produceType.id}">${produceType.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -171,7 +172,7 @@
                     </div>
                     <div class="form-group">
                         Sold to who?
-                        <input id="buyer" class="form-control" readonly>
+                        <input id="buyer" class="form-control">
                     </div>
                 </form>
             </div>

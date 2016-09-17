@@ -952,26 +952,21 @@ function addWarehouse() {
     $.ajax({
         url: "doAddWarehouse",
         type: "POST",
-        data: "name=" + $("#warehouse-name").val() + "&warehouseOperator=" + $("#warehouse-operator").val() +
-                "&capacity=" + $("#capacity").val() + "&capacityUnits=" + $("#capacity-units").val() +
-                "&offersWrs=" + $("#offers-wrs").val() + "&certified=" + $("#certified").val() +
-                "&latitude=" + $("#warehouse-latitude").val() + "&longitude=" + $("#warehouse-longitude").val() +
-                "&county=" + $("#warehouse-county").val() + "&subCounty=" + $("#warehouse-sub-county").val() +
-                "&ward=" + $("#warehouse-ward").val() + "&warehouseType=" + $("#warehouse-type").val(),
+        data: "name=" + $("#warehouse-name").val() +
+                "&warehouseType=" + $("#warehouse-type").val() +
+                "&warehouseOperator=" + $("#warehouse-operator").val() +
+                "&capacity=" + $("#capacity").val() +
+                "&capacityUnits=" + $("#capacity-units").val() +
+                "&offersWrs=" + $("#offers-wrs").val() +
+                "&certified=" + $("#certified").val() +
+                "&latitude=" + $("#warehouse-latitude").val() +
+                "&longitude=" + $("#warehouse-longitude").val() +
+                "&county=" + $("#warehouse-county").val() +
+                "&subCounty=" + $("#warehouse-sub-county").val() +
+                "&ward=" + $("#warehouse-ward").val() +
+                "&warehouseType=" + $("#warehouse-type").val(),
         success: function () {
-
-            $("#warehouse-name").val("");
-            $("#warehouse-operator").val("");
-            $("#capacity").val("");
-            $("#capacity-units").val("");
-            $("#offers-wrs").val("");
-            $("#certified").val("");
-            $("#warehouse-latitude").val("");
-            $("#warehouse-longitude").val("");
-            $("#warehouse-county").val("");
-            $("#warehouse-sub-county").val("");
-            $("#warehouse-ward").val("");
-            $("#warehouse-type").val("");
+            clearWarehouseFields();
             loadAjaxWindow('warehouses');
             return;
         },
@@ -982,17 +977,22 @@ function addWarehouse() {
     });
 }
 
-function editWarehouse(id, name, capacity, units, offers, certified, location, subCounty, county, latitude, longitude, operator) {
+function editWarehouse(id, name, warehouseType, capacity, units, offers,
+        certified, location, subCounty, county, latitude, longitude, operator) {
     $("#warehouse-name").val(name);
+    $("#warehouse-type option[value=" + warehouseType + "]").attr('selected', 'selected');
     $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
     $("#capacity").val(capacity);
-    $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
+    if (units !== "")
+        $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
     $("#offers-wrs").val(offers);
     $("#certified").val(certified);
     $("#warehouse-latitude").val(latitude);
     $("#warehouse-longitude").val(longitude);
-    $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
-    $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (county !== "")
+        $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
     $("#warehouse-type option[value=" + operator + "]").val(operator);
     $("#warehouse-dialog").dialog({
         width: 495,
@@ -1018,18 +1018,8 @@ function editWarehouse(id, name, capacity, units, offers, certified, location, s
                             "&county=" + $("#warehouse-county").val() +
                             "&subCounty=" + $("#warehouse-sub-county").val() +
                             "&warehouseType=" + $("#warehouse-type").val(),
-                    success: function (response) {
-                        $("#warehouse-name").val("");
-                        $("#warehouse-operator").val("");
-                        $("#capacity").val("");
-                        $("#capacity-units").val("");
-                        $("#offers-wrs").val("");
-                        $("#certified").val("");
-                        $("#warehouse-latitude").val("");
-                        $("#warehouse-longitude").val("");
-                        $("#warehouse-county").val("");
-                        $("#warehouse-sub-county").val("");
-                        $("#warehouse-type").val("");
+                    success: function () {
+                        clearWarehouseFields();
                         loadAjaxWindow("warehouses");
                     },
                     error: function (response) {
@@ -1041,17 +1031,7 @@ function editWarehouse(id, name, capacity, units, offers, certified, location, s
             }
         },
         close: function () {
-            $("#warehouse-name").val("");
-            $("#warehouse-operator").val("");
-            $("#capacity").val("");
-            $("#capacity-units").val("");
-            $("#offers-wrs").val("");
-            $("#certified").val("");
-            $("#warehouse-latitude").val("");
-            $("#warehouse-longitude").val("");
-            $("#warehouse-county").val("");
-            $("#warehouse-sub-county").val("");
-            $("#warehouse-type").val("");
+            clearWarehouseFields();
         }
     });
 }
@@ -1087,6 +1067,166 @@ function deleteWarehouse(id) {
         close: function () {
         }
     });
+}
+
+function clearWarehouseFields() {
+    $("#warehouse-name").val("");
+    $("#warehouse-operator").val("");
+    $("#capacity").val("");
+    $("#capacity-units").val("");
+    $("#offers-wrs").val("");
+    $("#certified").val("");
+    $("#warehouse-latitude").val("");
+    $("#warehouse-longitude").val("");
+    $("#warehouse-county").val("");
+    $("#warehouse-sub-county").val("");
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Warehouse operatorion">
+function addWarehouseOperation(warehouseId) {
+    $("#warehouse-operation-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_warehouse_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doAddWarehouseOperatorion",
+                    type: "POST",
+                    data: "name=" + $("#warehouse-name").val() +
+                            "&warehouseOperator=" + $("#warehouse-operator").val() +
+                            "&capacity=" + $("#capacity").val() +
+                            "&capacityUnits=" + $("#capacity-units").val() +
+                            "&offersWrs=" + $("#offers-wrs").val() +
+                            "&certified=" + $("#certified").val() +
+                            "&latitude=" + $("#warehouse-latitude").val() +
+                            "&longitude=" + $("#warehouse-longitude").val() +
+                            "&county=" + $("#warehouse-county").val() +
+                            "&subCounty=" + $("#warehouse-sub-county").val() +
+                            "&ward=" + $("#warehouse-ward").val() +
+                            "&warehouseType=" + $("#warehouse-type").val(),
+                    success: function () {
+                        clearWarehouseOperationFields();
+                        loadEquimentWindow(warehouseId);
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearWarehouseOperationFields();
+        }
+    });
+}
+
+function editWarehouseOperation(id, warehouseId, name, capacity, units, offers,
+        certified, location, subCounty, county, latitude, longitude, operator) {
+    $("#warehouse-name").val(name);
+    $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
+    $("#capacity").val(capacity);
+    $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
+    $("#offers-wrs").val(offers);
+    $("#certified").val(certified);
+    $("#warehouse-latitude").val(latitude);
+    $("#warehouse-longitude").val(longitude);
+    $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
+    $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    $("#warehouse-type option[value=" + operator + "]").val(operator);
+    $("#warehouse-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_warehouse_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditWarehouse",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&location=" + location +
+                            "&name=" + $("#warehouse-name").val() +
+                            "&warehouseOperator=" + $("#warehouse-operator").val() +
+                            "&capacity=" + $("#capacity").val() +
+                            "&capacityUnits=" + $("#capacity-units").val() +
+                            "&offersWrs=" + $("#offers-wrs").val() +
+                            "&certified=" + $("#certified").val() +
+                            "&latitude=" + $("#warehouse-latitude").val() +
+                            "&longitude=" + $("#warehouse-longitude").val() +
+                            "&county=" + $("#warehouse-county").val() +
+                            "&subCounty=" + $("#warehouse-sub-county").val() +
+                            "&warehouseType=" + $("#warehouse-type").val(),
+                    success: function () {
+                        loadEquimentWindow(warehouseId);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearWarehouseOperationFields();
+        }
+    });
+}
+
+function deleteWarehouseOperation(id, warehouseId) {
+    $("#message").text("Are you sure you want to remove this warehouse?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_warehouse",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteWarehouse",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadEquimentWindow(warehouseId);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+function clearWarehouseOperationFields() {
+    $("#warehouse-name").val("");
+    $("#warehouse-operator").val("");
+    $("#capacity").val("");
+    $("#capacity-units").val("");
+    $("#offers-wrs").val("");
+    $("#certified").val("");
+    $("#warehouse-latitude").val("");
+    $("#warehouse-longitude").val("");
+    $("#warehouse-county").val("");
+    $("#warehouse-sub-county").val("");
+    $("#warehouse-type").val("");
 }
 
 //</editor-fold>
@@ -1180,7 +1320,7 @@ function editEquipment(id, warehouseId, type, serialNumber, count, status) {
     $("#serial-number").val(serialNumber);
     $("#equipment-status").val(status);
     $("#equipment-type").val(type);
-    $("#equipment-form-dialog").dialog({
+    $("#equipment-dialog").dialog({
         width: 495,
         height: "auto",
         title: "edit_equipment_label",
