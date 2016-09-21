@@ -361,7 +361,10 @@ public class TrainingController extends Controller {
                     try {
                         topic.setId(Short.valueOf(String.valueOf(request.getParameter("topic"))));
                     } catch (Exception e) {
-                        topic = null;
+                        try {
+                            topic.setId(Short.valueOf(String.valueOf(request.getParameter("training-module"))));
+                        } catch (Exception ex) {
+                        }
                     }
 
                     WardDetails ward = new WardDetails();
@@ -513,7 +516,10 @@ public class TrainingController extends Controller {
                     try {
                         topic.setId(Short.valueOf(String.valueOf(request.getParameter("topic"))));
                     } catch (Exception e) {
-                        topic = null;
+                        try {
+                            topic.setId(Short.valueOf(String.valueOf(request.getParameter("training-module"))));
+                        } catch (Exception ex) {
+                        }
                     }
 
                     ward = new WardDetails();

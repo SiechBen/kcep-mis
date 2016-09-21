@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : head_addProcurement
     Created on : Jun 22, 2016, 3:32:07 PM
     Author     : siech
@@ -11,7 +11,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - add procurement </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="includes/addProcurements.jsp"/>
+        <jsp:include page="includes/addProcurement.jsp"/>
 
     </jsp:attribute>
 </kcep:head>

@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : county_equipment
     Created on : Jul 19, 2016, 3:25:24 PM
     Author     : siech
@@ -12,7 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - national officer </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="includes/county_equipment.jsp"/>
-        
+        <jsp:include page="includes/equipment.jsp"/>
+
     </jsp:attribute>
 </kcep:head>

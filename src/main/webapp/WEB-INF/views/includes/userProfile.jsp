@@ -1,9 +1,10 @@
-<%-- 
+<%--
     Document   : userProfile
     Created on : Sep 7, 2016, 2:12:34 PM
     Author     : ronne
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -24,7 +25,7 @@
                             <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}" <c:if test="${personRole.id} == ${sessionScope.personRole.id}">selected</c:if>>${personRole.personRole}</option>
                             </c:forEach>
-                        </select>    
+                        </select>
                     </div>
                     <div class="form-group">
                         National id number
@@ -32,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         Date of birth
-                        <input id="date-of-birth" class="form-control datefield" value="${sessionScope.person.dateOfBirth}">
+                        <input id="date-of-birth" class="form-control datefield" value="<fmt:formatDate pattern='MM/dd/yyyy' value='${sessionScope.person.dateOfBirth}'/>">
                     </div>
                     <div class="form-group">
                         Business name
@@ -42,10 +43,10 @@
                         Sex
                         <select id="sex" class="form-control">
                             <option value="${sessionScope.person.sex.id}" selected>${sessionScope.person.sex.sex}</option>
-                            <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index"> 
+                            <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index">
                                 <option value="${sex.id}">${sex.sex}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Phone number
@@ -63,19 +64,19 @@
                         Farmer group
                         <select id="farmer-group" class="form-control">
                             <option value="${sessionScope.person.farmerGroup.id}"selected>${sessionScope.person.farmerGroup.name}</option>
-                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index"> 
+                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index">
                                 <option value="${farmerGroup.id}">${farmerGroup.name}</option>
                             </c:forEach>
-                        </select>    
+                        </select>
                     </div>
                     <div class="form-group">
                         County
                         <select id="person-county" class="form-control">
                             <option value="${sessionScope.person.location.county.id}"selected>${sessionScope.person.location.county.name}</option>
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county

@@ -1,9 +1,10 @@
-<%-- 
+<%--
     Document   : performance_indicators
     Created on : Sep 7, 2016, 11:38:11 AM
     Author     : ronne
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -44,26 +45,26 @@
                                     <td>${performanceIndicator.performanceIndicatorType.category.name}</td>
                                     <td>${performanceIndicator.resultHierarchy.description}</td>
                                     <td>${performanceIndicator.description}</td>
-                                    <td>${performanceIndicator.baselineDate}</td>
-                                    <td>${performanceIndicator.baselineValue}</td>
-                                    <td>${performanceIndicator.yearOfUse}</td>
-                                    <td>${performanceIndicator.actualValue}</td>
-                                    <td>${performanceIndicator.expectedValue}</td>
-                                    <td>${performanceIndicator.ratio}</td>
-                                    <td><button onclick="editPerformanceIndicator(
-                                                    '${performanceIndicator.id}',
-                                                    '${performanceIndicator.performanceIndicatorType.id}',
-                                                    '${performanceIndicator.resultHierarchy.id}',
-                                                    '${performanceIndicator.description}',
-                                                    '${performanceIndicator.baselineDate}',
-                                                    '${performanceIndicator.baselineValue}',
-                                                    '${performanceIndicator.yearOfUse}',
-                                                    '${performanceIndicator.actualValue}',
-                                                    '${performanceIndicator.expectedValue}',
-                                                    '${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deletePerformanceIndicator(${performanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                </tr>
-                            </c:forEach>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/></td>
+                            <td>${performanceIndicator.baselineValue}</td>
+                            <td>${performanceIndicator.yearOfUse}</td>
+                            <td>${performanceIndicator.actualValue}</td>
+                            <td>${performanceIndicator.expectedValue}</td>
+                            <td>${performanceIndicator.ratio}</td>
+                            <td><button onclick="editPerformanceIndicator(
+                                                '${performanceIndicator.id}',
+                                                '${performanceIndicator.performanceIndicatorType.id}',
+                                                '${performanceIndicator.resultHierarchy.id}',
+                                                '${performanceIndicator.description}',
+                                                '<fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/>',
+                                        '${performanceIndicator.baselineValue}',
+                                        '${performanceIndicator.yearOfUse}',
+                                        '${performanceIndicator.actualValue}',
+                                        '${performanceIndicator.expectedValue}',
+                                        '${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                            <td><button onclick="deletePerformanceIndicator(${performanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -83,7 +84,7 @@
                             <c:forEach var="performanceIndicatorType" items="${sessionScope.performanceIndicatorTypes}">
                                 <option value="${performanceIndicatorType.id}">${performanceIndicatorType.category.name}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Result hierarchy

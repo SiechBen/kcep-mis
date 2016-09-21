@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : people
     Created on : Sep 9, 2016, 4:24:06 PM
     Author     : ronne
@@ -6,6 +6,7 @@
 
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -31,7 +32,7 @@
                                 <th>Farmer sub-group</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
-                                <th>Ward</th>  
+                                <th>Ward</th>
                                 <th>Phone number</th>
                                 <th>Email address</th>
                                 <th>&nbsp;</th>
@@ -49,7 +50,7 @@
                                         <c:forEach var="countOption" items="${sessionScope.countOptions}">
                                             <option value="${countOption.id}">${countOption.personRole}</option>
                                         </c:forEach>
-                                    </select> 
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -107,7 +108,7 @@
                                     <td>${person.personRole}</td>
                                     <td>${person.sex.sex}</td>
                                     <td>${person.nationalId}</td>
-                                    <td>${person.dateOfBirth}</td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/></td>
                                     <td>${person.businessName}</td>
                                     <td>${person.farmerGroup.name}</td>
                                     <td>${person.farmerSubGroup.name}</td>
@@ -117,7 +118,7 @@
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.sex}', '${person.nationalId}',
-                                                    '${person.dateOfBirth}', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
                                                     '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
@@ -145,7 +146,7 @@
                         <input id="gender" type="gender" step="0.01" name="gender" class="form-control">
                     </div>
                     <div class="form-group">
-                        National ID 
+                        National ID
                         <input type="person-nationalid" id="nationalid" name="nationalid" class="form-control">
                     </div>
                     <div class="form-group">
@@ -153,11 +154,11 @@
                         <input type="dateOfBirth" id="nationalid" name="nationalid" class="form-control">
                     </div>
                     <div class="form-group">
-                        Business Name 
+                        Business Name
                         <input id="person-businessname" name="person-businessname" class="form-control">
                     </div>
                     <div class="form-group">
-                        Farmer Group 
+                        Farmer Group
                         <input id="person-farmergroup" name="person-framergroup" class="form-control">
                     </div>
                     <div class="form-group">
@@ -167,26 +168,26 @@
                     <div class="form-group">
                         County
                         <select id="person-county" name="person-county" class="form-control">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county
                         <select id="person-sub-county" name="person-sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Ward
                         <select id="ward" name="ward" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Phone

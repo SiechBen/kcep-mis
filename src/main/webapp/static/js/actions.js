@@ -864,7 +864,6 @@ $("#e-voucher-form").ajaxForm({
 
 function editEVoucher(id, amount, inputType, person, dateRedeemed) {
     $("#e-voucher-input-type").val(inputType);
-    dateRedeemed = dateRedeemed;
     $("#date-redeemed").val(dateRedeemed);
     $("#e-voucher-input-type option[value=" + inputType + "]").attr('selected', 'selected');
     $("#e-voucher-person option[value=" + person + "]").attr('selected', 'selected');
@@ -2458,7 +2457,8 @@ function addFarmActivity() {
     });
 }
 
-function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold, postHarvestLoss, yield, farmActivityDate, farmActivityName, averageSellingPrice) {
+function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold,
+        postHarvestLoss, yield, farmActivityDate, farmActivityName, averageSellingPrice) {
 
     $("#yield").val(yield);
     $("#quantity-sold").val(quantitySold);

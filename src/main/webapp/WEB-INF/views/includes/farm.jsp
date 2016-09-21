@@ -1,10 +1,11 @@
-<%-- 
+<%--
     Document   : farm
     Created on : Sep 5, 2016, 2:42:34 PM
     Author     : siech
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -34,7 +35,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="farm">
                         <h4>Farm Details</h4>
-                        <table id="farm-table" class="table table-striped table-bordered table-hover data-table">                         
+                        <table id="farm-table" class="table table-striped table-bordered table-hover data-table">
                             <tr>
                                 <th>Plot Size</th>
                                 <td>${sessionScope.farmer.plotSize}</td>
@@ -72,7 +73,7 @@
                         <div class="float-right">
                             <button onclick="editAccount('${sessionScope.account.accountNumber}', '${sessionScope.account.eblBranch.id}', '${sessionScope.account.solId}', '${sessionScope.account.savings}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
                         </div>
-                        <table id="account-table" class="table table-striped table-bordered table-hover data-table">                         
+                        <table id="account-table" class="table table-striped table-bordered table-hover data-table">
                             <tr>
                                 <th>Account Number</th>
                                 <td>${sessionScope.account.accountNumber}</td>
@@ -93,8 +94,8 @@
                     </div>
                     <div class="tab-pane fade" id="loan">
                         <h4>Loan Details</h4>
-                        <table id="loan-table" class="table table-striped table-bordered table-hover data-table">                         
-                            <thead>     
+                        <table id="loan-table" class="table table-striped table-bordered table-hover data-table">
+                            <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addLoan(); return false;">Add</button></th>
                                     <th>Loan Amount</th>
@@ -103,7 +104,7 @@
                                     <th>Issuing Bank</th>
                                 </tr>
                             </thead>
-                            <tbody> 
+                            <tbody>
                                 <c:forEach var="loan" items="${sessionScope.loans}" varStatus="index">
                                     <tr>
                                         <td>${index.count}</td>
@@ -111,14 +112,14 @@
                                         <td>${loan.type}</td>
                                         <td>${loan.account.accountNumber}</td>
                                         <td>${loan.issuingBank.category.name}</td>
-                                    </tr>       
+                                    </tr>
                                 </c:forEach>
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                     <div class="tab-pane fade" id="inputs">
                         <h4>Inputs Collection</h4>
-                        <table id="inputs-collection-table" class="table table-striped table-bordered table-hover data-table">                         
+                        <table id="inputs-collection-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addInputsCollection(); return false;">Add</button></th>
@@ -131,25 +132,25 @@
                                     <th>Quantity</th>
                                 </tr>
                             </thead>
-                            <tbody> 
+                            <tbody>
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
                                     <tr>
                                         <td>${index.count}</td>
-                                        <td>${inputsCollection.dateDone}</td>
-                                        <td>${inputsCollection.agroDealer.name}</td>
-                                        <td>${inputsCollection.agroDealer.businessName}</td>
-                                        <td>${inputsCollection.inputType.type}</td>
-                                        <td>${inputsCollection.staticInput.name}</td>
-                                        <td>${inputsCollection.inputVariety.variety}</td>
-                                        <td>${inputsCollection.quantity}</td>
-                                    </tr>
-                                </c:forEach>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${inputsCollection.dateDone}"/></td>
+                                <td>${inputsCollection.agroDealer.name}</td>
+                                <td>${inputsCollection.agroDealer.businessName}</td>
+                                <td>${inputsCollection.inputType.type}</td>
+                                <td>${inputsCollection.staticInput.name}</td>
+                                <td>${inputsCollection.inputVariety.variety}</td>
+                                <td>${inputsCollection.quantity}</td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
-                        </table> 
-                    </div>     
+                        </table>
+                    </div>
                     <div class="tab-pane fade" id="farm-activities">
                         <h4>Farm activity</h4>
-                        <table id="farm-activity-table" class="table table-striped table-bordered table-hover data-table">                         
+                        <table id="farm-activity-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addFarmActivity(); return false;">Add</button></th>
@@ -165,24 +166,24 @@
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
-                            <tbody> 
+                            <tbody>
                                 <c:forEach var="farmActivity" items="${sessionScope.farmActivities}" varStatus="index">
                                     <tr>
                                         <td>${index.count}</td>
                                         <td>${farmActivity.name}</td>
                                         <td>${farmActivity.yield}</td>
-                                        <td>${farmActivity.dateDone}</td>
-                                        <td>${farmActivity.quantityHarvested}</td>
-                                        <td>${farmActivity.familyConsumption}</td>
-                                        <td>${farmActivity.quantitySold}</td>
-                                        <td>${farmActivity.postHarvestLoss}</td>
-                                        <td>${farmActivity.averageSellingPrice}</td>
-                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '${farmActivity.dateDone}', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                    </tr>
-                                </c:forEach>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/></td>
+                                <td>${farmActivity.quantityHarvested}</td>
+                                <td>${farmActivity.familyConsumption}</td>
+                                <td>${farmActivity.quantitySold}</td>
+                                <td>${farmActivity.postHarvestLoss}</td>
+                                <td>${farmActivity.averageSellingPrice}</td>
+                                <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/>', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
-                        </table> 
+                        </table>
                     </div>
                 </div>
             </div>
@@ -200,7 +201,7 @@
                     </div>
                     <div class="form-group">
                         Ebl Branch
-                        <select  id="ebl-branch" class="form-control"> 
+                        <select  id="ebl-branch" class="form-control">
                             <c:forEach var="eblBranch" items="${sessionScope.eblBranches}" varStatus="index">
                                 <option value="${eblBranch.id}">${eblBranch.name}</option>
                             </c:forEach>
@@ -231,11 +232,11 @@
                     <div class="form-group">
                         Loan Amount
                         <input type="number " class="form-control" step="0.01" id="loan-amount" required="true">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Loan Type
                         <input class="form-control" id="loan-type" required="true">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Issuing bank
                         <select id="issuing-bank" class="form-control">

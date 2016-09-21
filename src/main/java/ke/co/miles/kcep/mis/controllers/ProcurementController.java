@@ -118,7 +118,7 @@ public class ProcurementController extends Controller {
                     procurement.setItem(request.getParameter("item"));
                     procurement.setSerialNumber(request.getParameter("serial-number"));
                     try {
-                        date = userDateFormat.parse(request.getParameter("start-date"));
+                        date = userDateFormat.parse(request.getParameter("date-purchased"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         procurement.setDatePurchased(date);
                     } catch (ParseException ex) {
@@ -210,7 +210,7 @@ public class ProcurementController extends Controller {
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
+                        LOGGER.log(Level.INFO, "", e);
                     }
 
                     return;
@@ -228,7 +228,7 @@ public class ProcurementController extends Controller {
                     procurement.setItem(request.getParameter("item"));
                     procurement.setSerialNumber(request.getParameter("serial-number"));
                     try {
-                        date = userDateFormat.parse(request.getParameter("start-date"));
+                        date = userDateFormat.parse(request.getParameter("date-purchased"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         procurement.setDatePurchased(date);
                     } catch (ParseException ex) {
@@ -279,7 +279,7 @@ public class ProcurementController extends Controller {
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(""), e);
+                        LOGGER.log(Level.INFO, "", e);
                     }
 
                     return;

@@ -4,7 +4,7 @@
     Author     : qortez
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -86,12 +86,12 @@
                                         <td>${index.count}</td>
                                         <td>${warehouseOperation.quantityBrought}</td>
                                         <td>${warehouseOperation.produceTypeBrought}</td>
-                                        <td>${warehouseOperation.sellingDate}</td>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/></td>
                                         <td>${warehouseOperation.quantitySold}</td>
                                         <td>${warehouseOperation.produceTypeSold}</td>
                                         <td>${warehouseOperation.sellingPrice}</td>
                                         <td>${warehouseOperation.buyer}</td>
-                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought}', '${warehouseOperation.sellingDate}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/>', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                         <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
@@ -137,9 +137,9 @@
                                     <td>${eVoucher.amount}</td>
                                     <td>${eVoucher.inputType.type}</td>
                                     <td>${eVoucher.person.name}</td>
-                                    <td>${eVoucher.dateRedeemed}</td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/></td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
-                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '${eVoucher.dateRedeemed}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletEVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

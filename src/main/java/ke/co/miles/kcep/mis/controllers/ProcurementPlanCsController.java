@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -36,9 +35,9 @@ import ke.co.miles.kcep.mis.utilities.ProcurementPlanTypeDetail;
  *
  * @author siech
  */
-@WebServlet(name = "ProcurementPlanCsController", 
-        urlPatterns = {"/procurement_plans_cs", "/addProcurementPlanCs", 
-            "/doAddProcurementPlanCs","/doEditProcurementPlanCs", "/doDeleteProcurementPlanCs"})
+@WebServlet(name = "ProcurementPlanCsController",
+        urlPatterns = {"/procurement_plans_cs", "/addProcurementPlanCs",
+            "/doAddProcurementPlanCs", "/doEditProcurementPlanCs", "/doDeleteProcurementPlanCs"})
 public class ProcurementPlanCsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -399,7 +398,8 @@ public class ProcurementPlanCsController extends Controller {
                         response.getWriter().write(getBundle().getString(e.getCode()));
                         LOGGER.log(Level.INFO, "", e);
                     }
-                    break;
+
+                    return;
 
                 case "/doEditProcurementPlanCs":
 

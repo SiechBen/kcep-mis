@@ -1,10 +1,11 @@
-<%-- 
+<%--
     Document   : procurements
     Created on : Sep 15, 2016, 11:51:39 AM
     Author     : siech
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -45,7 +46,7 @@
                                     <!--<td>${procurement.gfssCode.category.name} - ${procurement.gfssCode.category.child.name}</td>-->
                                     <td>${procurement.item}</td>
                                     <td>${procurement.cost}</td>
-                                    <td>${procurement.datePurchased}</td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurement.datePurchased}"/></td>
                                     <td>${procurement.serialNumber}</td>
                                     <td>${procurement.description}</td>
                                     <td>${procurement.targetOffice}</td>
@@ -53,7 +54,7 @@
                                     <td>${procurement.subCounty.name}</td>
                                     <td>${procurement.lpoNumber}</td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
-                                    <td><button onclick="editProcurement('${procurement.id}', '${procurement.item}', '${procurement.cost}', '${procurement.datePurchased}', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editProcurement('${procurement.id}', '${procurement.item}', '${procurement.cost}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurement.datePurchased}"/>', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteProcuremenet(${procurement.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -69,14 +70,14 @@
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
-<!--                    <div class="form-group">
-                        Item
-                        <select id="gfss-code" name="gfss-code" class="form-control">
-                            <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index"> 
-                                <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.child.name}</option>
-                            </c:forEach>
-                        </select>  
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            Item
+                                            <select id="gfss-code" name="gfss-code" class="form-control">
+                    <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index">
+                        <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.child.name}</option>
+                    </c:forEach>
+                </select>
+            </div>-->
                     <div class="form-group">
                         Item
                         <input id="item" name="item" class="form-control">
@@ -104,18 +105,18 @@
                     <div class="form-group">
                         County
                         <select id="procurement-county" name="county" class="form-control">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county
                         <select id="procurement-sub-county" name="sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         LPO number

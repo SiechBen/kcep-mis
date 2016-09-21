@@ -1,9 +1,11 @@
-<%-- 
+<%--
     Document   : procurement_plans
     Created on : Sep 7, 2016, 11:00:35 AM
     Author     : ronne
 --%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -12,7 +14,6 @@
             <div class="panel-heading">
                 List of procurement plans - ncs
             </div>
-            <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover data-table" id="procurement-plan-table">
@@ -55,24 +56,24 @@
                                     <td>${procurementPlan.planVsActual.choice}</td>
                                     <td>${procurementPlan.cost}</td>
                                     <td>${procurementPlan.procurementMethod.method}</td>
-                                    <td>${procurementPlan.completeBd}</td>
-                                    <td>${procurementPlan.approvalByIfad1}</td>
-                                    <td>${procurementPlan.approvalBySda}</td>
-                                    <td>${procurementPlan.issueBd}</td>
-                                    <td>${procurementPlan.receiveBids}</td>
-                                    <td>${procurementPlan.evaluateBids}</td>
-                                    <td>${procurementPlan.approvalByIfad2}</td>
-                                    <td>${procurementPlan.award}</td>
-                                    <td>${procurementPlan.approvalBySdaOrAg}</td>
-                                    <td>${procurementPlan.signContract}</td>
-                                    <td>${procurementPlan.commenceContract}</td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.completeBd}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad1}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySda}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.issueBd}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.receiveBids}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.evaluateBids}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad2}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.award}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySdaOrAg}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.signContract}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.commenceContract}"/></td>
                                     <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.id}',
                                                     '${procurementPlan.description}', '${procurementPlan.ifadPriorReview.id}', '${procurementPlan.planVsActual.id}',
-                                                    '${procurementPlan.cost}', '${procurementPlan.procurementMethod.id}', '${procurementPlan.completeBd}',
-                                                    '${procurementPlan.approvalByIfad1}', '${procurementPlan.approvalBySda}', '${procurementPlan.issueBd}',
-                                                    '${procurementPlan.receiveBids}', '${procurementPlan.evaluateBids}', '${procurementPlan.approvalByIfad2}',
-                                                    '${procurementPlan.award}', '${procurementPlan.approvalBySdaOrAg}', '${procurementPlan.signContract}',
-                                                    '${procurementPlan.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                    '${procurementPlan.cost}', '${procurementPlan.procurementMethod.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.completeBd}"/>',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad1}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySda}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.issueBd}"/>',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.receiveBids}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.evaluateBids}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad2}"/>',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.award}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySdaOrAg}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.signContract}"/>',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.commenceContract}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteProcurementPlan(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -115,8 +116,8 @@
                             <c:forEach var="planVsActual" items="${sessionScope.planVsActualChoices}">
                                 <option value="${planVsActual.id}">${planVsActual.choice}</option>
                             </c:forEach>
-                        </select> 
-                    </div>  
+                        </select>
+                    </div>
                     <div class="form-group">
                         Cost [KES]
                         <input id="cost"  type="number" step="0.01"  class="form-control">
@@ -127,7 +128,7 @@
                             <c:forEach var="procurementMethod" items="${sessionScope.procurementMethods}">
                                 <option value="${procurementMethod.id}">${procurementMethod.method}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Complete BD

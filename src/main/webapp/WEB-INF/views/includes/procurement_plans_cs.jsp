@@ -1,9 +1,11 @@
-<%-- 
+<%--
     Document   : procurement_plans_cs
     Created on : Sep 7, 2016, 11:30:04 AM
     Author     : ronne
 --%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -64,27 +66,27 @@
                                     <td>${procurementPlanCs.planVsActual.choice}</td>
                                     <td>${procurementPlanCs.cost}</td>
                                     <td>${procurementPlanCs.procurementMethod.method}</td>
-                                    <td>${procurementPlanCs.submitTor}</td>
-                                    <td>${procurementPlanCs.completeReoi}</td>
-                                    <td>${procurementPlanCs.completeBd}</td>
-                                    <td>${procurementPlanCs.approvalByIfad1}</td>
-                                    <td>${procurementPlanCs.approvalBySda}</td>
-                                    <td>${procurementPlanCs.issueReoi}</td>
-                                    <td>${procurementPlanCs.receiveEois}</td>
-                                    <td>${procurementPlanCs.establishShortList}</td>
-                                    <td>${procurementPlanCs.completeRfp}</td>
-                                    <td>${procurementPlanCs.approvalByIfad2}</td>
-                                    <td>${procurementPlanCs.issueRfp}</td>
-                                    <td>${procurementPlanCs.receiveProposals}</td>
-                                    <td>${procurementPlanCs.evaluateTechnicalProposals}</td>
-                                    <td>${procurementPlanCs.approvalByIfad3}</td>
-                                    <td>${procurementPlanCs.negotiate}</td>
-                                    <td>${procurementPlanCs.approvalByIfad4}</td>
-                                    <td>${procurementPlanCs.award}</td>
-                                    <td>${procurementPlanCs.approvalBySdaOrAg}</td>
-                                    <td>${procurementPlanCs.signContract}</td>
-                                    <td>${procurementPlanCs.commenceContract}</td>
-                                    <td><button onclick="editProcurementPlansCs('${procurementPlanCs.id}', '${procurementPlanCs.procurementPlanType.type}', '${procurementPlanCs.description}', '${procurementPlanCs.planVsActual.choice}', '${procurementPlanCs.cost}', '${procurementPlanCs.procurementMethod.method}', '${procurementPlanCs.submitTor}', '${procurementPlanCs.completeReoi}', '${procurementPlanCs.completeBd}', '${procurementPlanCs.approvalByIfad1}', '${procurementPlanCs.approvalBySda}', '${procurementPlanCs.issueReoi}', '${procurementPlanCs.receiveEois}', '${procurementPlanCs.establishShortList}', '${procurementPlanCs.completeRfp}', '${procurementPlanCs.approvalByIfad2}', '${procurementPlanCs.issueRfp}', '${procurementPlanCs.receiveProposals}', '${procurementPlanCs.evaluateTechnicalProposals}', '${procurementPlanCs.approvalByIfad3}', '${procurementPlanCs.negotiate}', '${procurementPlanCs.approvalByIfad4}', '${procurementPlanCs.award}', '${procurementPlanCs.approvalBySdaOrAg}', '${procurementPlanCs.signContract}', '${procurementPlanCs.commenceContract}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.submitTor}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.completeReoi}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.completeBd}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad1}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalBySda}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.issueReoi}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.receiveEois}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.establishShortList}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.completeRfp}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad2}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.issueRfp}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.receiveProposals}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.evaluateTechnicalProposals}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad3}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.negotiate}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad4}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.award}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalBySdaOrAg}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.signContract}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.commenceContract}"/></td>
+                                    <td><button onclick="editProcurementPlansCs('${procurementPlanCs.id}', '${procurementPlanCs.procurementPlanType.type}', '${procurementPlanCs.description}', '${procurementPlanCs.planVsActual.choice}', '${procurementPlanCs.cost}', '${procurementPlanCs.procurementMethod.method}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.submitTor}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.completeReoi}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.completeBd}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad1}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalBySda}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.issueReoi}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.receiveEois}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.establishShortList}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.completeRfp}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad2}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.issueRfp}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.receiveProposals}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.evaluateTechnicalProposals}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad3}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.negotiate}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalByIfad4}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.award}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.approvalBySdaOrAg}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.signContract}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlanCs.commenceContract}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteProcurementPlansCs(${procurementPlanCs.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -126,8 +128,8 @@
                             <c:forEach var="planVsActual" items="${sessionScope.planVsActualChoices}">
                                 <option value="${planVsActual.id}">${planVsActual.choice}</option>
                             </c:forEach>
-                        </select> 
-                    </div>  
+                        </select>
+                    </div>
                     <div class="form-group">
                         Cost [KES]
                         <input id="cost"  type="number" step="0.01"  class="form-control">
@@ -138,7 +140,7 @@
                             <c:forEach var="procurementMethod" items="${sessionScope.procurementMethods}">
                                 <option value="${procurementMethod.id}">${procurementMethod.method}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Submit TOR
@@ -156,7 +158,7 @@
                         *Approval by IFAD
                         <input id="approval-by-ifad1" class="form-control datefield">
                     </div>
- 
+
                     <div class="form-group">
                         Issue REOI
                         <input id="issue-reoi" class="form-control datefield">

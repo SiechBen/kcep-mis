@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -52,7 +54,7 @@ public class Procurement implements Serializable {
     @Size(max = 45)
     @Column(name = "item")
     private String item;
-    @Size(max = 45)
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_purchased")
     private Date datePurchased;
     @Size(max = 45)

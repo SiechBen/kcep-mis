@@ -5,6 +5,7 @@
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -44,8 +45,8 @@
                             <c:forEach var="training" items="${sessionScope.trainingMap.keySet()}" varStatus="index">
                                 <tr>
                                     <td>${index.count}</td>
-                                    <td>${training.startDate}</td>
-                                    <td>${training.endDate}</td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/></td>
+                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${training.endDate}"/></td>
                                     <td>
                                         <c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}">
                                             ${trainer.phenomenon.category.name}
@@ -62,8 +63,8 @@
                                            target="_blank">${training.fileName}</a></td>
                                     <td><button onclick="editTraining(
                                                     '${training.id}',
-                                                    '${training.startDate}',
-                                                    '${training.endDate}',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/>',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.endDate}"/>',
                                                     '${training.topic.id}',
                                                     '${training.venue.id}',
                                                     '${training.venue.county.id}',
