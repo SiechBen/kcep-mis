@@ -142,6 +142,7 @@ public class EquipmentController extends Controller {
                         session.setAttribute("warehouse", new WarehouseDetails(warehouseId));
                         session.setAttribute("produceTypes", staticInputService.retrieveProduceTypes());
                         session.setAttribute("equipment", equipmentService.retrieveEquipmentList(warehouseId));
+                        session.setAttribute("warehouseOperations", warehouseOperationService.retrieveWarehouseOperations(warehouseId));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.setContentType("text/html;charset=UTF-8");

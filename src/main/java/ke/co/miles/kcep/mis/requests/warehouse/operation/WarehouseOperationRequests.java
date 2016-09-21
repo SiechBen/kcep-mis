@@ -129,8 +129,7 @@ public class WarehouseOperationRequests extends EntityRequests
         }
 
         WarehouseOperation warehouseOperation = (getEm().getReference(
-                WarehouseOperation.class, warehouseOperationDetails.
-                getWarehouse().getId()));
+                WarehouseOperation.class, warehouseOperationDetails.getId()));
         warehouseOperation.setId(
                 warehouseOperationDetails.getId());
         warehouseOperation.setSellingDate(

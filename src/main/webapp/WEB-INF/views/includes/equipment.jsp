@@ -4,6 +4,7 @@
     Author     : ronne
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -38,7 +39,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7"> List of e-vouchers </td>
+                                    <td colspan="7"> List of equipment </td>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -75,23 +76,28 @@
                                     <th> Produce type </th>
                                     <th> Selling price per bag </th>
                                     <th> Sold to who? </th>
-                                    <th>&nbsp;</th>
-                                    <th>&nbsp;</th>
+                                    <th> &nbsp; </th>
+                                    <th> &nbsp; </th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10"> List of warehouse operations </td>
+                                </tr>
+                            </tfoot>
                             <tbody>
                                 <c:forEach var="warehouseOperation" items="${sessionScope.warehouseOperations}" varStatus="index">
                                     <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
                                         <td>${index.count}</td>
                                         <td>${warehouseOperation.quantityBrought}</td>
                                         <td>${warehouseOperation.produceTypeBrought.name}</td>
-                                        <td>${warehouseOperation.sellingDate}</td>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/></td>
                                         <td>${warehouseOperation.quantitySold}</td>
                                         <td>${warehouseOperation.produceTypeSold.name}</td>
                                         <td>${warehouseOperation.sellingPrice}</td>
                                         <td>${warehouseOperation.buyer}</td>
-                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought.id}', '${warehouseOperation.sellingDate}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold.id}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought.id}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/>', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -124,7 +130,6 @@
                         Equipment status
                         <input id="equipment-status" name="equipment-status" class="form-control">
                     </div>
-
                 </form>
             </div>
         </div>
@@ -155,7 +160,7 @@
                     </div>
                     <div class="form-group">
                         Quantity sold(bags)
-                        <input type="number" id="quantity-sold" class="form-control">
+                        <input type="number" id="warehouse-operation-quantity-sold" class="form-control">
                     </div>
                     <div class="form-group">
                         Produce type sold

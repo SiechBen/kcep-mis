@@ -83,14 +83,14 @@ $(function () {
 $(function () {
     $(".data-table").DataTable({
         responsive: true,
-        'scrollX': true,
+        "scrollX": true,
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
         buttons: ['excel', 'colvis']
-                //"paging": true
     });
 });
+
 $(function () {
     $('.reports-table').DataTable({
         responsive: true,
@@ -754,8 +754,8 @@ function showTrainees(trainingId) {
 
 function editTraining(id, startDate, endDate, topic, venue, county, subCounty, ward, numberOfTrainees) {
 
-    $("#start-date").val(startDate.replace(/-/g, "/"));
-    $("#end-date").val(endDate.replace(/-/g, "/"));
+    $("#start-date").val(startDate);
+    $("#end-date").val(endDate);
     if (topic !== "")
         $("#topic option[value=" + topic + "]").attr('selected', 'selected');
     if (county !== "")
@@ -864,7 +864,7 @@ $("#e-voucher-form").ajaxForm({
 
 function editEVoucher(id, amount, inputType, person, dateRedeemed) {
     $("#e-voucher-input-type").val(inputType);
-    dateRedeemed = dateRedeemed.replace(/-/g, "/");
+    dateRedeemed = dateRedeemed;
     $("#date-redeemed").val(dateRedeemed);
     $("#e-voucher-input-type option[value=" + inputType + "]").attr('selected', 'selected');
     $("#e-voucher-person option[value=" + person + "]").attr('selected', 'selected');
@@ -1100,7 +1100,7 @@ function addWarehouseOperation(warehouseId) {
                     data: "warehouseId=" + warehouseId +
                             "&quantityBrought=" + $("#quantity-brought").val() +
                             "&produceTypeBrought=" + $("#produce-type-brought").val() +
-                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&quantitySold=" + $("#warehouse-operation-quantity-sold").val() +
                             "&produceTypeSold=" + $("#produce-type-sold").val() +
                             "&sellingDate=" + $("#selling-date").val() +
                             "&sellingPrice=" + $("#selling-price").val() +
@@ -1127,13 +1127,15 @@ function addWarehouseOperation(warehouseId) {
 function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBrought,
         quantitySold, produceTypeSold, sellingDate, sellingPrice, buyer) {
     $("#quantity-brought").val(quantityBrought);
-    $("#produce-type-brought").val(produceTypeBrought);
-    $("#quantity-sold").val(quantitySold);
-    $("#produce-type-sold").val(produceTypeSold);
+    if (produceTypeBrought !== "")
+        $("#produce-type-brought option[value=" + produceTypeBrought + "]").attr('selected', 'selected');
+    $("#warehouse-operation-quantity-sold").val(quantitySold);
+    if (produceTypeSold !== "")
+        $("#produce-type-sold option[value=" + produceTypeSold + "]").attr('selected', 'selected');
     $("#selling-date").val(sellingDate);
     $("#selling-price").val(sellingPrice);
     $("#buyer").val(buyer);
-    $("#warehouse-dialog").dialog({
+    $("#warehouse-operation-dialog").dialog({
         width: 495,
         height: "auto",
         title: "edit_warehouse_label",
@@ -1142,13 +1144,13 @@ function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBro
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditWarehouse",
+                    url: "doEditWarehouseOperation",
                     type: "POST",
                     data: "id=" + id +
                             "&warehouseId=" + warehouseId +
                             "&quantityBrought=" + $("#quantity-brought").val() +
                             "&produceTypeBrought=" + $("#produce-type-brought").val() +
-                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&quantitySold=" + $("#warehouse-operation-quantity-sold").val() +
                             "&produceTypeSold=" + $("#produce-type-sold").val() +
                             "&sellingDate=" + $("#selling-date").val() +
                             "&sellingPrice=" + $("#selling-price").val() +
@@ -1182,7 +1184,7 @@ function deleteWarehouseOperation(id, warehouseId) {
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteWarehouse",
+                    url: "doDeleteWarehouseOperation",
                     type: "POST",
                     data: "id=" + id,
                     success: function () {
@@ -1208,7 +1210,7 @@ function deleteWarehouseOperation(id, warehouseId) {
 function clearWarehouseOperationFields() {
     $("#quantity-brought").val("");
     $("#produce-type-brought").val("");
-    $("#quantity-sold").val("");
+    $("#warehouse-operation-quantity-sold").val("");
     $("#produce-type-sold").val("");
     $("#selling-date").val("");
     $("#selling-price").val("");
@@ -1461,8 +1463,8 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
         $("#activity-name option[value=" + activityName + "]").attr('selected', 'selected');
     if (subActvityName !== "")
         $("#sub-activity-name option[value=" + subActvityName + "]").attr('selected', 'selected');
-    $("#start-date").val(startDate.replace(/-/g, "/"));
-    $("#end-date").val(endDate.replace(/-/g, "/"));
+    $("#start-date").val(startDate);
+    $("#end-date").val(endDate);
     if (measurementUnit !== "")
         $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
     $("#unit-cost").val(unitCost);
@@ -2045,26 +2047,26 @@ function editProcurementPlansCs(id, type, description,
     $("#plan-vs-actual option[value=" + planVsActual + "]").attr('selected', 'selected');
     $("#cost").val(cost);
     $("#procurement-method option[value=" + method + "]").attr('selected', 'selected');
-    $("#submit-tor").val(submitTor.replace(/-/g, "/"));
-    $("#complete-reoi").val(completeReoi.replace(/-/g, "/"));
-    $("#complete-bd").val(completeBd.replace(/-/g, "/"));
-    $("#approval-by-ifad1").val(approvalByIfad1.replace(/-/g, "/"));
-    $("#approval-by-ifad2").val(approvalByIfad2.replace(/-/g, "/"));
-    $("#approval-by-ifad3").val(approvalByIfad3.replace(/-/g, "/"));
-    $("#approval-by-ifad4").val(approvalByIfad4.replace(/-/g, "/"));
-    $("#approval-by-sda").val(approvalBySda.replace(/-/g, "/"));
-    $("#approval-by-sda-or-ag").val(approvalBySdaOrAg.replace(/-/g, "/"));
-    $("#issue-reoi").val(issueReoi.replace(/-/g, "/"));
-    $("#receive-eois").val(receiveEois.replace(/-/g, "/"));
-    $("#establish-short-list").val(establishShortList.replace(/-/g, "/"));
-    $("#complete-rfp").val(completeRfp.replace(/-/g, "/"));
-    $("#issue-rfp").val(issueRfp.replace(/-/g, "/"));
-    $("#receive-proposals").val(receiveProposals.replace(/-/g, "/"));
-    $("#evaluate-technical-proposals").val(evaluateProposals.replace(/-/g, "/"));
-    $("#negotiate").val(negotiate.replace(/-/g, "/"));
-    $("#award").val(award.replace(/-/g, "/"));
-    $("#sign-contract").val(signContract.replace(/-/g, "/"));
-    $("#commence-contract").val(commenceContract.replace(/-/g, "/"));
+    $("#submit-tor").val(submitTor);
+    $("#complete-reoi").val(completeReoi);
+    $("#complete-bd").val(completeBd);
+    $("#approval-by-ifad1").val(approvalByIfad1);
+    $("#approval-by-ifad2").val(approvalByIfad2);
+    $("#approval-by-ifad3").val(approvalByIfad3);
+    $("#approval-by-ifad4").val(approvalByIfad4);
+    $("#approval-by-sda").val(approvalBySda);
+    $("#approval-by-sda-or-ag").val(approvalBySdaOrAg);
+    $("#issue-reoi").val(issueReoi);
+    $("#receive-eois").val(receiveEois);
+    $("#establish-short-list").val(establishShortList);
+    $("#complete-rfp").val(completeRfp);
+    $("#issue-rfp").val(issueRfp);
+    $("#receive-proposals").val(receiveProposals);
+    $("#evaluate-technical-proposals").val(evaluateProposals);
+    $("#negotiate").val(negotiate);
+    $("#award").val(award);
+    $("#sign-contract").val(signContract);
+    $("#commence-contract").val(commenceContract);
 
     $("#procurement-plans-cs-dialog").dialog({
         width: 495,

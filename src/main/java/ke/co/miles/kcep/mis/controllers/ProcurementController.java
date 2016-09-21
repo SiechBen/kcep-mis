@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -116,7 +117,16 @@ public class ProcurementController extends Controller {
                     procurement.setLpoNumber(request.getParameter("lpo-number"));
                     procurement.setItem(request.getParameter("item"));
                     procurement.setSerialNumber(request.getParameter("serial-number"));
-                    procurement.setDatePurchased(request.getParameter("date-purchased"));
+                    try {
+                        date = userDateFormat.parse(request.getParameter("start-date"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurement.setDatePurchased(date);
+                    } catch (ParseException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        procurement.setDatePurchased(null);
+                    }
                     try {
                         procurement.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
@@ -217,7 +227,16 @@ public class ProcurementController extends Controller {
                     procurement.setLpoNumber(request.getParameter("lpo-number"));
                     procurement.setItem(request.getParameter("item"));
                     procurement.setSerialNumber(request.getParameter("serial-number"));
-                    procurement.setDatePurchased(request.getParameter("date-purchased"));
+                    try {
+                        date = userDateFormat.parse(request.getParameter("start-date"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        procurement.setDatePurchased(date);
+                    } catch (ParseException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        procurement.setDatePurchased(null);
+                    }
                     try {
                         procurement.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {

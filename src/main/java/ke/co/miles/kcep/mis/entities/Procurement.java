@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,7 +54,7 @@ public class Procurement implements Serializable {
     private String item;
     @Size(max = 45)
     @Column(name = "date_purchased")
-    private String datePurchased;
+    private Date datePurchased;
     @Size(max = 45)
     @Column(name = "serial_number")
     private String serialNumber;
@@ -105,11 +106,11 @@ public class Procurement implements Serializable {
         this.item = item;
     }
 
-    public String getDatePurchased() {
+    public Date getDatePurchased() {
         return datePurchased;
     }
 
-    public void setDatePurchased(String datePurchased) {
+    public void setDatePurchased(Date datePurchased) {
         this.datePurchased = datePurchased;
     }
 
@@ -209,5 +210,5 @@ public class Procurement implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Procurement[ id=" + id + " ]";
     }
-    
+
 }

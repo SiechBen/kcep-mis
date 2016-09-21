@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  *
@@ -39,11 +40,11 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
         this.gfssCode = gfssCode;
     }
 
-    public String getDatePurchased() {
+    public Date getDatePurchased() {
         return datePurchased;
     }
 
-    public void setDatePurchased(String datePurchased) {
+    public void setDatePurchased(Date datePurchased) {
         this.datePurchased = datePurchased;
     }
 
@@ -173,7 +174,7 @@ public class ProcurementDetails implements Serializable, Comparable<ProcurementD
     private String description;
     private String targetOffice;
     private String serialNumber;
-    private String datePurchased;
+    private Date datePurchased;
     private CountyDetails county;
     private String invoiceOrReceipt;
     private SubCountyDetails subCounty;
