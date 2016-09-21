@@ -16,135 +16,269 @@
             <div class="panel-body">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#equipment" data-toggle="tab">Equipment</a>
+                        <a href="#farmers" data-toggle="tab">Farmers</a>
                     </li>
                     <li>
-                        <a href="#warehouse-operations" data-toggle="tab">Warehouse operations</a>
+                        <a href="#agro-dealers" data-toggle="tab">Agro-dealers</a>
+                    </li>
+                    <li>
+                        <a href="#e-vouchers" data-toggle="tab">E-vouchers</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade in active" id="equipment">
-                        <h4>Equipment Details</h4>
-                        <table id="equipment-table" class="table table-striped table-bordered table-hover data-table">
+                    <div class="tab-pane fade in active" id="farmers">
+                        <h4>Farmers</h4>
+                        <table id="farmers-table" class="table table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEquipment')">Add</button></th>
-                                    <th>Equipment type</th>
-                                    <th>Serial number</th>
-                                    <th>Total count</th>
-                                    <th>Status</th>
+                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
+                                    <th>Name</th>
+                                    <th>Person role</th>
+                                    <th>Gender</th>
+                                    <th>National id</th>
+                                    <th>Date of birth</th>
+                                    <th>Business name</th>
+                                    <th>Farmer group</th>
+                                    <th>Farmer sub-group</th>
+                                    <th>County</th>
+                                    <th>Sub-county</th>
+                                    <th>Ward</th>
+                                    <th>Phone number</th>
+                                    <th>Email address</th>
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="7"> List of e-vouchers </td>
+                                    <td colspan="15" class="divider"></td>
+                                </tr>
+                                <tr>
+                                    <td> Count by: </td>
+                                    <td colspan="2">
+                                        <select id="counter" onchange="updateCounts()">
+                                            <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                                                <option value="${countOption.id}">${countOption.personRole}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="divider"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"> <strong>Female</strong> </td>
+                                    <td colspan="3"> <strong>Male</strong> </td>
+                                    <td> <strong>Total</strong> </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                                <tr>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Female Total</strong> </td>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Male Total</strong> </td>
+                                    <td> &nbsp; </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                                <tr id="people-summary">
+                                    <td> ${sessionScope.femaleYouth} </td>
+                                    <td> ${sessionScope.femaleElders} </td>
+                                    <td> ${sessionScope.femaleTotal} </td>
+                                    <td> ${sessionScope.maleYouth} </td>
+                                    <td> ${sessionScope.maleElders} </td>
+                                    <td> ${sessionScope.maleTotal} </td>
+                                    <td> ${sessionScope.total} </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                                <tr>
+                                    <td> ${sessionScope.femaleYouth} </td>
+                                    <td> ${sessionScope.femaleElders} </td>
+                                    <td> ${sessionScope.femaleTotal} </td>
+                                    <td> ${sessionScope.maleYouth} </td>
+                                    <td> ${sessionScope.maleElders} </td>
+                                    <td> ${sessionScope.maleTotal} </td>
+                                    <td> ${sessionScope.total} </td>
+                                    <td colspan="6"> &nbsp; </td>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <c:forEach var="equipment" items="${sessionScope.equipment}" varStatus="index">
-                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <c:forEach var="person" items="${sessionScope.farmers}" varStatus="index">
+                                    <c:choose>
+                                        <c:when test="${person.personRoleId == 1}">
+                                            <tr class="farmer-row" onclick="loadFarmWindow('${person.id}')">
+                                            </c:when>
+                                            <c:otherwise>
+                                            <tr class="odd">
+                                            </c:otherwise>
+                                        </c:choose>
                                         <td>${index.count}</td>
-                                        <td>${equipment.type}</td>
-                                        <td>${equipment.serialNumber}</td>
-                                        <td>${equipment.totalCount}</td>
-                                        <td>${equipment.status}</td>
-                                        <td><button onclick="editEquipment('${equipment.id}', '${equipment.warehouse.id}', '${equipment.type}', '${equipment.serialNumber}', '${equipment.totalCount}', '${equipment.status}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteEquipment('${equipment.id}', '${equipment.warehouse.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td>${person.name}</td>
+                                        <td>${person.personRole}</td>
+                                        <td>${person.sex.sex}</td>
+                                        <td>${person.nationalId}</td>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/></td>
+                                        <td>${person.businessName}</td>
+                                        <td>${person.farmerGroup.name}</td>
+                                        <td>${person.farmerSubGroup.name}</td>
+                                        <td>${person.location.county.name}</td>
+                                        <td>${person.location.subCounty.name}</td>
+                                        <td>${person.location.ward.name}</td>
+                                        <td>${person.contact.phone}</td>
+                                        <td>${person.contact.email}</td>
+                                        <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.sex}', '${person.nationalId}',
+                                                        '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
+                                                        '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
+                                                        '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade" id="warehouse-operations">
-                        <h4>Warehouse operations</h4>
-                        <table id="warehouse-operations-table" class="table table-striped table-bordered table-hover data-table">
+                    <div class="tab-pane fade" id="agro-dealers">
+                        <h4>Agro-dealers</h4>
+                        <table id="agro-dealers-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="addWarehouseOperation(); return false;">Add</button></th>
-                                    <th colspan="2"> Produce brought in(bags) </th>
-                                    <th colspan="5"> Produce sold </th>
-                                    <th colspan="2"> &nbsp; </th>
-                                </tr>
-                                <tr>
-                                    <th> &nbsp; </th>
-                                    <th> Quantity(bags) </th>
-                                    <th> Produce type </th>
-                                    <th> Selling date </th>
-                                    <th> Quantity(bags) </th>
-                                    <th> Produce type </th>
-                                    <th> Selling price per bag </th>
-                                    <th> Sold to who? </th>
+                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>National id</th>
+                                    <th>Date of birth</th>
+                                    <th>Business name</th>
+                                    <th>County</th>
+                                    <th>Sub-county</th>
+                                    <th>Ward</th>
+                                    <th>Phone number</th>
+                                    <th>Email address</th>
                                     <th>&nbsp;</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="15" class="divider"></td>
+                                </tr>
+                                <tr>
+                                    <td> Count by: </td>
+                                    <td colspan="2">
+                                        <select id="counter" onchange="updateCounts()">
+                                            <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                                                <option value="${countOption.id}">${countOption.personRole}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="divider"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"> <strong>Female</strong> </td>
+                                    <td colspan="3"> <strong>Male</strong> </td>
+                                    <td> <strong>Total</strong> </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                                <tr>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Female Total</strong> </td>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Male Total</strong> </td>
+                                    <td> &nbsp; </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                                <tr id="people-summary">
+                                    <td> ${sessionScope.femaleYouth} </td>
+                                    <td> ${sessionScope.femaleElders} </td>
+                                    <td> ${sessionScope.femaleTotal} </td>
+                                    <td> ${sessionScope.maleYouth} </td>
+                                    <td> ${sessionScope.maleElders} </td>
+                                    <td> ${sessionScope.maleTotal} </td>
+                                    <td> ${sessionScope.total} </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                                <tr>
+                                    <td> ${sessionScope.femaleYouth} </td>
+                                    <td> ${sessionScope.femaleElders} </td>
+                                    <td> ${sessionScope.femaleTotal} </td>
+                                    <td> ${sessionScope.maleYouth} </td>
+                                    <td> ${sessionScope.maleElders} </td>
+                                    <td> ${sessionScope.maleTotal} </td>
+                                    <td> ${sessionScope.total} </td>
+                                    <td colspan="6"> &nbsp; </td>
+                                </tr>
+                            </tfoot>
                             <tbody>
-                                <c:forEach var="warehouseOperation" items="${sessionScope.warehouseOperations}" varStatus="index">
-                                    <tr <c:if test="${index.count % 2 == 0}">class="odd"</c:if>>
+                                <c:forEach var="person" items="${sessionScope.agroDealers}" varStatus="index">
+                                    <c:choose>
+                                        <c:when test="${person.personRoleId == 1}">
+                                            <tr class="farmer-row" onclick="loadFarmWindow('${person.id}')">
+                                            </c:when>
+                                            <c:otherwise>
+                                            <tr class="odd">
+                                            </c:otherwise>
+                                        </c:choose>
                                         <td>${index.count}</td>
-                                        <td>${warehouseOperation.quantityBrought}</td>
-                                        <td>${warehouseOperation.produceTypeBrought}</td>
-                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/></td>
-                                        <td>${warehouseOperation.quantitySold}</td>
-                                        <td>${warehouseOperation.produceTypeSold}</td>
-                                        <td>${warehouseOperation.sellingPrice}</td>
-                                        <td>${warehouseOperation.buyer}</td>
-                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/>', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold}', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                        <td>${person.name}</td>
+                                        <td>${person.personRole}</td>
+                                        <td>${person.sex.sex}</td>
+                                        <td>${person.nationalId}</td>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/></td>
+                                        <td>${person.businessName}</td>
+                                        <td>${person.location.county.name}</td>
+                                        <td>${person.location.subCounty.name}</td>
+                                        <td>${person.location.ward.name}</td>
+                                        <td>${person.contact.phone}</td>
+                                        <td>${person.contact.email}</td>
+                                        <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.sex}', '${person.nationalId}',
+                                                        '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
+                                                        '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
+                                                        '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                List of e-Vouchers
-            </div>
-            <div class="panel-body">
-                <div class="dataTable_wrapper">
-                    <table id="e-voucher-table" class="table table-striped table-bordered table-hover data-table">
-                        <thead>
-                            <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEVoucher')">Add</button></th>
-                                <th>Amount</th>
-                                <th>Input type</th>
-                                <th>Person</th>
-                                <th>Date redeemed</th>
-                                <th>Attachment i.e scanned pages/ photos from the inputs logging book</th>
-                                <th>&nbsp;</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="8"> List of e-vouchers </td>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <c:forEach var="eVoucher" items="${sessionScope.eVouchers}" varStatus="index">
+                    <div class="tab-pane fade" id="e-vouchers">
+                        <h4>E-vouchers</h4>
+                        <table id="e-voucher-table" class="table table-striped table-bordered table-hover data-table">
+                            <thead>
                                 <tr>
-                                    <td>${index.count}</td>
-                                    <td>${eVoucher.amount}</td>
-                                    <td>${eVoucher.inputType.type}</td>
-                                    <td>${eVoucher.person.name}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/></td>
-                                    <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
-                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deletEVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEVoucher')">Add</button></th>
+                                    <th>Amount</th>
+                                    <th>Input type</th>
+                                    <th>Person</th>
+                                    <th>Date redeemed</th>
+                                    <th>Attachment i.e scanned pages/ photos from the inputs logging book</th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8"> List of e-vouchers </td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <c:forEach var="eVoucher" items="${sessionScope.eVouchers}" varStatus="index">
+                                    <tr>
+                                        <td>${index.count}</td>
+                                        <td>${eVoucher.amount}</td>
+                                        <td>${eVoucher.inputType.type}</td>
+                                        <td>${eVoucher.person.name}</td>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/></td>
+                                        <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
+                                        <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deletEVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -126,7 +126,16 @@ public class EVoucherController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("eVoucherPeople", personService.retrieveFarmersAndAgroDealers());
+                        session.setAttribute("agroDealers", personService.retrieveAgroDealers());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("farmers", personService.retrieveFarmers());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));

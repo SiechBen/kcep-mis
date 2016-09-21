@@ -57,7 +57,8 @@ public interface PersonRequestsLocal {
      * the login credentials are invalid or non-existent in the database
      */
     public Map<PersonDetails, PersonRoleDetail>
-            retrievePerson(String username, String password) throws MilesException;
+            retrievePerson(String username, String password)
+            throws MilesException;
 
     /**
      *
@@ -66,8 +67,8 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail)
-            throws MilesException;
+    public void editPerson(PersonDetails personDetails,
+            PersonRoleDetail personRoleDetail) throws MilesException;
 
     /**
      *
@@ -91,7 +92,8 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved farmers
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId) throws MilesException;
+    public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId)
+            throws MilesException;
 
     /**
      *
@@ -100,7 +102,8 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveCountyPeople(short countyId) throws MilesException;
+    public List<PersonDetails> retrieveCountyPeople(short countyId)
+            throws MilesException;
 
     /**
      *
@@ -109,7 +112,8 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveSubCountyPeople(short subCountyId) throws MilesException;
+    public List<PersonDetails> retrieveSubCountyPeople(short subCountyId)
+            throws MilesException;
 
     /**
      *
@@ -118,7 +122,8 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveRegionPeople(short regionId) throws MilesException;
+    public List<PersonDetails> retrieveRegionPeople(short regionId)
+            throws MilesException;
 
     /**
      *
@@ -152,7 +157,8 @@ public interface PersonRequestsLocal {
      * @return the list of retrieved people
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PersonDetails> retrieveWardPeople(short wardId) throws MilesException;
+    public List<PersonDetails> retrieveWardPeople(short wardId)
+            throws MilesException;
 
     /**
      *
@@ -160,8 +166,8 @@ public interface PersonRequestsLocal {
      * @return the map of counts
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail)
-            throws MilesException;
+    public HashMap<String, Integer>
+            countPeople(PersonRoleDetail personRoleDetail) throws MilesException;
 
     /**
      *
@@ -169,5 +175,26 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public HashMap<String, Integer> countAllPeople() throws MilesException;
+
+    /**
+     *
+     * @return the list of farmers retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveFarmers() throws MilesException;
+
+    /**
+     *
+     * @return the list of agro-dealers retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveAgroDealers() throws MilesException;
+
+    /**
+     *
+     * @return the list of non-agro-dealers and non-farmers retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveNonFarmersAndNonAgroDealers() throws MilesException;
 
 }

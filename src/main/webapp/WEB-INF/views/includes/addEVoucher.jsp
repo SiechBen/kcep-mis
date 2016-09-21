@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : addEVoucher
     Created on : Sep 6, 2016, 12:24:27 PM
     Author     : qortez
@@ -21,18 +21,18 @@
                     <div class="form-group">
                         Input type
                         <select id="e-voucher-input-type" name="input-type" class="form-control">
-                            <c:forEach var="inputType" items="${sessionScope.inputTypes}" varStatus="index"> 
+                            <c:forEach var="inputType" items="${sessionScope.inputTypes}" varStatus="index">
                                 <option value="${inputType.id}">${inputType.type}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Person
                         <select id="e-voucher-person" name="person" class="form-control">
-                            <c:forEach var="person" items="${sessionScope.people}" varStatus="index"> 
+                            <c:forEach var="person" items="${sessionScope.farmers}" varStatus="index">
                                 <option value="${person.id}">${person.name}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Date redeemed

@@ -379,10 +379,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
 
         setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIds"));
-        getQ().setParameter("personRoleId1",
-                PersonRoleDetail.AGRO_DEALER.getId());
-        getQ().setParameter("personRoleId2",
-                PersonRoleDetail.FARMER.getId());
+        List<Short> personRoleIds = new ArrayList<>();
+        personRoleIds.add(PersonRoleDetail.FARMER.getId());
+        personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
+        getQ().setParameter("personRoleIds", personRoleIds);
 
         List<UserAccount> userAccounts;
         try {
@@ -392,6 +392,43 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
         return convertUserAccountsToPeople(userAccounts);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveNonFarmersAndNonAgroDealers()
+            throws MilesException {
+
+        setQ(getEm().createNamedQuery("UserAccount.findNotHavingPersonRoleIds"));
+        List<Short> personRoleIds = new ArrayList<>();
+        personRoleIds.add(PersonRoleDetail.FARMER.getId());
+        personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
+        getQ().setParameter("personRoleIds", personRoleIds);
+
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = getQ().getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveFarmers()
+            throws MilesException {
+
+        return retrievePeople(PersonRoleDetail.FARMER);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveAgroDealers()
+            throws MilesException {
+
+        return retrievePeople(PersonRoleDetail.AGRO_DEALER);
     }
 
 //</editor-fold>

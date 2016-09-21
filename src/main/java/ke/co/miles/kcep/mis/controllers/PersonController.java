@@ -315,7 +315,7 @@ public class PersonController extends Controller {
                             long startTime = System.currentTimeMillis();
                             MilesDebugger.debug("Started retrieving list of people at: " + startTime);
 
-                            session.setAttribute("people", personService.retrievePeople());
+                            session.setAttribute("people", personService.retrieveNonFarmersAndNonAgroDealers());
 
                             long endTime = System.currentTimeMillis();
                             MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
