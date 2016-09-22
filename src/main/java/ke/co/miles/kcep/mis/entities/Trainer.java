@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "trainer", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Trainer.findByPhenomenonIds", query = "SELECT t FROM Trainer t WHERE t.phenomenon.id in (:phenomenonIds)"),
     @NamedQuery(name = "Trainer.findByTrainingId", query = "SELECT t FROM Trainer t WHERE t.training.id = :trainingId"),
     @NamedQuery(name = "Trainer.findAll", query = "SELECT t FROM Trainer t"),
     @NamedQuery(name = "Trainer.findById", query = "SELECT t FROM Trainer t WHERE t.id = :id")})
@@ -100,5 +101,5 @@ public class Trainer implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Trainer[ id=" + id + " ]";
     }
-    
+
 }

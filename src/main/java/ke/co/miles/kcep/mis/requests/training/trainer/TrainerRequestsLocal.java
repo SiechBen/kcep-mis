@@ -119,4 +119,19 @@ public interface TrainerRequestsLocal {
      */
     public void editTrainers(List<TrainerDetails> trainerDetailsList) throws MilesException;
 
+    /**
+     *
+     * @return the map of training to trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>>
+            retrieveEquityTrainings() throws MilesException;
+
+    /**
+     *
+     * @return the list of equity trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<TrainerDetails> retrieveEquityTrainers() throws MilesException;
+
 }

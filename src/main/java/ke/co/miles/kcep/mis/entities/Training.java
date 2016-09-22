@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "training", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Training.findByIds", query = "SELECT t FROM Training t WHERE t.id IN (:ids)"),
     @NamedQuery(name = "Training.findByWardId", query = "SELECT t FROM Training t WHERE t.venue.ward.id = :wardId"),
     @NamedQuery(name = "Training.findByCountyId", query = "SELECT t FROM Training t WHERE t.venue.county.id = :countyId"),
     @NamedQuery(name = "Training.findBySubCountyId", query = "SELECT t FROM Training t WHERE t.venue.subCounty.id = :subCountyId"),
@@ -190,5 +191,5 @@ public class Training implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Training[ id=" + id + " ]";
     }
-    
+
 }

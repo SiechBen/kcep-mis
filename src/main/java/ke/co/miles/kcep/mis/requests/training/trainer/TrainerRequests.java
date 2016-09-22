@@ -152,10 +152,55 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveEquityTrainings() throws MilesException {
+
+        List<TrainerDetails> trainers = retrieveEquityTrainers();
+        List<Integer> trainerIds = new ArrayList<>();
+        for (TrainerDetails trainer : trainers) {
+            trainerIds.add(trainer.getId());
+        }
+
+        List<Training> trainings = new ArrayList<>();
+        setQ(getEm().createNamedQuery("Training.findByIds"));
+        getQ().setParameter("ids", trainerIds);
+        try {
+            trainings = getQ().getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
+
+        for (Training training : trainings) {
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+        }
+
+        return trainingMap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<TrainerDetails> retrieveTrainers(int trainingId) throws MilesException {
         List<Trainer> trainers = new ArrayList<>();
         setQ(getEm().createNamedQuery("Trainer.findByTrainingId"));
         getQ().setParameter("trainingId", trainingId);
+        try {
+            trainers = getQ().getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertTrainersToTrainerDetailsList(trainers);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<TrainerDetails> retrieveEquityTrainers() throws MilesException {
+        List<Trainer> trainers = new ArrayList<>();
+        setQ(getEm().createNamedQuery("Trainer.findByPhenomenonIds"));
+        List<Integer> phenomenonIds = new ArrayList<>();
+        phenomenonIds.add(6);
+        phenomenonIds.add(7);
+        getQ().setParameter("phenomenonIds", phenomenonIds);
         try {
             trainers = getQ().getResultList();
         } catch (Exception e) {

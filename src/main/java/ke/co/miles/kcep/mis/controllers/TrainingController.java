@@ -105,7 +105,7 @@ public class TrainingController extends Controller {
 
                     HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
                     try {
-                        trainingMap = trainerService.retrieveTrainings();
+                        trainingMap = trainerService.retrieveEquityTrainings();
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
