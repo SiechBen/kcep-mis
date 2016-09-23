@@ -94,16 +94,41 @@ public class TrainingController extends Controller {
                     return;
 
                 case "/head_training":
+                    availHeadTrainingMap(response, session);
+                    availSessionAttributes(session, response);
+                    break;
+
                 case "/kalro_training":
 
-                    availHeadTrainingMap(response, session);
+                    HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
+                    try {
+                        trainingMap = trainerService.retrieveKalroTrainings();
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                            if (trainingDetails.getAttendanceSheet() != null) {
+                                try {
+                                    String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
+                                    String fileName = folders[folders.length - 1];
+                                    trainingDetails.setFileName(fileName);
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                        session.setAttribute("trainingMap", trainingMap);
+                    }
                     availSessionAttributes(session, response);
 
                     break;
 
                 case "/equity_training":
 
-                    HashMap<TrainingDetails, List<TrainerDetails>> trainingMap;
                     try {
                         trainingMap = trainerService.retrieveEquityTrainings();
                     } catch (MilesException ex) {

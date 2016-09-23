@@ -79,7 +79,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
 
         for (Training training : trainings) {
-            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), TrainerRequests.this.retrieveTrainers(training.getId()));
         }
 
         return trainingMap;
@@ -101,7 +101,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
 
         for (Training training : trainings) {
-            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), TrainerRequests.this.retrieveTrainers(training.getId()));
         }
 
         return trainingMap;
@@ -123,7 +123,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
 
         for (Training training : trainings) {
-            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), TrainerRequests.this.retrieveTrainers(training.getId()));
         }
 
         return trainingMap;
@@ -144,7 +144,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
 
         for (Training training : trainings) {
-            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), TrainerRequests.this.retrieveTrainers(training.getId()));
         }
 
         return trainingMap;
@@ -152,13 +152,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
-    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveEquityTrainings() throws MilesException {
-
-        List<TrainerDetails> trainers = retrieveEquityTrainers();
-        List<Integer> trainerIds = new ArrayList<>();
-        for (TrainerDetails trainer : trainers) {
-            trainerIds.add(trainer.getId());
-        }
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainingsMap(List<Integer> trainerIds) throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
         setQ(getEm().createNamedQuery("Training.findByIds"));
@@ -172,10 +166,32 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
 
         for (Training training : trainings) {
-            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), retrieveTrainers(training.getId()));
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), TrainerRequests.this.retrieveTrainers(training.getId()));
         }
 
         return trainingMap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveEquityTrainings() throws MilesException {
+
+        List<Integer> phenomenonIds = new ArrayList<>();
+        phenomenonIds.add(6);
+        phenomenonIds.add(7);
+
+        return retrieveTrainingsMap(retrieveTrainers(phenomenonIds));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveKalroTrainings() throws MilesException {
+
+        List<Integer> phenomenonIds = new ArrayList<>();
+        phenomenonIds.add(13);
+
+        return retrieveTrainingsMap(retrieveTrainers(phenomenonIds));
+
     }
 
     @Override
@@ -194,19 +210,21 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<TrainerDetails> retrieveEquityTrainers() throws MilesException {
+    public List<Integer> retrieveTrainers(List<Integer> phenomenonIds) throws MilesException {
         List<Trainer> trainers = new ArrayList<>();
         setQ(getEm().createNamedQuery("Trainer.findByPhenomenonIds"));
-        List<Integer> phenomenonIds = new ArrayList<>();
-        phenomenonIds.add(6);
-        phenomenonIds.add(7);
         getQ().setParameter("phenomenonIds", phenomenonIds);
         try {
             trainers = getQ().getResultList();
         } catch (Exception e) {
         }
 
-        return convertTrainersToTrainerDetailsList(trainers);
+        List<Integer> trainerIds = new ArrayList<>();
+        for (Trainer trainer : trainers) {
+            trainerIds.add(trainer.getId());
+        }
+
+        return trainerIds;
     }
 
     @Override

@@ -129,9 +129,26 @@ public interface TrainerRequestsLocal {
 
     /**
      *
-     * @return the list of equity trainers
+     * @param trainerIds the unique identifiers of trainers
+     * @return the retrieved map of training to trainers
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<TrainerDetails> retrieveEquityTrainers() throws MilesException;
+    public HashMap<TrainingDetails, List<TrainerDetails>>
+            retrieveTrainingsMap(List<Integer> trainerIds) throws MilesException;
 
+    /**
+     *
+     * @param phenomenonIds the
+     * @return the unique identifier of trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<Integer> retrieveTrainers(List<Integer> phenomenonIds)
+            throws MilesException;
+
+    /**
+     *
+     * @return @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>>
+            retrieveKalroTrainings() throws MilesException;
 }
