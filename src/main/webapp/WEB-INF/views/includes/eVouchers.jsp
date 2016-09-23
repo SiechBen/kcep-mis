@@ -239,10 +239,11 @@
                     </div>
                     <div class="tab-pane fade" id="e-vouchers">
                         <h4>E-vouchers</h4>
+                        <label hidden id="add-label">addEVoucher</label>
                         <table id="e-voucher-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEVoucher')">Add</button></th>
+                                    <th>&nbsp;</th>
                                     <th>Amount</th>
                                     <th>Input type</th>
                                     <th>Person</th>

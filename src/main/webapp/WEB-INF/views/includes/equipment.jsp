@@ -25,10 +25,11 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="equipment">
                         <h4>Equipment Details</h4>
+                        <label hidden id="add-label">addEquipment</label>
                         <table id="equipment-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addEquipment')">Add</button></th>
+                                    <th>&nbsp;</th>
                                     <th>Equipment type</th>
                                     <th>Serial number</th>
                                     <th>Total count</th>

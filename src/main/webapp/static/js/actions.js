@@ -58,6 +58,10 @@ $(function () {
 });
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Tootlips">
+$('[data-toggle="tooltip"]').tooltip();//initialize all tooltips in the document
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Datepicker">
 $(function () {
     $(".datefield").datepicker();
@@ -81,13 +85,51 @@ $(function () {
 
 //<editor-fold defaultstate="collapsed" desc="DataTable">
 $(function () {
+    $("#performance-indicator-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }],
+        columnDefs: [{
+                targets: [2, 3],
+                render: function (data, type) {
+                    return type === "display" && data.length > 31 ? data.substr(0, 31) + "..." : data;
+                }
+            }]
+    });
+});
+
+$(function () {
     $("#awpb-table").DataTable({
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
-        buttons: ['excel', {extend: 'colvis', text: "Hide / show columns"},
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow("addSubActivity");
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"},
             {
                 text: "Financial reports",
                 action: function () {
@@ -105,7 +147,18 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
-        buttons: ['excel', {extend: 'colvis', text: "Hide / show columns"}]
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
     });
 });
 
@@ -114,7 +167,11 @@ $(function () {
         responsive: true,
         "scrollCollapse": true,
         dom: "Brt",
-        buttons: ['excel', 'print', {extend: 'colvis', text: "Hide / show columns"}]
+        buttons: ['excel', 'print',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
     });
 });
 //</editor-fold>
@@ -129,6 +186,7 @@ $.ajax({
     },
     dataType: "HTML"
 });
+
 function loadApplicationAttributes() {
     $.ajax({
         url: "load",

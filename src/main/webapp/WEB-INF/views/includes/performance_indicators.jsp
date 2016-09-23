@@ -13,13 +13,13 @@
             <div class="panel-heading">
                 List of key performance indicators
             </div>
-            <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover data-table">
+                    <label hidden id="add-label">addPerformanceIndicator</label>
+                    <table class="table table-striped table-bordered table-hover" id="performance-indicator-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerformanceIndicator')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Performance indicator type</th>
                                 <th>Result hierarchy</th>
                                 <th>Key Performance Indicator</th>
@@ -30,7 +30,8 @@
                                 <th>Expected value</th>
                                 <th>Ratio</th>
                                 <th>&nbsp;</th>
-                                <th>&nbsp;</th>
+                                <th>&nbsp;
+                                </th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -43,28 +44,28 @@
                                 <tr>
                                     <td>${index.count}</td>
                                     <td>${performanceIndicator.performanceIndicatorType.category.name}</td>
-                                    <td>${performanceIndicator.resultHierarchy.description}</td>
-                                    <td>${performanceIndicator.description}</td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.resultHierarchy.description}">${performanceIndicator.resultHierarchy.description}</td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.description}">${performanceIndicator.description}</td>
                                     <td><fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/></td>
-                            <td>${performanceIndicator.baselineValue}</td>
-                            <td>${performanceIndicator.yearOfUse}</td>
-                            <td>${performanceIndicator.actualValue}</td>
-                            <td>${performanceIndicator.expectedValue}</td>
-                            <td>${performanceIndicator.ratio}</td>
-                            <td><button onclick="editPerformanceIndicator(
-                                                '${performanceIndicator.id}',
-                                                '${performanceIndicator.performanceIndicatorType.id}',
-                                                '${performanceIndicator.resultHierarchy.id}',
-                                                '${performanceIndicator.description}',
-                                                '<fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/>',
-                                        '${performanceIndicator.baselineValue}',
-                                        '${performanceIndicator.yearOfUse}',
-                                        '${performanceIndicator.actualValue}',
-                                        '${performanceIndicator.expectedValue}',
-                                        '${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                            <td><button onclick="deletePerformanceIndicator(${performanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
-                            </tr>
-                        </c:forEach>
+                                    <td>${performanceIndicator.baselineValue}</td>
+                                    <td>${performanceIndicator.yearOfUse}</td>
+                                    <td>${performanceIndicator.actualValue}</td>
+                                    <td>${performanceIndicator.expectedValue}</td>
+                                    <td>${performanceIndicator.ratio}</td>
+                                    <td><button onclick="editPerformanceIndicator(
+                                                    '${performanceIndicator.id}',
+                                                    '${performanceIndicator.performanceIndicatorType.id}',
+                                                    '${performanceIndicator.resultHierarchy.id}',
+                                                    '${performanceIndicator.description}',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/>',
+                                                    '${performanceIndicator.baselineValue}',
+                                                    '${performanceIndicator.yearOfUse}',
+                                                    '${performanceIndicator.actualValue}',
+                                                    '${performanceIndicator.expectedValue}',
+                                                    '${performanceIndicator.ratio}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="deletePerformanceIndicator(${performanceIndicator.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>

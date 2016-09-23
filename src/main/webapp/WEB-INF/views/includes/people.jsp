@@ -18,10 +18,11 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
+                    <label hidden id="add-label">addPerson</label>
                     <table class="table table-bordered table-hover data-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addPerson')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Name</th>
                                 <th>Person role</th>
                                 <th>Gender</th>

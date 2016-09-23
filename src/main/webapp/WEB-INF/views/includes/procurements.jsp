@@ -16,10 +16,11 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
+                    <label hidden id="add-label">addProcurement</label>
                     <table class="table table-striped table-bordered table-hover data-table" id="procurement-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addProcurement')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Item</th>
                                 <th>Cost[KES]</th>
                                 <th>Date purchased</th>

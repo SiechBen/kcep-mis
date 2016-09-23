@@ -19,7 +19,7 @@
                     <table id="awpb-table" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Annual workplan reference code</th>
                                 <th>GFS code</th>
                                 <th>Expected outcome</th>

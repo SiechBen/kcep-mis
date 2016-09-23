@@ -94,10 +94,11 @@
                     </div>
                     <div class="tab-pane fade" id="loan">
                         <h4>Loan Details</h4>
+                        <label hidden id="add-label">addLoan</label>
                         <table id="loan-table" class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="addLoan(); return false;">Add</button></th>
+                                    <th>&nbsp;</th>
                                     <th>Loan Amount</th>
                                     <th>Loan Type</th>
                                     <th>Account Number</th>
@@ -137,14 +138,14 @@
                                     <tr>
                                         <td>${index.count}</td>
                                         <td><fmt:formatDate pattern="MM/dd/yyyy" value="${inputsCollection.dateDone}"/></td>
-                                <td>${inputsCollection.agroDealer.name}</td>
-                                <td>${inputsCollection.agroDealer.businessName}</td>
-                                <td>${inputsCollection.inputType.type}</td>
-                                <td>${inputsCollection.staticInput.name}</td>
-                                <td>${inputsCollection.inputVariety.variety}</td>
-                                <td>${inputsCollection.quantity}</td>
-                                </tr>
-                            </c:forEach>
+                                        <td>${inputsCollection.agroDealer.name}</td>
+                                        <td>${inputsCollection.agroDealer.businessName}</td>
+                                        <td>${inputsCollection.inputType.type}</td>
+                                        <td>${inputsCollection.staticInput.name}</td>
+                                        <td>${inputsCollection.inputVariety.variety}</td>
+                                        <td>${inputsCollection.quantity}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -173,15 +174,15 @@
                                         <td>${farmActivity.name}</td>
                                         <td>${farmActivity.yield}</td>
                                         <td><fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/></td>
-                                <td>${farmActivity.quantityHarvested}</td>
-                                <td>${farmActivity.familyConsumption}</td>
-                                <td>${farmActivity.quantitySold}</td>
-                                <td>${farmActivity.postHarvestLoss}</td>
-                                <td>${farmActivity.averageSellingPrice}</td>
-                                <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/>', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                </tr>
-                            </c:forEach>
+                                        <td>${farmActivity.quantityHarvested}</td>
+                                        <td>${farmActivity.familyConsumption}</td>
+                                        <td>${farmActivity.quantitySold}</td>
+                                        <td>${farmActivity.postHarvestLoss}</td>
+                                        <td>${farmActivity.averageSellingPrice}</td>
+                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/>', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>

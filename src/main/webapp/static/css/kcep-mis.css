@@ -410,3 +410,7 @@ table.dataTable thead .sorting:after {
     cursor: pointer;
     background-color: #E0F3CD;
 }
+
+.tooltipped {
+    cursor: default;
+}

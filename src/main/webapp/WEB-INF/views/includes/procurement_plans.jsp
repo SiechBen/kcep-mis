@@ -16,10 +16,11 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
+                    <label hidden id="add-label">addProcurementPlan</label>
                     <table class="table table-striped table-bordered table-hover data-table" id="procurement-plan-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addProcurementPlan')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Procurement plan type</th>
                                 <th>Description</th>
                                 <th>IFAD prior review</th>

@@ -16,11 +16,11 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
+                    <label hidden id="add-label">addTraining</label>
                     <table id="training-table" class="table table-striped table-bordered table-hover data-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary"
-                                            onclick="loadAjaxWindow('addTraining')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Start date</th>
                                 <th>End date</th>
                                 <th>Trainer</th>

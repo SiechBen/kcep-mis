@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : head_financial_years
     Created on : Jul 27, 2016, 8:46:55 PM
     Author     : siech
@@ -18,13 +18,13 @@
                     <div class="panel-heading">
                         List of financial years
                     </div>
-                    <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
+                            <label hidden id="add-label">addFinancialYear</label>
                             <table class="table table-striped table-bordered table-hover data-table">
                                 <thead>
                                     <tr>
-                                        <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addFinancialYear')">Add</button></th>
+                                        <th>&nbsp;</th>
                                         <th>Financial year</th>
                                         <th>Current year</th>
                                     </tr>

@@ -15,10 +15,11 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
+                    <label hidden id="add-label">addWarehouse</label>
                     <table class="table table-striped table-bordered table-hover data-table" id="warehouse-table">
                         <thead>
                             <tr>
-                                <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addWarehouse')">Add</button></th>
+                                <th>&nbsp;</th>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Capacity</th>
