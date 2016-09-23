@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 lib/
 *.mwb.bak
 target/
@@ -7,4 +7,7 @@ src/main/webapp/WEB-INF/resources.xml
 *.mwb.bak
 /target/
 /src/main/webapp/WEB-INF/resources.xml
->>>>>>> e5663186af6b337c1d7dd72db577fc2cd35f6407
+lib/
+*.mwb.bak
+target/
+src/main/webapp/WEB-INF/resources.xml
