@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : head_reports
     Created on : Jul 19, 2016, 8:44:01 AM
     Author     : siech
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    <a onclick="loadAjaxWindow('financial_plan_by_categories')">
+                    <a href="javascript:loadAjaxWindow('financial_report_by_categories');">
                         <div class="panel-footer">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -48,8 +48,8 @@
                             </div>
                         </div>
                     </div>
-                       <a onclick="loadAjaxWindow('financial_plan_by_components')">
-                     <div class="panel-footer">
+                    <a href="javascript:loadAjaxWindow('financial_report_by_components');">
+                        <div class="panel-footer">
                             <span class="pull-left">View Details</span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>

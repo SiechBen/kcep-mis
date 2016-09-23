@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -56,12 +57,13 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
  */
 @WebServlet(
         name = "PlanningController",
-        urlPatterns = {"/activity_names", "/addActivityName", "/doAddActivityName", "/sub_activities",
-            "/addSubActivity", "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
-            "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names", "/addSubActivityName",
-            "/doAddSubActivityName", "/doEditActivityName", "/doDeleteActivityName",
-            "/doEditSubActivity", "/doDeleteSubActivity"}
-)
+        urlPatterns = {"/activity_names", "/addActivityName",
+            "/doAddActivityName", "/sub_activities", "/addSubActivity",
+            "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
+            "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names",
+            "/addSubActivityName", "/doAddSubActivityName",
+            "/doEditActivityName", "/updateSubComponents",
+            "/doDeleteActivityName", "/doEditSubActivity", "/doDeleteSubActivity"})
 public class ActivityPlanningController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -91,6 +93,7 @@ public class ActivityPlanningController extends Controller {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
@@ -141,6 +144,7 @@ public class ActivityPlanningController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPlanning");
+                            urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
@@ -162,6 +166,7 @@ public class ActivityPlanningController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPlanning");
+                            urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
@@ -190,11 +195,34 @@ public class ActivityPlanningController extends Controller {
 
             switch (path) {
 
-                case "/updateSubActivityNames":
+                case "/updateSubComponents":
                     try {
-                        for (SubActivityNameDetails subActivityName : subActivityNameService.
-                                retrieveSubActivityNames(Short.valueOf(request.getParameter("activityNameId")))) {
-                            out.write("<option value=\"" + subActivityName.getId() + "\">" + subActivityName.getName() + "</option>");
+                        for (SubComponentDetails subComponent
+                                : subComponentService.retrieveSubComponents(
+                                        Short.parseShort(request.getParameter(
+                                                "componentId")))) {
+                            out.write("<option value=\"" + subComponent.getId()
+                                    + "\">" + subComponent.getSubComponent()
+                                    + "</option>");
+                        }
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    return;
+
+                case "/updateSubActivityNames":
+
+                    try {
+                        for (SubActivityNameDetails subActivityName
+                                : subActivityNameService.retrieveSubActivityNames(
+                                        Short.valueOf(request
+                                                .getParameter("activityNameId")))) {
+                            out.write("<option value=\"" + subActivityName
+                                    .getId() + "\">" + subActivityName.getName()
+                                    + "</option>");
                         }
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -205,7 +233,8 @@ public class ActivityPlanningController extends Controller {
 
                 case "/head_sub_activity_names":
                     try {
-                        short activityNameId = Short.valueOf(request.getParameter("activityNameId"));
+                        short activityNameId = Short.valueOf(
+                                request.getParameter("activityNameId"));
                         session.setAttribute("activityNameId", activityNameId);
                         session.setAttribute("subActivityNames", subActivityNameService.
                                 retrieveSubActivityNames(activityNameId));
@@ -219,7 +248,8 @@ public class ActivityPlanningController extends Controller {
 
                 case "/head_financial_years":
                     try {
-                        session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
+                        session.setAttribute("financialYears",
+                                financialYearService.retrieveFinancialYears());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -229,7 +259,8 @@ public class ActivityPlanningController extends Controller {
 
                 case "/head_activity_names":
                     try {
-                        session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
+                        session.setAttribute("activityNames",
+                                activityNameService.retrieveActivityNames());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -439,15 +470,20 @@ public class ActivityPlanningController extends Controller {
                         return;
                     }
 
+                    List<ComponentDetails> components;
                     try {
-                        session.setAttribute("components", componentService.retrieveComponents());
+                        components = componentService.retrieveComponents();
+                        session.setAttribute("components", components);
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of components", ex);
                         return;
                     }
 
                     try {
-                        session.setAttribute("subComponents", subComponentService.retrieveSubComponents());
+                        ListIterator<ComponentDetails> iterator = components.listIterator();
+                        if (iterator.hasNext()) {
+                            session.setAttribute("subComponents", subComponentService.retrieveSubComponents(iterator.next().getId()));
+                        }
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-components", ex);
                         return;

@@ -1,6 +1,6 @@
-<%-- 
-    Document   : head_financial_plan_by_components
-    Created on : Jul 31, 2016, 5:00:11 PM
+<%--
+    Document   : head_financial_report_by_categories
+    Created on : Jul 19, 2016, 8:44:01 AM
     Author     : siech
 --%>
 
@@ -9,25 +9,25 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:head>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - financial reports by components </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - financial reports by categories</jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Financial plan for this AWPB
+                        Financial report for this AWPB
                     </div>
                     <div class="panel-body">
-                        <h4>Financial plan by components</h4>
-                        <table id="financial-plan-by-component-table" class="table table-striped table-bordered table-hover reports-table">
+                        <h4>Financial report by categories</h4>
+                        <table id="financial-report-by-category-table" class="table table-striped table-bordered table-hover reports-table">
                             <thead>
                                 <tr>
                                     <th colspan="2">Description</th>
                                     <th colspan="16">Sources of Funds</th>
                                 </tr>
                                 <tr>
-                                    <th rowspan="2" colspan="2">Component &nbsp;</th>
+                                    <th rowspan="2" colspan="2"> Exenditure category</th>
                                     <th colspan="2">GOK</th>
                                     <th colspan="2">Beneficiaries</th>
                                     <th colspan="2">IFAD Loan</th>
@@ -57,30 +57,30 @@
                                 </tr>
                             </thead>
                             <tfoot>
-                                <tr><td colspan="18">Financial plan by categories for this AWPB</td></tr>
+                                <tr><td colspan="18">Financial report by categories for this AWPB</td></tr>
                             </tfoot>
                             <tbody>
-                                <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByComponentMap.keySet()}">
-                                    <c:forEach var="component" items="${sessionScope.financialPlanByComponentMap.get(financialPlanTotals).keySet()}" varStatus="index">
+                                <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByCategoryMap.keySet()}">
+                                    <c:forEach var="expenditureCategory" items="${sessionScope.financialPlanByCategoryMap.get(financialPlanTotals).keySet()}" varStatus="index">
                                         <tr>
                                             <th>${index.count}</th>
-                                            <th>${component.component}</th>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).gokPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).gokValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).beneficiariesPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).beneficiariesValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadLoanPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadLoanValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadGrantPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadGrantValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).financialInstitutionPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).financialInstitutionValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalsPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalsValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalInitialAllocationPercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalInitialAllocationValue}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).balancePercentage}</td>
-                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).balanceValue}</td>
+                                            <th>${expenditureCategory.name}</th>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).gokPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).gokValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).beneficiariesPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).beneficiariesValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).ifadLoanPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).ifadLoanValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).ifadGrantPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).ifadGrantValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).financialInstitutionPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).financialInstitutionValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalsPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalsValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalInitialAllocationPercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalInitialAllocationValue}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).balancePercentage}</td>
+                                            <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).balanceValue}</td>
                                         </tr>
                                     </c:forEach>
                                     <tr>
@@ -104,7 +104,7 @@
                                         <td>${financialPlanTotals.balanceValue}</td>
                                     </tr>
                                 </c:forEach>
-                            </tbody> 
+                            </tbody>
                         </table>
                     </div>
                 </div>

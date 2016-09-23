@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sub_component", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SubComponent.findByComponentId", query = "SELECT s FROM SubComponent s WHERE s.component.id = :componentId"),
     @NamedQuery(name = "SubComponent.findBySubComponentAndComponentId", query = "SELECT s FROM SubComponent s WHERE s.subComponent = :subComponent AND s.component.id = :componentId"),
     @NamedQuery(name = "SubComponent.findAll", query = "SELECT s FROM SubComponent s"),
     @NamedQuery(name = "SubComponent.findById", query = "SELECT s FROM SubComponent s WHERE s.id = :id"),
@@ -135,5 +136,5 @@ public class SubComponent implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubComponent[ id=" + id + " ]";
     }
-    
+
 }

@@ -81,13 +81,31 @@ $(function () {
 
 //<editor-fold defaultstate="collapsed" desc="DataTable">
 $(function () {
+    $("#awpb-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: ['excel', {extend: 'colvis', text: "Hide / show columns"},
+            {
+                text: "Financial reports",
+                action: function () {
+                    loadAjaxWindow("reports");
+                }
+            }
+        ]
+    });
+});
+
+$(function () {
     $(".data-table").DataTable({
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
-        buttons: ['excel', 'colvis']
+        buttons: ['excel', {extend: 'colvis', text: "Hide / show columns"}]
     });
 });
 
@@ -96,7 +114,7 @@ $(function () {
         responsive: true,
         "scrollCollapse": true,
         dom: "Brt",
-        buttons: ['excel', 'print', 'colvis']
+        buttons: ['excel', 'print', {extend: 'colvis', text: "Hide / show columns"}]
     });
 });
 //</editor-fold>
@@ -717,7 +735,6 @@ $("#training").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-
 function addToTrainers() {
     $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
     if ($("#trainer-names").val() === "") {
@@ -861,7 +878,6 @@ $("#e-voucher-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-
 function editEVoucher(id, amount, inputType, person, dateRedeemed) {
     $("#e-voucher-input-type").val(inputType);
     $("#date-redeemed").val(dateRedeemed);
@@ -1653,7 +1669,6 @@ $("#procurement-form").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
 //    $("#item option[value=" + item + "]").attr('selected', 'selected');
     $("#item").val(item);
@@ -2066,7 +2081,6 @@ function editProcurementPlansCs(id, type, description,
     $("#award").val(award);
     $("#sign-contract").val(signContract);
     $("#commence-contract").val(commenceContract);
-
     $("#procurement-plans-cs-dialog").dialog({
         width: 495,
         height: "auto",
@@ -2172,7 +2186,6 @@ function editProcurementPlansCs(id, type, description,
             $("#commence-contract").val("");
         }
     });
-
 }
 //</editor-fold>
 
@@ -2212,7 +2225,6 @@ function clearPerformanceIndicatorFields() {
     $("#actual-value").val("");
     $("#expected-value").val("");
     $("#ratio").val("");
-
 }
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
@@ -2556,6 +2568,18 @@ function deleteFarmActivity(id) {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Update Selects">
+function updateSubComponents() {
+    $.ajax({
+        type: "POST",
+        url: "updateSubComponents",
+        data: "componentId=" + $("#component").val(),
+        success: function (response) {
+            $("#sub-component").html(response);
+        },
+        dataType: "HTML"
+    });
+}
+
 function updateTopics() {
     $.ajax({
         type: "POST",

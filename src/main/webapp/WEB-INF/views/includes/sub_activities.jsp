@@ -16,7 +16,7 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <table class="table table-striped table-bordered table-hover data-table">
+                    <table id="awpb-table" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivity')">Add</button></th>
@@ -94,34 +94,34 @@
                                     <td>${subActivity.euPercentage}</td>
                                     <td>${subActivity.financialInstitutionPercentage}</td>
                                     <td><button onclick="editSubActivity('${subActivity.id}',
-                                            '${subActivity.financialYear.id}',
-                                            '${subActivity.annualWorkplanReferenceCode}',
-                                            '${subActivity.gfssCode.id}',
-                                            '${subActivity.expectedOutcome}',
-                                            '${subActivity.component.id}',
-                                            '${subActivity.subComponent.id}',
-                                            '${subActivity.activityName.id}',
-                                            '${subActivity.subActivityName.id}',
-                                            '<fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.startDate}"/>',
-                                            '<fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.endDate}"/>',
-                                            '${subActivity.measurementUnit.id}',
-                                            '${subActivity.unitCost}',
-                                            '${subActivity.awpbTarget}',
-                                            '${subActivity.programmeTarget}',
-                                            '${subActivity.totals}',
-                                            '${subActivity.responsePcu.name}',
-                                            '${subActivity.implementingPartner.id}',
-                                            '${subActivity.procurementPlan}',
-                                            '${subActivity.description}',
-                                            '${subActivity.valueAchieved}',
-                                            '${subActivity.allocatedBudget}',
-                                            '${subActivity.expenditureCategory.id}',
-                                            '${subActivity.gokPercentage}',
-                                            '${subActivity.ifadLoanPercentage}',
-                                            '${subActivity.ifadGrantPercentage}',
-                                            '${subActivity.beneficiariesPercentage}',
-                                            '${subActivity.euPercentage}',
-                                            '${subActivity.financialInstitutionPercentage}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                    '${subActivity.financialYear.id}',
+                                                    '${subActivity.annualWorkplanReferenceCode}',
+                                                    '${subActivity.gfssCode.id}',
+                                                    '${subActivity.expectedOutcome}',
+                                                    '${subActivity.component.id}',
+                                                    '${subActivity.subComponent.id}',
+                                                    '${subActivity.activityName.id}',
+                                                    '${subActivity.subActivityName.id}',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.startDate}"/>',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.endDate}"/>',
+                                                    '${subActivity.measurementUnit.id}',
+                                                    '${subActivity.unitCost}',
+                                                    '${subActivity.awpbTarget}',
+                                                    '${subActivity.programmeTarget}',
+                                                    '${subActivity.totals}',
+                                                    '${subActivity.responsePcu.name}',
+                                                    '${subActivity.implementingPartner.id}',
+                                                    '${subActivity.procurementPlan}',
+                                                    '${subActivity.description}',
+                                                    '${subActivity.valueAchieved}',
+                                                    '${subActivity.allocatedBudget}',
+                                                    '${subActivity.expenditureCategory.id}',
+                                                    '${subActivity.gokPercentage}',
+                                                    '${subActivity.ifadLoanPercentage}',
+                                                    '${subActivity.ifadGrantPercentage}',
+                                                    '${subActivity.beneficiariesPercentage}',
+                                                    '${subActivity.euPercentage}',
+                                                    '${subActivity.financialInstitutionPercentage}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteSubActivity(${subActivity.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

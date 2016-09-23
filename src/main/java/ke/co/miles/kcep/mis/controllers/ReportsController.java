@@ -22,14 +22,12 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
-import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 
 /**
  *
  * @author siech
  */
-@WebServlet(name = "ReportsController", urlPatterns = {"/reports", "/financial_plan_by_categories", "/financial_plan_by_components"})
+@WebServlet(name = "ReportsController", urlPatterns = {"/reports", "/financial_report_by_categories", "/financial_report_by_components"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -59,12 +57,12 @@ public class ReportsController extends Controller {
                                     path = "/head_reports";
                                     urlPaths.add(path);
                                     break;
-                                case "/financial_plan_by_components":
-                                    path = "/head_financial_plan_by_components";
+                                case "/financial_report_by_components":
+                                    path = "/head_financial_report_by_components";
                                     urlPaths.add(path);
                                     break;
-                                case "/financial_plan_by_categories":
-                                    path = "/head_financial_plan_by_categories";
+                                case "/financial_report_by_categories":
+                                    path = "/head_financial_report_by_categories";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -157,7 +155,7 @@ public class ReportsController extends Controller {
 
             switch (path) {
 
-                case "/head_financial_plan_by_categories":
+                case "/head_financial_report_by_categories":
 
                     try {
                         session.setAttribute("financialPlanByCategoryMap", subActivityService.
@@ -166,10 +164,11 @@ public class ReportsController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
                     }
 
                     break;
-                case "/head_financial_plan_by_components":
+                case "/head_financial_report_by_components":
 
                     try {
                         session.setAttribute("financialPlanByComponentMap", subActivityService.
@@ -178,9 +177,11 @@ public class ReportsController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
                     }
 
                     break;
+
                 default:
                     break;
             }
@@ -202,13 +203,10 @@ public class ReportsController extends Controller {
         }
 
     }
-    private static final Logger LOGGER = Logger.getLogger(ReportsController.class.getSimpleName());
-    @EJB
-    private PersonRequestsLocal personService;
+    private static final Logger LOGGER = Logger.getLogger(ReportsController.class
+            .getSimpleName());
     @EJB
     private SubActivityRequestsLocal subActivityService;
-    @EJB
-    private InputTypeRequestsLocal inputTypeService;
     @EJB
     private FinancialYearRequestsLocal financialYearService;
 

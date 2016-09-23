@@ -20,12 +20,13 @@ public interface SubComponentRequestsLocal {
 
     /**
      *
-     * @param subComponentDetails details of the sub-component record to be created
+     * @param subComponentDetails details of the sub-component record to be
+     * created
      * @return the unique identifier of the new record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public int addSubComponent(SubComponentDetails subComponentDetails) throws MilesException;
+    public short addSubComponent(SubComponentDetails subComponentDetails) throws MilesException;
 
     /**
      *
@@ -36,15 +37,17 @@ public interface SubComponentRequestsLocal {
 
     /**
      *
-     * @param id the unique identifier of the sub-component record to be retrieved
+     * @param id the unique identifier of the sub-component record to be
+     * retrieved
      * @return the details of the sub-component record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public SubComponentDetails retrieveSubComponent(int id) throws MilesException;
+    public SubComponentDetails retrieveSubComponent(short id) throws MilesException;
 
     /**
      *
-     * @param subComponentDetails details of the sub-component record to be edited
+     * @param subComponentDetails details of the sub-component record to be
+     * edited
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
@@ -55,7 +58,7 @@ public interface SubComponentRequestsLocal {
      * @param id the unique identifier of the sub-component record to be removed
      * @throws MilesException when the database is in an incorrect state
      */
-    public void removeSubComponent(int id) throws MilesException;
+    public void removeSubComponent(short id) throws MilesException;
 
     /**
      *
@@ -63,5 +66,14 @@ public interface SubComponentRequestsLocal {
      * @return the details of the converted sub-component
      */
     public SubComponentDetails convertSubComponentToSubComponentDetails(SubComponent subComponent);
+
+    /**
+     *
+     * @param componentId the unique identifier of the component under which the
+     * sub-components to be retrieved belong
+     * @return the list of sub-components retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<SubComponentDetails> retrieveSubComponents(short componentId) throws MilesException;
 
 }

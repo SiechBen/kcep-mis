@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : addSubActivity
     Created on : Sep 7, 2016, 1:28:06 PM
     Author     : ronne
@@ -23,31 +23,31 @@
                                 <option value="${financialYear.id}">${financialYear.financialYear}</option>
                             </c:forEach>
                         </select>
-                    </div> 
+                    </div>
                     <div class="form-group">
                         Annual workplan reference code
                         <input id="annual-workplan-reference-code" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         GFS code
                         <select id="gfss-code" name="gfss-code" class="form-control">
-                            <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index"> 
+                            <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index">
                                 <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.child.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Expected outcome
                         <input id="expected-outcome" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Component
-                        <select id="component" class="form-control">
+                        <select id="component" class="form-control" onchange="updateSubComponents()">
                             <c:forEach var="component" items="${sessionScope.components}" varStatus="counter">
                                 <option value="${component.id}">${component.component}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Sub-component
                         <select id="sub-component" class="form-control">
@@ -55,7 +55,7 @@
                                 <option value="${subComponent.id}">${subComponent.subComponent}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Annual indicator
                         <select id="annual-indicator" class="form-control" onchange="addToAnnualIndicators()">
@@ -63,7 +63,7 @@
                             <c:forEach var="performanceIndicator" items="${sessionScope.performanceIndicators}" varStatus="counter">
                                 <option value="${performanceIndicator.id}">${performanceIndicator.description}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                         <input type="text" id="annual-indicator-descriptions" value="" class="form-control">
                         <input type="hidden" id="annual-indicator-ids" value="">
                     </div>
@@ -75,7 +75,7 @@
                                 <option value="${activityName.id}">${activityName.name}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Sub activity name
                         <select id="sub-activity-name" class="form-control">
@@ -83,15 +83,15 @@
                                 <option value="${subActivityName.id}">${subActivityName.name}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Start Date
                         <input id="start-date" class="form-control datefield">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         End date
                         <input id="end-date" class="form-control datefield">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Measurement unit
                         <select id="measurement-unit" class="form-control">
@@ -103,19 +103,19 @@
                     <div class="form-group">
                         Unit cost
                         <input id="unit-cost" class="form-control" type="number" step="0.01">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Awpb target
                         <input id="awpb-target" class="form-control" type="number" step="0.01">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Programme target
                         <input id="programme-target" class="form-control" type="number" step="0.01">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Totals
                         <input id="totals" class="form-control" type="number" step="0.01">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Response PCU
                         <select id="response-pcu" class="form-control">
@@ -123,7 +123,7 @@
                                 <option value="${responsePcu.id}">${responsePcu.name}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Implementing partner
                         <select id="implementing-partner" class="form-control">
@@ -131,26 +131,26 @@
                                 <option value="${implementingPartner.id}">${implementingPartner.personRole.personRole}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Procurement plan
                         <select id="procurement-plan" class="form-control">
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Description
                         <input id="description" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Value achieved
                         <input id="value-achieved" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Allocated budget
                         <input id="allocated-budget" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Expenditure category
                         <select id="expected-category" class="form-control">
@@ -158,31 +158,31 @@
                                 <option value="${expenditureCategory.id}">${expenditureCategory.name}</option>
                             </c:forEach>
                         </select>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         GOK percentage
                         <input id="gok-percentage" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         IFAD loan percentage
                         <input id="ifad-loan-percentage" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         IFAD grant percentage
                         <input id="ifad-grant-percentage" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Beneficiaries percentage
                         <input id="beneficiaries-percentage" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         EU percentage
                         <input id="eu-percentage" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <div class="form-group">
                         Financial institution percentage
                         <input id="financial-institution-percentage" type="number" step="0.01" class="form-control">
-                    </div>   
+                    </div>
                     <button type="button" class="btn btn-outline btn-primary" onclick="addSubActivity()">Save sub-activity</button>
                 </form>
             </div>

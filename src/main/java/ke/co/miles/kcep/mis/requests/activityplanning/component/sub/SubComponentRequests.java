@@ -27,7 +27,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public int addSubComponent(SubComponentDetails subComponentDetails) throws MilesException {
+    public short addSubComponent(SubComponentDetails subComponentDetails) throws MilesException {
 
         if (subComponentDetails == null) {
             throw new InvalidArgumentException("error_023_01");
@@ -70,6 +70,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<SubComponentDetails> retrieveSubComponents() throws MilesException {
         List<SubComponent> subComponents = new ArrayList<>();
         setQ(getEm().createNamedQuery("SubComponent.findAll"));
@@ -82,7 +83,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
     }
 
     @Override
-    public SubComponentDetails retrieveSubComponent(int id) throws MilesException {
+    public SubComponentDetails retrieveSubComponent(short id) throws MilesException {
         SubComponent subComponent;
         setQ(getEm().createNamedQuery("SubComponent.findById"));
         getQ().setParameter("id", id);
@@ -93,6 +94,21 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
         }
 
         return convertSubComponentToSubComponentDetails(subComponent);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<SubComponentDetails> retrieveSubComponents(short componentId) throws MilesException {
+        List<SubComponent> subComponents;
+        setQ(getEm().createNamedQuery("SubComponent.findByComponentId"));
+        getQ().setParameter("componentId", componentId);
+        try {
+            subComponents = getQ().getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertSubComponentsToSubComponentDetailsList(subComponents);
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
@@ -144,7 +160,7 @@ public class SubComponentRequests extends EntityRequests implements SubComponent
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
-    public void removeSubComponent(int id) throws MilesException {
+    public void removeSubComponent(short id) throws MilesException {
         SubComponent subComponent = getEm().find(SubComponent.class, id);
         try {
             getEm().remove(subComponent);

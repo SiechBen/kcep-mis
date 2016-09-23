@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : genericpage
     Created on : Jun 3, 2016, 3:19:52 PM
     Author     : siech
@@ -278,7 +278,7 @@
                 </div>
             </nav>
 
-            <div>         
+            <div>
                 <jsp:invoke fragment="content" />
             </div>
             <div class="dialog" id="message-dialog">
@@ -292,7 +292,7 @@
         <script src="static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="static/plugins/i18n/jquery.i18n.properties.min.js"></script>
         <script src="static/plugins/metisMenu/dist/metisMenu.min.js"></script>
-        <script src="static/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="static/plugins/datatables/media/js/jquery.dataTables.js"></script>
         <script src="static/plugins/datatables/media/js/dataTables.buttons.min.js"></script>
         <script src="static/plugins/datatables/media/js/buttons.flash.min.js"></script>
         <script src="static/plugins/jszip/jszip.min.js"></script>
