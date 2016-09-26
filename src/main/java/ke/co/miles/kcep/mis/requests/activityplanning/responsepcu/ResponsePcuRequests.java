@@ -35,10 +35,10 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
         }
 
         ResponsePcu responsePcu;
-        setQ(getEm().createNamedQuery("ResponsePcu.findByName"));
-        getQ().setParameter("name", responsePcuDetails.getName());
+        setQ(em.createNamedQuery("ResponsePcu.findByName"));
+        q.setParameter("name", responsePcuDetails.getName());
         try {
-            responsePcu = (ResponsePcu) getQ().getSingleResult();
+            responsePcu = (ResponsePcu) q.getSingleResult();
         } catch (Exception e) {
             responsePcu = null;
         }
@@ -50,8 +50,8 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
         responsePcu.setName(responsePcuDetails.getName());
 
         try {
-            getEm().persist(responsePcu);
-            getEm().flush();
+            em.persist(responsePcu);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
     @Override
     public List<ResponsePcuDetails> retrieveResponsePcuList() throws MilesException {
         List<ResponsePcu> responsePcuList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ResponsePcu.findAll"));
+        setQ(em.createNamedQuery("ResponsePcu.findAll"));
         try {
-            responsePcuList = getQ().getResultList();
+            responsePcuList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
     @Override
     public ResponsePcuDetails retrieveResponsePcu(int id) throws MilesException {
         ResponsePcu responsePcu;
-        setQ(getEm().createNamedQuery("ResponsePcu.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ResponsePcu.findById"));
+        q.setParameter("id", id);
         try {
-            responsePcu = (ResponsePcu) getQ().getSingleResult();
+            responsePcu = (ResponsePcu) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
         }
 
         ResponsePcu responsePcu;
-        setQ(getEm().createNamedQuery("ResponsePcu.findByName"));
-        getQ().setParameter("name", responsePcuDetails.getName());
+        setQ(em.createNamedQuery("ResponsePcu.findByName"));
+        q.setParameter("name", responsePcuDetails.getName());
         try {
-            responsePcu = (ResponsePcu) getQ().getSingleResult();
+            responsePcu = (ResponsePcu) q.getSingleResult();
         } catch (Exception e) {
             responsePcu = null;
         }
@@ -117,13 +117,13 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
             }
         }
 
-        responsePcu = getEm().find(ResponsePcu.class, responsePcuDetails.getId());
+        responsePcu = em.find(ResponsePcu.class, responsePcuDetails.getId());
         responsePcu.setId(responsePcuDetails.getId());
         responsePcu.setName(responsePcuDetails.getName());
 
         try {
-            getEm().merge(responsePcu);
-            getEm().flush();
+            em.merge(responsePcu);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class ResponsePcuRequests extends EntityRequests implements ResponsePcuRe
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeResponsePcu(int id) throws MilesException {
-        ResponsePcu responsePcu = getEm().find(ResponsePcu.class, id);
+        ResponsePcu responsePcu = em.find(ResponsePcu.class, id);
         try {
-            getEm().remove(responsePcu);
+            em.remove(responsePcu);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

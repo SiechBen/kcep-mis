@@ -48,22 +48,22 @@ public class WarehouseOperationRequests extends EntityRequests
                 warehouseOperationDetails.getQuantitySold());
         warehouseOperation.setQuantityBrought(
                 warehouseOperationDetails.getQuantityBrought());
-        warehouseOperation.setWarehouse(getEm().getReference(Warehouse.class,
+        warehouseOperation.setWarehouse(em.getReference(Warehouse.class,
                 warehouseOperationDetails.getWarehouse().getId()));
         if (warehouseOperationDetails.getProduceTypeSold().getId() != null) {
-            warehouseOperation.setProduceTypeSold(getEm().getReference(
+            warehouseOperation.setProduceTypeSold(em.getReference(
                     StaticInput.class, warehouseOperationDetails
                     .getProduceTypeSold().getId()));
         }
         if (warehouseOperationDetails.getProduceTypeBrought().getId() != null) {
-            warehouseOperation.setProduceTypeBrought(getEm().getReference(
+            warehouseOperation.setProduceTypeBrought(em.getReference(
                     StaticInput.class, warehouseOperationDetails
                     .getProduceTypeBrought().getId()));
         }
 
         try {
-            getEm().persist(warehouseOperation);
-            getEm().flush();
+            em.persist(warehouseOperation);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -78,11 +78,11 @@ public class WarehouseOperationRequests extends EntityRequests
     public WarehouseOperationDetails retrieveWarehouseOperation(int id)
             throws MilesException {
 
-        setQ(getEm().createNamedQuery("WarehouseOperation.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("WarehouseOperation.findById"));
+        q.setParameter("id", id);
         WarehouseOperation warehouseOperation;
         try {
-            warehouseOperation = (WarehouseOperation) getQ().getSingleResult();
+            warehouseOperation = (WarehouseOperation) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -97,11 +97,11 @@ public class WarehouseOperationRequests extends EntityRequests
     public List<WarehouseOperationDetails> retrieveWarehouseOperations(
             int warehouseId) throws MilesException {
 
-        setQ(getEm().createNamedQuery("WarehouseOperation.findByWarehouseId"));
-        getQ().setParameter("warehouseId", warehouseId);
+        setQ(em.createNamedQuery("WarehouseOperation.findByWarehouseId"));
+        q.setParameter("warehouseId", warehouseId);
         List<WarehouseOperation> warehouseOperationList;
         try {
-            warehouseOperationList = getQ().getResultList();
+            warehouseOperationList = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -128,7 +128,7 @@ public class WarehouseOperationRequests extends EntityRequests
             throw new InvalidArgumentException("error_009_03");
         }
 
-        WarehouseOperation warehouseOperation = (getEm().getReference(
+        WarehouseOperation warehouseOperation = (em.getReference(
                 WarehouseOperation.class, warehouseOperationDetails.getId()));
         warehouseOperation.setId(
                 warehouseOperationDetails.getId());
@@ -141,22 +141,22 @@ public class WarehouseOperationRequests extends EntityRequests
                 warehouseOperationDetails.getQuantitySold());
         warehouseOperation.setQuantityBrought(
                 warehouseOperationDetails.getQuantityBrought());
-        warehouseOperation.setWarehouse(getEm().getReference(Warehouse.class,
+        warehouseOperation.setWarehouse(em.getReference(Warehouse.class,
                 warehouseOperationDetails.getWarehouse().getId()));
         if (warehouseOperationDetails.getProduceTypeSold().getId() != null) {
-            warehouseOperation.setProduceTypeSold(getEm().getReference(
+            warehouseOperation.setProduceTypeSold(em.getReference(
                     StaticInput.class, warehouseOperationDetails
                     .getProduceTypeSold().getId()));
         }
         if (warehouseOperationDetails.getProduceTypeBrought().getId() != null) {
-            warehouseOperation.setProduceTypeBrought(getEm().getReference(
+            warehouseOperation.setProduceTypeBrought(em.getReference(
                     StaticInput.class, warehouseOperationDetails
                     .getProduceTypeBrought().getId()));
         }
 
         try {
-            getEm().merge(warehouseOperation);
-            getEm().flush();
+            em.merge(warehouseOperation);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -171,10 +171,10 @@ public class WarehouseOperationRequests extends EntityRequests
             throws MilesException {
 
         List<WarehouseOperation> warehouseOperationList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("WarehouseOperation.findByWarehouseId"));
-        getQ().setParameter("warehouseId", warehouseId);
+        setQ(em.createNamedQuery("WarehouseOperation.findByWarehouseId"));
+        q.setParameter("warehouseId", warehouseId);
         try {
-            warehouseOperationList = getQ().getResultList();
+            warehouseOperationList = q.getResultList();
         } catch (Exception e) {
         }
         if (!warehouseOperationList.isEmpty()) {
@@ -188,10 +188,10 @@ public class WarehouseOperationRequests extends EntityRequests
     @Override
     public void removeWarehouseOperation(int id) throws MilesException {
 
-        WarehouseOperation warehouseOperation = getEm().
+        WarehouseOperation warehouseOperation = em.
                 find(WarehouseOperation.class, id);
         try {
-            getEm().remove(warehouseOperation);
+            em.remove(warehouseOperation);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -202,7 +202,7 @@ public class WarehouseOperationRequests extends EntityRequests
             throws MilesException {
 
         try {
-            getEm().remove(warehouseOperation);
+            em.remove(warehouseOperation);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

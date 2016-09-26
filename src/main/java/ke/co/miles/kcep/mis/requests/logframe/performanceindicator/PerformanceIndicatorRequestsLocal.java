@@ -55,6 +55,15 @@ public interface PerformanceIndicatorRequestsLocal {
 
     /**
      *
+     * @param performanceIndicatorDetails details of the performance indicator
+     * values to be edited
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void editPerformanceIndicatorValues(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the performance indicator record to be
      * removed
      * @throws MilesException when the database is in an incorrect state

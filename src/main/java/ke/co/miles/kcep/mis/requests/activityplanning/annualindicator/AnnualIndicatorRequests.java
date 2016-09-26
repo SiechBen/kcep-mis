@@ -42,11 +42,11 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
         }
 
         AnnualIndicator annualIndicator = new AnnualIndicator();
-        annualIndicator.setPerformanceIndicator(getEm().getReference(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
-        annualIndicator.setSubActivity(getEm().getReference(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
+        annualIndicator.setPerformanceIndicator(em.getReference(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
+        annualIndicator.setSubActivity(em.getReference(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
 
         try {
-            getEm().persist(annualIndicator);
+            em.persist(annualIndicator);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -58,7 +58,7 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
         for (AnnualIndicatorDetails annualIndicatorDetails : annualIndicatorDetailsList) {
             addAnnualIndicator(annualIndicatorDetails);
         }
-        getEm().flush();
+        em.flush();
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
@@ -68,9 +68,9 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
     public HashMap<SubActivityDetails, List<AnnualIndicatorDetails>> retrieveSubActivities() throws MilesException {
 
         List<SubActivity> trainings = new ArrayList<>();
-        setQ(getEm().createNamedQuery("SubActivity.findAll"));
+        setQ(em.createNamedQuery("SubActivity.findAll"));
         try {
-            trainings = getQ().getResultList();
+            trainings = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -88,10 +88,10 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
     @SuppressWarnings("unchecked")
     public List<AnnualIndicatorDetails> retrieveAnnualIndicators(int subActivityId) throws MilesException {
         List<AnnualIndicator> annualIndicators = new ArrayList<>();
-        setQ(getEm().createNamedQuery("AnnualIndicator.findBySubActivityId"));
-        getQ().setParameter("subActivityId", subActivityId);
+        setQ(em.createNamedQuery("AnnualIndicator.findBySubActivityId"));
+        q.setParameter("subActivityId", subActivityId);
         try {
-            annualIndicators = getQ().getResultList();
+            annualIndicators = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -101,10 +101,10 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
     @Override
     public AnnualIndicatorDetails retrieveAnnualIndicator(int id) throws MilesException {
         AnnualIndicator annualIndicator;
-        setQ(getEm().createNamedQuery("AnnualIndicator.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("AnnualIndicator.findById"));
+        q.setParameter("id", id);
         try {
-            annualIndicator = (AnnualIndicator) getQ().getSingleResult();
+            annualIndicator = (AnnualIndicator) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -129,12 +129,12 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
 
         AnnualIndicator annualIndicator = new AnnualIndicator();
         annualIndicator.setId(annualIndicatorDetails.getId());
-        annualIndicator.setPerformanceIndicator(getEm().getReference(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
-        annualIndicator.setSubActivity(getEm().getReference(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
+        annualIndicator.setPerformanceIndicator(em.getReference(PerformanceIndicator.class, annualIndicatorDetails.getPerformanceIndicator().getId()));
+        annualIndicator.setSubActivity(em.getReference(SubActivity.class, annualIndicatorDetails.getSubActivity().getId()));
 
         try {
-            getEm().merge(annualIndicator);
-            getEm().flush();
+            em.merge(annualIndicator);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -145,9 +145,9 @@ public class AnnualIndicatorRequests extends EntityRequests implements AnnualInd
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeAnnualIndicator(int id) throws MilesException {
-        AnnualIndicator annualIndicator = getEm().find(AnnualIndicator.class, id);
+        AnnualIndicator annualIndicator = em.find(AnnualIndicator.class, id);
         try {
-            getEm().remove(annualIndicator);
+            em.remove(annualIndicator);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

@@ -59,7 +59,7 @@ $(function () {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Tootlips">
-$('[data-toggle="tooltip"]').tooltip();//initialize all tooltips in the document
+$('[data-toggle="tooltip"]').tooltip(); //initialize all tooltips in the document
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Datepicker">
@@ -161,7 +161,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $('.reports-table').DataTable({
         responsive: true,
@@ -186,7 +185,6 @@ $.ajax({
     },
     dataType: "HTML"
 });
-
 function loadApplicationAttributes() {
     $.ajax({
         url: "load",
@@ -2316,6 +2314,47 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&actualValue=" + $("#actual-value").val() +
                             "&description=" + $("#description").val() +
                             "&yearOfUse=" + $("#year-of-use").val() +
+                            "&ratio=" + $("#ratio").val(),
+                    success: function () {
+                        clearPerformanceIndicatorFields();
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearPerformanceIndicatorFields();
+        }
+    });
+}
+
+function editPerformanceIndicatorValues(id, baselineDate, baselineValue,
+        expectedValue, actualValue, ratio, description) {
+    $("#baseline-date").val(baselineDate);
+    $("#baseline-value").val(baselineValue);
+    $("#expected-value").val(expectedValue);
+    $("#actual-value").val(actualValue);
+    $("#ratio").val(ratio);
+    $("#performance-indicators-values-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditPerformanceIndicatorValues",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&expectedValue=" + $("#expected-value").val() +
+                            "&baselineValue=" + $("#baseline-value").val() +
+                            "&baselineDate=" + $("#baseline-date").val() +
                             "&ratio=" + $("#ratio").val(),
                     success: function () {
                         clearPerformanceIndicatorFields();

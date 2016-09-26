@@ -40,10 +40,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         }
 
         SubActivityName subActivityName;
-        setQ(getEm().createNamedQuery("SubActivityName.findByName"));
-        getQ().setParameter("name", subActivityNameDetails.getName());
+        setQ(em.createNamedQuery("SubActivityName.findByName"));
+        q.setParameter("name", subActivityNameDetails.getName());
         try {
-            subActivityName = (SubActivityName) getQ().getSingleResult();
+            subActivityName = (SubActivityName) q.getSingleResult();
         } catch (Exception e) {
             subActivityName = null;
         }
@@ -53,11 +53,11 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 
         subActivityName = new SubActivityName();
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(getEm().getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
+        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
-            getEm().persist(subActivityName);
-            getEm().flush();
+            em.persist(subActivityName);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -72,9 +72,9 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
     @SuppressWarnings("unchecked")
     public List<SubActivityNameDetails> retrieveSubActivityNames() throws MilesException {
         List<SubActivityName> activities = new ArrayList<>();
-        setQ(getEm().createNamedQuery("SubActivityName.findAll"));
+        setQ(em.createNamedQuery("SubActivityName.findAll"));
         try {
-            activities = getQ().getResultList();
+            activities = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -85,10 +85,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
     @SuppressWarnings("unchecked")
     public List<SubActivityNameDetails> retrieveSubActivityNames(short activityNameId) throws MilesException {
         List<SubActivityName> activities = new ArrayList<>();
-        setQ(getEm().createNamedQuery("SubActivityName.findByActivityNameId"));
-        getQ().setParameter("activityNameId", activityNameId);
+        setQ(em.createNamedQuery("SubActivityName.findByActivityNameId"));
+        q.setParameter("activityNameId", activityNameId);
         try {
-            activities = getQ().getResultList();
+            activities = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -98,10 +98,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
     @Override
     public SubActivityNameDetails retrieveSubActivityName(int id) throws MilesException {
         SubActivityName subActivityName;
-        setQ(getEm().createNamedQuery("SubActivityName.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("SubActivityName.findById"));
+        q.setParameter("id", id);
         try {
-            subActivityName = (SubActivityName) getQ().getSingleResult();
+            subActivityName = (SubActivityName) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -127,10 +127,10 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         }
 
         SubActivityName subActivityName;
-        setQ(getEm().createNamedQuery("SubActivityName.findByName"));
-        getQ().setParameter("name", subActivityNameDetails.getName());
+        setQ(em.createNamedQuery("SubActivityName.findByName"));
+        q.setParameter("name", subActivityNameDetails.getName());
         try {
-            subActivityName = (SubActivityName) getQ().getSingleResult();
+            subActivityName = (SubActivityName) q.getSingleResult();
         } catch (Exception e) {
             subActivityName = null;
         }
@@ -140,14 +140,14 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
             }
         }
 
-        subActivityName = getEm().find(SubActivityName.class, subActivityNameDetails.getId());
+        subActivityName = em.find(SubActivityName.class, subActivityNameDetails.getId());
         subActivityName.setId(subActivityNameDetails.getId());
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(getEm().getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
+        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
-            getEm().merge(subActivityName);
-            getEm().flush();
+            em.merge(subActivityName);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -158,9 +158,9 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeSubActivityName(int id) throws MilesException {
-        SubActivityName subActivityName = getEm().find(SubActivityName.class, id);
+        SubActivityName subActivityName = em.find(SubActivityName.class, id);
         try {
-            getEm().remove(subActivityName);
+            em.remove(subActivityName);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

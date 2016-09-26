@@ -46,17 +46,17 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         training.setNumberOfTrainees(trainingDetails.getNumberOfTrainees());
         if (trainingDetails.getTopic() != null) {
-            training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
+            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class,
+            training.setCategoryOfTrainees(em.getReference(Phenomenon.class,
                     trainingDetails.getCategoryOfTrainees().getId()));
         }
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
 
         try {
-            getEm().persist(training);
-            getEm().flush();
+            em.persist(training);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -70,10 +70,10 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
     @Override
     public TrainingDetails retrieveTraining(int id) throws MilesException {
         Training training;
-        setQ(getEm().createNamedQuery("Training.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Training.findById"));
+        q.setParameter("id", id);
         try {
-            training = (Training) getQ().getSingleResult();
+            training = (Training) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -96,7 +96,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 
         locationService.editLocation(trainingDetails.getVenue());
 
-        Training training = getEm().find(Training.class, trainingDetails.getId());
+        Training training = em.find(Training.class, trainingDetails.getId());
         training.setId(trainingDetails.getId());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
@@ -105,17 +105,17 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             training.setAttendanceSheet(trainingDetails.getAttendanceSheet());
         }
         if (trainingDetails.getTopic() != null) {
-            training.setTopic(getEm().getReference(Topic.class, trainingDetails.getTopic().getId()));
+            training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(getEm().getReference(Phenomenon.class,
+            training.setCategoryOfTrainees(em.getReference(Phenomenon.class,
                     trainingDetails.getCategoryOfTrainees().getId()));
         }
-        training.setVenue(getEm().getReference(Location.class, trainingDetails.getVenue().getId()));
+        training.setVenue(em.getReference(Location.class, trainingDetails.getVenue().getId()));
 
         try {
-            getEm().merge(training);
-            getEm().flush();
+            em.merge(training);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -126,9 +126,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeTraining(int id) throws MilesException {
-        Training training = getEm().find(Training.class, id);
+        Training training = em.find(Training.class, id);
         try {
-            getEm().remove(training);
+            em.remove(training);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

@@ -35,10 +35,10 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         }
 
         Category category;
-        setQ(getEm().createNamedQuery("Category.findByName"));
-        getQ().setParameter("name", categoryDetails.getName());
+        setQ(em.createNamedQuery("Category.findByName"));
+        q.setParameter("name", categoryDetails.getName());
         try {
-            category = (Category) getQ().getSingleResult();
+            category = (Category) q.getSingleResult();
         } catch (Exception e) {
             category = null;
         }
@@ -50,8 +50,8 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         category.setName(categoryDetails.getName());
 
         try {
-            getEm().persist(category);
-            getEm().flush();
+            em.persist(category);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
     @SuppressWarnings("unchecked")
     public List<CategoryDetails> retrieveCategories() throws MilesException {
         List<Category> categorys = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Category.findAll"));
+        setQ(em.createNamedQuery("Category.findAll"));
         try {
-            categorys = getQ().getResultList();
+            categorys = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
     @Override
     public CategoryDetails retrieveCategory(int id) throws MilesException {
         Category category;
-        setQ(getEm().createNamedQuery("Category.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Category.findById"));
+        q.setParameter("id", id);
         try {
-            category = (Category) getQ().getSingleResult();
+            category = (Category) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -105,10 +105,10 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         }
 
         Category category;
-        setQ(getEm().createNamedQuery("Category.findByName"));
-        getQ().setParameter("name", categoryDetails.getName());
+        setQ(em.createNamedQuery("Category.findByName"));
+        q.setParameter("name", categoryDetails.getName());
         try {
-            category = (Category) getQ().getSingleResult();
+            category = (Category) q.getSingleResult();
         } catch (Exception e) {
             category = null;
         }
@@ -118,13 +118,13 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
             }
         }
 
-        category = getEm().find(Category.class, categoryDetails.getId());
+        category = em.find(Category.class, categoryDetails.getId());
         category.setId(categoryDetails.getId());
         category.setName(categoryDetails.getName());
 
         try {
-            getEm().merge(category);
-            getEm().flush();
+            em.merge(category);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -135,9 +135,9 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeCategory(int id) throws MilesException {
-        Category category = getEm().find(Category.class, id);
+        Category category = em.find(Category.class, id);
         try {
-            getEm().remove(category);
+            em.remove(category);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

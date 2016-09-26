@@ -35,10 +35,10 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         }
 
         Village village;
-        setQ(getEm().createNamedQuery("Village.findByName"));
-        getQ().setParameter("name", villageDetails.getName());
+        setQ(em.createNamedQuery("Village.findByName"));
+        q.setParameter("name", villageDetails.getName());
         try {
-            village = (Village) getQ().getSingleResult();
+            village = (Village) q.getSingleResult();
         } catch (Exception e) {
             village = null;
         }
@@ -50,8 +50,8 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         village.setName(villageDetails.getName());
 
         try {
-            getEm().persist(village);
-            getEm().flush();
+            em.persist(village);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
     @SuppressWarnings("unchecked")
     public List<VillageDetails> retrieveVillages() throws MilesException {
         List<Village> villages = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Village.findAll"));
+        setQ(em.createNamedQuery("Village.findAll"));
         try {
-            villages = getQ().getResultList();
+            villages = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -79,10 +79,10 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
     @SuppressWarnings("unchecked")
     public List<VillageDetails> retrieveVillages(short countyId) throws MilesException {
         List<Village> villages = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Village.findByCountyId"));
-        getQ().setParameter("countyId", countyId);
+        setQ(em.createNamedQuery("Village.findByCountyId"));
+        q.setParameter("countyId", countyId);
         try {
-            villages = getQ().getResultList();
+            villages = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -92,10 +92,10 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
     @Override
     public VillageDetails retrieveVillage(int id) throws MilesException {
         Village village;
-        setQ(getEm().createNamedQuery("Village.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Village.findById"));
+        q.setParameter("id", id);
         try {
-            village = (Village) getQ().getSingleResult();
+            village = (Village) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -119,10 +119,10 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         }
 
         Village village;
-        setQ(getEm().createNamedQuery("Village.findByName"));
-        getQ().setParameter("name", villageDetails.getName());
+        setQ(em.createNamedQuery("Village.findByName"));
+        q.setParameter("name", villageDetails.getName());
         try {
-            village = (Village) getQ().getSingleResult();
+            village = (Village) q.getSingleResult();
         } catch (Exception e) {
             village = null;
         }
@@ -132,13 +132,13 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
             }
         }
 
-        village = getEm().find(Village.class, villageDetails.getId());
+        village = em.find(Village.class, villageDetails.getId());
         village.setId(villageDetails.getId());
         village.setName(villageDetails.getName());
 
         try {
-            getEm().merge(village);
-            getEm().flush();
+            em.merge(village);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -149,9 +149,9 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeVillage(int id) throws MilesException {
-        Village village = getEm().find(Village.class, id);
+        Village village = em.find(Village.class, id);
         try {
-            getEm().remove(village);
+            em.remove(village);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

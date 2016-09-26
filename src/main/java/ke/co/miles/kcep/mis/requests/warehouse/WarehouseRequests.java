@@ -45,21 +45,21 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.addLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
-            warehouse.setUnits(getEm().getReference(MeasurementUnit.class,
+            warehouse.setUnits(em.getReference(MeasurementUnit.class,
                     warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(getEm().getReference(Phenomenon.class,
+            warehouse.setWarehouseOperator(em.getReference(Phenomenon.class,
                     warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
-            warehouse.setWarehouseType(getEm().getReference(Phenomenon.class,
+            warehouse.setWarehouseType(em.getReference(Phenomenon.class,
                     warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
-            getEm().persist(warehouse);
-            getEm().flush();
+            em.persist(warehouse);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -73,11 +73,11 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     @Override
     public WarehouseDetails retrieveWarehouse(int warehouseOperatorId) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Warehouse.findByWarehouseOperatorId"));
-        getQ().setParameter("warehouseOperatorId", warehouseOperatorId);
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseOperatorId"));
+        q.setParameter("warehouseOperatorId", warehouseOperatorId);
         Warehouse warehouse;
         try {
-            warehouse = (Warehouse) getQ().getSingleResult();
+            warehouse = (Warehouse) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -90,12 +90,12 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     @Override
     public List<WarehouseDetails> retrieveWardWarehouses(short wardId) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Warehouse.findByWardId"));
-        getQ().setParameter("wardId", wardId);
+        setQ(em.createNamedQuery("Warehouse.findByWardId"));
+        q.setParameter("wardId", wardId);
         System.out.println(wardId);
         List<Warehouse> warehouses;
         try {
-            warehouses = getQ().getResultList();
+            warehouses = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -109,11 +109,11 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     @Override
     public List<WarehouseDetails> retrieveCountyWarehouses(short countyId) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Warehouse.findByCountyId"));
-        getQ().setParameter("countyId", countyId);
+        setQ(em.createNamedQuery("Warehouse.findByCountyId"));
+        q.setParameter("countyId", countyId);
         List<Warehouse> warehouses;
         try {
-            warehouses = getQ().getResultList();
+            warehouses = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -125,11 +125,11 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     @Override
     public List<WarehouseDetails> retrieveSubCountyWarehouses(short subCountyId) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Warehouse.findBySubCountyId"));
-        getQ().setParameter("subCountyId", subCountyId);
+        setQ(em.createNamedQuery("Warehouse.findBySubCountyId"));
+        q.setParameter("subCountyId", subCountyId);
         List<Warehouse> warehouses;
         try {
-            warehouses = getQ().getResultList();
+            warehouses = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -141,10 +141,10 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     @SuppressWarnings("unchecked")
     public List<WarehouseDetails> retrieveWarehouses() throws MilesException {
 
-        setQ(getEm().createNamedQuery("Warehouse.findAll"));
+        setQ(em.createNamedQuery("Warehouse.findAll"));
         List<Warehouse> warehouses;
         try {
-            warehouses = getQ().getResultList();
+            warehouses = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -164,7 +164,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             throw new InvalidArgumentException("error_008_02");
         }
 
-        Warehouse warehouse = getEm().find(Warehouse.class, warehouseDetails.getId());
+        Warehouse warehouse = em.find(Warehouse.class, warehouseDetails.getId());
         warehouse.setId(warehouseDetails.getId());
         warehouse.setOffersWrs(warehouseDetails.getOffersWrs());
         warehouse.setName(warehouseDetails.getName());
@@ -172,21 +172,21 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.editLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
-            warehouse.setUnits(getEm().getReference(MeasurementUnit.class,
+            warehouse.setUnits(em.getReference(MeasurementUnit.class,
                     warehouseDetails.getUnits().getId()));
         }
         if (warehouseDetails.getWarehouseOperator() != null) {
-            warehouse.setWarehouseOperator(getEm().getReference(Phenomenon.class,
+            warehouse.setWarehouseOperator(em.getReference(Phenomenon.class,
                     warehouseDetails.getWarehouseOperator().getId()));
         }
         if (warehouseDetails.getWarehouseType() != null) {
-            warehouse.setWarehouseType(getEm().getReference(Phenomenon.class,
+            warehouse.setWarehouseType(em.getReference(Phenomenon.class,
                     warehouseDetails.getWarehouseType().getId()));
         }
 
         try {
-            getEm().merge(warehouse);
-            getEm().flush();
+            em.merge(warehouse);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -198,10 +198,10 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     @Override
     public void removeWarehouse(int id) throws MilesException {
 
-        Warehouse warehouse = getEm().find(Warehouse.class, id);
+        Warehouse warehouse = em.find(Warehouse.class, id);
         equipmentService.removeWarehouseEquipment(warehouse.getId());
         try {
-            getEm().remove(warehouse);
+            em.remove(warehouse);
         } catch (Exception e) {
             MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");

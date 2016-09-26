@@ -38,11 +38,11 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         }
 
         FarmerSubGroup farmerSubGroup;
-        setQ(getEm().createNamedQuery("FarmerSubGroup.findByNameAndFarmerGroupId"));
-        getQ().setParameter("name", farmerSubGroupDetails.getName());
-        getQ().setParameter("farmerGroupId", farmerSubGroupDetails.getFarmerGroup().getId());
+        setQ(em.createNamedQuery("FarmerSubGroup.findByNameAndFarmerGroupId"));
+        q.setParameter("name", farmerSubGroupDetails.getName());
+        q.setParameter("farmerGroupId", farmerSubGroupDetails.getFarmerGroup().getId());
         try {
-            farmerSubGroup = (FarmerSubGroup) getQ().getSingleResult();
+            farmerSubGroup = (FarmerSubGroup) q.getSingleResult();
         } catch (Exception e) {
             farmerSubGroup = null;
         }
@@ -53,12 +53,12 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         farmerSubGroup = new FarmerSubGroup();
         farmerSubGroup.setName(farmerSubGroupDetails.getName());
         if (farmerSubGroupDetails.getFarmerGroup() != null) {
-            farmerSubGroup.setFarmerGroup(getEm().getReference(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
+            farmerSubGroup.setFarmerGroup(em.getReference(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
         }
 
         try {
-            getEm().persist(farmerSubGroup);
-            getEm().flush();
+            em.persist(farmerSubGroup);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -72,9 +72,9 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
     @Override
     public List<FarmerSubGroupDetails> retrieveCounties() throws MilesException {
         List<FarmerSubGroup> farmerSubGroups = new ArrayList<>();
-        setQ(getEm().createNamedQuery("FarmerSubGroup.findAll"));
+        setQ(em.createNamedQuery("FarmerSubGroup.findAll"));
         try {
-            farmerSubGroups = getQ().getResultList();
+            farmerSubGroups = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -84,10 +84,10 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
     @Override
     public FarmerSubGroupDetails retrieveFarmerSubGroup(int id) throws MilesException {
         FarmerSubGroup farmerSubGroup;
-        setQ(getEm().createNamedQuery("FarmerSubGroup.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("FarmerSubGroup.findById"));
+        q.setParameter("id", id);
         try {
-            farmerSubGroup = (FarmerSubGroup) getQ().getSingleResult();
+            farmerSubGroup = (FarmerSubGroup) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -111,11 +111,11 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         }
 
         FarmerSubGroup farmerSubGroup;
-        setQ(getEm().createNamedQuery("FarmerSubGroup.findByNameAndFarmerGroupId"));
-        getQ().setParameter("name", farmerSubGroupDetails.getName());
-        getQ().setParameter("farmerGroupId", farmerSubGroupDetails.getFarmerGroup().getId());
+        setQ(em.createNamedQuery("FarmerSubGroup.findByNameAndFarmerGroupId"));
+        q.setParameter("name", farmerSubGroupDetails.getName());
+        q.setParameter("farmerGroupId", farmerSubGroupDetails.getFarmerGroup().getId());
         try {
-            farmerSubGroup = (FarmerSubGroup) getQ().getSingleResult();
+            farmerSubGroup = (FarmerSubGroup) q.getSingleResult();
         } catch (Exception e) {
             farmerSubGroup = null;
         }
@@ -125,16 +125,16 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
             }
         }
 
-        farmerSubGroup = getEm().find(FarmerSubGroup.class, farmerSubGroupDetails.getId());
+        farmerSubGroup = em.find(FarmerSubGroup.class, farmerSubGroupDetails.getId());
         farmerSubGroup.setId(farmerSubGroupDetails.getId());
         farmerSubGroup.setName(farmerSubGroupDetails.getName());
         if (farmerSubGroupDetails.getFarmerGroup() != null) {
-            farmerSubGroup.setFarmerGroup(getEm().getReference(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
+            farmerSubGroup.setFarmerGroup(em.getReference(FarmerGroup.class, farmerSubGroupDetails.getFarmerGroup().getId()));
         }
 
         try {
-            getEm().merge(farmerSubGroup);
-            getEm().flush();
+            em.merge(farmerSubGroup);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -145,9 +145,9 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeFarmerSubGroup(int id) throws MilesException {
-        FarmerSubGroup farmerSubGroup = getEm().find(FarmerSubGroup.class, id);
+        FarmerSubGroup farmerSubGroup = em.find(FarmerSubGroup.class, id);
         try {
-            getEm().remove(farmerSubGroup);
+            em.remove(farmerSubGroup);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

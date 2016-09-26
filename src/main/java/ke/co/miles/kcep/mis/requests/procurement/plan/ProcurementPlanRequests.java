@@ -65,14 +65,14 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         procurementPlan.setApprovalByIfad2(procurementPlanDetails.getApprovalByIfad2());
         procurementPlan.setCommenceContract(procurementPlanDetails.getCommenceContract());
         procurementPlan.setApprovalBySdaOrAg(procurementPlanDetails.getApprovalBySdaOrAg());
-        procurementPlan.setPlanVsActual(getEm().getReference(PlanVsActual.class, procurementPlanDetails.getPlanVsActual().getId()));
-        procurementPlan.setIfadPriorReview(getEm().getReference(IfadPriorReview.class, procurementPlanDetails.getIfadPriorReview().getId()));
-        procurementPlan.setProcurementMethod(getEm().getReference(ProcurementMethod.class, procurementPlanDetails.getProcurementMethod().getId()));
-        procurementPlan.setProcurementPlanType(getEm().getReference(ProcurementPlanType.class, procurementPlanDetails.getProcurementPlanType().getId()));
+        procurementPlan.setPlanVsActual(em.getReference(PlanVsActual.class, procurementPlanDetails.getPlanVsActual().getId()));
+        procurementPlan.setIfadPriorReview(em.getReference(IfadPriorReview.class, procurementPlanDetails.getIfadPriorReview().getId()));
+        procurementPlan.setProcurementMethod(em.getReference(ProcurementMethod.class, procurementPlanDetails.getProcurementMethod().getId()));
+        procurementPlan.setProcurementPlanType(em.getReference(ProcurementPlanType.class, procurementPlanDetails.getProcurementPlanType().getId()));
 
         try {
-            getEm().persist(procurementPlan);
-            getEm().flush();
+            em.persist(procurementPlan);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -87,9 +87,9 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
     @SuppressWarnings("unchecked")
     public List<ProcurementPlanDetails> retrieveProcurementPlans() throws MilesException {
         List<ProcurementPlan> procurementPlans = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ProcurementPlan.findAll"));
+        setQ(em.createNamedQuery("ProcurementPlan.findAll"));
         try {
-            procurementPlans = getQ().getResultList();
+            procurementPlans = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -99,10 +99,10 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
     @Override
     public ProcurementPlanDetails retrieveProcurementPlan(int id) throws MilesException {
         ProcurementPlan procurementPlan;
-        setQ(getEm().createNamedQuery("ProcurementPlan.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ProcurementPlan.findById"));
+        q.setParameter("id", id);
         try {
-            procurementPlan = (ProcurementPlan) getQ().getSingleResult();
+            procurementPlan = (ProcurementPlan) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -133,7 +133,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
             }
         }
 
-        ProcurementPlan procurementPlan = getEm().find(ProcurementPlan.class, procurementPlanDetails.getId());
+        ProcurementPlan procurementPlan = em.find(ProcurementPlan.class, procurementPlanDetails.getId());
         procurementPlan.setId(procurementPlanDetails.getId());
         procurementPlan.setCost(procurementPlanDetails.getCost());
         procurementPlan.setAward(procurementPlanDetails.getAward());
@@ -148,14 +148,14 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         procurementPlan.setApprovalByIfad2(procurementPlanDetails.getApprovalByIfad2());
         procurementPlan.setCommenceContract(procurementPlanDetails.getCommenceContract());
         procurementPlan.setApprovalBySdaOrAg(procurementPlanDetails.getApprovalBySdaOrAg());
-        procurementPlan.setPlanVsActual(getEm().getReference(PlanVsActual.class, procurementPlanDetails.getPlanVsActual().getId()));
-        procurementPlan.setIfadPriorReview(getEm().getReference(IfadPriorReview.class, procurementPlanDetails.getIfadPriorReview().getId()));
-        procurementPlan.setProcurementMethod(getEm().getReference(ProcurementMethod.class, procurementPlanDetails.getProcurementMethod().getId()));
-        procurementPlan.setProcurementPlanType(getEm().getReference(ProcurementPlanType.class, procurementPlanDetails.getProcurementPlanType().getId()));
+        procurementPlan.setPlanVsActual(em.getReference(PlanVsActual.class, procurementPlanDetails.getPlanVsActual().getId()));
+        procurementPlan.setIfadPriorReview(em.getReference(IfadPriorReview.class, procurementPlanDetails.getIfadPriorReview().getId()));
+        procurementPlan.setProcurementMethod(em.getReference(ProcurementMethod.class, procurementPlanDetails.getProcurementMethod().getId()));
+        procurementPlan.setProcurementPlanType(em.getReference(ProcurementPlanType.class, procurementPlanDetails.getProcurementPlanType().getId()));
 
         try {
-            getEm().merge(procurementPlan);
-            getEm().flush();
+            em.merge(procurementPlan);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -166,9 +166,9 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeProcurementPlan(int id) throws MilesException {
-        ProcurementPlan procurementPlan = getEm().find(ProcurementPlan.class, id);
+        ProcurementPlan procurementPlan = em.find(ProcurementPlan.class, id);
         try {
-            getEm().remove(procurementPlan);
+            em.remove(procurementPlan);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

@@ -48,12 +48,12 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         equipment.setTotalCount(equipmentDetails.getTotalCount());
         equipment.setSerialNumber(equipmentDetails.getSerialNumber());
         if (equipmentDetails.getWarehouse().getId() != null) {
-            equipment.setWarehouse(getEm().getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
+            equipment.setWarehouse(em.getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
 
         try {
-            getEm().persist(equipment);
-            getEm().flush();
+            em.persist(equipment);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -67,11 +67,11 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
     @Override
     public EquipmentDetails retrieveEquipment(int id) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Equipment.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Equipment.findById"));
+        q.setParameter("id", id);
         Equipment equipment;
         try {
-            equipment = (Equipment) getQ().getSingleResult();
+            equipment = (Equipment) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -84,11 +84,11 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
     @SuppressWarnings("unchecked")
     public List<EquipmentDetails> retrieveEquipmentList(int warehouseId) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Equipment.findByWarehouseId"));
-        getQ().setParameter("warehouseId", warehouseId);
+        setQ(em.createNamedQuery("Equipment.findByWarehouseId"));
+        q.setParameter("warehouseId", warehouseId);
         List<Equipment> equipmentList;
         try {
-            equipmentList = getQ().getResultList();
+            equipmentList = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -115,19 +115,19 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
             throw new InvalidArgumentException("error_009_04");
         }
 
-        Equipment equipment = getEm().find(Equipment.class, equipmentDetails.getId());
+        Equipment equipment = em.find(Equipment.class, equipmentDetails.getId());
         equipment.setId(equipmentDetails.getId());
         equipment.setType(equipmentDetails.getType());
         equipment.setStatus(equipmentDetails.getStatus());
         equipment.setTotalCount(equipmentDetails.getTotalCount());
         equipment.setSerialNumber(equipmentDetails.getSerialNumber());
         if (equipmentDetails.getWarehouse().getId() != null) {
-            equipment.setWarehouse(getEm().getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
+            equipment.setWarehouse(em.getReference(Warehouse.class, equipmentDetails.getWarehouse().getId()));
         }
 
         try {
-            getEm().merge(equipment);
-            getEm().flush();
+            em.merge(equipment);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -141,10 +141,10 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
     public void removeWarehouseEquipment(int warehouseId) throws MilesException {
 
         List<Equipment> equipmentList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Equipment.findByWarehouseId"));
-        getQ().setParameter("warehouseId", warehouseId);
+        setQ(em.createNamedQuery("Equipment.findByWarehouseId"));
+        q.setParameter("warehouseId", warehouseId);
         try {
-            equipmentList = getQ().getResultList();
+            equipmentList = q.getResultList();
         } catch (Exception e) {
         }
         if (!equipmentList.isEmpty()) {
@@ -158,9 +158,9 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
     @Override
     public void removeEquipment(int id) throws MilesException {
 
-        Equipment equipment = getEm().find(Equipment.class, id);
+        Equipment equipment = em.find(Equipment.class, id);
         try {
-            getEm().remove(equipment);
+            em.remove(equipment);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -170,7 +170,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
     private void removeEquipment(Equipment equipment) throws MilesException {
 
         try {
-            getEm().remove(equipment);
+            em.remove(equipment);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

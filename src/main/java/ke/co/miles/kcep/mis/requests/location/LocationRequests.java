@@ -62,23 +62,23 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         try {
-            location.setCounty(getEm().getReference(County.class, locationDetails.getCounty().getId()));
+            location.setCounty(em.getReference(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
             location.setCounty(null);
         }
         try {
-            location.setSubCounty(getEm().getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
+            location.setSubCounty(em.getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
         } catch (Exception e) {
             location.setSubCounty(null);
         }
         try {
-            location.setWard(getEm().getReference(Ward.class, locationDetails.getWard().getId()));
+            location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
             location.setWard(null);
         }
 
         try {
-            getEm().persist(location);
+            em.persist(location);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -93,9 +93,9 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     @SuppressWarnings("unchecked")
     public List<LocationDetails> retrieveLocations() throws MilesException {
         List<Location> locations = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Location.findAll"));
+        setQ(em.createNamedQuery("Location.findAll"));
         try {
-            locations = getQ().getResultList();
+            locations = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -105,10 +105,10 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     @Override
     public LocationDetails retrieveLocation(int id) throws MilesException {
         Location location;
-        setQ(getEm().createNamedQuery("Location.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Location.findById"));
+        q.setParameter("id", id);
         try {
-            location = (Location) getQ().getSingleResult();
+            location = (Location) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -145,28 +145,28 @@ public class LocationRequests extends EntityRequests implements LocationRequests
             }
         }
 
-        Location location = getEm().find(Location.class, locationDetails.getId());
+        Location location = em.find(Location.class, locationDetails.getId());
         location.setId(locationDetails.getId());
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         try {
-            location.setCounty(getEm().getReference(County.class, locationDetails.getCounty().getId()));
+            location.setCounty(em.getReference(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
             location.setCounty(null);
         }
         try {
-            location.setSubCounty(getEm().getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
+            location.setSubCounty(em.getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
         } catch (Exception e) {
             location.setSubCounty(null);
         }
         try {
-            location.setWard(getEm().getReference(Ward.class, locationDetails.getWard().getId()));
+            location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
             location.setWard(null);
         }
 
         try {
-            getEm().merge(location);
+            em.merge(location);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -179,9 +179,9 @@ public class LocationRequests extends EntityRequests implements LocationRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeLocation(int id) throws MilesException {
-        Location location = getEm().find(Location.class, id);
+        Location location = em.find(Location.class, id);
         try {
-            getEm().remove(location);
+            em.remove(location);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

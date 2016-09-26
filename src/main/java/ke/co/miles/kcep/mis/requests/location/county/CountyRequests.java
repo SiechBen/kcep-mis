@@ -39,10 +39,10 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         }
 
         County county;
-        setQ(getEm().createNamedQuery("County.findByName"));
-        getQ().setParameter("county", countyDetails.getName());
+        setQ(em.createNamedQuery("County.findByName"));
+        q.setParameter("county", countyDetails.getName());
         try {
-            county = (County) getQ().getSingleResult();
+            county = (County) q.getSingleResult();
         } catch (Exception e) {
             county = null;
         }
@@ -52,11 +52,11 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 
         county = new County();
         county.setName(countyDetails.getName());
-        county.setRegion(getEm().getReference(Region.class, countyDetails.getRegion().getId()));
+        county.setRegion(em.getReference(Region.class, countyDetails.getRegion().getId()));
 
         try {
-            getEm().persist(county);
-            getEm().flush();
+            em.persist(county);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -71,9 +71,9 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
     @SuppressWarnings("unchecked")
     public List<CountyDetails> retrieveCounties() throws MilesException {
         List<County> countys = new ArrayList<>();
-        setQ(getEm().createNamedQuery("County.findAll"));
+        setQ(em.createNamedQuery("County.findAll"));
         try {
-            countys = getQ().getResultList();
+            countys = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -83,10 +83,10 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
     @Override
     public CountyDetails retrieveCounty(int id) throws MilesException {
         County county;
-        setQ(getEm().createNamedQuery("County.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("County.findById"));
+        q.setParameter("id", id);
         try {
-            county = (County) getQ().getSingleResult();
+            county = (County) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -112,10 +112,10 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         }
 
         County county;
-        setQ(getEm().createNamedQuery("County.findByName"));
-        getQ().setParameter("county", countyDetails.getName());
+        setQ(em.createNamedQuery("County.findByName"));
+        q.setParameter("county", countyDetails.getName());
         try {
-            county = (County) getQ().getSingleResult();
+            county = (County) q.getSingleResult();
         } catch (Exception e) {
             county = null;
         }
@@ -125,14 +125,14 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
             }
         }
 
-        county = getEm().find(County.class, countyDetails.getId());
+        county = em.find(County.class, countyDetails.getId());
         county.setId(countyDetails.getId());
         county.setName(countyDetails.getName());
-        county.setRegion(getEm().getReference(Region.class, countyDetails.getRegion().getId()));
+        county.setRegion(em.getReference(Region.class, countyDetails.getRegion().getId()));
 
         try {
-            getEm().merge(county);
-            getEm().flush();
+            em.merge(county);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -143,9 +143,9 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeCounty(int id) throws MilesException {
-        County county = getEm().find(County.class, id);
+        County county = em.find(County.class, id);
         try {
-            getEm().remove(county);
+            em.remove(county);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

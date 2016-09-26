@@ -37,10 +37,10 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         }
 
         MeasurementUnit measurementUnit;
-        setQ(getEm().createNamedQuery("MeasurementUnit.findByUnit"));
-        getQ().setParameter("unit", measurementUnitDetails.getUnit());
+        setQ(em.createNamedQuery("MeasurementUnit.findByUnit"));
+        q.setParameter("unit", measurementUnitDetails.getUnit());
         try {
-            measurementUnit = (MeasurementUnit) getQ().getSingleResult();
+            measurementUnit = (MeasurementUnit) q.getSingleResult();
         } catch (Exception e) {
             measurementUnit = null;
         }
@@ -53,8 +53,8 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         measurementUnit.setSymbol(measurementUnitDetails.getSymbol());
 
         try {
-            getEm().persist(measurementUnit);
-            getEm().flush();
+            em.persist(measurementUnit);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -69,9 +69,9 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
     @SuppressWarnings("unchecked")
     public List<MeasurementUnitDetails> retrieveMeasurementUnits() throws MilesException {
         List<MeasurementUnit> measurementUnits = new ArrayList<>();
-        setQ(getEm().createNamedQuery("MeasurementUnit.findAll"));
+        setQ(em.createNamedQuery("MeasurementUnit.findAll"));
         try {
-            measurementUnits = getQ().getResultList();
+            measurementUnits = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -82,10 +82,10 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
     @SuppressWarnings("unchecked")
     public List<MeasurementUnitDetails> retrievePlanningMeasurementUnits() throws MilesException {
         List<MeasurementUnit> measurementUnits = new ArrayList<>();
-        setQ(getEm().createNamedQuery("MeasurementUnit.findByUse"));
-        getQ().setParameter("use", "Planning");
+        setQ(em.createNamedQuery("MeasurementUnit.findByUse"));
+        q.setParameter("use", "Planning");
         try {
-            measurementUnits = getQ().getResultList();
+            measurementUnits = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -95,10 +95,10 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
     @Override
     public MeasurementUnitDetails retrieveMeasurementUnit(int id) throws MilesException {
         MeasurementUnit measurementUnit;
-        setQ(getEm().createNamedQuery("MeasurementUnit.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("MeasurementUnit.findById"));
+        q.setParameter("id", id);
         try {
-            measurementUnit = (MeasurementUnit) getQ().getSingleResult();
+            measurementUnit = (MeasurementUnit) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -124,10 +124,10 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         }
 
         MeasurementUnit measurementUnit;
-        setQ(getEm().createNamedQuery("MeasurementUnit.findByUnit"));
-        getQ().setParameter("unit", measurementUnitDetails.getUnit());
+        setQ(em.createNamedQuery("MeasurementUnit.findByUnit"));
+        q.setParameter("unit", measurementUnitDetails.getUnit());
         try {
-            measurementUnit = (MeasurementUnit) getQ().getSingleResult();
+            measurementUnit = (MeasurementUnit) q.getSingleResult();
         } catch (Exception e) {
             measurementUnit = null;
         }
@@ -137,13 +137,13 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
             }
         }
 
-        measurementUnit = getEm().find(MeasurementUnit.class, measurementUnitDetails.getId());
+        measurementUnit = em.find(MeasurementUnit.class, measurementUnitDetails.getId());
         measurementUnit.setUnit(measurementUnitDetails.getUnit());
         measurementUnit.setSymbol(measurementUnitDetails.getSymbol());
 
         try {
-            getEm().merge(measurementUnit);
-            getEm().flush();
+            em.merge(measurementUnit);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -154,9 +154,9 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeMeasurementUnit(int id) throws MilesException {
-        MeasurementUnit measurementUnit = getEm().find(MeasurementUnit.class, id);
+        MeasurementUnit measurementUnit = em.find(MeasurementUnit.class, id);
         try {
-            getEm().remove(measurementUnit);
+            em.remove(measurementUnit);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

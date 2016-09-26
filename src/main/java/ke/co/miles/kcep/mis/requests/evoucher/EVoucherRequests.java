@@ -40,19 +40,19 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         eVoucher.setAmount(eVoucherDetails.getAmount());
         eVoucher.setDateRedeemed(eVoucherDetails.getDateRedeemed());
         try {
-            eVoucher.setInputType(getEm().getReference(InputType.class, eVoucherDetails.getInputType().getId()));
+            eVoucher.setInputType(em.getReference(InputType.class, eVoucherDetails.getInputType().getId()));
         } catch (Exception e) {
             eVoucher.setInputType(null);
         }
         try {
-            eVoucher.setPerson(getEm().getReference(Person.class, eVoucherDetails.getPerson().getId()));
+            eVoucher.setPerson(em.getReference(Person.class, eVoucherDetails.getPerson().getId()));
         } catch (Exception e) {
             eVoucher.setPerson(null);
         }
 
         try {
-            getEm().persist(eVoucher);
-            getEm().flush();
+            em.persist(eVoucher);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
     @Override
     public List<EVoucherDetails> retrieveEVouchers() throws MilesException {
         List<EVoucher> eVouchers = new ArrayList<>();
-        setQ(getEm().createNamedQuery("EVoucher.findAll"));
+        setQ(em.createNamedQuery("EVoucher.findAll"));
         try {
-            eVouchers = getQ().getResultList();
+            eVouchers = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
     @Override
     public EVoucherDetails retrieveEVoucher(int id) throws MilesException {
         EVoucher eVoucher;
-        setQ(getEm().createNamedQuery("EVoucher.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("EVoucher.findById"));
+        q.setParameter("id", id);
         try {
-            eVoucher = (EVoucher) getQ().getSingleResult();
+            eVoucher = (EVoucher) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -100,7 +100,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
             throw new InvalidArgumentException("error_019_02");
         }
 
-        EVoucher eVoucher = getEm().find(EVoucher.class, eVoucherDetails.getId());
+        EVoucher eVoucher = em.find(EVoucher.class, eVoucherDetails.getId());
         eVoucher.setId(eVoucherDetails.getId());
         if (eVoucherDetails.getInputsLogbookPage() != null) {
             eVoucher.setInputsLogbookPage(eVoucherDetails.getInputsLogbookPage());
@@ -108,19 +108,19 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         eVoucher.setAmount(eVoucherDetails.getAmount());
         eVoucher.setDateRedeemed(eVoucherDetails.getDateRedeemed());
         try {
-            eVoucher.setInputType(getEm().getReference(InputType.class, eVoucherDetails.getInputType().getId()));
+            eVoucher.setInputType(em.getReference(InputType.class, eVoucherDetails.getInputType().getId()));
         } catch (Exception e) {
             eVoucher.setInputType(null);
         }
         try {
-            eVoucher.setPerson(getEm().getReference(Person.class, eVoucherDetails.getPerson().getId()));
+            eVoucher.setPerson(em.getReference(Person.class, eVoucherDetails.getPerson().getId()));
         } catch (Exception e) {
             eVoucher.setPerson(null);
         }
 
         try {
-            getEm().merge(eVoucher);
-            getEm().flush();
+            em.merge(eVoucher);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -131,9 +131,9 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeEVoucher(int id) throws MilesException {
-        EVoucher eVoucher = getEm().find(EVoucher.class, id);
+        EVoucher eVoucher = em.find(EVoucher.class, id);
         try {
-            getEm().remove(eVoucher);
+            em.remove(eVoucher);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

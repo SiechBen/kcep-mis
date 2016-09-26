@@ -35,10 +35,10 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
         }
 
         ImplementingPartner implementingPartner;
-        setQ(getEm().createNamedQuery("ImplementingPartner.findByPersonRoleId"));
-        getQ().setParameter("personRoleId", implementingPartnerDetails.getPersonRole().getId());
+        setQ(em.createNamedQuery("ImplementingPartner.findByPersonRoleId"));
+        q.setParameter("personRoleId", implementingPartnerDetails.getPersonRole().getId());
         try {
-            implementingPartner = (ImplementingPartner) getQ().getSingleResult();
+            implementingPartner = (ImplementingPartner) q.getSingleResult();
         } catch (Exception e) {
             implementingPartner = null;
         }
@@ -47,11 +47,11 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
         }
 
         implementingPartner = new ImplementingPartner();
-        implementingPartner.setPersonRole(getEm().getReference(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
+        implementingPartner.setPersonRole(em.getReference(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
 
         try {
-            getEm().persist(implementingPartner);
-            getEm().flush();
+            em.persist(implementingPartner);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
     @SuppressWarnings("unchecked")
     public List<ImplementingPartnerDetails> retrieveImplementingPartners() throws MilesException {
         List<ImplementingPartner> implementingPartners = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ImplementingPartner.findAll"));
+        setQ(em.createNamedQuery("ImplementingPartner.findAll"));
         try {
-            implementingPartners = getQ().getResultList();
+            implementingPartners = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
     @Override
     public ImplementingPartnerDetails retrieveImplementingPartner(int id) throws MilesException {
         ImplementingPartner implementingPartner;
-        setQ(getEm().createNamedQuery("ImplementingPartner.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ImplementingPartner.findById"));
+        q.setParameter("id", id);
         try {
-            implementingPartner = (ImplementingPartner) getQ().getSingleResult();
+            implementingPartner = (ImplementingPartner) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -103,10 +103,10 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
         }
 
         ImplementingPartner implementingPartner;
-        setQ(getEm().createNamedQuery("ImplementingPartner.findByPersonRoleId"));
-        getQ().setParameter("personRoleId", implementingPartnerDetails.getPersonRole().getId());
+        setQ(em.createNamedQuery("ImplementingPartner.findByPersonRoleId"));
+        q.setParameter("personRoleId", implementingPartnerDetails.getPersonRole().getId());
         try {
-            implementingPartner = (ImplementingPartner) getQ().getSingleResult();
+            implementingPartner = (ImplementingPartner) q.getSingleResult();
         } catch (Exception e) {
             implementingPartner = null;
         }
@@ -116,13 +116,13 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
             }
         }
 
-        implementingPartner = getEm().find(ImplementingPartner.class, implementingPartnerDetails.getId());
+        implementingPartner = em.find(ImplementingPartner.class, implementingPartnerDetails.getId());
         implementingPartner.setId(implementingPartnerDetails.getId());
-        implementingPartner.setPersonRole(getEm().getReference(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
+        implementingPartner.setPersonRole(em.getReference(PersonRole.class, implementingPartnerDetails.getPersonRole().getId()));
 
         try {
-            getEm().merge(implementingPartner);
-            getEm().flush();
+            em.merge(implementingPartner);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -133,9 +133,9 @@ public class ImplementingPartnerRequests extends EntityRequests implements Imple
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeImplementingPartner(int id) throws MilesException {
-        ImplementingPartner implementingPartner = getEm().find(ImplementingPartner.class, id);
+        ImplementingPartner implementingPartner = em.find(ImplementingPartner.class, id);
         try {
-            getEm().remove(implementingPartner);
+            em.remove(implementingPartner);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

@@ -27,7 +27,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>  
+    <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -37,17 +37,17 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.5.2</version>
-        </dependency>       
+        </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.3</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.4.1</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -59,7 +59,7 @@
             <artifactId>catch-exception</artifactId>
             <version>1.2.0</version>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -99,7 +99,7 @@
             <groupId>org.apache.openejb</groupId>
             <artifactId>tomee-jaxrs</artifactId>
             <version>1.7.1</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
@@ -115,13 +115,13 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.13</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.13</version>
             <type>jar</type>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
@@ -146,13 +146,13 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.0.4</version>
-        </dependency>  
+        </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap</groupId>
             <artifactId>shrinkwrap-depchain</artifactId>
             <version>1.2.2</version>
             <type>pom</type>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
             <artifactId>shrinkwrap-resolver-bom</artifactId>
@@ -165,8 +165,13 @@
             <artifactId>Miles</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
-    
+
     <profiles>
         <profile>
             <id>tomee-embedded</id>
@@ -233,7 +238,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin> 
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -241,7 +246,7 @@
                 <configuration>
                     <skipTests>false</skipTests>
                 </configuration>
-            </plugin> 
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -252,7 +257,7 @@
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-            </resource>            
+            </resource>
             <resource>
                 <directory>src/main/webapp/static/bundles</directory>
             </resource>

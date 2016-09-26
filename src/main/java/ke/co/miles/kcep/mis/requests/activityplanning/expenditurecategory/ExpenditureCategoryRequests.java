@@ -35,10 +35,10 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
         }
 
         ExpenditureCategory expenditureCategory;
-        setQ(getEm().createNamedQuery("ExpenditureCategory.findByName"));
-        getQ().setParameter("name", expenditureCategoryDetails.getName());
+        setQ(em.createNamedQuery("ExpenditureCategory.findByName"));
+        q.setParameter("name", expenditureCategoryDetails.getName());
         try {
-            expenditureCategory = (ExpenditureCategory) getQ().getSingleResult();
+            expenditureCategory = (ExpenditureCategory) q.getSingleResult();
         } catch (Exception e) {
             expenditureCategory = null;
         }
@@ -50,8 +50,8 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
         expenditureCategory.setName(expenditureCategoryDetails.getName());
 
         try {
-            getEm().persist(expenditureCategory);
-            getEm().flush();
+            em.persist(expenditureCategory);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
     @SuppressWarnings("unchecked")
     public List<ExpenditureCategoryDetails> retrieveExpenditureCategories() throws MilesException {
         List<ExpenditureCategory> expenditureCategories = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ExpenditureCategory.findAll", ExpenditureCategory.class));
+        setQ(em.createNamedQuery("ExpenditureCategory.findAll", ExpenditureCategory.class));
         try {
-            expenditureCategories = getQ().getResultList();
+            expenditureCategories = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
     @Override
     public ExpenditureCategoryDetails retrieveExpenditureCategory(int id) throws MilesException {
         ExpenditureCategory expenditureCategory;
-        setQ(getEm().createNamedQuery("ExpenditureCategory.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ExpenditureCategory.findById"));
+        q.setParameter("id", id);
         try {
-            expenditureCategory = (ExpenditureCategory) getQ().getSingleResult();
+            expenditureCategory = (ExpenditureCategory) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -105,10 +105,10 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
         }
 
         ExpenditureCategory expenditureCategory;
-        setQ(getEm().createNamedQuery("ExpenditureCategory.findByName"));
-        getQ().setParameter("name", expenditureCategoryDetails.getName());
+        setQ(em.createNamedQuery("ExpenditureCategory.findByName"));
+        q.setParameter("name", expenditureCategoryDetails.getName());
         try {
-            expenditureCategory = (ExpenditureCategory) getQ().getSingleResult();
+            expenditureCategory = (ExpenditureCategory) q.getSingleResult();
         } catch (Exception e) {
             expenditureCategory = null;
         }
@@ -118,13 +118,13 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
             }
         }
 
-        expenditureCategory = getEm().find(ExpenditureCategory.class, expenditureCategoryDetails.getId());
+        expenditureCategory = em.find(ExpenditureCategory.class, expenditureCategoryDetails.getId());
         expenditureCategory.setId(expenditureCategoryDetails.getId());
         expenditureCategory.setName(expenditureCategoryDetails.getName());
 
         try {
-            getEm().merge(expenditureCategory);
-            getEm().flush();
+            em.merge(expenditureCategory);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -135,9 +135,9 @@ public class ExpenditureCategoryRequests extends EntityRequests implements Expen
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeExpenditureCategory(int id) throws MilesException {
-        ExpenditureCategory expenditureCategory = getEm().find(ExpenditureCategory.class, id);
+        ExpenditureCategory expenditureCategory = em.find(ExpenditureCategory.class, id);
         try {
-            getEm().remove(expenditureCategory);
+            em.remove(expenditureCategory);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

@@ -35,10 +35,10 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
         }
 
         Component component;
-        setQ(getEm().createNamedQuery("Component.findByComponent"));
-        getQ().setParameter("component", componentDetails.getComponent());
+        setQ(em.createNamedQuery("Component.findByComponent"));
+        q.setParameter("component", componentDetails.getComponent());
         try {
-            component = (Component) getQ().getSingleResult();
+            component = (Component) q.getSingleResult();
         } catch (Exception e) {
             component = null;
         }
@@ -50,8 +50,8 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
         component.setComponent(componentDetails.getComponent());
 
         try {
-            getEm().persist(component);
-            getEm().flush();
+            em.persist(component);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
     @Override
     public List<ComponentDetails> retrieveComponents() throws MilesException {
         List<Component> components = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Component.findAll"));
+        setQ(em.createNamedQuery("Component.findAll"));
         try {
-            components = getQ().getResultList();
+            components = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
     @Override
     public ComponentDetails retrieveComponent(int id) throws MilesException {
         Component component;
-        setQ(getEm().createNamedQuery("Component.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Component.findById"));
+        q.setParameter("id", id);
         try {
-            component = (Component) getQ().getSingleResult();
+            component = (Component) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
         }
 
         Component component;
-        setQ(getEm().createNamedQuery("Component.findByComponent"));
-        getQ().setParameter("component", componentDetails.getComponent());
+        setQ(em.createNamedQuery("Component.findByComponent"));
+        q.setParameter("component", componentDetails.getComponent());
         try {
-            component = (Component) getQ().getSingleResult();
+            component = (Component) q.getSingleResult();
         } catch (Exception e) {
             component = null;
         }
@@ -117,13 +117,13 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
             }
         }
 
-        component = getEm().find(Component.class, componentDetails.getId());
+        component = em.find(Component.class, componentDetails.getId());
         component.setId(componentDetails.getId());
         component.setComponent(componentDetails.getComponent());
 
         try {
-            getEm().merge(component);
-            getEm().flush();
+            em.merge(component);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class ComponentRequests extends EntityRequests implements ComponentReques
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeComponent(int id) throws MilesException {
-        Component component = getEm().find(Component.class, id);
+        Component component = em.find(Component.class, id);
         try {
-            getEm().remove(component);
+            em.remove(component);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

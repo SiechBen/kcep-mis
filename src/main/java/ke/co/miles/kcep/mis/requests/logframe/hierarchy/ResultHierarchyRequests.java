@@ -41,10 +41,10 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         }
 
         ResultHierarchy resultHierarchy;
-        setQ(getEm().createNamedQuery("ResultHierarchy.findByDescription"));
-        getQ().setParameter("description", resultHierarchyDetails.getDescription());
+        setQ(em.createNamedQuery("ResultHierarchy.findByDescription"));
+        q.setParameter("description", resultHierarchyDetails.getDescription());
         try {
-            resultHierarchy = (ResultHierarchy) getQ().getSingleResult();
+            resultHierarchy = (ResultHierarchy) q.getSingleResult();
         } catch (Exception e) {
             resultHierarchy = null;
         }
@@ -55,15 +55,15 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         resultHierarchy = new ResultHierarchy();
         resultHierarchy.setDescription(resultHierarchyDetails.getDescription());
         if (resultHierarchyDetails.getComponent() != null) {
-            resultHierarchy.setComponent(getEm().getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
+            resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
         }
         if (resultHierarchyDetails.getSubComponent() != null) {
-            resultHierarchy.setSubComponent(getEm().getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
+            resultHierarchy.setSubComponent(em.getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
         }
 
         try {
-            getEm().persist(resultHierarchy);
-            getEm().flush();
+            em.persist(resultHierarchy);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -78,9 +78,9 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
     @SuppressWarnings("unchecked")
     public List<ResultHierarchyDetails> retrieveResultHierarchies() throws MilesException {
         List<ResultHierarchy> resultHierarchies = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ResultHierarchy.findAll"));
+        setQ(em.createNamedQuery("ResultHierarchy.findAll"));
         try {
-            resultHierarchies = getQ().getResultList();
+            resultHierarchies = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -90,10 +90,10 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
     @Override
     public ResultHierarchyDetails retrieveResultHierarchy(int id) throws MilesException {
         ResultHierarchy resultHierarchy;
-        setQ(getEm().createNamedQuery("ResultHierarchy.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ResultHierarchy.findById"));
+        q.setParameter("id", id);
         try {
-            resultHierarchy = (ResultHierarchy) getQ().getSingleResult();
+            resultHierarchy = (ResultHierarchy) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -117,10 +117,10 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         } 
 
         ResultHierarchy resultHierarchy;
-        setQ(getEm().createNamedQuery("ResultHierarchy.findByDescription"));
-        getQ().setParameter("description", resultHierarchyDetails.getDescription());
+        setQ(em.createNamedQuery("ResultHierarchy.findByDescription"));
+        q.setParameter("description", resultHierarchyDetails.getDescription());
         try {
-            resultHierarchy = (ResultHierarchy) getQ().getSingleResult();
+            resultHierarchy = (ResultHierarchy) q.getSingleResult();
         } catch (Exception e) {
             resultHierarchy = null;
         }
@@ -130,18 +130,18 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
             }
         }
 
-        resultHierarchy = getEm().find(ResultHierarchy.class, resultHierarchyDetails.getId());
+        resultHierarchy = em.find(ResultHierarchy.class, resultHierarchyDetails.getId());
         resultHierarchy.setId(resultHierarchyDetails.getId());
         resultHierarchy.setDescription(resultHierarchyDetails.getDescription());
-        resultHierarchy.setComponent(getEm().getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
+        resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
             if (resultHierarchyDetails.getComponent() != null) {
-            resultHierarchy.setComponent(getEm().getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
+            resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
         }   if (resultHierarchyDetails.getSubComponent() != null) {
-            resultHierarchy.setSubComponent(getEm().getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
+            resultHierarchy.setSubComponent(em.getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
         }
         try {
-            getEm().merge(resultHierarchy);
-            getEm().flush();
+            em.merge(resultHierarchy);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -152,9 +152,9 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeResultHierarchy(int id) throws MilesException {
-        ResultHierarchy resultHierarchy = getEm().find(ResultHierarchy.class, id);
+        ResultHierarchy resultHierarchy = em.find(ResultHierarchy.class, id);
         try {
-            getEm().remove(resultHierarchy);
+            em.remove(resultHierarchy);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

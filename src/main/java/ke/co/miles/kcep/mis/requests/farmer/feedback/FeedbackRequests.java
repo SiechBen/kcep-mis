@@ -40,11 +40,11 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         Feedback feedback = new Feedback();
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        feedback.setFarmer(getEm().getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
 
         try {
-            getEm().persist(feedback);
-            getEm().flush();
+            em.persist(feedback);
+            em.flush();
         } catch (Exception e) {
             System.out.println(e);
             throw new InvalidStateException("error_000_01");
@@ -60,10 +60,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @SuppressWarnings("unchecked")
     public List<FeedbackDetails> retrieveWardFeedback(int wardId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Feedback.findByWardId"));
-        getQ().setParameter("wardId", wardId);
+        setQ(em.createNamedQuery("Feedback.findByWardId"));
+        q.setParameter("wardId", wardId);
         try {
-            feedbackList = getQ().getResultList();
+            feedbackList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -74,10 +74,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @SuppressWarnings("unchecked")
     public List<FeedbackDetails> retrieveRegionFeedback(int regionId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Feedback.findByRegionId"));
-        getQ().setParameter("regionId", regionId);
+        setQ(em.createNamedQuery("Feedback.findByRegionId"));
+        q.setParameter("regionId", regionId);
         try {
-            feedbackList = getQ().getResultList();
+            feedbackList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -88,10 +88,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @SuppressWarnings("unchecked")
     public List<FeedbackDetails> retrieveCountyFeedback(short countyId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Feedback.findByCountyId"));
-        getQ().setParameter("countyId", countyId);
+        setQ(em.createNamedQuery("Feedback.findByCountyId"));
+        q.setParameter("countyId", countyId);
         try {
-            feedbackList = getQ().getResultList();
+            feedbackList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -102,10 +102,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @SuppressWarnings("unchecked")
     public List<FeedbackDetails> retrieveSubCountyFeedback(int subCountyId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Feedback.findBySubCountyId"));
-        getQ().setParameter("subCountyId", subCountyId);
+        setQ(em.createNamedQuery("Feedback.findBySubCountyId"));
+        q.setParameter("subCountyId", subCountyId);
         try {
-            feedbackList = getQ().getResultList();
+            feedbackList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -116,10 +116,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @SuppressWarnings("unchecked")
     public List<FeedbackDetails> retrieveLatestFeedback() throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Feedback.findLatest"));
-        getQ().setMaxResults(3);
+        setQ(em.createNamedQuery("Feedback.findLatest"));
+        q.setMaxResults(3);
         try {
-            feedbackList = getQ().getResultList();
+            feedbackList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -130,9 +130,9 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @SuppressWarnings("unchecked")
     public List<FeedbackDetails> retrieveFeedback() throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Feedback.findAll"));
+        setQ(em.createNamedQuery("Feedback.findAll"));
         try {
-            feedbackList = getQ().getResultList();
+            feedbackList = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -142,10 +142,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     @Override
     public FeedbackDetails retrieveFeedback(int id) throws MilesException {
         Feedback feedback;
-        setQ(getEm().createNamedQuery("Feedback.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Feedback.findById"));
+        q.setParameter("id", id);
         try {
-            feedback = (Feedback) getQ().getSingleResult();
+            feedback = (Feedback) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -168,15 +168,15 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
             throw new InvalidArgumentException("error_031_03");
         }
 
-        Feedback feedback = getEm().find(Feedback.class, feedbackDetails.getId());
+        Feedback feedback = em.find(Feedback.class, feedbackDetails.getId());
         feedback.setId(feedbackDetails.getId());
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        feedback.setFarmer(getEm().getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
 
         try {
-            getEm().merge(feedback);
-            getEm().flush();
+            em.merge(feedback);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -187,9 +187,9 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeFeedback(int id) throws MilesException {
-        Feedback feedback = getEm().find(Feedback.class, id);
+        Feedback feedback = em.find(Feedback.class, id);
         try {
-            getEm().remove(feedback);
+            em.remove(feedback);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

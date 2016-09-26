@@ -35,10 +35,10 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         }
 
         PersonRole personRole;
-        setQ(getEm().createNamedQuery("PersonRole.findByPersonRole"));
-        getQ().setParameter("personRole", personRoleDetail.getPersonRole());
+        setQ(em.createNamedQuery("PersonRole.findByPersonRole"));
+        q.setParameter("personRole", personRoleDetail.getPersonRole());
         try {
-            personRole = (PersonRole) getQ().getSingleResult();
+            personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
             personRole = null;
         }
@@ -50,8 +50,8 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         personRole.setPersonRole(personRoleDetail.getPersonRole());
 
         try {
-            getEm().persist(personRole);
-            getEm().flush();
+            em.persist(personRole);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -65,9 +65,9 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
     @Override
     public List<PersonRoleDetail> retrievePersonRoles() throws MilesException {
         List<PersonRole> personRoles = new ArrayList<>();
-        setQ(getEm().createNamedQuery("PersonRole.findAll"));
+        setQ(em.createNamedQuery("PersonRole.findAll"));
         try {
-            personRoles = getQ().getResultList();
+            personRoles = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -77,10 +77,10 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
     @Override
     public PersonRoleDetail retrievePersonRole(int id) throws MilesException {
         PersonRole personRole;
-        setQ(getEm().createNamedQuery("PersonRole.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("PersonRole.findById"));
+        q.setParameter("id", id);
         try {
-            personRole = (PersonRole) getQ().getSingleResult();
+            personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -104,10 +104,10 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         }
 
         PersonRole personRole;
-        setQ(getEm().createNamedQuery("PersonRole.findByPersonRole"));
-        getQ().setParameter("personRole", personRoleDetail.getPersonRole());
+        setQ(em.createNamedQuery("PersonRole.findByPersonRole"));
+        q.setParameter("personRole", personRoleDetail.getPersonRole());
         try {
-            personRole = (PersonRole) getQ().getSingleResult();
+            personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
             personRole = null;
         }
@@ -117,13 +117,13 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
             }
         }
 
-        personRole = getEm().find(PersonRole.class, personRoleDetail.getId());
+        personRole = em.find(PersonRole.class, personRoleDetail.getId());
         personRole.setId(personRoleDetail.getId());
         personRole.setPersonRole(personRoleDetail.getPersonRole());
 
         try {
-            getEm().merge(personRole);
-            getEm().flush();
+            em.merge(personRole);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -134,9 +134,9 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removePersonRole(int id) throws MilesException {
-        PersonRole personRole = getEm().find(PersonRole.class, id);
+        PersonRole personRole = em.find(PersonRole.class, id);
         try {
-            getEm().remove(personRole);
+            em.remove(personRole);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

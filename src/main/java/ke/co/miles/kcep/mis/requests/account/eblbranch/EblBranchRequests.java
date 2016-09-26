@@ -35,10 +35,10 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         }
 
         EblBranch eblBranch;
-        setQ(getEm().createNamedQuery("EblBranch.findByName"));
-        getQ().setParameter("name", eblBranchDetails.getName());
+        setQ(em.createNamedQuery("EblBranch.findByName"));
+        q.setParameter("name", eblBranchDetails.getName());
         try {
-            eblBranch = (EblBranch) getQ().getSingleResult();
+            eblBranch = (EblBranch) q.getSingleResult();
         } catch (Exception e) {
             eblBranch = null;
         }
@@ -50,8 +50,8 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         eblBranch.setName(eblBranchDetails.getName());
 
         try {
-            getEm().persist(eblBranch);
-            getEm().flush();
+            em.persist(eblBranch);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
     @SuppressWarnings("unchecked")
     public List<EblBranchDetails> retrieveEblBranches() throws MilesException {
         List<EblBranch> eblBranches = new ArrayList<>();
-        setQ(getEm().createNamedQuery("EblBranch.findAll"));
+        setQ(em.createNamedQuery("EblBranch.findAll"));
         try {
-            eblBranches = getQ().getResultList();
+            eblBranches = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -79,10 +79,10 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
     @SuppressWarnings("unchecked")
     public List<EblBranchDetails> retrieveEblBranches(short countyId) throws MilesException {
         List<EblBranch> eblBranches = new ArrayList<>();
-        setQ(getEm().createNamedQuery("EblBranch.findByCountyId"));
-        getQ().setParameter("countyId", countyId);
+        setQ(em.createNamedQuery("EblBranch.findByCountyId"));
+        q.setParameter("countyId", countyId);
         try {
-            eblBranches = getQ().getResultList();
+            eblBranches = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -92,10 +92,10 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
     @Override
     public EblBranchDetails retrieveEblBranch(int id) throws MilesException {
         EblBranch eblBranch;
-        setQ(getEm().createNamedQuery("EblBranch.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("EblBranch.findById"));
+        q.setParameter("id", id);
         try {
-            eblBranch = (EblBranch) getQ().getSingleResult();
+            eblBranch = (EblBranch) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -119,10 +119,10 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         }
 
         EblBranch eblBranch;
-        setQ(getEm().createNamedQuery("EblBranch.findByName"));
-        getQ().setParameter("name", eblBranchDetails.getName());
+        setQ(em.createNamedQuery("EblBranch.findByName"));
+        q.setParameter("name", eblBranchDetails.getName());
         try {
-            eblBranch = (EblBranch) getQ().getSingleResult();
+            eblBranch = (EblBranch) q.getSingleResult();
         } catch (Exception e) {
             eblBranch = null;
         }
@@ -132,13 +132,13 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
             }
         }
 
-        eblBranch = getEm().find(EblBranch.class, eblBranchDetails.getId());
+        eblBranch = em.find(EblBranch.class, eblBranchDetails.getId());
         eblBranch.setId(eblBranchDetails.getId());
         eblBranch.setName(eblBranchDetails.getName());
 
         try {
-            getEm().merge(eblBranch);
-            getEm().flush();
+            em.merge(eblBranch);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -149,9 +149,9 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeEblBranch(int id) throws MilesException {
-        EblBranch eblBranch = getEm().find(EblBranch.class, id);
+        EblBranch eblBranch = em.find(EblBranch.class, id);
         try {
-            getEm().remove(eblBranch);
+            em.remove(eblBranch);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

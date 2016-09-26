@@ -38,8 +38,8 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
         farmerGroup.setName(farmerGroupDetails.getName());
 
         try {
-            getEm().persist(farmerGroup);
-            getEm().flush();
+            em.persist(farmerGroup);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -53,9 +53,9 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
     @Override
     public List<FarmerGroupDetails> retrieveFarmerGroups() throws MilesException {
         List<FarmerGroup> farmerGroups = new ArrayList<>();
-        setQ(getEm().createNamedQuery("FarmerGroup.findAll"));
+        setQ(em.createNamedQuery("FarmerGroup.findAll"));
         try {
-            farmerGroups = getQ().getResultList();
+            farmerGroups = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -65,10 +65,10 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
     @Override
     public FarmerGroupDetails retrieveFarmerGroup(int id) throws MilesException {
         FarmerGroup farmerGroup;
-        setQ(getEm().createNamedQuery("FarmerGroup.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("FarmerGroup.findById"));
+        q.setParameter("id", id);
         try {
-            farmerGroup = (FarmerGroup) getQ().getSingleResult();
+            farmerGroup = (FarmerGroup) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -91,12 +91,12 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
             throw new InvalidArgumentException("error_004_03");
         }
 
-        FarmerGroup farmerGroup = getEm().find(FarmerGroup.class, farmerGroupDetails.getId());
+        FarmerGroup farmerGroup = em.find(FarmerGroup.class, farmerGroupDetails.getId());
         farmerGroup.setName(farmerGroupDetails.getName());
 
         try {
-            getEm().merge(farmerGroup);
-            getEm().flush();
+            em.merge(farmerGroup);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -107,9 +107,9 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeFarmerGroup(int id) throws MilesException {
-        FarmerGroup farmerGroup = getEm().find(FarmerGroup.class, id);
+        FarmerGroup farmerGroup = em.find(FarmerGroup.class, id);
         try {
-            getEm().remove(farmerGroup);
+            em.remove(farmerGroup);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

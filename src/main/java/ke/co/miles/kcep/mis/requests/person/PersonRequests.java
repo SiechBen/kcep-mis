@@ -57,10 +57,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
         Person person;
-        setQ(getEm().createNamedQuery("Person.findByNationalId"));
-        getQ().setParameter("nationalId", personDetails.getNationalId());
+        setQ(em.createNamedQuery("Person.findByNationalId"));
+        q.setParameter("nationalId", personDetails.getNationalId());
         try {
-            person = (Person) getQ().getSingleResult();
+            person = (Person) q.getSingleResult();
         } catch (Exception e) {
             person = null;
         }
@@ -80,17 +80,17 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person.setLocation(locationService.addLocation(personDetails.getLocation()));
 
         if (personDetails.getSex() != null) {
-            person.setSex(getEm().getReference(Sex.class, personDetails.getSex().getId()));
+            person.setSex(em.getReference(Sex.class, personDetails.getSex().getId()));
         }
         if (personDetails.getFarmerGroup() != null) {
-            person.setFarmerGroup(getEm().getReference(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
+            person.setFarmerGroup(em.getReference(FarmerGroup.class, personDetails.getFarmerGroup().getId()));
         }
         if (personDetails.getFarmerSubGroup() != null) {
-            person.setFarmerSubGroup(getEm().getReference(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
+            person.setFarmerSubGroup(em.getReference(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
         }
 
         try {
-            getEm().persist(person);
+            em.persist(person);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -118,19 +118,19 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public HashMap<String, Integer> countAllPeople() throws MilesException {
 
         List<Person> female = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Person.findBySexId"));
-        getQ().setParameter("sexId", SexDetail.FEMALE.getId());
+        setQ(em.createNamedQuery("Person.findBySexId"));
+        q.setParameter("sexId", SexDetail.FEMALE.getId());
         try {
-            female = getQ().getResultList();
+            female = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
         List<Person> male = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Person.findBySexId"));
-        getQ().setParameter("sexId", SexDetail.MALE.getId());
+        setQ(em.createNamedQuery("Person.findBySexId"));
+        q.setParameter("sexId", SexDetail.MALE.getId());
         try {
-            male = getQ().getResultList();
+            male = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -149,21 +149,21 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
 
         List<UserAccount> female = new ArrayList<>();
-        setQ(getEm().createNamedQuery("UserAccount.findBySexAndPersonRoleId"));
-        getQ().setParameter("personRoleId", personRoleDetail.getId());
-        getQ().setParameter("sexId", SexDetail.FEMALE.getId());
+        setQ(em.createNamedQuery("UserAccount.findBySexAndPersonRoleId"));
+        q.setParameter("personRoleId", personRoleDetail.getId());
+        q.setParameter("sexId", SexDetail.FEMALE.getId());
         try {
-            female = getQ().getResultList();
+            female = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
         List<UserAccount> male = new ArrayList<>();
-        setQ(getEm().createNamedQuery("UserAccount.findBySexAndPersonRoleId"));
-        getQ().setParameter("personRoleId", personRoleDetail.getId());
-        getQ().setParameter("sexId", SexDetail.MALE.getId());
+        setQ(em.createNamedQuery("UserAccount.findBySexAndPersonRoleId"));
+        q.setParameter("personRoleId", personRoleDetail.getId());
+        q.setParameter("sexId", SexDetail.MALE.getId());
         try {
-            male = getQ().getResultList();
+            male = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -182,22 +182,22 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
 
         List<County> counties = new ArrayList<>();
-        setQ(getEm().createNamedQuery("County.findByReqionId"));
-        getQ().setParameter("regionId", regionId);
+        setQ(em.createNamedQuery("County.findByReqionId"));
+        q.setParameter("regionId", regionId);
         try {
-            counties = getQ().getResultList();
+            counties = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(getEm().createNamedQuery("Person.findByCountyId"));
+        setQ(em.createNamedQuery("Person.findByCountyId"));
         for (County county : counties) {
-            getQ().setParameter("countyId", county.getId());
+            q.setParameter("countyId", county.getId());
             try {
                 peopleDetailsList.addAll(
-                        convertPeopleToPersonDetailsList(getQ().getResultList()));
+                        convertPeopleToPersonDetailsList(q.getResultList()));
             } catch (Exception e) {
                 throw new InvalidStateException("error_000_01");
             }
@@ -212,11 +212,11 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(getEm().createNamedQuery("Person.findByCountyId"));
-        getQ().setParameter("countyId", countyId);
+        setQ(em.createNamedQuery("Person.findByCountyId"));
+        q.setParameter("countyId", countyId);
         try {
             peopleDetailsList
-                    = convertPeopleToPersonDetailsList(getQ().getResultList());
+                    = convertPeopleToPersonDetailsList(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -229,10 +229,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrieveWardPeople(short wardId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(getEm().createNamedQuery("Person.findByWardId"));
-        getQ().setParameter("wardId", wardId);
+        setQ(em.createNamedQuery("Person.findByWardId"));
+        q.setParameter("wardId", wardId);
         try {
-            peopleDetailsList = convertPeopleToPersonDetailsList(getQ().getResultList());
+            peopleDetailsList = convertPeopleToPersonDetailsList(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -246,10 +246,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(getEm().createNamedQuery("Person.findBySubCountyId"));
-        getQ().setParameter("subCountyId", subCountyId);
+        setQ(em.createNamedQuery("Person.findBySubCountyId"));
+        q.setParameter("subCountyId", subCountyId);
         try {
-            peopleDetailsList = convertPeopleToPersonDetailsList(getQ().getResultList());
+            peopleDetailsList = convertPeopleToPersonDetailsList(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -264,10 +264,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         List<PersonDetails> peopleDetailsList = null;
         List<Person> people;
 
-        setQ(getEm().createNamedQuery("Person.findBySubCountyId"));
-        getQ().setParameter("subCountyId", subCountyId);
+        setQ(em.createNamedQuery("Person.findBySubCountyId"));
+        q.setParameter("subCountyId", subCountyId);
         try {
-            people = getQ().getResultList();
+            people = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -330,11 +330,11 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail)
             throws MilesException {
-        setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleId"));
-        getQ().setParameter("personRoleId", personRoleDetail.getId());
+        setQ(em.createNamedQuery("UserAccount.findByPersonRoleId"));
+        q.setParameter("personRoleId", personRoleDetail.getId());
         List<UserAccount> userAccounts;
         try {
-            userAccounts = getQ().getResultList();
+            userAccounts = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -345,11 +345,11 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     public PersonDetails retrievePerson(int id) throws MilesException {
 
-        setQ(getEm().createNamedQuery("Person.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Person.findById"));
+        q.setParameter("id", id);
         Person person;
         try {
-            person = (Person) getQ().getSingleResult();
+            person = (Person) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -362,10 +362,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     public List<PersonDetails> retrievePeople() throws MilesException {
 
-        setQ(getEm().createNamedQuery("UserAccount.findAll"));
+        setQ(em.createNamedQuery("UserAccount.findAll"));
         List<UserAccount> userAccounts;
         try {
-            userAccounts = getQ().getResultList();
+            userAccounts = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -378,15 +378,15 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrieveFarmersAndAgroDealers()
             throws MilesException {
 
-        setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIds"));
+        setQ(em.createNamedQuery("UserAccount.findByPersonRoleIds"));
         List<Short> personRoleIds = new ArrayList<>();
         personRoleIds.add(PersonRoleDetail.FARMER.getId());
         personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
-        getQ().setParameter("personRoleIds", personRoleIds);
+        q.setParameter("personRoleIds", personRoleIds);
 
         List<UserAccount> userAccounts;
         try {
-            userAccounts = getQ().getResultList();
+            userAccounts = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -399,15 +399,15 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrieveNonFarmersAndNonAgroDealers()
             throws MilesException {
 
-        setQ(getEm().createNamedQuery("UserAccount.findNotHavingPersonRoleIds"));
+        setQ(em.createNamedQuery("UserAccount.findNotHavingPersonRoleIds"));
         List<Short> personRoleIds = new ArrayList<>();
         personRoleIds.add(PersonRoleDetail.FARMER.getId());
         personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
-        getQ().setParameter("personRoleIds", personRoleIds);
+        q.setParameter("personRoleIds", personRoleIds);
 
         List<UserAccount> userAccounts;
         try {
-            userAccounts = getQ().getResultList();
+            userAccounts = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -443,10 +443,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
         Person person;
-        setQ(getEm().createNamedQuery("Person.findByNationalId"));
-        getQ().setParameter("nationalId", personDetails.getNationalId());
+        setQ(em.createNamedQuery("Person.findByNationalId"));
+        q.setParameter("nationalId", personDetails.getNationalId());
         try {
-            person = (Person) getQ().getSingleResult();
+            person = (Person) q.getSingleResult();
         } catch (Exception e) {
             person = null;
         }
@@ -459,26 +459,26 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         contactService.editContact(personDetails.getContact());
         locationService.editLocation(personDetails.getLocation());
 
-        person = getEm().find(Person.class, personDetails.getId());
+        person = em.find(Person.class, personDetails.getId());
         person.setId(personDetails.getId());
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
         person.setDateOfBirth(personDetails.getDateOfBirth());
         person.setBusinessName(personDetails.getBusinessName());
 
-        person.setContact(getEm().getReference(Contact.class, personDetails.getContact().getId()));
-        person.setLocation(getEm().getReference(Location.class, personDetails.getLocation().getId()));
+        person.setContact(em.getReference(Contact.class, personDetails.getContact().getId()));
+        person.setLocation(em.getReference(Location.class, personDetails.getLocation().getId()));
 
         if (personDetails.getSex() != null) {
-            person.setSex(getEm().getReference(Sex.class, personDetails.getSex().getId()));
+            person.setSex(em.getReference(Sex.class, personDetails.getSex().getId()));
 
         }
         if (personDetails.getFarmerSubGroup() != null) {
-            person.setFarmerSubGroup(getEm().getReference(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
+            person.setFarmerSubGroup(em.getReference(FarmerSubGroup.class, personDetails.getFarmerSubGroup().getId()));
         }
 
         try {
-            getEm().merge(person);
+            em.merge(person);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -503,10 +503,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     public void removePerson(int id) throws MilesException {
 
-        Person person = getEm().find(Person.class, id);
+        Person person = em.find(Person.class, id);
 //        contactService.removeContact(person.getContact().getId());
         try {
-//            getEm().remove(person);
+//            em.remove(person);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

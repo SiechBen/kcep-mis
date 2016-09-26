@@ -60,11 +60,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         }
 
         //Checking if the username is unique to a faculty
-        setQ(getEm().createNamedQuery("UserAccount.findByUsername"));
-        getQ().setParameter("username", personDetails.getUsername());
+        setQ(em.createNamedQuery("UserAccount.findByUsername"));
+        q.setParameter("username", personDetails.getUsername());
         UserAccount userAccount;
         try {
-            userAccount = (UserAccount) getQ().getSingleResult();
+            userAccount = (UserAccount) q.getSingleResult();
         } catch (NoResultException e) {
             userAccount = null;
         } catch (Exception e) {
@@ -85,14 +85,14 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         //Creating a container to hold faculty record
         userAccount = new UserAccount();
         userAccount.setUsername(personDetails.getUsername());
-        userAccount.setPerson(getEm().getReference(Person.class, personDetails.getPerson().getId()));
-        userAccount.setPersonRole(getEm().getReference(PersonRole.class, personDetails.getPersonRole().getId()));
+        userAccount.setPerson(em.getReference(Person.class, personDetails.getPerson().getId()));
+        userAccount.setPersonRole(em.getReference(PersonRole.class, personDetails.getPersonRole().getId()));
         userAccount.setPassword(accessService.generateSHAPassword(messageDigest, personDetails.getPassword()));
 
         //Adding a faculty record to the database
         try {
-            getEm().persist(userAccount);
-            getEm().flush();
+            em.persist(userAccount);
+            em.flush();
         } catch (Exception e) {
             throw new MilesException("error_000_01");
         }
@@ -109,11 +109,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             PersonRoleDetail personRoleDetail) throws MilesException {
 
         List<Person> filteredPeople = new ArrayList<>();
-        setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIdAndPersonId"));
+        setQ(em.createNamedQuery("UserAccount.findByPersonRoleIdAndPersonId"));
 
         for (Person person : people) {
-            getQ().setParameter("personId", person.getId());
-            getQ().setParameter("personRoleId", personRoleDetail.getId());
+            q.setParameter("personId", person.getId());
+            q.setParameter("personRoleId", personRoleDetail.getId());
             try {
                 filteredPeople.add(person);
             } catch (NoResultException e) {
@@ -132,12 +132,12 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             PersonRoleDetail... personRoleDetails) throws MilesException {
 
         List<Person> filteredPeople = new ArrayList<>();
-        setQ(getEm().createNamedQuery("UserAccount.findByPersonRoleIdsAndPersonId"));
+        setQ(em.createNamedQuery("UserAccount.findByPersonRoleIdsAndPersonId"));
 
         for (Person person : people) {
-            getQ().setParameter("personId", person.getId());
-            getQ().setParameter("personRoleId1", personRoleDetails[0].getId());
-            getQ().setParameter("personRoleId2", personRoleDetails[1].getId());
+            q.setParameter("personId", person.getId());
+            q.setParameter("personRoleId1", personRoleDetails[0].getId());
+            q.setParameter("personRoleId2", personRoleDetails[1].getId());
             try {
                 filteredPeople.add(person);
             } catch (NoResultException e) {
@@ -164,12 +164,12 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_05");
         }
 
-        setQ(getEm().createNamedQuery("UserAccount.findByUsernameAndPassword"));
-        getQ().setParameter("username", username);
-        getQ().setParameter("password", hashedPassword);
+        setQ(em.createNamedQuery("UserAccount.findByUsernameAndPassword"));
+        q.setParameter("username", username);
+        q.setParameter("password", hashedPassword);
         UserAccount userAccount;
         try {
-            userAccount = (UserAccount) getQ().getSingleResult();
+            userAccount = (UserAccount) q.getSingleResult();
         } catch (NoResultException e) {
             throw new LoginException("error_015_10");
         } catch (Exception e) {
@@ -186,11 +186,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_06");
         }
 
-        setQ(getEm().createNamedQuery("UserAccount.findByPersonId"));
-        getQ().setParameter("personId", personId);
+        setQ(em.createNamedQuery("UserAccount.findByPersonId"));
+        q.setParameter("personId", personId);
         UserAccount userAccount;
         try {
-            userAccount = (UserAccount) getQ().getSingleResult();
+            userAccount = (UserAccount) q.getSingleResult();
         } catch (NoResultException e) {
             throw new InvalidStateException("error_015_11");
         } catch (Exception e) {
@@ -203,10 +203,10 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
     @Override
     @SuppressWarnings("unchecked")
     public List<UserAccountDetails> retrieveUserAccounts() throws MilesException {
-        setQ(getEm().createNamedQuery("UserAccount.findAll"));
+        setQ(em.createNamedQuery("UserAccount.findAll"));
         List<UserAccount> userAccounts = new ArrayList<>();
         try {
-            userAccounts = getQ().getResultList();
+            userAccounts = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -240,11 +240,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         }
 
         //Checking if the username is unique to a faculty
-        setQ(getEm().createNamedQuery("UserAccount.findByUsername"));
-        getQ().setParameter("username", userAccountDetails.getUsername());
+        setQ(em.createNamedQuery("UserAccount.findByUsername"));
+        q.setParameter("username", userAccountDetails.getUsername());
         UserAccount userAccount;
         try {
-            userAccount = (UserAccount) getQ().getSingleResult();
+            userAccount = (UserAccount) q.getSingleResult();
         } catch (NoResultException e) {
             userAccount = null;
         } catch (Exception e) {
@@ -265,17 +265,17 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         }
 
         //Creating a container to hold faculty record
-        userAccount = getEm().find(UserAccount.class, userAccountDetails.getId());
+        userAccount = em.find(UserAccount.class, userAccountDetails.getId());
         userAccount.setId(userAccountDetails.getId());
         userAccount.setPassword(userAccountDetails.getPassword());
         userAccount.setUsername(userAccountDetails.getUsername());
-        userAccount.setPerson(getEm().getReference(Person.class, userAccountDetails.getPerson().getId()));
-        userAccount.setPersonRole(getEm().getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
+        userAccount.setPerson(em.getReference(Person.class, userAccountDetails.getPerson().getId()));
+        userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
         userAccount.setPassword(accessService.generateSHAPassword(messageDigest, userAccountDetails.getPassword()));
 
         //Editing a faculty record in the database
         try {
-            getEm().merge(userAccount);
+            em.merge(userAccount);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -294,18 +294,18 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         }
 
         //Get the user account record to be removed
-        setQ(getEm().createNamedQuery("UserAccount.findByPersonId"));
-        getQ().setParameter("personId", personId);
+        setQ(em.createNamedQuery("UserAccount.findByPersonId"));
+        q.setParameter("personId", personId);
         UserAccount userAccount;
         try {
-            userAccount = (UserAccount) getQ().getSingleResult();
+            userAccount = (UserAccount) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
         //Deactivate the user account record in the database
         try {
-            getEm().merge(userAccount);
+            em.merge(userAccount);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

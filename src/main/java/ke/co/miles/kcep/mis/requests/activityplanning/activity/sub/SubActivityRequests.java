@@ -86,32 +86,32 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setBeneficiariesPercentage(subActivityDetails.getBeneficiariesPercentage());
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
-        subActivity.setActivityName(getEm().getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
-        subActivity.setExpenditureCategory(getEm().getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
-        subActivity.setComponent(getEm().getReference(Component.class, subActivityDetails.getComponent().getId()));
+        subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
+        subActivity.setExpenditureCategory(em.getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
+        subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
         if (subActivityDetails.getSubComponent() != null) {
-            subActivity.setSubComponent(getEm().getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
+            subActivity.setSubComponent(em.getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
         }
         if (subActivityDetails.getFinancialYear() != null) {
-            subActivity.setFinancialYear(getEm().getReference(FinancialYear.class, subActivityDetails.getFinancialYear().getId()));
+            subActivity.setFinancialYear(em.getReference(FinancialYear.class, subActivityDetails.getFinancialYear().getId()));
         } else {
-            setQ(getEm().createNamedQuery("FinancialYear.findByCurrentYear"));
-            getQ().setParameter("currentYear", Boolean.TRUE);
-            subActivity.setFinancialYear(getEm().getReference(FinancialYear.class, ((FinancialYear) getQ().getSingleResult()).getId()));
+            setQ(em.createNamedQuery("FinancialYear.findByCurrentYear"));
+            q.setParameter("currentYear", Boolean.TRUE);
+            subActivity.setFinancialYear(em.getReference(FinancialYear.class, ((FinancialYear) q.getSingleResult()).getId()));
         }
-        subActivity.setImplementingPartner(getEm().getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
-        subActivity.setMeasurementUnit(getEm().getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
-        subActivity.setResponsePcu(getEm().getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
+        subActivity.setImplementingPartner(em.getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
+        subActivity.setMeasurementUnit(em.getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
+        subActivity.setResponsePcu(em.getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
         try {
-            subActivity.setSubActivityName(getEm().getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
+            subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
         } catch (Exception e) {
         }
         if (subActivityDetails.getGfssCode() != null) {
-            subActivity.setGfssCode(getEm().getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
+            subActivity.setGfssCode(em.getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
         }
 
         try {
-            getEm().persist(subActivity);
+            em.persist(subActivity);
         } catch (Exception e) {
             MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
@@ -127,9 +127,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @SuppressWarnings("unchecked")
     public List<SubActivityDetails> retrieveSubActivities() throws MilesException {
         List<SubActivity> subActivity = new ArrayList<>();
-        setQ(getEm().createNamedQuery("SubActivity.findAll"));
+        setQ(em.createNamedQuery("SubActivity.findAll"));
         try {
-            subActivity = getQ().getResultList();
+            subActivity = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -140,11 +140,11 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @SuppressWarnings("unchecked")
     private List<SubActivityDetails> retrieveSubActivities(ExpenditureCategoryDetails expenditureCategoryDetails, short financialYearId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        setQ(getEm().createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
-        getQ().setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
-        getQ().setParameter("financialYearId", financialYearId);
+        setQ(em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
+        q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
+        q.setParameter("financialYearId", financialYearId);
         try {
-            subActivities = getQ().getResultList();
+            subActivities = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -155,11 +155,11 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @SuppressWarnings("unchecked")
     private List<SubActivityDetails> retrieveSubActivities(ComponentDetails component, short financialYearId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        setQ(getEm().createNamedQuery("SubActivity.findByComponentIdAndFinancialYearId"));
-        getQ().setParameter("componentId", component.getId());
-        getQ().setParameter("financialYearId", financialYearId);
+        setQ(em.createNamedQuery("SubActivity.findByComponentIdAndFinancialYearId"));
+        q.setParameter("componentId", component.getId());
+        q.setParameter("financialYearId", financialYearId);
         try {
-            subActivities = getQ().getResultList();
+            subActivities = q.getResultList();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -170,10 +170,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @Override
     public SubActivityDetails retrieveSubActivity(int id) throws MilesException {
         SubActivity subActivity;
-        setQ(getEm().createNamedQuery("SubActivity.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("SubActivity.findById"));
+        q.setParameter("id", id);
         try {
-            subActivity = (SubActivity) getQ().getSingleResult();
+            subActivity = (SubActivity) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -880,7 +880,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             throw new InvalidArgumentException("error_017_05");
         }
 
-        SubActivity subActivity = getEm().find(SubActivity.class, subActivityDetails.getId());
+        SubActivity subActivity = em.find(SubActivity.class, subActivityDetails.getId());
         subActivity.setId(subActivityDetails.getId());
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
         subActivity.setExpectedOutcome(subActivityDetails.getExpectedOutcome());
@@ -899,42 +899,42 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setBeneficiariesPercentage(subActivityDetails.getBeneficiariesPercentage());
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
-        subActivity.setActivityName(getEm().getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
-        subActivity.setComponent(getEm().getReference(Component.class, subActivityDetails.getComponent().getId()));
+        subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
+        subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
         try {
-            subActivity.setExpenditureCategory(getEm().getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
+            subActivity.setExpenditureCategory(em.getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
         } catch (Exception e) {
         }
         if (subActivityDetails.getSubComponent() != null) {
-            subActivity.setSubComponent(getEm().getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
+            subActivity.setSubComponent(em.getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
         }
         if (subActivityDetails.getFinancialYear() != null) {
-            subActivity.setFinancialYear(getEm().getReference(FinancialYear.class, subActivityDetails.getFinancialYear().getId()));
+            subActivity.setFinancialYear(em.getReference(FinancialYear.class, subActivityDetails.getFinancialYear().getId()));
         } else {
-            setQ(getEm().createNamedQuery("FinancialYear.findByCurrentYear"));
-            getQ().setParameter("currentYear", Boolean.TRUE);
-            subActivity.setFinancialYear(getEm().getReference(FinancialYear.class, ((FinancialYear) getQ().getSingleResult()).getId()));
+            setQ(em.createNamedQuery("FinancialYear.findByCurrentYear"));
+            q.setParameter("currentYear", Boolean.TRUE);
+            subActivity.setFinancialYear(em.getReference(FinancialYear.class, ((FinancialYear) q.getSingleResult()).getId()));
         }
-        subActivity.setImplementingPartner(getEm().getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
+        subActivity.setImplementingPartner(em.getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
         try {
-            subActivity.setMeasurementUnit(getEm().getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
+            subActivity.setMeasurementUnit(em.getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         } catch (Exception e) {
         }
         try {
-            subActivity.setResponsePcu(getEm().getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
+            subActivity.setResponsePcu(em.getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
         } catch (Exception e) {
         }
         try {
-            subActivity.setSubActivityName(getEm().getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
+            subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
         } catch (Exception e) {
         }
         if (subActivityDetails.getGfssCode() != null) {
-            subActivity.setGfssCode(getEm().getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
+            subActivity.setGfssCode(em.getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
         }
 
         try {
-            getEm().merge(subActivity);
-            getEm().flush();
+            em.merge(subActivity);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -945,9 +945,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeSubActivity(int id) throws MilesException {
-        SubActivity subActivity = getEm().find(SubActivity.class, id);
+        SubActivity subActivity = em.find(SubActivity.class, id);
         try {
-            getEm().remove(subActivity);
+            em.remove(subActivity);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

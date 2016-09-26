@@ -16,29 +16,8 @@ import javax.persistence.Query;
 public class EntityRequests {
 
     @PersistenceContext(name = "KCEP-MIS-PU")
-    private EntityManager em;
-    private Query q;
-
-    /**
-     * @return the em
-     */
-    public EntityManager getEm() {
-        return em;
-    }
-
-    /**
-     * @param em the em to set
-     */
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
-
-    /**
-     * @return the q
-     */
-    public Query getQ() {
-        return q;
-    }
+    protected EntityManager em;
+    protected Query q;
 
     /**
      * @param q the q to set

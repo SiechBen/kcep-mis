@@ -37,6 +37,7 @@
         <link href="static/plugins/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/jquery.dataTables.min.css">
         <link href="static/plugins/datatables/media/css/buttons.dataTables.min.css" rel="stylesheet">
+        <link href="static/plugins/datatables/media/css/select.dataTables.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
         <link href="static/plugins/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
         <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
@@ -294,6 +295,8 @@
         <script src="static/plugins/metisMenu/dist/metisMenu.min.js"></script>
         <script src="static/plugins/datatables/media/js/jquery.dataTables.js"></script>
         <script src="static/plugins/datatables/media/js/dataTables.buttons.min.js"></script>
+        <script src="static/plugins/datatables/media/js/dataTables.select.min.js"></script>
+        <script src="static/plugins/datatables/media/js/dataTables.editor.js"></script>
         <script src="static/plugins/datatables/media/js/buttons.flash.min.js"></script>
         <script src="static/plugins/jszip/jszip.min.js"></script>
         <script src="static/plugins/pdfmake/pdfmake.min.js"></script>

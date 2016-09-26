@@ -35,10 +35,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         }
 
         Topic topic;
-        setQ(getEm().createNamedQuery("Topic.findByTopic"));
-        getQ().setParameter("topic", topicDetails.getTopic());
+        setQ(em.createNamedQuery("Topic.findByTopic"));
+        q.setParameter("topic", topicDetails.getTopic());
         try {
-            topic = (Topic) getQ().getSingleResult();
+            topic = (Topic) q.getSingleResult();
         } catch (Exception e) {
             topic = null;
         }
@@ -50,8 +50,8 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         topic.setTopic(topicDetails.getTopic());
 
         try {
-            getEm().persist(topic);
-            getEm().flush();
+            em.persist(topic);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,10 +66,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     @SuppressWarnings("unchecked")
     public List<TopicDetails> retrieveTrainingModules() throws MilesException {
         List<Topic> trainingModules = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Topic.findByModule"));
-        getQ().setParameter("module", null);
+        setQ(em.createNamedQuery("Topic.findByModule"));
+        q.setParameter("module", null);
         try {
-            trainingModules = getQ().getResultList();
+            trainingModules = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -80,10 +80,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     @SuppressWarnings("unchecked")
     public List<TopicDetails> retrieveTopics(short moduleId) throws MilesException {
         List<Topic> topics = new ArrayList<>();
-        setQ(getEm().createNamedQuery("Topic.findByModuleId"));
-        getQ().setParameter("moduleId", moduleId);
+        setQ(em.createNamedQuery("Topic.findByModuleId"));
+        q.setParameter("moduleId", moduleId);
         try {
-            topics = getQ().getResultList();
+            topics = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -93,10 +93,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     @Override
     public TopicDetails retrieveTopic(short id) throws MilesException {
         Topic topic;
-        setQ(getEm().createNamedQuery("Topic.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("Topic.findById"));
+        q.setParameter("id", id);
         try {
-            topic = (Topic) getQ().getSingleResult();
+            topic = (Topic) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -120,10 +120,10 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         }
 
         Topic topic;
-        setQ(getEm().createNamedQuery("Topic.findByTopic"));
-        getQ().setParameter("topic", topicDetails.getTopic());
+        setQ(em.createNamedQuery("Topic.findByTopic"));
+        q.setParameter("topic", topicDetails.getTopic());
         try {
-            topic = (Topic) getQ().getSingleResult();
+            topic = (Topic) q.getSingleResult();
         } catch (Exception e) {
             topic = null;
         }
@@ -133,13 +133,13 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
             }
         }
 
-        topic = getEm().find(Topic.class, topicDetails.getId());
+        topic = em.find(Topic.class, topicDetails.getId());
         topic.setId(topicDetails.getId());
         topic.setTopic(topicDetails.getTopic());
 
         try {
-            getEm().merge(topic);
-            getEm().flush();
+            em.merge(topic);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -150,9 +150,9 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeTopic(short id) throws MilesException {
-        Topic topic = getEm().find(Topic.class, id);
+        Topic topic = em.find(Topic.class, id);
         try {
-            getEm().remove(topic);
+            em.remove(topic);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

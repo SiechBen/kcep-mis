@@ -35,10 +35,10 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         }
 
         ActivityName activityName;
-        setQ(getEm().createNamedQuery("ActivityName.findByName"));
-        getQ().setParameter("name", activityNameDetails.getName());
+        setQ(em.createNamedQuery("ActivityName.findByName"));
+        q.setParameter("name", activityNameDetails.getName());
         try {
-            activityName = (ActivityName) getQ().getSingleResult();
+            activityName = (ActivityName) q.getSingleResult();
         } catch (Exception e) {
             activityName = null;
         }
@@ -50,8 +50,8 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         activityName.setName(activityNameDetails.getName());
 
         try {
-            getEm().persist(activityName);
-            getEm().flush();
+            em.persist(activityName);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -66,9 +66,9 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
     @SuppressWarnings("unchecked")
     public List<ActivityNameDetails> retrieveActivityNames() throws MilesException {
         List<ActivityName> activities = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ActivityName.findAll"));
+        setQ(em.createNamedQuery("ActivityName.findAll"));
         try {
-            activities = getQ().getResultList();
+            activities = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -78,10 +78,10 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
     @Override
     public ActivityNameDetails retrieveActivityName(int id) throws MilesException {
         ActivityName activityName;
-        setQ(getEm().createNamedQuery("ActivityName.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ActivityName.findById"));
+        q.setParameter("id", id);
         try {
-            activityName = (ActivityName) getQ().getSingleResult();
+            activityName = (ActivityName) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -105,10 +105,10 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         }
 
         ActivityName activityName;
-        setQ(getEm().createNamedQuery("ActivityName.findByName"));
-        getQ().setParameter("name", activityNameDetails.getName());
+        setQ(em.createNamedQuery("ActivityName.findByName"));
+        q.setParameter("name", activityNameDetails.getName());
         try {
-            activityName = (ActivityName) getQ().getSingleResult();
+            activityName = (ActivityName) q.getSingleResult();
         } catch (Exception e) {
             activityName = null;
         }
@@ -118,13 +118,13 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
             }
         }
 
-        activityName = getEm().find(ActivityName.class, activityNameDetails.getId());
+        activityName = em.find(ActivityName.class, activityNameDetails.getId());
         activityName.setId(activityNameDetails.getId());
         activityName.setName(activityNameDetails.getName());
 
         try {
-            getEm().merge(activityName);
-            getEm().flush();
+            em.merge(activityName);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -135,9 +135,9 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeActivityName(int id) throws MilesException {
-        ActivityName activityName = getEm().find(ActivityName.class, id);
+        ActivityName activityName = em.find(ActivityName.class, id);
         try {
-            getEm().remove(activityName);
+            em.remove(activityName);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

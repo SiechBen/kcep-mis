@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,6 +31,8 @@ import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIn
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -37,12 +40,14 @@ import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
  */
 @WebServlet(name = "PerformanceIndicatorController",
         urlPatterns = {"/performance_indicators", "/addPerformanceIndicator",
-            "/doEditPerformanceIndicator", "/doDeletePerformanceIndicator", "/doAddPerformanceIndicator"})
+            "/doEditPerformanceIndicator", "/doDeletePerformanceIndicator",
+            "/doAddPerformanceIndicator", "/doEditPerformanceIndicatorValues"})
 public class PerformanceIndicatorController extends Controller {
 
     private static final long serialVersionUID = 1L;
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,10 +56,7 @@ public class PerformanceIndicatorController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession();
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -71,6 +73,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
                             urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
@@ -85,6 +88,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
                             urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
@@ -99,6 +103,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
                             urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
@@ -119,6 +124,85 @@ public class PerformanceIndicatorController extends Controller {
         if (urlPaths.contains(path)) {
 
             switch (path) {
+
+                case "/doEditPerformanceIndicatorValues":
+
+                    PerformanceIndicatorDetails performanceIndicator
+                            = new PerformanceIndicatorDetails();
+                    try {
+                        performanceIndicator.setId(Short.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        performanceIndicator.setExpectedValue(Double.valueOf(request.getParameter("expectedValue")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setExpectedValue(null);
+                    }
+
+                    try {
+                        performanceIndicator.setBaselineValue(Double.valueOf(request.getParameter("baselineValue")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setBaselineValue(null);
+                    }
+
+                    try {
+                        performanceIndicator.setRatio(Double.valueOf(request.getParameter("ratio")));
+                    } catch (NumberFormatException e) {
+                        performanceIndicator.setRatio(null);
+                        try {
+                            performanceIndicator.setRatio(Double.
+                                    parseDouble(decimalFormat.format((performanceIndicator.getActualValue()
+                                            / performanceIndicator.getExpectedValue()) * 100
+                                    )));
+                        } catch (NumberFormatException ex) {
+                        }
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("baselineDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        performanceIndicator.setBaselineDate(date);
+                    } catch (ParseException e) {
+                        response.getWriter().write(getBundle().getString("string_parse_error"));
+                        LOGGER.log(Level.WARNING, getBundle().getString("string_parse_error"), e);
+                        performanceIndicator.setBaselineDate(null);
+                    }
+
+                    try {
+                        performanceIndicatorService.editPerformanceIndicatorValues(performanceIndicator);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, "", e);
+                    }
+
+                    return;
+
+                case "/performanceIndicators":
+
+                    try {
+                        List<PerformanceIndicatorDetails> doEditPerformanceIndicatorValues
+                                = performanceIndicatorService.retrievePerformanceIndicators();
+
+                        JSONObject jsonObject = new JSONObject();
+                        JSONArray list;
+                        for (PerformanceIndicatorDetails pi : doEditPerformanceIndicatorValues) {
+                            list = new JSONArray();
+                            list.add(pi.getPerformanceIndicatorType().getCategory().getName());
+                            list.add(pi.getResultHierarchy().getDescription());
+                            list.add(pi.getDescription());
+
+                        }
+
+                        response.setContentType("application/json");
+                        response.getWriter().write(jsonObject.toJSONString());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during performance indicator retrieval", ex);
+                        return;
+                    }
+
+                    return;
 
                 case "/head_performance_indicators":
                 case "/county_performance_indicators":
@@ -151,7 +235,7 @@ public class PerformanceIndicatorController extends Controller {
 
                 case "/doAddPerformanceIndicator":
 
-                    PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
+                    performanceIndicator = new PerformanceIndicatorDetails();
                     performanceIndicator.setDescription(request.getParameter("description"));
 
                     try {

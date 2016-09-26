@@ -48,11 +48,11 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivity.setPostHarvestLoss(farmActivityDetails.getFamilyConsumption());
         farmActivity.setAverageSellingPrice(farmActivityDetails.getAverageSellingPrice());
         farmActivity.setFamilyConsumption(farmActivityDetails.getFamilyConsumption());
-        farmActivity.setFarmer(getEm().getReference(Person.class, farmActivityDetails.getFarmer().getId()));
+        farmActivity.setFarmer(em.getReference(Person.class, farmActivityDetails.getFarmer().getId()));
 
         try {
-            getEm().persist(farmActivity);
-            getEm().flush();
+            em.persist(farmActivity);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -67,10 +67,10 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
     @SuppressWarnings("unchecked")
     public List<FarmActivityDetails> retrieveFarmActivities(int farmerId) throws MilesException {
         List<FarmActivity> farmActivities = new ArrayList<>();
-        setQ(getEm().createNamedQuery("FarmActivity.findByFarmerId"));
-        getQ().setParameter("farmerId", farmerId);
+        setQ(em.createNamedQuery("FarmActivity.findByFarmerId"));
+        q.setParameter("farmerId", farmerId);
         try {
-            farmActivities = getQ().getResultList();
+            farmActivities = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -80,10 +80,10 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
     @Override
     public FarmActivityDetails retrieveFarmActivity(int id) throws MilesException {
         FarmActivity farmActivity;
-        setQ(getEm().createNamedQuery("FarmActivity.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("FarmActivity.findById"));
+        q.setParameter("id", id);
         try {
-            farmActivity = (FarmActivity) getQ().getSingleResult();
+            farmActivity = (FarmActivity) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -108,7 +108,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
             throw new InvalidArgumentException("error_040_04");
         }
 
-        FarmActivity farmActivity = getEm().find(FarmActivity.class, farmActivityDetails.getId());
+        FarmActivity farmActivity = em.find(FarmActivity.class, farmActivityDetails.getId());
         farmActivity.setId(farmActivityDetails.getId());
         farmActivity.setDateDone(farmActivityDetails.getDateDone());
         farmActivity.setYield(farmActivityDetails.getYield());
@@ -118,11 +118,11 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         farmActivity.setPostHarvestLoss(farmActivityDetails.getFamilyConsumption());
         farmActivity.setAverageSellingPrice(farmActivityDetails.getAverageSellingPrice());
         farmActivity.setFamilyConsumption(farmActivityDetails.getFamilyConsumption());
-        farmActivity.setFarmer(getEm().getReference(Person.class, farmActivityDetails.getFarmer().getId()));
+        farmActivity.setFarmer(em.getReference(Person.class, farmActivityDetails.getFarmer().getId()));
 
         try {
-            getEm().merge(farmActivity);
-            getEm().flush();
+            em.merge(farmActivity);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -133,9 +133,9 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeFarmActivity(int id) throws MilesException {
-        FarmActivity farmActivity = getEm().find(FarmActivity.class, id);
+        FarmActivity farmActivity = em.find(FarmActivity.class, id);
         try {
-            getEm().remove(farmActivity);
+            em.remove(farmActivity);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

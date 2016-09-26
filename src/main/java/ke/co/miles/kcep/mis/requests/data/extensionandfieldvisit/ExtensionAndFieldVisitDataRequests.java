@@ -42,12 +42,12 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         extensionAndFieldVisitData.setNumberOfFieldVisitsConducted(extensionAndFieldVisitDataDetails.getNumberOfFieldVisitsConducted());
         extensionAndFieldVisitData.setNumberOfPeopleSeekingOrOfferedAdvisoryServices(extensionAndFieldVisitDataDetails.getNumberOfPeopleSeekingOrOfferedAdvisoryServices());
         if (extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId() != null) {
-            extensionAndFieldVisitData.setWardExtensionOfficer(getEm().getReference(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
+            extensionAndFieldVisitData.setWardExtensionOfficer(em.getReference(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {
-            getEm().persist(extensionAndFieldVisitData);
-            getEm().flush();
+            em.persist(extensionAndFieldVisitData);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_00_01");
         }
@@ -61,9 +61,9 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
     @Override
     public List<ExtensionAndFieldVisitDataDetails> retrieveData() throws MilesException {
         List<ExtensionAndFieldVisitData> extensionAndFieldVisitDatas = new ArrayList<>();
-        setQ(getEm().createNamedQuery("ExtensionAndFieldVisitData.findAll"));
+        setQ(em.createNamedQuery("ExtensionAndFieldVisitData.findAll"));
         try {
-            extensionAndFieldVisitDatas = getQ().getResultList();
+            extensionAndFieldVisitDatas = q.getResultList();
         } catch (Exception e) {
         }
 
@@ -73,10 +73,10 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
     @Override
     public ExtensionAndFieldVisitDataDetails retrieveData(int id) throws MilesException {
         ExtensionAndFieldVisitData extensionAndFieldVisitData;
-        setQ(getEm().createNamedQuery("ExtensionAndFieldVisitData.findById"));
-        getQ().setParameter("id", id);
+        setQ(em.createNamedQuery("ExtensionAndFieldVisitData.findById"));
+        q.setParameter("id", id);
         try {
-            extensionAndFieldVisitData = (ExtensionAndFieldVisitData) getQ().getSingleResult();
+            extensionAndFieldVisitData = (ExtensionAndFieldVisitData) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_00_01");
         }
@@ -97,7 +97,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
             throw new InvalidArgumentException("error_011_02");
         }
 
-        ExtensionAndFieldVisitData extensionAndFieldVisitData = getEm().find(ExtensionAndFieldVisitData.class, extensionAndFieldVisitDataDetails.getId());
+        ExtensionAndFieldVisitData extensionAndFieldVisitData = em.find(ExtensionAndFieldVisitData.class, extensionAndFieldVisitDataDetails.getId());
         extensionAndFieldVisitData.setId(extensionAndFieldVisitDataDetails.getId());
         extensionAndFieldVisitData.setFieldVisitsWardLocations(extensionAndFieldVisitDataDetails.getFieldVisitsWardLocations());
         extensionAndFieldVisitData.setNatureOfAdvisoryServices(extensionAndFieldVisitDataDetails.getNatureOfAdvisoryServices());
@@ -105,12 +105,12 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         extensionAndFieldVisitData.setNumberOfFieldVisitsConducted(extensionAndFieldVisitDataDetails.getNumberOfFieldVisitsConducted());
         extensionAndFieldVisitData.setNumberOfPeopleSeekingOrOfferedAdvisoryServices(extensionAndFieldVisitDataDetails.getNumberOfPeopleSeekingOrOfferedAdvisoryServices());
         if (extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId() != null) {
-            extensionAndFieldVisitData.setWardExtensionOfficer(getEm().getReference(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
+            extensionAndFieldVisitData.setWardExtensionOfficer(em.getReference(Person.class, extensionAndFieldVisitDataDetails.getWardExtensionOfficer().getId()));
         }
 
         try {
-            getEm().merge(extensionAndFieldVisitData);
-            getEm().flush();
+            em.merge(extensionAndFieldVisitData);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_00_01");
         }
@@ -121,9 +121,9 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeData(int id) throws MilesException {
-        ExtensionAndFieldVisitData extensionAndFieldVisitData = getEm().find(ExtensionAndFieldVisitData.class, id);
+        ExtensionAndFieldVisitData extensionAndFieldVisitData = em.find(ExtensionAndFieldVisitData.class, id);
         try {
-            getEm().remove(extensionAndFieldVisitData);
+            em.remove(extensionAndFieldVisitData);
         } catch (Exception e) {
             throw new InvalidStateException("error_00_01");
         }
