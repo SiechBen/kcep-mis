@@ -309,21 +309,18 @@ public class PersonController extends Controller {
                     }
 
                     List<PersonDetails> people;
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            long startTime = System.currentTimeMillis();
-                            MilesDebugger.debug("Started retrieving list of people at: " + startTime);
+                    try {
+                        long startTime = System.currentTimeMillis();
+                        MilesDebugger.debug("Started retrieving list of people at: " + startTime);
 
-                            session.setAttribute("people", personService.retrieveNonFarmersAndNonAgroDealers());
+                        session.setAttribute("people", personService.retrieveNonFarmersAndNonAgroDealers());
 
-                            long endTime = System.currentTimeMillis();
-                            MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
-                            MilesDebugger.debug("Time taken: " + (endTime - startTime) / 1000);
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                        long endTime = System.currentTimeMillis();
+                        MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
+                        MilesDebugger.debug("Time taken: " + (endTime - startTime) / 1000);
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
                     }
                     break;
 
@@ -361,56 +358,47 @@ public class PersonController extends Controller {
 
                     }
 
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            long startTime = System.currentTimeMillis();
-                            MilesDebugger.debug("Started retrieving list of people at: " + startTime);
+                    try {
+                        long startTime = System.currentTimeMillis();
+                        MilesDebugger.debug("Started retrieving list of people at: " + startTime);
 
-                            session.setAttribute("people", personService.retrieveFarmersAndAgroDealers());
+                        session.setAttribute("people", personService.retrieveFarmersAndAgroDealers());
 
-                            long endTime = System.currentTimeMillis();
-                            MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
-                            MilesDebugger.debug("Time taken: " + (endTime - startTime) / 1000);
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                        long endTime = System.currentTimeMillis();
+                        MilesDebugger.debug("Finished retrieving list of people at: " + endTime);
+                        MilesDebugger.debug("Time taken: " + (endTime - startTime) / 1000);
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
                     }
                     break;
 
                 case "/ward_people":
 
                     PersonDetails wao = (PersonDetails) session.getAttribute("person");
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            people = personService.retrieveWardPeople(wao.getLocation().getWard().getId());
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                    try {
+                        people = personService.retrieveWardPeople(wao.getLocation().getWard().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
-                        }
+                    if (people != null) {
+                        session.setAttribute("people", people);
                     }
                     break;
 
                 case "/kalro_people":
 
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            people = personService.retrieveKalroPeople();
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                    try {
+                        people = personService.retrieveKalroPeople();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
-                        }
+                    if (people != null) {
+                        session.setAttribute("people", people);
                     }
                     break;
 
@@ -418,18 +406,15 @@ public class PersonController extends Controller {
 
                     PersonDetails regionalCoordinator = (PersonDetails) session.getAttribute("person");
 
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            people = personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getRegion().getId());
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                    try {
+                        people = personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getRegion().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
-                        }
+                    if (people != null) {
+                        session.setAttribute("people", people);
                     }
                     break;
 
@@ -437,18 +422,15 @@ public class PersonController extends Controller {
 
                     PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            people = personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId());
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                    try {
+                        people = personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
-                        }
+                    if (people != null) {
+                        session.setAttribute("people", people);
                     }
                     break;
 
@@ -456,18 +438,15 @@ public class PersonController extends Controller {
 
                     PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            people = personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId());
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                    try {
+                        people = personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
-                        }
+                    if (people != null) {
+                        session.setAttribute("people", people);
                     }
 
                     List<WardDetails> wards = new ArrayList<>();
@@ -487,18 +466,15 @@ public class PersonController extends Controller {
 
                     PersonDetails agroDealer = (PersonDetails) session.getAttribute("person");
 
-                    people = (List<PersonDetails>) session.getAttribute("people");
-                    if (people == null || people.isEmpty()) {
-                        try {
-                            people = personService.retrieveSubCountyFarmers(agroDealer.getLocation().getSubCounty().getId());
-                        } catch (MilesException ex) {
-                            LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                            return;
-                        }
+                    try {
+                        people = personService.retrieveSubCountyFarmers(agroDealer.getLocation().getSubCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
 
-                        if (people != null) {
-                            session.setAttribute("people", people);
-                        }
+                    if (people != null) {
+                        session.setAttribute("people", people);
                     }
                     break;
 

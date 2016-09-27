@@ -109,21 +109,39 @@ $(function () {
                         modal: false,
                         buttons: {
                             "Save": function () {
-                                $.ajax({
-                                    url: "addYearOfUse",
-                                    type: "POST",
-                                    data: "yearOfUse=" + $("#year-of-use").val(),
-                                    success: function () {
-                                        $("#name").val("");
-                                        loadAjaxWindow("performance_indicators");
-                                        return;
+
+                                $("#message").text("Are you sure you want to add this project year?\nThis action is irreversible.");
+                                $("#message-dialog").dialog({
+                                    width: 495,
+                                    height: "auto",
+                                    title: "add_project_year",
+                                    modal: true,
+                                    resizable: false,
+                                    buttons: {
+                                        "Yes": function () {
+                                            $.ajax({
+                                                url: "addYearOfUse",
+                                                type: "POST",
+                                                data: "yearOfUse=" + $("#year-of-use").val(),
+                                                success: function () {
+                                                    $("#name").val("");
+                                                    loadAjaxWindow("performance_indicators");
+                                                    return;
+                                                },
+                                                error: function (response) {
+                                                    showError("error_label", response.responseText);
+                                                },
+                                                dataType: "HTML"
+                                            });
+                                            $(this).dialog("close");
+                                        },
+                                        "No": function () {
+                                            $(this).dialog("close");
+                                        }
                                     },
-                                    error: function (response) {
-                                        showError("error_label", response.responseText);
-                                    },
-                                    dataType: "HTML"
+                                    close: function () {
+                                    }
                                 });
-                                $(this).dialog("close");
                             }
                         },
                         close: function () {
@@ -195,6 +213,7 @@ $(function () {
             }]
     });
 });
+
 $(function () {
     $('.reports-table').DataTable({
         responsive: true,
