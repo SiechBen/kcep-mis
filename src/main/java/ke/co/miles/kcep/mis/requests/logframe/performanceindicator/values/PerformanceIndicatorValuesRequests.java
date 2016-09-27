@@ -8,12 +8,10 @@ package ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -75,39 +73,13 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
     }
 
-    @Override
-    public int addPerformanceIndicatorValues(PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails) throws MilesException {
-
-        if (performanceIndicatorValuesDetails == null) {
-            throw new InvalidArgumentException("error_055_01");
-        } else if (performanceIndicatorValuesDetails.getPerformanceIndicator() == null) {
-            throw new InvalidArgumentException("error_055_02");
-        }
-
-        PerformanceIndicatorValues performanceIndicatorValues = new PerformanceIndicatorValues();
-        performanceIndicatorValues.setId(performanceIndicatorValuesDetails.getId());
-        performanceIndicatorValues.setActualValue(performanceIndicatorValuesDetails.getActualValue());
-        performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
-        performanceIndicatorValues.setYearOfUse(performanceIndicatorValuesDetails.getYearOfUse());
-
-        try {
-            em.persist(performanceIndicatorValues);
-            em.flush();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
-
-        return performanceIndicatorValues.getId();
-
-    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
-
     @Override
     @SuppressWarnings("unchecked")
-    public List<Double> retrieveYearsOfUse() throws MilesException {
+    public List<Short> retrieveYearsOfUse() throws MilesException {
 
-        List<Double> yearsOfUse = new ArrayList<>();
+        List<Short> yearsOfUse = new ArrayList<>();
         setQ(em.createNamedQuery("PerformanceIndicatorValues.findYearsOfUSe"));
 
         try {
@@ -120,22 +92,24 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
     @Override
     @SuppressWarnings({"unchecked", "unchecked"})
-    public HashMap<PerformanceIndicatorDetails, LinkedList<PerformanceIndicatorValuesDetails>>
-            retrievePerformanceIndicators() throws MilesException {
-        HashMap<PerformanceIndicatorDetails, LinkedList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
+    public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
+            retrievePerformanceIndicators(List<Short> yearsOfUse) throws MilesException {
+        HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
-        LinkedList<PerformanceIndicatorValuesDetails> linkedList = new LinkedList<>();
+        ArrayList<PerformanceIndicatorValuesDetails> orderedList;
         setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
         try {
             performanceIndicators = q.getResultList();
-            setQ(em.createNamedQuery("PerformanceIndicatorValues.performanceIndicatorId"));
-            MilesDebugger.debug("h");
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndYearOfUse"));
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
+                orderedList = new ArrayList<>();
                 q.setParameter("performanceIndicatorId", performanceIndicator.getId());
-                linkedList.addAll(convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(q.getResultList()));
-                map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), linkedList);
+                for (short yearOfUse : yearsOfUse) {
+                    q.setParameter("yearOfUse", yearOfUse);
+                    orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                }
+                map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }
-            MilesDebugger.debug(map);
         } catch (Exception e) {
         }
 

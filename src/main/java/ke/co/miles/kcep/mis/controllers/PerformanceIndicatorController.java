@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -192,10 +193,19 @@ public class PerformanceIndicatorController extends Controller {
                 case "/county_performance_indicators":
                 case "/region_performance_indicators":
 
+                    List<Short> yearsOfUse;
+                    try {
+                        yearsOfUse = performanceIndicatorValuesService.retrieveYearsOfUse();
+                        session.setAttribute("yearsOfUse", yearsOfUse);
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of years of use ", ex);
+                        return;
+                    }
+
+                    HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
                     try {
                         session.setAttribute("performanceIndicatorsMap",
-                                performanceIndicatorValuesService.retrievePerformanceIndicators());
-//                        MilesDebugger.debug(performanceIndicatorValuesService.retrievePerformanceIndicators());
+                                performanceIndicatorValuesService.retrievePerformanceIndicators(yearsOfUse));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during performance indicator map retrieval ", ex);
                         return;
@@ -213,13 +223,6 @@ public class PerformanceIndicatorController extends Controller {
                         session.setAttribute("resultHierarchies", resultHierarchyService.retrieveResultHierarchies());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of result hierarchies ", ex);
-                        return;
-                    }
-
-                    try {
-                        session.setAttribute("yearsOfUse", performanceIndicatorValuesService.retrieveYearsOfUse());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of years of use ", ex);
                         return;
                     }
 

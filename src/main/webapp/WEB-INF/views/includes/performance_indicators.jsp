@@ -53,20 +53,12 @@
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.description}">${performanceIndicator.description}</td>
                                     <td class="editable"><fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/></td>
                                     <td class="editable">${performanceIndicator.baselineValue}</td>
-                                    <c:forEach var="performanceIndicatorValues" items="${sessionScope.performanceIndicatorMap.get(performanceIndicator)}">
+                                    <c:forEach var="performanceIndicatorValues" items="${sessionScope.performanceIndicatorsMap.get(performanceIndicator)}">
                                         <td>${performanceIndicatorValues.actualValue}</td>
                                         <td class="editable">${performanceIndicatorValues.expectedValue}</td>
                                         <td>${performanceIndicatorValues.ratio}</td>
-                                        <td><button onclick="editPerformanceIndicatorValues(
-                                                        '${performanceIndicator.id}',
-                                                        '<fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/>',
-                                                        '${performanceIndicator.baselineValue}',
-                                                        '${performanceIndicatorValues.expectedValue}',
-                                                        '${performanceIndicatorValues.actualValue}',
-                                                        '${performanceIndicatorValues.ratio}',
-                                                        '${performanceIndicator.description}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                            </c:forEach>
-                                </tr>
+                                        <td><button onclick="editPerformanceIndicatorValues('${performanceIndicator.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/>', '${performanceIndicator.baselineValue}', '${performanceIndicatorValues.expectedValue}', '${performanceIndicatorValues.actualValue}', '${performanceIndicatorValues.ratio}', '${performanceIndicator.description}')"><span class="glyphicon glyphicon-pencil"></span></button></td>                                            </c:forEach>
+                                    </tr>
                             </c:forEach>
                         </tbody>
                     </table>

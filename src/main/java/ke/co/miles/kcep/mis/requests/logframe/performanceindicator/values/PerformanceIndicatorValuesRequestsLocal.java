@@ -5,8 +5,8 @@
  */
 package ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -23,21 +23,21 @@ public interface PerformanceIndicatorValuesRequestsLocal {
 
     /**
      *
-     * @param performanceIndicatorDetails details of the performance indicator
-     * record to be created
-     * @return the unique identifier of the new record created
-     * @throws MilesException when the database is in an incorrect state or when
-     * the details are null or incorrectly specified
+     * @param year the year for which the performance indicator values are to be
+     * added
+     * @throws MilesException when the database is in an incorrect state
      */
-    public int addPerformanceIndicatorValues(PerformanceIndicatorValuesDetails performanceIndicatorDetails) throws MilesException;
+    public void addYearOfUse(short year) throws MilesException;
 
     /**
      *
+     * @param yearsOfUse the list of years of use to be used in ordering the
+     * performance indicator values
      * @return the list of performance indicator record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<PerformanceIndicatorDetails, LinkedList<PerformanceIndicatorValuesDetails>>
-            retrievePerformanceIndicators() throws MilesException;
+    public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
+            retrievePerformanceIndicators(List<Short> yearsOfUse) throws MilesException;
 
     /**
      *
@@ -78,20 +78,13 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * converted to performance indicator details
      * @return the result of the conversion
      */
-    public PerformanceIndicatorValuesDetails convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(PerformanceIndicatorValues performanceIndicator);
-
-    /**
-     *
-     * @param year the year for which the performance indicator values are to be
-     * added
-     * @throws MilesException when the database is in an incorrect state
-     */
-    public void addYearOfUse(short year) throws MilesException;
+    public PerformanceIndicatorValuesDetails
+            convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(PerformanceIndicatorValues performanceIndicator);
 
     /**
      *
      * @return the list of years of use
      * @throws MilesException when the database is in an incorrect state
      */
-    public Object retrieveYearsOfUse() throws MilesException;
+    public List<Short> retrieveYearsOfUse() throws MilesException;
 }

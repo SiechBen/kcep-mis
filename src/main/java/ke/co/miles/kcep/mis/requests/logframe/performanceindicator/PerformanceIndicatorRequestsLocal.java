@@ -60,4 +60,11 @@ public interface PerformanceIndicatorRequestsLocal {
      * @return the result of the conversion
      */
     public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator);
+
+    /**
+     *
+     * @return the list of performance indicators
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public PerformanceIndicatorDetails retrievePerformanceIndicators() throws MilesException;
 }

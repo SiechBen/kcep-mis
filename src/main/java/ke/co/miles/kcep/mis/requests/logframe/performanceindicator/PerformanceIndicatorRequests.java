@@ -75,6 +75,19 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 
         return convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator);
     }
+
+    @Override
+    public PerformanceIndicatorDetails retrievePerformanceIndicators() throws MilesException {
+        PerformanceIndicator performanceIndicator;
+        setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
+        try {
+            performanceIndicator = (PerformanceIndicator) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator);
+    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
 
