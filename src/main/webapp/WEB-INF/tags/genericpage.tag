@@ -307,6 +307,7 @@
         <script src="static/plugins/datatables/media/js/dataTables.bootstrap.min.js"></script>
         <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
+        <script src="static/plugins/jquery-awesome-cursor/js/jquery.awesome-cursor.min.js"></script>
         <script src="static/plugins/jstorage/jstorage.js"></script>
         ${scripts}
         <script src="static/js/actions.js"></script>

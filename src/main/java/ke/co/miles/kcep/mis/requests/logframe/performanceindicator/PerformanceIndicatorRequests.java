@@ -34,9 +34,11 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             throw new InvalidArgumentException("error_040_01");
         } else if (performanceIndicatorDetails.getResultHierarchy() == null) {
             throw new InvalidArgumentException("error_040_02");
-        } else if (performanceIndicatorDetails.getDescription() == null || performanceIndicatorDetails.getDescription().trim().length() == 0) {
+        } else if (performanceIndicatorDetails.getDescription() == null
+                || performanceIndicatorDetails.getDescription().trim().length() == 0) {
             throw new InvalidArgumentException("error_040_03");
-        } else if (performanceIndicatorDetails.getDescription().length() > 400) {
+        } else if (performanceIndicatorDetails.getDescription() != null
+                && performanceIndicatorDetails.getDescription().length() > 400) {
             throw new InvalidArgumentException("error_040_04");
         }
 
@@ -98,19 +100,22 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             throw new InvalidArgumentException("error_040_01");
         } else if (performanceIndicatorDetails.getId() == null) {
             throw new InvalidArgumentException("error_040_05");
-        } else if (performanceIndicatorDetails.getResultHierarchy() == null) {
-            throw new InvalidArgumentException("error_040_02");
-        } else if (performanceIndicatorDetails.getDescription() == null || performanceIndicatorDetails.getDescription().trim().length() == 0) {
-            throw new InvalidArgumentException("error_040_03");
-        } else if (performanceIndicatorDetails.getDescription().length() > 400) {
+        } else if (performanceIndicatorDetails.getDescription() != null
+                && performanceIndicatorDetails.getDescription().length() > 400) {
             throw new InvalidArgumentException("error_040_04");
         }
 
-        PerformanceIndicator performanceIndicator = em.find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
-        performanceIndicator.setId(performanceIndicatorDetails.getId());
-        performanceIndicator.setDescription(performanceIndicatorDetails.getDescription());
-        performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
-        performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
+        PerformanceIndicator performanceIndicator
+                = em.find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
+        if (performanceIndicatorDetails.getDescription() != null) {
+            performanceIndicator.setDescription(performanceIndicatorDetails.getDescription());
+        }
+        if (performanceIndicatorDetails.getBaselineDate() != null) {
+            performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
+        }
+        if (performanceIndicatorDetails.getBaselineValue() != null) {
+            performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
+        }
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
             performanceIndicator.setPerformanceIndicatorType(em.getReference(Phenomenon.class,
                     performanceIndicatorDetails.getPerformanceIndicatorType().getId()));

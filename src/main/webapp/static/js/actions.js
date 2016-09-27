@@ -83,6 +83,12 @@ $(function () {
 });
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Cursor">
+$(function () {
+    $(".pencil").awesomeCursor("pencil");
+});
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="DataTable">
 $(function () {
     $("#performance-indicator-table").DataTable({
@@ -2361,10 +2367,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
     });
 }
 
-function editPerformanceIndicatorValues(id, baselineDate, baselineValue,
-        expectedValue, actualValue, ratio, description) {
-    $("#baseline-date").val(baselineDate);
-    $("#baseline-value").val(baselineValue);
+function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, description) {
     $("#expected-value").val(expectedValue);
     $("#actual-value").val(actualValue);
     $("#ratio").val(ratio);
@@ -2380,12 +2383,11 @@ function editPerformanceIndicatorValues(id, baselineDate, baselineValue,
                     url: "doEditPerformanceIndicatorValues",
                     type: "POST",
                     data: "id=" + id +
-                            "&expectedValue=" + $("#expected-value").val() +
-                            "&baselineValue=" + $("#baseline-value").val() +
-                            "&baselineDate=" + $("#baseline-date").val() +
-                            "&ratio=" + $("#ratio").val(),
+                            "&expectedValue=" + $("#expected-value").val(),
                     success: function () {
-                        clearPerformanceIndicatorFields();
+                        $("#expected-value").val(0);
+                        $("#actual-value").val(0);
+                        $("#ratio").val(0.0);
                         loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
@@ -2397,7 +2399,75 @@ function editPerformanceIndicatorValues(id, baselineDate, baselineValue,
             }
         },
         close: function () {
-            clearPerformanceIndicatorFields();
+            $("#expected-value").val(0);
+            $("#actual-value").val(0);
+            $("#ratio").val(0.0);
+        }
+    });
+}
+
+function editBaselineDate(id, baselineDate, description) {
+    $("#baseline-date").val(baselineDate);
+    $("#baseline-date-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditBaselineDate",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&baselineDate=" + $("#baseline-date").val(),
+                    success: function () {
+                        $("#baseline-date").val("");
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#ratio").val("");
+        }
+    });
+}
+
+function editBaselineValue(id, baselineValue, description) {
+    $("#baseline-value").val(baselineValue);
+    $("#baseline-value-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditBaselineValue",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&baselineValue=" + $("#baseline-value").val(),
+                    success: function () {
+                        $("#baseline-value").val("");
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#ratio").val("");
         }
     });
 }

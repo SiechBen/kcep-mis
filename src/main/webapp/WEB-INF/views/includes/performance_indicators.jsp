@@ -51,13 +51,13 @@
                                     <td>${performanceIndicator.performanceIndicatorType.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.resultHierarchy.description}">${performanceIndicator.resultHierarchy.description}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.description}">${performanceIndicator.description}</td>
-                                    <td class="editable"><fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/></td>
-                                    <td class="editable">${performanceIndicator.baselineValue}</td>
+                                    <td class="editable pencil" onclick="editBaselineDate('${performanceIndicator.id}', '${performanceIndicator.baselineDate}', '${performanceIndicator.description}')"><fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/></td>
+                                    <td class="editable pencil" onclick="editBaselineValue('${performanceIndicator.id}', '${performanceIndicator.baselineValue}', '${performanceIndicator.description}')">${performanceIndicator.baselineValue}</td>
                                     <c:forEach var="performanceIndicatorValues" items="${sessionScope.performanceIndicatorsMap.get(performanceIndicator)}">
                                         <td>${performanceIndicatorValues.actualValue}</td>
                                         <td class="editable">${performanceIndicatorValues.expectedValue}</td>
-                                        <td>${performanceIndicatorValues.ratio}</td>
-                                        <td><button onclick="editPerformanceIndicatorValues('${performanceIndicator.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/>', '${performanceIndicator.baselineValue}', '${performanceIndicatorValues.expectedValue}', '${performanceIndicatorValues.actualValue}', '${performanceIndicatorValues.ratio}', '${performanceIndicator.description}')"><span class="glyphicon glyphicon-pencil"></span></button></td>                                            </c:forEach>
+                                        <td><c:if test="${not empty performanceIndicatorValues.ratio}">${performanceIndicatorValues.ratio}%</c:if></td>
+                                        <td><button onclick="editPerformanceIndicatorValues('${performanceIndicatorValues.id}', '${performanceIndicatorValues.expectedValue}', '${performanceIndicatorValues.actualValue}', '${performanceIndicatorValues.ratio}', '${performanceIndicator.description}')"><span class="glyphicon glyphicon-pencil"></span></button></td>                                            </c:forEach>
                                     </tr>
                             </c:forEach>
                         </tbody>
@@ -99,6 +99,36 @@
                     <div class="form-group">
                         Year
                         <select id="year-of-use" class="form-control yearfield" ></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="baseline-date-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Baseline date
+                        <input id="baseline-date" class="form-control datefield">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="baseline-value-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Baseline value
+                        <input type="number" step="0.01"  id="baseline-value" class="form-control">
                     </div>
                 </form>
             </div>

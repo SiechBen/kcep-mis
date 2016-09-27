@@ -40,7 +40,7 @@ import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
         urlPatterns = {"/performance_indicators", "/addPerformanceIndicator",
             "/doEditPerformanceIndicator", "/doDeletePerformanceIndicator",
             "/doAddPerformanceIndicator", "/doEditPerformanceIndicatorValues",
-            "/addYearOfUse",})
+            "/addYearOfUse", "/doEditBaselineValue", "/doEditBaselineDate"})
 public class PerformanceIndicatorController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -70,6 +70,8 @@ public class PerformanceIndicatorController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/addYearOfUse");
+                            urlPaths.add("/doEditBaselineValue");
+                            urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
                             urlPaths.add("/doDeletePerformanceIndicator");
@@ -86,6 +88,8 @@ public class PerformanceIndicatorController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/addYearOfUse");
+                            urlPaths.add("/doEditBaselineValue");
+                            urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
                             urlPaths.add("/doDeletePerformanceIndicator");
@@ -102,6 +106,8 @@ public class PerformanceIndicatorController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/addYearOfUse");
+                            urlPaths.add("/doEditBaselineValue");
+                            urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
                             urlPaths.add("/doDeletePerformanceIndicator");
@@ -155,6 +161,59 @@ public class PerformanceIndicatorController extends Controller {
 
                     try {
                         performanceIndicatorValuesService.editPerformanceIndicatorValues(performanceIndicatorValues);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    return;
+
+                case "/doEditBaselineValue":
+
+                    PerformanceIndicatorDetails performanceIndicator;
+                    try {
+                        performanceIndicator = new PerformanceIndicatorDetails(Short.parseShort(request.getParameter("id")));
+                    } catch (Exception ex) {
+                        performanceIndicator = new PerformanceIndicatorDetails();
+                    }
+
+                    try {
+                        performanceIndicator.setBaselineValue(Double.valueOf(request.getParameter("baselineValue")));
+                    } catch (NumberFormatException ex) {
+                        performanceIndicator.setBaselineValue(null);
+                    }
+
+                    try {
+                        performanceIndicatorService.editPerformanceIndicator(performanceIndicator);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    return;
+
+                case "/doEditBaselineDate":
+
+                    try {
+                        performanceIndicator = new PerformanceIndicatorDetails(Short.parseShort(request.getParameter("id")));
+                    } catch (Exception ex) {
+                        performanceIndicator = new PerformanceIndicatorDetails();
+                    }
+
+                    try {
+                        date = userDateFormat.parse(request.getParameter("baselineDate"));
+                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
+                        performanceIndicator.setBaselineDate(date);
+                    } catch (ParseException ex) {
+                        response.getWriter().write(getBundle().getString("string_parse_error"));
+                        LOGGER.log(Level.WARNING, getBundle().getString("string_parse_error"), ex);
+                        performanceIndicator.setBaselineDate(null);
+                    }
+
+                    try {
+                        performanceIndicatorService.editPerformanceIndicator(performanceIndicator);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -230,7 +289,7 @@ public class PerformanceIndicatorController extends Controller {
 
                 case "/doAddPerformanceIndicator":
 
-                    PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
+                    performanceIndicator = new PerformanceIndicatorDetails();
                     performanceIndicator.setDescription(request.getParameter("description"));
 
                     try {

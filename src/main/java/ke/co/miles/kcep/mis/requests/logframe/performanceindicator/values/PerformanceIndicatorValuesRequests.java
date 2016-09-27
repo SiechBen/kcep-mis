@@ -152,16 +152,11 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             throw new InvalidArgumentException("error_055_01");
         } else if (performanceIndicatorValuesDetails.getId() == null) {
             throw new InvalidArgumentException("error_055_03");
-        } else if (performanceIndicatorValuesDetails.getPerformanceIndicator() == null) {
-            throw new InvalidArgumentException("error_055_01");
         }
 
         PerformanceIndicatorValues performanceIndicatorValues
                 = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
-        performanceIndicatorValues.setId(performanceIndicatorValuesDetails.getId());
-        performanceIndicatorValues.setActualValue(performanceIndicatorValuesDetails.getActualValue());
         performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
-        performanceIndicatorValues.setYearOfUse(performanceIndicatorValuesDetails.getYearOfUse());
 
         try {
             em.merge(performanceIndicatorValues);
