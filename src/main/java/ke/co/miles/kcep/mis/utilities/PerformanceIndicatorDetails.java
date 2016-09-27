@@ -53,38 +53,6 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         this.baselineValue = baselineValue;
     }
 
-    public Short getYearOfUse() {
-        return yearOfUse;
-    }
-
-    public void setYearOfUse(Short yearOfUse) {
-        this.yearOfUse = yearOfUse;
-    }
-
-    public Double getActualValue() {
-        return actualValue;
-    }
-
-    public void setActualValue(Double actualValue) {
-        this.actualValue = actualValue;
-    }
-
-    public Double getExpectedValue() {
-        return expectedValue;
-    }
-
-    public void setExpectedValue(Double expectedValue) {
-        this.expectedValue = expectedValue;
-    }
-
-    public Double getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(Double ratio) {
-        this.ratio = ratio;
-    }
-
     public ResultHierarchyDetails getResultHierarchy() {
         return resultHierarchy;
     }
@@ -132,10 +100,6 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     private String description;
     private Date baselineDate;
     private Double baselineValue;
-    private Short yearOfUse;
-    private Double actualValue;
-    private Double expectedValue;
-    private Double ratio;
     private ResultHierarchyDetails resultHierarchy;
     private PhenomenonDetails performanceIndicatorType;
 

@@ -36,6 +36,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.Implem
 import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
+import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
 import ke.co.miles.kcep.mis.utilities.AnnualIndicatorDetails;
@@ -490,7 +491,7 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("performanceIndicators", performanceIndicatorService.retrievePerformanceIndicators());
+                        session.setAttribute("performanceIndicators", performanceIndicatorValuesService.retrievePerformanceIndicators());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of performance indicators", ex);
                         return;
@@ -931,4 +932,6 @@ public class ActivityPlanningController extends Controller {
     private ImplementingPartnerRequestsLocal implementingPartnerService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
+    @EJB
+    private PerformanceIndicatorValuesRequestsLocal performanceIndicatorValuesService;
 }

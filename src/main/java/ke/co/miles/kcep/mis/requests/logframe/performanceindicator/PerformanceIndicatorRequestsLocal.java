@@ -5,7 +5,6 @@
  */
 package ke.co.miles.kcep.mis.requests.logframe.performanceindicator;
 
-import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -30,13 +29,6 @@ public interface PerformanceIndicatorRequestsLocal {
 
     /**
      *
-     * @return the list of performance indicator record details retrieved
-     * @throws MilesException when the database is in an incorrect state
-     */
-    public List<PerformanceIndicatorDetails> retrievePerformanceIndicators() throws MilesException;
-
-    /**
-     *
      * @param id the unique identifier of the performance indicator record to be
      * retrieved
      * @return the details of the performance indicator record retrieved
@@ -52,15 +44,6 @@ public interface PerformanceIndicatorRequestsLocal {
      * the details are null or incorrectly specified
      */
     public void editPerformanceIndicator(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException;
-
-    /**
-     *
-     * @param performanceIndicatorDetails details of the performance indicator
-     * values to be edited
-     * @throws MilesException when the database is in an incorrect state or when
-     * the details are null or incorrectly specified
-     */
-    public void editPerformanceIndicatorValues(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException;
 
     /**
      *

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
@@ -31,9 +26,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "phenomenon", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Phenomenon.findByPhenomenonTypeIdAndRelative", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId AND p.category.child = :relative"),
+    @NamedQuery(name = "Phenomenon.findByPhenomenonTypeIdAndRelative", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId AND p.category.relative = :relative"),
     @NamedQuery(name = "Phenomenon.findByPhenomenonTypeId", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId"),
-    @NamedQuery(name = "Phenomenon.findByRelativeId", query = "SELECT p FROM Phenomenon p WHERE p.category.child.id = :relativeId"),
+    @NamedQuery(name = "Phenomenon.findByRelativeId", query = "SELECT p FROM Phenomenon p WHERE p.category.relative.id = :relativeId"),
     @NamedQuery(name = "Phenomenon.findAll", query = "SELECT p FROM Phenomenon p"),
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
@@ -46,10 +41,12 @@ public class Phenomenon implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "gfssCode")
     private List<SubActivity> subActivityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicatorType")
+    @OneToMany(mappedBy = "performanceIndicatorType")
     private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "warehouseOperator")
     private List<Warehouse> warehouseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouseType")
+    private List<Warehouse> warehouseList1;
     @OneToMany(mappedBy = "gfssCode")
     private List<Procurement> procurementList;
     @OneToMany(mappedBy = "issuingBank")
@@ -105,6 +102,15 @@ public class Phenomenon implements Serializable {
 
     public void setWarehouseList(List<Warehouse> warehouseList) {
         this.warehouseList = warehouseList;
+    }
+
+    @XmlTransient
+    public List<Warehouse> getWarehouseList1() {
+        return warehouseList1;
+    }
+
+    public void setWarehouseList1(List<Warehouse> warehouseList1) {
+        this.warehouseList1 = warehouseList1;
     }
 
     @XmlTransient

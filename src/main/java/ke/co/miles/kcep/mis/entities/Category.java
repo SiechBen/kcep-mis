@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
@@ -33,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "category", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Category.findByChildId", query = "SELECT c FROM Category c WHERE c.child.id = :childId"),
+    @NamedQuery(name = "Category.findByRelativeId", query = "SELECT c FROM Category c WHERE c.relative.id = :relativeId"),
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
     @NamedQuery(name = "Category.findById", query = "SELECT c FROM Category c WHERE c.id = :id"),
     @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name")})
@@ -52,11 +47,11 @@ public class Category implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Phenomenon> phenomenonList;
-    @OneToMany(mappedBy = "child")
+    @OneToMany(mappedBy = "relative")
     private List<Category> categoryList;
-    @JoinColumn(name = "child", referencedColumnName = "id")
+    @JoinColumn(name = "relative", referencedColumnName = "id")
     @ManyToOne
-    private Category child;
+    private Category relative;
 
     public Category() {
     }
@@ -104,12 +99,12 @@ public class Category implements Serializable {
         this.categoryList = categoryList;
     }
 
-    public Category getChild() {
-        return child;
+    public Category getRelative() {
+        return relative;
     }
 
-    public void setChild(Category child) {
-        this.child = child;
+    public void setRelative(Category relative) {
+        this.relative = relative;
     }
 
     @Override
@@ -136,5 +131,5 @@ public class Category implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Category[ id=" + id + " ]";
     }
-    
+
 }

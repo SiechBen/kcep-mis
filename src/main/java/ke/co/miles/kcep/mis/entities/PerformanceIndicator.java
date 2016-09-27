@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
@@ -23,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -53,9 +47,7 @@ public class PerformanceIndicator implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 400)
+    @Size(max = 400)
     @Column(name = "description")
     private String description;
     @Column(name = "baseline_date")
@@ -70,13 +62,13 @@ public class PerformanceIndicator implements Serializable {
     private Double actualValue;
     @Column(name = "expected_value")
     private Double expectedValue;
-    @Column(name = "ratio")
-    private Double ratio;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
+    private List<PerformanceIndicatorValues> performanceIndicatorValuesList;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Phenomenon performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ResultHierarchy resultHierarchy;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
     private List<AnnualIndicator> annualIndicatorList;
@@ -86,11 +78,6 @@ public class PerformanceIndicator implements Serializable {
 
     public PerformanceIndicator(Short id) {
         this.id = id;
-    }
-
-    public PerformanceIndicator(Short id, String description) {
-        this.id = id;
-        this.description = description;
     }
 
     public Short getId() {
@@ -149,12 +136,13 @@ public class PerformanceIndicator implements Serializable {
         this.expectedValue = expectedValue;
     }
 
-    public Double getRatio() {
-        return ratio;
+    @XmlTransient
+    public List<PerformanceIndicatorValues> getPerformanceIndicatorValuesList() {
+        return performanceIndicatorValuesList;
     }
 
-    public void setRatio(Double ratio) {
-        this.ratio = ratio;
+    public void setPerformanceIndicatorValuesList(List<PerformanceIndicatorValues> performanceIndicatorValuesList) {
+        this.performanceIndicatorValuesList = performanceIndicatorValuesList;
     }
 
     public Phenomenon getPerformanceIndicatorType() {
@@ -206,5 +194,5 @@ public class PerformanceIndicator implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.PerformanceIndicator[ id=" + id + " ]";
     }
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
@@ -39,11 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StaticInput.findByName", query = "SELECT s FROM StaticInput s WHERE s.name = :name")})
 public class StaticInput implements Serializable {
 
-    @OneToMany(mappedBy = "produceTypeBrought")
-    private List<WarehouseOperation> warehouseOperationList;
-    @OneToMany(mappedBy = "produceTypeSold")
-    private List<WarehouseOperation> warehouseOperationList1;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +49,10 @@ public class StaticInput implements Serializable {
     private List<InputVariety> inputVarietyList;
     @OneToMany(mappedBy = "staticInput")
     private List<InputsCollection> inputsCollectionList;
+    @OneToMany(mappedBy = "produceTypeBrought")
+    private List<WarehouseOperation> warehouseOperationList;
+    @OneToMany(mappedBy = "produceTypeSold")
+    private List<WarehouseOperation> warehouseOperationList1;
     @JoinColumn(name = "input_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private InputType inputType;
@@ -109,6 +103,24 @@ public class StaticInput implements Serializable {
         this.inputsCollectionList = inputsCollectionList;
     }
 
+    @XmlTransient
+    public List<WarehouseOperation> getWarehouseOperationList() {
+        return warehouseOperationList;
+    }
+
+    public void setWarehouseOperationList(List<WarehouseOperation> warehouseOperationList) {
+        this.warehouseOperationList = warehouseOperationList;
+    }
+
+    @XmlTransient
+    public List<WarehouseOperation> getWarehouseOperationList1() {
+        return warehouseOperationList1;
+    }
+
+    public void setWarehouseOperationList1(List<WarehouseOperation> warehouseOperationList1) {
+        this.warehouseOperationList1 = warehouseOperationList1;
+    }
+
     public InputType getInputType() {
         return inputType;
     }
@@ -142,22 +154,4 @@ public class StaticInput implements Serializable {
         return "ke.co.miles.kcep.mis.entities.StaticInput[ id=" + id + " ]";
     }
 
-    @XmlTransient
-    public List<WarehouseOperation> getWarehouseOperationList() {
-        return warehouseOperationList;
-    }
-
-    public void setWarehouseOperationList(List<WarehouseOperation> warehouseOperationList) {
-        this.warehouseOperationList = warehouseOperationList;
-    }
-
-    @XmlTransient
-    public List<WarehouseOperation> getWarehouseOperationList1() {
-        return warehouseOperationList1;
-    }
-
-    public void setWarehouseOperationList1(List<WarehouseOperation> warehouseOperationList1) {
-        this.warehouseOperationList1 = warehouseOperationList1;
-    }
-    
 }

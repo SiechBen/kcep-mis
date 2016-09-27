@@ -71,9 +71,9 @@ $(function () {
 //<editor-fold defaultstate="collapsed" desc="Year picker">
 $(function () {
     var yearNow = new Date().getFullYear();
-    var yearInTheFuture = yearNow + 100;
-    var centuryAgo = yearNow - 100;
-    for (yearOption = centuryAgo; yearOption <= yearInTheFuture; yearOption++) {
+    var yearInTheFuture = yearNow + 10;
+    var decadeAgo = yearNow - 10;
+    for (yearOption = decadeAgo; yearOption <= yearInTheFuture; yearOption++) {
         if (yearOption === yearNow) {
             $(".yearfield").append($("<option/>").val(yearOption).attr("selected", "selected").html(yearOption));
         } else {
@@ -93,9 +93,37 @@ $(function () {
         dom: "Blftip",
         buttons: [
             {
-                text: 'Add',
+                text: 'Add year',
                 action: function () {
-                    loadAjaxWindow($("#add-label").text());
+                    $("#year-of-use-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "add_year_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Save": function () {
+                                $.ajax({
+                                    url: "addYearOfUse",
+                                    type: "POST",
+                                    data: "yearOfUse=" + $("#year-of-use").val(),
+                                    success: function () {
+                                        $("#name").val("");
+                                        loadAjaxWindow("performance_indicators");
+                                        return;
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#year-of-use").val("");
+                        }
+                    });
                 }
             },
             'excel',

@@ -101,14 +101,6 @@ public abstract class Controller extends HttpServlet {
     protected void availApplicationAttributes() {
 
         try {
-            getServletContext().setAttribute("performanceIndicators",
-                    performanceIndicatorService.retrievePerformanceIndicators());
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of topics", e);
-            return;
-        }
-
-        try {
             getServletContext().setAttribute("trainingModules", topicService.retrieveTrainingModules());
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of training modules", e);

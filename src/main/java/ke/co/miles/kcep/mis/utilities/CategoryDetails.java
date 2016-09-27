@@ -71,20 +71,20 @@ public class CategoryDetails implements Serializable, Comparable<CategoryDetails
     /**
      * @return the child
      */
-    public CategoryDetails getChild() {
-        return child;
+    public CategoryDetails getRelative() {
+        return relative;
     }
 
     /**
      * @param child the child to set
      */
-    public void setChild(CategoryDetails child) {
-        this.child = child;
+    public void setRelative(CategoryDetails child) {
+        this.relative = child;
     }
 
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
-    private CategoryDetails child;
+    private CategoryDetails relative;
 
 }

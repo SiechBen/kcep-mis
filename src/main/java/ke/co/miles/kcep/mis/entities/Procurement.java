@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
@@ -54,8 +49,8 @@ public class Procurement implements Serializable {
     @Size(max = 45)
     @Column(name = "item")
     private String item;
-    @Temporal(TemporalType.DATE)
     @Column(name = "date_purchased")
+    @Temporal(TemporalType.DATE)
     private Date datePurchased;
     @Size(max = 45)
     @Column(name = "serial_number")

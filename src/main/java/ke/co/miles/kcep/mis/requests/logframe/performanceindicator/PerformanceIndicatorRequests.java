@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -42,13 +41,9 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         }
 
         PerformanceIndicator performanceIndicator = new PerformanceIndicator();
-        performanceIndicator.setRatio(performanceIndicatorDetails.getRatio());
-        performanceIndicator.setYearOfUse(performanceIndicatorDetails.getYearOfUse());
-        performanceIndicator.setActualValue(performanceIndicatorDetails.getActualValue());
         performanceIndicator.setDescription(performanceIndicatorDetails.getDescription());
         performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
-        performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
         performanceIndicator.setResultHierarchy(em.getReference(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
             performanceIndicator.setPerformanceIndicatorType(em.getReference(Phenomenon.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
@@ -68,19 +63,6 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
-    @SuppressWarnings("unchecked")
-    public List<PerformanceIndicatorDetails> retrievePerformanceIndicators() throws MilesException {
-        List<PerformanceIndicator> performanceIndicators = new ArrayList<>();
-        setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
-        try {
-            performanceIndicators = q.getResultList();
-        } catch (Exception e) {
-        }
-
-        return convertPerformanceIndicatorsToPerformanceIndicatorDetailsList(performanceIndicators);
-    }
-
-    @Override
     public PerformanceIndicatorDetails retrievePerformanceIndicator(int id) throws MilesException {
         PerformanceIndicator performanceIndicator;
         setQ(em.createNamedQuery("PerformanceIndicator.findById"));
@@ -95,32 +77,6 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
-
-    @Override
-    public void editPerformanceIndicatorValues(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException {
-
-        if (performanceIndicatorDetails == null) {
-            throw new InvalidArgumentException("error_040_01");
-        } else if (performanceIndicatorDetails.getId() == null) {
-            throw new InvalidArgumentException("error_040_05");
-        }
-
-        PerformanceIndicator performanceIndicator = em.find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
-        performanceIndicator.setId(performanceIndicatorDetails.getId());
-        performanceIndicator.setRatio(performanceIndicatorDetails.getRatio());
-        performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
-        performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
-        performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
-
-        try {
-            em.merge(performanceIndicator);
-            em.flush();
-        } catch (Exception e) {
-            MilesDebugger.debug(e);
-            throw new InvalidStateException("error_000_01");
-        }
-
-    }
 
     @Override
     public void editPerformanceIndicator(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException {
@@ -139,13 +95,9 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 
         PerformanceIndicator performanceIndicator = em.find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
         performanceIndicator.setId(performanceIndicatorDetails.getId());
-        performanceIndicator.setRatio(performanceIndicatorDetails.getRatio());
-        performanceIndicator.setYearOfUse(performanceIndicatorDetails.getYearOfUse());
-        performanceIndicator.setActualValue(performanceIndicatorDetails.getActualValue());
         performanceIndicator.setDescription(performanceIndicatorDetails.getDescription());
         performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
-        performanceIndicator.setExpectedValue(performanceIndicatorDetails.getExpectedValue());
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
             performanceIndicator.setPerformanceIndicatorType(em.getReference(Phenomenon.class,
                     performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
@@ -182,14 +134,10 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator) {
 
         PerformanceIndicatorDetails performanceIndicatorDetails = new PerformanceIndicatorDetails(performanceIndicator.getId());
-        performanceIndicatorDetails.setExpectedValue(performanceIndicator.getExpectedValue());
         performanceIndicatorDetails.setBaselineValue(performanceIndicator.getBaselineValue());
         performanceIndicatorDetails.setBaselineDate(performanceIndicator.getBaselineDate());
         performanceIndicatorDetails.setDescription(performanceIndicator.getDescription());
-        performanceIndicatorDetails.setActualValue(performanceIndicator.getActualValue());
-        performanceIndicatorDetails.setYearOfUse(performanceIndicator.getYearOfUse());
-        performanceIndicatorDetails.setRatio(performanceIndicator.getRatio());
-        if (performanceIndicator.getResultHierarchy() != null) {
+        if (performanceIndicator.getPerformanceIndicatorType() != null) {
             performanceIndicatorDetails.setPerformanceIndicatorType(phenomenonService.
                     convertPhenomenonToPhenomenonDetails(performanceIndicator.getPerformanceIndicatorType()));
         }
@@ -220,4 +168,5 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     private ResultHierarchyRequestsLocal resultHierarchyService;
     @EJB
     private PhenomenonRequestsLocal phenomenonService;
+
 }

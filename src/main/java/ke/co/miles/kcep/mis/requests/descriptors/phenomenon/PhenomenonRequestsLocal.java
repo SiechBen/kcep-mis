@@ -114,4 +114,11 @@ public interface PhenomenonRequestsLocal {
      */
     public List<PhenomenonDetails> retrieveWarehouseTypes() throws MilesException;
 
+    /**
+     *
+     * @return the list of components retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveComponents() throws MilesException;
+
 }

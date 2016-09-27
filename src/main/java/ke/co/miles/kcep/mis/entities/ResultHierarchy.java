@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +40,7 @@ public class ResultHierarchy implements Serializable {
     @Size(max = 400)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultHierarchy")
+    @OneToMany(mappedBy = "resultHierarchy")
     private List<PerformanceIndicator> performanceIndicatorList;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne
@@ -127,5 +121,5 @@ public class ResultHierarchy implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.ResultHierarchy[ id=" + id + " ]";
     }
-    
+
 }

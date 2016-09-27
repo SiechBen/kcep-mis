@@ -155,7 +155,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         } catch (Exception e) {
         }
         try {
-            categoryDetails.setChild(convertCategoryToCategoryDetails(category.getChild()));
+            categoryDetails.setRelative(convertCategoryToCategoryDetails(category.getRelative()));
         } catch (Exception e) {
         }
         return categoryDetails;
