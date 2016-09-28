@@ -672,7 +672,6 @@ function loginUser() {
 
 //<editor-fold defaultstate="collapsed" desc="Person">
 function addPerson() {
-
     $.ajax({
         url: "doAddPerson",
         type: "POST",
@@ -680,24 +679,12 @@ function addPerson() {
                 "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
                 "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
                 "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
-                "&county=" + $("#person-county").val() + "&subCounty=" + $("#person-sub-county").val() +
-                "&personRole=" + $("#person-role").val() + "&ward=" + $("#person-ward").val() +
+                "&county=" + $("#county").val() + "&subCounty=" + $("#sub-county").val() +
+                "&personRole=" + $("#person-role").val() + "&ward=" + $("#ward").val() +
                 "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
                 "&dateOfBirth=" + $("#date-of-birth").val(),
         success: function () {
-            $("#sex").val("");
-            $("#email").val("");
-            $("#phone").val("");
-            $("#national-id").val("");
-            $("#date-of-birth").val("");
-            $("#person-name").val("");
-            $("#farmer-group").val("");
-            $("#person-ward").val("");
-            $("#postal-address").val("");
-            $("#person-county").val("");
-            $("#business-name").val("");
-            $("#farmer-sub-group").val("");
-            $("#person-sub-county").val("");
+            clearPersonFields();
             loadAjaxWindow('people');
             return;
         },
@@ -723,19 +710,28 @@ function updateCounts() {
     });
 }
 
-function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmerGroup, farmerSubGroup, county, subCounty, ward, phone, email) {
+function editPerson(id, name, sex, personRole, nationalId, dateOfBirth, businessName,
+        farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
     $("#person-name").val(name);
-    $("#gender").val(sex);
-    $("#person-nationalId").val(nationalId);
-    $("#dateOfBirth").val(dateOfBirth);
-    $("#person-businessName").val(businessName);
-    $("#person-farmerGroup").val(farmerGroup);
-    $("#person-farmerSubGroup").val(farmerSubGroup);
-    $("#person-county").val(county);
-    $("#person-sub-County").val(subCounty);
-    $("#ward").val(ward);
-    $("#person-phone").val(phone);
-    $("#person-email").val(email);
+    if (sex !== "")
+        $("#sex option[value=" + sex + "]").attr('selected', 'selected');
+    if (personRole !== "")
+        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
+    $("#national-id").val(nationalId);
+    $("#date-of-birth").val(dateOfBirth);
+    $("#business-name").val(businessName);
+    if (farmerGroup !== "")
+        $("#farmer-group option[value=" + farmerGroup + "]").attr('selected', 'selected');
+    if (farmerSubGroup !== "")
+        $("#farmer-sub-group option[value=" + farmerSubGroup + "]").attr('selected', 'selected');
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#phone").val(phone);
+    $("#email").val(email);
     $("#person-dialog").dialog({
         width: 495,
         height: "auto",
@@ -748,35 +744,25 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
                     url: "doEditPerson",
                     type: "POST",
                     data: "id=" + id +
+                            "&contactId=" + contactId +
                             "&name=" + $("#person-name").val() +
                             "&nationalId=" + $("#national-id").val() +
                             "&businessName=" + $("#business-name").val() +
                             "&sex=" + $("#sex").val() +
+                            "&personRoleId=" + $("#person-role").val() +
                             "&farmerGroup=" + $("#farmer-group").val() +
                             "&phoneNumber=" + $("#phone").val() +
+                            "&locationId=" + location +
                             "&email=" + $("#email").val() +
-                            "&businessName=" + $("#business-name").val() +
-                            "&county=" + $("#person-county").val() +
-                            "&subCounty=" + $("#person-sub-county").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
                             "&personRole=" + $("#person-role").val() +
-                            "&ward=" + $("#person-ward").val() +
+                            "&ward=" + $("#ward").val() +
                             "&farmerSubGroup=" + $("#farmer-sub-group").val() +
                             "&postalAddress=" + $("#postal-address").val() +
                             "&dateOfBirth=" + $("#date-of-birth").val(),
                     success: function () {
-                        $("#sex").val("");
-                        $("#email").val("");
-                        $("#phone").val("");
-                        $("#national-id").val("");
-                        $("#date-of-birth").val("");
-                        $("#person-name").val("");
-                        $("#farmer-group").val("");
-                        $("#person-ward").val("");
-                        $("#postal-address").val("");
-                        $("#person-county").val("");
-                        $("#business-name").val("");
-                        $("#farmer-sub-group").val("");
-                        $("#person-sub-county").val("");
+                        clearPersonFields();
                         loadAjaxWindow('people');
                         return;
                     }, error: function (response) {
@@ -785,16 +771,14 @@ function editPerson(id, name, sex, nationalId, dateOfBirth, businessName, farmer
                     dataType: "HTML"
                 });
                 $(this).dialog("close");
+            },
+            "Exit": function () {
+                clearProcurementPlanFields();
+                $(this).dialog("close");
             }
         },
         close: function () {
-            $("#start-date").val("");
-            $("#end-date").val("");
-            $("#topic").val("");
-            $("#county").val("");
-            $("#usbCounty").val("");
-            $("#ward").val("");
-            $("#numberofTrainees").val("");
+            clearPersonFields();
         }
     });
 }
@@ -832,6 +816,23 @@ function deletePerson(id) {
         }
     });
 }
+
+function clearPersonFields() {
+    $("#sex").val("");
+    $("#email").val("");
+    $("#phone").val("");
+    $("#national-id").val("");
+    $("#date-of-birth").val("");
+    $("#person-name").val("");
+    $("#farmer-group").val("");
+    $("#ward").val("");
+    $("#postal-address").val("");
+    $("#county").val("");
+    $("#business-name").val("");
+    $("#farmer-sub-group").val("");
+    $("#sub-county").val("");
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Training">
@@ -885,11 +886,11 @@ function editTraining(id, startDate, endDate, topic, venue, county, subCounty, w
     if (topic !== "")
         $("#topic option[value=" + topic + "]").attr('selected', 'selected');
     if (county !== "")
-        $("#training-county option[value=" + county + "]").attr('selected', 'selected');
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
     if (subCounty !== "")
-        $("#training-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
     if (ward !== "")
-        $("#training-ward option[value=" + ward + "]").attr('selected', 'selected');
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
     $("#number-of-trainees").val(numberOfTrainees);
     $("#training-dialog").dialog({
         width: 495,
@@ -906,10 +907,10 @@ function editTraining(id, startDate, endDate, topic, venue, county, subCounty, w
                             "&startDate=" + $("#start-date").val() +
                             "&endDate=" + $("#end-date").val() +
                             "&topic=" + $("#topic").val() +
-                            "&county=" + $("#training-county").val() +
-                            "&subCounty=" + $("#training-sub-county").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
                             "&venue=" + venue +
-                            "&ward=" + $("#training-ward").val() +
+                            "&ward=" + $("#ward").val() +
                             "&numberOfTrainees=" + $("#number-of-trainees").val(),
                     success: function () {
                         clearTrainingFields();
@@ -965,9 +966,9 @@ function clearTrainingFields() {
     $("#start-date").val("");
     $("#end-date").val("");
     $("#topic").val("");
-    $("#training-county").val("");
-    $("#training-sub-county").val("");
-    $("#training-ward").val("");
+    $("#county").val("");
+    $("#sub-county").val("");
+    $("#ward").val("");
     $("#number-of-trainees").val("");
 }
 //</editor-fold>
@@ -1085,9 +1086,9 @@ function addWarehouse() {
                 "&certified=" + $("#certified").val() +
                 "&latitude=" + $("#warehouse-latitude").val() +
                 "&longitude=" + $("#warehouse-longitude").val() +
-                "&county=" + $("#warehouse-county").val() +
-                "&subCounty=" + $("#warehouse-sub-county").val() +
-                "&ward=" + $("#warehouse-ward").val() +
+                "&county=" + $("#county").val() +
+                "&subCounty=" + $("#sub-county").val() +
+                "&ward=" + $("#ward").val() +
                 "&warehouseType=" + $("#warehouse-type").val(),
         success: function () {
             clearWarehouseFields();
@@ -1114,9 +1115,9 @@ function editWarehouse(id, name, warehouseType, capacity, units, offers,
     $("#warehouse-latitude").val(latitude);
     $("#warehouse-longitude").val(longitude);
     if (county !== "")
-        $("#warehouse-county option[value=" + county + "]").attr('selected', 'selected');
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
     if (subCounty !== "")
-        $("#warehouse-sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
     $("#warehouse-type option[value=" + operator + "]").val(operator);
     $("#warehouse-dialog").dialog({
         width: 495,
@@ -1139,8 +1140,8 @@ function editWarehouse(id, name, warehouseType, capacity, units, offers,
                             "&certified=" + $("#certified").val() +
                             "&latitude=" + $("#warehouse-latitude").val() +
                             "&longitude=" + $("#warehouse-longitude").val() +
-                            "&county=" + $("#warehouse-county").val() +
-                            "&subCounty=" + $("#warehouse-sub-county").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#county").val() +
                             "&warehouseType=" + $("#warehouse-type").val(),
                     success: function () {
                         clearWarehouseFields();
@@ -1202,8 +1203,8 @@ function clearWarehouseFields() {
     $("#certified").val("");
     $("#warehouse-latitude").val("");
     $("#warehouse-longitude").val("");
-    $("#warehouse-county").val("");
-    $("#warehouse-sub-county").val("");
+    $("#county").val("");
+    $("#sub-county").val("");
 }
 
 //</editor-fold>
@@ -1807,8 +1808,8 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                             "&serial-number=" + $("#serial-number").val() +
                             "&description=" + $("#description").val() +
                             "&target-office=" + $("#target-office").val() +
-                            "&county=" + $("#procurement-county").val() +
-                            "&sub-county=" + $("#procurement-sub-county").val() +
+                            "&county=" + $("#county").val() +
+                            "&sub-county=" + $("#sub-county").val() +
                             "&lpo-number=" + $("#lpo-number").val(),
                     success: function () {
                         clearProcurementFields();
@@ -1868,8 +1869,8 @@ function clearProcurementFields() {
     $("#serial-number").val("");
     $("#description").val("");
     $("#target-office").val("");
-    $("#procurement-county").val("");
-    $("#procurement-sub-county").val("");
+    $("#county").val("");
+    $("#sub-county").val("");
     $("#lpo-number").val("");
 }
 
@@ -2847,10 +2848,10 @@ function updateSubActivityNames() {
 function updateCounties() {
     $.ajax({
         type: "POST",
-        url: "updateCourses",
-        data: "degreeId=" + $("#degree-dropdown").val(),
+        url: "updateCounties",
+        data: "regionId=" + $("#region").val(),
         success: function (response) {
-            $("#course-dropdown").html(response);
+            $("#county").html(response);
         },
         dataType: "HTML"
     });
@@ -2859,10 +2860,10 @@ function updateCounties() {
 function updateSubCounties() {
     $.ajax({
         type: "POST",
-        url: "updateCourses",
-        data: "degreeId=" + $("#degree-dropdown").val(),
+        url: "updateSubCounties",
+        data: "countyId=" + $("#county").val(),
         success: function (response) {
-            $("#course-dropdown").html(response);
+            $("#sub-county").html(response);
         },
         dataType: "HTML"
     });
@@ -2871,10 +2872,10 @@ function updateSubCounties() {
 function updateWards() {
     $.ajax({
         type: "POST",
-        url: "updateCourses",
-        data: "degreeId=" + $("#degree-dropdown").val(),
+        url: "updateWards",
+        data: "subCountyId=" + $("#sub-county").val(),
         success: function (response) {
-            $("#course-dropdown").html(response);
+            $("#ward").html(response);
         },
         dataType: "HTML"
     });

@@ -64,4 +64,13 @@ public interface CountyRequestsLocal {
      */
     public CountyDetails convertCountyToCountyDetails(County county);
 
+    /**
+     *
+     * @param regionId the unique identifier of the region for which the
+     * counties to be retrieved belong
+     * @return the list of counties retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<CountyDetails> retrieveCounties(short regionId) throws MilesException;
+
 }

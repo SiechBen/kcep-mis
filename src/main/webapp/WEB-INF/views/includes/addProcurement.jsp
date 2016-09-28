@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : addProcurements
     Created on : Sep 15, 2016, 11:51:47 AM
     Author     : siech
@@ -18,10 +18,10 @@
                     <!--                    <div class="form-group">
                                             Item
                                             <select id="item" name="item" class="form-control">
-                    <c:forEach var="item" items="${sessionScope.items}" varStatus="index"> 
+                    <c:forEach var="item" items="${sessionScope.items}" varStatus="index">
                         <option value="${item.id}">${item.category.name} - ${item.category.child.name}</option>
                     </c:forEach>
-                </select>  
+                </select>
             </div>-->
                     <div class="form-group">
                         Item
@@ -49,19 +49,19 @@
                     </div>
                     <div class="form-group">
                         County
-                        <select id="procurement-county" name="county" class="form-control">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                        <select id="county" name="county" class="form-control" onchange="updateSubCounties()">
+                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <select id="procurement-sub-county" name="sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
+                        <select id="sub-county" name="sub-county" class="form-control" onchange="updateWards()">
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         LPO number

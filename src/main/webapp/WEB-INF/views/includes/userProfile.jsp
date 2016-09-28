@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group">
                         County
-                        <select id="person-county" class="form-control">
+                        <select id="county" class="form-control" onchange="updateSubCounties()">
                             <option value="${sessionScope.person.location.county.id}"selected>${sessionScope.person.location.county.name}</option>
                             <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
@@ -80,11 +80,11 @@
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <input id="person-sub-county" class="form-control" value="${sessionScope.person.location.subCounty}">
+                        <input id="sub-county" class="form-control" value="${sessionScope.person.location.subCounty}">
                     </div>
                     <div class="form-group">
                         Ward
-                        <input id="person-ward" class="form-control" value="${sessionScope.person.location.ward}">
+                        <input id="ward" class="form-control" value="${sessionScope.person.location.ward}">
                     </div>
                     <button type="button" class="btn btn-outline btn-primary" onclick="editPerson()">Save person</button>
                 </form>

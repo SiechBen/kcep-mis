@@ -218,9 +218,29 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 //<editor-fold defaultstate="collapsed" desc="Update">
     @Override
     public void editUserAccount(UserAccountDetails userAccountDetails) throws MilesException {
-        //Method for editing a faculty record in the database
+        if (userAccountDetails == null) {
+            throw new InvalidArgumentException("error_015_01");
+        } else if (userAccountDetails.getPersonRole() == null) {
+            throw new InvalidArgumentException("error_015_07");
+        } else if (userAccountDetails.getPerson() == null) {
+            throw new InvalidArgumentException("error_015_06");
+        }
 
-        //Checking validity of details
+        setQ(em.createNamedQuery("UserAccount.findByPersonId"));
+        q.setParameter("personId", userAccountDetails.getPerson().getId());
+        UserAccount userAccount;
+        try {
+            userAccount = (UserAccount) q.getSingleResult();
+            userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
+            em.merge(userAccount);
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+    }
+
+    @Override
+    public void editCredentials(UserAccountDetails userAccountDetails) throws MilesException {
         if (userAccountDetails == null) {
             throw new InvalidArgumentException("error_015_01");
         } else if (userAccountDetails.getId() == null) {
@@ -239,7 +259,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_07");
         }
 
-        //Checking if the username is unique to a faculty
         setQ(em.createNamedQuery("UserAccount.findByUsername"));
         q.setParameter("username", userAccountDetails.getUsername());
         UserAccount userAccount;
@@ -256,7 +275,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             }
         }
 
-        //Create a message digest algorithm object for SHA-256 hashing algorithm
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
@@ -264,7 +282,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new AlgorithmException("error_016_01");
         }
 
-        //Creating a container to hold faculty record
         userAccount = em.find(UserAccount.class, userAccountDetails.getId());
         userAccount.setId(userAccountDetails.getId());
         userAccount.setPassword(userAccountDetails.getPassword());
@@ -273,7 +290,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
         userAccount.setPassword(accessService.generateSHAPassword(messageDigest, userAccountDetails.getPassword()));
 
-        //Editing a faculty record in the database
         try {
             em.merge(userAccount);
         } catch (Exception e) {

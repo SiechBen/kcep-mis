@@ -64,9 +64,10 @@
                                     <td>${person.location.ward.name}</td>
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
-                                    <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.sex}', '${person.nationalId}',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}', '${person.farmerGroup.name}', '${person.farmerSubGroup.name}',
-                                                    '${person.location.county.name}', '${person.location.subCounty.name}', '${person.location.ward.name}',
+                                    <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.personRoleId}', '${person.nationalId}',
+                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}',
+                                                    '${person.farmerGroup.id}', '${person.farmerSubGroup.id}', '${person.location.id}', '${person.location.county.id}',
+                                                    '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
@@ -138,31 +139,43 @@
                     </div>
                     <div class="form-group">
                         Gender
-                        <input id="gender" type="gender" step="0.01" name="gender" class="form-control">
+                        <select id="sex" name="sex" class="form-control">
+                            <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index">
+                                <option value="${sex.id}">${sex.sex}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Person role
+                        <select id="person-role" class="form-control">
+                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
+                                <option value="${personRole.id}">${personRole.personRole}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         National ID
-                        <input type="person-nationalid" id="nationalid" name="nationalid" class="form-control">
+                        <input id="national-id" name="national-id" class="form-control">
                     </div>
                     <div class="form-group">
                         Date Of Birth
-                        <input type="dateOfBirth" id="nationalid" name="nationalid" class="form-control">
+                        <input id="date-of-birth" name="date-of-birth" class="form-control datefield">
                     </div>
                     <div class="form-group">
                         Business Name
-                        <input id="person-businessname" name="person-businessname" class="form-control">
+                        <input id="business-name" name="person-business-name" class="form-control">
                     </div>
                     <div class="form-group">
                         Farmer Group
-                        <input id="person-farmergroup" name="person-framergroup" class="form-control">
+                        <input id="farmer-group" name="person-framer-group" class="form-control">
                     </div>
                     <div class="form-group">
                         Farmer SubGroup
-                        <input id="person-farmersubgroup" name="person-farmersubgroup" class="form-control">
+                        <input id="farmer-sub-group" name="person-farmer-sub-group" class="form-control">
                     </div>
                     <div class="form-group">
                         County
-                        <select id="person-county" name="person-county" class="form-control">
+                        <select id="county" name="person-county" class="form-control" onchange="updateSubCounties()">
                             <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
@@ -170,7 +183,7 @@
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <select id="person-sub-county" name="person-sub-county" class="form-control">
+                        <select id="sub-county" name="person-sub-county" class="form-control" onchange="updateWards()">
                             <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
@@ -186,11 +199,11 @@
                     </div>
                     <div class="form-group">
                         Phone
-                        <input id="person-phone" name="person-phone" class="form-control">
+                        <input id="phone" name="person-phone" class="form-control">
                     </div>
                     <div class="form-group">
                         Email
-                        <input id="person-email" name="person-email" class="form-control">
+                        <input id="email" name="person-email" class="form-control">
                     </div>
                 </form>
             </div>

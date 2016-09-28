@@ -33,10 +33,7 @@ public class OfficerController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession(false);
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -51,15 +48,18 @@ public class OfficerController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/ward");
                             urlPaths.add("/kalro");
-                        }   break;
+                        }
+                        break;
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/ward");
-                        }   break;
+                        }
+                        break;
                     case "kalroOfficer":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/kalro");
-                        }   break;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -78,7 +78,6 @@ public class OfficerController extends Controller {
                     path = "/kalro_officer";
                     break;
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);

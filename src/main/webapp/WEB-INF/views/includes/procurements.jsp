@@ -105,7 +105,7 @@
                     </div>
                     <div class="form-group">
                         County
-                        <select id="procurement-county" name="county" class="form-control">
+                        <select id="county" name="county" class="form-control" onchange="updateSubCounties()">
                             <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <select id="procurement-sub-county" name="sub-county" class="form-control">
+                        <select id="sub-county" name="sub-county" class="form-control" onchange="updateWards()">
                             <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>

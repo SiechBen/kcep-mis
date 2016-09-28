@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : addPerson
     Created on : Sep 7, 2016, 1:08:36 PM
     Author     : ronne
@@ -24,7 +24,7 @@
                             <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}">${personRole.personRole}</option>
                             </c:forEach>
-                        </select>    
+                        </select>
                     </div>
                     <div class="form-group">
                         National id number
@@ -41,10 +41,10 @@
                     <div class="form-group">
                         Gender
                         <select id="sex" class="form-control">
-                            <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index"> 
+                            <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index">
                                 <option value="${sex.id}">${sex.sex}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Phone number
@@ -61,42 +61,42 @@
                     <div class="form-group">
                         Farmer group
                         <select id="farmer-group" class="form-control">
-                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index"> 
+                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index">
                                 <option value="${farmerGroup.id}">${farmerGroup.name}</option>
                             </c:forEach>
-                        </select>    
+                        </select>
                     </div>
                     <div class="form-group">
                         Farmer sub-group
                         <select id="farmer-sub-group" class="form-control">
-                            <c:forEach var="farmerSubGroup" items="${applicationScope.farmerSubGroups}" varStatus="index"> 
+                            <c:forEach var="farmerSubGroup" items="${applicationScope.farmerSubGroups}" varStatus="index">
                                 <option value="${farmerSubGroup.id}">${farmerSubGroup.name}</option>
                             </c:forEach>
-                        </select>    
+                        </select>
                     </div>
-                  <div class="form-group">
-                        Sub-county
-                        <select id="person-county" class="form-control">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                    <div class="form-group">
+                        County
+                        <select id="county" class="form-control" onchange="updateSubCounties()">
+                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <select id="person-sub-county" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index"> 
+                        <select id="sub-county" class="form-control" onchange="updateWards()">
+                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <div class="form-group">
                         Ward
-                        <select id="person-ward" class="form-control">
-                            <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index"> 
+                        <select id="ward" class="form-control">
+                            <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index">
                                 <option value="${ward.id}">${ward.name}</option>
                             </c:forEach>
-                        </select>  
+                        </select>
                     </div>
                     <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save person</button>
                 </form>

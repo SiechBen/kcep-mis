@@ -439,7 +439,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         if (personDetails == null) {
             throw new InvalidArgumentException("error_001_01");
         } else if (personDetails.getId() == null) {
-            throw new InvalidStateException("error_001_03");
+            throw new InvalidArgumentException("error_001_03");
         }
 
         Person person;
@@ -460,7 +460,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         locationService.editLocation(personDetails.getLocation());
 
         person = em.find(Person.class, personDetails.getId());
-        person.setId(personDetails.getId());
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
         person.setDateOfBirth(personDetails.getDateOfBirth());
@@ -484,14 +483,12 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
         UserAccountDetails userAccountDetails = new UserAccountDetails();
-        userAccountDetails.setId(personDetails.getId());
+        userAccountDetails.setPerson(personDetails);
         userAccountDetails.setPersonRole(personRoleDetail);
-        userAccountDetails.setPassword(personDetails.getNationalId());
-        userAccountDetails.setPerson(convertPersonToPersonDetails(person));
-        userAccountDetails.setUsername(person.getContact().getEmail().toLowerCase());
 
         try {
             userAccountService.editUserAccount(userAccountDetails);
+            em.flush();
         } catch (Exception e) {
             throw e;
         }

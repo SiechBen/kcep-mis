@@ -62,10 +62,7 @@ public class PersonController extends Controller {
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
 
-        //Get the user session
         HttpSession session = request.getSession();
-
-        //Get the user path
         String path = request.getServletPath();
         String destination;
 
@@ -588,70 +585,92 @@ public class PersonController extends Controller {
 
                 case "/doEditPerson":
 
-                    contact = new ContactDetails();
-                    contact.setEmail(String.valueOf(request.getParameter("email")));
-                    contact.setPhone(String.valueOf(request.getParameter("phoneNumber")));
-                    contact.setPostalAddress(String.valueOf(request.getParameter("postalAddress")));
+                    try {
+                        contact = new ContactDetails(Integer.valueOf(
+                                request.getParameter("contactId")));
+                    } catch (Exception e) {
+                        contact = new ContactDetails();
+                    }
+                    contact.setEmail(String.valueOf(
+                            request.getParameter("email")));
+                    contact.setPhone(String.valueOf(
+                            request.getParameter("phoneNumber")));
+                    contact.setPostalAddress(String.valueOf(
+                            request.getParameter("postalAddress")));
 
                     farmerGroup = new FarmerGroupDetails();
                     try {
-                        farmerGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerGroup"))));
+                        farmerGroup.setId(Integer.valueOf(String.valueOf(
+                                request.getParameter("farmerGroup"))));
                     } catch (Exception e) {
                         farmerGroup = null;
                     }
 
                     farmerSubGroup = new FarmerSubGroupDetails();
                     try {
-                        farmerSubGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerSubGroup"))));
+                        farmerSubGroup.setId(Integer.valueOf(String.valueOf(
+                                request.getParameter("farmerSubGroup"))));
                     } catch (Exception e) {
                         farmerSubGroup = null;
                     }
 
                     subCounty = new SubCountyDetails();
                     try {
-                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
+                        subCounty.setId(Short.valueOf(String.valueOf(
+                                request.getParameter("subCounty"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
 
                     county = new CountyDetails();
                     try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
+                        county.setId(Short.valueOf(String.valueOf(
+                                request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }
 
                     ward = new WardDetails();
                     try {
-                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
+                        ward.setId(Short.valueOf(String.valueOf(
+                                request.getParameter("ward"))));
                     } catch (Exception e) {
                         ward = null;
                     }
 
-                    location = new LocationDetails();
+                    try {
+                        location = new LocationDetails(Integer.valueOf(
+                                request.getParameter("locationId")));
+                    } catch (Exception e) {
+                        location = new LocationDetails();
+                    }
                     location.setSubCounty(subCounty);
                     location.setCounty(county);
                     location.setWard(ward);
 
                     try {
-                        personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
+                        personRole = PersonRoleDetail.getPersonRoleDetail(
+                                Short.valueOf(String.valueOf(
+                                        request.getParameter("personRole"))));
                     } catch (Exception e) {
                         personRole = null;
                     }
 
-                    person = new PersonDetails();
                     try {
-                        person.setId(Integer.valueOf(request.getParameter("id")));
+                        person = new PersonDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        person = new PersonDetails();
                     }
-                    person.setBusinessName(String.valueOf(request.getParameter("businessName")));
+                    person.setBusinessName(String.valueOf(
+                            request.getParameter("businessName")));
 
                     person.setContact(contact);
                     person.setFarmerGroup(farmerGroup);
                     person.setFarmerSubGroup(farmerSubGroup);
                     person.setLocation(location);
                     person.setName(String.valueOf(request.getParameter("name")));
-                    person.setNationalId(String.valueOf(request.getParameter("nationalId")));
+                    person.setNationalId(String.valueOf(
+                            request.getParameter("nationalId")));
                     if (person.getBusinessName().equals("null")) {
                         person.setBusinessName(null);
                     }
@@ -671,7 +690,8 @@ public class PersonController extends Controller {
                         contact.setPostalAddress(null);
                     }
                     try {
-                        person.setSex(SexDetail.getSexDetail(Short.valueOf(String.valueOf(request.getParameter("sex")))));
+                        person.setSex(SexDetail.getSexDetail(
+                                Short.valueOf(String.valueOf(request.getParameter("sex")))));
                     } catch (Exception e) {
                         person.setSex(null);
                     }

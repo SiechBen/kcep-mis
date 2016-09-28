@@ -99,4 +99,12 @@ public interface UserAccountRequestsLocal {
     public List<Person> filterPeople(List<Person> people,
             PersonRoleDetail... personRoleDetails) throws MilesException;
 
+    /**
+     *
+     * @param userAccountDetails the user account details to be merged
+     * @throws MilesException when the database is in an incorrect state or when
+     * the arguments are not provided or incorrectly specified
+     */
+    public void editCredentials(UserAccountDetails userAccountDetails) throws MilesException;
+
 }
