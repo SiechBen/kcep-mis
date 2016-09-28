@@ -872,6 +872,7 @@ $("#training").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
+
 function addToTrainers() {
     $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
     if ($("#trainer-names").val() === "") {
@@ -879,6 +880,9 @@ function addToTrainers() {
     } else {
         $("#trainer-names").val($("#trainer-names").val() + ", " + $("#trainer option[value='" + $("#trainer").val() + "']").text());
     }
+
+    updateTrainingModules();
+
 }
 
 function addToTrainees() {
@@ -2822,13 +2826,25 @@ function updateSubComponents() {
     });
 }
 
-function updateTopics() {
+function updateTrainingTopics() {
     $.ajax({
         type: "POST",
         url: "updateTopics",
         data: "moduleId=" + $("#training-module").val(),
         success: function (response) {
             $("#topic").html(response);
+        },
+        dataType: "HTML"
+    });
+}
+
+function updateTrainingModules() {
+    $.ajax({
+        type: "POST",
+        url: "updateTrainingModules",
+        data: "trainerId=" + $("#trainer").val(),
+        success: function (response) {
+            $("#training-module").html(response);
         },
         dataType: "HTML"
     });

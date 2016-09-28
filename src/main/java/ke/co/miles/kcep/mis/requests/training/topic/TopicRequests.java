@@ -64,6 +64,21 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<TopicDetails> retrieveTrainingModules(Integer trainerId) throws MilesException {
+        List<Topic> trainingModules = new ArrayList<>();
+        setQ(em.createNamedQuery("Topic.findByModuleAndTrainerId"));
+        q.setParameter("module", null);
+        q.setParameter("trainerId", trainerId);
+        try {
+            trainingModules = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertTopicsToTopicDetailsList(trainingModules);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<TopicDetails> retrieveTrainingModules() throws MilesException {
         List<Topic> trainingModules = new ArrayList<>();
         setQ(em.createNamedQuery("Topic.findByModule"));

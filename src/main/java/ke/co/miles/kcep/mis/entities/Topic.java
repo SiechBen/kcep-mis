@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "topic", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Topic.findByModuleAndTrainerId", query = "SELECT t FROM Topic t WHERE t.module = :module AND t.trainer.id = :trainerId"),
     @NamedQuery(name = "Topic.findByModule", query = "SELECT t FROM Topic t WHERE t.module = :module"),
     @NamedQuery(name = "Topic.findByModuleId", query = "SELECT t FROM Topic t WHERE t.module.id = :moduleId"),
     @NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t"),

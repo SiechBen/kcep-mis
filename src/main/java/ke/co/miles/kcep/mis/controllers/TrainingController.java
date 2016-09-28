@@ -55,7 +55,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  */
 @WebServlet(name = "TrainingController", urlPatterns = {"/training",
     "/addTraining", "/doAddTraining", "/doEditTraining", "/doDeleteTraining",
-    "/loadTrainees", "/trainees", "/updateTopics"})
+    "/loadTrainees", "/trainees", "/updateTopics", "/updateTrainingModules"})
 @MultipartConfig
 public class TrainingController extends Controller {
 
@@ -89,6 +89,16 @@ public class TrainingController extends Controller {
                                 Short.valueOf(request.getParameter("moduleId")));
                         session.setAttribute("topics", topics);
                         updateTopicOptions(response, topics);
+                    } catch (MilesException e) {
+                    }
+                    return;
+
+                case "/updateTrainingModules":
+                    try {
+                        List<TopicDetails> trainingModules = topicService.retrieveTrainingModules(
+                                Integer.valueOf(request.getParameter("trainerId")));
+                        session.setAttribute("trainingModules", trainingModules);
+                        updateTopicOptions(response, trainingModules);
                     } catch (MilesException e) {
                     }
                     return;
@@ -654,6 +664,7 @@ public class TrainingController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
                             urlPaths.add("/doDeleteTraining");
@@ -683,6 +694,7 @@ public class TrainingController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
                             urlPaths.add("/doDeleteTraining");
@@ -712,6 +724,7 @@ public class TrainingController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
                             urlPaths.add("/doDeleteTraining");
@@ -741,6 +754,7 @@ public class TrainingController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
                             urlPaths.add("/doDeleteTraining");
@@ -770,6 +784,7 @@ public class TrainingController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
                             urlPaths.add("/doDeleteTraining");
@@ -799,6 +814,7 @@ public class TrainingController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
                             urlPaths.add("/doDeleteTraining");
@@ -866,6 +882,13 @@ public class TrainingController extends Controller {
 
     private void availSessionAttributes(HttpSession session,
             HttpServletResponse response) throws IOException {
+
+        try {
+            session.setAttribute("trainingModules", topicService.retrieveTrainingModules());
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of training modules", e);
+            return;
+        }
 
         try {
             session.setAttribute("people", personService.retrievePeople());

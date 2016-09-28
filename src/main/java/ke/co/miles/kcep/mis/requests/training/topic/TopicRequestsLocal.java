@@ -33,11 +33,11 @@ public interface TopicRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<TopicDetails> retrieveTrainingModules() throws MilesException;
-    
+
     /**
      *
-     * @param moduleId the unique identifier of the training module for
-     * which the list of training topics to be retrieved fall under
+     * @param moduleId the unique identifier of the training module for which
+     * the list of training topics to be retrieved fall under
      * @return the list of topic record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -72,5 +72,14 @@ public interface TopicRequestsLocal {
      * @return the details of the converted topic
      */
     public TopicDetails convertTopicToTopicDetails(Topic topic);
+
+    /**
+     *
+     * @param trainerId the unique identifier of the trainer for whom the
+     * training modules are to be retrieved
+     * @return the list training modules retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<TopicDetails> retrieveTrainingModules(Integer trainerId) throws MilesException;
 
 }
