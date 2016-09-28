@@ -31,20 +31,21 @@ public interface PerformanceIndicatorValuesRequestsLocal {
 
     /**
      *
-     * @param yearsOfUse the list of years of use to be used in ordering the
+     * @param yearsOfUse the list of project years to be used in ordering the
      * performance indicator values
      * @return the list of performance indicator record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrievePerformanceIndicators(List<Short> yearsOfUse) throws MilesException;
+            retrieveAllPerformanceIndicators(List<Short> yearsOfUse) throws MilesException;
 
     /**
      *
      * @return the list of performance indicator record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<PerformanceIndicatorValuesDetails> retrievePerformanceIndicatorValues() throws MilesException;
+    public List<PerformanceIndicatorValuesDetails> retrievePerformanceIndicatorValues()
+            throws MilesException;
 
     /**
      *
@@ -53,7 +54,15 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @return the details of the performance indicator record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public PerformanceIndicatorValuesDetails retrievePerformanceIndicatorValues(int id) throws MilesException;
+    public PerformanceIndicatorValuesDetails retrievePerformanceIndicatorValues(int id)
+            throws MilesException;
+
+    /**
+     *
+     * @return the map with report data
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportOnIndicators() throws MilesException;
 
     /**
      *
@@ -62,7 +71,8 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editPerformanceIndicatorValues(PerformanceIndicatorValuesDetails performanceIndicatorDetails) throws MilesException;
+    public void editPerformanceIndicatorValues(
+            PerformanceIndicatorValuesDetails performanceIndicatorDetails) throws MilesException;
 
     /**
      *
@@ -79,12 +89,13 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @return the result of the conversion
      */
     public PerformanceIndicatorValuesDetails
-            convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(PerformanceIndicatorValues performanceIndicator);
+            convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(
+                    PerformanceIndicatorValues performanceIndicator);
 
     /**
      *
-     * @return the list of years of use
+     * @return the list of project years
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<Short> retrieveYearsOfUse() throws MilesException;
+    public List<Short> retrieveProjectYears() throws MilesException;
 }

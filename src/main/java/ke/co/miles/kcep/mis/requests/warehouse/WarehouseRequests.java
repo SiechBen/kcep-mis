@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -203,7 +202,6 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             em.remove(warehouse);
         } catch (Exception e) {
-            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 

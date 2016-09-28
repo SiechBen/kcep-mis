@@ -1,4 +1,4 @@
-<%-- 
+<%--
   Document  : head
   Created on : Jun 22, 2016, 3:36:37 PM
   Author   : siech
@@ -17,14 +17,14 @@
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
 
     <jsp:attribute name="menuitems">
-        <jsp:include page="../tags/includes/people_item.jsp"/>
-        <jsp:include page="../tags/includes/training_item.jsp"/>
-        <jsp:include page="../tags/includes/warehouses_item.jsp"/>
-        <jsp:include page="../tags/includes/activity_planning_item.jsp"/>
-        <jsp:include page="../tags/includes/procurements_item.jsp"/>
-        <jsp:include page="../tags/includes/performance_indicators_item.jsp"/>
-        <jsp:include page="../tags/includes/e_vouchers_item.jsp"/>
-        <jsp:include page="../tags/includes/surveys_item.jsp"/>
+        <jsp:include page="../../tags/includes/people_item.jsp"/>
+        <jsp:include page="../../tags/includes/training_item.jsp"/>
+        <jsp:include page="../../tags/includes/warehouses_item.jsp"/>
+        <jsp:include page="../../tags/includes/activity_planning_item.jsp"/>
+        <jsp:include page="../../tags/includes/procurements_item.jsp"/>
+        <jsp:include page="../../tags/includes/performance_indicators_item.jsp"/>
+        <jsp:include page="../../tags/includes/e_vouchers_item.jsp"/>
+        <jsp:include page="../../tags/includes/surveys_item.jsp"/>
     </jsp:attribute>
 
     <jsp:attribute name="content">
@@ -33,10 +33,11 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">PCU Project Coordinator</h1>
                 </div>
-                <div>     
+                <div>
                     <jsp:invoke fragment="pagecontent"/>
                 </div>
             </div>
-        </jsp:attribute>
+        </div>
+    </jsp:attribute>
 
-    </kcep:genericpage>
+</kcep:genericpage>

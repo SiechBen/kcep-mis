@@ -252,19 +252,18 @@ public class PerformanceIndicatorController extends Controller {
                 case "/county_performance_indicators":
                 case "/region_performance_indicators":
 
-                    List<Short> yearsOfUse;
+                    List<Short> projectYears;
                     try {
-                        yearsOfUse = performanceIndicatorValuesService.retrieveYearsOfUse();
-                        session.setAttribute("yearsOfUse", yearsOfUse);
+                        projectYears = performanceIndicatorValuesService.retrieveProjectYears();
+                        session.setAttribute("projectYears", projectYears);
                     } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of years of use ", ex);
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
                         return;
                     }
 
-                    HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
                     try {
                         session.setAttribute("performanceIndicatorsMap",
-                                performanceIndicatorValuesService.retrievePerformanceIndicators(yearsOfUse));
+                                performanceIndicatorValuesService.retrieveAllPerformanceIndicators(projectYears));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during performance indicator map retrieval ", ex);
                         return;
@@ -401,7 +400,7 @@ public class PerformanceIndicatorController extends Controller {
                 default:
                     break;
             }
-            destination = "/WEB-INF/views" + path + ".jsp";
+            destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO,
                     "Request dispatch to forward to: {0}", destination);

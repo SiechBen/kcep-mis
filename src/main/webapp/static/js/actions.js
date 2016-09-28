@@ -104,12 +104,11 @@ $(function () {
                     $("#year-of-use-dialog").dialog({
                         width: 495,
                         height: "auto",
-                        title: "add_year_label",
+                        title: "add_project_year_label",
                         resizable: false,
                         modal: false,
                         buttons: {
                             "Save": function () {
-
                                 $("#message").text("Are you sure you want to add this project year?\nThis action is irreversible.");
                                 $("#message-dialog").dialog({
                                     width: 495,
@@ -151,14 +150,42 @@ $(function () {
                 }
             },
             'excel',
+//            {
+//                extend: 'colvis',
+//                text: "Hide / show columns"
+//            }
             {
-                extend: 'colvis',
-                text: "Hide / show columns"
+                text: "Output level report",
+                action: function () {
+                    loadAjaxWindow("indicatorReports");
+                }
             }],
         columnDefs: [{
                 targets: [2, 3],
                 render: function (data, type) {
                     return type === "display" && data.length > 31 ? data.substr(0, 31) + "..." : data;
+                }
+            }]
+    });
+});
+
+$(function () {
+    $("#indicator-report-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }],
+        columnDefs: [{
+                targets: [1, 2],
+                render: function (data, type) {
+                    return type === "display" && data.length > 40 ? data.substr(0, 40) + "..." : data;
                 }
             }]
     });

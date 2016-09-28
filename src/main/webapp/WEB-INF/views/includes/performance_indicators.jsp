@@ -26,12 +26,12 @@
                                 <th rowspan="2">Key Performance Indicator</th>
                                 <th rowspan="2">Baseline date</th>
                                 <th rowspan="2">Baseline value</th>
-                                    <c:forEach var="year" items="${sessionScope.yearsOfUse}" varStatus="index">
+                                    <c:forEach var="year" items="${sessionScope.projectYears}" varStatus="index">
                                     <th colspan="4">Year ${index.count} (${year})</th>
                                     </c:forEach>
                             </tr>
                             <tr>
-                                <c:forEach var="year" items="${sessionScope.yearsOfUse}">
+                                <c:forEach var="year" items="${sessionScope.projectYears}">
                                     <th>Actual value</th>
                                     <th>Expected value</th>
                                     <th>Ratio</th>
@@ -41,7 +41,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="${6 + (fn:length(sessionScope.yearsOfUse) * 4)}"> List of key performance indicators</td>
+                                <td colspan="${6 + (fn:length(sessionScope.projectYears) * 4)}"> List of key performance indicators</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -57,7 +57,7 @@
                                         <td>${performanceIndicatorValues.actualValue}</td>
                                         <td class="editable">${performanceIndicatorValues.expectedValue}</td>
                                         <td><c:if test="${not empty performanceIndicatorValues.ratio}">${performanceIndicatorValues.ratio}%</c:if></td>
-                                        <td><button onclick="editPerformanceIndicatorValues('${performanceIndicatorValues.id}', '${performanceIndicatorValues.expectedValue}', '${performanceIndicatorValues.actualValue}', '${performanceIndicatorValues.ratio}', '${performanceIndicator.description}')"><span class="glyphicon glyphicon-pencil"></span></button></td>                                            </c:forEach>
+                                        <td><button onclick="editPerformanceIndicatorValues('${performanceIndicatorValues.id}', '${performanceIndicatorValues.expectedValue}', '${performanceIndicatorValues.actualValue}', '${performanceIndicatorValues.ratio}', '${performanceIndicator.description}')"><span class="glyphicon glyphicon-pencil"></span></button></td></c:forEach>
                                     </tr>
                             </c:forEach>
                         </tbody>

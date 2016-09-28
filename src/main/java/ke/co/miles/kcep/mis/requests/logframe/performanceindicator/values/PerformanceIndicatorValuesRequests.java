@@ -76,11 +76,68 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
     @Override
+    public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportOnIndicators() throws MilesException {
+
+        HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportMap = new HashMap<>();
+        HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>> cummulativeValuesToValuesMap;
+        HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> performanceIndicatorToValuesMap;
+        ArrayList<PerformanceIndicatorValuesDetails> performanceIndicatorValuesDetailsList;
+        PerformanceIndicatorValuesDetails cummulativePerformanceIndicatorValues;
+
+        performanceIndicatorToValuesMap = retrieveOutputLevelIndicators(retrieveProjectYears());
+
+        setQ(em.createNativeQuery("SELECT id FROM performance_indicator_values p ORDER BY id DESC LIMIT 1", Integer.class));
+
+        int index = (int) q.getSingleResult();
+
+        for (PerformanceIndicatorDetails performanceIndicatorDetails : performanceIndicatorToValuesMap.keySet()) {
+
+            performanceIndicatorValuesDetailsList = new ArrayList<>();
+            performanceIndicatorValuesDetailsList.addAll(performanceIndicatorToValuesMap.get(performanceIndicatorDetails));
+
+            cummulativePerformanceIndicatorValues = new PerformanceIndicatorValuesDetails(++index);
+
+            for (PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails : performanceIndicatorValuesDetailsList) {
+
+                try {
+                    if (cummulativePerformanceIndicatorValues.getExpectedValue() == null) {
+                        cummulativePerformanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
+                    } else {
+                        cummulativePerformanceIndicatorValues.setExpectedValue(cummulativePerformanceIndicatorValues.getExpectedValue() + performanceIndicatorValuesDetails.getExpectedValue());
+                    }
+                } catch (Exception e) {
+                }
+
+                try {
+                    if (cummulativePerformanceIndicatorValues.getActualValue() == null) {
+                        cummulativePerformanceIndicatorValues.setActualValue(performanceIndicatorValuesDetails.getActualValue());
+                    } else {
+                        cummulativePerformanceIndicatorValues.setActualValue(cummulativePerformanceIndicatorValues.getActualValue() + performanceIndicatorValuesDetails.getActualValue());
+                    }
+                } catch (Exception e) {
+                }
+
+            }
+
+            try {
+                cummulativePerformanceIndicatorValues.setRatio(Double.parseDouble(decimalFormat.format(cummulativePerformanceIndicatorValues.getActualValue() / cummulativePerformanceIndicatorValues.getExpectedValue() * 100)));
+            } catch (Exception e) {
+            }
+
+            cummulativeValuesToValuesMap = new HashMap<>();
+            cummulativeValuesToValuesMap.put(cummulativePerformanceIndicatorValues, performanceIndicatorValuesDetailsList);
+            reportMap.put(performanceIndicatorDetails, cummulativeValuesToValuesMap);
+        }
+
+        return reportMap;
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public List<Short> retrieveYearsOfUse() throws MilesException {
+    public List<Short> retrieveProjectYears() throws MilesException {
 
         List<Short> yearsOfUse = new ArrayList<>();
-        setQ(em.createNamedQuery("PerformanceIndicatorValues.findYearsOfUSe"));
+        setQ(em.createNamedQuery("PerformanceIndicatorValues.findProjectYears"));
 
         try {
             yearsOfUse = q.getResultList();
@@ -90,14 +147,13 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         return yearsOfUse;
     }
 
-    @Override
     @SuppressWarnings({"unchecked", "unchecked"})
-    public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
             retrievePerformanceIndicators(List<Short> yearsOfUse) throws MilesException {
+
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
-        setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
         try {
             performanceIndicators = q.getResultList();
             setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndYearOfUse"));
@@ -114,6 +170,27 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         }
 
         return map;
+    }
+
+    @Override
+    @SuppressWarnings({"unchecked", "unchecked"})
+    public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
+            retrieveAllPerformanceIndicators(List<Short> yearsOfUse) throws MilesException {
+
+        setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
+
+        return retrievePerformanceIndicators(yearsOfUse);
+    }
+
+    @SuppressWarnings({"unchecked", "unchecked"})
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
+            retrieveOutputLevelIndicators(List<Short> yearsOfUse) throws MilesException {
+        setQ(em.createNativeQuery("SELECT * FROM performance_indicator p INNER "
+                + "JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE "
+                + "r.description REGEXP ?1", PerformanceIndicator.class));
+        q.setParameter(1, "^Output ");
+
+        return retrievePerformanceIndicators(yearsOfUse);
     }
 
     @Override

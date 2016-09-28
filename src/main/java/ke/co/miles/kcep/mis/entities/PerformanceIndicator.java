@@ -37,8 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue"),
     @NamedQuery(name = "PerformanceIndicator.findByYearOfUse", query = "SELECT p FROM PerformanceIndicator p WHERE p.yearOfUse = :yearOfUse"),
     @NamedQuery(name = "PerformanceIndicator.findByActualValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.actualValue = :actualValue"),
-    @NamedQuery(name = "PerformanceIndicator.findByExpectedValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.expectedValue = :expectedValue"),
-    @NamedQuery(name = "PerformanceIndicator.findByRatio", query = "SELECT p FROM PerformanceIndicator p WHERE p.ratio = :ratio")})
+    @NamedQuery(name = "PerformanceIndicator.findByExpectedValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.expectedValue = :expectedValue")})
 public class PerformanceIndicator implements Serializable {
 
     private static final long serialVersionUID = 1L;

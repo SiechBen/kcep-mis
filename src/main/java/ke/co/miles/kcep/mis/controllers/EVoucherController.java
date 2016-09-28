@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
@@ -334,7 +333,7 @@ public class EVoucherController extends Controller {
 
             }
 
-            destination = "/WEB-INF/views" + path + ".jsp";
+            destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
             try {
@@ -371,8 +370,6 @@ public class EVoucherController extends Controller {
             } else {
                 out.write("<tr>");
             }
-            MilesDebugger.debug(eVoucher.getInputsLogbookPage());
-            MilesDebugger.debug(eVoucher.getFileName());
             out.write(" <td>" + ++index + "</td>\n"
                     + "                                    <td>" + eVoucher.getAmount() + "</td>\n"
                     + "                                    <td>" + eVoucher.getInputType().getType() + "</td>\n"

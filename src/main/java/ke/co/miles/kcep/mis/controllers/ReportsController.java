@@ -22,12 +22,16 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
+import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
+import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
 
 /**
  *
  * @author siech
  */
-@WebServlet(name = "ReportsController", urlPatterns = {"/reports", "/financial_report_by_categories", "/financial_report_by_components"})
+@WebServlet(name = "ReportsController", urlPatterns = {"/reports",
+    "/financial_report_by_categories", "/financial_report_by_components",
+    "/indicatorReports"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +59,10 @@ public class ReportsController extends Controller {
                             switch (path) {
                                 case "/reports":
                                     path = "/head_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/indicatorReports":
+                                    path = "/head_indicator_reports";
                                     urlPaths.add(path);
                                     break;
                                 case "/financial_report_by_components":
@@ -85,6 +93,10 @@ public class ReportsController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {
+                                case "/indicatorReports":
+                                    path = "/region_indicator_reports";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/reports":
                                     path = "/region_reports";
                                     urlPaths.add(path);
@@ -97,6 +109,10 @@ public class ReportsController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {
+                                case "/indicatorReports":
+                                    path = "/region_indicator_reports";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/reports":
                                     path = "/county_reports";
                                     urlPaths.add(path);
@@ -155,6 +171,35 @@ public class ReportsController extends Controller {
 
             switch (path) {
 
+                case "/head_indicator_reports":
+                case "/county_indicator_reports":
+                case "/region_indicator_reports":
+                    try {
+
+                        session.setAttribute("projectYears", performanceIndicatorValuesService.retrieveProjectYears());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
+                        return;
+                    }
+                    try {
+                        session.setAttribute("indicatorsReport", performanceIndicatorValuesService.reportOnIndicators());
+//                        for (PerformanceIndicatorDetails outputIndicator : performanceIndicatorValuesService.reportOnIndicators().keySet()) {
+//                            MilesDebugger.debug("\t" + outputIndicator);
+//                            for (PerformanceIndicatorValuesDetails cummulativeIndicatorValues : performanceIndicatorValuesService.reportOnIndicators().get(outputIndicator).keySet()) {
+//                                for (PerformanceIndicatorValuesDetails outputIndicatorValues : performanceIndicatorValuesService.reportOnIndicators().get(outputIndicator).get(cummulativeIndicatorValues)) {
+////                                    MilesDebugger.debug("\t\t\t" + outputIndicatorValues.getActualValue());
+//                                }
+////                                MilesDebugger.debug("\t\t" + cummulativeIndicatorValues.getActualValue());
+//                            }
+//                        }
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+                    break;
+
                 case "/head_financial_report_by_categories":
 
                     try {
@@ -186,7 +231,7 @@ public class ReportsController extends Controller {
                     break;
             }
             //Use request dispatcher to foward request internally
-            destination = "/WEB-INF/views" + path + ".jsp";
+            destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
             try {
@@ -209,5 +254,9 @@ public class ReportsController extends Controller {
     private SubActivityRequestsLocal subActivityService;
     @EJB
     private FinancialYearRequestsLocal financialYearService;
+    @EJB
+    private PerformanceIndicatorRequestsLocal performanceIndicatorService;
+    @EJB
+    private PerformanceIndicatorValuesRequestsLocal performanceIndicatorValuesService;
 
 }

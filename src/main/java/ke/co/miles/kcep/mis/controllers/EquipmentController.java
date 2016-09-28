@@ -367,7 +367,7 @@ public class EquipmentController extends Controller {
                     break;
             }
 
-            destination = "/WEB-INF/views" + path + ".jsp";
+            destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
             try {
