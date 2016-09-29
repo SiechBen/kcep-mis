@@ -51,56 +51,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="15" class="divider"></td>
-                                </tr>
-                                <tr>
-                                    <td> Count by: </td>
-                                    <td colspan="2">
-                                        <select id="counter" onchange="updateCounts()">
-                                            <c:forEach var="countOption" items="${sessionScope.countOptions}">
-                                                <option value="${countOption.id}">${countOption.personRole}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="divider"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"> <strong>Female</strong> </td>
-                                    <td colspan="3"> <strong>Male</strong> </td>
-                                    <td> <strong>Total</strong> </td>
-                                    <td colspan="6"> &nbsp; </td>
-                                </tr>
-                                <tr>
-                                    <td> <strong>Youth(<35 years old)</strong> </td>
-                                    <td> <strong>Elderly(>35 years old)</strong> </td>
-                                    <td> <strong>Female Total</strong> </td>
-                                    <td> <strong>Youth(<35 years old)</strong> </td>
-                                    <td> <strong>Elderly(>35 years old)</strong> </td>
-                                    <td> <strong>Male Total</strong> </td>
-                                    <td> &nbsp; </td>
-                                    <td colspan="6"> &nbsp; </td>
-                                </tr>
-                                <tr id="people-summary">
-                                    <td> ${sessionScope.femaleYouth} </td>
-                                    <td> ${sessionScope.femaleElders} </td>
-                                    <td> ${sessionScope.femaleTotal} </td>
-                                    <td> ${sessionScope.maleYouth} </td>
-                                    <td> ${sessionScope.maleElders} </td>
-                                    <td> ${sessionScope.maleTotal} </td>
-                                    <td> ${sessionScope.total} </td>
-                                    <td colspan="6"> &nbsp; </td>
-                                </tr>
-                                <tr>
-                                    <td> ${sessionScope.femaleYouth} </td>
-                                    <td> ${sessionScope.femaleElders} </td>
-                                    <td> ${sessionScope.femaleTotal} </td>
-                                    <td> ${sessionScope.maleYouth} </td>
-                                    <td> ${sessionScope.maleElders} </td>
-                                    <td> ${sessionScope.maleTotal} </td>
-                                    <td> ${sessionScope.total} </td>
-                                    <td colspan="6"> &nbsp; </td>
+                                    <td colspan="14">List of farmers</td>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -136,6 +87,45 @@
                                 </c:forEach>
                             </tbody>
                         </table>
+                        <table class="table table-bordered table-hover data-table">
+                            <tbody>
+                                <tr>
+                                    <td> Count by: </td>
+                                    <td colspan="6">
+                                        <select id="counter" onchange="updateCounts()">
+                                            <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                                                <option value="${countOption.id}">${countOption.personRole}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"> <strong>Female</strong> </td>
+                                    <td colspan="3"> <strong>Male</strong> </td>
+                                    <td rowspan="2"> <strong>Total</strong> </td>
+                                </tr>
+                                <tr>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Female Total</strong> </td>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Male Total</strong> </td>
+                                </tr>
+                                <tr id="people-summary">
+                                    <td> ${sessionScope.femaleYouth} </td>
+                                    <td> ${sessionScope.femaleElderly} </td>
+                                    <td> ${sessionScope.femaleTotal} </td>
+                                    <td> ${sessionScope.maleYouth} </td>
+                                    <td> ${sessionScope.maleElderly} </td>
+                                    <td> ${sessionScope.maleTotal} </td>
+                                    <td> ${sessionScope.totalPeople} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="divider"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane fade" id="agro-dealers">
                         <h4>Agro-dealers</h4>
@@ -160,56 +150,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="14" class="divider"></td>
-                                </tr>
-                                <tr>
-                                    <td> Count by: </td>
-                                    <td colspan="2">
-                                        <select id="counter" onchange="updateCounts()">
-                                            <c:forEach var="countOption" items="${sessionScope.countOptions}">
-                                                <option value="${countOption.id}">${countOption.personRole}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="divider"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"> <strong>Female</strong> </td>
-                                    <td colspan="3"> <strong>Male</strong> </td>
-                                    <td> <strong>Total</strong> </td>
-                                    <td colspan="6"> &nbsp; </td>
-                                </tr>
-                                <tr>
-                                    <td> <strong>Youth(<35 years old)</strong> </td>
-                                    <td> <strong>Elderly(>35 years old)</strong> </td>
-                                    <td> <strong>Female Total</strong> </td>
-                                    <td> <strong>Youth(<35 years old)</strong> </td>
-                                    <td> <strong>Elderly(>35 years old)</strong> </td>
-                                    <td> <strong>Male Total</strong> </td>
-                                    <td> &nbsp; </td>
-                                    <td colspan="6"> &nbsp; </td>
-                                </tr>
-                                <tr id="people-summary">
-                                    <td> ${sessionScope.femaleYouth} </td>
-                                    <td> ${sessionScope.femaleElders} </td>
-                                    <td> ${sessionScope.femaleTotal} </td>
-                                    <td> ${sessionScope.maleYouth} </td>
-                                    <td> ${sessionScope.maleElders} </td>
-                                    <td> ${sessionScope.maleTotal} </td>
-                                    <td> ${sessionScope.total} </td>
-                                    <td colspan="6"> &nbsp; </td>
-                                </tr>
-                                <tr>
-                                    <td> ${sessionScope.femaleYouth} </td>
-                                    <td> ${sessionScope.femaleElders} </td>
-                                    <td> ${sessionScope.femaleTotal} </td>
-                                    <td> ${sessionScope.maleYouth} </td>
-                                    <td> ${sessionScope.maleElders} </td>
-                                    <td> ${sessionScope.maleTotal} </td>
-                                    <td> ${sessionScope.total} </td>
-                                    <td colspan="6"> &nbsp; </td>
+                                    <td colspan="14">List of agro-dealers</td>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -234,6 +175,45 @@
                                         <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-hover data-table">
+                            <tbody>
+                                <tr>
+                                    <td> Count by: </td>
+                                    <td colspan="6">
+                                        <select id="counter" onchange="updateCounts()">
+                                            <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                                                <option value="${countOption.id}">${countOption.personRole}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"> <strong>Female</strong> </td>
+                                    <td colspan="3"> <strong>Male</strong> </td>
+                                    <td rowspan="2"> <strong>Total</strong> </td>
+                                </tr>
+                                <tr>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Female Total</strong> </td>
+                                    <td> <strong>Youth(<35 years old)</strong> </td>
+                                    <td> <strong>Elderly(>35 years old)</strong> </td>
+                                    <td> <strong>Male Total</strong> </td>
+                                </tr>
+                                <tr id="people-summary">
+                                    <td> ${sessionScope.femaleYouth} </td>
+                                    <td> ${sessionScope.femaleElderly} </td>
+                                    <td> ${sessionScope.femaleTotal} </td>
+                                    <td> ${sessionScope.maleYouth} </td>
+                                    <td> ${sessionScope.maleElderly} </td>
+                                    <td> ${sessionScope.maleTotal} </td>
+                                    <td> ${sessionScope.totalPeople} </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7" class="divider"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

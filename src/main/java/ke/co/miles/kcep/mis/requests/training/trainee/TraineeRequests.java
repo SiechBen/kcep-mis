@@ -14,11 +14,14 @@ import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Trainee;
 import ke.co.miles.kcep.mis.entities.Training;
+import ke.co.miles.kcep.mis.entities.UserAccount;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.TraineeDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
@@ -62,6 +65,70 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail,
+            int trainingId) throws MilesException {
+
+        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND TIMESTAMPDIFF(YEAR, date_of_birth , CURDATE()) <= 35)";
+        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND TIMESTAMPDIFF(YEAR, date_of_birth , CURDATE()) > 35)";
+
+        List<UserAccount> femaleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.FEMALE.getId());
+        q.setParameter(3, personRoleDetail.getId());
+        try {
+            femaleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.MALE.getId());
+        q.setParameter(3, personRoleDetail.getId());
+        try {
+            maleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> femaleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.FEMALE.getId());
+        q.setParameter(3, personRoleDetail.getId());
+        try {
+            femaleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.MALE.getId());
+        q.setParameter(3, personRoleDetail.getId());
+        try {
+            maleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("Female youth", femaleYouth.size());
+        countMap.put("Female elderly", femaleElderly.size());
+        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
+        countMap.put("Male youth", maleYouth.size());
+        countMap.put("Male elderly", maleElderly.size());
+        countMap.put("Male total", maleYouth.size() + maleElderly.size());
+        countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
+
+        return countMap;
+    }
 
     @Override
     @SuppressWarnings("unchecked")

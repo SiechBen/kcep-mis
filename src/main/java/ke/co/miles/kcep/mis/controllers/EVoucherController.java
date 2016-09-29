@@ -36,6 +36,7 @@ import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.EVoucherDetails;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
 /**
  *
@@ -100,6 +101,61 @@ public class EVoucherController extends Controller {
 
                 case "/equity_eVouchers":
                 case "/head_eVouchers":
+                    HashMap<String, Integer> countMap;
+                    try {
+                        countMap = personService.countAllFarmersAndAgrodealers();
+                        int femaleYouth = 0;
+                        int femaleElderly = 0;
+                        int femaleTotal = 0;
+                        int maleYouth = 0;
+                        int maleElderly = 0;
+                        int maleTotal = 0;
+                        int totalPeople = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female youth":
+                                    femaleYouth = countMap.get(countType);
+                                    break;
+                                case "Female elderly":
+                                    femaleElderly = countMap.get(countType);
+                                    break;
+                                case "Female total":
+                                    femaleTotal = countMap.get(countType);
+                                    break;
+                                case "Male youth":
+                                    maleYouth = countMap.get(countType);
+                                    break;
+                                case "Male elderly":
+                                    maleElderly = countMap.get(countType);
+                                    break;
+                                case "Male total":
+                                    maleTotal = countMap.get(countType);
+                                    break;
+                                case "Total people":
+                                    totalPeople = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("femaleYouth", femaleYouth);
+                        session.setAttribute("femaleElderly", femaleElderly);
+                        session.setAttribute("femaleTotal", femaleTotal);
+                        session.setAttribute("maleYouth", maleYouth);
+                        session.setAttribute("maleElderly", maleElderly);
+                        session.setAttribute("maleTotal", maleTotal);
+                        session.setAttribute("totalPeople", totalPeople);
+                        List<PersonRoleDetail> countOptions = new ArrayList<>();
+                        countOptions.add(PersonRoleDetail.FARMER);
+                        countOptions.add(PersonRoleDetail.AGRO_DEALER);
+                        session.setAttribute("countOptions", countOptions);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
                     List<EVoucherDetails> eVouchers;
                     try {
                         eVouchers = eVoucherService.retrieveEVouchers();

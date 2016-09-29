@@ -737,6 +737,21 @@ function updateCounts() {
     });
 }
 
+function updateTraineeCounts() {
+    $.ajax({
+        url: "changeTraineeCounter",
+        type: "POST",
+        data: "counter=" + $("#counter").val(),
+        success: function (response) {
+            $("tr#people-summary").html(response);
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: 'HTML'
+    });
+}
+
 function editPerson(id, name, sex, personRole, nationalId, dateOfBirth, businessName,
         farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
     $("#person-name").val(name);
@@ -895,7 +910,6 @@ function addToTrainees() {
 }
 
 function showTrainees(trainingId) {
-
     $.ajax({
         url: "loadTrainees",
         type: "POST",

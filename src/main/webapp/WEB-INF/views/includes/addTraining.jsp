@@ -101,7 +101,12 @@
                         Attachments (e.g attendance sheet)
                         <input type="file" id="attendance-sheet" name="attendance-sheet" class="form-control">
                     </div>
-                    <input type="submit" class="btn btn-outline btn-primary" value="Save training">
+                    <span>
+                        <input type="submit" class="btn btn-outline btn-primary" value="Save training">
+                    </span>
+                    <span class="float-right">
+                        <input type="reset" class="btn btn-outline btn-primary right" value="Reset details">
+                    </span>
                 </form>
             </div>
         </div>

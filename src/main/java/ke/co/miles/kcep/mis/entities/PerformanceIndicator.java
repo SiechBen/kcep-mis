@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue"),
     @NamedQuery(name = "PerformanceIndicator.findByYearOfUse", query = "SELECT p FROM PerformanceIndicator p WHERE p.yearOfUse = :yearOfUse"),
     @NamedQuery(name = "PerformanceIndicator.findByActualValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.actualValue = :actualValue"),
-    @NamedQuery(name = "PerformanceIndicator.findByExpectedValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.expectedValue = :expectedValue")})
+    @NamedQuery(name = "PerformanceIndicator.findByExpectedValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.expectedValue = :expectedValue"),
+    @NamedQuery(name = "PerformanceIndicator.findByRatio", query = "SELECT p FROM PerformanceIndicator p WHERE p.ratio = :ratio")})
 public class PerformanceIndicator implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,6 +62,8 @@ public class PerformanceIndicator implements Serializable {
     private Double actualValue;
     @Column(name = "expected_value")
     private Double expectedValue;
+    @Column(name = "ratio")
+    private Double ratio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
     private List<PerformanceIndicatorValues> performanceIndicatorValuesList;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
@@ -133,6 +136,14 @@ public class PerformanceIndicator implements Serializable {
 
     public void setExpectedValue(Double expectedValue) {
         this.expectedValue = expectedValue;
+    }
+
+    public Double getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(Double ratio) {
+        this.ratio = ratio;
     }
 
     @XmlTransient

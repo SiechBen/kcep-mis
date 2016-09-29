@@ -87,9 +87,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="7" class="divider"></td>
-                            </tr>
-                            <tr>
                                 <td colspan="3"> <strong>Female</strong> </td>
                                 <td colspan="3"> <strong>Male</strong> </td>
                                 <td rowspan="2"> <strong>Total</strong> </td>
@@ -104,21 +101,15 @@
                             </tr>
                             <tr id="people-summary">
                                 <td> ${sessionScope.femaleYouth} </td>
-                                <td> ${sessionScope.femaleElders} </td>
+                                <td> ${sessionScope.femaleElderly} </td>
                                 <td> ${sessionScope.femaleTotal} </td>
                                 <td> ${sessionScope.maleYouth} </td>
-                                <td> ${sessionScope.maleElders} </td>
+                                <td> ${sessionScope.maleElderly} </td>
                                 <td> ${sessionScope.maleTotal} </td>
-                                <td> ${sessionScope.total} </td>
+                                <td> ${sessionScope.totalPeople} </td>
                             </tr>
                             <tr>
-                                <td> ${sessionScope.femaleYouth} </td>
-                                <td> ${sessionScope.femaleElders} </td>
-                                <td> ${sessionScope.femaleTotal} </td>
-                                <td> ${sessionScope.maleYouth} </td>
-                                <td> ${sessionScope.maleElders} </td>
-                                <td> ${sessionScope.maleTotal} </td>
-                                <td> ${sessionScope.total} </td>
+                                <td colspan="7" class="divider"></td>
                             </tr>
                         </tbody>
                     </table>

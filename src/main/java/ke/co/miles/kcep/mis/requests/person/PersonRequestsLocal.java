@@ -178,6 +178,13 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @return the map of counts
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countAllFarmersAndAgrodealers() throws MilesException;
+
+    /**
+     *
      * @return the list of farmers retrieved
      * @throws MilesException when the database is in an incorrect state
      */

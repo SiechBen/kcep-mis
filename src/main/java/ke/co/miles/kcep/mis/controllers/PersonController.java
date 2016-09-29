@@ -275,34 +275,53 @@ public class PersonController extends Controller {
                     HashMap<String, Integer> countMap;
                     try {
                         countMap = personService.countAllPeople();
-                        int femaleCount = 0,
-                                maleCount = 0,
-                                totalCount = 0;
+                        int femaleYouth = 0;
+                        int femaleElderly = 0;
+                        int femaleTotal = 0;
+                        int maleYouth = 0;
+                        int maleElderly = 0;
+                        int maleTotal = 0;
+                        int totalPeople = 0;
 
                         for (String countType : countMap.keySet()) {
                             switch (countType) {
-                                case "Female":
-                                    femaleCount = countMap.get(countType);
+                                case "Female youth":
+                                    femaleYouth = countMap.get(countType);
                                     break;
-                                case "Male":
-                                    maleCount = countMap.get(countType);
+                                case "Female elderly":
+                                    femaleElderly = countMap.get(countType);
                                     break;
-                                default:
-                                    totalCount = countMap.get(countType);
+                                case "Female total":
+                                    femaleTotal = countMap.get(countType);
+                                    break;
+                                case "Male youth":
+                                    maleYouth = countMap.get(countType);
+                                    break;
+                                case "Male elderly":
+                                    maleElderly = countMap.get(countType);
+                                    break;
+                                case "Male total":
+                                    maleTotal = countMap.get(countType);
+                                    break;
+                                case "Total people":
+                                    totalPeople = countMap.get(countType);
                                     break;
                             }
                         }
 
-                        session.setAttribute("totalCount", totalCount);
-                        session.setAttribute("femaleCount", femaleCount);
-                        session.setAttribute("maleCount", maleCount);
+                        session.setAttribute("femaleYouth", femaleYouth);
+                        session.setAttribute("femaleElderly", femaleElderly);
+                        session.setAttribute("femaleTotal", femaleTotal);
+                        session.setAttribute("maleYouth", maleYouth);
+                        session.setAttribute("maleElderly", maleElderly);
+                        session.setAttribute("maleTotal", maleTotal);
+                        session.setAttribute("totalPeople", totalPeople);
                         session.setAttribute("countOptions", PersonRoleDetail.values());
 
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
-
                     }
 
                     List<PersonDetails> people;
@@ -864,31 +883,55 @@ public class PersonController extends Controller {
                     short counter = Short.valueOf(request.getParameter("counter"));
                     try {
                         countMap = personService.countPeople(PersonRoleDetail.getPersonRoleDetail(counter));
-                        int femaleCount = 0,
-                                maleCount = 0,
-                                totalCount = 0;
+                        int femaleYouth = 0;
+                        int femaleElderly = 0;
+                        int femaleTotal = 0;
+                        int maleYouth = 0;
+                        int maleElderly = 0;
+                        int maleTotal = 0;
+                        int totalPeople = 0;
 
                         for (String countType : countMap.keySet()) {
                             switch (countType) {
-                                case "Female":
-                                    femaleCount = countMap.get(countType);
+                                case "Female youth":
+                                    femaleYouth = countMap.get(countType);
                                     break;
-                                case "Male":
-                                    maleCount = countMap.get(countType);
+                                case "Female elderly":
+                                    femaleElderly = countMap.get(countType);
                                     break;
-                                default:
-                                    totalCount = countMap.get(countType);
+                                case "Female total":
+                                    femaleTotal = countMap.get(countType);
+                                    break;
+                                case "Male youth":
+                                    maleYouth = countMap.get(countType);
+                                    break;
+                                case "Male elderly":
+                                    maleElderly = countMap.get(countType);
+                                    break;
+                                case "Male total":
+                                    maleTotal = countMap.get(countType);
+                                    break;
+                                case "Total people":
+                                    totalPeople = countMap.get(countType);
                                     break;
                             }
                         }
 
-                        session.setAttribute("totalCount", totalCount);
-                        session.setAttribute("femaleCount", femaleCount);
-                        session.setAttribute("maleCount", maleCount);
+                        session.setAttribute("femaleYouth", femaleYouth);
+                        session.setAttribute("femaleElderly", femaleElderly);
+                        session.setAttribute("femaleTotal", femaleTotal);
+                        session.setAttribute("maleYouth", maleYouth);
+                        session.setAttribute("maleElderly", maleElderly);
+                        session.setAttribute("maleTotal", maleTotal);
+                        session.setAttribute("totalPeople", totalPeople);
 
-                        out.write("<td> " + totalCount + "</td>");
-                        out.write("<td> " + femaleCount + "</td>");
-                        out.write("<td>" + maleCount + "</td>");
+                        out.write("<td> " + femaleYouth + "</td>");
+                        out.write("<td>" + femaleElderly + "</td>");
+                        out.write("<td> " + femaleTotal + "</td>");
+                        out.write("<td> " + maleYouth + "</td>");
+                        out.write("<td>" + maleElderly + "</td>");
+                        out.write("<td> " + maleTotal + "</td>");
+                        out.write("<td> " + totalPeople + "</td>");
 
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -902,7 +945,7 @@ public class PersonController extends Controller {
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
+
             destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO,

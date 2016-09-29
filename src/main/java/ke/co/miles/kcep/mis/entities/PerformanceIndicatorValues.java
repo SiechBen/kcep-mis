@@ -38,9 +38,9 @@ public class PerformanceIndicatorValues implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "year_of_use")
     private Short yearOfUse;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "actual_value")
     private Double actualValue;
     @Column(name = "expected_value")

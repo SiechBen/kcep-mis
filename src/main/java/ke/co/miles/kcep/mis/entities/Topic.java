@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Topic.findByTopic", query = "SELECT t FROM Topic t WHERE t.topic = :topic")})
 public class Topic implements Serializable {
 
+    @JoinColumn(name = "trainer", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon trainer;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -131,6 +134,14 @@ public class Topic implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Topic[ id=" + id + " ]";
+    }
+
+    public Phenomenon getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Phenomenon trainer) {
+        this.trainer = trainer;
     }
 
 }

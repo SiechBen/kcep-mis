@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ import ke.co.miles.kcep.mis.requests.training.trainer.TrainerRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.TopicDetails;
@@ -55,7 +57,8 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  */
 @WebServlet(name = "TrainingController", urlPatterns = {"/training",
     "/addTraining", "/doAddTraining", "/doEditTraining", "/doDeleteTraining",
-    "/loadTrainees", "/trainees", "/updateTopics", "/updateTrainingModules"})
+    "/loadTrainees", "/trainees", "/updateTopics", "/updateTrainingModules",
+    "/changeTraineeCounter"})
 @MultipartConfig
 public class TrainingController extends Controller {
 
@@ -69,6 +72,7 @@ public class TrainingController extends Controller {
         HttpSession session = request.getSession(false);
 
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
@@ -82,6 +86,71 @@ public class TrainingController extends Controller {
             availApplicationAttributes();
 
             switch (path) {
+
+                case "/changeTraineeCounter":
+
+                    HashMap<String, Integer> countMap;
+                    short counter = Short.valueOf(request.getParameter("counter"));
+                    try {
+                        countMap = traineeService.countTrainees(PersonRoleDetail.getPersonRoleDetail(counter), (int) session.getAttribute("trainingId"));
+                        int femaleYouth = 0;
+                        int femaleElderly = 0;
+                        int femaleTotal = 0;
+                        int maleYouth = 0;
+                        int maleElderly = 0;
+                        int maleTotal = 0;
+                        int totalPeople = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female youth":
+                                    femaleYouth = countMap.get(countType);
+                                    break;
+                                case "Female elderly":
+                                    femaleElderly = countMap.get(countType);
+                                    break;
+                                case "Female total":
+                                    femaleTotal = countMap.get(countType);
+                                    break;
+                                case "Male youth":
+                                    maleYouth = countMap.get(countType);
+                                    break;
+                                case "Male elderly":
+                                    maleElderly = countMap.get(countType);
+                                    break;
+                                case "Male total":
+                                    maleTotal = countMap.get(countType);
+                                    break;
+                                case "Total people":
+                                    totalPeople = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("femaleYouth", femaleYouth);
+                        session.setAttribute("femaleElderly", femaleElderly);
+                        session.setAttribute("femaleTotal", femaleTotal);
+                        session.setAttribute("maleYouth", maleYouth);
+                        session.setAttribute("maleElderly", maleElderly);
+                        session.setAttribute("maleTotal", maleTotal);
+                        session.setAttribute("totalPeople", totalPeople);
+
+                        out.write("<td> " + femaleYouth + "</td>");
+                        out.write("<td>" + femaleElderly + "</td>");
+                        out.write("<td> " + femaleTotal + "</td>");
+                        out.write("<td> " + maleYouth + "</td>");
+                        out.write("<td>" + maleElderly + "</td>");
+                        out.write("<td> " + maleTotal + "</td>");
+                        out.write("<td> " + totalPeople + "</td>");
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+
+                    }
+
+                    return;
 
                 case "/updateTopics":
                     try {
@@ -98,7 +167,12 @@ public class TrainingController extends Controller {
                         List<TopicDetails> trainingModules = topicService.retrieveTrainingModules(
                                 Integer.valueOf(request.getParameter("trainerId")));
                         session.setAttribute("trainingModules", trainingModules);
+                        if (trainingModules.isEmpty()) {
+                            trainingModules = topicService.retrieveTrainingModules();
+                            session.setAttribute("trainingModules", trainingModules);
+                        }
                         updateTopicOptions(response, trainingModules);
+
                     } catch (MilesException e) {
                     }
                     return;
@@ -317,8 +391,63 @@ public class TrainingController extends Controller {
                     }
 
                     if (trainees != null) {
+                        session.setAttribute("trainingId", trainingId);
                         session.setAttribute("training", training);
                         session.setAttribute("trainees", trainees);
+                    }
+
+                    try {
+                        countMap = personService.countAllFarmersAndAgrodealers();
+                        int femaleYouth = 0;
+                        int femaleElderly = 0;
+                        int femaleTotal = 0;
+                        int maleYouth = 0;
+                        int maleElderly = 0;
+                        int maleTotal = 0;
+                        int totalPeople = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female youth":
+                                    femaleYouth = countMap.get(countType);
+                                    break;
+                                case "Female elderly":
+                                    femaleElderly = countMap.get(countType);
+                                    break;
+                                case "Female total":
+                                    femaleTotal = countMap.get(countType);
+                                    break;
+                                case "Male youth":
+                                    maleYouth = countMap.get(countType);
+                                    break;
+                                case "Male elderly":
+                                    maleElderly = countMap.get(countType);
+                                    break;
+                                case "Male total":
+                                    maleTotal = countMap.get(countType);
+                                    break;
+                                case "Total people":
+                                    totalPeople = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("femaleYouth", femaleYouth);
+                        session.setAttribute("femaleElderly", femaleElderly);
+                        session.setAttribute("femaleTotal", femaleTotal);
+                        session.setAttribute("maleYouth", maleYouth);
+                        session.setAttribute("maleElderly", maleElderly);
+                        session.setAttribute("maleTotal", maleTotal);
+                        session.setAttribute("totalPeople", totalPeople);
+                        List<PersonRoleDetail> countOptions = new ArrayList<>();
+                        countOptions.add(PersonRoleDetail.FARMER);
+                        countOptions.add(PersonRoleDetail.AGRO_DEALER);
+                        session.setAttribute("countOptions", countOptions);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 
                     return;
@@ -664,6 +793,7 @@ public class TrainingController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
@@ -694,6 +824,7 @@ public class TrainingController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
@@ -724,6 +855,7 @@ public class TrainingController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
@@ -754,6 +886,7 @@ public class TrainingController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
@@ -784,6 +917,7 @@ public class TrainingController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
@@ -814,6 +948,7 @@ public class TrainingController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Trainee;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.TraineeDetails;
 import ke.co.miles.kcep.mis.utilities.TrainingDetails;
 
@@ -26,7 +27,8 @@ public interface TraineeRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void addTrainee(TraineeDetails traineeDetails) throws MilesException;
+    public void addTrainee(TraineeDetails traineeDetails)
+            throws MilesException;
 
     /**
      *
@@ -35,7 +37,8 @@ public interface TraineeRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void addTrainees(List<TraineeDetails> traineeDetailsList) throws MilesException;
+    public void addTrainees(List<TraineeDetails> traineeDetailsList)
+            throws MilesException;
 
     /**
      *
@@ -44,14 +47,16 @@ public interface TraineeRequestsLocal {
      * @return the list of trainee record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<TraineeDetails> retrieveTrainees(int trainingId) throws MilesException;
+    public List<TraineeDetails> retrieveTrainees(int trainingId)
+            throws MilesException;
 
     /**
      *
      * @return the retrieved map of training record details to trainees
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<TrainingDetails, List<TraineeDetails>> retrieveTrainings() throws MilesException;
+    public HashMap<TrainingDetails, List<TraineeDetails>>
+            retrieveTrainings() throws MilesException;
 
     /**
      *
@@ -60,7 +65,8 @@ public interface TraineeRequestsLocal {
      * @return the retrieved map of training record details to trainees
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<TrainingDetails, List<TraineeDetails>> retrieveWardTrainings(int wardId) throws MilesException;
+    public HashMap<TrainingDetails, List<TraineeDetails>>
+            retrieveWardTrainings(int wardId) throws MilesException;
 
     /**
      *
@@ -69,7 +75,8 @@ public interface TraineeRequestsLocal {
      * @return the retrieved map of training record details to trainees
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<TrainingDetails, List<TraineeDetails>> retrieveCountyTrainings(short countyId) throws MilesException;
+    public HashMap<TrainingDetails, List<TraineeDetails>>
+            retrieveCountyTrainings(short countyId) throws MilesException;
 
     /**
      *
@@ -78,7 +85,8 @@ public interface TraineeRequestsLocal {
      * @return the retrieved map of training record details to trainees
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<TrainingDetails, List<TraineeDetails>> retrieveSubCountyTrainings(int subCountyId) throws MilesException;
+    public HashMap<TrainingDetails, List<TraineeDetails>>
+            retrieveSubCountyTrainings(int subCountyId) throws MilesException;
 
     /**
      *
@@ -117,6 +125,18 @@ public interface TraineeRequestsLocal {
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void editTrainees(List<TraineeDetails> traineeDetailsList) throws MilesException;
+    public void editTrainees(List<TraineeDetails> traineeDetailsList)
+            throws MilesException;
+
+    /**
+     *
+     * @param trainingId the unique identifier of the training for which the
+     * trainees to be counted belong
+     * @param personRoleDetail the person role of people to be counted
+     * @return the map of counts
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail,
+            int trainingId) throws MilesException;
 
 }
