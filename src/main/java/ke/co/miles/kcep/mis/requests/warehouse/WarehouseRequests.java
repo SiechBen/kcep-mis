@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.requests.warehouse;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -54,6 +55,42 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         if (warehouseDetails.getWarehouseType() != null) {
             warehouse.setWarehouseType(em.getReference(Phenomenon.class,
                     warehouseDetails.getWarehouseType().getId()));
+        }
+
+        if (null != warehouse.getCertified()) {
+            if (warehouse.getCertified()) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, 1);
+                    q.setParameter(2, 46);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        if (warehouse.getWarehouseType() != null) {
+            if (warehouse.getWarehouseType().getId() == 20) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NOT NULL) THEN pv.actual_value + ?1 ELSE ?1 END) WHERE (pv.performance_indicator = ?2 OR pv.performance_indicator = ?3) AND pv.project_year = ?4"));
+                    q.setParameter(1, 1);
+                    q.setParameter(2, 48);
+                    q.setParameter(3, 50);
+                    q.setParameter(4, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                } catch (Exception e) {
+                }
+            } else if (warehouse.getWarehouseType().getId() == 21) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NOT NULL) THEN pv.actual_value + ?1 ELSE ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, 1);
+                    q.setParameter(2, 50);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                } catch (Exception e) {
+                }
+            }
         }
 
         try {
@@ -168,7 +205,6 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         warehouse.setOffersWrs(warehouseDetails.getOffersWrs());
         warehouse.setName(warehouseDetails.getName());
         warehouse.setCapacity(warehouseDetails.getCapacity());
-        warehouse.setCertified(warehouseDetails.getCertified());
         warehouse.setLocation(locationService.editLocation(warehouseDetails.getLocation()));
         if (warehouseDetails.getUnits() != null) {
             warehouse.setUnits(em.getReference(MeasurementUnit.class,
@@ -182,6 +218,32 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             warehouse.setWarehouseType(em.getReference(Phenomenon.class,
                     warehouseDetails.getWarehouseType().getId()));
         }
+
+        if (null != warehouse.getCertified()) {
+            if (warehouse.getCertified()) {
+                if (warehouseDetails.getCertified() != null && !warehouseDetails.getCertified()) {
+                    try {
+                        setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NOT NULL) THEN pv.actual_value - ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                        q.setParameter(1, 1);
+                        q.setParameter(2, 46);
+                        q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                        q.executeUpdate();
+                    } catch (Exception e) {
+                    }
+                }
+            } else if (warehouseDetails.getCertified() != null && warehouseDetails.getCertified()) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, 1);
+                    q.setParameter(2, 46);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        warehouse.setCertified(warehouseDetails.getCertified());
 
         try {
             em.merge(warehouse);

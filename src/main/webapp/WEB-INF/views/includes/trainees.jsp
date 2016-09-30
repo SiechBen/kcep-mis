@@ -17,14 +17,15 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <label hidden id="add-label">addPerson</label>
                     <table class="table table-striped table-bordered table-hover data-table">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
+                                <!--<th>Person role</th>-->
+                                <th>Gender</th>
                                 <th>National id</th>
-                                <th>Date of birth</th>
+                                <th>Age</th>
                                 <th>Business name</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
@@ -35,7 +36,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="8"> List of trainees</td>
+                                <td colspan="11"> List of trainees</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -43,8 +44,10 @@
                                 <tr>
                                     <td>${index.count}</td>
                                     <td>${trainee.person.name}</td>
+                                    <!--<td>${trainee.person.personRole}</td>-->
+                                    <td>${trainee.person.sex.sex}</td>
                                     <td>${trainee.person.nationalId}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${trainee.person.dateOfBirth}"/></td>
+                                    <td>${trainee.person.age}</td>
                                     <td>${trainee.person.businessName}</td>
                                     <td>${trainee.person.location.county.name}</td>
                                     <td>${trainee.person.location.subCounty.name}</td>

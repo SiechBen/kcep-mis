@@ -25,8 +25,8 @@
                                 <th>Name</th>
                                 <th>Person role</th>
                                 <th>Gender</th>
+                                <th>Age</th>
                                 <th>National id</th>
-                                <th>Date of birth</th>
                                 <th>Business name</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
@@ -56,8 +56,8 @@
                                     <td>${person.name}</td>
                                     <td>${person.personRole}</td>
                                     <td>${person.sex.sex}</td>
+                                    <td>${person.age}</td>
                                     <td>${person.nationalId}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/></td>
                                     <td>${person.businessName}</td>
                                     <td>${person.location.county.name}</td>
                                     <td>${person.location.subCounty.name}</td>

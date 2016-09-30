@@ -1,5 +1,5 @@
 <%--
-    Document   : head_indicator_reports
+    Document   : head_output_level_reports
     Created on : Sep 28, 2016, 11:23:10 AM
     Author     : siech
 --%>
@@ -11,7 +11,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - output level reports</jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="../includes/indicator_reports.jsp"/>
+        <jsp:include page="../includes/output_level_reports.jsp"/>
 
     </jsp:attribute>
 </kcep:head>

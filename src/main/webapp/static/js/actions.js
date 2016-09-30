@@ -119,9 +119,9 @@ $(function () {
                                     buttons: {
                                         "Yes": function () {
                                             $.ajax({
-                                                url: "addYearOfUse",
+                                                url: "addProjectYear",
                                                 type: "POST",
-                                                data: "yearOfUse=" + $("#year-of-use").val(),
+                                                data: "projectYear=" + $("#year-of-use").val(),
                                                 success: function () {
                                                     $("#name").val("");
                                                     loadAjaxWindow("performance_indicators");
@@ -157,7 +157,13 @@ $(function () {
             {
                 text: "Output level report",
                 action: function () {
-                    loadAjaxWindow("indicatorReports");
+                    loadAjaxWindow("outputLevelReports");
+                }
+            },
+            {
+                text: "Outcome level report",
+                action: function () {
+                    loadAjaxWindow("outcomeLevelReports");
                 }
             }],
         columnDefs: [{
@@ -185,7 +191,7 @@ $(function () {
         columnDefs: [{
                 targets: [1, 2],
                 render: function (data, type) {
-                    return type === "display" && data.length > 40 ? data.substr(0, 40) + "..." : data;
+                    return type === "display" && data.length > 75 ? data.substr(0, 75) + "..." : data;
                 }
             }]
     });
@@ -2356,7 +2362,7 @@ function addPerformanceIndicator() {
                 "&baselineDate=" + $("#baseline-date").val() +
                 "&actualValue=" + $("#actual-value").val() +
                 "&description=" + $("#description").val() +
-                "&yearOfUse=" + $("#year-of-use").val() +
+                "&projectYear=" + $("#year-of-use").val() +
                 "&ratio=" + $("#ratio").val(),
         success: function () {
             clearPerformanceIndicatorFields();
@@ -2383,13 +2389,13 @@ function clearPerformanceIndicatorFields() {
 }
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
-        baselineDate, baselineValue, yearOfUse, actualValue, expectedValue, ratio) {
+        baselineDate, baselineValue, projectYear, actualValue, expectedValue, ratio) {
     $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
     $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
     $("#description").val(description);
     $("#baseline-date").val(baselineDate);
     $("#baseline-value").val(baselineValue);
-    $("#year-of-use").val(yearOfUse);
+    $("#year-of-use").val(projectYear);
     $("#actual-value").val(actualValue);
     $("#expected-value").val(expectedValue);
     $("#ratio").val(ratio);
@@ -2412,7 +2418,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&baselineDate=" + $("#baseline-date").val() +
                             "&actualValue=" + $("#actual-value").val() +
                             "&description=" + $("#description").val() +
-                            "&yearOfUse=" + $("#year-of-use").val() +
+                            "&projectYear=" + $("#year-of-use").val() +
                             "&ratio=" + $("#ratio").val(),
                     success: function () {
                         clearPerformanceIndicatorFields();

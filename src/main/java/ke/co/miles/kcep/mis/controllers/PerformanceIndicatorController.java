@@ -40,7 +40,7 @@ import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
         urlPatterns = {"/performance_indicators", "/addPerformanceIndicator",
             "/doEditPerformanceIndicator", "/doDeletePerformanceIndicator",
             "/doAddPerformanceIndicator", "/doEditPerformanceIndicatorValues",
-            "/addYearOfUse", "/doEditBaselineValue", "/doEditBaselineDate"})
+            "/addProjectYear", "/doEditBaselineValue", "/doEditBaselineDate"})
 public class PerformanceIndicatorController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -69,7 +69,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
-                            urlPaths.add("/addYearOfUse");
+                            urlPaths.add("/addProjectYear");
                             urlPaths.add("/doEditBaselineValue");
                             urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
@@ -87,7 +87,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
-                            urlPaths.add("/addYearOfUse");
+                            urlPaths.add("/addProjectYear");
                             urlPaths.add("/doEditBaselineValue");
                             urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
@@ -105,7 +105,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
-                            urlPaths.add("/addYearOfUse");
+                            urlPaths.add("/addProjectYear");
                             urlPaths.add("/doEditBaselineValue");
                             urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
@@ -130,11 +130,11 @@ public class PerformanceIndicatorController extends Controller {
 
             switch (path) {
 
-                case "/addYearOfUse":
+                case "/addProjectYear":
 
                     try {
-                        performanceIndicatorValuesService.addYearOfUse(
-                                Short.parseShort(request.getParameter("yearOfUse")));
+                        performanceIndicatorValuesService.addProjectYear(
+                                Short.parseShort(request.getParameter("projectYear")));
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));

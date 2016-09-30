@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.requests.training;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -48,11 +49,89 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         if (trainingDetails.getTopic() != null) {
             training.setTopic(em.getReference(Topic.class, trainingDetails.getTopic().getId()));
         }
+        training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
+
         if (trainingDetails.getCategoryOfTrainees() != null) {
             training.setCategoryOfTrainees(em.getReference(Phenomenon.class,
                     trainingDetails.getCategoryOfTrainees().getId()));
+            if (null != training.getCategoryOfTrainees().getId()) {
+                switch (training.getCategoryOfTrainees().getId()) {
+                    case 1:
+                        if (training.getTopic().getModule() != null && training.getTopic().getModule().getId() == 20) {
+                            try {
+                                setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                                q.setParameter(1, training.getNumberOfTrainees());
+                                q.setParameter(2, 44);
+                                q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                                q.executeUpdate();
+                            } catch (Exception e) {
+                            }
+                        }
+                        try {
+                            setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                            q.setParameter(1, training.getNumberOfTrainees());
+                            q.setParameter(2, 69);
+                            q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                            q.executeUpdate();
+                        } catch (Exception e) {
+                        }
+                        break;
+                    case 2:
+                        try {
+                            setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                            q.setParameter(1, training.getNumberOfTrainees());
+                            q.setParameter(2, 24);
+                            q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                            q.executeUpdate();
+                        } catch (Exception e) {
+                        }
+                        break;
+                    case 4:
+                        try {
+                            setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                            q.setParameter(1, training.getNumberOfTrainees());
+                            q.setParameter(2, 25);
+                            q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                            q.executeUpdate();
+                        } catch (Exception e) {
+                        }
+                        try {
+                            setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                            q.setParameter(1, training.getNumberOfTrainees());
+                            q.setParameter(2, 68);
+                            q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                            q.executeUpdate();
+                        } catch (Exception e) {
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
-        training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
+
+        if (training.getTopic() != null) {
+            if (training.getTopic().getId() == 10) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, training.getNumberOfTrainees());
+                    q.setParameter(2, 45);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                } catch (Exception e) {
+                }
+            }
+            if (training.getTopic().getModule() != null && training.getTopic().getModule().getId() == 20) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, training.getNumberOfTrainees());
+                    q.setParameter(2, 44);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                } catch (Exception e) {
+                }
+            }
+        }
 
         try {
             em.persist(training);
@@ -137,7 +216,8 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public TrainingDetails convertTrainingToTrainingDetails(Training training) {
+    public TrainingDetails convertTrainingToTrainingDetails(Training training
+    ) {
 
         TrainingDetails trainingDetails = new TrainingDetails(training.getId());
 

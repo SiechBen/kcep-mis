@@ -34,11 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PerformanceIndicator.findById", query = "SELECT p FROM PerformanceIndicator p WHERE p.id = :id"),
     @NamedQuery(name = "PerformanceIndicator.findByDescription", query = "SELECT p FROM PerformanceIndicator p WHERE p.description = :description"),
     @NamedQuery(name = "PerformanceIndicator.findByBaselineDate", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineDate = :baselineDate"),
-    @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue"),
-    @NamedQuery(name = "PerformanceIndicator.findByYearOfUse", query = "SELECT p FROM PerformanceIndicator p WHERE p.yearOfUse = :yearOfUse"),
-    @NamedQuery(name = "PerformanceIndicator.findByActualValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.actualValue = :actualValue"),
-    @NamedQuery(name = "PerformanceIndicator.findByExpectedValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.expectedValue = :expectedValue"),
-    @NamedQuery(name = "PerformanceIndicator.findByRatio", query = "SELECT p FROM PerformanceIndicator p WHERE p.ratio = :ratio")})
+    @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue")})
 public class PerformanceIndicator implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,14 +52,6 @@ public class PerformanceIndicator implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "baseline_value")
     private Double baselineValue;
-    @Column(name = "year_of_use")
-    private Short yearOfUse;
-    @Column(name = "actual_value")
-    private Double actualValue;
-    @Column(name = "expected_value")
-    private Double expectedValue;
-    @Column(name = "ratio")
-    private Double ratio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
     private List<PerformanceIndicatorValues> performanceIndicatorValuesList;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
@@ -112,38 +100,6 @@ public class PerformanceIndicator implements Serializable {
 
     public void setBaselineValue(Double baselineValue) {
         this.baselineValue = baselineValue;
-    }
-
-    public Short getYearOfUse() {
-        return yearOfUse;
-    }
-
-    public void setYearOfUse(Short yearOfUse) {
-        this.yearOfUse = yearOfUse;
-    }
-
-    public Double getActualValue() {
-        return actualValue;
-    }
-
-    public void setActualValue(Double actualValue) {
-        this.actualValue = actualValue;
-    }
-
-    public Double getExpectedValue() {
-        return expectedValue;
-    }
-
-    public void setExpectedValue(Double expectedValue) {
-        this.expectedValue = expectedValue;
-    }
-
-    public Double getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(Double ratio) {
-        this.ratio = ratio;
     }
 
     @XmlTransient

@@ -139,4 +139,13 @@ public interface TraineeRequestsLocal {
     public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail,
             int trainingId) throws MilesException;
 
+    /**
+     *
+     * @param trainingId the unique identifier of the training for which the
+     * trainees to be counted belong
+     * @return the map of counts
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countAllTrainees(int trainingId) throws MilesException;
+
 }

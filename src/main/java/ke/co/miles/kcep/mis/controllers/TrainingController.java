@@ -31,8 +31,6 @@ import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.training.TrainingRequestsLocal;
@@ -67,7 +65,8 @@ public class TrainingController extends Controller {
     private ArrayList<String> urlPaths;
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
 
@@ -92,7 +91,8 @@ public class TrainingController extends Controller {
                     HashMap<String, Integer> countMap;
                     short counter = Short.valueOf(request.getParameter("counter"));
                     try {
-                        countMap = traineeService.countTrainees(PersonRoleDetail.getPersonRoleDetail(counter), (int) session.getAttribute("trainingId"));
+                        countMap = traineeService.countTrainees(PersonRoleDetail
+                                .getPersonRoleDetail(counter), (int) session.getAttribute("trainingId"));
                         int femaleYouth = 0;
                         int femaleElderly = 0;
                         int femaleTotal = 0;
@@ -397,7 +397,7 @@ public class TrainingController extends Controller {
                     }
 
                     try {
-                        countMap = personService.countAllFarmersAndAgrodealers();
+                        countMap = traineeService.countAllTrainees(trainingId);
                         int femaleYouth = 0;
                         int femaleElderly = 0;
                         int femaleTotal = 0;
@@ -1068,8 +1068,6 @@ public class TrainingController extends Controller {
     @EJB
     private TopicRequestsLocal topicService;
     @EJB
-    private CountyRequestsLocal countyService;
-    @EJB
     private PersonRequestsLocal personService;
     @EJB
     private TraineeRequestsLocal traineeService;
@@ -1077,8 +1075,6 @@ public class TrainingController extends Controller {
     private TrainerRequestsLocal trainerService;
     @EJB
     private TrainingRequestsLocal trainingService;
-    @EJB
-    private SubCountyRequestsLocal subCountyService;
     @EJB
     private PhenomenonRequestsLocal phenomenonService;
 

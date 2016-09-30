@@ -1,5 +1,5 @@
 <%--
-    Document   : indicator_reports
+    Document   : output_level_reports
     Created on : Sep 28, 2016, 11:26:22 AM
     Author     : siech
 --%>
@@ -60,7 +60,7 @@
                                         <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
                                     <td>${cummulativeIndicatorValues.actualValue}</td>
-                                    <td class="editable">${cummulativeIndicatorValues.expectedValue}</td>
+                                    <td class="editable pencil" onclick="setAppraisalTarget()">${cummulativeIndicatorValues.expectedValue}</td>
                                     <td><c:if test="${not empty cummulativeIndicatorValues.ratio}">${cummulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
                             </tr>

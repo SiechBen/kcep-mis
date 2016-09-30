@@ -31,7 +31,6 @@ import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
-import ke.co.miles.kcep.mis.requests.training.topic.TopicRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 
 /**
@@ -196,8 +195,6 @@ public abstract class Controller extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(Controller.class.getSimpleName());
     private ResourceBundle bundle;
-    @EJB
-    private TopicRequestsLocal topicService;
     @EJB
     private FeedbackRequestsLocal feedbackService;
     @EJB

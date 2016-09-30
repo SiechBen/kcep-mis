@@ -33,8 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
-    @OneToMany(mappedBy = "trainer")
-    private List<Topic> topicList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +49,8 @@ public class Phenomenon implements Serializable {
     private List<Warehouse> warehouseList1;
     @OneToMany(mappedBy = "gfssCode")
     private List<Procurement> procurementList;
+    @OneToMany(mappedBy = "trainer")
+    private List<Topic> topicList;
     @OneToMany(mappedBy = "issuingBank")
     private List<Loan> loanList;
     @OneToMany(mappedBy = "categoryOfTrainees")
@@ -125,6 +125,15 @@ public class Phenomenon implements Serializable {
     }
 
     @XmlTransient
+    public List<Topic> getTopicList() {
+        return topicList;
+    }
+
+    public void setTopicList(List<Topic> topicList) {
+        this.topicList = topicList;
+    }
+
+    @XmlTransient
     public List<Loan> getLoanList() {
         return loanList;
     }
@@ -190,15 +199,6 @@ public class Phenomenon implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Topic> getTopicList() {
-        return topicList;
-    }
-
-    public void setTopicList(List<Topic> topicList) {
-        this.topicList = topicList;
     }
 
 }

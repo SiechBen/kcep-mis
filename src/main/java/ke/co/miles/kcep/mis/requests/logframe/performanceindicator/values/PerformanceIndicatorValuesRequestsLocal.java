@@ -27,17 +27,17 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * added
      * @throws MilesException when the database is in an incorrect state
      */
-    public void addYearOfUse(short year) throws MilesException;
+    public void addProjectYear(short year) throws MilesException;
 
     /**
      *
-     * @param yearsOfUse the list of project years to be used in ordering the
+     * @param projectYears the list of project years to be used in ordering the
      * performance indicator values
      * @return the list of performance indicator record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
     public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrieveAllPerformanceIndicators(List<Short> yearsOfUse) throws MilesException;
+            retrieveAllPerformanceIndicators(List<Short> projectYears) throws MilesException;
 
     /**
      *

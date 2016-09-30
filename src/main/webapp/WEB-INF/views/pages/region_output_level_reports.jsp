@@ -1,17 +1,17 @@
 <%--
-    Document   : county_indicator_reports
-    Created on : Sep 28, 2016, 11:33:59 AM
+    Document   : region_output_level_reports
+    Created on : Sep 28, 2016, 11:34:15 AM
     Author     : siech
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:county>
+<kcep:region>
     <jsp:attribute name="pagetitle"> KCEP-MIS - output level reports</jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="../../includes/indicator_reports.jsp"/>
+        <jsp:include page="../../includes/output_level_reports.jsp"/>
 
     </jsp:attribute>
-</kcep:county>
+</kcep:region>

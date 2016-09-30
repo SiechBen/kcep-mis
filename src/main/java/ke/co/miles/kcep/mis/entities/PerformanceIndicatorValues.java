@@ -22,12 +22,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "performance_indicator_values", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PerformanceIndicatorValues.findProjectYears", query = "SELECT DISTINCT p.yearOfUse FROM PerformanceIndicatorValues p ORDER BY p.yearOfUse"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorId", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId"),
-    @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndYearOfUse", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.yearOfUse = :yearOfUse"),
+    @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYear", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear = :projectYear"),
+    @NamedQuery(name = "PerformanceIndicatorValues.findProjectYears", query = "SELECT DISTINCT p.projectYear FROM PerformanceIndicatorValues p ORDER BY p.projectYear"),
     @NamedQuery(name = "PerformanceIndicatorValues.findAll", query = "SELECT p FROM PerformanceIndicatorValues p"),
     @NamedQuery(name = "PerformanceIndicatorValues.findById", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.id = :id"),
-    @NamedQuery(name = "PerformanceIndicatorValues.findByYearOfUse", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.yearOfUse = :yearOfUse"),
+    @NamedQuery(name = "PerformanceIndicatorValues.findByProjectYear", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.projectYear = :projectYear"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByActualValue", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.actualValue = :actualValue"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByExpectedValue", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.expectedValue = :expectedValue")})
 public class PerformanceIndicatorValues implements Serializable {
@@ -38,8 +38,8 @@ public class PerformanceIndicatorValues implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "year_of_use")
-    private Short yearOfUse;
+    @Column(name = "project_year")
+    private Short projectYear;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "actual_value")
     private Double actualValue;
@@ -64,12 +64,12 @@ public class PerformanceIndicatorValues implements Serializable {
         this.id = id;
     }
 
-    public Short getYearOfUse() {
-        return yearOfUse;
+    public Short getProjectYear() {
+        return projectYear;
     }
 
-    public void setYearOfUse(Short yearOfUse) {
-        this.yearOfUse = yearOfUse;
+    public void setProjectYear(Short projectYear) {
+        this.projectYear = projectYear;
     }
 
     public Double getActualValue() {

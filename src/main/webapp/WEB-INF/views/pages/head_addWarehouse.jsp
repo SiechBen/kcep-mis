@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : head_addWarehouse
     Created on : Jun 22, 2016, 3:32:51 PM
     Author     : siech
@@ -9,7 +9,7 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:head>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - view purchase </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - add warehouse </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/addWarehouse.jsp"/>

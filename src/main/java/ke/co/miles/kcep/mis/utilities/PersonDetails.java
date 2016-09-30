@@ -150,14 +150,14 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     /**
      * @return the age
      */
-    public String getAge() {
+    public Short getAge() {
         return age;
     }
 
     /**
      * @param age the age to set
      */
-    public void setAge(String age) {
+    public void setAge(Short age) {
         this.age = age;
     }
 
@@ -218,7 +218,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     }
 
     private Integer id;
-    private String age;
+    private Short age;
     private String name;
     private SexDetail sex;
     private Date dateOfBirth;

@@ -5,11 +5,17 @@
  */
 package ke.co.miles.kcep.mis.requests.training.trainee;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Trainee;
@@ -47,6 +53,29 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         Trainee trainee = new Trainee();
         trainee.setPerson(em.getReference(Person.class, traineeDetails.getPerson().getId()));
         trainee.setTraining(em.getReference(Training.class, traineeDetails.getTraining().getId()));
+        Person person = trainee.getPerson();
+
+        if (trainee.getTraining().getTopic() != null && trainee.getTraining().getTopic().getId() == 11) {
+            Date date = (null == person.getDateOfBirth() ? new Date() : person.getDateOfBirth());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            LocalDate birthDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            LocalDate now = LocalDate.now(ZoneId.of("Africa/Nairobi"));
+            int age = Period.between(birthDate, now).getYears();
+            if (person.getSex().getId().equals(SexDetail.FEMALE.getId())
+                    || (person.getSex().getId().equals(SexDetail.MALE.getId())
+                    && age <= 35)) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, 1);
+                    q.setParameter(2, 77);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                    MilesDebugger.debug("actual value set");
+                } catch (Exception e) {
+                }
+            }
+        }
 
         try {
             em.persist(trainee);
@@ -68,11 +97,10 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
 
     @SuppressWarnings("unchecked")
     @Override
-    public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail,
-            int trainingId) throws MilesException {
+    public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail, int trainingId) throws MilesException {
 
-        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND TIMESTAMPDIFF(YEAR, date_of_birth , CURDATE()) <= 35)";
-        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND TIMESTAMPDIFF(YEAR, date_of_birth , CURDATE()) > 35)";
+        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35))";
+        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35))";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -112,6 +140,65 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.MALE.getId());
         q.setParameter(3, personRoleDetail.getId());
+        try {
+            maleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("Female youth", femaleYouth.size());
+        countMap.put("Female elderly", femaleElderly.size());
+        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
+        countMap.put("Male youth", maleYouth.size());
+        countMap.put("Male elderly", maleElderly.size());
+        countMap.put("Male total", maleYouth.size() + maleElderly.size());
+        countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
+
+        return countMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countAllTrainees(int trainingId) throws MilesException {
+
+        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35))";
+        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35))";
+
+        List<UserAccount> femaleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.FEMALE.getId());
+        try {
+            femaleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.MALE.getId());
+        try {
+            maleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> femaleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.FEMALE.getId());
+        try {
+            femaleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, trainingId);
+        q.setParameter(2, SexDetail.MALE.getId());
         try {
             maleElderly = q.getResultList();
         } catch (Exception e) {

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.County;
@@ -117,8 +118,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     public HashMap<String, Integer> countAllPeople() throws MilesException {
 
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -126,6 +127,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -171,8 +173,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     @Override
     public HashMap<String, Integer> countAllFarmersAndAgrodealers() throws MilesException {
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3) AND (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -236,8 +238,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail)
             throws MilesException {
 
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -665,6 +667,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
         personDetails.setContact(contactDetails);
         personDetails.setName(person.getName());
+        personDetails.setAge(person.getAge());
         personDetails.setLocation(locationDetails);
         personDetails.setPlotSize(person.getPlotSize());
         personDetails.setFarmerGroup(farmerGroupDetails);

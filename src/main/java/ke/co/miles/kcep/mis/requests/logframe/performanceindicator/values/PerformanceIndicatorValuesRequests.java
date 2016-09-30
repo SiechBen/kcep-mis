@@ -32,12 +32,12 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     @SuppressWarnings("unchecked")
-    public void addYearOfUse(short year) throws MilesException {
+    public void addProjectYear(short year) throws MilesException {
 
         List<PerformanceIndicatorValues> performanceIndicatorValuesList
                 = new ArrayList<>();
-        setQ(em.createNamedQuery("PerformanceIndicatorValues.findByYearOfUse"));
-        q.setParameter("yearOfUse", year);
+        setQ(em.createNamedQuery("PerformanceIndicatorValues.findByProjectYear"));
+        q.setParameter("projectYear", year);
         try {
             performanceIndicatorValuesList = q.getResultList();
         } catch (NoResultException ex) {
@@ -57,7 +57,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             PerformanceIndicatorValues performanceIndicatorValues;
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
                 performanceIndicatorValues = new PerformanceIndicatorValues();
-                performanceIndicatorValues.setYearOfUse(year);
+                performanceIndicatorValues.setProjectYear(year);
                 performanceIndicatorValues.setPerformanceIndicator(performanceIndicator);
                 try {
                     em.persist(performanceIndicatorValues);
@@ -88,7 +88,11 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
         setQ(em.createNativeQuery("SELECT id FROM performance_indicator_values p ORDER BY id DESC LIMIT 1", Integer.class));
 
-        int index = (int) q.getSingleResult();
+        int index = 0;
+        try {
+            index = (int) q.getSingleResult();
+        } catch (Exception e) {
+        }
 
         for (PerformanceIndicatorDetails performanceIndicatorDetails : performanceIndicatorToValuesMap.keySet()) {
 
@@ -136,32 +140,32 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     @SuppressWarnings("unchecked")
     public List<Short> retrieveProjectYears() throws MilesException {
 
-        List<Short> yearsOfUse = new ArrayList<>();
+        List<Short> projectYears = new ArrayList<>();
         setQ(em.createNamedQuery("PerformanceIndicatorValues.findProjectYears"));
 
         try {
-            yearsOfUse = q.getResultList();
+            projectYears = q.getResultList();
         } catch (Exception e) {
         }
 
-        return yearsOfUse;
+        return projectYears;
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})
     private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrievePerformanceIndicators(List<Short> yearsOfUse) throws MilesException {
+            retrievePerformanceIndicators(List<Short> projectYears) throws MilesException {
 
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
         try {
             performanceIndicators = q.getResultList();
-            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndYearOfUse"));
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYear"));
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
                 orderedList = new ArrayList<>();
                 q.setParameter("performanceIndicatorId", performanceIndicator.getId());
-                for (short yearOfUse : yearsOfUse) {
-                    q.setParameter("yearOfUse", yearOfUse);
+                for (short projectYear : projectYears) {
+                    q.setParameter("projectYear", projectYear);
                     orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
                 }
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
@@ -175,22 +179,22 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     @Override
     @SuppressWarnings({"unchecked", "unchecked"})
     public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrieveAllPerformanceIndicators(List<Short> yearsOfUse) throws MilesException {
+            retrieveAllPerformanceIndicators(List<Short> projectYears) throws MilesException {
 
         setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
 
-        return retrievePerformanceIndicators(yearsOfUse);
+        return retrievePerformanceIndicators(projectYears);
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})
     private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrieveOutputLevelIndicators(List<Short> yearsOfUse) throws MilesException {
+            retrieveOutputLevelIndicators(List<Short> projectYears) throws MilesException {
         setQ(em.createNativeQuery("SELECT * FROM performance_indicator p INNER "
                 + "JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE "
                 + "r.description REGEXP ?1", PerformanceIndicator.class));
         q.setParameter(1, "^Output ");
 
-        return retrievePerformanceIndicators(yearsOfUse);
+        return retrievePerformanceIndicators(projectYears);
     }
 
     @Override
@@ -264,7 +268,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails = new PerformanceIndicatorValuesDetails(performanceIndicatorValues.getId());
         performanceIndicatorValuesDetails.setActualValue(performanceIndicatorValues.getActualValue());
         performanceIndicatorValuesDetails.setExpectedValue(performanceIndicatorValues.getExpectedValue());
-        performanceIndicatorValuesDetails.setYearOfUse(performanceIndicatorValues.getYearOfUse());
+        performanceIndicatorValuesDetails.setProjectYear(performanceIndicatorValues.getProjectYear());
         try {
             performanceIndicatorValuesDetails.setRatio(Double.
                     parseDouble(decimalFormat.format((performanceIndicatorValues.getActualValue()

@@ -331,23 +331,16 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     private List<UserAccountDetails> convertUserAccountsToUserAccountDetailsList(List<UserAccount> userAccounts) {
-        //Entered method for converting user accounts list to faculty details list
-
-        //Convert list of user accounts to faculty details list
         List<UserAccountDetails> details = new ArrayList<>();
         for (UserAccount userAccount : userAccounts) {
             details.add(convertUserAccountToUserAccountDetails(userAccount));
         }
 
-        //Returning converted faculty details list
         return details;
     }
 
     @Override
     public UserAccountDetails convertUserAccountToUserAccountDetails(UserAccount userAccount) {
-        //Entered method for converting faculty to faculty details
-
-        //Convert list of faculty to faculty details
         PersonDetails personDetails = personService.convertPersonToPersonDetails(userAccount.getPerson());
 
         PersonRoleDetail personRoleDetail = personRoleService.convertPersonRoleToPersonRoleDetail(userAccount.getPersonRole());
@@ -358,7 +351,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         userAccountDetails.setPersonRole(personRoleDetail);
         userAccountDetails.setPerson(personDetails);
 
-        //Returning converted faculty details
         return userAccountDetails;
     }
 //</editor-fold>

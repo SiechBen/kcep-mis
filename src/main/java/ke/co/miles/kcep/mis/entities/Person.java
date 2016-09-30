@@ -62,7 +62,7 @@ public class Person implements Serializable {
     private Date dateOfBirth;
     @Size(max = 45)
     @Column(name = "age")
-    private String age;
+    private Short age;
     @Size(max = 45)
     @Column(name = "business_name")
     private String businessName;
@@ -163,11 +163,11 @@ public class Person implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getAge() {
+    public Short getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Short age) {
         this.age = age;
     }
 

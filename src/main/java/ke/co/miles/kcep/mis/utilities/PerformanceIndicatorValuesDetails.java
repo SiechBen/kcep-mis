@@ -24,12 +24,12 @@ public class PerformanceIndicatorValuesDetails implements Serializable,
         this.id = id;
     }
 
-    public Short getYearOfUse() {
-        return yearOfUse;
+    public Short getProjectYear() {
+        return projectYear;
     }
 
-    public void setYearOfUse(Short yearOfUse) {
-        this.yearOfUse = yearOfUse;
+    public void setProjectYear(Short projectYear) {
+        this.projectYear = projectYear;
     }
 
     public Double getActualValue() {
@@ -99,7 +99,7 @@ public class PerformanceIndicatorValuesDetails implements Serializable,
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Double ratio;
-    private Short yearOfUse;
+    private Short projectYear;
     private Double actualValue;
     private Double expectedValue;
     private PerformanceIndicatorDetails performanceIndicator;
