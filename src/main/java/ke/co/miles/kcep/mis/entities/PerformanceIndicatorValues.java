@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorId", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId"),
-    @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYear", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear = :projectYear"),
+    @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear = :projectYear AND p.purpose = :purpose"),
     @NamedQuery(name = "PerformanceIndicatorValues.findProjectYears", query = "SELECT DISTINCT p.projectYear FROM PerformanceIndicatorValues p ORDER BY p.projectYear"),
     @NamedQuery(name = "PerformanceIndicatorValues.findAll", query = "SELECT p FROM PerformanceIndicatorValues p"),
     @NamedQuery(name = "PerformanceIndicatorValues.findById", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.id = :id"),
@@ -32,6 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PerformanceIndicatorValues.findByExpectedValue", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.expectedValue = :expectedValue")})
 public class PerformanceIndicatorValues implements Serializable {
 
+    @Size(max = 45)
+    @Column(name = "purpose")
+    private String purpose;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -119,6 +123,14 @@ public class PerformanceIndicatorValues implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues[ id=" + id + " ]";
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 
 }

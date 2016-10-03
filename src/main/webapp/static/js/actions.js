@@ -99,9 +99,9 @@ $(function () {
         dom: "Blftip",
         buttons: [
             {
-                text: 'Add year',
+                text: 'Add project year',
                 action: function () {
-                    $("#year-of-use-dialog").dialog({
+                    $("#project-year-dialog").dialog({
                         width: 495,
                         height: "auto",
                         title: "add_project_year_label",
@@ -121,7 +121,7 @@ $(function () {
                                             $.ajax({
                                                 url: "addProjectYear",
                                                 type: "POST",
-                                                data: "projectYear=" + $("#year-of-use").val(),
+                                                data: "projectYear=" + $("#project-year").val(),
                                                 success: function () {
                                                     $("#name").val("");
                                                     loadAjaxWindow("performance_indicators");
@@ -144,7 +144,7 @@ $(function () {
                             }
                         },
                         close: function () {
-                            $("#year-of-use").val("");
+                            $("#project-year").val("");
                         }
                     });
                 }
@@ -165,6 +165,12 @@ $(function () {
                 action: function () {
                     loadAjaxWindow("outcomeLevelReports");
                 }
+            },
+            {
+                text: "Goal/objectives report",
+                action: function () {
+                    loadAjaxWindow("goalLevelReports");
+                }
             }],
         columnDefs: [{
                 targets: [2, 3],
@@ -176,7 +182,7 @@ $(function () {
 });
 
 $(function () {
-    $("#indicator-report-table").DataTable({
+    $(".indicator-report-table").DataTable({
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -285,12 +291,29 @@ function loadApplicationAttributes() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Indicator AV:EV ratio calculation">
-$("#actual-value").on("input", function () {
-    calculateRatio();
+$("#actual-outcome-value").on("input", function () {
+    calculateOutcomeRatio();
 });
-$("#expected-value").on("input", function () {
-    calculateRatio();
+
+$("#awpb-outcome-target").on("input", function () {
+    calculateOutcomeRatio();
 });
+
+function calculateOutcomeRatio(id) {
+
+    var actualValue = $("#actual-outcome-value-" + id + "").val();
+    var expectedValue = $("#awpb-outcome-target-" + id + "").val();
+    if (actualValue.trim() === "") {
+        actualValue = 0;
+    }
+    if (expectedValue.trim() === "") {
+        expectedValue = 0;
+    }
+
+    $("#outcome-ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+
+}
+
 function calculateRatio() {
 
     var actualValue = $("#actual-value").val();
@@ -304,6 +327,15 @@ function calculateRatio() {
 
     $("#ratio").val((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2));
 }
+
+$("#actual-value").on("input", function () {
+    calculateRatio();
+});
+
+$("#expected-value").on("input", function () {
+    calculateRatio();
+});
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Savings update calculation">
@@ -2362,7 +2394,7 @@ function addPerformanceIndicator() {
                 "&baselineDate=" + $("#baseline-date").val() +
                 "&actualValue=" + $("#actual-value").val() +
                 "&description=" + $("#description").val() +
-                "&projectYear=" + $("#year-of-use").val() +
+                "&projectYear=" + $("#project-year").val() +
                 "&ratio=" + $("#ratio").val(),
         success: function () {
             clearPerformanceIndicatorFields();
@@ -2382,7 +2414,7 @@ function clearPerformanceIndicatorFields() {
     $("#description").val("");
     $("#baseline-date").val("");
     $("#baseline-value").val("");
-    $("#year-of-use").val("");
+    $("#project-year").val("");
     $("#actual-value").val("");
     $("#expected-value").val("");
     $("#ratio").val("");
@@ -2395,7 +2427,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
     $("#description").val(description);
     $("#baseline-date").val(baselineDate);
     $("#baseline-value").val(baselineValue);
-    $("#year-of-use").val(projectYear);
+    $("#project-year").val(projectYear);
     $("#actual-value").val(actualValue);
     $("#expected-value").val(expectedValue);
     $("#ratio").val(ratio);
@@ -2418,7 +2450,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                             "&baselineDate=" + $("#baseline-date").val() +
                             "&actualValue=" + $("#actual-value").val() +
                             "&description=" + $("#description").val() +
-                            "&projectYear=" + $("#year-of-use").val() +
+                            "&projectYear=" + $("#project-year").val() +
                             "&ratio=" + $("#ratio").val(),
                     success: function () {
                         clearPerformanceIndicatorFields();
@@ -3165,4 +3197,84 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         }
     });
 }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Outcome reports">
+function changeOutcomeReport() {
+    $.ajax({
+        type: "POST",
+        url: "outcomeLevelReports",
+        data: "projectYear=" + $("#project-year").val(),
+        success: function () {
+            loadAjaxWindow("outcomeLevelReports?projectYear=" + $("#project-year").val());
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function editOutcomeValue(id, actualValue, expectedValue, description) {
+
+    if (actualValue.trim() === "") {
+        actualValue = 0;
+    }
+    if (expectedValue.trim() === "") {
+        expectedValue = 0;
+    }
+
+    $("#ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+    if (expectedValue !== "")
+        $("#expected-value option[value=" + parseInt(expectedValue) + "]").attr("selected", "selected");
+    if (actualValue !== "")
+        $("#actual-value option[value=" + parseInt(actualValue) + "]").attr("selected", "selected");
+    $("#outcome-report-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                actualValue = $("#actual-value").val();
+                expectedValue = $("#expected-value").val();
+                $.ajax({
+                    url: "updateOutcomeValues",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&projectYear=" + $("#project-year").val() +
+                            "&actualValue=" + actualValue +
+                            "&expectedValue=" + expectedValue,
+                    success: function () {
+
+                        if (actualValue.trim() === "") {
+                            actualValue = 0;
+                        }
+                        if (expectedValue.trim() === "") {
+                            expectedValue = 0;
+                        }
+                        $("#outcome-ratio-" + id).html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+                        $("#expected-value-" + id).html(expectedValue);
+                        $("#actual-value-" + id).html(actualValue);
+
+                        $("#expected-value").val("");
+                        $("#actual-value").val("");
+                        $("#ratio").val("");
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#expected-value").val("");
+            $("#actual-value").val("");
+            $("#ratio").val("");
+        }
+    });
+}
+
 //</editor-fold>

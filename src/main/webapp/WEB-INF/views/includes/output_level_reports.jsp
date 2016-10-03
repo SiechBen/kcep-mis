@@ -16,7 +16,7 @@
             </div>
             <div class="panel-body">
                 <h4>Output level indicators report</h4>
-                <table class="table table-striped table-bordered table-hover" id="indicator-report-table">
+                <table class="table table-striped table-bordered table-hover indicator-report-table">
                     <thead>
                         <tr>
                             <th rowspan="2">&nbsp;</th>
@@ -46,21 +46,21 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        <c:forEach var="outputIndicator" items="${sessionScope.indicatorsReport.keySet()}" varStatus="index">
+                        <c:forEach var="outputIndicator" items="${sessionScope.outputsReport.keySet()}" varStatus="index">
                             <tr>
                                 <td>${index.count}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outputIndicator.resultHierarchy.description}">${outputIndicator.resultHierarchy.description}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outputIndicator.description}">${outputIndicator.description}</td>
                                 <td>${outputIndicator.performanceIndicatorType.category.name}</td>
                                 <td class="editable" data-placement="auto bottom" title="${outputIndicator.description}"></td>
-                                <c:forEach var="cummulativeIndicatorValues" items="${sessionScope.indicatorsReport.get(outputIndicator).keySet()}">
-                                    <c:forEach var="outputIndicatorValues" items="${sessionScope.indicatorsReport.get(outputIndicator).get(cummulativeIndicatorValues)}">
-                                        <td>${outputIndicatorValues.actualValue}</td>
+                                <c:forEach var="cummulativeIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).keySet()}">
+                                    <c:forEach var="outputIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).get(cummulativeIndicatorValues)}">
                                         <td class="editable">${outputIndicatorValues.expectedValue}</td>
+                                        <td>${outputIndicatorValues.actualValue}</td>
                                         <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
-                                    <td>${cummulativeIndicatorValues.actualValue}</td>
                                     <td class="editable pencil" onclick="setAppraisalTarget()">${cummulativeIndicatorValues.expectedValue}</td>
+                                    <td>${cummulativeIndicatorValues.actualValue}</td>
                                     <td><c:if test="${not empty cummulativeIndicatorValues.ratio}">${cummulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
                             </tr>

@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
@@ -430,7 +429,5 @@ public class PerformanceIndicatorController extends Controller {
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
     @EJB
     private PerformanceIndicatorValuesRequestsLocal performanceIndicatorValuesService;
-    @EJB
-    private SubComponentRequestsLocal subComponentService;
 
 }

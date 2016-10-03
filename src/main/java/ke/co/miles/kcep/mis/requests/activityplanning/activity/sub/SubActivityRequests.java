@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
@@ -124,15 +125,20 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @Override
     @SuppressWarnings("unchecked")
     public List<SubActivityDetails> retrieveSubActivities() throws MilesException {
-        List<SubActivity> subActivity = new ArrayList<>();
+        List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findAll"));
         try {
-            subActivity = q.getResultList();
+            MilesDebugger.debug("attemtping");
+            subActivities = q.getResultList();
+            MilesDebugger.debug(subActivities);
+            for (SubActivity subActivity : subActivities) {
+                MilesDebugger.debug(subActivity);
+            }
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        return convertSubActivitiesToSubActivityDetailsList(subActivity);
+        return convertSubActivitiesToSubActivityDetailsList(subActivities);
     }
 
     @SuppressWarnings("unchecked")

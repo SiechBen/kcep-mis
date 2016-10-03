@@ -60,7 +60,6 @@ public class Person implements Serializable {
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
-    @Size(max = 45)
     @Column(name = "age")
     private Short age;
     @Size(max = 45)

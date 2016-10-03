@@ -16,7 +16,7 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <label hidden id="add-label">addYearOfUse</label>
+                    <label hidden id="add-label">addProjectYear</label>
                     <table class="table table-striped table-bordered table-hover" id="performance-indicator-table">
                         <thead>
                             <tr>
@@ -91,14 +91,14 @@
     </div>
 </div>
 
-<div class="row dialog" id="year-of-use-dialog">
+<div class="row dialog" id="project-year-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">
                 <form role="form">
                     <div class="form-group">
                         Year
-                        <select id="year-of-use" class="form-control yearfield" ></select>
+                        <select id="project-year" class="form-control yearfield" ></select>
                     </div>
                 </form>
             </div>

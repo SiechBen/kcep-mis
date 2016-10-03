@@ -7,11 +7,13 @@ package ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -55,6 +57,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             performanceIndicators = q.getResultList();
             PerformanceIndicatorValues performanceIndicatorValues;
+            PerformanceIndicatorValues outcomeIndicatorValues;
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
                 performanceIndicatorValues = new PerformanceIndicatorValues();
                 performanceIndicatorValues.setProjectYear(year);
@@ -64,11 +67,23 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 } catch (Exception e) {
                     throw new InvalidStateException("error_000_01");
                 }
+                MilesDebugger.debug("adding");
+                outcomeIndicatorValues = new PerformanceIndicatorValues();
+                outcomeIndicatorValues.setProjectYear(year);
+                outcomeIndicatorValues.setPurpose("Outcome report");
+                outcomeIndicatorValues.setPerformanceIndicator(performanceIndicator);
+                try {
+                    em.persist(outcomeIndicatorValues);
+                } catch (Exception e) {
+                    MilesDebugger.debug(e);
+                    throw new InvalidStateException("error_000_01");
+                }
             }
 
             em.flush();
 
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
     }
@@ -76,7 +91,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
     @Override
-    public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportOnIndicators() throws MilesException {
+    public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportOnOutputIndicators() throws MilesException {
 
         HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportMap = new HashMap<>();
         HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>> cummulativeValuesToValuesMap;
@@ -152,15 +167,15 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})
-    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrievePerformanceIndicators(List<Short> projectYears) throws MilesException {
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> retrievePerformanceIndicators(List<Short> projectYears) throws MilesException {
 
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
         try {
             performanceIndicators = q.getResultList();
-            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYear"));
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
+            q.setParameter("purpose", null);
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
                 orderedList = new ArrayList<>();
                 q.setParameter("performanceIndicatorId", performanceIndicator.getId());
@@ -171,6 +186,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return map;
@@ -178,8 +194,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
     @Override
     @SuppressWarnings({"unchecked", "unchecked"})
-    public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrieveAllPerformanceIndicators(List<Short> projectYears) throws MilesException {
+    public HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> retrieveAllPerformanceIndicators(List<Short> projectYears) throws MilesException {
 
         setQ(em.createNamedQuery("PerformanceIndicator.findAll"));
 
@@ -187,14 +202,33 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})
-    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>>
-            retrieveOutputLevelIndicators(List<Short> projectYears) throws MilesException {
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> retrieveOutputLevelIndicators(List<Short> projectYears) throws MilesException {
         setQ(em.createNativeQuery("SELECT * FROM performance_indicator p INNER "
                 + "JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE "
                 + "r.description REGEXP ?1", PerformanceIndicator.class));
         q.setParameter(1, "^Output ");
 
         return retrievePerformanceIndicators(projectYears);
+    }
+
+    @SuppressWarnings({"unchecked", "unchecked"})
+    @Override
+    public List<PerformanceIndicatorValuesDetails> reportOnOutcomeIndicators(Short projectYear) throws MilesException {
+
+        Calendar calendar = Calendar.getInstance();
+        short year = Short.valueOf(String.valueOf(projectYear == null ? calendar.get(Calendar.YEAR) : projectYear));
+
+        setQ(em.createNativeQuery("SELECT * FROM performance_indicator_values pv INNER JOIN performance_indicator p ON (pv.performance_indicator = p.id) INNER JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE r.description REGEXP ?1 AND pv.project_year = ?2 AND pv.purpose = ?3", PerformanceIndicatorValues.class));
+        q.setParameter(1, "^Outcome ");
+        q.setParameter(2, year);
+        q.setParameter(3, "Outcome report");
+        List<PerformanceIndicatorValues> orderedList = new ArrayList<>();
+        try {
+            orderedList = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(orderedList);
     }
 
     @Override
@@ -237,6 +271,29 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
         PerformanceIndicatorValues performanceIndicatorValues
                 = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
+        performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
+
+        try {
+            em.merge(performanceIndicatorValues);
+            em.flush();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+    }
+
+    @Override
+    public void editOutcomeValues(PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails) throws MilesException {
+
+        if (performanceIndicatorValuesDetails == null) {
+            throw new InvalidArgumentException("error_055_01");
+        } else if (performanceIndicatorValuesDetails.getId() == null) {
+            throw new InvalidArgumentException("error_055_03");
+        }
+
+        PerformanceIndicatorValues performanceIndicatorValues
+                = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
+        performanceIndicatorValues.setActualValue(performanceIndicatorValuesDetails.getActualValue());
         performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
 
         try {

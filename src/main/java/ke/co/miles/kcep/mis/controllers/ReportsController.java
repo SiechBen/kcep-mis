@@ -6,8 +6,10 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,12 +20,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
-import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 
 /**
  *
@@ -31,6 +36,7 @@ import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.Perfor
  */
 @WebServlet(name = "ReportsController", urlPatterns = {"/reports",
     "/financial_report_by_categories", "/financial_report_by_components",
+    "/updateOutcomeValues", "/changeOutcomeReport",
     "/outputLevelReports", "/outcomeLevelReports"})
 public class ReportsController extends Controller {
 
@@ -56,6 +62,8 @@ public class ReportsController extends Controller {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
                                     path = "/head_reports";
@@ -96,6 +104,8 @@ public class ReportsController extends Controller {
                         break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/outputLevelReports":
                                     path = "/region_output_level_reports";
@@ -116,6 +126,8 @@ public class ReportsController extends Controller {
                         break;
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/outputLevelReports":
                                     path = "/county_output_level_reports";
@@ -183,6 +195,33 @@ public class ReportsController extends Controller {
 
             switch (path) {
 
+                case "/updateOutcomeValues":
+                    PerformanceIndicatorValuesDetails outcomeIndicatorValues;
+                    try {
+                        outcomeIndicatorValues = new PerformanceIndicatorValuesDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        outcomeIndicatorValues = new PerformanceIndicatorValuesDetails();
+                    }
+                    try {
+                        outcomeIndicatorValues.setActualValue(Double.valueOf(request.getParameter("actualValue")));
+                    } catch (Exception e) {
+                    }
+                    try {
+                        outcomeIndicatorValues.setExpectedValue(Double.valueOf(request.getParameter("expectedValue")));
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        performanceIndicatorValuesService.editOutcomeValues(outcomeIndicatorValues);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    return;
+
                 case "/head_outcome_level_reports":
                 case "/county_outcome_level_reports":
                 case "/region_outcome_level_reports":
@@ -193,23 +232,30 @@ public class ReportsController extends Controller {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
                         return;
                     }
+
                     try {
-                        session.setAttribute("indicatorsReport", performanceIndicatorValuesService.reportOnIndicators());
-//                        for (PerformanceIndicatorDetails outputIndicator : performanceIndicatorValuesService.reportOnIndicators().keySet()) {
-//                            MilesDebugger.debug("\t" + outputIndicator);
-//                            for (PerformanceIndicatorValuesDetails cummulativeIndicatorValues : performanceIndicatorValuesService.reportOnIndicators().get(outputIndicator).keySet()) {
-//                                for (PerformanceIndicatorValuesDetails outputIndicatorValues : performanceIndicatorValuesService.reportOnIndicators().get(outputIndicator).get(cummulativeIndicatorValues)) {
-////                                    MilesDebugger.debug("\t\t\t" + outputIndicatorValues.getActualValue());
-//                                }
-////                                MilesDebugger.debug("\t\t" + cummulativeIndicatorValues.getActualValue());
-//                            }
-//                        }
+
+                        session.setAttribute("ratingValues", phenomenonService.retrieveRatingValues());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of rating values ", ex);
+                        return;
+                    }
+                    try {
+                        Short projectYear;
+                        try {
+                            projectYear = Short.valueOf(request.getParameter("projectYear"));
+                        } catch (Exception e) {
+                            projectYear = null;
+                        }
+                        MilesDebugger.debug(projectYear);
+                        session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     } catch (NullPointerException e) {
                     }
+
                     break;
 
                 case "/head_output_level_reports":
@@ -223,7 +269,7 @@ public class ReportsController extends Controller {
                         return;
                     }
                     try {
-                        session.setAttribute("indicatorsReport", performanceIndicatorValuesService.reportOnIndicators());
+                        session.setAttribute("outputsReport", performanceIndicatorValuesService.reportOnOutputIndicators());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -262,7 +308,6 @@ public class ReportsController extends Controller {
                 default:
                     break;
             }
-            //Use request dispatcher to foward request internally
             destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);
@@ -280,6 +325,40 @@ public class ReportsController extends Controller {
         }
 
     }
+
+    //<editor-fold defaultstate="collapsed" desc="Update tables">
+    private void updateOutcomesTable(HttpServletResponse response, List<PerformanceIndicatorValuesDetails> outcomes) throws IOException, MilesException {
+        PrintWriter out = response.getWriter();
+        int index = 0;
+        List<PhenomenonDetails> ratingValues = phenomenonService.retrieveRatingValues();
+        for (PerformanceIndicatorValuesDetails outcome : outcomes) {
+            out.write(
+                    "<tr>\n"
+                    + "                                <td>" + ++index + "</td>\n"
+                    + "                                <td class=\"tooltipped\" data-toggle=\"tooltip\" data-placement=\"auto bottom\" title=\"" + outcome.getPerformanceIndicator().getResultHierarchy().getDescription() + "\">" + outcome.getPerformanceIndicator().getResultHierarchy().getDescription() + "</td>\n"
+                    + "                                <td class=\"tooltipped\" data-toggle=\"tooltip\" data-placement=\"auto bottom\" title=\"" + outcome.getPerformanceIndicator().getDescription() + "\">" + outcome.getPerformanceIndicator().getDescription() + "</td>\n"
+                    + "                                <td>Rating</td>\n"
+                    + "                                <td class=\"editable\">\n");
+            out.write("<select id=\"awpb-outcome-target-" + outcome.getId() + "\" onchange=\"calculateOutcomeRatio(" + outcome.getId() + ")\">");
+            for (PhenomenonDetails ratingValue : ratingValues) {
+                out.write("<option value=\"" + ratingValue.getCategory().getName() + "\"" + (Double.valueOf(ratingValue.getCategory().getName()).equals(outcome.getExpectedValue()) ? "selected" : "") + ">" + ratingValue.getCategory().getName() + "</option>");
+            }
+            out.write("</select>");
+            out.write("                                </td>\n"
+                    + "                                <td class=\"editable\">\n");
+            out.write("<select id=\"actual-outcome-value-" + outcome.getId() + "\" onchange=\"calculateOutcomeRatio(" + outcome.getId() + ")\">");
+            for (PhenomenonDetails ratingValue : ratingValues) {
+                out.write("<option value=\"" + ratingValue.getCategory().getName() + "\"" + (Double.valueOf(ratingValue.getCategory().getName()).equals(outcome.getActualValue()) ? "selected" : "") + ">" + ratingValue.getCategory().getName() + "</option>");
+            }
+            out.write("</select>");
+            out.write("                                </td>\n"
+                    + "                                <td id=\"outcome-ratio-" + outcome.getId() + "\">" + outcome.getRatio() + outcome.getRatio() == null ? "" : "%" + "</td>\n"
+                            + "                                </tr>"
+            );
+        }
+    }
+    //</editor-fold>
+
     private static final Logger LOGGER = Logger.getLogger(ReportsController.class
             .getSimpleName());
     @EJB
@@ -287,7 +366,7 @@ public class ReportsController extends Controller {
     @EJB
     private FinancialYearRequestsLocal financialYearService;
     @EJB
-    private PerformanceIndicatorRequestsLocal performanceIndicatorService;
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private PerformanceIndicatorValuesRequestsLocal performanceIndicatorValuesService;
 

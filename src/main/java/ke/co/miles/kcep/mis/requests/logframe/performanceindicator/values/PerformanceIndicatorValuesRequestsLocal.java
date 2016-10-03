@@ -62,7 +62,17 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @return the map with report data
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportOnIndicators() throws MilesException;
+    public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>>
+            reportOnOutputIndicators() throws MilesException;
+
+    /**
+     *
+     * @param projectYear the project year for which the report is to be
+     * generated
+     * @return the map with report data
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PerformanceIndicatorValuesDetails> reportOnOutcomeIndicators(Short projectYear) throws MilesException;
 
     /**
      *
@@ -72,6 +82,16 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * the details are null or incorrectly specified
      */
     public void editPerformanceIndicatorValues(
+            PerformanceIndicatorValuesDetails performanceIndicatorDetails) throws MilesException;
+
+    /**
+     *
+     * @param performanceIndicatorDetails details of the performance indicator
+     * record to be edited
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void editOutcomeValues(
             PerformanceIndicatorValuesDetails performanceIndicatorDetails) throws MilesException;
 
     /**
