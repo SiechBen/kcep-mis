@@ -63,6 +63,16 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<PhenomenonDetails> retrieveExpectedOutcomes() throws MilesException {
+
+        setQ(em.createNamedQuery("PhenomenonType.findByName"));
+        q.setParameter("name", "Expected outcome");
+
+        return retrievePhenomena();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveRatingValues() throws MilesException {
 
         setQ(em.createNamedQuery("PhenomenonType.findByName"));

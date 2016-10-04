@@ -22,7 +22,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
@@ -392,6 +391,13 @@ public class ActivityPlanningController extends Controller {
                 case "/county_sub_activities":
                 case "/region_sub_activities":
                     try {
+                        session.setAttribute("expectedOutcomes", phenomenonService.retrieveExpectedOutcomes());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of expected outcomes", ex);
+                        return;
+                    }
+
+                    try {
                         session.setAttribute("gfssCodes", phenomenonService.retrieveGFSSCodes());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
@@ -399,12 +405,7 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        MilesDebugger.debug("i am in");
                         session.setAttribute("subActivities", subActivityService.retrieveSubActivities());
-                        MilesDebugger.debug("i am done");
-                        for (SubActivityDetails retrieveSubActivity : subActivityService.retrieveSubActivities()) {
-                            MilesDebugger.debug(retrieveSubActivity);
-                        }
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -508,7 +509,6 @@ public class ActivityPlanningController extends Controller {
 
                     SubActivityDetails subActivity = new SubActivityDetails();
                     subActivity.setProcurementPlan(request.getParameter("procurementPlan"));
-                    subActivity.setExpectedOutcome(request.getParameter("expectedOutcome"));
                     subActivity.setDescription(request.getParameter("description"));
                     subActivity.setAnnualWorkplanReferenceCode(
                             request.getParameter("annualWorkplanReferenceCode"));
@@ -516,6 +516,11 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setTotals(new BigDecimal(request.getParameter("totals")));
                     } catch (NumberFormatException e) {
                         subActivity.setTotals(null);
+                    }
+                    try {
+                        subActivity.setExpectedOutcome(new PhenomenonDetails(Integer.valueOf(request.getParameter("expectedOutcome"))));
+                    } catch (NumberFormatException e) {
+                        subActivity.setExpectedOutcome(null);
                     }
                     try {
                         subActivity.setUnitCost(new BigDecimal(request.getParameter("unitCost")));
@@ -695,7 +700,6 @@ public class ActivityPlanningController extends Controller {
                     } catch (Exception e) {
                     }
                     subActivity.setProcurementPlan(request.getParameter("procurementPlan"));
-                    subActivity.setExpectedOutcome(request.getParameter("expectedOutcome"));
                     subActivity.setDescription(request.getParameter("description"));
                     subActivity.setAnnualWorkplanReferenceCode(
                             request.getParameter("annualWorkplanReferenceCode"));
@@ -703,6 +707,11 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setTotals(new BigDecimal(request.getParameter("totals")));
                     } catch (NumberFormatException e) {
                         subActivity.setTotals(null);
+                    }
+                    try {
+                        subActivity.setExpectedOutcome(new PhenomenonDetails(Integer.valueOf(request.getParameter("expectedOutcome"))));
+                    } catch (NumberFormatException e) {
+                        subActivity.setExpectedOutcome(null);
                     }
                     try {
                         subActivity.setUnitCost(new BigDecimal(request.getParameter("unitCost")));

@@ -3,7 +3,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,7 +46,7 @@ public class FinancialYear implements Serializable {
     @NotNull
     @Column(name = "current_year")
     private boolean currentYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "financialYear")
+    @OneToMany(mappedBy = "financialYear")
     private List<SubActivity> subActivityList;
 
     public FinancialYear() {

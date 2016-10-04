@@ -55,6 +55,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
+    @JoinColumn(name = "expected_outcome", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon expectedOutcome;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,9 +67,6 @@ public class SubActivity implements Serializable {
     @Size(max = 20)
     @Column(name = "annual_workplan_reference_code")
     private String annualWorkplanReferenceCode;
-    @Size(max = 200)
-    @Column(name = "expected_outcome")
-    private String expectedOutcome;
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
     private Date startDate;
@@ -105,13 +105,13 @@ public class SubActivity implements Serializable {
     @Column(name = "financial_institution_percentage")
     private Double financialInstitutionPercentage;
     @JoinColumn(name = "activity_name", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ActivityName activityName;
     @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ExpenditureCategory expenditureCategory;
     @JoinColumn(name = "component", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Component component;
     @JoinColumn(name = "sub_component", referencedColumnName = "id")
     @ManyToOne
@@ -120,19 +120,19 @@ public class SubActivity implements Serializable {
     @ManyToOne
     private ImplementingPartner implementingPartner;
     @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private MeasurementUnit measurementUnit;
     @JoinColumn(name = "gfss_code", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon gfssCode;
     @JoinColumn(name = "response_pcu", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private ResponsePcu responsePcu;
     @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
     @ManyToOne
     private SubActivityName subActivityName;
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private FinancialYear financialYear;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
     private List<AnnualIndicator> annualIndicatorList;
@@ -158,14 +158,6 @@ public class SubActivity implements Serializable {
 
     public void setAnnualWorkplanReferenceCode(String annualWorkplanReferenceCode) {
         this.annualWorkplanReferenceCode = annualWorkplanReferenceCode;
-    }
-
-    public String getExpectedOutcome() {
-        return expectedOutcome;
-    }
-
-    public void setExpectedOutcome(String expectedOutcome) {
-        this.expectedOutcome = expectedOutcome;
     }
 
     public Date getStartDate() {
@@ -408,6 +400,14 @@ public class SubActivity implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
+    }
+
+    public Phenomenon getExpectedOutcome() {
+        return expectedOutcome;
+    }
+
+    public void setExpectedOutcome(Phenomenon expectedOutcome) {
+        this.expectedOutcome = expectedOutcome;
     }
 
 }

@@ -42,7 +42,7 @@ public class Component implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "component")
     private String component;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
+    @OneToMany(mappedBy = "component")
     private List<SubActivity> subActivityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "component")
     private List<SubComponent> subComponentList;

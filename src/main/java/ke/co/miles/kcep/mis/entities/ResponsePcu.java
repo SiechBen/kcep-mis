@@ -3,7 +3,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +38,7 @@ public class ResponsePcu implements Serializable {
     @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "responsePcu")
+    @OneToMany(mappedBy = "responsePcu")
     private List<SubActivity> subActivityList;
 
     public ResponsePcu() {

@@ -30,12 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PerformanceIndicatorValues.findById", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.id = :id"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByProjectYear", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.projectYear = :projectYear"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByActualValue", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.actualValue = :actualValue"),
-    @NamedQuery(name = "PerformanceIndicatorValues.findByExpectedValue", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.expectedValue = :expectedValue")})
+    @NamedQuery(name = "PerformanceIndicatorValues.findByExpectedValue", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.expectedValue = :expectedValue"),
+    @NamedQuery(name = "PerformanceIndicatorValues.findByPurpose", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.purpose = :purpose")})
 public class PerformanceIndicatorValues implements Serializable {
 
-    @Size(max = 45)
-    @Column(name = "purpose")
-    private String purpose;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +47,9 @@ public class PerformanceIndicatorValues implements Serializable {
     private Double actualValue;
     @Column(name = "expected_value")
     private Double expectedValue;
+    @Size(max = 45)
+    @Column(name = "purpose")
+    private String purpose;
     @JoinColumn(name = "performance_indicator", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PerformanceIndicator performanceIndicator;
@@ -92,6 +93,14 @@ public class PerformanceIndicatorValues implements Serializable {
         this.expectedValue = expectedValue;
     }
 
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
     public PerformanceIndicator getPerformanceIndicator() {
         return performanceIndicator;
     }
@@ -123,14 +132,6 @@ public class PerformanceIndicatorValues implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues[ id=" + id + " ]";
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
     }
 
 }

@@ -36,7 +36,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
  */
 @WebServlet(name = "ReportsController", urlPatterns = {"/reports",
     "/financial_report_by_categories", "/financial_report_by_components",
-    "/updateOutcomeValues", "/changeOutcomeReport",
+    "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports"})
 public class ReportsController extends Controller {
 
@@ -71,6 +71,10 @@ public class ReportsController extends Controller {
                                     break;
                                 case "/outputLevelReports":
                                     path = "/head_output_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/goalLevelReports":
+                                    path = "/head_goal_level_reports";
                                     urlPaths.add(path);
                                     break;
                                 case "/outcomeLevelReports":
@@ -115,6 +119,10 @@ public class ReportsController extends Controller {
                                     path = "/region_outcome_level_reports";
                                     urlPaths.add(path);
                                     break;
+                                case "/goalLevelReports":
+                                    path = "/region_goal_level_reports";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/reports":
                                     path = "/region_reports";
                                     urlPaths.add(path);
@@ -135,6 +143,10 @@ public class ReportsController extends Controller {
                                     break;
                                 case "/outcomeLevelReports":
                                     path = "/county_outcome_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/goalLevelReports":
+                                    path = "/county_goal_level_reports";
                                     urlPaths.add(path);
                                     break;
                                 case "/reports":
@@ -226,7 +238,6 @@ public class ReportsController extends Controller {
                 case "/county_outcome_level_reports":
                 case "/region_outcome_level_reports":
                     try {
-
                         session.setAttribute("projectYears", performanceIndicatorValuesService.retrieveProjectYears());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
@@ -234,7 +245,6 @@ public class ReportsController extends Controller {
                     }
 
                     try {
-
                         session.setAttribute("ratingValues", phenomenonService.retrieveRatingValues());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of rating values ", ex);
@@ -249,6 +259,40 @@ public class ReportsController extends Controller {
                         }
                         MilesDebugger.debug(projectYear);
                         session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/head_goal_level_reports":
+                case "/county_goal_level_reports":
+                case "/region_goal_level_reports":
+                    try {
+                        session.setAttribute("projectYears", performanceIndicatorValuesService.retrieveProjectYears());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("ratingValues", phenomenonService.retrieveRatingValues());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of rating values ", ex);
+                        return;
+                    }
+                    try {
+                        Short projectYear;
+                        try {
+                            projectYear = Short.valueOf(request.getParameter("projectYear"));
+                        } catch (Exception e) {
+                            projectYear = null;
+                        }
+                        MilesDebugger.debug(projectYear);
+                        session.setAttribute("goalsReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");

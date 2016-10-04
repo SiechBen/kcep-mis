@@ -12,11 +12,11 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Report for outcome level indicators
+                Report for goal level indicators
             </div>
             <div class="panel-body">
-                <h4>Outcome level indicators report</h4>
-                <table class="table table-striped table-bordered table-hover indicator-report-table" id="outcome-report-table">
+                <h4>Goal level indicators report</h4>
+                <table class="table table-striped table-bordered table-hover indicator-report-table" id="goal-report-table">
                     <thead>
                         <tr>
                             <th colspan="2">Republic of Kenya</th>
@@ -29,7 +29,7 @@
                             <th colspan="2">Kenya Cereal Enhancement Programme</th>
                             <th colspan="5">
                                 Project year: &nbsp;
-                                <select id="project-year" onchange="changeOutcomeReport()">
+                                <select id="project-year" onchange="changeGoalReport()">
                                     <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
                                         <option value="${projectYear}">${projectYear}</option>
                                     </c:forEach>
@@ -37,33 +37,34 @@
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="7">Second level results</th>
+                            <th colspan="8">Third level results</th>
                         </tr>
                         <tr>
                             <th>&nbsp;</th>
-                            <th>Outcome</th>
-                            <th>Outcome indicator</th>
-                            <th>Unit</th>
-                            <th>AWPB</th>
-                            <th>Actual</th>
-                            <th>% of AWPB</th>
+                            <th>Impact</th>
+                            <th>Number</th>
+                            <th>Baseline/benchmark</th>
+                            <th>Mid-term review</th>
+                            <th>Impact assessment</th>
+                            <th>Endterm evaluation</th>
+                            <th>Target</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="7">Report on second level results</th>
+                            <th colspan="8">Report on third level results</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        <c:forEach var="outcome" items="${sessionScope.outcomesReport}" varStatus="index">
+                        <c:forEach var="goal" items="${sessionScope.goalsReport}" varStatus="index">
                             <tr>
                                 <td>${index.count}</td>
-                                <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outcome.performanceIndicator.resultHierarchy.description}">${outcome.performanceIndicator.resultHierarchy.description}</td>
-                                <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outcome.performanceIndicator.description}">${outcome.performanceIndicator.description}</td>
+                                <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${goal.performanceIndicator.resultHierarchy.description}">${goal.performanceIndicator.resultHierarchy.description}</td>
+                                <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${goal.performanceIndicator.description}">${goal.performanceIndicator.description}</td>
                                 <td>Rating</td>
-                                <td id="expected-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.expectedValue}</td>
-                                <td id="actual-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.actualValue}</td>
-                                <td id="outcome-ratio-${outcome.id}"><c:if test="${not empty outcome.ratio}">${outcome.ratio}%</c:if></td>
+                                <td id="expected-value-${goal.id}" class="editable pencil" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.expectedValue}</td>
+                                <td id="actual-value-${goal.id}" class="editable pencil" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.actualValue}</td>
+                                <td id="goal-ratio-${goal.id}"><c:if test="${not empty goal.ratio}">${goal.ratio}%</c:if></td>
                                 </tr>
                         </c:forEach>
                     </tbody>
@@ -73,7 +74,7 @@
     </div>
 </div>
 
-<div class="row dialog" id="outcome-report-dialog">
+<div class="row dialog" id="goal-report-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">

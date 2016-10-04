@@ -38,11 +38,11 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.annualWorkplanReferenceCode = annualWorkplanReferenceCode;
     }
 
-    public String getExpectedOutcome() {
+    public PhenomenonDetails getExpectedOutcome() {
         return this.expectedOutcome;
     }
 
-    public void setExpectedOutcome(String expectedOutcome) {
+    public void setExpectedOutcome(PhenomenonDetails expectedOutcome) {
         this.expectedOutcome = expectedOutcome;
     }
 
@@ -304,7 +304,7 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private Integer id;
     private String annualWorkplanReferenceCode;
     private PhenomenonDetails gfssCode;
-    private String expectedOutcome;
+    private PhenomenonDetails expectedOutcome;
     private Date startDate;
     private Date endDate;
     private BigDecimal unitCost;

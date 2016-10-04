@@ -3,7 +3,6 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -40,7 +39,7 @@ public class ExpenditureCategory implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "expenditureCategory")
+    @OneToMany(mappedBy = "expenditureCategory")
     private List<SubActivity> subActivityList;
 
     public ExpenditureCategory() {

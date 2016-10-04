@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -42,7 +44,12 @@ public class ActivityName implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityName")
+    @OneToMany(mappedBy = "parent")
+    private List<ActivityName> activityNameList;
+    @JoinColumn(name = "parent", referencedColumnName = "id")
+    @ManyToOne
+    private ActivityName parent;
+    @OneToMany(mappedBy = "activityName")
     private List<SubActivity> subActivityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityName")
     private List<SubActivityName> subActivityNameList;
@@ -73,6 +80,23 @@ public class ActivityName implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @XmlTransient
+    public List<ActivityName> getActivityNameList() {
+        return activityNameList;
+    }
+
+    public void setActivityNameList(List<ActivityName> activityNameList) {
+        this.activityNameList = activityNameList;
+    }
+
+    public ActivityName getParent() {
+        return parent;
+    }
+
+    public void setParent(ActivityName parent) {
+        this.parent = parent;
     }
 
     @XmlTransient

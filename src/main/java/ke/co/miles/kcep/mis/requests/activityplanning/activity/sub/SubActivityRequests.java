@@ -68,7 +68,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         SubActivity subActivity = new SubActivity();
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
-        subActivity.setExpectedOutcome(subActivityDetails.getExpectedOutcome());
         subActivity.setStartDate(subActivityDetails.getStartDate());
         subActivity.setEndDate(subActivityDetails.getEndDate());
         subActivity.setEndDate(new Date());
@@ -89,6 +88,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
         subActivity.setExpenditureCategory(em.getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
         subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
+        if (subActivityDetails.getExpectedOutcome() != null) {
+            subActivity.setExpectedOutcome(em.getReference(Phenomenon.class, subActivityDetails.getExpectedOutcome().getId()));
+        }
         if (subActivityDetails.getSubComponent() != null) {
             subActivity.setSubComponent(em.getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
         }
@@ -887,7 +889,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         SubActivity subActivity = em.find(SubActivity.class, subActivityDetails.getId());
         subActivity.setId(subActivityDetails.getId());
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
-        subActivity.setExpectedOutcome(subActivityDetails.getExpectedOutcome());
         subActivity.setStartDate(subActivityDetails.getEndDate());
         subActivity.setUnitCost(subActivityDetails.getUnitCost());
         subActivity.setAwpbTarget(subActivityDetails.getAwpbTarget());
@@ -908,6 +909,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivity.setExpenditureCategory(em.getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
         } catch (Exception e) {
+        }
+        if (subActivityDetails.getExpectedOutcome() != null) {
+            subActivity.setExpectedOutcome(em.getReference(Phenomenon.class, subActivityDetails.getExpectedOutcome().getId()));
         }
         if (subActivityDetails.getSubComponent() != null) {
             subActivity.setSubComponent(em.getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
@@ -964,7 +968,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
         SubActivityDetails subActivityDetails = new SubActivityDetails(subActivity.getId());
         subActivityDetails.setAnnualWorkplanReferenceCode(subActivity.getAnnualWorkplanReferenceCode());
-        subActivityDetails.setExpectedOutcome(subActivity.getExpectedOutcome());
         subActivityDetails.setStartDate(subActivity.getStartDate());
         subActivityDetails.setEndDate(subActivity.getEndDate());
         subActivityDetails.setUnitCost(subActivity.getUnitCost());
@@ -981,21 +984,39 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivityDetails.setBeneficiariesPercentage(subActivity.getBeneficiariesPercentage());
         subActivityDetails.setEuPercentage(subActivity.getEuPercentage());
         subActivityDetails.setFinancialInstitutionPercentage(subActivity.getFinancialInstitutionPercentage());
-        subActivityDetails.setActivityName(activityService.
-                convertActivityNameToActivityNameDetails(subActivity.getActivityName()));
-        subActivityDetails.setMeasurementUnit(measurementUnitService.
-                convertMeasurementUnitToMeasurementUnitDetails(subActivity.getMeasurementUnit()));
-        subActivityDetails.setResponsePcu(responsePcuService.
-                convertResponsePcuToResponsePcuDetails(subActivity.getResponsePcu()));
-        subActivityDetails.setSubActivityName(subActivityDecriptionService.
-                convertSubActivityNameToSubActivityNameDetails(subActivity.getSubActivityName()));
-        subActivityDetails.setExpenditureCategory(expenditureCategoryService.
-                convertExpenditureCategoryToExpenditureCategoryDetails(subActivity.getExpenditureCategory()));
         subActivityDetails.setAnnualWorkplanReferenceCode(subActivity.getAnnualWorkplanReferenceCode());
-        subActivityDetails.setComponent(componentService.
-                convertComponentToComponentDetails(subActivity.getComponent()));
-        subActivityDetails.setImplementingPartner(implementingPartnerService.
-                convertImplementingPartnerToImplementingPartnerDetails(subActivity.getImplementingPartner()));
+        if (subActivity.getActivityName() != null) {
+            subActivityDetails.setActivityName(activityService.
+                    convertActivityNameToActivityNameDetails(subActivity.getActivityName()));
+        }
+        if (subActivity.getExpectedOutcome() != null) {
+            subActivityDetails.setExpectedOutcome(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getExpectedOutcome()));
+        }
+        if (subActivity.getMeasurementUnit() != null) {
+            subActivityDetails.setMeasurementUnit(measurementUnitService.
+                    convertMeasurementUnitToMeasurementUnitDetails(subActivity.getMeasurementUnit()));
+        }
+        if (subActivity.getResponsePcu() != null) {
+            subActivityDetails.setResponsePcu(responsePcuService.
+                    convertResponsePcuToResponsePcuDetails(subActivity.getResponsePcu()));
+        }
+        if (subActivity.getSubActivityName() != null) {
+            subActivityDetails.setSubActivityName(subActivityDecriptionService.
+                    convertSubActivityNameToSubActivityNameDetails(subActivity.getSubActivityName()));
+        }
+        if (subActivity.getExpenditureCategory() != null) {
+            subActivityDetails.setExpenditureCategory(expenditureCategoryService.
+                    convertExpenditureCategoryToExpenditureCategoryDetails(subActivity.getExpenditureCategory()));
+        }
+        if (subActivity.getComponent() != null) {
+            subActivityDetails.setComponent(componentService.
+                    convertComponentToComponentDetails(subActivity.getComponent()));
+        }
+        if (subActivity.getImplementingPartner() != null) {
+            subActivityDetails.setImplementingPartner(implementingPartnerService.
+                    convertImplementingPartnerToImplementingPartnerDetails(subActivity.getImplementingPartner()));
+        }
         if (subActivity.getSubComponent() != null) {
             subActivityDetails.setSubComponent(subComponentService.
                     convertSubComponentToSubComponentDetails(subActivity.getSubComponent()));

@@ -227,7 +227,13 @@ $(function () {
                     loadAjaxWindow("reports");
                 }
             }
-        ]
+        ],
+        columnDefs: [{
+                targets: [3, 4, 5, 7, 8],
+                render: function (data, type) {
+                    return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
+                }
+            }]
     });
 });
 
@@ -1660,35 +1666,37 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
         ifadLoanPercentage, ifadGrantPercentage, beneficiariesPercentage, euPercentage, financialInstitutionPercentage) {
     if (financialYear !== "")
         $("#financial-year option[value=" + financialYear + "]").attr('selected', 'selected');
-    $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
+    if (expectedOutcome !== "")
+        $("#expected-outcome option[value=" + expectedOutcome + "]").attr('selected', 'selected');
     if (gfssCode !== "")
         $("#gfss-code option[value=" + gfssCode + "]").attr('selected', 'selected');
-    $("#expected-outcome").val(expectedOutcome);
-    $("#component option[value=" + component + "]").attr('selected', 'selected');
+    if (measurementUnit !== "")
+        $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
     if (subComponent !== "")
         $("#sub-component option[value=" + subComponent + "]").attr('selected', 'selected');
     if (activityName !== "")
         $("#activity-name option[value=" + activityName + "]").attr('selected', 'selected');
     if (subActvityName !== "")
         $("#sub-activity-name option[value=" + subActvityName + "]").attr('selected', 'selected');
-    $("#start-date").val(startDate);
-    $("#end-date").val(endDate);
-    if (measurementUnit !== "")
-        $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
-    $("#unit-cost").val(unitCost);
-    $("#awpb-target").val(awpbTarget);
-    $("#programme-target").val(programmeTarget);
-    $("#totals").val(totals);
     if (responsePcu !== "")
         $("#response-pcu option[value=" + responsePcu + "]").attr('selected', 'selected');
     if (implementingPartner !== "")
         $("#implementing-partner option[value=" + implementingPartner + "]").attr('selected', 'selected');
+    if (expenditureCategory !== "")
+        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
+    $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
+    $("#expected-outcome").val(expectedOutcome);
+    $("#component option[value=" + component + "]").attr('selected', 'selected');
+    $("#start-date").val(startDate);
+    $("#end-date").val(endDate);
+    $("#unit-cost").val(unitCost);
+    $("#awpb-target").val(awpbTarget);
+    $("#programme-target").val(programmeTarget);
+    $("#totals").val(totals);
     $("#procurement-plan").val(procurementPlan);
     $("#description").val(description);
     $("#value-achieved").val(valueAchieved);
     $("#allocated-budget").val(allocatedBudget);
-    if (expenditureCategory !== "")
-        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
     $("#gok-percentage").val(gokPercentage);
     $("#ifad-loan-percentage").val(ifadLoanPercentage);
     $("#ifad-grant-percentage").val(ifadGrantPercentage);

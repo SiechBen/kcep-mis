@@ -38,7 +38,12 @@
                     </div>
                     <div class="form-group">
                         Expected outcome
-                        <input id="expected-outcome" class="form-control">
+                        <select id="expected-outcome" class="form-control">
+                            <option value="">Select expected outcome</option>
+                            <c:forEach var="expectedOutcome" items="${sessionScope.expectedOutcomes}" varStatus="counter">
+                                <option value="${expectedOutcome.id}">${expectedOutcome.category.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         Component
