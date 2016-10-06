@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : county
     Created on : Jun 22, 2016, 3:36:53 PM
     Author     : siech
@@ -26,12 +26,7 @@
 
     <jsp:attribute name="content">
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">County Desk Officer</h1>
-                </div>
-            </div>
-            <div>         
+            <div>
                 <jsp:invoke fragment="pagecontent" />
             </div>
         </div>

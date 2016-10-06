@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : sub_county
     Created on : Jun 22, 2016, 3:37:49 PM
     Author     : siech
@@ -16,7 +16,7 @@
 
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
 
-    <jsp:attribute name="menuitems">    
+    <jsp:attribute name="menuitems">
         <jsp:include page="../../tags/includes/people_item.jsp"/>
         <jsp:include page="../../tags/includes/training_item.jsp"/>
         <jsp:include page="../../tags/includes/warehouses_item.jsp"/>
@@ -25,12 +25,7 @@
 
     <jsp:attribute name="content">
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Sub-county Agricultural Officer(SCAO)</h1>
-                </div>
-            </div>
-            <div>         
+            <div>
                 <jsp:invoke fragment="pagecontent" />
             </div>
         </div>

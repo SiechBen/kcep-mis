@@ -75,7 +75,7 @@
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.name}">${subActivity.subActivityName.name}</td>
                                     <td><fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.startDate}"/></td>
                                     <td><fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.endDate}"/></td>
-                                    <td><c:if test="not empty">${subActivity.measurementUnit.unit}>(${subActivity.measurementUnit.symbol})</c:if></td>
+                                    <td>${subActivity.measurementUnit.unit}</td>
                                     <td>${subActivity.unitCost}</td>
                                     <td>${subActivity.awpbTarget}</td>
                                     <td>${subActivity.programmeTarget}</td>

@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : agro_dealer
     Created on : Jun 22, 2016, 4:40:51 PM
     Author     : siech
@@ -24,12 +24,7 @@
 
     <jsp:attribute name="content">
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Agro-dealer</h1>
-                </div>
-            </div>
-            <div>         
+            <div>
                 <jsp:invoke fragment="pagecontent" />
             </div>
         </div>

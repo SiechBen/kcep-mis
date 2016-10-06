@@ -119,5 +119,4 @@ public class SubActivityName implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubActivityName[ id=" + id + " ]";
     }
-
 }

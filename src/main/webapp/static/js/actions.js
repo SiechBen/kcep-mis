@@ -108,7 +108,7 @@ $(function () {
                         resizable: false,
                         modal: false,
                         buttons: {
-                            "Save": function () {
+                            "Search": function () {
                                 $("#message").text("Are you sure you want to add this project year?\nThis action is irreversible.");
                                 $("#message-dialog").dialog({
                                     width: 495,
@@ -180,7 +180,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $(".indicator-report-table").DataTable({
         responsive: true,
@@ -260,6 +259,122 @@ $(function () {
 });
 
 $(function () {
+    $("#farmers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchFarmer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("farmers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+
+$(function () {
+    $("#agro-dealers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchAgroDealer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("agroDealers")
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+
+$(function () {
     $('.reports-table').DataTable({
         responsive: true,
         "scrollCollapse": true,
@@ -274,15 +389,15 @@ $(function () {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Application attributes">
-$.ajax({
-    url: "load",
-    type: "POST",
-    data: "",
-    error: function (response) {
-        showError("error_label", response.responseText);
-    },
-    dataType: "HTML"
-});
+//$.ajax({
+//    url: "load",
+//    type: "POST",
+//    data: "",
+//    error: function (response) {
+//        showError("error_label", response.responseText);
+//    },
+//    dataType: "HTML"
+//});
 function loadApplicationAttributes() {
     $.ajax({
         url: "load",
@@ -300,11 +415,9 @@ function loadApplicationAttributes() {
 $("#actual-outcome-value").on("input", function () {
     calculateOutcomeRatio();
 });
-
 $("#awpb-outcome-target").on("input", function () {
     calculateOutcomeRatio();
 });
-
 function calculateOutcomeRatio(id) {
 
     var actualValue = $("#actual-outcome-value-" + id + "").val();
@@ -317,7 +430,6 @@ function calculateOutcomeRatio(id) {
     }
 
     $("#outcome-ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
-
 }
 
 function calculateRatio() {
@@ -337,11 +449,9 @@ function calculateRatio() {
 $("#actual-value").on("input", function () {
     calculateRatio();
 });
-
 $("#expected-value").on("input", function () {
     calculateRatio();
 });
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Savings update calculation">
@@ -707,7 +817,6 @@ function loadPreviousWindow() {
 
 //<editor-fold defaultstate="collapsed" desc="Login user">
 function loginUser() {
-
     var username = $("#username").val();
     var password = $("#password").val();
     if (username.trim() !== "" || password !== "") {
@@ -727,7 +836,6 @@ function loginUser() {
                 data: "username=" + username + "&password=" + password,
                 success: function () {
                     loadAjaxWindow('home');
-                    return;
                 },
                 error: function (response) {
                     showError("error_label", response.responseText);
@@ -796,7 +904,7 @@ function updateTraineeCounts() {
     });
 }
 
-function editPerson(id, name, sex, personRole, nationalId, dateOfBirth, businessName,
+function editPerson(id, name, sex, nationalId, personRole, dateOfBirth, businessName,
         farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
     $("#person-name").val(name);
     if (sex !== "")
@@ -931,7 +1039,6 @@ $("#training").ajaxForm({
         showError("error_label", response.responseText);
     }
 });
-
 function addToTrainers() {
     $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
     if ($("#trainer-names").val() === "") {
@@ -941,7 +1048,6 @@ function addToTrainers() {
     }
 
     updateTrainingModules();
-
 }
 
 function addToTrainees() {
@@ -3263,7 +3369,6 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
                         $("#outcome-ratio-" + id).html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
                         $("#expected-value-" + id).html(expectedValue);
                         $("#actual-value-" + id).html(actualValue);
-
                         $("#expected-value").val("");
                         $("#actual-value").val("");
                         $("#ratio").val("");

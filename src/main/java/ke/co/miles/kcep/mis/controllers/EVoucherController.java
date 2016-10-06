@@ -42,7 +42,9 @@ import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
  *
  * @author siech
  */
-@WebServlet(name = "EVoucherController", urlPatterns = {"/addEVoucher", "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers"})
+@WebServlet(name = "EVoucherController", urlPatterns = {"/addEVoucher",
+    "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
+    "/farmers", "/agroDealers"})
 @MultipartConfig
 public class EVoucherController extends Controller {
 
@@ -68,12 +70,25 @@ public class EVoucherController extends Controller {
                         urlPaths.add("/doAddEVoucher");
                         urlPaths.add("/doEditEVoucher");
                         urlPaths.add("/doDeleteEVoucher");
-                        if (path.equals("/eVouchers")) {
-                            path = "/head_eVouchers";
-                            urlPaths.add(path);
-                        } else if (path.equals("/addEVoucher")) {
-                            path = "/head_addEVoucher";
-                            urlPaths.add(path);
+                        switch (path) {
+                            case "/eVouchers":
+                                path = "/head_eVouchers";
+                                urlPaths.add(path);
+                                break;
+                            case "/addEVoucher":
+                                path = "/head_addEVoucher";
+                                urlPaths.add(path);
+                                break;
+                            case "/farmers":
+                                path = "/head_farmers";
+                                urlPaths.add(path);
+                                break;
+                            case "/agroDealers":
+                                path = "/head_agro_dealers";
+                                urlPaths.add(path);
+                                break;
+                            default:
+                                break;
                         }
                     }
                 } else if (rightsMap.equals("equityPersonnelSession")) {
@@ -81,12 +96,25 @@ public class EVoucherController extends Controller {
                         urlPaths.add("/doAddEVoucher");
                         urlPaths.add("/doEditEVoucher");
                         urlPaths.add("/doDeleteEVoucher");
-                        if (path.equals("/eVouchers")) {
-                            path = "/equity_eVouchers";
-                            urlPaths.add(path);
-                        } else if (path.equals("/addEVoucher")) {
-                            path = "/equity_addEVoucher";
-                            urlPaths.add(path);
+                        switch (path) {
+                            case "/eVouchers":
+                                path = "/equity_eVouchers";
+                                urlPaths.add(path);
+                                break;
+                            case "/addEVoucher":
+                                path = "/equity_addEVoucher";
+                                urlPaths.add(path);
+                                break;
+                            case "/farmers":
+                                path = "/equity_farmers";
+                                urlPaths.add(path);
+                                break;
+                            case "/agroDealers":
+                                path = "/equity_agro_dealers";
+                                urlPaths.add(path);
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
@@ -99,62 +127,150 @@ public class EVoucherController extends Controller {
 
             switch (path) {
 
-                case "/equity_eVouchers":
-                case "/head_eVouchers":
-                    HashMap<String, Integer> countMap;
-                    try {
-                        countMap = personService.countAllFarmersAndAgrodealers();
-                        int femaleYouth = 0;
-                        int femaleElderly = 0;
-                        int femaleTotal = 0;
-                        int maleYouth = 0;
-                        int maleElderly = 0;
-                        int maleTotal = 0;
-                        int totalPeople = 0;
+                case "/equity_farmers":
+                case "/head_farmers":
 
-                        for (String countType : countMap.keySet()) {
-                            switch (countType) {
-                                case "Female youth":
-                                    femaleYouth = countMap.get(countType);
-                                    break;
-                                case "Female elderly":
-                                    femaleElderly = countMap.get(countType);
-                                    break;
-                                case "Female total":
-                                    femaleTotal = countMap.get(countType);
-                                    break;
-                                case "Male youth":
-                                    maleYouth = countMap.get(countType);
-                                    break;
-                                case "Male elderly":
-                                    maleElderly = countMap.get(countType);
-                                    break;
-                                case "Male total":
-                                    maleTotal = countMap.get(countType);
-                                    break;
-                                case "Total people":
-                                    totalPeople = countMap.get(countType);
-                                    break;
+                    if (session.getAttribute("searchFunction") == null || (session.getAttribute("farmers") != null && (!(Boolean) session.getAttribute("searchFunction")))) {
+                        HashMap<String, Integer> countMap;
+                        try {
+                            countMap = personService.countAllFarmersAndAgrodealers();
+                            int femaleYouth = 0;
+                            int femaleElderly = 0;
+                            int femaleTotal = 0;
+                            int maleYouth = 0;
+                            int maleElderly = 0;
+                            int maleTotal = 0;
+                            int totalPeople = 0;
+
+                            for (String countType : countMap.keySet()) {
+                                switch (countType) {
+                                    case "Female youth":
+                                        femaleYouth = countMap.get(countType);
+                                        break;
+                                    case "Female elderly":
+                                        femaleElderly = countMap.get(countType);
+                                        break;
+                                    case "Female total":
+                                        femaleTotal = countMap.get(countType);
+                                        break;
+                                    case "Male youth":
+                                        maleYouth = countMap.get(countType);
+                                        break;
+                                    case "Male elderly":
+                                        maleElderly = countMap.get(countType);
+                                        break;
+                                    case "Male total":
+                                        maleTotal = countMap.get(countType);
+                                        break;
+                                    case "Total people":
+                                        totalPeople = countMap.get(countType);
+                                        break;
+                                }
                             }
+
+                            session.setAttribute("femaleYouth", femaleYouth);
+                            session.setAttribute("femaleElderly", femaleElderly);
+                            session.setAttribute("femaleTotal", femaleTotal);
+                            session.setAttribute("maleYouth", maleYouth);
+                            session.setAttribute("maleElderly", maleElderly);
+                            session.setAttribute("maleTotal", maleTotal);
+                            session.setAttribute("totalPeople", totalPeople);
+                            List<PersonRoleDetail> countOptions = new ArrayList<>();
+                            countOptions.add(PersonRoleDetail.FARMER);
+                            countOptions.add(PersonRoleDetail.AGRO_DEALER);
+                            session.setAttribute("countOptions", countOptions);
+
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                         }
 
-                        session.setAttribute("femaleYouth", femaleYouth);
-                        session.setAttribute("femaleElderly", femaleElderly);
-                        session.setAttribute("femaleTotal", femaleTotal);
-                        session.setAttribute("maleYouth", maleYouth);
-                        session.setAttribute("maleElderly", maleElderly);
-                        session.setAttribute("maleTotal", maleTotal);
-                        session.setAttribute("totalPeople", totalPeople);
-                        List<PersonRoleDetail> countOptions = new ArrayList<>();
-                        countOptions.add(PersonRoleDetail.FARMER);
-                        countOptions.add(PersonRoleDetail.AGRO_DEALER);
-                        session.setAttribute("countOptions", countOptions);
-
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        try {
+                            session.setAttribute("farmers", personService.retrieveFarmers());
+                            session.setAttribute("searchFunction", false);
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                            return;
+                        }
                     }
+
+                    break;
+
+                case "/equity_agro_dealers":
+                case "/head_agro_dealers":
+                    if (session.getAttribute("searchFunction") == null || (session.getAttribute("farmers") != null && (!(Boolean) session.getAttribute("searchFunction")))) {
+                        try {
+                            HashMap<String, Integer> countMap = personService.countAllFarmersAndAgrodealers();
+                            int femaleYouth = 0;
+                            int femaleElderly = 0;
+                            int femaleTotal = 0;
+                            int maleYouth = 0;
+                            int maleElderly = 0;
+                            int maleTotal = 0;
+                            int totalPeople = 0;
+
+                            for (String countType : countMap.keySet()) {
+                                switch (countType) {
+                                    case "Female youth":
+                                        femaleYouth = countMap.get(countType);
+                                        break;
+                                    case "Female elderly":
+                                        femaleElderly = countMap.get(countType);
+                                        break;
+                                    case "Female total":
+                                        femaleTotal = countMap.get(countType);
+                                        break;
+                                    case "Male youth":
+                                        maleYouth = countMap.get(countType);
+                                        break;
+                                    case "Male elderly":
+                                        maleElderly = countMap.get(countType);
+                                        break;
+                                    case "Male total":
+                                        maleTotal = countMap.get(countType);
+                                        break;
+                                    case "Total people":
+                                        totalPeople = countMap.get(countType);
+                                        break;
+                                }
+                            }
+
+                            session.setAttribute("femaleYouth", femaleYouth);
+                            session.setAttribute("femaleElderly", femaleElderly);
+                            session.setAttribute("femaleTotal", femaleTotal);
+                            session.setAttribute("maleYouth", maleYouth);
+                            session.setAttribute("maleElderly", maleElderly);
+                            session.setAttribute("maleTotal", maleTotal);
+                            session.setAttribute("totalPeople", totalPeople);
+                            List<PersonRoleDetail> countOptions = new ArrayList<>();
+                            countOptions.add(PersonRoleDetail.FARMER);
+                            countOptions.add(PersonRoleDetail.AGRO_DEALER);
+                            session.setAttribute("countOptions", countOptions);
+
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        }
+
+                        try {
+                            session.setAttribute("agroDealers", personService.retrieveAgroDealers());
+                            session.setAttribute("searchFunction", false);
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                            return;
+                        }
+                    }
+
+                    break;
+
+                case "/equity_eVouchers":
+                case "/head_eVouchers":
 
                     List<EVoucherDetails> eVouchers;
                     try {
@@ -178,24 +294,6 @@ public class EVoucherController extends Controller {
                             }
                         }
                         session.setAttribute("eVouchers", eVouchers);
-                    }
-
-                    try {
-                        session.setAttribute("agroDealers", personService.retrieveAgroDealers());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    try {
-                        session.setAttribute("farmers", personService.retrieveFarmers());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
                     }
 
                     try {

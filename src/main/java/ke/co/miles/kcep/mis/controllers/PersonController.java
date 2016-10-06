@@ -48,7 +48,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  */
 @WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson",
     "/doAddPerson", "/doEditPerson", "/doDeletePerson", "/userProfile",
-    "/changeCounter"})
+    "/changeCounter", "/searchFarmer", "/searchAgroDealer"})
 public class PersonController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -64,6 +64,7 @@ public class PersonController extends Controller {
 
         HttpSession session = request.getSession();
         String path = request.getServletPath();
+        MilesDebugger.debug(path);
         String destination;
 
         @SuppressWarnings("unchecked")
@@ -79,6 +80,8 @@ public class PersonController extends Controller {
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             urlPaths.add("/changeCounter");
+                            urlPaths.add("/searchFarmer");
+                            urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
                                     path = "/head_people";
@@ -106,6 +109,8 @@ public class PersonController extends Controller {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/changeCounter");
+                            urlPaths.add("/searchFarmer");
+                            urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
                                     path = "/equity_people";
@@ -937,7 +942,95 @@ public class PersonController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+                    return;
 
+                case "/searchFarmer":
+
+                    List<PersonDetails> farmers;
+                    try {
+                        farmers = personService.searchFarmer(request.getParameter("name"), request.getParameter("nationalId"));
+                        session.setAttribute("farmers", farmers);
+                        session.setAttribute("searchFunction", true);
+                        MilesDebugger.debug("set");
+                        MilesDebugger.debug(session.getAttribute("farmers"));
+//                        int i = 0;
+//                        for (PersonDetails farmer1 : farmers) {
+//                            MilesDebugger.debug("Farmer location id: " + farmer1.getLocation().getId());
+//                            MilesDebugger.debug("Farmer county id: " + farmer1.getLocation().getCounty().getId());
+//                            MilesDebugger.debug("Farmer sub-county id: " + farmer1.getLocation().getSubCounty().getId());
+//                            MilesDebugger.debug("Farmer ward id: " + farmer1.getLocation().getWard().getId());
+//                            out.write("<tr class=\"farmer-row\">");
+//                            out.write("<td>" + ++i + "</td>\n"
+//                                    + "<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + farmer1.getName() + "</td>\n"
+//                                    + "<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + farmer1.getPersonRole() + "</td>\n"
+//                                    + "<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getSex() == null ? "" : farmer1.getSex().getSex()) + "</td>\n"
+//                                    + "<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getAge() == null ? "" : farmer1.getAge()) + "</td>\n"
+//                                    + "<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + farmer1.getNationalId() + "</td>\n"
+//                                    + "<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + farmer1.getBusinessName() + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getFarmerGroup() == null ? "" : farmer1.getFarmerGroup().getName()) + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getFarmerSubGroup() == null ? "" : farmer1.getFarmerSubGroup().getName()) + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getLocation() == null ? "" : (farmer1.getLocation().getCounty() == null ? "" : farmer1.getLocation().getCounty().getName())) + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getLocation() == null ? "" : (farmer1.getLocation().getSubCounty() == null ? "" : farmer1.getLocation().getSubCounty().getName())) + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getLocation() == null ? "" : (farmer1.getLocation().getWard() == null ? "" : farmer1.getLocation().getWard().getName())) + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getContact() == null ? "" : farmer1.getContact().getPhone()) + "</td>\n");
+//                            out.write("<td onclick=\"loadFarmWindow(" + farmer1.getId() + ")\">" + (farmer1.getContact() == null ? "" : farmer1.getContact().getEmail()) + "</td>");
+//                            out.write("<td><button onclick=\"editPerson('" + farmer1.getId() + "', '" + farmer1.getName() + "', '" + (farmer1.getSex() == null ? "" : farmer1.getSex().getId()) + "', '" + farmer1.getNationalId() + "','" + farmer1.getPersonRoleId() + "',\n"
+//                                    + "'" + userDateFormat.format(farmer1.getDateOfBirth()) + "', '" + farmer1.getBusinessName() + "', '" + (farmer1.getFarmerGroup() == null ? "" : farmer1.getFarmerGroup().getId()) + "', '" + (farmer1.getFarmerSubGroup() == null ? "" : farmer1.getFarmerSubGroup().getId()) + "',\n"
+//                                    + "'" + (farmer1.getLocation() == null ? "" : farmer1.getLocation().getId()) + "','" + (farmer1.getLocation() == null ? "" : (farmer1.getLocation().getCounty() == null ? "" : farmer1.getLocation().getCounty().getId())) + "', '" + (farmer1.getLocation() == null ? "" : (farmer1.getLocation().getSubCounty() == null ? "" : farmer1.getLocation().getSubCounty().getId())) + "', '" + (farmer1.getLocation() == null ? "" : (farmer1.getLocation().getWard() == null ? "" : farmer1.getLocation().getWard().getId())) + "',\n"
+//                                    + "'" + (farmer1.getContact() == null ? "" : farmer1.getContact().getId()) + "','" + (farmer1.getContact() == null ? "" : farmer1.getContact().getPhone()) + "', '" + (farmer1.getContact() == null ? "" : farmer1.getContact().getEmail()) + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>");
+//                            out.write("<td><button onclick=\"deletePerson(" + farmer1.getId() + ")\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>");
+//                            out.write("</tr>");
+//                        }
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
+                    return;
+
+                case "/searchAgroDealer":
+
+                    try {
+                        agroDealers = personService.searchAgroDealer(request.getParameter("name"), request.getParameter("nationalId"));
+                        session.setAttribute("agroDealers", agroDealers);
+                        session.setAttribute("searchFunction", true);
+                        MilesDebugger.debug("set");
+                        MilesDebugger.debug(session.getAttribute("agroDealers"));
+//                        int i = 0;
+//                        for (PersonDetails agroDealer1 : agroDealers) {
+//                            MilesDebugger.debug("Agro-dealer county id: " + agroDealer1.getLocation().getCounty().getId());
+//                            MilesDebugger.debug("Agro-dealer sub-county id: " + agroDealer1.getLocation().getSubCounty().getId());
+//                            MilesDebugger.debug("Agro-dealer ward id: " + agroDealer1.getLocation().getWard().getId());
+//                            out.write("<tr class=\"farmer-row\">");
+//                            out.write("<td>" + ++i + "</td>\n"
+//                                    + "<td>" + agroDealer1.getName() + "</td>\n"
+//                                    + "<td>" + agroDealer1.getPersonRole() + "</td>\n"
+//                                    + "<td>" + (agroDealer1.getSex() == null ? "" : agroDealer1.getSex().getSex()) + "</td>\n"
+//                                    + "<td>" + agroDealer1.getNationalId() + "</td>\n"
+//                                    + "<td>" + (agroDealer1.getAge() == null ? "" : agroDealer1.getAge()) + "</td>\n"
+//                                    + "<td>" + agroDealer1.getBusinessName() + "</td>\n");
+//                            out.write("<td>" + (agroDealer1.getLocation() == null ? "" : (agroDealer1.getLocation().getCounty() == null ? "" : agroDealer1.getLocation().getCounty().getName())) + "</td>\n");
+//                            out.write("<td>" + (agroDealer1.getLocation() == null ? "" : (agroDealer1.getLocation().getSubCounty() == null ? "" : agroDealer1.getLocation().getSubCounty().getName())) + "</td>\n");
+//                            out.write("<td>" + (agroDealer1.getLocation() == null ? "" : (agroDealer1.getLocation().getWard() == null ? "" : agroDealer1.getLocation().getWard().getName())) + "</td>\n");
+//                            out.write("<td>" + (agroDealer1.getContact() == null ? "" : agroDealer1.getContact().getPhone()) + "</td>\n");
+//                            out.write("<td>" + (agroDealer1.getContact() == null ? "" : agroDealer1.getContact().getEmail()) + "</td>");
+//                            out.write("<td><button onclick=\"editPerson('" + agroDealer1.getId() + "', '" + agroDealer1.getName() + "', '" + (agroDealer1.getSex() == null ? "" : agroDealer1.getSex().getId()) + "', '" + agroDealer1.getNationalId() + "','" + agroDealer1.getPersonRoleId() + "',\n"
+//                                    + "'" + userDateFormat.format(agroDealer1.getDateOfBirth()) + "', '" + agroDealer1.getBusinessName() + "', '" + (agroDealer1.getFarmerGroup() == null ? "" : agroDealer1.getFarmerGroup().getId()) + "', '" + (agroDealer1.getFarmerSubGroup() == null ? "" : agroDealer1.getFarmerSubGroup().getId()) + "',\n"
+//                                    + "'" + (agroDealer1.getLocation() == null ? "" : agroDealer1.getLocation().getId()) + "','" + (agroDealer1.getLocation() == null ? "" : (agroDealer1.getLocation().getCounty() == null ? "" : agroDealer1.getLocation().getCounty().getId())) + "', '" + (agroDealer1.getLocation() == null ? "" : (agroDealer1.getLocation().getSubCounty() == null ? "" : agroDealer1.getLocation().getSubCounty().getId())) + "', '" + (agroDealer1.getLocation() == null ? "" : (agroDealer1.getLocation().getWard() == null ? "" : agroDealer1.getLocation().getWard().getId())) + "',\n"
+//                                    + "'" + (agroDealer1.getContact() == null ? "" : agroDealer1.getContact().getId()) + "','" + (agroDealer1.getContact() == null ? "" : agroDealer1.getContact().getPhone()) + "', '" + (agroDealer1.getContact() == null ? "" : agroDealer1.getContact().getEmail()) + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>");
+//                            out.write("<td><button onclick=\"deletePerson(" + agroDealer1.getId() + ")\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>");
+//                            out.write("</tr>");
+//                        }
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (Exception e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(e + "<br>");
+                        MilesDebugger.debug(e);
                     }
 
                     return;

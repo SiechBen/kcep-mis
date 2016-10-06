@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : warehouse
     Created on : Jun 23, 2016, 9:46:58 AM
     Author     : siech
@@ -22,12 +22,7 @@
 
     <jsp:attribute name="content">
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Warehouse Operator</h1>
-                </div>
-            </div>
-            <div>         
+            <div>
                 <jsp:invoke fragment="pagecontent" />
             </div>
         </div>

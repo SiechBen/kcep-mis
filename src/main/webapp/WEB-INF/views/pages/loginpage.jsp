@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : loginpage
     Created on : Jun 4, 2016, 8:31:25 AM
     Author     : siech
@@ -33,7 +33,6 @@
                                         <input id="remember" type="checkbox" value="Remember Me"> Remember Me
                                     </label>
                                 </div>
-                                <!-- Change this to a button or input when using this as a form -->
                                 <button id="login-button" class="btn btn-lg btn-success btn-block" onclick="loginUser()">Login</button>
                             </fieldset>
                         </div>

@@ -1,0 +1,185 @@
+/*
+    Created on : Oct 5, 2016, 2:07:39 PM
+    Author     : pato
+*/
+/* Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+
+}
+
+body{
+    font-size: 100%;
+    background: url(../images/dfd) top center no-repeat;
+    font-family: Helvetica Neue, Helvetica, Arial;
+}
+
+.main_container{
+    width: 900px;
+    margin: 100px auto;
+}
+
+.header{
+    width: 940px;
+    float: left;
+}
+
+#wrapper {
+    width: 100%;
+}
+
+a:hover
+{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a.logo{
+    width: 850px;
+    padding-top: 20px;
+    margin: 0 auto;
+    height: 145px;
+    text-align: center;
+    font-size: 31px;
+    color: #fff;
+    display: inherit;
+    background: url(../images/logo_.png) center bottom no-repeat;
+}
+
+a.logo span{
+    display: block;
+    font-size: 10px;
+    font-family: Bell Gothic Std;
+    font-weight: 100;
+    text-transform: uppercase;
+    text-align: left;
+    letter-spacing: 1px;
+}
+
+a:hover.logo{
+    text-decoration: none;
+}
+
+.content{
+    width: 940px;
+    float: left;
+    padding-bottom: 70px;
+    background: url(../images/divider.png) center bottom no-repeat;
+    margin-bottom: 25px;
+}
+
+h1{
+    font-size: 50px;
+    font-weight: bold;
+    line-height: 90px;
+    letter-spacing: -2px;
+    color: #9be892;
+    text-shadow:0px 5px 5px #162647;
+}
+
+h1 span{
+    display: block;
+    font-size: 44px;
+    font-weight: 200;
+    color: #d2e1ff;
+    letter-spacing: 0;
+}
+
+.right_side{
+    width: 376px;
+    float: right;
+    margin-top: 10px;
+}
+
+.right_side p{
+    font-size: 30px;
+    letter-spacing: -1px;
+    color: #fff;
+    font-weight: 200;
+    line-height: 50px;
+}
+
+ul.s_icons{
+    width: 376px;
+    height: 27px;
+    margin-top: 15px;
+}
+
+ul.s_icons li{
+    float: left;
+    background: url(../images/s_icons.png) 0 0 no-repeat;
+    height: 27px;
+}
+
+ul.s_icons li a{
+    display: block;
+    height: 27px;
+}
+
+ul.s_icons li.fb{
+    margin-right: 36px;
+    width: 100px;
+    height: 27px;
+    background-position: 0 0;
+}
+
+ul.s_icons li.fb:hover{
+    background-position: left bottom;
+}
+
+ul.s_icons li.tw{
+    margin-right: 38px;
+    background-position: -136px 0;
+    width: 100px;
+    height: 27px;
+}
+
+ul.s_icons li.tw:hover{
+    background-position: -136px bottom;
+}
+
+ul.s_icons li.in{
+    width: 101px;
+    height: 27px;
+    background-position: -275px 0;
+}
+
+ul.s_icons li.in:hover{
+    background-position: -275px bottom;
+}
+
+.email{
+    width: 643px;
+    margin: 0 auto;
+}
+
+.field{
+    width: 423px;
+    height: 61px;
+    float: left;
+    background: url(../images/field.png) left top no-repeat;
+    border: 0;
+    padding: 0 35px;
+    font-size: 26px;
+    color: #8598bb;
+    font-family: Helvetica Neue, Helvetica, Arial;
+}
+
+.submit{
+    width: 150px;
+    height: 61px;
+    float: left;
+    background: url(../images/submit.png) left top no-repeat;
+    border: none;
+}
+
+.submit:hover{
+    float: left;
+    background: url(../images/submit.png) left bottom no-repeat;
+}
+

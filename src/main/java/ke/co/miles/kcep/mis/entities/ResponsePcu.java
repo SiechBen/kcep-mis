@@ -97,5 +97,4 @@ public class ResponsePcu implements Serializable {
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.ResponsePcu[ id=" + id + " ]";
     }
-
 }

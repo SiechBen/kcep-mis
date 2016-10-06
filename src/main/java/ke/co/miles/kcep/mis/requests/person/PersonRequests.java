@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.County;
@@ -127,7 +126,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
-            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -449,6 +447,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         setQ(em.createNamedQuery("UserAccount.findByPersonRoleId"));
         q.setParameter("personRoleId", personRoleDetail.getId());
+        q.setMaxResults(500);
         List<UserAccount> userAccounts;
         try {
             userAccounts = q.getResultList();
@@ -521,6 +520,62 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         personRoleIds.add(PersonRoleDetail.FARMER.getId());
         personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
         q.setParameter("personRoleIds", personRoleIds);
+
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<PersonDetails> searchFarmer(String name, String nationalId) throws MilesException {
+        if (nationalId != null && nationalId.trim().length() > 0) {
+            setQ(em.createNamedQuery("UserAccount.searchPersonByNationalId"));
+            q.setParameter("personRoleId", PersonRoleDetail.FARMER.getId());
+            q.setParameter("nationalId", "%" + nationalId + "%");
+        } else if (name != null && name.trim().length() > 0) {
+            setQ(em.createNamedQuery("UserAccount.searchPersonByName"));
+            q.setParameter("personRoleId", PersonRoleDetail.FARMER.getId());
+            q.setParameter("name", "%" + name + "%");
+        } else {
+            setQ(em.createNamedQuery("UserAccount.searchPersonByNameOrNationalId"));
+            q.setParameter("personRoleId", PersonRoleDetail.FARMER.getId());
+            q.setParameter("nationalId", "%" + nationalId + "%");
+            q.setParameter("name", "%" + name + "%");
+        }
+
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<PersonDetails> searchAgroDealer(String name, String nationalId) throws MilesException {
+        if (nationalId != null && nationalId.trim().length() > 0) {
+            setQ(em.createNamedQuery("UserAccount.searchPersonByNationalId"));
+            q.setParameter("personRoleId", PersonRoleDetail.AGRO_DEALER.getId());
+            q.setParameter("nationalId", "%" + nationalId + "%");
+        } else if (name != null && name.trim().length() > 0) {
+            setQ(em.createNamedQuery("UserAccount.searchPersonByName"));
+            q.setParameter("personRoleId", PersonRoleDetail.AGRO_DEALER.getId());
+            q.setParameter("name", "%" + name + "%");
+        } else {
+            setQ(em.createNamedQuery("UserAccount.searchPersonByNameOrNationalId"));
+            q.setParameter("personRoleId", PersonRoleDetail.AGRO_DEALER.getId());
+            q.setParameter("nationalId", "%" + nationalId + "%");
+            q.setParameter("name", "%" + name + "%");
+        }
 
         List<UserAccount> userAccounts;
         try {

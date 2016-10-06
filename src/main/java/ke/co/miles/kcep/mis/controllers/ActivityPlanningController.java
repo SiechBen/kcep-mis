@@ -586,7 +586,7 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setFinancialYear(new FinancialYearDetails(
                                 Short.valueOf(request.getParameter("financialYear"))));
                     } catch (NumberFormatException e) {
-                        subActivity.setTotals(null);
+                        subActivity.setFinancialYear(null);
                     }
                     try {
                         subActivity.setComponent(new ComponentDetails(Short.valueOf(
@@ -651,8 +651,6 @@ public class ActivityPlanningController extends Controller {
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setStartDate(date);
                     } catch (Exception ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setStartDate(null);
                     }
@@ -661,8 +659,6 @@ public class ActivityPlanningController extends Controller {
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setEndDate(date);
                     } catch (Exception ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }
@@ -777,7 +773,7 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setFinancialYear(new FinancialYearDetails(
                                 Short.valueOf(request.getParameter("financialYear"))));
                     } catch (NumberFormatException e) {
-                        subActivity.setTotals(null);
+                        subActivity.setFinancialYear(null);
                     }
                     try {
                         subActivity.setComponent(new ComponentDetails(Short.valueOf(
@@ -842,8 +838,6 @@ public class ActivityPlanningController extends Controller {
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setStartDate(date);
                     } catch (Exception ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setStartDate(null);
                     }
@@ -852,8 +846,6 @@ public class ActivityPlanningController extends Controller {
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setEndDate(date);
                     } catch (Exception ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }

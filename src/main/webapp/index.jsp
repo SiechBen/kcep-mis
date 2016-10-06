@@ -1,204 +1,120 @@
-<%-- 
-    Document   : index
-    Created on : Jun 4, 2016, 8:08:24 AM
+<%--
+    Document   : indexx
+    Created on : Oct 5, 2016, 2:09:55 PM
     Author     : siech
 --%>
 
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<kcep:genericpage>
-    <jsp:attribute name="title"> KCEP-MIS </jsp:attribute>
-    <jsp:attribute name="menuitems"></jsp:attribute>
-    <jsp:attribute name="content">
+        <title>KCEP-MIS - welcome</title>
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
+        <link href="static/plugins/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+        <link href="static/plugins/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+        <link href="static/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+        <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
+        <link href="static/css/timeline.css" rel="stylesheet">
+        <link href="static/css/kcep-mis.css" rel="stylesheet">
+        <link href="static/plugins/morrisjs/morris.css" rel="stylesheet">
+        <link href="static/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="static/css/index.css" rel="stylesheet"/>
+
+    </head>
+    <body>
+        <div id="wrapper">
+
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
                 </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages">
+                            <c:forEach var="feedback" items="${applicationScope.latestFeedbackList}">
+                                <li>
+                                    <a onclick="loadAjaxWindow('feedback')">
+                                        <div>
+                                            <strong>${feedback.farmer.name}</strong>
+                                            <span class="pill-right text-muted">
+                                                <em>${feedback.timePosted}</em>
+                                            </span>
+                                        </div>
+                                        <div>${feedback.shortMessage}</div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                            </c:forEach>
+                            <li>
+                                <a class="text-center" onclick="loadAjaxWindow('feedback'')">
+                                    <strong>Read All Messages</strong>
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="userProfile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a onclick="loadAjaxWindow('loginpage')"><i class="fa fa-sign-in fa-fw"></i> Login </a>
+                            <li><a onclick="loadAjaxWindow('logout')"><i class="fa fa-sign-out fa-fw"></i> Logout </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="main_container">
+                <div class="header">
+                    <a class="logo" href="#">--<span>--</span></a>
+                </div>
+                <div class="content">
+                    <h1><center>Welcome to KCEP-MIS</center></h1>
+                </div>
+                <form class="email">
+                    <center>
+                        <input type="text" class="field" onfocus="if (this.value === 'Get Notified (Email Address)')
+                                    this.value = '';" onblur="if (this.value === '' || this.value === ' ')
+                                                this.value = 'Get Notified (Email Address)';" value="Leave a comment to management" />
+                        <input type="button" class="submit" />
+                    </center>
+                </form>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>New Comments!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-red">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+            <div class="dialog" id="message-dialog">
+                <p id="message"></p>
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Action</a>
-                                        </li>
-                                        <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                </div>
-                <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                            </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-4 -->
-            </div>
-            <!-- /.row -->
+
         </div>
-        <!-- /#page-wrapper -->
 
-    </jsp:attribute>
-</kcep:genericpage>
+        <script src="static/plugins/index/cufon-yui.js"></script>
+        <script src="static/plugins/index/Bebas_400.font.js"></script>
+        <script src="static/plugins/index/Bell_Gothic_Std_300.font.js"></script>
+        <script src="static/plugins/jquery/jquery.js"></script>
+        <script src="static/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="static/plugins/i18n/jquery.i18n.properties.min.js"></script>
+        <script src="static/plugins/metisMenu/dist/metisMenu.min.js"></script>
+        <script src="static/plugins/vfs-fonts/vfs_fonts.js"></script>
+        <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
+        <script src="static/plugins/jquery-form/jquery.form.js"></script>
+        <script src="static/plugins/jquery-awesome-cursor/js/jquery.awesome-cursor.min.js"></script>
+        <script src="static/js/actions.js"></script>
+        <script>
+                                        Cufon.replace('a.logo', {fontFamily: 'Bebas'});
+                                        Cufon.replace('a.logo span', {fontFamily: 'Bell Gothic Std'});
+        </script>
+
+    </body>
+</html>

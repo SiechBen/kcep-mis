@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -25,7 +24,6 @@ import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.WarehouseRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
-import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 
 /**
  *
@@ -49,7 +47,6 @@ public class AccessController extends Controller {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
@@ -67,12 +64,11 @@ public class AccessController extends Controller {
                 boolean loggedIn;
                 try {
                     loggedIn = (boolean) session.getAttribute("loggedIn");
+                    if (loggedIn) {
+                        path = (String) session.getAttribute("home");
+                    }
                 } catch (Exception e) {
                     break;
-                }
-
-                if (loggedIn) {
-                    path = (String) session.getAttribute("home");
                 }
 
                 break;
@@ -125,42 +121,49 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("farmerSession", true);
                             session.setAttribute("home", "/farmer");
+                            session.setAttribute("userTitle", ": Farmer");
                             break;
 
                         case "Agro-dealer":
                             rightsMaps.clear();
                             rightsMaps.put("agroDealerSession", true);
                             session.setAttribute("home", "/agro_dealer");
+                            session.setAttribute("userTitle", ": Agro-dealer");
                             break;
 
                         case "WAO (Ward Extension Officer)":
                             rightsMaps.clear();
                             rightsMaps.put("waoSession", true);
                             session.setAttribute("home", "/ward");
+                            session.setAttribute("userTitle", ": Ward Agricultural Officer(WAO)");
                             break;
 
                         case "KALRO Officer":
                             rightsMaps.clear();
                             rightsMaps.put("kalroSession", true);
                             session.setAttribute("home", "/kalro");
+                            session.setAttribute("userTitle", ": KALRO Officer");
                             break;
 
                         case "County Officer":
                             rightsMaps.clear();
                             rightsMaps.put("countyDeskOfficerSession", true);
                             session.setAttribute("home", "/county");
+                            session.setAttribute("userTitle", ": County Desk Officer");
                             break;
 
                         case "Sub-county Officer":
                             rightsMaps.clear();
                             rightsMaps.put("subCountyDeskOfficerSession", true);
                             session.setAttribute("home", "/sub_county");
+                            session.setAttribute("userTitle", ": Sub-county Agricultural Officer(SCAO)");
                             break;
 
                         case "Regional Coordinator":
                             rightsMaps.clear();
                             rightsMaps.put("regionalCoordinatorSession", true);
                             session.setAttribute("home", "/region");
+                            session.setAttribute("userTitle", ": Regional Project Coordinator");
                             break;
 
                         case "National Officer":
@@ -171,8 +174,10 @@ public class AccessController extends Controller {
 
                             if (personRole.getPersonRole().equals("National Officer")) {
                                 rightsMaps.put("nationalOfficerSession", true);
+                                session.setAttribute("userTitle", ": PCU Project Coordinator");
                             } else {
                                 rightsMaps.put("systemAdminSession", true);
+                                session.setAttribute("userTitle", ": System Admin");
                             }
 
                             break;
@@ -181,33 +186,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("equityPersonnelSession", true);
                             session.setAttribute("home", "/equity");
-                            break;
-
-                        case "Warehouse Operator":
-                            rightsMaps.clear();
-
-                            try {
-                                WarehouseDetails warehouse = warehouseService.retrieveWarehouse(person.getId());
-                                if (warehouse == null) {
-                                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                    response.setContentType("text/html;charset=UTF-8");
-                                    response.getWriter().write(getBundle().getString("error_008_04"));
-                                    LOGGER.log(Level.INFO, getBundle().getString("error_008_04"));
-                                    return;
-                                }
-
-                                session.setAttribute("warehouse", warehouse);
-
-                            } catch (MilesException ex) {
-                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                                response.setContentType("text/html;charset=UTF-8");
-                                response.getWriter().write(getBundle().getString(ex.getCode()));
-                                LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                                return;
-                            }
-
-                            rightsMaps.put("warehouseOperatorSession", true);
-
+                            session.setAttribute("userTitle", ": Equity Agent");
                             break;
 
                         default:

@@ -204,4 +204,22 @@ public interface PersonRequestsLocal {
      */
     public List<PersonDetails> retrieveNonFarmersAndNonAgroDealers() throws MilesException;
 
+    /**
+     *
+     * @param name the name of the farmer
+     * @param nationalId the national id of the farmer
+     * @return the list of non-agro-dealers and non-farmers retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> searchFarmer(String name, String nationalId) throws MilesException;
+
+    /**
+     *
+     * @param name the name of the farmer
+     * @param nationalId the national id of the farmer
+     * @return the list of non-agro-dealers and non-farmers retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> searchAgroDealer(String name, String nationalId) throws MilesException;
+
 }

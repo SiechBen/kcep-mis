@@ -3,9 +3,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,13 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -55,9 +51,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
-    @JoinColumn(name = "expected_outcome", referencedColumnName = "id")
-    @ManyToOne
-    private Phenomenon expectedOutcome;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -104,6 +97,9 @@ public class SubActivity implements Serializable {
     private Double euPercentage;
     @Column(name = "financial_institution_percentage")
     private Double financialInstitutionPercentage;
+    @JoinColumn(name = "response_pcu", referencedColumnName = "id")
+    @ManyToOne
+    private ResponsePcu responsePcu;
     @JoinColumn(name = "activity_name", referencedColumnName = "id")
     @ManyToOne
     private ActivityName activityName;
@@ -125,17 +121,15 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "gfss_code", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon gfssCode;
-    @JoinColumn(name = "response_pcu", referencedColumnName = "id")
+    @JoinColumn(name = "expected_outcome", referencedColumnName = "id")
     @ManyToOne
-    private ResponsePcu responsePcu;
+    private Phenomenon expectedOutcome;
     @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
     @ManyToOne
     private SubActivityName subActivityName;
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
     @ManyToOne
     private FinancialYear financialYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
-    private List<AnnualIndicator> annualIndicatorList;
 
     public SubActivity() {
     }
@@ -288,6 +282,14 @@ public class SubActivity implements Serializable {
         this.financialInstitutionPercentage = financialInstitutionPercentage;
     }
 
+    public ResponsePcu getResponsePcu() {
+        return responsePcu;
+    }
+
+    public void setResponsePcu(ResponsePcu responsePcu) {
+        this.responsePcu = responsePcu;
+    }
+
     public ActivityName getActivityName() {
         return activityName;
     }
@@ -344,12 +346,12 @@ public class SubActivity implements Serializable {
         this.gfssCode = gfssCode;
     }
 
-    public ResponsePcu getResponsePcu() {
-        return responsePcu;
+    public Phenomenon getExpectedOutcome() {
+        return expectedOutcome;
     }
 
-    public void setResponsePcu(ResponsePcu responsePcu) {
-        this.responsePcu = responsePcu;
+    public void setExpectedOutcome(Phenomenon expectedOutcome) {
+        this.expectedOutcome = expectedOutcome;
     }
 
     public SubActivityName getSubActivityName() {
@@ -366,15 +368,6 @@ public class SubActivity implements Serializable {
 
     public void setFinancialYear(FinancialYear financialYear) {
         this.financialYear = financialYear;
-    }
-
-    @XmlTransient
-    public List<AnnualIndicator> getAnnualIndicatorList() {
-        return annualIndicatorList;
-    }
-
-    public void setAnnualIndicatorList(List<AnnualIndicator> annualIndicatorList) {
-        this.annualIndicatorList = annualIndicatorList;
     }
 
     @Override
@@ -399,15 +392,7 @@ public class SubActivity implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
-    }
-
-    public Phenomenon getExpectedOutcome() {
-        return expectedOutcome;
-    }
-
-    public void setExpectedOutcome(Phenomenon expectedOutcome) {
-        this.expectedOutcome = expectedOutcome;
+        return "ke.co.miles.kcep.mis.entities.SubActivity_1[ id=" + id + " ]";
     }
 
 }
