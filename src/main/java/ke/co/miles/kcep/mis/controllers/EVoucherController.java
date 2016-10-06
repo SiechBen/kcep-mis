@@ -130,7 +130,7 @@ public class EVoucherController extends Controller {
                 case "/equity_farmers":
                 case "/head_farmers":
 
-                    if (session.getAttribute("searchFunction") == null || (session.getAttribute("farmers") != null && (!(Boolean) session.getAttribute("searchFunction")))) {
+                    if (session.getAttribute("farmerSearchFunction") == null || (session.getAttribute("farmerSearchFunction") != null && !((Boolean) session.getAttribute("farmerSearchFunction")))) {
                         HashMap<String, Integer> countMap;
                         try {
                             countMap = personService.countAllFarmersAndAgrodealers();
@@ -188,20 +188,31 @@ public class EVoucherController extends Controller {
 
                         try {
                             session.setAttribute("farmers", personService.retrieveFarmers());
-                            session.setAttribute("searchFunction", false);
+                            session.setAttribute("farmerSearchFunction", false);
                         } catch (MilesException ex) {
                             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                             response.getWriter().write(getBundle().getString(ex.getCode()));
                             LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                             return;
                         }
+                    } else {
+                        int farmerSearchTimes = 0;
+                        if (session.getAttribute("farmerSearchTimes") == null) {
+                            farmerSearchTimes = 1;
+                        } else if ((int) session.getAttribute("farmerSearchTimes") >= 2) {
+                            session.setAttribute("farmerSearchFunction", false);
+                            session.setAttribute("farmerSearchTimes", null);
+                        } else {
+                            farmerSearchTimes = ((int) session.getAttribute("farmerSearchTimes"));
+                        }
+                        session.setAttribute("farmerSearchTimes", ++farmerSearchTimes);
                     }
 
                     break;
 
                 case "/equity_agro_dealers":
                 case "/head_agro_dealers":
-                    if (session.getAttribute("searchFunction") == null || (session.getAttribute("farmers") != null && (!(Boolean) session.getAttribute("searchFunction")))) {
+                    if (session.getAttribute("agroDealerSearchFunction") == null || (session.getAttribute("agroDealerSearchFunction") != null && !((Boolean) session.getAttribute("agroDealerSearchFunction")))) {
                         try {
                             HashMap<String, Integer> countMap = personService.countAllFarmersAndAgrodealers();
                             int femaleYouth = 0;
@@ -258,13 +269,24 @@ public class EVoucherController extends Controller {
 
                         try {
                             session.setAttribute("agroDealers", personService.retrieveAgroDealers());
-                            session.setAttribute("searchFunction", false);
+                            session.setAttribute("agroDealerSearchFunction", false);
                         } catch (MilesException ex) {
                             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                             response.getWriter().write(getBundle().getString(ex.getCode()));
                             LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
                             return;
                         }
+                    } else {
+                        int agroDealerSearchTimes = 0;
+                        if (session.getAttribute("agroDealerSearchTimes") == null) {
+                            agroDealerSearchTimes = 1;
+                        } else if ((int) session.getAttribute("agroDealerSearchTimes") >= 2) {
+                            session.setAttribute("farmerSearchFunction", false);
+                            session.setAttribute("agroDealerSearchTimes", null);
+                        } else {
+                            agroDealerSearchTimes = ((int) session.getAttribute("agroDealerSearchTimes"));
+                        }
+                        session.setAttribute("agroDealerSearchTimes", ++agroDealerSearchTimes);
                     }
 
                     break;
