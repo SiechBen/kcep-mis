@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
@@ -168,6 +169,7 @@ public class TrainingController extends Controller {
                                 Integer.valueOf(request.getParameter("trainerId")));
                         session.setAttribute("trainingModules", trainingModules);
                         if (trainingModules.isEmpty()) {
+                            MilesDebugger.debug("No modules");
                             trainingModules = topicService.retrieveTrainingModules();
                             session.setAttribute("trainingModules", trainingModules);
                         }

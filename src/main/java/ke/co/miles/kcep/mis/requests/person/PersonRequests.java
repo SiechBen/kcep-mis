@@ -447,7 +447,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         setQ(em.createNamedQuery("UserAccount.findByPersonRoleId"));
         q.setParameter("personRoleId", personRoleDetail.getId());
-        q.setMaxResults(500);
+        q.setMaxResults(200);
         List<UserAccount> userAccounts;
         try {
             userAccounts = q.getResultList();

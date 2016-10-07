@@ -218,8 +218,9 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         Calendar calendar = Calendar.getInstance();
         short year = Short.valueOf(String.valueOf(projectYear == null ? calendar.get(Calendar.YEAR) : projectYear));
 
-        setQ(em.createNativeQuery("SELECT * FROM performance_indicator_values pv INNER JOIN performance_indicator p ON (pv.performance_indicator = p.id) INNER JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE r.description REGEXP ?1 AND pv.project_year = ?2 AND pv.purpose = ?3", PerformanceIndicatorValues.class));
+        setQ(em.createNativeQuery("SELECT * FROM performance_indicator_values pv INNER JOIN performance_indicator p ON (pv.performance_indicator = p.id) INNER JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE r.description REGEXP ?1 OR r.description REGEXP ?4 AND pv.project_year = ?2 AND pv.purpose = ?3", PerformanceIndicatorValues.class));
         q.setParameter(1, "^Outcome ");
+        q.setParameter(4, "^Programme ");
         q.setParameter(2, year);
         q.setParameter(3, "Outcome report");
         List<PerformanceIndicatorValues> orderedList = new ArrayList<>();
