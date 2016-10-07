@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.requests.farmer.loan;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -27,8 +28,9 @@ import ke.co.miles.kcep.mis.utilities.LoanDetails;
 @Stateless
 public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
 
-//<editor-fold defaultstate="collapsed" desc="Create">  
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
+    @SuppressWarnings("unchecked")
     public int addLoan(LoanDetails loanDetails) throws MilesException {
 
         if (loanDetails == null) {
@@ -37,6 +39,22 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
             throw new InvalidArgumentException("error_046_02");
         } else if (loanDetails.getType() != null && loanDetails.getType().trim().length() > 45) {
             throw new InvalidArgumentException("error_046_03");
+        }
+
+        //find previous loan for this person
+        setQ(em.createNamedQuery("Loan.findByAccountId"));
+        q.setParameter("accountId", loanDetails.getAccount().getId());
+        try {
+            List<Loan> loans;
+            loans = q.getResultList();
+            if (loans.isEmpty()) {
+                setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                q.setParameter(1, 1);
+                q.setParameter(2, 11);
+                q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                q.executeUpdate();
+            }
+        } catch (Exception e) {
         }
 
         Loan loan = new Loan();
@@ -140,7 +158,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
     }
 
 //</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="Convert"> 
+//<editor-fold defaultstate="collapsed" desc="Convert">
     @Override
     public LoanDetails convertLoanToLoanDetails(Loan loan) {
 

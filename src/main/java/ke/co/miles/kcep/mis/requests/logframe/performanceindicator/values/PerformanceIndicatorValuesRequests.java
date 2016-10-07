@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -67,7 +66,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 } catch (Exception e) {
                     throw new InvalidStateException("error_000_01");
                 }
-                MilesDebugger.debug("adding");
                 outcomeIndicatorValues = new PerformanceIndicatorValues();
                 outcomeIndicatorValues.setProjectYear(year);
                 outcomeIndicatorValues.setPurpose("Outcome report");
@@ -75,7 +73,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 try {
                     em.persist(outcomeIndicatorValues);
                 } catch (Exception e) {
-                    MilesDebugger.debug(e);
                     throw new InvalidStateException("error_000_01");
                 }
             }
@@ -83,7 +80,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             em.flush();
 
         } catch (Exception e) {
-            MilesDebugger.debug(e);
         }
 
     }
@@ -186,7 +182,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }
         } catch (Exception e) {
-            MilesDebugger.debug(e);
         }
 
         return map;

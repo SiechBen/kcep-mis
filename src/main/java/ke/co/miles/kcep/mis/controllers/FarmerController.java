@@ -698,7 +698,7 @@ public class FarmerController extends Controller {
         for (InputsCollectionDetails inputsCollection : inputsCollections) {
             out.write("<tr>");
             out.write("<td>" + ++index + "</td>");
-            out.write("<td>" + inputsCollection.getDateCollected() + "</td>");
+            out.write("<td>" + userDateFormat.format(inputsCollection.getDateCollected()) + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getName() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getBusinessName() + "</td>");
             try {

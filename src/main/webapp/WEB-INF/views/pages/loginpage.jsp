@@ -11,6 +11,9 @@
 <kcep:genericpage>
     <jsp:attribute name="title"> KCEP-MIS - login </jsp:attribute>
     <jsp:attribute name="menuitems"></jsp:attribute>
+    <jsp:attribute name="styles">
+        <link href="static/plugins/password/css/password.css" rel="stylesheet">
+    </jsp:attribute>
     <jsp:attribute name="content">
 
         <div class="container">
@@ -26,7 +29,7 @@
                                     <input class="form-control" id="username" placeholder="E-mail" type="email" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" id="password" placeholder="Password" type="password" value="" required>
+                                    <input class="form-control" id="password" placeholder="Password" type="password" required>
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -41,5 +44,11 @@
             </div>
         </div>
 
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
+        <script src="static/plugins/password/js/modernizr.custom.js"></script>
+        <script src="static/plugins/password/js/zepto.custom.js"></script>
+        <script src="static/plugins/password/js/password.min.js"></script>
+        <script src="static/plugins/password/js/password.custom.js"></script>
     </jsp:attribute>
 </kcep:genericpage>

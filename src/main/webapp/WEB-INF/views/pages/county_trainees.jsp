@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : county_trainees
     Created on : Jun 29, 2016, 11:06:43 AM
     Author     : siech
@@ -9,7 +9,7 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:county>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - view people </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - view trainees </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/trainees.jsp"/>

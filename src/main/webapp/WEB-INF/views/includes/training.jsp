@@ -17,7 +17,7 @@
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <label hidden id="add-label">addTraining</label>
-                    <table id="training-table" class="table table-striped table-bordered table-hover data-table">
+                    <table id="training-table" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
@@ -47,7 +47,7 @@
                                     <td>${index.count}</td>
                                     <td><fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/></td>
                                     <td><fmt:formatDate pattern="MM/dd/yyyy" value="${training.endDate}"/></td>
-                                    <td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="<c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}" varStatus="i">${i.count}. ${trainer.phenomenon.category.name} </c:forEach>">
                                         <c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}">
                                             ${trainer.phenomenon.category.name}
                                         </c:forEach>

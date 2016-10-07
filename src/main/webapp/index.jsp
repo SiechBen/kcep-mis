@@ -110,10 +110,24 @@
         <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
         <script src="static/plugins/jquery-awesome-cursor/js/jquery.awesome-cursor.min.js"></script>
-        <script src="static/js/actions.js"></script>
         <script>
                                         Cufon.replace('a.logo', {fontFamily: 'Bebas'});
                                         Cufon.replace('a.logo span', {fontFamily: 'Bell Gothic Std'});
+                                        function loadAjaxWindow(target) {
+                                            $.ajax({
+                                                url: target,
+                                                type: "POST",
+                                                data: null,
+                                                success: function () {
+                                                    window.location = target;
+                                                    return;
+                                                },
+                                                error: function (response) {
+                                                    showError("error_label", response.responseText);
+                                                },
+                                                dataType: "HTML"
+                                            });
+                                        }
         </script>
 
     </body>

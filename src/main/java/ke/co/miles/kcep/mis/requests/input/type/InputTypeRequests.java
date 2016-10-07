@@ -22,7 +22,7 @@ import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 @Stateless
 public class InputTypeRequests extends EntityRequests implements InputTypeRequestsLocal {
 
-//<editor-fold defaultstate="collapsed" desc="Create">  
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     public int addInputType(InputTypeDetails inputTypeDetails) throws MilesException {
 
@@ -115,15 +115,16 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
     }
 
 //</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="Convert"> 
+//<editor-fold defaultstate="collapsed" desc="Convert">
     @Override
     public InputTypeDetails convertInputTypeToInputTypeDetails(InputType inputType) {
 
-        InputTypeDetails inputTypeDetails = new InputTypeDetails(inputType.getId());
-        inputTypeDetails.setType(inputType.getType());
-
-        return inputTypeDetails;
-
+        if (inputType != null) {
+            InputTypeDetails inputTypeDetails = new InputTypeDetails(inputType.getId());
+            inputTypeDetails.setType(inputType.getType());
+            return inputTypeDetails;
+        }
+        return null;
     }
 
     private List<InputTypeDetails> convertInputTypesToInputTypeDetailsList(List<InputType> inputTypes) {

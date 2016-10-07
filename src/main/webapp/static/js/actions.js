@@ -108,7 +108,7 @@ $(function () {
                         resizable: false,
                         modal: false,
                         buttons: {
-                            "Search": function () {
+                            "Save": function () {
                                 $("#message").text("Are you sure you want to add this project year?\nThis action is irreversible.");
                                 $("#message-dialog").dialog({
                                     width: 495,
@@ -180,6 +180,7 @@ $(function () {
             }]
     });
 });
+
 $(function () {
     $(".indicator-report-table").DataTable({
         responsive: true,
@@ -250,6 +251,50 @@ $(function () {
                     loadAjaxWindow($("#add-label").text());
                 }
             },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
+
+$(function () {
+    $("#training-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }],
+        columnDefs: [{
+                targets: 3,
+                render: function (data, type) {
+                    return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
+                }
+            }]
+    });
+});
+
+$(function () {
+    $(".farm-data-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
             'excel',
             {
                 extend: 'colvis',
@@ -354,7 +399,7 @@ $(function () {
                                     success: function () {
                                         $("#search-national-id").val("");
                                         $("#search-name").val("");
-                                        loadAjaxWindow("agroDealers")
+                                        loadAjaxWindow("agroDealers");
                                     },
                                     error: function (response) {
                                         showError("error_label", response.responseText);
@@ -491,11 +536,6 @@ function calculatePostHarvestLoss() {
     if (quantitySold.trim() === "") {
         quantitySold = 0;
     }
-    console.log(quantityHarvested);
-    console.log(quantitySold);
-    console.log(familyConsumption);
-    console.log(parseFloat(quantityHarvested) - (parseFloat(familyConsumption) + parseFloat(quantitySold)));
-    console.log("");
     $("#post-harvest-loss").val((parseFloat(quantityHarvested) -
             (parseFloat(familyConsumption) + parseFloat(quantitySold))).toFixed(2));
 }

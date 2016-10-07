@@ -17,6 +17,7 @@
 <%--The js scripts in to be used--%>
 <%@attribute name="scripts" required="false" %>
 
+<%@attribute name="styles" required="false" %>
 <%-- The list of fragments:--%>
 <%@attribute name="content" fragment="true"%>
 
@@ -42,6 +43,7 @@
         <link href="static/plugins/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
         <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
         <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
+        ${styles}
         <link href="static/css/timeline.css" rel="stylesheet">
         <link href="static/css/kcep-mis.css" rel="stylesheet">
         <link href="static/plugins/morrisjs/morris.css" rel="stylesheet">
@@ -122,9 +124,9 @@
                                 </div>
                                 <!-- /input-group -->
                             </li>
-                            <li>
-                                <a href="#" onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
-                            </li>
+                            <!--                            <li>
+                                                            <a href="#" onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+                                                        </li>-->
                             ${menuitems}
 
                         </ul>

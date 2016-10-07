@@ -35,7 +35,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="farm">
                         <h4>Farm Details</h4>
-                        <table id="farm-table" class="table table-striped table-bordered table-hover data-table">
+                        <table id="farm-table" class="table table-striped table-bordered table-hover farm-data-table">
                             <tr>
                                 <th>Plot Size</th>
                                 <td>${sessionScope.farmer.plotSize}</td>
@@ -73,7 +73,7 @@
                         <div class="float-right">
                             <button onclick="editAccount('${sessionScope.account.accountNumber}', '${sessionScope.account.eblBranch.id}', '${sessionScope.account.solId}', '${sessionScope.account.savings}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
                         </div>
-                        <table id="account-table" class="table table-striped table-bordered table-hover data-table">
+                        <table id="account-table" class="table table-striped table-bordered table-hover farm-data-table">
                             <tr>
                                 <th>Account Number</th>
                                 <td>${sessionScope.account.accountNumber}</td>
@@ -94,11 +94,10 @@
                     </div>
                     <div class="tab-pane fade" id="loan">
                         <h4>Loan Details</h4>
-                        <label hidden id="add-label">addLoan</label>
-                        <table id="loan-table" class="table table-striped table-bordered table-hover data-table">
+                        <table id="loan-table" class="table table-striped table-bordered table-hover farm-data-table">
                             <thead>
                                 <tr>
-                                    <th>&nbsp;</th>
+                                    <th><button type="button" class="btn btn-outline btn-primary" onclick="addLoan(); return false;">Add</button></th>
                                     <th>Loan Amount</th>
                                     <th>Loan Type</th>
                                     <th>Account Number</th>
@@ -120,7 +119,7 @@
                     </div>
                     <div class="tab-pane fade" id="inputs">
                         <h4>Inputs Collection</h4>
-                        <table id="inputs-collection-table" class="table table-striped table-bordered table-hover data-table">
+                        <table id="inputs-collection-table" class="table table-striped table-bordered table-hover farm-data-table">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addInputsCollection(); return false;">Add</button></th>
@@ -137,7 +136,7 @@
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
                                     <tr>
                                         <td>${index.count}</td>
-                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${inputsCollection.dateDone}"/></td>
+                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${inputsCollection.dateCollected}"/></td>
                                         <td>${inputsCollection.agroDealer.name}</td>
                                         <td>${inputsCollection.agroDealer.businessName}</td>
                                         <td>${inputsCollection.inputType.type}</td>
@@ -151,7 +150,7 @@
                     </div>
                     <div class="tab-pane fade" id="farm-activities">
                         <h4>Farm activity</h4>
-                        <table id="farm-activity-table" class="table table-striped table-bordered table-hover data-table">
+                        <table id="farm-activity-table" class="table table-striped table-bordered table-hover farm-data-table">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addFarmActivity(); return false;">Add</button></th>

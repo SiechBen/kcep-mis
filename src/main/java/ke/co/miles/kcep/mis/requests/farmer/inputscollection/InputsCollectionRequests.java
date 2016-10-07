@@ -6,9 +6,11 @@
 package ke.co.miles.kcep.mis.requests.farmer.inputscollection;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
 import ke.co.miles.kcep.mis.entities.InputVariety;
@@ -33,6 +35,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
+    @SuppressWarnings("unchecked")
     public int addInputsCollection(InputsCollectionDetails inputsCollectionDetails) throws MilesException {
 
         if (inputsCollectionDetails == null) {
@@ -43,6 +46,24 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             throw new InvalidArgumentException("error_047_03");
         } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
             throw new InvalidArgumentException("error_047_05");
+        }
+
+        //find previous inputs collection for this farmer
+        setQ(em.createNamedQuery("InputsCollection.findByFarmerId"));
+        q.setParameter("farmerId", inputsCollectionDetails.getFarmer().getId());
+        try {
+            List<InputsCollection> inputsCollections;
+            inputsCollections = q.getResultList();
+            if (inputsCollections.isEmpty()) {
+                setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                q.setParameter(1, 1);
+                q.setParameter(2, 17);
+                q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                q.executeUpdate();
+                MilesDebugger.debug("C4 charges set, ready to blow");
+                MilesDebugger.debug();
+            }
+        } catch (Exception e) {
         }
 
         InputsCollection inputsCollection = new InputsCollection();
@@ -56,7 +77,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         if (inputsCollectionDetails.getStaticInput() != null) {
             inputsCollection.setStaticInput(em.getReference(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
         }
-        if (inputsCollectionDetails.getInputVariety()!= null) {
+        if (inputsCollectionDetails.getInputVariety() != null) {
             inputsCollection.setInputVariety(em.getReference(InputVariety.class, inputsCollectionDetails.getInputVariety().getId()));
         }
 
@@ -117,7 +138,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         if (inputsCollectionDetails.getStaticInput() != null) {
             inputsCollection.setStaticInput(em.getReference(StaticInput.class, inputsCollectionDetails.getStaticInput().getId()));
         }
-        if (inputsCollectionDetails.getInputVariety()!= null) {
+        if (inputsCollectionDetails.getInputVariety() != null) {
             inputsCollection.setInputVariety(em.getReference(InputVariety.class, inputsCollectionDetails.getInputVariety().getId()));
         }
 

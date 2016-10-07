@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -86,7 +87,29 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                         } catch (Exception e) {
                         }
                         break;
+                    case 70:
+                    case 71:
+                    case 72:
+                        try {
+                            setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                            q.setParameter(1, training.getNumberOfTrainees());
+                            q.setParameter(2, 25);
+                            q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                            q.executeUpdate();
+                            MilesDebugger.debug();
+                        } catch (Exception e) {
+                        }
+                        break;
                     case 4:
+                        try {
+                            setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                            q.setParameter(1, training.getNumberOfTrainees());
+                            q.setParameter(2, 25);
+                            q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                            q.executeUpdate();
+                            MilesDebugger.debug();
+                        } catch (Exception e) {
+                        }
                         try {
                             setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
                             q.setParameter(1, training.getNumberOfTrainees());
@@ -111,6 +134,17 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         }
 
         if (training.getTopic() != null) {
+            if (training.getTopic().getId() == 6 || training.getTopic().getId() == 7 || training.getTopic().getId() == 16 || training.getTopic().getId() == 17 || training.getTopic().getId() == 18 || training.getTopic().getId() == 19) {
+                try {
+                    setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                    q.setParameter(1, training.getNumberOfTrainees());
+                    q.setParameter(2, 26);
+                    q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                    q.executeUpdate();
+                    MilesDebugger.debug();
+                } catch (Exception e) {
+                }
+            }
             if (training.getTopic().getId() == 10) {
                 try {
                     setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
