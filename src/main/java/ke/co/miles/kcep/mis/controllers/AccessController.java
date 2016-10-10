@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.warehouse.WarehouseRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
@@ -145,6 +144,13 @@ public class AccessController extends Controller {
                             session.setAttribute("userTitle", ": KALRO Officer");
                             break;
 
+                        case "AGMARK Officer":
+                            rightsMaps.clear();
+                            rightsMaps.put("agmarkSession", true);
+                            session.setAttribute("home", "/agmark");
+                            session.setAttribute("userTitle", ": AGMARK Officer");
+                            break;
+
                         case "County Officer":
                             rightsMaps.clear();
                             rightsMaps.put("countyDeskOfficerSession", true);
@@ -244,7 +250,5 @@ public class AccessController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(AccessController.class.getSimpleName());
     @EJB
     private PersonRequestsLocal personService;
-    @EJB
-    private WarehouseRequestsLocal warehouseService;
 
 }

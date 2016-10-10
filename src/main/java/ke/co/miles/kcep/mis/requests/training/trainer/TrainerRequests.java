@@ -188,7 +188,18 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveKalroTrainings() throws MilesException {
 
         List<Integer> phenomenonIds = new ArrayList<>();
-        phenomenonIds.add(13);
+        phenomenonIds.add(11);
+
+        return retrieveTrainingsMap(retrieveTrainers(phenomenonIds));
+
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveAgmarkTrainings() throws MilesException {
+
+        List<Integer> phenomenonIds = new ArrayList<>();
+        phenomenonIds.add(5);
 
         return retrieveTrainingsMap(retrieveTrainers(phenomenonIds));
 

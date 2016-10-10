@@ -43,8 +43,6 @@ public class PersonRole implements Serializable {
     @Column(name = "person_role")
     private String personRole;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
-    private List<ImplementingPartner> implementingPartnerList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personRole")
     private List<UserAccount> userAccountList;
 
     public PersonRole() {
@@ -73,15 +71,6 @@ public class PersonRole implements Serializable {
 
     public void setPersonRole(String personRole) {
         this.personRole = personRole;
-    }
-
-    @XmlTransient
-    public List<ImplementingPartner> getImplementingPartnerList() {
-        return implementingPartnerList;
-    }
-
-    public void setImplementingPartnerList(List<ImplementingPartner> implementingPartnerList) {
-        this.implementingPartnerList = implementingPartnerList;
     }
 
     @XmlTransient

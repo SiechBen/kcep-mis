@@ -27,26 +27,20 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.annualindicator.AnnualIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
-import ke.co.miles.kcep.mis.utilities.AnnualIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
-import ke.co.miles.kcep.mis.utilities.ImplementingPartnerDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
-import ke.co.miles.kcep.mis.utilities.ResponsePcuDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
 import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
@@ -416,15 +410,6 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("subActivityMap", annualIndicatorService.retrieveSubActivities());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    try {
                         session.setAttribute("subActivityNames", subActivityNameService.retrieveSubActivityNames());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -456,9 +441,16 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("responsePcuList", responsePcuService.retrieveResponsePcuList());
+                        session.setAttribute("responsePCUList", phenomenonService.retrieveResponsePCUList());
                     } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of the list of response pcu", ex);
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of list of response PCU", ex);
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("annualIndicators", phenomenonService.retrieveAnnualIndicators());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of annual indicators", ex);
                         return;
                     }
 
@@ -470,10 +462,9 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("implementingPartners", implementingPartnerService.retrieveImplementingPartners());
+                        session.setAttribute("implementingPartners", phenomenonService.retrieveImplementingPartners());
                     } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE,
-                                "An error occurred during retrieval of implementing partners", ex);
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of implementing partners", ex);
                         return;
                     }
 
@@ -607,8 +598,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setSubComponent(null);
                     }
                     try {
-                        subActivity.setResponsePcu(new ResponsePcuDetails(
-                                Short.valueOf(request.getParameter("responsePcu"))));
+                        subActivity.setResponsePcu(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("responsePcu"))));
                     } catch (Exception e) {
                         subActivity.setResponsePcu(null);
                     }
@@ -625,8 +616,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setExpenditureCategory(null);
                     }
                     try {
-                        subActivity.setImplementingPartner(new ImplementingPartnerDetails(
-                                Short.valueOf(request.getParameter("implementingPartner"))));
+                        subActivity.setImplementingPartner(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("implementingPartner"))));
                     } catch (Exception e) {
                         subActivity.setImplementingPartner(null);
                     }
@@ -639,6 +630,12 @@ public class ActivityPlanningController extends Controller {
                     try {
                         subActivity.setMeasurementUnit(new MeasurementUnitDetails(
                                 Short.valueOf(request.getParameter("measurementUnit"))));
+                    } catch (Exception e) {
+                        subActivity.setMeasurementUnit(null);
+                    }
+                    try {
+                        subActivity.setAnnualIndicator(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("annualIndicator"))));
                     } catch (Exception e) {
                         subActivity.setMeasurementUnit(null);
                     }
@@ -662,30 +659,7 @@ public class ActivityPlanningController extends Controller {
                         LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }
-                    String[] annualIndicatorIds = String.valueOf(request.getParameter("annualIndicatorIds")).split("-");
-                    AnnualIndicatorDetails annualIndicatorRecord;
-                    List<AnnualIndicatorDetails> annualIndicatorRecords = new ArrayList<>();
 
-                    try {
-                        subActivity.setId(subActivityService.addSubActivity(subActivity));
-                        for (String annualIndicatorId : annualIndicatorIds) {
-                            PerformanceIndicatorDetails performanceIndicator = new PerformanceIndicatorDetails();
-                            annualIndicatorRecord = new AnnualIndicatorDetails();
-                            try {
-                                performanceIndicator.setId(Short.valueOf(annualIndicatorId));
-                                annualIndicatorRecord.setPerformanceIndicator(performanceIndicator);
-                                annualIndicatorRecord.setSubActivity(subActivity);
-                                annualIndicatorRecords.add(annualIndicatorRecord);
-                            } catch (Exception e) {
-                            }
-                        }
-                        annualIndicatorService.addAnnualIndicators(annualIndicatorRecords);
-
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, "", ex);
-                    }
                     return;
 
                 case "/doEditSubActivity":
@@ -794,8 +768,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setSubComponent(null);
                     }
                     try {
-                        subActivity.setResponsePcu(new ResponsePcuDetails(
-                                Short.valueOf(request.getParameter("responsePcu"))));
+                        subActivity.setResponsePcu(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("responsePcu"))));
                     } catch (Exception e) {
                         subActivity.setResponsePcu(null);
                     }
@@ -812,8 +786,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setExpenditureCategory(null);
                     }
                     try {
-                        subActivity.setImplementingPartner(new ImplementingPartnerDetails(
-                                Short.valueOf(request.getParameter("implementingPartner"))));
+                        subActivity.setImplementingPartner(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("implementingPartner"))));
                     } catch (Exception e) {
                         subActivity.setImplementingPartner(null);
                     }
@@ -826,6 +800,12 @@ public class ActivityPlanningController extends Controller {
                     try {
                         subActivity.setMeasurementUnit(new MeasurementUnitDetails(
                                 Short.valueOf(request.getParameter("measurementUnit"))));
+                    } catch (Exception e) {
+                        subActivity.setMeasurementUnit(null);
+                    }
+                    try {
+                        subActivity.setAnnualIndicator(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("annualIndicator"))));
                     } catch (Exception e) {
                         subActivity.setMeasurementUnit(null);
                     }
@@ -917,8 +897,6 @@ public class ActivityPlanningController extends Controller {
     @EJB
     private PhenomenonRequestsLocal phenomenonService;
     @EJB
-    private ResponsePcuRequestsLocal responsePcuService;
-    @EJB
     private SubActivityRequestsLocal subActivityService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
@@ -927,15 +905,11 @@ public class ActivityPlanningController extends Controller {
     @EJB
     private FinancialYearRequestsLocal financialYearService;
     @EJB
-    private AnnualIndicatorRequestsLocal annualIndicatorService;
-    @EJB
     private SubActivityNameRequestsLocal subActivityNameService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
     private ExpenditureCategoryRequestsLocal expenditureCategoryService;
-    @EJB
-    private ImplementingPartnerRequestsLocal implementingPartnerService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
 }

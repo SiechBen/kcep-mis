@@ -73,6 +73,36 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<PhenomenonDetails> retrieveResponsePCUList() throws MilesException {
+
+        setQ(em.createNamedQuery("PhenomenonType.findByName"));
+        q.setParameter("name", "Response PCU");
+
+        return retrievePhenomena();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PhenomenonDetails> retrieveImplementingPartners() throws MilesException {
+
+        setQ(em.createNamedQuery("PhenomenonType.findByName"));
+        q.setParameter("name", "Implementing partner");
+
+        return retrievePhenomena();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PhenomenonDetails> retrieveAnnualIndicators() throws MilesException {
+
+        setQ(em.createNamedQuery("PhenomenonType.findByName"));
+        q.setParameter("name", "Annual indicator");
+
+        return retrievePhenomena();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<PhenomenonDetails> retrieveRatingValues() throws MilesException {
 
         setQ(em.createNamedQuery("PhenomenonType.findByName"));

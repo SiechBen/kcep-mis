@@ -23,7 +23,7 @@ import ke.co.miles.kcep.mis.defaults.Controller;
  *
  * @author siech
  */
-@WebServlet(name = "OfficerController", urlPatterns = {"/ward", "/kalro"})
+@WebServlet(name = "OfficerController", urlPatterns = {"/ward", "/kalro", "/agmark"})
 public class OfficerController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +48,7 @@ public class OfficerController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/ward");
                             urlPaths.add("/kalro");
+                            urlPaths.add("/agmark");
                         }
                         break;
                     case "waoSession":
@@ -58,6 +59,11 @@ public class OfficerController extends Controller {
                     case "kalroOfficer":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/kalro");
+                        }
+                        break;
+                    case "agmarkOfficer":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/agmark");
                         }
                         break;
                     default:
@@ -76,6 +82,9 @@ public class OfficerController extends Controller {
                     break;
                 case "/kalro":
                     path = "/kalro_officer";
+                    break;
+                case "/agmark":
+                    path = "/agmark_officer";
                     break;
             }
             destination = "/WEB-INF/views/pages" + path + ".jsp";

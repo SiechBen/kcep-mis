@@ -147,8 +147,17 @@ public interface TrainerRequestsLocal {
 
     /**
      *
-     * @return @throws MilesException when the database is in an incorrect state
+     * @return the map of training to trainer where the trainer is KALRO
+     * @throws MilesException when the database is in an incorrect state
      */
     public HashMap<TrainingDetails, List<TrainerDetails>>
             retrieveKalroTrainings() throws MilesException;
+
+    /**
+     *
+     * @return the map of training to trainer where the trainer is AGMARK
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>>
+            retrieveAgmarkTrainings() throws MilesException;
 }

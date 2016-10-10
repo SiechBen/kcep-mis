@@ -112,6 +112,15 @@ public class FeedbackController extends Controller {
                             }
                         }
                         break;
+                    case "agmarkOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/saveFeedback");
+                            if (path.equals("/feedback")) {
+                                path = "/agmark_feedback";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveFeedback");
@@ -184,6 +193,7 @@ public class FeedbackController extends Controller {
                     break;
 
                 case "/head_feedback":
+                case "/agmark_feedback":
                 case "/kalro_feedback":
 
                     try {

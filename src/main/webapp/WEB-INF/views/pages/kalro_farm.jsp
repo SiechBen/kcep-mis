@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : kalro_farm
     Created on : Jul 22, 2016, 10:28:05 AM
     Author     : siech
@@ -9,7 +9,7 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:kalro>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - national officer </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - farm </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/farm.jsp"/>

@@ -402,6 +402,12 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveAgmarkPeople() throws MilesException {
+        return retrievePeople(PersonRoleDetail.AGMARK_OFFICER);
+    }
+
+    @Override
     public Map<PersonDetails, PersonRoleDetail> retrievePerson(String username,
             String password) throws MilesException {
 

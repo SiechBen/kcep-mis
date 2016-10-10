@@ -119,6 +119,26 @@ public class FarmerController extends Controller {
                             }
                         }
                         break;
+                    case "agmarkSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditAccount");
+                            urlPaths.add("/updateStaticInputs");
+                            urlPaths.add("/updateInputVarieties");
+                            urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doDeleteFarmActivity");
+                            urlPaths.add("/doAddInputsCollection");
+                            switch (path) {
+                                case "/farm":
+                                    path = "/agmark_farm";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
@@ -555,6 +575,7 @@ public class FarmerController extends Controller {
                 case "/head_farm":
                 case "/ward_farm":
                 case "/kalro_farm":
+                case "/agmark_farm":
                 case "/region_farm":
                 case "/county_farm":
                 case "/sub_county_farm":

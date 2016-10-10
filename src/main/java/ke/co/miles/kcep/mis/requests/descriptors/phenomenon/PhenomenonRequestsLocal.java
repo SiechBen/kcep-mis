@@ -135,4 +135,25 @@ public interface PhenomenonRequestsLocal {
      */
     public List<PhenomenonDetails> retrieveExpectedOutcomes() throws MilesException;
 
+    /**
+     *
+     * @return the list of implementing partners
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveImplementingPartners() throws MilesException;
+
+    /**
+     *
+     * @return the list of response PCU
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveResponsePCUList() throws MilesException;
+
+    /**
+     *
+     * @return the list of annual indicators
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveAnnualIndicators() throws MilesException;
+
 }

@@ -218,6 +218,34 @@ public class TrainingController extends Controller {
 
                     break;
 
+                case "/agmark_training":
+
+                    try {
+                        trainingMap = trainerService.retrieveAgmarkTrainings();
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    if (!trainingMap.isEmpty()) {
+                        for (TrainingDetails trainingDetails : trainingMap.keySet()) {
+                            if (trainingDetails.getAttendanceSheet() != null) {
+                                try {
+                                    String[] folders = trainingDetails.getAttendanceSheet().split(fileSeparator);
+                                    String fileName = folders[folders.length - 1];
+                                    trainingDetails.setFileName(fileName);
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                        session.setAttribute("trainingMap", trainingMap);
+                    }
+                    availSessionAttributes(session, response);
+
+                    break;
+
                 case "/equity_training":
 
                     try {
@@ -340,6 +368,7 @@ public class TrainingController extends Controller {
                     break;
 
                 case "/head_addTraining":
+                case "/agmark_addTraining":
                 case "/kalro_addTraining":
                 case "/ward_addTraining":
 
@@ -883,6 +912,37 @@ public class TrainingController extends Controller {
                                     break;
                                 case "/editTraining":
                                     path = "/kalro_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "agmarkSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
+                            urlPaths.add("/updateTrainingModules");
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/doDeleteTraining");
+                            urlPaths.add("/loadTrainees");
+                            switch (path) {
+                                case "/training":
+                                    path = "/agmark_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/agmark_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/agmark_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/agmark_editTraining";
                                     urlPaths.add(path);
                                     break;
                                 default:

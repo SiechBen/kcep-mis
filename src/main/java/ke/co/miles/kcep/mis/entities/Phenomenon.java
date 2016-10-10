@@ -41,7 +41,15 @@ public class Phenomenon implements Serializable {
     private Integer id;
     @OneToMany(mappedBy = "gfssCode")
     private List<SubActivity> subActivityList;
-    @OneToMany(mappedBy = "performanceIndicatorType")
+    @OneToMany(mappedBy = "expectedOutcome")
+    private List<SubActivity> subActivityList1;
+    @OneToMany(mappedBy = "implementingPartner")
+    private List<SubActivity> subActivityList2;
+    @OneToMany(mappedBy = "responsePcu")
+    private List<SubActivity> subActivityList3;
+    @OneToMany(mappedBy = "annualIndicator")
+    private List<SubActivity> subActivityList4;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicatorType")
     private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "warehouseOperator")
     private List<Warehouse> warehouseList;
@@ -86,6 +94,42 @@ public class Phenomenon implements Serializable {
 
     public void setSubActivityList(List<SubActivity> subActivityList) {
         this.subActivityList = subActivityList;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList1() {
+        return subActivityList1;
+    }
+
+    public void setSubActivityList1(List<SubActivity> subActivityList1) {
+        this.subActivityList1 = subActivityList1;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList2() {
+        return subActivityList2;
+    }
+
+    public void setSubActivityList2(List<SubActivity> subActivityList2) {
+        this.subActivityList2 = subActivityList2;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList3() {
+        return subActivityList3;
+    }
+
+    public void setSubActivityList3(List<SubActivity> subActivityList3) {
+        this.subActivityList3 = subActivityList3;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList4() {
+        return subActivityList4;
+    }
+
+    public void setSubActivityList4(List<SubActivity> subActivityList4) {
+        this.subActivityList4 = subActivityList4;
     }
 
     @XmlTransient

@@ -143,6 +143,25 @@ public class PersonController extends Controller {
                             }
                         }
                         break;
+                    case "agmarkSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
+                            urlPaths.add("/doDeletePerson");
+                            switch (path) {
+                                case "/people":
+                                    path = "/agmark_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/agmark_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
@@ -412,6 +431,20 @@ public class PersonController extends Controller {
 
                     try {
                         people = personService.retrieveKalroPeople();
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
+                        return;
+                    }
+
+                    if (people != null) {
+                        session.setAttribute("people", people);
+                    }
+                    break;
+
+                case "/agmark_people":
+
+                    try {
+                        people = personService.retrieveAgmarkPeople();
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
@@ -754,6 +787,7 @@ public class PersonController extends Controller {
                 case "/head_farm":
                 case "/ward_farm":
                 case "/kalro_farm":
+                case "/agmark_farm":
                 case "/region_farm":
                 case "/county_farm":
                 case "/sub_county_farm":
@@ -812,6 +846,7 @@ public class PersonController extends Controller {
                 case "/region_addPerson":
                 case "/ward_addPerson":
                 case "/kalro_addPerson":
+                case "/agmark_addPerson":
                 case "/head_addPerson":
                 case "/agro_dealer_addPerson":
                     break;
@@ -866,6 +901,7 @@ public class PersonController extends Controller {
                 case "/head_userProfile":
                 case "/ward_userProfile":
                 case "/kalro_userProfile":
+                case "/agmark_userProfile":
                 case "/region_userProfile":
                 case "/county_userProfile":
                 case "/sub_county_userProfile":
@@ -875,6 +911,7 @@ public class PersonController extends Controller {
                 case "/head_editPerson":
                 case "/ward_editPerson":
                 case "/kalro_editPerson":
+                case "/agmark_editPerson":
                 case "/region_editPerson":
                 case "/county_editPerson":
                 case "/sub_county_editPerson":

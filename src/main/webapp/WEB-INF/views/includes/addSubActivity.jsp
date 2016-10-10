@@ -63,14 +63,11 @@
                     </div>
                     <div class="form-group">
                         Annual indicator
-                        <select id="annual-indicator" class="form-control" onchange="addToAnnualIndicators()">
-                            <option selected>Select annual indicator</option>
-                            <c:forEach var="performanceIndicator" items="${sessionScope.performanceIndicators}" varStatus="counter">
-                                <option value="${performanceIndicator.id}">${performanceIndicator.description}</option>
+                        <select id="annual-indicator" class="form-control">
+                            <c:forEach var="annualIndicator" items="${sessionScope.annualIndicators}" varStatus="index">
+                                <option value="${annualIndicator.id}">${annualIndicator.category.name}</option>
                             </c:forEach>
                         </select>
-                        <input type="text" id="annual-indicator-descriptions" value="" class="form-control">
-                        <input type="hidden" id="annual-indicator-ids" value="">
                     </div>
                     <div class="form-group">
                         Activity name
@@ -125,7 +122,7 @@
                         Response PCU
                         <select id="response-pcu" class="form-control">
                             <c:forEach var="responsePcu" items="${sessionScope.responsePcuList}" varStatus="counter">
-                                <option value="${responsePcu.id}">${responsePcu.name}</option>
+                                <option value="${responsePcu.id}">${responsePcu.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -133,7 +130,7 @@
                         Implementing partner
                         <select id="implementing-partner" class="form-control">
                             <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}" varStatus="counter">
-                                <option value="${implementingPartner.id}">${implementingPartner.personRole.personRole}</option>
+                                <option value="${implementingPartner.id}">${implementingPartner.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

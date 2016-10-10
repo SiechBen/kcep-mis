@@ -134,6 +134,13 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @return the list of retrieved people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveAgmarkPeople() throws MilesException;
+
+    /**
+     *
      * @return the list of farmers and agro-dealers(These people are relevant to
      * Equity bank; e-voucher scheme).
      * @throws MilesException when the database is in an incorrect state

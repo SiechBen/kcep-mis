@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId"),
+    @NamedQuery(name = "SubActivity.findByExpectedOutcomeId", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome.id = :expectedOutcomeId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
     @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
-    @NamedQuery(name = "SubActivity.findByExpectedOutcome", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome = :expectedOutcome"),
     @NamedQuery(name = "SubActivity.findByStartDate", query = "SELECT s FROM SubActivity s WHERE s.startDate = :startDate"),
     @NamedQuery(name = "SubActivity.findByEndDate", query = "SELECT s FROM SubActivity s WHERE s.endDate = :endDate"),
     @NamedQuery(name = "SubActivity.findByUnitCost", query = "SELECT s FROM SubActivity s WHERE s.unitCost = :unitCost"),
@@ -97,9 +97,9 @@ public class SubActivity implements Serializable {
     private Double euPercentage;
     @Column(name = "financial_institution_percentage")
     private Double financialInstitutionPercentage;
-    @JoinColumn(name = "response_pcu", referencedColumnName = "id")
+    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
     @ManyToOne
-    private ResponsePcu responsePcu;
+    private MeasurementUnit measurementUnit;
     @JoinColumn(name = "activity_name", referencedColumnName = "id")
     @ManyToOne
     private ActivityName activityName;
@@ -112,24 +112,27 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "sub_component", referencedColumnName = "id")
     @ManyToOne
     private SubComponent subComponent;
-    @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
-    @ManyToOne
-    private ImplementingPartner implementingPartner;
-    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
-    @ManyToOne
-    private MeasurementUnit measurementUnit;
     @JoinColumn(name = "gfss_code", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon gfssCode;
     @JoinColumn(name = "expected_outcome", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon expectedOutcome;
-    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
+    @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
     @ManyToOne
-    private SubActivityName subActivityName;
+    private Phenomenon implementingPartner;
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
     @ManyToOne
     private FinancialYear financialYear;
+    @JoinColumn(name = "response_pcu", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon responsePcu;
+    @JoinColumn(name = "annual_indicator", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon annualIndicator;
+    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
+    @ManyToOne
+    private SubActivityName subActivityName;
 
     public SubActivity() {
     }
@@ -282,12 +285,12 @@ public class SubActivity implements Serializable {
         this.financialInstitutionPercentage = financialInstitutionPercentage;
     }
 
-    public ResponsePcu getResponsePcu() {
-        return responsePcu;
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
     }
 
-    public void setResponsePcu(ResponsePcu responsePcu) {
-        this.responsePcu = responsePcu;
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public ActivityName getActivityName() {
@@ -322,22 +325,6 @@ public class SubActivity implements Serializable {
         this.subComponent = subComponent;
     }
 
-    public ImplementingPartner getImplementingPartner() {
-        return implementingPartner;
-    }
-
-    public void setImplementingPartner(ImplementingPartner implementingPartner) {
-        this.implementingPartner = implementingPartner;
-    }
-
-    public MeasurementUnit getMeasurementUnit() {
-        return measurementUnit;
-    }
-
-    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
-        this.measurementUnit = measurementUnit;
-    }
-
     public Phenomenon getGfssCode() {
         return gfssCode;
     }
@@ -354,12 +341,12 @@ public class SubActivity implements Serializable {
         this.expectedOutcome = expectedOutcome;
     }
 
-    public SubActivityName getSubActivityName() {
-        return subActivityName;
+    public Phenomenon getImplementingPartner() {
+        return implementingPartner;
     }
 
-    public void setSubActivityName(SubActivityName subActivityName) {
-        this.subActivityName = subActivityName;
+    public void setImplementingPartner(Phenomenon implementingPartner) {
+        this.implementingPartner = implementingPartner;
     }
 
     public FinancialYear getFinancialYear() {
@@ -368,6 +355,30 @@ public class SubActivity implements Serializable {
 
     public void setFinancialYear(FinancialYear financialYear) {
         this.financialYear = financialYear;
+    }
+
+    public Phenomenon getResponsePcu() {
+        return responsePcu;
+    }
+
+    public void setResponsePcu(Phenomenon responsePcu) {
+        this.responsePcu = responsePcu;
+    }
+
+    public Phenomenon getAnnualIndicator() {
+        return annualIndicator;
+    }
+
+    public void setAnnualIndicator(Phenomenon annualIndicator) {
+        this.annualIndicator = annualIndicator;
+    }
+
+    public SubActivityName getSubActivityName() {
+        return subActivityName;
+    }
+
+    public void setSubActivityName(SubActivityName subActivityName) {
+        this.subActivityName = subActivityName;
     }
 
     @Override
@@ -392,7 +403,7 @@ public class SubActivity implements Serializable {
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.entities.SubActivity_1[ id=" + id + " ]";
+        return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
     }
 
 }

@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -43,7 +44,9 @@ public class PerformanceIndicator implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Short id;
-    @Size(max = 400)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 400)
     @Column(name = "description")
     private String description;
     @Column(name = "baseline_date")
@@ -55,19 +58,22 @@ public class PerformanceIndicator implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
     private List<PerformanceIndicatorValues> performanceIndicatorValuesList;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Phenomenon performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
-    private List<AnnualIndicator> annualIndicatorList;
 
     public PerformanceIndicator() {
     }
 
     public PerformanceIndicator(Short id) {
         this.id = id;
+    }
+
+    public PerformanceIndicator(Short id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
     public Short getId() {
@@ -125,15 +131,6 @@ public class PerformanceIndicator implements Serializable {
 
     public void setResultHierarchy(ResultHierarchy resultHierarchy) {
         this.resultHierarchy = resultHierarchy;
-    }
-
-    @XmlTransient
-    public List<AnnualIndicator> getAnnualIndicatorList() {
-        return annualIndicatorList;
-    }
-
-    public void setAnnualIndicatorList(List<AnnualIndicator> annualIndicatorList) {
-        this.annualIndicatorList = annualIndicatorList;
     }
 
     @Override

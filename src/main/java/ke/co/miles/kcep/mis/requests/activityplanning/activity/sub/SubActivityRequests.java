@@ -18,10 +18,8 @@ import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
 import ke.co.miles.kcep.mis.entities.ExpenditureCategory;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
-import ke.co.miles.kcep.mis.entities.ImplementingPartner;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
-import ke.co.miles.kcep.mis.entities.ResponsePcu;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.entities.SubActivityName;
 import ke.co.miles.kcep.mis.entities.SubComponent;
@@ -34,8 +32,6 @@ import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequest
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.implementingpartner.ImplementingPartnerRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.responsepcu.ResponsePcuRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
@@ -80,7 +76,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
         }
         if (subActivityDetails.getImplementingPartner() != null) {
-            subActivity.setImplementingPartner(em.getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
+            subActivity.setImplementingPartner(em.getReference(Phenomenon.class, subActivityDetails.getImplementingPartner().getId()));
         }
         if (subActivityDetails.getActivityName() == null) {
             subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
@@ -115,7 +111,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setMeasurementUnit(em.getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         }
         if (subActivityDetails.getResponsePcu() != null) {
-            subActivity.setResponsePcu(em.getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
+            subActivity.setResponsePcu(em.getReference(Phenomenon.class, subActivityDetails.getResponsePcu().getId()));
         }
 
         try {
@@ -903,7 +899,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
         }
         if (subActivityDetails.getImplementingPartner() != null) {
-            subActivity.setImplementingPartner(em.getReference(ImplementingPartner.class, subActivityDetails.getImplementingPartner().getId()));
+            subActivity.setImplementingPartner(em.getReference(Phenomenon.class, subActivityDetails.getImplementingPartner().getId()));
         }
         if (subActivityDetails.getActivityName() == null) {
             subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
@@ -938,7 +934,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setMeasurementUnit(em.getReference(MeasurementUnit.class, subActivityDetails.getMeasurementUnit().getId()));
         }
         if (subActivityDetails.getResponsePcu() != null) {
-            subActivity.setResponsePcu(em.getReference(ResponsePcu.class, subActivityDetails.getResponsePcu().getId()));
+            subActivity.setResponsePcu(em.getReference(Phenomenon.class, subActivityDetails.getResponsePcu().getId()));
         }
 
         try {
@@ -999,8 +995,12 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     convertMeasurementUnitToMeasurementUnitDetails(subActivity.getMeasurementUnit()));
         }
         if (subActivity.getResponsePcu() != null) {
-            subActivityDetails.setResponsePcu(responsePcuService.
-                    convertResponsePcuToResponsePcuDetails(subActivity.getResponsePcu()));
+            subActivityDetails.setResponsePcu(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getResponsePcu()));
+        }
+        if (subActivity.getAnnualIndicator() != null) {
+            subActivityDetails.setAnnualIndicator(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getAnnualIndicator()));
         }
         if (subActivity.getSubActivityName() != null) {
             subActivityDetails.setSubActivityName(subActivityDecriptionService.
@@ -1015,8 +1015,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     convertComponentToComponentDetails(subActivity.getComponent()));
         }
         if (subActivity.getImplementingPartner() != null) {
-            subActivityDetails.setImplementingPartner(implementingPartnerService.
-                    convertImplementingPartnerToImplementingPartnerDetails(subActivity.getImplementingPartner()));
+            subActivityDetails.setImplementingPartner(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getImplementingPartner()));
         }
         if (subActivity.getSubComponent() != null) {
             subActivityDetails.setSubComponent(subComponentService.
@@ -1054,13 +1054,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @EJB
     private ComponentRequestsLocal componentService;
     @EJB
-    private ResponsePcuRequestsLocal responsePcuService;
-    @EJB
     private SubComponentRequestsLocal subComponentService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
-    @EJB
-    private ImplementingPartnerRequestsLocal implementingPartnerService;
     @EJB
     private ExpenditureCategoryRequestsLocal expenditureCategoryService;
     @EJB

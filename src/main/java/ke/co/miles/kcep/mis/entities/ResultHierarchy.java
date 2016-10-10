@@ -3,6 +3,7 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,7 +41,7 @@ public class ResultHierarchy implements Serializable {
     @Size(max = 400)
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "resultHierarchy")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resultHierarchy")
     private List<PerformanceIndicator> performanceIndicatorList;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne

@@ -24,7 +24,7 @@ public enum PersonRoleDetail implements Serializable {
     SYSTEM_ADMIN(new Short("9"), "System Admin"),
     EQUITY_OFFICER(new Short("10"), "Equity"),
     WAREHOUSE_OPERATOR(new Short("11"), "Warehouse Operator"),
-    AGMARK(new Short("12"), "Agmark");
+    AGMARK_OFFICER(new Short("12"), "AGMARK Officer");
 
     private PersonRoleDetail(Short id, String personRole) {
         this.id = id;
@@ -56,7 +56,7 @@ public enum PersonRoleDetail implements Serializable {
             case 11:
                 return WAREHOUSE_OPERATOR;
             case 12:
-                return AGMARK;
+                return AGMARK_OFFICER;
             default:
                 return null;
         }

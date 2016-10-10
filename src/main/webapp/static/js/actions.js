@@ -229,7 +229,7 @@ $(function () {
             }
         ],
         columnDefs: [{
-                targets: [3, 4, 5, 7, 8],
+                targets: [3, 4, 5, 6, 7, 8],
                 render: function (data, type) {
                     return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
                 }

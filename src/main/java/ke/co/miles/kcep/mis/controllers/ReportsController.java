@@ -106,6 +106,18 @@ public class ReportsController extends Controller {
                             }
                         }
                         break;
+                    case "agmarkSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            switch (path) {
+                                case "/reports":
+                                    path = "/agmark_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateOutcomeValues");

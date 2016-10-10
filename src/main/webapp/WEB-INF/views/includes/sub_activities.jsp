@@ -25,7 +25,7 @@
                                 <th>Expected outcome</th>
                                 <th>Component</th>
                                 <th>Sub-component</th>
-                                <th>Annual indicators</th>
+                                <th>Annual indicator</th>
                                 <th>Activity name</th>
                                 <th>Sub-activity name</th>
                                 <th>Start date</th>
@@ -54,11 +54,11 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="31"> Annual Workplan Budget </td>
+                                <td colspan="30"> Annual Workplan Budget </td>
                             </tr>
                         </tfoot>
                         <tbody>
-                            <c:forEach var="subActivity" items="${sessionScope.subActivityMap.keySet()}" varStatus="index">
+                            <c:forEach var="subActivity" items="${sessionScope.subActivities}" varStatus="index">
                                 <tr>
                                     <td>${index.count}</td>
                                     <td>${subActivity.annualWorkplanReferenceCode}</td>
@@ -66,11 +66,7 @@
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.expectedOutcome.category.name}">${subActivity.expectedOutcome.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.component.component}">${subActivity.component.component}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subComponent.subComponent}">${subActivity.subComponent.subComponent}</td>
-                                    <td>
-                                        <c:forEach var="annualIndicator" items="${sessionScope.subActivityMap.get(subActivity)}" varStatus="index">
-                                            ${annualIndicator.performanceIndicator.description}
-                                        </c:forEach>
-                                    </td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.annualIndicator.category.name}">${subActivity.annualIndicator.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.activityName.name}">${subActivity.subActivityName.activityName.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.name}">${subActivity.subActivityName.name}</td>
                                     <td><fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.startDate}"/></td>
@@ -80,8 +76,8 @@
                                     <td>${subActivity.awpbTarget}</td>
                                     <td>${subActivity.programmeTarget}</td>
                                     <td>${subActivity.totals}</td>
-                                    <td>${subActivity.responsePcu.name}</td>
-                                    <td>${subActivity.implementingPartner.personRole.personRole}</td>
+                                    <td>${subActivity.responsePcu.category.name}</td>
+                                    <td>${subActivity.implementingPartner.category.name}</td>
                                     <td>${subActivity.procurementPlan}</td>
                                     <td>${subActivity.description}</td>
                                     <td>${subActivity.valueAchieved}</td>
@@ -109,7 +105,7 @@
                                                     '${subActivity.awpbTarget}',
                                                     '${subActivity.programmeTarget}',
                                                     '${subActivity.totals}',
-                                                    '${subActivity.responsePcu.name}',
+                                                    '${subActivity.responsePcu.id}',
                                                     '${subActivity.implementingPartner.id}',
                                                     '${subActivity.procurementPlan}',
                                                     '${subActivity.description}',
@@ -242,7 +238,7 @@
                         <select id="response-pcu" class="form-control">
                             <option value="">Select response pcu</option>
                             <c:forEach var="responsePcu" items="${sessionScope.responsePcuList}" varStatus="counter">
-                                <option value="${responsePcu.id}">${responsePcu.name}</option>
+                                <option value="${responsePcu.id}">${responsePcu.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -251,7 +247,7 @@
                         <select id="implementing-partner" class="form-control">
                             <option value="">Select implementing partner</option>
                             <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}" varStatus="counter">
-                                <option value="${implementingPartner.id}">${implementingPartner.personRole.personRole}</option>
+                                <option value="${implementingPartner.id}">${implementingPartner.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

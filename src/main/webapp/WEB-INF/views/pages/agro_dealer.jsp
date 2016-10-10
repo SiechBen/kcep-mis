@@ -9,7 +9,7 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:agro_dealer>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - add e-voucher </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - agro-dealer </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
     </jsp:attribute>

@@ -214,11 +214,11 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.subComponent = subComponent;
     }
 
-    public ImplementingPartnerDetails getImplementingPartner() {
+    public PhenomenonDetails getImplementingPartner() {
         return implementingPartner;
     }
 
-    public void setImplementingPartner(ImplementingPartnerDetails implementingPartner) {
+    public void setImplementingPartner(PhenomenonDetails implementingPartner) {
         this.implementingPartner = implementingPartner;
     }
 
@@ -230,11 +230,11 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.measurementUnit = measurementUnit;
     }
 
-    public ResponsePcuDetails getResponsePcu() {
+    public PhenomenonDetails getResponsePcu() {
         return responsePcu;
     }
 
-    public void setResponsePcu(ResponsePcuDetails responsePcu) {
+    public void setResponsePcu(PhenomenonDetails responsePcu) {
         this.responsePcu = responsePcu;
     }
 
@@ -300,11 +300,26 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.gfssCode = gfssCode;
     }
 
+    /**
+     * @return the annualIndicator
+     */
+    public PhenomenonDetails getAnnualIndicator() {
+        return annualIndicator;
+    }
+
+    /**
+     * @param annualIndicator the annualIndicator to set
+     */
+    public void setAnnualIndicator(PhenomenonDetails annualIndicator) {
+        this.annualIndicator = annualIndicator;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String annualWorkplanReferenceCode;
     private PhenomenonDetails gfssCode;
     private PhenomenonDetails expectedOutcome;
+    private PhenomenonDetails annualIndicator;
     private Date startDate;
     private Date endDate;
     private BigDecimal unitCost;
@@ -326,9 +341,9 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private PerformanceIndicatorDetails performanceIndicator;
     private ComponentDetails component;
     private SubComponentDetails subComponent;
-    private ImplementingPartnerDetails implementingPartner;
+    private PhenomenonDetails implementingPartner;
     private MeasurementUnitDetails measurementUnit;
-    private ResponsePcuDetails responsePcu;
+    private PhenomenonDetails responsePcu;
     private SubActivityNameDetails subActivityName;
     private FinancialYearDetails financialYear;
 

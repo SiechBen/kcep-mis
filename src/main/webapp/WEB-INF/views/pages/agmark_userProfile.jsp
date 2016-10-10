@@ -1,6 +1,6 @@
 <%--
-    Document   : head
-    Created on : Jun 22, 2016, 8:52:02 AM
+    Document   : agmark_userProfile
+    Created on : Oct 9, 2016, 5:40:57 PM
     Author     : siech
 --%>
 
@@ -8,9 +8,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:head>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - PCU project coordinator </jsp:attribute>
+<kcep:agmark>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - user profile </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
+        <jsp:include page="../includes/userProfile.jsp"/>
+
     </jsp:attribute>
-</kcep:head>
+</kcep:agmark>
