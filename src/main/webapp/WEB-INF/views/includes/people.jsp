@@ -92,11 +92,11 @@
                                 <td rowspan="2"> <strong>Total</strong> </td>
                             </tr>
                             <tr>
-                                <td> <strong>Youth(<35 years old)</strong> </td>
-                                <td> <strong>Elderly(>35 years old)</strong> </td>
+                                <td> <strong>Youth(35 and below)</strong> </td>
+                                <td> <strong>Above 35 years</strong> </td>
                                 <td> <strong>Female Total</strong> </td>
-                                <td> <strong>Youth(<35 years old)</strong> </td>
-                                <td> <strong>Elderly(>35 years old)</strong> </td>
+                                <td> <strong>Youth(35 and below)</strong> </td>
+                                <td> <strong>Above 35 years</strong> </td>
                                 <td> <strong>Male Total</strong> </td>
                             </tr>
                             <tr id="people-summary">
