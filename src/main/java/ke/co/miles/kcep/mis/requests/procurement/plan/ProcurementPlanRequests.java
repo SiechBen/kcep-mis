@@ -85,9 +85,24 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProcurementPlanDetails> retrieveProcurementPlans() throws MilesException {
+    public List<ProcurementPlanDetails> retrieveProcurementPlansNcs() throws MilesException {
         List<ProcurementPlan> procurementPlans = new ArrayList<>();
-        setQ(em.createNamedQuery("ProcurementPlan.findAll"));
+        setQ(em.createNamedQuery("ProcurementPlan.findByProcurementPlanTypeId"));
+        q.setParameter("procurementPlanTypeId", ProcurementPlanTypeDetail.NON_CONSULTING_SERVICES.getId());
+        try {
+            procurementPlans = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertProcurementPlansToProcurementPlanDetailsList(procurementPlans);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProcurementPlanDetails> retrieveProcurementPlansGoods() throws MilesException {
+        List<ProcurementPlan> procurementPlans = new ArrayList<>();
+        setQ(em.createNamedQuery("ProcurementPlan.findByProcurementPlanTypeId"));
+        q.setParameter("procurementPlanTypeId", ProcurementPlanTypeDetail.GOODS.getId());
         try {
             procurementPlans = q.getResultList();
         } catch (Exception e) {

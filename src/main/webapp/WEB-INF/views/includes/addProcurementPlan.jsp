@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : ProcurementPlan
     Created on : Sep 7, 2016, 10:42:30 AM
     Author     : ronne
@@ -10,7 +10,7 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Procurement plan - ncs details
+                Procurement plan details
             </div>
             <div class="panel-body">
                 <form role="form">
@@ -40,8 +40,8 @@
                             <c:forEach var="planVsActual" items="${sessionScope.planVsActualChoices}">
                                 <option value="${planVsActual.id}">${planVsActual.choice}</option>
                             </c:forEach>
-                        </select> 
-                    </div>  
+                        </select>
+                    </div>
                     <div class="form-group">
                         Cost [KES]
                         <input id="cost"  type="number" step="0.01"  class="form-control">
@@ -52,7 +52,7 @@
                             <c:forEach var="procurementMethod" items="${sessionScope.procurementMethods}">
                                 <option value="${procurementMethod.id}">${procurementMethod.method}</option>
                             </c:forEach>
-                        </select> 
+                        </select>
                     </div>
                     <div class="form-group">
                         Complete BD

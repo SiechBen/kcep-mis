@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
@@ -128,6 +131,26 @@ public class AccessController extends Controller {
                             rightsMaps.put("agroDealerSession", true);
                             session.setAttribute("home", "/agro_dealer");
                             session.setAttribute("userTitle", ": Agro-dealer");
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "WAO (Ward Extension Officer)":
@@ -135,6 +158,26 @@ public class AccessController extends Controller {
                             rightsMaps.put("waoSession", true);
                             session.setAttribute("home", "/ward");
                             session.setAttribute("userTitle", ": Ward Agricultural Officer(WAO)");
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards(person.getLocation().getSubCounty().getId()));
+                            } catch (Exception ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "KALRO Officer":
@@ -142,6 +185,26 @@ public class AccessController extends Controller {
                             rightsMaps.put("kalroSession", true);
                             session.setAttribute("home", "/kalro");
                             session.setAttribute("userTitle", ": KALRO Officer");
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "AGMARK Officer":
@@ -149,6 +212,26 @@ public class AccessController extends Controller {
                             rightsMaps.put("agmarkSession", true);
                             session.setAttribute("home", "/agmark");
                             session.setAttribute("userTitle", ": AGMARK Officer");
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "County Officer":
@@ -156,6 +239,26 @@ public class AccessController extends Controller {
                             rightsMaps.put("countyDeskOfficerSession", true);
                             session.setAttribute("home", "/county");
                             session.setAttribute("userTitle", ": County Desk Officer");
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties(person.getLocation().getCounty().getId()));
+                            } catch (Exception ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "Sub-county Officer":
@@ -163,6 +266,27 @@ public class AccessController extends Controller {
                             rightsMaps.put("subCountyDeskOfficerSession", true);
                             session.setAttribute("home", "/sub_county");
                             session.setAttribute("userTitle", ": Sub-county Agricultural Officer(SCAO)");
+
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties(person.getLocation().getCounty().getId()));
+                            } catch (Exception ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "Regional Coordinator":
@@ -170,6 +294,27 @@ public class AccessController extends Controller {
                             rightsMaps.put("regionalCoordinatorSession", true);
                             session.setAttribute("home", "/region");
                             session.setAttribute("userTitle", ": Regional Project Coordinator");
+
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties(person.getLocation().getCounty().getRegion().getId()));
+                            } catch (Exception ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         case "National Officer":
@@ -186,6 +331,27 @@ public class AccessController extends Controller {
                                 session.setAttribute("userTitle", ": System Admin");
                             }
 
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
+
                             break;
 
                         case "Equity":
@@ -193,6 +359,26 @@ public class AccessController extends Controller {
                             rightsMaps.put("equityPersonnelSession", true);
                             session.setAttribute("home", "/equity");
                             session.setAttribute("userTitle", ": Equity Agent");
+                            try {
+                                session.setAttribute("counties", countyService.retrieveCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("subCounties", subCountyService.retrieveSubCounties());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
+                                return;
+                            }
+
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards());
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
+                                return;
+                            }
                             break;
 
                         default:
@@ -250,5 +436,11 @@ public class AccessController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(AccessController.class.getSimpleName());
     @EJB
     private PersonRequestsLocal personService;
+    @EJB
+    private CountyRequestsLocal countyService;
+    @EJB
+    private WardRequestsLocal wardService;
+    @EJB
+    private SubCountyRequestsLocal subCountyService;
 
 }

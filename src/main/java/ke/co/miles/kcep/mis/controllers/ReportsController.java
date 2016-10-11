@@ -37,7 +37,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 @WebServlet(name = "ReportsController", urlPatterns = {"/reports",
     "/financial_report_by_categories", "/financial_report_by_components",
     "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
-    "/outputLevelReports", "/outcomeLevelReports"})
+    "/outputLevelReports", "/outcomeLevelReports", "/activities_report"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -63,6 +63,7 @@ public class ReportsController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/activities_report");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":

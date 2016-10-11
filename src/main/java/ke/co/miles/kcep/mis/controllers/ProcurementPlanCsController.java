@@ -372,13 +372,6 @@ public class ProcurementPlanCsController extends Controller {
                         ifadPriorReview = null;
                     }
 
-                    ProcurementPlanTypeDetail procurementPlanType;
-                    try {
-                        procurementPlanType = ProcurementPlanTypeDetail.getProcurementPlanTypeDetail(Short.valueOf(request.getParameter("procurementPlanType")));
-                    } catch (Exception e) {
-                        procurementPlanType = null;
-                    }
-
                     ProcurementMethodDetails procurementMethod;
                     try {
                         procurementMethod = new ProcurementMethodDetails(Short.valueOf(request.getParameter("procurementMethod")));
@@ -389,7 +382,7 @@ public class ProcurementPlanCsController extends Controller {
                     procurementPlanCs.setPlanVsActual(planVsActual);
                     procurementPlanCs.setIfadPriorReview(ifadPriorReview);
                     procurementPlanCs.setProcurementMethod(procurementMethod);
-                    procurementPlanCs.setProcurementPlanType(procurementPlanType);
+                    procurementPlanCs.setProcurementPlanType(ProcurementPlanTypeDetail.CONSULTING_SERVICES);
 
                     try {
                         procurementPlanCsService.addProcurementPlanCs(procurementPlanCs);
@@ -634,12 +627,6 @@ public class ProcurementPlanCsController extends Controller {
                     }
 
                     try {
-                        procurementPlanType = ProcurementPlanTypeDetail.getProcurementPlanTypeDetail(Short.valueOf(request.getParameter("procurementPlanType")));
-                    } catch (Exception e) {
-                        procurementPlanType = null;
-                    }
-
-                    try {
                         procurementMethod = new ProcurementMethodDetails(Short.valueOf(request.getParameter("procurementMethod")));
                     } catch (Exception e) {
                         procurementMethod = null;
@@ -648,7 +635,7 @@ public class ProcurementPlanCsController extends Controller {
                     procurementPlanCs.setPlanVsActual(planVsActual);
                     procurementPlanCs.setIfadPriorReview(ifadPriorReview);
                     procurementPlanCs.setProcurementMethod(procurementMethod);
-                    procurementPlanCs.setProcurementPlanType(procurementPlanType);
+                    procurementPlanCs.setProcurementPlanType(ProcurementPlanTypeDetail.CONSULTING_SERVICES);
 
                     try {
                         procurementPlanCsService.editProcurementPlanCs(procurementPlanCs);

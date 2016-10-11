@@ -25,12 +25,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
-import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
-import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 
 /**
@@ -121,34 +116,6 @@ public abstract class Controller extends HttpServlet {
         }
 
         try {
-            getServletContext().setAttribute("counties", countyService.retrieveCounties());
-        } catch (MilesException ex) {
-            LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
-            return;
-        }
-
-        try {
-            getServletContext().setAttribute("subCounties", subCountyService.retrieveSubCounties());
-        } catch (MilesException ex) {
-            LOGGER.log(Level.SEVERE, "An error occurred during sub-counties retrieval", ex);
-            return;
-        }
-
-        try {
-            getServletContext().setAttribute("wards", wardService.retrieveWards());
-        } catch (MilesException ex) {
-            LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
-            return;
-        }
-
-        try {
-            getServletContext().setAttribute("personRoles", personRoleService.retrievePersonRoles());
-        } catch (MilesException ex) {
-            LOGGER.log(Level.SEVERE, "An error occurred during person roles retrieval", ex);
-            return;
-        }
-
-        try {
             getServletContext().setAttribute("farmerGroups", farmerGroupService.retrieveFarmerGroups());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during farmer groups retrieval", ex);
@@ -200,19 +167,9 @@ public abstract class Controller extends HttpServlet {
     @EJB
     private FarmerGroupRequestsLocal farmerGroupService;
     @EJB
-    private PersonRoleRequestsLocal personRoleService;
-    @EJB
-    private CountyRequestsLocal countyService;
-    @EJB
-    private WardRequestsLocal wardService;
-    @EJB
-    private SubCountyRequestsLocal subCountyService;
-    @EJB
     private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
-    @EJB
-    private PerformanceIndicatorRequestsLocal performanceIndicatorService;
 
     protected final DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     protected final DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");

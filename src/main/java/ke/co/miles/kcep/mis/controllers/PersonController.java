@@ -29,6 +29,7 @@ import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
@@ -361,6 +362,11 @@ public class PersonController extends Controller {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRoles());
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case "/equity_people":
@@ -410,6 +416,11 @@ public class PersonController extends Controller {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case "/ward_people":
@@ -425,6 +436,11 @@ public class PersonController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case "/kalro_people":
@@ -439,6 +455,11 @@ public class PersonController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case "/agmark_people":
@@ -452,6 +473,11 @@ public class PersonController extends Controller {
 
                     if (people != null) {
                         session.setAttribute("people", people);
+                    }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
                     }
                     break;
 
@@ -469,6 +495,11 @@ public class PersonController extends Controller {
                     if (people != null) {
                         session.setAttribute("people", people);
                     }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case "/county_people":
@@ -484,6 +515,11 @@ public class PersonController extends Controller {
 
                     if (people != null) {
                         session.setAttribute("people", people);
+                    }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
                     }
                     break;
 
@@ -513,6 +549,11 @@ public class PersonController extends Controller {
 
                     session.setAttribute("wards", wards);
 
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                        MilesDebugger.debug(session.getAttribute("personRoles"));
+                    } catch (Exception e) {
+                    }
                     break;
 
                 case "/agro_dealer_people":
@@ -528,6 +569,11 @@ public class PersonController extends Controller {
 
                     if (people != null) {
                         session.setAttribute("people", people);
+                    }
+
+                    try {
+                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                    } catch (Exception e) {
                     }
                     break;
 
@@ -1049,5 +1095,7 @@ public class PersonController extends Controller {
     private InputTypeRequestsLocal inputTypeService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private PersonRoleRequestsLocal personRoleService;
 
 }

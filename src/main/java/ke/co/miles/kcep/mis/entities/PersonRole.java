@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "person_role", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "PersonRole.findNotAdminOrPcu", query = "SELECT p FROM PersonRole p WHERE p.id NOT IN(:personRoleIds)"),
     @NamedQuery(name = "PersonRole.findAll", query = "SELECT p FROM PersonRole p"),
     @NamedQuery(name = "PersonRole.findById", query = "SELECT p FROM PersonRole p WHERE p.id = :id"),
     @NamedQuery(name = "PersonRole.findByPersonRole", query = "SELECT p FROM PersonRole p WHERE p.personRole = :personRole")})

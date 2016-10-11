@@ -4,6 +4,7 @@
         jdbcDriver=com.mysql.jdbc.Driver
         password=complex
         userName=root
-        jdbcUrl=jdbc\:mysql\://localhost\:3306/kcep_mis?zeroDateTimeBehavior\=convertToNull
+        autoReconnectForPools=true
+        jdbcUrl=jdbc\:mysql\://localhost\:3306/kcep_mis?autoReconnect\=true
     </Resource>
 </resources>

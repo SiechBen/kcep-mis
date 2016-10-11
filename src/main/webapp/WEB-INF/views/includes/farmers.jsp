@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Beneficiaries
+                Farmers
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -26,7 +26,7 @@
                                 <th>Gender</th>
                                 <th>Age</th>
                                 <th>National id</th>
-                                <th>Business name</th>
+                                <!--<th>Business name</th>-->
                                 <th>Farmer group</th>
                                 <th>Farmer sub-group</th>
                                 <th>County</th>
@@ -40,7 +40,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="16">List of farmers</td>
+                                <td colspan="15">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -52,7 +52,7 @@
                                     <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.age}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.nationalId}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.businessName}</td>
+                                    <!--<td onclick="loadFarmWindow(${person.id})">${person.businessName}</td>-->
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.county.name}</td>

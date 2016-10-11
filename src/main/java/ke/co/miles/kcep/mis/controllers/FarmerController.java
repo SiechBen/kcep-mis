@@ -672,7 +672,7 @@ public class FarmerController extends Controller {
                 + "                            <h4>Account Details</h4>\n"
                 + "                        </div>\n"
                 + "                        <div class=\"float-right\">\n"
-                + "                            <button onclick=\"doEditAccount('" + account.getAccountNumber() + "','"
+                + "                            <button onclick=\"editAccount('" + account.getAccountNumber() + "','"
                 + account.getEblBranch().getId() + "','" + account.getSolId() + "','" + account.getSavings()
                 + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
                 + "                        </div>\n"

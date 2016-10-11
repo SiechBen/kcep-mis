@@ -1,7 +1,7 @@
 <%--
-    Document   : procurement_plans
-    Created on : Sep 7, 2016, 11:00:35 AM
-    Author     : ronne
+    Document   : procurement_plans_ncs
+    Created on : Oct 10, 2016, 1:00:38 PM
+    Author     : siech
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -48,36 +48,36 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <c:forEach var="procurementPlan" items="${sessionScope.procurementPlans}" varStatus="index">
-                                <tr>
-                                    <td>${index.count}</td>
-                                    <td>${procurementPlan.procurementPlanType.type}</td>
-                                    <td>${procurementPlan.description}</td>
-                                    <td>${procurementPlan.ifadPriorReview.choice}</td>
-                                    <td>${procurementPlan.planVsActual.choice}</td>
-                                    <td>${procurementPlan.cost}</td>
-                                    <td>${procurementPlan.procurementMethod.method}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.completeBd}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad1}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySda}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.issueBd}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.receiveBids}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.evaluateBids}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad2}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.award}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySdaOrAg}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.signContract}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.commenceContract}"/></td>
-                                    <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.id}',
-                                                    '${procurementPlan.description}', '${procurementPlan.ifadPriorReview.id}', '${procurementPlan.planVsActual.id}',
-                                                    '${procurementPlan.cost}', '${procurementPlan.procurementMethod.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.completeBd}"/>',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad1}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySda}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.issueBd}"/>',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.receiveBids}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.evaluateBids}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad2}"/>',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.award}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySdaOrAg}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.signContract}"/>',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.commenceContract}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deleteProcurementPlan(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
-                                </tr>
-                            </c:forEach>
+                        <c:forEach var="procurementPlan" items="${sessionScope.procurementPlans}" varStatus="index">
+                            <tr>
+                                <td>${index.count}</td>
+                                <td>${procurementPlan.procurementPlanType.type}</td>
+                                <td>${procurementPlan.description}</td>
+                                <td>${procurementPlan.ifadPriorReview.choice}</td>
+                                <td>${procurementPlan.planVsActual.choice}</td>
+                                <td>${procurementPlan.cost}</td>
+                                <td>${procurementPlan.procurementMethod.method}</td>
+                                <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.completeBd}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad1}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySda}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.issueBd}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.receiveBids}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.evaluateBids}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad2}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.award}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySdaOrAg}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.signContract}"/></td>
+                            <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.commenceContract}"/></td>
+                            <td><button onclick="editProcurementPlan('${procurementPlan.id}', '${procurementPlan.procurementPlanType.id}',
+                                                '${procurementPlan.description}', '${procurementPlan.ifadPriorReview.id}', '${procurementPlan.planVsActual.id}',
+                                                '${procurementPlan.cost}', '${procurementPlan.procurementMethod.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.completeBd}"/>',
+                                        '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad1}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySda}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.issueBd}"/>',
+                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.receiveBids}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.evaluateBids}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalByIfad2}"/>',
+                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.award}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.approvalBySdaOrAg}"/>', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.signContract}"/>',
+                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurementPlan.commenceContract}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                            <td><button onclick="deleteProcurementPlan(${procurementPlan.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>

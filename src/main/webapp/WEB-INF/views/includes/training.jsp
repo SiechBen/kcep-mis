@@ -98,7 +98,7 @@
                     <div class="form-group">
                         Training module
                         <select id="training-module" name="training-module" class="form-control" onchange="updateTrainingTopics()">
-                            <c:forEach var="trainingModule" items="${applicationScope.trainingModules}" varStatus="index">
+                            <c:forEach var="trainingModule" items="${sessionScope.trainingModules}" varStatus="index">
                                 <option value="${trainingModule.id}">${trainingModule.topic}</option>
                             </c:forEach>
                         </select>
@@ -114,7 +114,7 @@
                     <div class="form-group">
                         County
                         <select id="county" name="training-county" class="form-control" onchange="updateSubCounties()">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
+                            <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
                         </select>
@@ -122,7 +122,7 @@
                     <div class="form-group">
                         Sub-county
                         <select id="sub-county" name="training-sub-county" class="form-control" onchange="updateWards()">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>
@@ -130,7 +130,7 @@
                     <div class="form-group">
                         Ward
                         <select id="ward" name="ward" class="form-control">
-                            <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index">
+                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">
                                 <option value="${ward.id}">${ward.name}</option>
                             </c:forEach>
                         </select>

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ import ke.co.miles.kcep.mis.utilities.ProcurementPlanTypeDetail;
  * @author siech
  */
 @WebServlet(name = "ProcurementPlanController",
-        urlPatterns = {"/procurement_plans", "/addProcurementPlan",
+        urlPatterns = {"/procurement_plans_ncs", "/procurement_plans_goods", "/addProcurementPlan",
             "/doAddProcurementPlan", "/doEditProcurementPlan", "/doDeleteProcurementPlan"})
 public class ProcurementPlanController extends Controller {
 
@@ -66,8 +67,11 @@ public class ProcurementPlanController extends Controller {
                             urlPaths.add("/doAddProcurementPlan");
                             urlPaths.add("/doEditProcurementPlan");
                             urlPaths.add("/doDeleteProcurementPlan");
-                            if (path.equals("/procurement_plans")) {
-                                path = "/head_procurement_plans";
+                            if (path.equals("/procurement_plans_ncs")) {
+                                path = "/head_procurement_plans_ncs";
+                                urlPaths.add(path);
+                            } else if (path.equals("/procurement_plans_goods")) {
+                                path = "/head_procurement_plans_goods";
                                 urlPaths.add(path);
                             } else if (path.equals("/addProcurementPlan")) {
                                 path = "/head_addProcurementPlan";
@@ -80,8 +84,11 @@ public class ProcurementPlanController extends Controller {
                             urlPaths.add("/doAddProcurementPlan");
                             urlPaths.add("/doEditProcurementPlan");
                             urlPaths.add("/doDeleteProcurementPlan");
-                            if (path.equals("/procurement_plans")) {
-                                path = "/region_procurement_plans";
+                            if (path.equals("/procurement_plans_ncs")) {
+                                path = "/region_procurement_plans_ncs";
+                                urlPaths.add(path);
+                            } else if (path.equals("/procurement_plans_goods")) {
+                                path = "/region_procurement_plans_goods";
                                 urlPaths.add(path);
                             } else if (path.equals("/addProcurementPlan")) {
                                 path = "/region_addProcurementPlan";
@@ -94,8 +101,11 @@ public class ProcurementPlanController extends Controller {
                             urlPaths.add("/doAddProcurementPlan");
                             urlPaths.add("/doEditProcurementPlan");
                             urlPaths.add("/doDeleteProcurementPlan");
-                            if (path.equals("/procurement_plans")) {
-                                path = "/county_procurement_plans";
+                            if (path.equals("/procurement_plans_ncs")) {
+                                path = "/county_procurement_plans_ncs";
+                                urlPaths.add(path);
+                            } else if (path.equals("/procurement_plans_goods")) {
+                                path = "/county_procurement_plans_goods";
                                 urlPaths.add(path);
                             } else if (path.equals("/addProcurementPlan")) {
                                 path = "/county_addProcurementPlan";
@@ -113,12 +123,12 @@ public class ProcurementPlanController extends Controller {
 
             switch (path) {
 
-                case "/head_procurement_plans":
-                case "/county_procurement_plans":
-                case "/region_procurement_plans":
+                case "/head_procurement_plans_ncs":
+                case "/county_procurement_plans_ncs":
+                case "/region_procurement_plans_ncs":
 
                     try {
-                        session.setAttribute("procurementPlans", procurementPlanService.retrieveProcurementPlans());
+                        session.setAttribute("procurementPlans", procurementPlanService.retrieveProcurementPlansNcs());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during procurement plans retrieval", ex);
                         return;
@@ -132,7 +142,37 @@ public class ProcurementPlanController extends Controller {
                     }
 
                     session.setAttribute("ifadPriorReviewChoices", IfadPriorReviewDetail.values());
-                    session.setAttribute("procurementPlanTypes", ProcurementPlanTypeDetail.values());
+                    List<ProcurementPlanTypeDetail> procurementPlanTypes = new ArrayList<>();
+                    procurementPlanTypes.add(ProcurementPlanTypeDetail.GOODS);
+                    procurementPlanTypes.add(ProcurementPlanTypeDetail.NON_CONSULTING_SERVICES);
+                    session.setAttribute("procurementPlanTypes", procurementPlanTypes);
+                    session.setAttribute("planVsActualChoices", PlanVsActualDetail.values());
+
+                    break;
+
+                case "/head_procurement_plans_goods":
+                case "/county_procurement_plans_goods":
+                case "/region_procurement_plans_goods":
+
+                    try {
+                        session.setAttribute("procurementPlans", procurementPlanService.retrieveProcurementPlansGoods());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during procurement plans retrieval", ex);
+                        return;
+                    }
+
+                    try {
+                        session.setAttribute("procurementMethods", procurementMethodService.retrieveProcurementMethods());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of procurement methods", ex);
+                        return;
+                    }
+
+                    session.setAttribute("ifadPriorReviewChoices", IfadPriorReviewDetail.values());
+                    procurementPlanTypes = new ArrayList<>();
+                    procurementPlanTypes.add(ProcurementPlanTypeDetail.GOODS);
+                    procurementPlanTypes.add(ProcurementPlanTypeDetail.NON_CONSULTING_SERVICES);
+                    session.setAttribute("procurementPlanTypes", procurementPlanTypes);
                     session.setAttribute("planVsActualChoices", PlanVsActualDetail.values());
 
                     break;

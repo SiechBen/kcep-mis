@@ -129,7 +129,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         }
 
         if (account != null) {
-            if (account.getId().equals(accountDetails.getId())) {
+            if (!account.getId().equals(accountDetails.getId())) {
                 throw new InvalidArgumentException("error_043_05");
             }
         }
@@ -150,7 +150,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
-        
+
         return convertAccountToAccountDetails(account);
 
     }

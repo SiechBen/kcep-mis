@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "procurement_plan", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "ProcurementPlan.findByProcurementPlanTypeId", query = "SELECT p FROM ProcurementPlan p WHERE p.procurementPlanType.id = :procurementPlanTypeId"),
     @NamedQuery(name = "ProcurementPlan.findAll", query = "SELECT p FROM ProcurementPlan p"),
     @NamedQuery(name = "ProcurementPlan.findById", query = "SELECT p FROM ProcurementPlan p WHERE p.id = :id"),
     @NamedQuery(name = "ProcurementPlan.findByDescription", query = "SELECT p FROM ProcurementPlan p WHERE p.description = :description"),

@@ -64,4 +64,11 @@ public interface PersonRoleRequestsLocal {
      */
     public PersonRoleDetail convertPersonRoleToPersonRoleDetail(PersonRole personRole);
 
+    /**
+     *
+     * @return the list of person roles
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonRoleDetail> retrievePersonRolesNotAdminOrPcu() throws MilesException;
+
 }

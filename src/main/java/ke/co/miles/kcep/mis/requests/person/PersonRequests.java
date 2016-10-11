@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.County;
@@ -65,9 +66,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             person = null;
         }
         if (person != null) {
-            if (person.getNationalId() != null) {
-                throw new InvalidArgumentException("error_001_02");
-            }
+            throw new InvalidArgumentException("error_001_02");
         }
 
         person = new Person();
@@ -630,6 +629,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
         if (person != null) {
             if (person.getNationalId() != null && !person.getId().equals(personDetails.getId())) {
+                MilesDebugger.debug("Person id: " + person.getId());
+                MilesDebugger.debug("Person details id: " + personDetails.getId());
                 throw new InvalidArgumentException("error_001_02");
             }
         }

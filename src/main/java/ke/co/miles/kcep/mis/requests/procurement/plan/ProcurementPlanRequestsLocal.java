@@ -32,7 +32,14 @@ public interface ProcurementPlanRequestsLocal {
      * @return the list of procurement plan record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<ProcurementPlanDetails> retrieveProcurementPlans() throws MilesException;
+    public List<ProcurementPlanDetails> retrieveProcurementPlansNcs() throws MilesException;
+
+    /**
+     *
+     * @return the list of procurement plan - goods record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<ProcurementPlanDetails> retrieveProcurementPlansGoods() throws MilesException;
 
     /**
      *

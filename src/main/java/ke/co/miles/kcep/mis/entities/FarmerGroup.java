@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FarmerGroup.findByName", query = "SELECT f FROM FarmerGroup f WHERE f.name = :name")})
 public class FarmerGroup implements Serializable {
 
+    @Column(name = "trained")
+    private Boolean trained;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -127,6 +129,14 @@ public class FarmerGroup implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmerGroup[ id=" + id + " ]";
+    }
+
+    public Boolean getTrained() {
+        return trained;
+    }
+
+    public void setTrained(Boolean trained) {
+        this.trained = trained;
     }
 
 }

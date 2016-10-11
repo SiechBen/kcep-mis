@@ -167,7 +167,7 @@ $(function () {
                 }
             },
             {
-                text: "Goal/objectives report",
+                text: "Goals report",
                 action: function () {
                     loadAjaxWindow("goalLevelReports");
                 }
@@ -944,7 +944,7 @@ function updateTraineeCounts() {
     });
 }
 
-function editPerson(id, name, sex, nationalId, personRole, dateOfBirth, businessName,
+function editPerson(id, name, sex, personRole, nationalId, dateOfBirth, businessName,
         farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
     $("#person-name").val(name);
     if (sex !== "")
@@ -1059,12 +1059,9 @@ function clearPersonFields() {
     $("#date-of-birth").val("");
     $("#person-name").val("");
     $("#farmer-group").val("");
-    $("#ward").val("");
     $("#postal-address").val("");
-    $("#county").val("");
     $("#business-name").val("");
     $("#farmer-sub-group").val("");
-    $("#sub-county").val("");
 }
 
 //</editor-fold>
@@ -2301,8 +2298,7 @@ function addProcurementPlanCs() {
     $.ajax({
         url: "doAddProcurementPlanCs",
         type: "POST",
-        data: "procurementPlanType=" + $("#procurement-plan-type").val() +
-                "&description=" + $("#description").val() +
+        data: "description=" + $("#description").val() +
                 "&ifadPriorReview=" + $("#ifad-prior-review").val() +
                 "&planVsActual=" + $("#plan-vs-actual").val() +
                 "&cost=" + $("#cost").val() +
@@ -3322,7 +3318,7 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "editAccount",
+                    url: "doEditAccount",
                     type: "POST",
                     data: "accountNumber=" + $("#account-number").val() + "&eblBranch=" + $("#ebl-branch").val()
                             + "&solId=" + $("#sol-id").val() + "&savings=" + $("#savings").val(),

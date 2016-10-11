@@ -42,8 +42,9 @@ import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
  *
  * @author siech
  */
-@WebServlet(name = "EVoucherController", urlPatterns = {"/addEVoucher",
-    "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
+@WebServlet(name = "EVoucherController", urlPatterns = {
+    //    "/addEVoucher",
+    //    "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
     "/farmers", "/agroDealers"})
 @MultipartConfig
 public class EVoucherController extends Controller {

@@ -8,8 +8,8 @@ package ke.co.miles.kcep.mis.requests.person.role;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
-import ke.co.miles.kcep.mis.entities.PersonRole;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.PersonRole;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -63,6 +63,27 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonRoleDetail> retrievePersonRolesNotAdminOrPcu() throws MilesException {
+
+        List<PersonRole> personRoles = new ArrayList<>();
+        setQ(em.createNamedQuery("PersonRole.findNotAdminOrPcu"));
+        List<Short> personRoleIds = new ArrayList<>();
+        personRoleIds.add(PersonRoleDetail.SYSTEM_ADMIN.getId());
+        personRoleIds.add(PersonRoleDetail.NATIONAL_OFFICER.getId());
+        q.setParameter("personRoleIds", personRoleIds);
+        try {
+            personRoles = q.getResultList();
+            for (PersonRole pd : personRoles) {
+            }
+        } catch (Exception e) {
+        }
+
+        return convertPersonRolesToPersonRoleDetailList(personRoles);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<PersonRoleDetail> retrievePersonRoles() throws MilesException {
         List<PersonRole> personRoles = new ArrayList<>();
         setQ(em.createNamedQuery("PersonRole.findAll"));

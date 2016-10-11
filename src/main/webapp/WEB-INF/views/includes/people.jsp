@@ -139,7 +139,7 @@
                     <div class="form-group">
                         Person role
                         <select id="person-role" class="form-control">
-                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
+                            <c:forEach var="personRole" items="${sessionScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}">${personRole.personRole}</option>
                             </c:forEach>
                         </select>
@@ -167,7 +167,7 @@
                     <div class="form-group">
                         County
                         <select id="county" name="person-county" class="form-control" onchange="updateSubCounties()">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
+                            <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
                         </select>
@@ -175,7 +175,7 @@
                     <div class="form-group">
                         Sub-county
                         <select id="sub-county" name="person-sub-county" class="form-control" onchange="updateWards()">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>
@@ -183,8 +183,8 @@
                     <div class="form-group">
                         Ward
                         <select id="ward" name="ward" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
-                                <option value="${subCounty.id}">${subCounty.name}</option>
+                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">
+                                <option value="${ward.id}">${ward.name}</option>
                             </c:forEach>
                         </select>
                     </div>

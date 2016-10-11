@@ -74,22 +74,25 @@
                             <button onclick="editAccount('${sessionScope.account.accountNumber}', '${sessionScope.account.eblBranch.id}', '${sessionScope.account.solId}', '${sessionScope.account.savings}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
                         </div>
                         <table id="account-table" class="table table-striped table-bordered table-hover farm-data-table">
-                            <tr>
-                                <th>Account Number</th>
-                                <td>${sessionScope.account.accountNumber}</td>
-                            </tr>
-                            <tr>
-                                <th>Ebl Branch</th>
-                                <td>${sessionScope.account.eblBranch.name}</td>
-                            </tr>
-                            <tr>
-                                <th>Sol Id</th>
-                                <td>${sessionScope.account.solId}</td>
-                            </tr>
-                            <tr>
-                                <th>Amount of savings</th>
-                                <td>${sessionScope.account.savings}</td>
-                            </tr>
+                            <thead></thead>
+                            <tbody>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <td>${sessionScope.account.accountNumber}</td>
+                                </tr>
+                                <tr>
+                                    <th>Ebl Branch</th>
+                                    <td>${sessionScope.account.eblBranch.name}</td>
+                                </tr>
+                                <tr>
+                                    <th>Sol Id</th>
+                                    <td>${sessionScope.account.solId}</td>
+                                </tr>
+                                <tr>
+                                    <th>Amount of savings</th>
+                                    <td>${sessionScope.account.savings}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                     <div class="tab-pane fade" id="loan">

@@ -64,7 +64,22 @@ public class FarmerGroupDetails implements Serializable, Comparable<FarmerGroupD
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the trained
+     */
+    public Boolean getTrained() {
+        return trained;
+    }
+
+    /**
+     * @param trained the trained to set
+     */
+    public void setTrained(Boolean trained) {
+        this.trained = trained;
+    }
+
     private Integer id;
     private String name;
+    private Boolean trained;
 
 }

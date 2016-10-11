@@ -3,6 +3,7 @@
     Created on : Sep 7, 2016, 1:08:36 PM
     Author     : ronne
 --%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -21,7 +22,7 @@
                     <div class="form-group">
                         Person role
                         <select id="person-role" class="form-control">
-                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
+                            <c:forEach var="personRole" items="${sessionScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}">${personRole.personRole}</option>
                             </c:forEach>
                         </select>
@@ -74,33 +75,3 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <div class="form-group">
-                        County
-                        <select id="county" class="form-control" onchange="updateSubCounties()">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
-                                <option value="${county.id}">${county.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        Sub-county
-                        <select id="sub-county" class="form-control" onchange="updateWards()">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
-                                <option value="${subCounty.id}">${subCounty.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        Ward
-                        <select id="ward" class="form-control">
-                            <c:forEach var="ward" items="${applicationScope.wards}" varStatus="index">
-                                <option value="${ward.id}">${ward.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save person</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
