@@ -84,14 +84,14 @@
                 <div class="content">
                     <h1><center>Welcome to KCEP-MIS</center></h1>
                 </div>
-                <form class="email">
+                <div class="feedback">
                     <center>
-                        <input type="text" class="field" onfocus="if (this.value === 'Get Notified (Email Address)')
-                                    this.value = '';" onblur="if (this.value === '' || this.value === ' ')
-                                                this.value = 'Get Notified (Email Address)';" value="Leave a comment to management" />
-                        <input type="button" class="submit" />
+                        <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials')
+                                    this.value = '';" onblur="if (this.value.trim() === '')
+                                                this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
+                        <input type="button" class="submit" onclick="saveFeedback()">
                     </center>
-                </form>
+                </div>
             </div>
             <div class="dialog" id="message-dialog">
                 <p id="message"></p>
@@ -110,25 +110,6 @@
         <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
         <script src="static/plugins/jquery-awesome-cursor/js/jquery.awesome-cursor.min.js"></script>
-        <script>
-                                        Cufon.replace('a.logo', {fontFamily: 'Bebas'});
-                                        Cufon.replace('a.logo span', {fontFamily: 'Bell Gothic Std'});
-                                        function loadAjaxWindow(target) {
-                                            $.ajax({
-                                                url: target,
-                                                type: "POST",
-                                                data: null,
-                                                success: function () {
-                                                    window.location = target;
-                                                    return;
-                                                },
-                                                error: function (response) {
-                                                    showError("error_label", response.responseText);
-                                                },
-                                                dataType: "HTML"
-                                            });
-                                        }
-        </script>
-
+        <script src="static/js/index.js"></script>
     </body>
 </html>

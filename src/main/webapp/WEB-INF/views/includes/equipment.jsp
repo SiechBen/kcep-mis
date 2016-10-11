@@ -60,7 +60,7 @@
                     </div>
                     <div class="tab-pane fade" id="warehouse-operations">
                         <h4>Warehouse operations</h4>
-                        <table id="warehouse-operations-table" class="table table-striped table-bordered table-hover data-table">
+                        <table id="warehouse-operations-table" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th><button type="button" class="btn btn-outline btn-primary" onclick="addWarehouseOperation(${sessionScope.warehouse.id}); return false;">Add</button></th>

@@ -154,6 +154,8 @@ public class FeedbackController extends Controller {
             }
         }
 
+        urlPaths.add("/saveFeedback");
+
         if (urlPaths.contains(path)) {
 
             PersonDetails user = (PersonDetails) session.getAttribute("person");
@@ -240,7 +242,7 @@ public class FeedbackController extends Controller {
 
                     break;
 
-                case "/farmer_saveFeedback":
+                case "/saveFeedback":
 
                     String feedbackMessage = request.getParameter("feedback");
                     if (feedbackMessage.equals("null")) {

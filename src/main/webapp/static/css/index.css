@@ -152,19 +152,19 @@ ul.s_icons li.in:hover{
     background-position: -275px bottom;
 }
 
-.email{
+.feedback{
     width: 643px;
     margin: 0 auto;
 }
 
 .field{
-    width: 423px;
+    width: 467px;
     height: 61px;
     float: left;
     background: url(../images/field.png) left top no-repeat;
     border: 0;
-    padding: 0 35px;
-    font-size: 26px;
+    padding: 0 15px;
+    font-size: 18px;
     color: #8598bb;
     font-family: Helvetica Neue, Helvetica, Arial;
 }

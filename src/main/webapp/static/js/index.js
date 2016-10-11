@@ -1,0 +1,49 @@
+Cufon.replace('a.logo', {fontFamily: 'Bebas'});
+Cufon.replace('a.logo span', {fontFamily: 'Bell Gothic Std'});
+function loadAjaxWindow(target) {
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: null,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function saveFeedback() {
+    $.ajax({
+        url: "saveFeedback",
+        type: "POST",
+        data: "feedback=" + $("#feedback").val(),
+        success: function () {
+            $("#feedback").val("");
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function showError(title, message) {
+    $("#message").html(String(message));
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: title,
+        resizable: false,
+        modal: false,
+        context: $(this),
+        buttons: {
+            "Ok": function () {
+                $(this).dialog("close");
+            }
+        }
+    });
+}

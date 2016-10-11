@@ -596,7 +596,7 @@ public class TrainingController extends Controller {
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        LOGGER.log(Level.FINE, getBundle().getString("string_parse_error"));
                         training.setStartDate(null);
                     }
                     try {
@@ -606,7 +606,7 @@ public class TrainingController extends Controller {
                     } catch (ParseException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
+                        LOGGER.log(Level.FINE, getBundle().getString("string_parse_error"));
                         training.setEndDate(null);
                     }
 

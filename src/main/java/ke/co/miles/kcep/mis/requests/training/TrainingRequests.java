@@ -53,8 +53,9 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         training.setVenue(locationService.addLocation(trainingDetails.getVenue()));
 
         if (trainingDetails.getCategoryOfTrainees() != null) {
-            training.setCategoryOfTrainees(em.getReference(Phenomenon.class,
-                    trainingDetails.getCategoryOfTrainees().getId()));
+
+            training.setCategoryOfTrainees(em.getReference(Phenomenon.class, trainingDetails.getCategoryOfTrainees().getId()));
+
             if (null != training.getCategoryOfTrainees().getId()) {
                 switch (training.getCategoryOfTrainees().getId()) {
                     case 1:

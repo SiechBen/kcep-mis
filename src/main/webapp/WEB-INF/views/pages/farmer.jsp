@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : farmer
     Created on : Jun 27, 2016, 7:07:03 AM
     Author     : siech
@@ -16,7 +16,7 @@
             <div class="col-lg-9">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Enter your feedback, suggestions, comments and views about the programme below. 
+                        Enter your feedback, suggestions, comments and views about the programme below.
                         This will be sent to the officials at the KCEP programme such as the Ward Extension Officer.
                     </div>
                     <!-- /.panel-heading -->
@@ -36,7 +36,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="submit" value="Submit" class="btn btn-default">
+                                            <input type="submit" value="Submit" class="btn btn-outline btn-primary">
                                         </td>
                                     </tr>
                                 </tbody>

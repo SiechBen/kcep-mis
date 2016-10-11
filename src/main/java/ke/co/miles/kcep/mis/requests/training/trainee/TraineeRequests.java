@@ -17,6 +17,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.FarmerGroup;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Trainee;
 import ke.co.miles.kcep.mis.entities.Training;
@@ -55,6 +56,29 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         trainee.setTraining(em.getReference(Training.class, traineeDetails.getTraining().getId()));
         Person person = trainee.getPerson();
 
+        TrainingDetails trainingDetails = traineeDetails.getTraining();
+
+        if (null != trainingDetails.getCategoryOfTrainees().getId() && trainingDetails.getCategoryOfTrainees().getId().equals(1)) {
+            if (trainingDetails.getTopic() != null && trainingDetails.getTopic().getId() == 15) {
+                if (null != person.getFarmerGroup() && !person.getFarmerGroup().getTrained()) {
+                    MilesDebugger.debug();
+                    MilesDebugger.debug(person.getFarmerGroup().getTrained());
+                    try {
+                        FarmerGroup farmerGroup = person.getFarmerGroup();
+                        farmerGroup.setTrained(Boolean.TRUE);
+                        em.merge(farmerGroup);
+
+                        setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
+                        q.setParameter(1, 1);
+                        q.setParameter(2, 30);
+                        q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
+                        q.executeUpdate();
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+
         if (trainee.getTraining().getTopic() != null && trainee.getTraining().getTopic().getId() == 11) {
             Date date = (null == person.getDateOfBirth() ? new Date() : person.getDateOfBirth());
             Calendar calendar = Calendar.getInstance();
@@ -71,7 +95,6 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
                     q.setParameter(2, 77);
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
-                    MilesDebugger.debug("actual value set");
                 } catch (Exception e) {
                 }
             }

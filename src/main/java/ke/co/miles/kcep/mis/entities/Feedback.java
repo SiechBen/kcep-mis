@@ -56,7 +56,7 @@ public class Feedback implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date timePosted;
     @JoinColumn(name = "farmer", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Person farmer;
 
     public Feedback() {

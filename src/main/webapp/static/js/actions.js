@@ -260,6 +260,22 @@ $(function () {
 });
 
 $(function () {
+    $("#warehouse-operations-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
+
+$(function () {
     $("#training-table").DataTable({
         responsive: true,
         "scrollX": true,
@@ -1752,8 +1768,22 @@ $("#feedback-form").ajaxForm({
     error: function (response) {
         showError("error_label", response.responseText);
     }
+});
+
+function saveFeedback() {
+    $.ajax({
+        url: "saveFeedback",
+        type: "POST",
+        data: "feedback=" + $("#feedback").val(),
+        success: function () {
+            $("#feedback").val("");
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
 }
-);
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity">

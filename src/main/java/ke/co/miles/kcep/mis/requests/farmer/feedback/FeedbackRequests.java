@@ -33,14 +33,14 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
             throw new InvalidArgumentException("error_031_01");
         } else if (feedbackDetails.getMessage() == null) {
             throw new InvalidArgumentException("error_031_02");
-        } else if (feedbackDetails.getFarmer() == null) {
-            throw new InvalidArgumentException("error_031_03");
         }
 
         Feedback feedback = new Feedback();
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        if (feedbackDetails.getFarmer() != null) {
+            feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        }
 
         try {
             em.persist(feedback);
@@ -164,16 +164,15 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
             throw new InvalidArgumentException("error_031_04");
         } else if (feedbackDetails.getMessage() == null) {
             throw new InvalidArgumentException("error_031_02");
-        } else if (feedbackDetails.getFarmer() == null) {
-            throw new InvalidArgumentException("error_031_03");
         }
 
         Feedback feedback = em.find(Feedback.class, feedbackDetails.getId());
         feedback.setId(feedbackDetails.getId());
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
-
+        if (feedbackDetails.getFarmer() != null) {
+            feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        }
         try {
             em.merge(feedback);
             em.flush();
@@ -201,7 +200,9 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     public FeedbackDetails convertFeedbackToFeedbackDetails(Feedback feedback) {
 
         FeedbackDetails feedbackDetails = new FeedbackDetails(feedback.getId());
-        feedbackDetails.setFarmer(personService.convertPersonToPersonDetails(feedback.getFarmer()));
+        if (feedback.getFarmer() != null) {
+            feedbackDetails.setFarmer(personService.convertPersonToPersonDetails(feedback.getFarmer()));
+        }
         feedbackDetails.setMessage(feedback.getMessage());
         feedbackDetails.setTimePosted(feedback.getTimePosted());
         StringBuilder shortMessage = new StringBuilder();
