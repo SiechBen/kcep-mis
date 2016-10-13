@@ -99,7 +99,7 @@
                     </div>
                     <div class="form-group">
                         Attachments (e.g attendance sheet)
-                        <input type="file" id="attendance-sheet" name="attendance-sheet" class="form-control">
+                        <input type="file" id="attendance-sheet" name="attendance-sheet" class="form-control" multiple>
                     </div>
                     <span>
                         <input type="submit" class="btn btn-outline btn-primary" value="Save training">

@@ -30,7 +30,8 @@ import ke.co.miles.kcep.mis.utilities.PersonDetails;
  *
  * @author siech
  */
-@WebServlet(name = "FeedbackController", urlPatterns = {"/feedback", "/saveFeedback"})
+@WebServlet(name = "FeedbackController", urlPatterns = {"/feedback",
+    "/saveFeedback", "/success_stories"})
 public class FeedbackController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -57,9 +58,13 @@ public class FeedbackController extends Controller {
                             if (path.equals("/feedback")) {
                                 path = "/head_feedback";
                                 urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/head_success_stories";
+                                urlPaths.add(path);
                             }
                         }
                         break;
+
                     case "farmerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/feedback");
@@ -73,6 +78,9 @@ public class FeedbackController extends Controller {
                             if (path.equals("/feedback")) {
                                 path = "/agro_dealer_feedback";
                                 urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/agro_dealer_success_stories";
+                                urlPaths.add(path);
                             }
                         }
                         break;
@@ -81,6 +89,9 @@ public class FeedbackController extends Controller {
                             urlPaths.add("/saveFeedback");
                             if (path.equals("/feedback")) {
                                 path = "/county_feedback";
+                                urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/county_success_stories";
                                 urlPaths.add(path);
                             }
                         }
@@ -91,6 +102,9 @@ public class FeedbackController extends Controller {
                             if (path.equals("/feedback")) {
                                 path = "/sub_county_feedback";
                                 urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/sub_county_success_stories";
+                                urlPaths.add(path);
                             }
                         }
                         break;
@@ -99,6 +113,9 @@ public class FeedbackController extends Controller {
                             urlPaths.add("/saveFeedback");
                             if (path.equals("/feedback")) {
                                 path = "/equityfeedback";
+                                urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/equity_success_stories";
                                 urlPaths.add(path);
                             }
                         }
@@ -109,6 +126,9 @@ public class FeedbackController extends Controller {
                             if (path.equals("/feedback")) {
                                 path = "/kalro_feedback";
                                 urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/kalro_success_stories";
+                                urlPaths.add(path);
                             }
                         }
                         break;
@@ -117,6 +137,9 @@ public class FeedbackController extends Controller {
                             urlPaths.add("/saveFeedback");
                             if (path.equals("/feedback")) {
                                 path = "/agmark_feedback";
+                                urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/agmark_success_stories";
                                 urlPaths.add(path);
                             }
                         }
@@ -127,6 +150,9 @@ public class FeedbackController extends Controller {
                             if (path.equals("/feedback")) {
                                 path = "/region_feedback";
                                 urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/regional_success_stories";
+                                urlPaths.add(path);
                             }
                         }
                         break;
@@ -135,6 +161,9 @@ public class FeedbackController extends Controller {
                             urlPaths.add("/saveFeedback");
                             if (path.equals("/feedback")) {
                                 path = "/ward_feedback";
+                                urlPaths.add(path);
+                            } else if (path.equals("/success_stories")) {
+                                path = "/ward_success_stories";
                                 urlPaths.add(path);
                             }
                         }
@@ -300,7 +329,8 @@ public class FeedbackController extends Controller {
     }
 
 //</editor-fold>
-    private static final Logger LOGGER = Logger.getLogger(EVoucherController.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(EVoucherController.class
+            .getSimpleName());
     @EJB
     private FeedbackRequestsLocal feedbackService;
 

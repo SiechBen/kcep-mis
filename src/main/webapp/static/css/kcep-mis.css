@@ -31,6 +31,12 @@ body {
     font-size: 100%;
 }
 
+.about-text{
+    margin: 20px;
+    padding: 20px;
+    font-size: 200%;
+}
+
 #wrapper {
     width: 100%;
 }

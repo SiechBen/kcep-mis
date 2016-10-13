@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : ward
     Created on : Jun 22, 2016, 8:52:24 AM
     Author     : siech
@@ -11,6 +11,8 @@
 <kcep:ward>
     <jsp:attribute name="pagetitle"> KCEP-MIS - ward officer </jsp:attribute>
     <jsp:attribute name="pagecontent">
+
+        <jsp:include page="../includes/home.jsp"/>
 
     </jsp:attribute>
 </kcep:ward>

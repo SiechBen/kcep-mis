@@ -7,5 +7,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <li>
-    <a href="http://www.kcep-mis.co.ke:8080/surveys/" target="_blank"><i class="fa fa-road fa-fw"></i> Surveys </a>
+    <a href="http://192.168.0.106:8080/surveys/" target="_blank"><i class="fa fa-road fa-fw"></i> Surveys </a>
 </li>

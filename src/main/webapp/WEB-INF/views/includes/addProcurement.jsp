@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         Attachments (e.g. invoice or receipt)
-                        <input type="file" id="invoice-or-receipt" name="invoice-or-receipt" class="form-control">
+                        <input type="file" id="invoice-or-receipt" name="invoice-or-receipt" class="form-control" multiple>
                     </div>
                     <input type="submit" class="btn btn-outline btn-primary" value="Save procurement">
                 </form>

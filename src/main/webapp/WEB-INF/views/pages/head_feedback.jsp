@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : head_feedback
     Created on : Jun 28, 2016, 7:14:46 AM
     Author     : siech
@@ -33,11 +33,6 @@
                                             <textarea id="feedback" name="feedback" class="form-control">${feedback.message}</textarea>
                                         </td>
                                     </tr>
-                                    <!--                                        <tr>
-                                                                                <td>
-                                                                                    <Button type="submit" class="btn btn-default">Reply</Button>
-                                                                                </td>
-                                                                            </tr>-->
                                 </tbody>
                             </table>
                         </c:forEach>

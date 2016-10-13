@@ -21,6 +21,7 @@
         <jsp:include page="../../tags/includes/warehouses_item.jsp"/>
         <jsp:include page="../../tags/includes/procurements_item.jsp"/>
         <jsp:include page="../../tags/includes/performance_indicators_item.jsp"/>
+        <jsp:include page="../../tags/includes/success_stories_item.jsp"/>
         <jsp:include page="../../tags/includes/surveys_item.jsp"/>
     </jsp:attribute>
 

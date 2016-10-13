@@ -5,12 +5,13 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:agro_dealer>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - agro-dealer </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - view people </jsp:attribute>
     <jsp:attribute name="pagecontent">
+
+        <jsp:include page="../includes/home.jsp"/>
 
     </jsp:attribute>
 </kcep:agro_dealer>

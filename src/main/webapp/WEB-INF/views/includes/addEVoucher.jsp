@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         Attachment i.e scanned pages/ photos from the inputs logging book
-                        <input type="file" id="inputs-loogbook-page" name="inputs-loogbook-page" class="form-control">
+                        <input type="file" id="inputs-loogbook-page" name="inputs-loogbook-page" class="form-control" multiple>
                     </div>
                     <input type="submit" class="btn btn-outline btn-primary" value="Save e-voucher">
                 </form>
