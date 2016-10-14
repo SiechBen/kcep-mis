@@ -59,8 +59,7 @@
                                     <td>${training.venue.ward.name}</td>
                                     <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
                                     <td>${training.categoryOfTrainees.category.name}</td>
-                                    <td><a href="download?filePath=${training.attendanceSheet}"
-                                           target="_blank">${training.fileName}</a></td>
+                                    <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
                                     <td><button onclick="editTraining(
                                                     '${training.id}',
                                                     '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/>',

@@ -1,18 +1,17 @@
 <%--
-    Document   : head_feedback
-    Created on : Jun 28, 2016, 7:14:46 AM
+    Document   : equity_feedback
+    Created on : Oct 13, 2016, 12:49:13 PM
     Author     : siech
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:head>
+<kcep:equity>
     <jsp:attribute name="pagetitle"> KCEP-MIS - farmer feedback </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/feedback.jsp"/>
 
     </jsp:attribute>
-</kcep:head>
+</kcep:equity>

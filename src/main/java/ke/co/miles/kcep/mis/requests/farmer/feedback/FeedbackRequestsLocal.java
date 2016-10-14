@@ -10,6 +10,7 @@ import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Feedback;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
+import ke.co.miles.kcep.mis.utilities.FeedbackTypeDetail;
 
 /**
  *
@@ -29,10 +30,11 @@ public interface FeedbackRequestsLocal {
 
     /**
      *
+     * @param feedbackType the type of feedback
      * @return the list of feedback record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<FeedbackDetails> retrieveFeedback() throws MilesException;
+    public List<FeedbackDetails> retrieveFeedback(FeedbackTypeDetail feedbackType) throws MilesException;
 
     /**
      *
@@ -43,39 +45,43 @@ public interface FeedbackRequestsLocal {
 
     /**
      *
+     * @param feedbackType the type of feedback
      * @param countyId the county in which the farmers who posted the feedback
      * were posted belongs
      * @return the list of feedback records from a county
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<FeedbackDetails> retrieveCountyFeedback(short countyId) throws MilesException;
+    public List<FeedbackDetails> retrieveCountyFeedback(FeedbackTypeDetail feedbackType, short countyId) throws MilesException;
 
     /**
      *
+     * @param feedbackType the type of feedback
      * @param subCountyId the sub-county in which the farmers who posted the
      * feedback were posted belongs
      * @return the list of feedback records from a sub-county
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<FeedbackDetails> retrieveSubCountyFeedback(int subCountyId) throws MilesException;
+    public List<FeedbackDetails> retrieveSubCountyFeedback(FeedbackTypeDetail feedbackType, int subCountyId) throws MilesException;
 
     /**
      *
+     * @param feedbackType the type of feedback
      * @param wardId the ward in which the farmers who posted the feedback were
      * posted belongs
      * @return the list of feedback records from a ward
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<FeedbackDetails> retrieveWardFeedback(int wardId) throws MilesException;
+    public List<FeedbackDetails> retrieveWardFeedback(FeedbackTypeDetail feedbackType, int wardId) throws MilesException;
 
     /**
      *
+     * @param feedbackType the type of feedback
      * @param regionId the region in which the farmers who posted the feedback
      * were posted belongs
      * @return the list of feedback records from a region
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<FeedbackDetails> retrieveRegionFeedback(int regionId) throws MilesException;
+    public List<FeedbackDetails> retrieveRegionFeedback(FeedbackTypeDetail feedbackType, int regionId) throws MilesException;
 
     /**
      *

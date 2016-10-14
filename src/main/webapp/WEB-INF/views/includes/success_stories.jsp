@@ -24,18 +24,18 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <textarea id="success-story" name="success-story" class="form-control"></textarea>
+                                    <textarea name="success-story" class="form-control"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <th class="divider"></th>
                             </tr>
                             <tr>
-                                <th>Media file(s)</th>
+                                <th>Attachment(s) / media file(s)</th>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="file" name="media" multiple>
+                                    <input type="file" name="media-file" multiple>
                                 </td>
                             </tr>
                             <tr>

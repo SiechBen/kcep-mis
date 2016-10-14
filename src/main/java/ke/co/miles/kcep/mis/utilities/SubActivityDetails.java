@@ -182,11 +182,11 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.activityName = activityName;
     }
 
-    public ExpenditureCategoryDetails getExpenditureCategory() {
+    public PhenomenonDetails getExpenditureCategory() {
         return expenditureCategory;
     }
 
-    public void setExpenditureCategory(ExpenditureCategoryDetails expenditureCategory) {
+    public void setExpenditureCategory(PhenomenonDetails expenditureCategory) {
         this.expenditureCategory = expenditureCategory;
     }
 
@@ -337,7 +337,7 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private Double euPercentage;
     private Double financialInstitutionPercentage;
     private ActivityNameDetails activityName;
-    private ExpenditureCategoryDetails expenditureCategory;
+    private PhenomenonDetails expenditureCategory;
     private PerformanceIndicatorDetails performanceIndicator;
     private ComponentDetails component;
     private SubComponentDetails subComponent;

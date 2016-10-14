@@ -39,7 +39,7 @@
                                 <th>Implementing partner</th>
                                 <th>Procurement plan</th>
                                 <th>Description</th>
-                                <th>Value achieved</th>
+                                <th>Expenditure</th>
                                 <th>Allocated budget</th>
                                 <th>Expenditure category</th>
                                 <th>GOK percentage</th>
@@ -82,7 +82,7 @@
                                     <td>${subActivity.description}</td>
                                     <td>${subActivity.valueAchieved}</td>
                                     <td>${subActivity.allocatedBudget}</td>
-                                    <td>${subActivity.expenditureCategory.name}</td>
+                                    <td>${subActivity.expenditureCategory.category.name}</td>
                                     <td>${subActivity.gokPercentage}</td>
                                     <td>${subActivity.ifadLoanPercentage}</td>
                                     <td>${subActivity.ifadGrantPercentage}</td>
@@ -275,7 +275,7 @@
                         <select id="expected-category" class="form-control">
                             <option value="">Select expenditure category</option>
                             <c:forEach var="expenditureCategory" items="${sessionScope.expenditureCategories}" varStatus="counter">
-                                <option value="${expenditureCategory.id}">${expenditureCategory.name}</option>
+                                <option value="${expenditureCategory.id}">${expenditureCategory.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

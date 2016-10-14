@@ -12,6 +12,24 @@
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/addWarehouse.jsp"/>
+        <div class="form-group">
+            <input type="hidden" id="county" value="${sessionScope.person.location.county.id}">
+            <input type="hidden" id="sub-county" value="${sessionScope.person.location.subCounty.id}">
+        </div>
+        <div class="form-group">
+            Ward
+            <select id="ward" class="form-control">
+                <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">
+                    <option value="${ward.id}">${ward.name}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <button type="button" class="btn btn-outline btn-primary" onclick="addWarehouse()">Save warehouse</button>
+    </form>
+</div>
+</div>
+</div>
+</div>
 
-    </jsp:attribute>
+</jsp:attribute>
 </kcep:sub_county>

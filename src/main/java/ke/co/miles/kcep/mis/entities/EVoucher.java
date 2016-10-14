@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,8 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EVoucher.findAll", query = "SELECT e FROM EVoucher e"),
     @NamedQuery(name = "EVoucher.findById", query = "SELECT e FROM EVoucher e WHERE e.id = :id"),
     @NamedQuery(name = "EVoucher.findByAmount", query = "SELECT e FROM EVoucher e WHERE e.amount = :amount"),
-    @NamedQuery(name = "EVoucher.findByDateRedeemed", query = "SELECT e FROM EVoucher e WHERE e.dateRedeemed = :dateRedeemed"),
-    @NamedQuery(name = "EVoucher.findByInputsLogbookPage", query = "SELECT e FROM EVoucher e WHERE e.inputsLogbookPage = :inputsLogbookPage")})
+    @NamedQuery(name = "EVoucher.findByDateRedeemed", query = "SELECT e FROM EVoucher e WHERE e.dateRedeemed = :dateRedeemed")})
 public class EVoucher implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,7 +45,8 @@ public class EVoucher implements Serializable {
     @Column(name = "date_redeemed")
     @Temporal(TemporalType.DATE)
     private Date dateRedeemed;
-    @Size(max = 200)
+    @Lob
+    @Size(max = 65535)
     @Column(name = "inputs_logbook_page")
     private String inputsLogbookPage;
     @JoinColumn(name = "input_type", referencedColumnName = "id")

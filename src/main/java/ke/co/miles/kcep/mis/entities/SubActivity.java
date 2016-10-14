@@ -103,9 +103,6 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "activity_name", referencedColumnName = "id")
     @ManyToOne
     private ActivityName activityName;
-    @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
-    @ManyToOne
-    private ExpenditureCategory expenditureCategory;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne
     private Component component;
@@ -121,18 +118,21 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon implementingPartner;
-    @JoinColumn(name = "financial_year", referencedColumnName = "id")
-    @ManyToOne
-    private FinancialYear financialYear;
     @JoinColumn(name = "response_pcu", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon responsePcu;
     @JoinColumn(name = "annual_indicator", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon annualIndicator;
+    @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon expenditureCategory;
     @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
     @ManyToOne
     private SubActivityName subActivityName;
+    @JoinColumn(name = "financial_year", referencedColumnName = "id")
+    @ManyToOne
+    private FinancialYear financialYear;
 
     public SubActivity() {
     }
@@ -301,14 +301,6 @@ public class SubActivity implements Serializable {
         this.activityName = activityName;
     }
 
-    public ExpenditureCategory getExpenditureCategory() {
-        return expenditureCategory;
-    }
-
-    public void setExpenditureCategory(ExpenditureCategory expenditureCategory) {
-        this.expenditureCategory = expenditureCategory;
-    }
-
     public Component getComponent() {
         return component;
     }
@@ -349,14 +341,6 @@ public class SubActivity implements Serializable {
         this.implementingPartner = implementingPartner;
     }
 
-    public FinancialYear getFinancialYear() {
-        return financialYear;
-    }
-
-    public void setFinancialYear(FinancialYear financialYear) {
-        this.financialYear = financialYear;
-    }
-
     public Phenomenon getResponsePcu() {
         return responsePcu;
     }
@@ -373,12 +357,28 @@ public class SubActivity implements Serializable {
         this.annualIndicator = annualIndicator;
     }
 
+    public Phenomenon getExpenditureCategory() {
+        return expenditureCategory;
+    }
+
+    public void setExpenditureCategory(Phenomenon expenditureCategory) {
+        this.expenditureCategory = expenditureCategory;
+    }
+
     public SubActivityName getSubActivityName() {
         return subActivityName;
     }
 
     public void setSubActivityName(SubActivityName subActivityName) {
         this.subActivityName = subActivityName;
+    }
+
+    public FinancialYear getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(FinancialYear financialYear) {
+        this.financialYear = financialYear;
     }
 
     @Override

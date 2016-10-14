@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
-import ke.co.miles.kcep.mis.entities.ExpenditureCategory;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -30,13 +30,12 @@ import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityName
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
-import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 
 /**
@@ -102,7 +101,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         } catch (Exception e) {
         }
         if (subActivityDetails.getExpenditureCategory() != null) {
-            subActivity.setExpenditureCategory(em.getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
+            subActivity.setExpenditureCategory(em.getReference(Phenomenon.class, subActivityDetails.getExpenditureCategory().getId()));
         }
         if (subActivityDetails.getGfssCode() != null) {
             subActivity.setGfssCode(em.getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
@@ -141,7 +140,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private List<SubActivityDetails> retrieveSubActivities(ExpenditureCategoryDetails expenditureCategoryDetails, short financialYearId) throws MilesException {
+    private List<SubActivityDetails> retrieveSubActivities(PhenomenonDetails expenditureCategoryDetails, short financialYearId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
         q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
@@ -185,12 +184,12 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private Map<ExpenditureCategoryDetails, List<SubActivityDetails>> retrieveExpenditureCategoriesMap(short financialYearId) throws MilesException {
-        Map<ExpenditureCategoryDetails, List<SubActivityDetails>> expenditureCategoriesMap = new HashMap<>();
-        List<ExpenditureCategoryDetails> expenditureCategoryDetailsList;
+    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveExpenditureCategoriesMap(short financialYearId) throws MilesException {
+        Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = new HashMap<>();
+        List<PhenomenonDetails> expenditureCategoryDetailsList;
 
-        expenditureCategoryDetailsList = expenditureCategoryService.retrieveExpenditureCategories();
-        for (ExpenditureCategoryDetails expenditureCategoryDetails : expenditureCategoryDetailsList) {
+        expenditureCategoryDetailsList = phenomenonService.retrieveExpenditureCategories();
+        for (PhenomenonDetails expenditureCategoryDetails : expenditureCategoryDetailsList) {
             expenditureCategoriesMap.put(expenditureCategoryDetails,
                     retrieveSubActivities(expenditureCategoryDetails, financialYearId));
         }
@@ -213,15 +212,15 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @Override
-    public Map<FinancialPlanDetails, Map<ExpenditureCategoryDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException {
 
-        Map<ExpenditureCategoryDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId);
-        Map<ExpenditureCategoryDetails, FinancialPlanDetails> categoryToFinancialPlansMap = new HashMap<>();
-        Map<FinancialPlanDetails, Map<ExpenditureCategoryDetails, FinancialPlanDetails>> totalsToCategoryToFinancialPlansMap = new HashMap<>();
+        Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId);
+        Map<PhenomenonDetails, FinancialPlanDetails> categoryToFinancialPlansMap = new HashMap<>();
+        Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> totalsToCategoryToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
         FinancialPlanDetails financialPlanTotals = new FinancialPlanDetails();
 
-        for (ExpenditureCategoryDetails expenditureCategory : expenditureCategoriesMap.keySet()) {
+        for (PhenomenonDetails expenditureCategory : expenditureCategoriesMap.keySet()) {
             financialPlanDetails = new FinancialPlanDetails();
 
             for (SubActivityDetails subActivity : expenditureCategoriesMap.get(expenditureCategory)) {
@@ -260,11 +259,13 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 try {
                     if (financialPlanDetails.getEuValue() == null) {
                         financialPlanDetails.setEuValue(new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
+                        MilesDebugger.debug(financialPlanDetails.getEuValue());
                     } else {
                         financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                 }
 
                 try {
@@ -901,7 +902,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivityDetails.getImplementingPartner() != null) {
             subActivity.setImplementingPartner(em.getReference(Phenomenon.class, subActivityDetails.getImplementingPartner().getId()));
         }
-        if (subActivityDetails.getActivityName() == null) {
+        if (subActivityDetails.getActivityName() != null) {
             subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
         }
         if (subActivityDetails.getExpectedOutcome() != null) {
@@ -925,7 +926,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         } catch (Exception e) {
         }
         if (subActivityDetails.getExpenditureCategory() != null) {
-            subActivity.setExpenditureCategory(em.getReference(ExpenditureCategory.class, subActivityDetails.getExpenditureCategory().getId()));
+            subActivity.setExpenditureCategory(em.getReference(Phenomenon.class, subActivityDetails.getExpenditureCategory().getId()));
         }
         if (subActivityDetails.getGfssCode() != null) {
             subActivity.setGfssCode(em.getReference(Phenomenon.class, subActivityDetails.getGfssCode().getId()));
@@ -1007,8 +1008,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     convertSubActivityNameToSubActivityNameDetails(subActivity.getSubActivityName()));
         }
         if (subActivity.getExpenditureCategory() != null) {
-            subActivityDetails.setExpenditureCategory(expenditureCategoryService.
-                    convertExpenditureCategoryToExpenditureCategoryDetails(subActivity.getExpenditureCategory()));
+            subActivityDetails.setExpenditureCategory(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getExpenditureCategory()));
         }
         if (subActivity.getComponent() != null) {
             subActivityDetails.setComponent(componentService.
@@ -1057,8 +1058,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     private SubComponentRequestsLocal subComponentService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
-    @EJB
-    private ExpenditureCategoryRequestsLocal expenditureCategoryService;
     @EJB
     private SubActivityNameRequestsLocal subActivityDecriptionService;
     @EJB

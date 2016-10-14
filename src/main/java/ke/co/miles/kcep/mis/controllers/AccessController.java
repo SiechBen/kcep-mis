@@ -131,6 +131,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("agroDealerSession", true);
                             session.setAttribute("home", "/agro_dealer");
                             session.setAttribute("userTitle", ": Agro-dealer");
+                            session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
                             } catch (MilesException ex) {
@@ -158,6 +159,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("waoSession", true);
                             session.setAttribute("home", "/ward");
                             session.setAttribute("userTitle", ": Ward Agricultural Officer(WAO)");
+                            session.setAttribute("locationLabel", "ward");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
                             } catch (MilesException ex) {
@@ -185,6 +187,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("kalroSession", true);
                             session.setAttribute("home", "/kalro");
                             session.setAttribute("userTitle", ": KALRO Officer");
+                            session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
                             } catch (MilesException ex) {
@@ -212,6 +215,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("agmarkSession", true);
                             session.setAttribute("home", "/agmark");
                             session.setAttribute("userTitle", ": AGMARK Officer");
+                            session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
                             } catch (MilesException ex) {
@@ -239,6 +243,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("countyDeskOfficerSession", true);
                             session.setAttribute("home", "/county");
                             session.setAttribute("userTitle", ": County Desk Officer");
+                            session.setAttribute("locationLabel", "county");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
                             } catch (MilesException ex) {
@@ -266,6 +271,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("subCountyDeskOfficerSession", true);
                             session.setAttribute("home", "/sub_county");
                             session.setAttribute("userTitle", ": Sub-county Agricultural Officer(SCAO)");
+                            session.setAttribute("locationLabel", "sub-county");
 
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
@@ -294,6 +300,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("regionalCoordinatorSession", true);
                             session.setAttribute("home", "/region");
                             session.setAttribute("userTitle", ": Regional Project Coordinator");
+                            session.setAttribute("locationLabel", "region");
 
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties(person.getLocation().getCounty().getRegion().getId()));
@@ -326,9 +333,11 @@ public class AccessController extends Controller {
                             if (personRole.getPersonRole().equals("National Officer")) {
                                 rightsMaps.put("nationalOfficerSession", true);
                                 session.setAttribute("userTitle", ": PCU Project Coordinator");
+                                session.setAttribute("locationLabel", "country");
                             } else {
                                 rightsMaps.put("systemAdminSession", true);
                                 session.setAttribute("userTitle", ": System Admin");
+                                session.setAttribute("locationLabel", "country");
                             }
 
                             try {
@@ -359,6 +368,7 @@ public class AccessController extends Controller {
                             rightsMaps.put("equityPersonnelSession", true);
                             session.setAttribute("home", "/equity");
                             session.setAttribute("userTitle", ": Equity Agent");
+                            session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
                             } catch (MilesException ex) {

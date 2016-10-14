@@ -24,13 +24,14 @@
                             <thead>
                                 <tr>
                                     <th colspan="2">Description</th>
-                                    <th colspan="16">Sources of Funds</th>
+                                    <th colspan="18">Sources of Funds</th>
                                 </tr>
                                 <tr>
                                     <th rowspan="2" colspan="2">Component &nbsp;</th>
                                     <th colspan="2">GOK</th>
                                     <th colspan="2">Beneficiaries</th>
                                     <th colspan="2">IFAD Loan</th>
+                                    <th colspan="2">EU</th>
                                     <th colspan="2">IFAD Grant</th>
                                     <th colspan="2">Financial Institution</th>
                                     <th colspan="2">Total</th>
@@ -38,6 +39,8 @@
                                     <th colspan="2">Balance</th>
                                 </tr>
                                 <tr>
+                                    <th>%</th>
+                                    <th>USD '000</th>
                                     <th>%</th>
                                     <th>USD '000</th>
                                     <th>%</th>
@@ -71,6 +74,8 @@
                                             <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).beneficiariesValue}</td>
                                             <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadLoanPercentage}</td>
                                             <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadLoanValue}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).euPercentage}</td>
+                                            <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).euValue}</td>
                                             <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadGrantPercentage}</td>
                                             <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).ifadGrantValue}</td>
                                             <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).financialInstitutionPercentage}</td>
@@ -92,6 +97,8 @@
                                         <td>${financialPlanTotals.beneficiariesValue}</td>
                                         <td>${financialPlanTotals.ifadLoanPercentage}</td>
                                         <td>${financialPlanTotals.ifadLoanValue}</td>
+                                        <td>${financialPlanTotals.euPercentage}</td>
+                                        <td>${financialPlanTotals.euValue}</td>
                                         <td>${financialPlanTotals.ifadGrantPercentage}</td>
                                         <td>${financialPlanTotals.ifadGrantValue}</td>
                                         <td>${financialPlanTotals.financialInstitutionPercentage}</td>

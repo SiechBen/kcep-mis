@@ -70,7 +70,7 @@
                                 <li>
                                     <a onclick="loadAjaxWindow('feedback')">
                                         <div>
-                                            <strong>${feedback.farmer.name}</strong>
+                                            <strong>${feedback.submitter.name}</strong>
                                             <span class="pill-right text-muted">
                                                 <em>${feedback.timePosted}</em>
                                             </span>

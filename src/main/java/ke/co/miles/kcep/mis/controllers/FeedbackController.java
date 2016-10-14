@@ -5,33 +5,42 @@
  */
 package ke.co.miles.kcep.mis.controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.farmer.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
+import ke.co.miles.kcep.mis.utilities.FeedbackTypeDetail;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 
 /**
  *
  * @author siech
  */
 @WebServlet(name = "FeedbackController", urlPatterns = {"/feedback",
-    "/saveFeedback", "/success_stories"})
+    "/saveFeedback", "/saveSuccessStory", "/success_stories"})
+@MultipartConfig
 public class FeedbackController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -43,7 +52,7 @@ public class FeedbackController extends Controller {
 
         HttpSession session = request.getSession(false);
         String path = request.getServletPath();
-        String destination;
+        String destination = "";
 
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
@@ -54,7 +63,8 @@ public class FeedbackController extends Controller {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/head_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/head_feedback";
                                 urlPaths.add(path);
@@ -74,7 +84,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "agroDealerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/agro_dealer_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/agro_dealer_feedback";
                                 urlPaths.add(path);
@@ -86,7 +97,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/county_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/county_feedback";
                                 urlPaths.add(path);
@@ -98,7 +110,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/sub_county_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/sub_county_feedback";
                                 urlPaths.add(path);
@@ -110,7 +123,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "equityPersonellSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/equity_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/equityfeedback";
                                 urlPaths.add(path);
@@ -122,7 +136,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "kalroOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/kalro_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/kalro_feedback";
                                 urlPaths.add(path);
@@ -134,7 +149,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "agmarkOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/agmark_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/agmark_feedback";
                                 urlPaths.add(path);
@@ -146,7 +162,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/region_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/region_feedback";
                                 urlPaths.add(path);
@@ -158,7 +175,8 @@ public class FeedbackController extends Controller {
                         break;
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
+                            urlPaths.add("/saveSuccessStory");
+                            destination = "/ward_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/ward_feedback";
                                 urlPaths.add(path);
@@ -170,7 +188,6 @@ public class FeedbackController extends Controller {
                         break;
                     case "warehouseOperatorSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/saveFeedback");
                             if (path.equals("/feedback")) {
                                 path = "/warehouse_feedback";
                                 urlPaths.add(path);
@@ -194,16 +211,18 @@ public class FeedbackController extends Controller {
                 case "/agro_dealer_feedback":
                 case "/sub_county_feedback":
 
-                    List<FeedbackDetails> feedbackList;
                     try {
-                        feedbackList = feedbackService.retrieveSubCountyFeedback(user.getLocation().getSubCounty().getId());
+                        session.setAttribute("feedbackList", feedbackService.retrieveSubCountyFeedback(FeedbackTypeDetail.FEEDBACK, user.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a sub-county", ex);
                         return;
                     }
 
-                    if (!feedbackList.isEmpty()) {
-                        session.setAttribute("feedbackList", feedbackList);
+                    try {
+                        session.setAttribute("successStories", feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a sub-county", ex);
+                        return;
                     }
 
                     break;
@@ -211,14 +230,17 @@ public class FeedbackController extends Controller {
                 case "/county_feedback":
 
                     try {
-                        feedbackList = feedbackService.retrieveCountyFeedback(user.getLocation().getCounty().getId());
+                        session.setAttribute("feedbackList", feedbackService.retrieveCountyFeedback(FeedbackTypeDetail.FEEDBACK, user.getLocation().getCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a county", ex);
                         return;
                     }
 
-                    if (!feedbackList.isEmpty()) {
-                        session.setAttribute("feedbackList", feedbackList);
+                    try {
+                        session.setAttribute("successStories", feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a sub-county", ex);
+                        return;
                     }
 
                     break;
@@ -228,14 +250,17 @@ public class FeedbackController extends Controller {
                 case "/kalro_feedback":
 
                     try {
-                        feedbackList = feedbackService.retrieveFeedback();
+                        session.setAttribute("feedbackList", feedbackService.retrieveFeedback(FeedbackTypeDetail.FEEDBACK));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback", ex);
                         return;
                     }
 
-                    if (!feedbackList.isEmpty()) {
-                        session.setAttribute("feedbackList", feedbackList);
+                    try {
+                        session.setAttribute("successStories", feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a sub-county", ex);
+                        return;
                     }
 
                     break;
@@ -243,14 +268,17 @@ public class FeedbackController extends Controller {
                 case "/region_feedback":
 
                     try {
-                        feedbackList = feedbackService.retrieveRegionFeedback(user.getLocation().getCounty().getRegion().getId());
+                        session.setAttribute("feedbackList", feedbackService.retrieveRegionFeedback(FeedbackTypeDetail.FEEDBACK, user.getLocation().getCounty().getRegion().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a region", ex);
                         return;
                     }
 
-                    if (!feedbackList.isEmpty()) {
-                        session.setAttribute("feedbackList", feedbackList);
+                    try {
+                        session.setAttribute("successStories", feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a sub-county", ex);
+                        return;
                     }
 
                     break;
@@ -259,31 +287,31 @@ public class FeedbackController extends Controller {
                 case "/warehouse_feedback":
 
                     try {
-                        feedbackList = feedbackService.retrieveWardFeedback(user.getLocation().getWard().getId());
+                        session.setAttribute("feedbackList", feedbackService.retrieveWardFeedback(FeedbackTypeDetail.FEEDBACK, user.getLocation().getWard().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a region", ex);
                         return;
                     }
 
-                    if (!feedbackList.isEmpty()) {
-                        session.setAttribute("feedbackList", feedbackList);
+                    try {
+                        session.setAttribute("successStories", feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of feedback from a sub-county", ex);
+                        return;
                     }
 
                     break;
 
                 case "/saveFeedback":
 
-                    String feedbackMessage = request.getParameter("feedback");
-                    if (feedbackMessage.equals("null")) {
-                        feedbackMessage = null;
-                    }
-
-                    PersonDetails farmer = (PersonDetails) session.getAttribute("person");
-
                     FeedbackDetails feedback = new FeedbackDetails();
-                    feedback.setMessage(feedbackMessage);
+                    feedback.setMessage(request.getParameter("feedback"));
+                    if (feedback.getMessage().equals("null")) {
+                        feedback.setMessage(null);
+                    }
                     feedback.setTimePosted(new Date());
-                    feedback.setFarmer(farmer);
+                    feedback.setSubmitter((PersonDetails) session.getAttribute("person"));
+                    feedback.setFeedbackType(new PhenomenonDetails(FeedbackTypeDetail.FEEDBACK.getId()));
 
                     try {
                         feedbackService.addFeedback(feedback);
@@ -294,22 +322,80 @@ public class FeedbackController extends Controller {
                     }
 
                     try {
-                        feedbackList = feedbackService.retrieveLatestFeedback();
+                        getServletContext().setAttribute("latestFeedbackList", feedbackService.retrieveLatestFeedback());
                     } catch (Exception e) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
                         return;
                     }
-                    if (feedbackList != null) {
-                        getServletContext().setAttribute("latestFeedbackList", feedbackList);
-                    }
 
                     return;
+
+                case "/saveSuccessStory":
+
+                    FeedbackDetails successStory = new FeedbackDetails();
+                    successStory.setMessage(request.getParameter("success-story"));
+                    if (successStory.getMessage().equals("null")) {
+                        successStory.setMessage(null);
+                    }
+                    successStory.setTimePosted(new Date());
+                    successStory.setSubmitter((PersonDetails) session.getAttribute("person"));
+                    successStory.setFeedbackType(new PhenomenonDetails(FeedbackTypeDetail.SUCCESS_STORY.getId()));
+
+                    ServletContext context = getServletContext();
+                    String realPath = context.getRealPath("/");
+                    String filePath = realPath + "documents" + fileSeparator + "success_stories" + fileSeparator + "media_files";
+                    Part filePart = request.getPart("media-file");
+                    String fileName = getFileName(filePart);
+                    FileOutputStream outStream;
+                    InputStream inStream;
+
+                    try {
+                        filePath = filePath + fileSeparator + fileName;
+                        new File(filePath).getParentFile().mkdirs();
+
+                        outStream = new FileOutputStream(filePath);
+                        inStream = filePart.getInputStream();
+
+                        final int startOffset = 0;
+                        final byte[] buffer = new byte[4096];
+                        while (inStream.read(buffer) > 0) {
+                            outStream.write(buffer, startOffset, buffer.length);
+                        }
+
+                        successStory.setAttachment(filePath);
+                        outStream.close();
+
+                    } catch (FileNotFoundException ex) {
+                        successStory.setAttachment(null);
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    }
+
+                    try {
+                        feedbackService.addFeedback(successStory);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    try {
+                        getServletContext().setAttribute("latestFeedbackList", feedbackService.retrieveLatestFeedback());
+                    } catch (Exception e) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
+                        return;
+                    }
+
+                    path = destination;
+
+                    break;
 
                 default:
                     break;
 
             }
-            //Use request dispatcher to foward request internally
+
             destination = "/WEB-INF/views/pages" + path + ".jsp";
 
             LOGGER.log(Level.INFO, "Request dispatch to forward to: {0}", destination);

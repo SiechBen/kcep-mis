@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -38,8 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Training.findById", query = "SELECT t FROM Training t WHERE t.id = :id"),
     @NamedQuery(name = "Training.findByStartDate", query = "SELECT t FROM Training t WHERE t.startDate = :startDate"),
     @NamedQuery(name = "Training.findByEndDate", query = "SELECT t FROM Training t WHERE t.endDate = :endDate"),
-    @NamedQuery(name = "Training.findByNumberOfTrainees", query = "SELECT t FROM Training t WHERE t.numberOfTrainees = :numberOfTrainees"),
-    @NamedQuery(name = "Training.findByAttendanceSheet", query = "SELECT t FROM Training t WHERE t.attendanceSheet = :attendanceSheet")})
+    @NamedQuery(name = "Training.findByNumberOfTrainees", query = "SELECT t FROM Training t WHERE t.numberOfTrainees = :numberOfTrainees")})
 public class Training implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +56,8 @@ public class Training implements Serializable {
     private Date endDate;
     @Column(name = "number_of_trainees")
     private Integer numberOfTrainees;
-    @Size(max = 200)
+    @Lob
+    @Size(max = 65535)
     @Column(name = "attendance_sheet")
     private String attendanceSheet;
     @JoinColumn(name = "venue", referencedColumnName = "id")

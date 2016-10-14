@@ -11,8 +11,8 @@ import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
-import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 
 /**
@@ -79,7 +79,7 @@ public interface SubActivityRequestsLocal {
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
-    public Map<FinancialPlanDetails, Map<ExpenditureCategoryDetails, FinancialPlanDetails>>
+    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>>
             summarizeFinancialPlanByCategories(short financialYearId) throws MilesException;
 
     /**

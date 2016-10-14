@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : ward_addWarehouse
     Created on : Jun 22, 2016, 4:43:09 PM
     Author     : siech
@@ -13,6 +13,17 @@
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/addWarehouse.jsp"/>
+        <div class="form-group">
+            <input type="hidden" id="county" value="${sessionScope.person.location.county.id}">
+            <input type="hidden" id="sub-county" value="${sessionScope.person.location.subCounty.id}">
+            <input type="hidden" id="ward" value="${sessionScope.person.location.ward.id}">
+        </div>
+        <button type="button" class="btn btn-outline btn-primary" onclick="addWarehouse()">Save warehouse</button>
+    </form>
+</div>
+</div>
+</div>
+</div>
 
-    </jsp:attribute>
+</jsp:attribute>
 </kcep:ward>

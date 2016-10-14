@@ -251,8 +251,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public TrainingDetails convertTrainingToTrainingDetails(Training training
-    ) {
+    public TrainingDetails convertTrainingToTrainingDetails(Training training) {
 
         TrainingDetails trainingDetails = new TrainingDetails(training.getId());
 

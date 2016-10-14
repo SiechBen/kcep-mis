@@ -194,6 +194,15 @@ public class WarehouseController extends Controller {
 
                 case "/ward_warehouses":
 
+                    try {
+                        session.setAttribute("warehouseOperators", phenomenonService.retrieveWarehouseOperators());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
                     PersonDetails waoOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
@@ -220,6 +229,15 @@ public class WarehouseController extends Controller {
                     break;
 
                 case "/county_warehouses":
+
+                    try {
+                        session.setAttribute("warehouseOperators", phenomenonService.retrieveWarehouseOperators());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
 
                     PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
@@ -267,6 +285,15 @@ public class WarehouseController extends Controller {
                     break;
 
                 case "/sub_county_warehouses":
+
+                    try {
+                        session.setAttribute("warehouseOperators", phenomenonService.retrieveWarehouseOperators());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                        return;
+                    }
 
                     PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
 

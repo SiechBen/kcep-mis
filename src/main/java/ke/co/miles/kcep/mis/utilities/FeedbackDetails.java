@@ -51,14 +51,6 @@ public class FeedbackDetails implements Serializable, Comparable<FeedbackDetails
         this.timePosted = timePosted;
     }
 
-    public PersonDetails getFarmer() {
-        return farmer;
-    }
-
-    public void setFarmer(PersonDetails farmer) {
-        this.farmer = farmer;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -101,10 +93,51 @@ public class FeedbackDetails implements Serializable, Comparable<FeedbackDetails
         this.shortMessage = shortMessage;
     }
 
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
+    public PersonDetails getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(PersonDetails submitter) {
+        this.submitter = submitter;
+    }
+
+    public PhenomenonDetails getFeedbackType() {
+        return feedbackType;
+    }
+
+    public void setFeedbackType(PhenomenonDetails feedbackType) {
+        this.feedbackType = feedbackType;
+    }
+
+    /**
+     * @return the fileName
+     */
+    public String getFileName() {
+        return fileName;
+    }
+
+    /**
+     * @param fileName the fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     private String message;
     private Date timePosted;
+    private String fileName;
+    private String attachment;
     private String shortMessage;
-    private PersonDetails farmer;
+    private PersonDetails submitter;
+    private PhenomenonDetails feedbackType;
     private static final long serialVersionUID = 1L;
 
 }

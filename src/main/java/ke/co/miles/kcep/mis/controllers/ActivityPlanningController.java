@@ -29,14 +29,12 @@ import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActiv
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.expenditurecategory.ExpenditureCategoryRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
-import ke.co.miles.kcep.mis.utilities.ExpenditureCategoryDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
@@ -455,7 +453,7 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("expenditureCategories", expenditureCategoryService.retrieveExpenditureCategories());
+                        session.setAttribute("expenditureCategories", phenomenonService.retrieveExpenditureCategories());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of expenditure categories", ex);
                         return;
@@ -610,8 +608,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setSubComponent(null);
                     }
                     try {
-                        subActivity.setExpenditureCategory(new ExpenditureCategoryDetails(
-                                Short.valueOf(request.getParameter("expenditureCategory"))));
+                        subActivity.setExpenditureCategory(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("expenditureCategory"))));
                     } catch (Exception e) {
                         subActivity.setExpenditureCategory(null);
                     }
@@ -679,7 +677,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setTotals(null);
                     }
                     try {
-                        subActivity.setExpectedOutcome(new PhenomenonDetails(Integer.valueOf(request.getParameter("expectedOutcome"))));
+                        subActivity.setExpectedOutcome(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("expectedOutcome"))));
                     } catch (NumberFormatException e) {
                         subActivity.setExpectedOutcome(null);
                     }
@@ -780,8 +779,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setSubComponent(null);
                     }
                     try {
-                        subActivity.setExpenditureCategory(new ExpenditureCategoryDetails(
-                                Short.valueOf(request.getParameter("expenditureCategory"))));
+                        subActivity.setExpenditureCategory(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("expenditureCategory"))));
                     } catch (Exception e) {
                         subActivity.setExpenditureCategory(null);
                     }
@@ -810,7 +809,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
-                        subActivity.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
+                        subActivity.setGfssCode(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
                     }
                     try {
@@ -908,8 +908,6 @@ public class ActivityPlanningController extends Controller {
     private SubActivityNameRequestsLocal subActivityNameService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
-    @EJB
-    private ExpenditureCategoryRequestsLocal expenditureCategoryService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
 }

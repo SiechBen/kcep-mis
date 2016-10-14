@@ -9,8 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +28,8 @@ import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLo
 import ke.co.miles.kcep.mis.requests.farmer.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
+import ke.co.miles.kcep.mis.utilities.FeedbackTypeDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 
 /**
@@ -94,8 +98,12 @@ public abstract class Controller extends HttpServlet {
     //<editor-fold defaultstate="collapsed" desc="Avail application attributes">
     protected void availApplicationAttributes() {
 
+        List<FeedbackDetails> feedback = new ArrayList<>();
+
         try {
-            getServletContext().setAttribute("feedbackList", feedbackService.retrieveFeedback());
+            feedback.addAll(feedbackService.retrieveFeedback(FeedbackTypeDetail.FEEDBACK));
+            feedback.addAll(feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
+            getServletContext().setAttribute("feedbackList", feedback);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "An error occurred during feedback records retrieval", e);
             return;

@@ -28,11 +28,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "FarmerGroup.findAll", query = "SELECT f FROM FarmerGroup f"),
     @NamedQuery(name = "FarmerGroup.findById", query = "SELECT f FROM FarmerGroup f WHERE f.id = :id"),
-    @NamedQuery(name = "FarmerGroup.findByName", query = "SELECT f FROM FarmerGroup f WHERE f.name = :name")})
+    @NamedQuery(name = "FarmerGroup.findByName", query = "SELECT f FROM FarmerGroup f WHERE f.name = :name"),
+    @NamedQuery(name = "FarmerGroup.findByTrained", query = "SELECT f FROM FarmerGroup f WHERE f.trained = :trained")})
 public class FarmerGroup implements Serializable {
 
-    @Column(name = "trained")
-    private Boolean trained;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +43,8 @@ public class FarmerGroup implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
+    @Column(name = "trained")
+    private Boolean trained;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmerGroup")
     private List<FarmerSubGroup> farmerSubGroupList;
     @OneToMany(mappedBy = "farmerGroup")
@@ -77,6 +78,14 @@ public class FarmerGroup implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getTrained() {
+        return trained;
+    }
+
+    public void setTrained(Boolean trained) {
+        this.trained = trained;
     }
 
     @XmlTransient
@@ -129,14 +138,6 @@ public class FarmerGroup implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.FarmerGroup[ id=" + id + " ]";
-    }
-
-    public Boolean getTrained() {
-        return trained;
-    }
-
-    public void setTrained(Boolean trained) {
-        this.trained = trained;
     }
 
 }

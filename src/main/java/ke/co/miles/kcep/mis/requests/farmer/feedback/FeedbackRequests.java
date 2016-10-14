@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.farmer.feedback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -12,11 +13,13 @@ import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Feedback;
 import ke.co.miles.kcep.mis.entities.Person;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
+import ke.co.miles.kcep.mis.utilities.FeedbackTypeDetail;
 
 /**
  *
@@ -38,8 +41,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         Feedback feedback = new Feedback();
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        if (feedbackDetails.getFarmer() != null) {
-            feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        feedback.setAttachment(feedbackDetails.getAttachment());
+        feedback.setFeedbackType(em.find(Phenomenon.class, feedbackDetails.getFeedbackType().getId()));
+        if (feedbackDetails.getSubmitter() != null) {
+            feedback.setSubmitter(em.getReference(Person.class, feedbackDetails.getSubmitter().getId()));
         }
 
         try {
@@ -58,10 +63,11 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FeedbackDetails> retrieveWardFeedback(int wardId) throws MilesException {
+    public List<FeedbackDetails> retrieveWardFeedback(FeedbackTypeDetail feedbackType, int wardId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(em.createNamedQuery("Feedback.findByWardId"));
+        setQ(em.createNamedQuery("Feedback.findByWardIdAndFeedbackTypeId"));
         q.setParameter("wardId", wardId);
+        q.setParameter("feedbackTypeId", feedbackType.getId());
         try {
             feedbackList = q.getResultList();
         } catch (Exception e) {
@@ -72,9 +78,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FeedbackDetails> retrieveRegionFeedback(int regionId) throws MilesException {
+    public List<FeedbackDetails> retrieveRegionFeedback(FeedbackTypeDetail feedbackType, int regionId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(em.createNamedQuery("Feedback.findByRegionId"));
+        setQ(em.createNamedQuery("Feedback.findByRegionIdAndFeedbackTypeId"));
+        q.setParameter("feedbackTypeId", feedbackType.getId());
         q.setParameter("regionId", regionId);
         try {
             feedbackList = q.getResultList();
@@ -86,9 +93,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FeedbackDetails> retrieveCountyFeedback(short countyId) throws MilesException {
+    public List<FeedbackDetails> retrieveCountyFeedback(FeedbackTypeDetail feedbackType, short countyId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(em.createNamedQuery("Feedback.findByCountyId"));
+        setQ(em.createNamedQuery("Feedback.findByCountyIdAndFeedbackTypeId"));
+        q.setParameter("feedbackTypeId", feedbackType.getId());
         q.setParameter("countyId", countyId);
         try {
             feedbackList = q.getResultList();
@@ -100,9 +108,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FeedbackDetails> retrieveSubCountyFeedback(int subCountyId) throws MilesException {
+    public List<FeedbackDetails> retrieveSubCountyFeedback(FeedbackTypeDetail feedbackType, int subCountyId) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(em.createNamedQuery("Feedback.findBySubCountyId"));
+        setQ(em.createNamedQuery("Feedback.findBySubCountyIdAndFeedbackTypeId"));
+        q.setParameter("feedbackTypeId", feedbackType.getId());
         q.setParameter("subCountyId", subCountyId);
         try {
             feedbackList = q.getResultList();
@@ -128,9 +137,10 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FeedbackDetails> retrieveFeedback() throws MilesException {
+    public List<FeedbackDetails> retrieveFeedback(FeedbackTypeDetail feedbackType) throws MilesException {
         List<Feedback> feedbackList = new ArrayList<>();
-        setQ(em.createNamedQuery("Feedback.findAll"));
+        setQ(em.createNamedQuery("Feedback.findAllByFeedbackTypeId"));
+        q.setParameter("feedbackTypeId", feedbackType.getId());
         try {
             feedbackList = q.getResultList();
         } catch (Exception e) {
@@ -170,9 +180,12 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         feedback.setId(feedbackDetails.getId());
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
-        if (feedbackDetails.getFarmer() != null) {
-            feedback.setFarmer(em.getReference(Person.class, feedbackDetails.getFarmer().getId()));
+        feedback.setAttachment(feedbackDetails.getAttachment());
+        feedback.setFeedbackType(em.find(Phenomenon.class, feedbackDetails.getFeedbackType().getId()));
+        if (feedbackDetails.getSubmitter() != null) {
+            feedback.setSubmitter(em.getReference(Person.class, feedbackDetails.getSubmitter().getId()));
         }
+
         try {
             em.merge(feedback);
             em.flush();
@@ -200,19 +213,26 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
     public FeedbackDetails convertFeedbackToFeedbackDetails(Feedback feedback) {
 
         FeedbackDetails feedbackDetails = new FeedbackDetails(feedback.getId());
-        if (feedback.getFarmer() != null) {
-            feedbackDetails.setFarmer(personService.convertPersonToPersonDetails(feedback.getFarmer()));
+        if (feedback.getSubmitter() != null) {
+            feedbackDetails.setSubmitter(personService.convertPersonToPersonDetails(feedback.getSubmitter()));
         }
         feedbackDetails.setMessage(feedback.getMessage());
         feedbackDetails.setTimePosted(feedback.getTimePosted());
         StringBuilder shortMessage = new StringBuilder();
-        if (feedbackDetails.getMessage().length() > 70) {
-            shortMessage.append(feedbackDetails.getMessage().substring(0, 70));
+        if (feedbackDetails.getMessage().length() >= 70) {
+            shortMessage.append(feedbackDetails.getMessage().substring(0, 65));
             shortMessage.append("...");
         } else {
             shortMessage.append(feedbackDetails.getMessage());
         }
         feedbackDetails.setShortMessage(shortMessage.toString());
+        feedbackDetails.setAttachment(feedback.getAttachment());
+
+        if (feedbackDetails.getAttachment() != null) {
+            String[] folders = feedbackDetails.getAttachment().split(File.separator);
+            String fileName = folders[folders.length - 1];
+            feedbackDetails.setFileName(fileName);
+        }
 
         return feedbackDetails;
 

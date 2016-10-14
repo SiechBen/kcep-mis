@@ -49,6 +49,10 @@ public class Phenomenon implements Serializable {
     private List<SubActivity> subActivityList3;
     @OneToMany(mappedBy = "annualIndicator")
     private List<SubActivity> subActivityList4;
+    @OneToMany(mappedBy = "expenditureCategory")
+    private List<SubActivity> subActivityList5;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedbackType")
+    private List<Feedback> feedbackList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicatorType")
     private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "warehouseOperator")
@@ -130,6 +134,24 @@ public class Phenomenon implements Serializable {
 
     public void setSubActivityList4(List<SubActivity> subActivityList4) {
         this.subActivityList4 = subActivityList4;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList5() {
+        return subActivityList5;
+    }
+
+    public void setSubActivityList5(List<SubActivity> subActivityList5) {
+        this.subActivityList5 = subActivityList5;
+    }
+
+    @XmlTransient
+    public List<Feedback> getFeedbackList() {
+        return feedbackList;
+    }
+
+    public void setFeedbackList(List<Feedback> feedbackList) {
+        this.feedbackList = feedbackList;
     }
 
     @XmlTransient

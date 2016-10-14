@@ -156,4 +156,11 @@ public interface PhenomenonRequestsLocal {
      */
     public List<PhenomenonDetails> retrieveAnnualIndicators() throws MilesException;
 
+    /**
+     *
+     * @return the list of expenditure categories
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveExpenditureCategories() throws MilesException;
+
 }

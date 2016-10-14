@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "loan", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Loan.findByGfssCodeId", query = "SELECT l FROM Loan l WHERE l.gfssCode.id = :gfssCodeId"),
     @NamedQuery(name = "Loan.findByAccountId", query = "SELECT l FROM Loan l WHERE l.account.id = :accountId"),
     @NamedQuery(name = "Loan.findAll", query = "SELECT l FROM Loan l"),
     @NamedQuery(name = "Loan.findById", query = "SELECT l FROM Loan l WHERE l.id = :id"),

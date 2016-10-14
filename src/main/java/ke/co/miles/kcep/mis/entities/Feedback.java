@@ -28,10 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "feedback", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Feedback.findByWardId", query = "SELECT f FROM Feedback f WHERE f.farmer.location.ward.id = :wardId ORDER BY f.timePosted DESC"),
-    @NamedQuery(name = "Feedback.findByCountyId", query = "SELECT f FROM Feedback f WHERE f.farmer.location.county.id = :countyId ORDER BY f.timePosted DESC"),
-    @NamedQuery(name = "Feedback.findByRegionId", query = "SELECT f FROM Feedback f WHERE f.farmer.location.county.region.id = :regionId ORDER BY f.timePosted DESC"),
-    @NamedQuery(name = "Feedback.findBySubCountyId", query = "SELECT f FROM Feedback f WHERE f.farmer.location.subCounty.id = :subCountyId ORDER BY f.timePosted DESC"),
+    @NamedQuery(name = "Feedback.findAllByFeedbackTypeId", query = "SELECT f FROM Feedback f WHERE f.feedbackType.id = :feedbackTypeId ORDER BY f.timePosted DESC"),
+    @NamedQuery(name = "Feedback.findByWardIdAndFeedbackTypeId", query = "SELECT f FROM Feedback f WHERE f.submitter.location.ward.id = :wardId AND f.feedbackType.id = :feedbackTypeId ORDER BY f.timePosted DESC"),
+    @NamedQuery(name = "Feedback.findByCountyIdAndFeedbackTypeId", query = "SELECT f FROM Feedback f WHERE f.submitter.location.county.id = :countyId AND f.feedbackType.id = :feedbackTypeId ORDER BY f.timePosted DESC"),
+    @NamedQuery(name = "Feedback.findByRegionIdAndFeedbackTypeId", query = "SELECT f FROM Feedback f WHERE f.submitter.location.county.region.id = :regionId AND f.feedbackType.id = :feedbackTypeId ORDER BY f.timePosted DESC"),
+    @NamedQuery(name = "Feedback.findBySubCountyIdAndFeedbackTypeId", query = "SELECT f FROM Feedback f WHERE f.submitter.location.subCounty.id = :subCountyId AND f.feedbackType.id = :feedbackTypeId ORDER BY f.timePosted DESC"),
     @NamedQuery(name = "Feedback.findLatest", query = "SELECT f FROM Feedback f ORDER BY f.timePosted DESC"),
     @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f"),
     @NamedQuery(name = "Feedback.findById", query = "SELECT f FROM Feedback f WHERE f.id = :id"),
@@ -55,9 +56,16 @@ public class Feedback implements Serializable {
     @Column(name = "time_posted")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timePosted;
-    @JoinColumn(name = "farmer", referencedColumnName = "id")
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "attachment")
+    private String attachment;
+    @JoinColumn(name = "submitter", referencedColumnName = "id")
     @ManyToOne
-    private Person farmer;
+    private Person submitter;
+    @JoinColumn(name = "feedback_type", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Phenomenon feedbackType;
 
     public Feedback() {
     }
@@ -96,12 +104,28 @@ public class Feedback implements Serializable {
         this.timePosted = timePosted;
     }
 
-    public Person getFarmer() {
-        return farmer;
+    public String getAttachment() {
+        return attachment;
     }
 
-    public void setFarmer(Person farmer) {
-        this.farmer = farmer;
+    public void setAttachment(String attachment) {
+        this.attachment = attachment;
+    }
+
+    public Person getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(Person submitter) {
+        this.submitter = submitter;
+    }
+
+    public Phenomenon getFeedbackType() {
+        return feedbackType;
+    }
+
+    public void setFeedbackType(Phenomenon feedbackType) {
+        this.feedbackType = feedbackType;
     }
 
     @Override

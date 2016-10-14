@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.evoucher;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -150,6 +151,13 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         eVoucherDetails.setDateRedeemed(eVoucher.getDateRedeemed());
         eVoucherDetails.setAmount(eVoucher.getAmount());
         eVoucherDetails.setInputsLogbookPage(eVoucher.getInputsLogbookPage());
+
+        if (eVoucherDetails.getInputsLogbookPage() != null) {
+            String[] folders = eVoucherDetails.getInputsLogbookPage().split(File.separator);
+            String fileName = folders[folders.length - 1];
+            eVoucherDetails.setFileName(fileName);
+        }
+
         return eVoucherDetails;
 
     }

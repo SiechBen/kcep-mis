@@ -157,7 +157,7 @@
                         Expenditure category
                         <select id="expected-category" class="form-control">
                             <c:forEach var="expenditureCategory" items="${sessionScope.expenditureCategories}" varStatus="counter">
-                                <option value="${expenditureCategory.id}">${expenditureCategory.name}</option>
+                                <option value="${expenditureCategory.id}">${expenditureCategory.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

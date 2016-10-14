@@ -401,6 +401,7 @@ public class EVoucherController extends Controller {
                     }
 
                     try {
+
                         eVoucherService.addEVoucher(eVoucher);
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

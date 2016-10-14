@@ -70,7 +70,7 @@ public class Person implements Serializable {
     private Double plotSize;
     @Column(name = "approved")
     private Boolean approved;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
+    @OneToMany(mappedBy = "submitter")
     private List<Feedback> feedbackList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<SoilFertilityPackage> soilFertilityPackageList;

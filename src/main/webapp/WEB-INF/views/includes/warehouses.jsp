@@ -139,7 +139,6 @@
                             </c:forEach>
                         </select>
                     </div>
-
                 </form>
             </div>
         </div>
