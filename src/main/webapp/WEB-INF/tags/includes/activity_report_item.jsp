@@ -7,6 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <li>
-    <a href="#" onclick="loadAjaxWindow('activities_report');
-            return false;"><i class="fa fa-info fa-fw"></i> Activities report </a>
+    <a href="#" onclick="loadAjaxWindow('activity_report');
+            return false;"><i class="fa fa-info fa-fw"></i> Activity report </a>
 </li>

@@ -21,7 +21,7 @@
         <jsp:include page="../../tags/includes/training_item.jsp"/>
         <jsp:include page="../../tags/includes/warehouses_item.jsp"/>
         <jsp:include page="../../tags/includes/activity_planning_item.jsp"/>
-        <jsp:include page="../../tags/includes/activities_report_item.jsp"/>
+        <jsp:include page="../../tags/includes/activity_report_item.jsp"/>
         <jsp:include page="../../tags/includes/procurements_item.jsp"/>
         <jsp:include page="../../tags/includes/performance_indicators_item.jsp"/>
         <jsp:include page="../../tags/includes/e_vouchers_item.jsp"/>

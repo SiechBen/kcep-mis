@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
@@ -23,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.progress.ActivityProgressRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
@@ -37,7 +33,8 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 @WebServlet(name = "ReportsController", urlPatterns = {"/reports",
     "/financial_report_by_categories", "/financial_report_by_components",
     "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
-    "/outputLevelReports", "/outcomeLevelReports", "/activities_report"})
+    "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
+    "/getActivityProgress"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -62,8 +59,9 @@ public class ReportsController extends Controller {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
-                            urlPaths.add("/activities_report");
+                            urlPaths.add("/activity_report");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
@@ -220,6 +218,30 @@ public class ReportsController extends Controller {
 
             switch (path) {
 
+                case "/activity_report":
+
+                    try {
+                        activityProgressService.checkForActivityProgress(null);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
+                    } catch (Exception e) {
+                    }
+
+                    break;
+
+                case "/getActivityProgress":
+
+                    try {
+                        session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode")));
+                    } catch (Exception e) {
+                        MilesDebugger.debug(e);
+                    }
+
+                    return;
+
                 case "/updateOutcomeValues":
                     PerformanceIndicatorValuesDetails outcomeIndicatorValues;
                     try {
@@ -270,7 +292,6 @@ public class ReportsController extends Controller {
                         } catch (Exception e) {
                             projectYear = null;
                         }
-                        MilesDebugger.debug(projectYear);
                         session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -304,7 +325,6 @@ public class ReportsController extends Controller {
                         } catch (Exception e) {
                             projectYear = null;
                         }
-                        MilesDebugger.debug(projectYear);
                         session.setAttribute("goalsReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -416,14 +436,15 @@ public class ReportsController extends Controller {
     }
     //</editor-fold>
 
-    private static final Logger LOGGER = Logger.getLogger(ReportsController.class
-            .getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(ReportsController.class.getSimpleName());
+    @EJB
+    private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private SubActivityRequestsLocal subActivityService;
     @EJB
     private FinancialYearRequestsLocal financialYearService;
     @EJB
-    private PhenomenonRequestsLocal phenomenonService;
+    private ActivityProgressRequestsLocal activityProgressService;
     @EJB
     private PerformanceIndicatorValuesRequestsLocal performanceIndicatorValuesService;
 

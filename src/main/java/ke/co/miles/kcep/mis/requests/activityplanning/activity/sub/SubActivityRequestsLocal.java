@@ -92,4 +92,20 @@ public interface SubActivityRequestsLocal {
     public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>>
             summarizeFinancialPlanByComponents(short financialYearId) throws MilesException;
 
+    /**
+     *
+     * @param financialYearId the financial year to which the sub-activities to
+     * be retrieved belong
+     * @return the list of sub-activities retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<SubActivityDetails> retrieveSubActivities(short financialYearId) throws MilesException;
+
+    /**
+     *
+     * @return the list of awpb reference codes
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<String> retrieveReferenceCodes() throws MilesException;
+
 }

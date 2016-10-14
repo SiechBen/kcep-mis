@@ -109,11 +109,11 @@ public class FeedbackDetails implements Serializable, Comparable<FeedbackDetails
         this.submitter = submitter;
     }
 
-    public PhenomenonDetails getFeedbackType() {
+    public FeedbackTypeDetail getFeedbackType() {
         return feedbackType;
     }
 
-    public void setFeedbackType(PhenomenonDetails feedbackType) {
+    public void setFeedbackType(FeedbackTypeDetail feedbackType) {
         this.feedbackType = feedbackType;
     }
 
@@ -137,7 +137,7 @@ public class FeedbackDetails implements Serializable, Comparable<FeedbackDetails
     private String attachment;
     private String shortMessage;
     private PersonDetails submitter;
-    private PhenomenonDetails feedbackType;
+    private FeedbackTypeDetail feedbackType;
     private static final long serialVersionUID = 1L;
 
 }

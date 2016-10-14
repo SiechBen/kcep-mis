@@ -127,6 +127,20 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<String> retrieveReferenceCodes() throws MilesException {
+        List<String> referenceCodes = new ArrayList<>();
+        setQ(em.createNamedQuery("SubActivity.findReferenceCodes"));
+        try {
+            referenceCodes = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return referenceCodes;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<SubActivityDetails> retrieveSubActivities() throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findAll"));
@@ -144,6 +158,21 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
         q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
+        q.setParameter("financialYearId", financialYearId);
+        try {
+            subActivities = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertSubActivitiesToSubActivityDetailsList(subActivities);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<SubActivityDetails> retrieveSubActivities(short financialYearId) throws MilesException {
+        List<SubActivity> subActivities = new ArrayList<>();
+        setQ(em.createNamedQuery("SubActivity.findByFinancialYearId"));
         q.setParameter("financialYearId", financialYearId);
         try {
             subActivities = q.getResultList();

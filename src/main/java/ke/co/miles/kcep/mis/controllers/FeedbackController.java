@@ -28,11 +28,10 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.farmer.feedback.FeedbackRequestsLocal;
+import ke.co.miles.kcep.mis.requests.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
 import ke.co.miles.kcep.mis.utilities.FeedbackTypeDetail;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
-import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 
 /**
  *
@@ -311,7 +310,7 @@ public class FeedbackController extends Controller {
                     }
                     feedback.setTimePosted(new Date());
                     feedback.setSubmitter((PersonDetails) session.getAttribute("person"));
-                    feedback.setFeedbackType(new PhenomenonDetails(FeedbackTypeDetail.FEEDBACK.getId()));
+                    feedback.setFeedbackType(FeedbackTypeDetail.FEEDBACK);
 
                     try {
                         feedbackService.addFeedback(feedback);
@@ -339,7 +338,7 @@ public class FeedbackController extends Controller {
                     }
                     successStory.setTimePosted(new Date());
                     successStory.setSubmitter((PersonDetails) session.getAttribute("person"));
-                    successStory.setFeedbackType(new PhenomenonDetails(FeedbackTypeDetail.SUCCESS_STORY.getId()));
+                    successStory.setFeedbackType(FeedbackTypeDetail.SUCCESS_STORY);
 
                     ServletContext context = getServletContext();
                     String realPath = context.getRealPath("/");

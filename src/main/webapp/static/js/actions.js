@@ -150,10 +150,6 @@ $(function () {
                 }
             },
             'excel',
-//            {
-//                extend: 'colvis',
-//                text: "Hide / show columns"
-//            }
             {
                 text: "Output level report",
                 action: function () {
@@ -256,6 +252,52 @@ $(function () {
                 extend: 'colvis',
                 text: "Hide / show columns"
             }]
+    });
+});
+
+$(function () {
+    $("#activities-report-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Choose reference code',
+                action: function () {
+                    $("#awpb-reference-code-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "pick_awpb_reference_code",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Retrieve": function () {
+                                $.ajax({
+                                    url: "getActivityProgress",
+                                    type: "POST",
+                                    data: "awpbReferenceCode=" + $("#awpb-reference-code").val(),
+                                    success: function () {
+                                        loadAjaxWindow("activity_report");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                }
+            }
+        ]
     });
 });
 

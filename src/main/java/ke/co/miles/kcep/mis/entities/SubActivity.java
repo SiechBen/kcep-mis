@@ -3,7 +3,9 @@ package ke.co.miles.kcep.mis.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,11 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,6 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SubActivity.findReferenceCodes", query = "SELECT s.annualWorkplanReferenceCode FROM SubActivity s"),
+    @NamedQuery(name = "SubActivity.findByFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findByExpectedOutcomeId", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome.id = :expectedOutcomeId"),
@@ -51,6 +57,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
+    private List<ActivityProgress> activityProgressList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -404,6 +412,15 @@ public class SubActivity implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<ActivityProgress> getActivityProgressList() {
+        return activityProgressList;
+    }
+
+    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
+        this.activityProgressList = activityProgressList;
     }
 
 }

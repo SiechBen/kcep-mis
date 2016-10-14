@@ -11,22 +11,22 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public enum FeedbackTypeDetail implements Serializable {
+public enum ProgressTypeDetail implements Serializable {
 
-    FEEDBACK(new Integer("157"), "Feedback"),
-    SUCCESS_STORY(new Integer("158"), "Success story");
+    PHYSICAL(new Integer("167"), "Physical"),
+    FINANCIAL(new Integer("168"), "Financial");
 
-    private FeedbackTypeDetail(Integer id, String name) {
+    private ProgressTypeDetail(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public static FeedbackTypeDetail getFeedbackTypeDetail(int id) {
+    public static ProgressTypeDetail getProgressTypeDetail(int id) {
         switch (id) {
             case 157:
-                return FEEDBACK;
+                return FINANCIAL;
             case 158:
-                return SUCCESS_STORY;
+                return PHYSICAL;
             default:
                 return null;
         }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.farmer.feedback;
+package ke.co.miles.kcep.mis.requests.feedback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
         feedback.setAttachment(feedbackDetails.getAttachment());
-        feedback.setFeedbackType(em.find(Phenomenon.class, feedbackDetails.getFeedbackType().getId()));
+        feedback.setFeedbackType(em.getReference(Phenomenon.class, feedbackDetails.getFeedbackType().getId()));
         if (feedbackDetails.getSubmitter() != null) {
             feedback.setSubmitter(em.getReference(Person.class, feedbackDetails.getSubmitter().getId()));
         }
@@ -176,12 +176,12 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
             throw new InvalidArgumentException("error_031_02");
         }
 
-        Feedback feedback = em.find(Feedback.class, feedbackDetails.getId());
+        Feedback feedback = em.getReference(Feedback.class, feedbackDetails.getId());
         feedback.setId(feedbackDetails.getId());
         feedback.setMessage(feedbackDetails.getMessage());
         feedback.setTimePosted(feedbackDetails.getTimePosted());
         feedback.setAttachment(feedbackDetails.getAttachment());
-        feedback.setFeedbackType(em.find(Phenomenon.class, feedbackDetails.getFeedbackType().getId()));
+        feedback.setFeedbackType(em.getReference(Phenomenon.class, feedbackDetails.getFeedbackType().getId()));
         if (feedbackDetails.getSubmitter() != null) {
             feedback.setSubmitter(em.getReference(Person.class, feedbackDetails.getSubmitter().getId()));
         }
@@ -199,7 +199,7 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeFeedback(int id) throws MilesException {
-        Feedback feedback = em.find(Feedback.class, id);
+        Feedback feedback = em.getReference(Feedback.class, id);
         try {
             em.remove(feedback);
         } catch (Exception e) {
@@ -215,6 +215,9 @@ public class FeedbackRequests extends EntityRequests implements FeedbackRequests
         FeedbackDetails feedbackDetails = new FeedbackDetails(feedback.getId());
         if (feedback.getSubmitter() != null) {
             feedbackDetails.setSubmitter(personService.convertPersonToPersonDetails(feedback.getSubmitter()));
+        }
+        if (feedback.getFeedbackType() != null) {
+            feedbackDetails.setFeedbackType(FeedbackTypeDetail.getFeedbackTypeDetail(feedback.getFeedbackType().getId()));
         }
         feedbackDetails.setMessage(feedback.getMessage());
         feedbackDetails.setTimePosted(feedback.getTimePosted());
