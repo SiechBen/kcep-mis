@@ -171,13 +171,15 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             performanceIndicators = q.getResultList();
             setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
-            q.setParameter("purpose", null);
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
                 orderedList = new ArrayList<>();
                 q.setParameter("performanceIndicatorId", performanceIndicator.getId());
                 for (short projectYear : projectYears) {
                     q.setParameter("projectYear", projectYear);
-                    orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                    try {
+                        orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                    } catch (Exception e) {
+                    }
                 }
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }

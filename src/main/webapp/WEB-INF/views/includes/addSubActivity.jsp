@@ -32,7 +32,7 @@
                         GFS code
                         <select id="gfss-code" name="gfss-code" class="form-control">
                             <c:forEach var="gfssCode" items="${sessionScope.gfssCodes}" varStatus="index">
-                                <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.child.name}</option>
+                                <option value="${gfssCode.id}">${gfssCode.category.name} - ${gfssCode.category.relative.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -121,7 +121,7 @@
                     <div class="form-group">
                         Response PCU
                         <select id="response-pcu" class="form-control">
-                            <c:forEach var="responsePcu" items="${sessionScope.responsePcuList}" varStatus="counter">
+                            <c:forEach var="responsePcu" items="${sessionScope.responsePCUList}" varStatus="counter">
                                 <option value="${responsePcu.id}">${responsePcu.category.name}</option>
                             </c:forEach>
                         </select>

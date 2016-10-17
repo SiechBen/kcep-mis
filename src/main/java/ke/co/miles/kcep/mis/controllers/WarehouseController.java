@@ -298,37 +298,26 @@ public class WarehouseController extends Controller {
                     PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        warehouses = warehouseService.retrieveSubCountyWarehouses(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                        session.setAttribute("warehouses", warehouseService.retrieveSubCountyWarehouses(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during warehouses retrieval", ex);
                         return;
                     }
 
-                    if (warehouses != null) {
-                        session.setAttribute("warehouses", warehouses);
-                    }
-
                     try {
-                        wards = wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                        session.setAttribute("wards", wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
                         return;
                     }
 
-                    if (wards != null) {
-                        session.setAttribute("wards", wards);
-                    }
-
                     try {
-                        people = personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                        session.setAttribute("people", personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
                     break;
 
                 case "/doAddWarehouse":

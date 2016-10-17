@@ -145,23 +145,33 @@ public class ReportsController extends Controller {
                         break;
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/activity_report");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
-                                case "/outputLevelReports":
-                                    path = "/county_output_level_reports";
+                                case "/reports":
+                                    path = "/county_reports";
                                     urlPaths.add(path);
                                     break;
-                                case "/outcomeLevelReports":
-                                    path = "/county_outcome_level_reports";
+                                case "/outputLevelReports":
+                                    path = "/county_output_level_reports";
                                     urlPaths.add(path);
                                     break;
                                 case "/goalLevelReports":
                                     path = "/county_goal_level_reports";
                                     urlPaths.add(path);
                                     break;
-                                case "/reports":
-                                    path = "/county_reports";
+                                case "/outcomeLevelReports":
+                                    path = "/county_outcome_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_components":
+                                    path = "/county_financial_report_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_categories":
+                                    path = "/county_financial_report_by_categories";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -169,6 +179,7 @@ public class ReportsController extends Controller {
                             }
                         }
                         break;
+
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {
@@ -402,8 +413,8 @@ public class ReportsController extends Controller {
         }
 
     }
-
     //<editor-fold defaultstate="collapsed" desc="Update tables">
+
     private void updateOutcomesTable(HttpServletResponse response, List<PerformanceIndicatorValuesDetails> outcomes) throws IOException, MilesException {
         PrintWriter out = response.getWriter();
         int index = 0;

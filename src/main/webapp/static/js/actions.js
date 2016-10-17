@@ -256,7 +256,7 @@ $(function () {
 });
 
 $(function () {
-    $("#activities-report-table").DataTable({
+    $("#activity-report-table").DataTable({
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -297,7 +297,13 @@ $(function () {
                     });
                 }
             }
-        ]
+        ],
+        columnDefs: [{
+                targets: [1, 2],
+                render: function (data, type) {
+                    return type === "display" && data.length > 30 ? data.substr(0, 27) + "..." : data;
+                }
+            }]
     });
 });
 

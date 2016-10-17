@@ -78,23 +78,6 @@ public class EquipmentController extends Controller {
                             }
                         }
                         break;
-                    case "warehouseOperatorSession":
-                        if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddEquipment");
-                            urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditEquipment");
-                            urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteEquipment");
-                            urlPaths.add("/doDeleteWarehouseOperation");
-                            if (path.equals("/equipment")) {
-                                path = "/warehouse_equipment";
-                                urlPaths.add(path);
-                            } else if (path.equals("/addEquipment")) {
-                                path = "/warehouse_addEquipment";
-                                urlPaths.add(path);
-                            }
-                        }
-                        break;
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
@@ -108,6 +91,40 @@ public class EquipmentController extends Controller {
                                 urlPaths.add(path);
                             } else if (path.equals("/addEquipment")) {
                                 path = "/ward_addEquipment";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
+                    case "subCountyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            urlPaths.add("/doDeleteEquipment");
+                            urlPaths.add("/doDeleteWarehouseOperation");
+                            if (path.equals("/equipment")) {
+                                path = "/sub_county_equipment";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addEquipment")) {
+                                path = "/sub_county_addEquipment";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
+                    case "countyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            urlPaths.add("/doDeleteEquipment");
+                            urlPaths.add("/doDeleteWarehouseOperation");
+                            if (path.equals("/equipment")) {
+                                path = "/county_equipment";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addEquipment")) {
+                                path = "/county_addEquipment";
                                 urlPaths.add(path);
                             }
                         }

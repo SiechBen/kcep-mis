@@ -135,12 +135,9 @@ public class ActivityPlanningController extends Controller {
                         break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddPlanning");
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
-                            urlPaths.add("/doDeleteSubActivity");
-                            urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/sub_activities":
                                     path = "/region_sub_activities";
@@ -157,12 +154,9 @@ public class ActivityPlanningController extends Controller {
                         break;
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddPlanning");
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
-                            urlPaths.add("/doDeleteSubActivity");
-                            urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/sub_activities":
                                     path = "/county_sub_activities";
@@ -177,6 +171,7 @@ public class ActivityPlanningController extends Controller {
                             }
                         }
                         break;
+
                     default:
                         break;
                 }
@@ -658,6 +653,15 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setEndDate(null);
                     }
 
+                    //<editor-fold defaultstate="collapsed" desc="Uncomment enclosed try-catch block to enable saving of the added (sub-)activity">
+//                    try {
+//                        subActivityService.addSubActivity(subActivity);
+//                    } catch (MilesException ex) {
+//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                        response.getWriter().write(getBundle().getString(ex.getCode()));
+//                        LOGGER.log(Level.INFO, "", ex);
+//                    }
+                    //</editor-fold>
                     return;
 
                 case "/doEditSubActivity":
@@ -870,8 +874,8 @@ public class ActivityPlanningController extends Controller {
             LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
-
     //<editor-fold defaultstate="collapsed" desc="Update tables">
+
     private void updateActivityNameTable(HttpServletResponse response, List<ActivityNameDetails> activityNames) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;

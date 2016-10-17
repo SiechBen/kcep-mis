@@ -7,11 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:equity>
+<kcep:county>
     <jsp:attribute name="pagetitle"> KCEP-MIS - view people </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/home.jsp"/>
 
     </jsp:attribute>
-</kcep:equity>
+</kcep:county>

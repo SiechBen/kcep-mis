@@ -41,7 +41,7 @@
                 </th>
             </tr>
         </table>-->
-                        <table class="table table-striped table-bordered table-hover" id="activities-report-table">
+                        <table class="table table-striped table-bordered table-hover" id="activity-report-table">
                             <thead>
                                 <tr>
                                     <th colspan="14">Physical progress</th>
@@ -103,8 +103,8 @@
                             <tbody>
                                 <tr>
                                     <td>${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.annualWorkplanReferenceCode}</td>
-                                    <td>${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.component.component}</td>
-                                    <td>${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.subActivityName.name}</td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.component.component}">${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.component.component}</td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.subActivityName.name}">${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.subActivityName.name}</td>
                                     <td>${sessionScope.activityProgressReport.physicalProgressQ1.subActivity.measurementUnit.unit}</td>
                                     <td>${sessionScope.activityProgressReport.physicalProgressQ1.targetOrBudget}</td>
                                     <td>${sessionScope.activityProgressReport.physicalProgressQ1.valueAchievedOrExpense}</td>

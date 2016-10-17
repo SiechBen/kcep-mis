@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorId", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId"),
-    @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear = :projectYear AND p.purpose = :purpose"),
+    @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear = :projectYear AND p.purpose IS NULL"),
     @NamedQuery(name = "PerformanceIndicatorValues.findProjectYears", query = "SELECT DISTINCT p.projectYear FROM PerformanceIndicatorValues p ORDER BY p.projectYear"),
     @NamedQuery(name = "PerformanceIndicatorValues.findAll", query = "SELECT p FROM PerformanceIndicatorValues p"),
     @NamedQuery(name = "PerformanceIndicatorValues.findById", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.id = :id"),

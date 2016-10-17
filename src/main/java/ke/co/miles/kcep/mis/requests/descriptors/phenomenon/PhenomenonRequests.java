@@ -68,7 +68,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Expected outcome");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -78,7 +93,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Expenditure category");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -88,7 +118,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Response PCU");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -98,7 +143,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Implementing partner");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -108,7 +168,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Annual indicator");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -118,7 +193,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Rating value");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -128,7 +218,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Warehouse type");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -178,7 +283,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Performance indicator type");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -188,7 +308,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Bank");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -198,7 +333,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "GFSS code");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -208,7 +358,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Warehouse operator");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -218,7 +383,22 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Category of trainees");
 
-        return retrievePhenomena();
+        PhenomenonType phenomenonType;
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<Phenomenon> phenomena = new ArrayList<>();
+        setQ(em.createNamedQuery("Phenomenon.findByPhenomenonTypeId"));
+        q.setParameter("phenomenonTypeId", phenomenonType.getId());
+        try {
+            phenomena = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertPhenomenaToPhenomenonaDetails(phenomena);
     }
 
     @Override
@@ -228,11 +408,6 @@ public class PhenomenonRequests extends EntityRequests implements PhenomenonRequ
         setQ(em.createNamedQuery("PhenomenonType.findByName"));
         q.setParameter("name", "Category of trainers");
 
-        return retrievePhenomena();
-    }
-
-    @SuppressWarnings("unchecked")
-    private List<PhenomenonDetails> retrievePhenomena() throws MilesException {
         PhenomenonType phenomenonType;
         try {
             phenomenonType = (PhenomenonType) q.getSingleResult();
