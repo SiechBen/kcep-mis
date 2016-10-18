@@ -1,4 +1,5 @@
 var language = "en";
+
 //<editor-fold defaultstate="collapsed" desc="Metis menu">
 $(function () {
     $('#side-menu').metisMenu();
@@ -1398,15 +1399,15 @@ function addWarehouse() {
     });
 }
 
-function editWarehouse(id, name, warehouseType, capacity, units, offers,
-        certified, location, subCounty, county, latitude, longitude, operator) {
+function editWarehouse(id, name, warehouseType, capacity, units, offersWrs,
+        certified, location, subCounty, county, ward, latitude, longitude, warehouseOperator) {
     $("#warehouse-name").val(name);
     $("#warehouse-type option[value=" + warehouseType + "]").attr('selected', 'selected');
-    $("#warehouse-operator option[value=" + operator + "]").attr('selected', 'selected');
+    $("#warehouse-operator option[value=" + warehouseOperator + "]").attr('selected', 'selected');
     $("#capacity").val(capacity);
     if (units !== "")
         $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
-    $("#offers-wrs").val(offers);
+    $("#offers-wrs").val(offersWrs);
     $("#certified").val(certified);
     $("#warehouse-latitude").val(latitude);
     $("#warehouse-longitude").val(longitude);
@@ -1414,7 +1415,9 @@ function editWarehouse(id, name, warehouseType, capacity, units, offers,
         $("#county option[value=" + county + "]").attr('selected', 'selected');
     if (subCounty !== "")
         $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
-    $("#warehouse-type option[value=" + operator + "]").val(operator);
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#warehouse-type option[value=" + warehouseOperator + "]").val(warehouseOperator);
     $("#warehouse-dialog").dialog({
         width: 495,
         height: "auto",
@@ -1437,7 +1440,8 @@ function editWarehouse(id, name, warehouseType, capacity, units, offers,
                             "&latitude=" + $("#warehouse-latitude").val() +
                             "&longitude=" + $("#warehouse-longitude").val() +
                             "&county=" + $("#county").val() +
-                            "&subCounty=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&ward=" + $("#ward").val() +
                             "&warehouseType=" + $("#warehouse-type").val(),
                     success: function () {
                         clearWarehouseFields();

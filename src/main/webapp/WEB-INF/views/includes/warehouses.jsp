@@ -25,7 +25,7 @@
                                 <th>Capacity</th>
                                 <th>Offers WRS services</th>
                                 <th>Certification</th>
-                                <th>Subcounty, County</th>
+                                <th>Ward, Sub-county, County</th>
                                 <th>Latitude, Longitude</th>
                                 <th>Operator</th>
                                 <th>&nbsp;</th>
@@ -46,10 +46,10 @@
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.capacity} ${warehouse.units.unit}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.offersWrs}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.certified}</td>
-                                    <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.location.subCounty.name}, ${warehouse.location.county.name}</td>
+                                    <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.location.ward.name}, ${warehouse.location.subCounty.name}, ${warehouse.location.county.name}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.location.latitude}, ${warehouse.location.longitude}</td>
                                     <td class="pointable" onclick ="loadEquimentWindow(${warehouse.id})">${warehouse.warehouseOperator.category.name}</td>
-                                    <td><button onclick="editWarehouse('${warehouse.id}', '${warehouse.name}', '${warehouse.warehouseType.id}', '${warehouse.capacity}', '${warehouse.units.id}', '${warehouse.offersWrs}', '${warehouse.certified}', '${warehouse.location.id}', '${warehouse.location.subCounty.id}', '${warehouse.location.county.id}', '${warehouse.location.latitude}', '${warehouse.location.longitude}', '${warehouse.warehouseOperator.id}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editWarehouse('${warehouse.id}', '${warehouse.name}', '${warehouse.warehouseType.id}', '${warehouse.capacity}', '${warehouse.units.id}', '${warehouse.offersWrs}', '${warehouse.certified}', '${warehouse.location.id}', '${warehouse.location.subCounty.id}', '${warehouse.location.county.id}', '${warehouse.location.ward.id}', '${warehouse.location.latitude}', '${warehouse.location.longitude}', '${warehouse.warehouseOperator.id}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteWarehouse(${warehouse.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -121,7 +121,12 @@
                         <input id="warehouse-longitude" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="hidden" id="county" value="${sessionScope.person.location.county.id}">
+                        County
+                        <select id="county" class="form-control" onchange="updateSubCounties()">
+                            <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
+                                <option value="${county.id}">${county.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         Sub-county

@@ -25,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
@@ -413,6 +414,7 @@ public class FarmerController extends Controller {
                         inputsCollections = inputsCollectionService.retrieveInputsCollections(farmer.getId());
                         session.setAttribute("inputsCollections", inputsCollections);
                     } catch (MilesException ex) {
+                        MilesDebugger.debug(ex);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
@@ -719,7 +721,11 @@ public class FarmerController extends Controller {
         for (InputsCollectionDetails inputsCollection : inputsCollections) {
             out.write("<tr>");
             out.write("<td>" + ++index + "</td>");
-            out.write("<td>" + userDateFormat.format(inputsCollection.getDateCollected()) + "</td>");
+            if (inputsCollection.getDateCollected() != null) {
+                out.write("<td>" + userDateFormat.format(inputsCollection.getDateCollected()) + "</td>");
+            } else {
+                out.write("<td></td>");
+            }
             out.write("<td>" + inputsCollection.getAgroDealer().getName() + "</td>");
             out.write("<td>" + inputsCollection.getAgroDealer().getBusinessName() + "</td>");
             try {
