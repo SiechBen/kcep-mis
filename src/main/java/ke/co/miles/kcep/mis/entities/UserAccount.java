@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UserAccount.searchPersonByNameOrNationalId", query = "SELECT u FROM UserAccount u WHERE u.personRole.id = :personRoleId AND (u.person.nationalId LIKE :nationalId OR u.person.name LIKE :name)"),
+    @NamedQuery(name = "UserAccount.findByPersonRoleIdAndCountyId", query = "SELECT u FROM UserAccount u WHERE u.personRole.id = :personRoleId AND u.person.location.county.id = :countyId"),
     @NamedQuery(name = "UserAccount.searchPersonByNationalId", query = "SELECT u FROM UserAccount u WHERE u.personRole.id = :personRoleId AND u.person.nationalId LIKE :nationalId"),
     @NamedQuery(name = "UserAccount.searchPersonByName", query = "SELECT u FROM UserAccount u WHERE u.personRole.id = :personRoleId AND u.person.name LIKE :name"),
     @NamedQuery(name = "UserAccount.findByPersonId", query = "SELECT u FROM UserAccount u WHERE u.person.id = :personId"),

@@ -118,6 +118,32 @@ public class EVoucherController extends Controller {
                                 break;
                         }
                     }
+                } else if (rightsMap.equals("countyDeskOfficerSession")) {
+                    if (rightsMaps.get(rightsMap)) {
+                        urlPaths.add("/doAddEVoucher");
+                        urlPaths.add("/doEditEVoucher");
+                        urlPaths.add("/doDeleteEVoucher");
+                        switch (path) {
+                            case "/eVouchers":
+                                path = "/county_eVouchers";
+                                urlPaths.add(path);
+                                break;
+                            case "/addEVoucher":
+                                path = "/county_addEVoucher";
+                                urlPaths.add(path);
+                                break;
+                            case "/farmers":
+                                path = "/county_farmers";
+                                urlPaths.add(path);
+                                break;
+                            case "/agroDealers":
+                                path = "/county_agro_dealers";
+                                urlPaths.add(path);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -127,6 +153,86 @@ public class EVoucherController extends Controller {
             availApplicationAttributes();
 
             switch (path) {
+                case "/county_farmers":
+                    if (session.getAttribute("farmerSearchFunction") == null || (session.getAttribute("farmerSearchFunction") != null && !((Boolean) session.getAttribute("farmerSearchFunction")))) {
+                        HashMap<String, Integer> countMap;
+                        try {
+                            countMap = personService.countCountyFarmersAndAgrodealers(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId());
+                            int femaleYouth = 0;
+                            int femaleElderly = 0;
+                            int femaleTotal = 0;
+                            int maleYouth = 0;
+                            int maleElderly = 0;
+                            int maleTotal = 0;
+                            int totalPeople = 0;
+
+                            for (String countType : countMap.keySet()) {
+                                switch (countType) {
+                                    case "Female youth":
+                                        femaleYouth = countMap.get(countType);
+                                        break;
+                                    case "Female elderly":
+                                        femaleElderly = countMap.get(countType);
+                                        break;
+                                    case "Female total":
+                                        femaleTotal = countMap.get(countType);
+                                        break;
+                                    case "Male youth":
+                                        maleYouth = countMap.get(countType);
+                                        break;
+                                    case "Male elderly":
+                                        maleElderly = countMap.get(countType);
+                                        break;
+                                    case "Male total":
+                                        maleTotal = countMap.get(countType);
+                                        break;
+                                    case "Total people":
+                                        totalPeople = countMap.get(countType);
+                                        break;
+                                }
+                            }
+
+                            session.setAttribute("femaleYouth", femaleYouth);
+                            session.setAttribute("femaleElderly", femaleElderly);
+                            session.setAttribute("femaleTotal", femaleTotal);
+                            session.setAttribute("maleYouth", maleYouth);
+                            session.setAttribute("maleElderly", maleElderly);
+                            session.setAttribute("maleTotal", maleTotal);
+                            session.setAttribute("totalPeople", totalPeople);
+                            List<PersonRoleDetail> countOptions = new ArrayList<>();
+                            countOptions.add(PersonRoleDetail.FARMER);
+                            countOptions.add(PersonRoleDetail.AGRO_DEALER);
+                            session.setAttribute("countOptions", countOptions);
+
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        }
+
+                        try {
+                            session.setAttribute("farmers", personService.retrieveCountyFarmers(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                            session.setAttribute("farmerSearchFunction", false);
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                            return;
+                        }
+                    } else {
+                        int farmerSearchTimes = 0;
+                        if (session.getAttribute("farmerSearchTimes") == null) {
+                            farmerSearchTimes = 1;
+                        } else if ((int) session.getAttribute("farmerSearchTimes") >= 2) {
+                            session.setAttribute("farmerSearchFunction", false);
+                            session.setAttribute("farmerSearchTimes", null);
+                        } else {
+                            farmerSearchTimes = ((int) session.getAttribute("farmerSearchTimes"));
+                        }
+                        session.setAttribute("farmerSearchTimes", ++farmerSearchTimes);
+                    }
+
+                    break;
 
                 case "/equity_farmers":
                 case "/head_farmers":
@@ -211,6 +317,7 @@ public class EVoucherController extends Controller {
 
                     break;
 
+                case "/county_agro_dealers":
                 case "/equity_agro_dealers":
                 case "/head_agro_dealers":
                     if (session.getAttribute("agroDealerSearchFunction") == null || (session.getAttribute("agroDealerSearchFunction") != null && !((Boolean) session.getAttribute("agroDealerSearchFunction")))) {
@@ -293,6 +400,7 @@ public class EVoucherController extends Controller {
                     break;
 
                 case "/equity_eVouchers":
+                case "/county_eVouchers":
                 case "/head_eVouchers":
 
                     List<EVoucherDetails> eVouchers;

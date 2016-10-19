@@ -169,6 +169,73 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @SuppressWarnings("unchecked")
     @Override
+    public HashMap<String, Integer> countCountyFarmersAndAgrodealers(short countyId) throws MilesException {
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN location l ON (p.location = l.id) INNER JOIN county c ON (l.county = c.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE c.id = ?4 AND s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN location l ON (p.location = l.id) INNER JOIN county c ON (l.county = c.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE c.id = ?4 AND s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
+
+        List<UserAccount> femaleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.FEMALE.getId());
+        q.setParameter(2, PersonRoleDetail.FARMER.getId());
+        q.setParameter(3, PersonRoleDetail.AGRO_DEALER.getId());
+        q.setParameter(4, countyId);
+        try {
+            femaleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.MALE.getId());
+        q.setParameter(2, PersonRoleDetail.FARMER.getId());
+        q.setParameter(3, PersonRoleDetail.AGRO_DEALER.getId());
+        q.setParameter(4, countyId);
+        try {
+            maleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> femaleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.FEMALE.getId());
+        q.setParameter(2, PersonRoleDetail.FARMER.getId());
+        q.setParameter(3, PersonRoleDetail.AGRO_DEALER.getId());
+        q.setParameter(4, countyId);
+        try {
+            femaleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.MALE.getId());
+        q.setParameter(2, PersonRoleDetail.FARMER.getId());
+        q.setParameter(3, PersonRoleDetail.AGRO_DEALER.getId());
+        q.setParameter(4, countyId);
+        try {
+            maleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("Female youth", femaleYouth.size());
+        countMap.put("Female elderly", femaleElderly.size());
+        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
+        countMap.put("Male youth", maleYouth.size());
+        countMap.put("Male elderly", maleElderly.size());
+        countMap.put("Male total", maleYouth.size() + maleElderly.size());
+        countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
+
+        return countMap;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
     public HashMap<String, Integer> countAllFarmersAndAgrodealers() throws MilesException {
         String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
         String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
@@ -598,6 +665,46 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
 
         return retrievePeople(PersonRoleDetail.FARMER);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveCountyFarmers(short countyId)
+            throws MilesException {
+
+        setQ(em.createNamedQuery("UserAccount.findByPersonRoleIdAndCountyId"));
+        q.setParameter("personRoleId", PersonRoleDetail.FARMER.getId());
+        q.setParameter("countyId", countyId);
+        q.setMaxResults(200);
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveCountyAgroDealers(short countyId)
+            throws MilesException {
+
+        setQ(em.createNamedQuery("UserAccount.findByPersonRoleIdAndCountyId"));
+        q.setParameter("personRoleId", PersonRoleDetail.AGRO_DEALER.getId());
+        q.setParameter("countyId", countyId);
+        q.setMaxResults(200);
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+
     }
 
     @Override

@@ -28,7 +28,15 @@ INSERT INTO `contact` VALUES
 (10,'0701404041','warehouseoperator@gmail.com','203 Bomet'),
 (11,'0701404086','wao@gmail.com','203 Bomet'),
 (12,'0725287162','ss@anynomous.ac.ke','203 Muminji'),
-(13,'0725282312','agmark@gmail.com','203 Kinoo');
+(13,'0725282312','agmark@gmail.com','203 Kinoo'),
+(14,'0701404089','tharakacounty@gmail.com','203 Bomet'),
+(15,'0701404081','embucounty@gmail.com','202 Bomet'),
+(16,'0701404082','kituicounty@gmail.com','203 Bomet'),
+(17,'0701404080','bungomacounty@gmail.com','203 Bomet'),
+(18,'0701404041','nandicounty@gmail.com','203 Bomet'),
+(19,'0701404086','nakurucounty@gmail.com','203 Bomet'),
+(20,'0725287162','transnzoiacounty@gmail.com','203 Muminji'),
+(21,'0725282312','kakamegacounty@gmail.com','203 Kinoo');
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,8 +59,15 @@ INSERT INTO `location` VALUES
 (11,6,7,6,NULL,NULL,NULL,NULL),
 (12,3,3,6,NULL,NULL,NULL,NULL),
 (13,3,3,3,NULL,NULL,NULL,NULL),
-(14,1,1,48,NULL,NULL,NULL,NULL),
-(15,1,1,6,NULL,NULL,NULL,NULL);
+(14,7,1,48,NULL,NULL,NULL,NULL),
+(15,2,1,6,NULL,NULL,NULL,NULL),
+(16,4,1,6,NULL,NULL,NULL,NULL),
+(17,1,1,6,NULL,NULL,NULL,NULL),
+(18,6,1,6,NULL,NULL,NULL,NULL),
+(19,5,1,6,NULL,NULL,NULL,NULL),
+(20,8,1,6,NULL,NULL,NULL,NULL),
+(21,3,1,6,NULL,NULL,NULL,NULL),
+(22,1,1,6,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,7 +90,14 @@ INSERT INTO `person` VALUES
 (11,'Ben Siech',2,'29820455','2016-06-22',NULL,'Millet growing',NULL,NULL,NULL,10,11,NULL,0),
 (12,'Ben Siech',2,'29820456','2016-06-22',NULL,'Millet growing',NULL,NULL,NULL,11,12,NULL,0),
 (14,'Bwana mkubwa',1,'29820420','2016-06-29',NULL,'Large scale millet growing',NULL,NULL,NULL,14,2,NULL,0),
-(15,'Agmark officer',1,'29820462','1986-06-29',NULL,NULL,NULL,NULL,NULL,15,13,NULL,0);
+(15,'Tharaka officer',1,'29820465','1986-06-29',NULL,NULL,NULL,NULL,NULL,14,14,NULL,0),
+(16,'Embu officer',1,'29820466','1986-06-29',NULL,NULL,NULL,NULL,NULL,15,15,NULL,0),
+(17,'Kitui officer',1,'29820467','1986-06-29',NULL,NULL,NULL,NULL,NULL,16,16,NULL,0),
+(18,'Bugoma officer',1,'29820468','1986-06-29',NULL,NULL,NULL,NULL,NULL,17,17,NULL,0),
+(19,'Nandi officer',1,'29820469','1986-06-29',NULL,NULL,NULL,NULL,NULL,18,18,NULL,0),
+(20,'Nakuru officer',1,'29820470','1986-06-29',NULL,NULL,NULL,NULL,NULL,19,19,NULL,0),
+(21,'Transnzoia officer',1,'29820471','1986-06-29',NULL,NULL,NULL,NULL,NULL,20,20,NULL,0),
+(22,'Kakamega officer',1,'29820472','1986-06-29',NULL,NULL,NULL,NULL,NULL,21,21,NULL,0);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +120,15 @@ INSERT INTO `user_account` VALUES (1,1,'siele.bernard@gmail.com','1aca6dca73cc19
 (10,11,'warehouseoperator@gmail.com','f671352bd741b3226ed0126d2bc06d2e2ca485ee4ab0dbe8c3ab16a9b4a9b71b',11),
 (11,12,'wao@gmail.com','59c094d3f594d8900c5db0d90574d9f65c779b4101a02a8cb6d7f1c8586f1af5',3),
 (12,14,'ss@anynomous.ac.ke','b34e62121d7076d6deb48917adac921b9007084c6133849867ea1c72c7fcaf24',1),
-(13,15,'agmark@gmail.com','29571617a235382440ecac4fc801c163cbf9695e6aa3dd16b4dd1cc2ccc6a310',12);
+(13,15,'agmark@gmail.com','29571617a235382440ecac4fc801c163cbf9695e6aa3dd16b4dd1cc2ccc6a310',12),
+(14,15,'tharakacounty@gmail.com','8d698c3b9b278eb6c2e016cb471566dfc249bee264764b8766824a676be404d5',5),
+(15,16,'embucounty@gmail.com','03ec67102fd24faaecb826bc7efec67a390755e9d10b9b3ac591e8af51ea6f22',5),
+(16,17,'kituicounty@gmail.com','e59904fe0227358db94dc6c15cbd4d400d5a1265b53e744037a36f5c231419d3',5),
+(17,18,'bungomacounty@gmail.com','dac245b5b1ce216fd2809eb7edf56e342eac8a0c6258df5fb6296acdbda197ac',5),
+(18,19,'nandicounty@gmail.com','76142be662d941bd68de8080cf5dc0e284d1e386a486286949dfa1ca49193215',5),
+(19,20,'nakurucounty@gmail.com','f14061374e4dac052f6999710dc243adde53a86e31c0450e73a45bfcabfc8d30',5),
+(20,21,'transnzoiacounty@gmail.com','56ee2c7eeb1f2f68a10f891711d64e24e6179001192f7a78e9f59ae6e686ce13',5),
+(21,22,'kakamegacounty@gmail.com','00498b25e34d20d1cfa4f7a2fce0722b00d4c5ea97b1d91a741971cfe69763b8',5);
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 UNLOCK TABLES;
 

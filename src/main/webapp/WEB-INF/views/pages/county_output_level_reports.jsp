@@ -11,7 +11,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - output level reports</jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="../../includes/output_level_reports.jsp"/>
+        <jsp:include page="../includes/output_level_reports.jsp"/>
 
     </jsp:attribute>
 </kcep:county>

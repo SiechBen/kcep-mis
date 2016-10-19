@@ -192,6 +192,15 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @param countyId the unique identifier of the county of which the
+     * sub-county desk officer mans
+     * @return the map of counts
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countCountyFarmersAndAgrodealers(short countyId) throws MilesException;
+
+    /**
+     *
      * @return the list of farmers retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -228,5 +237,23 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PersonDetails> searchAgroDealer(String name, String nationalId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county of which the
+     * sub-county desk officer mans
+     * @return the list of people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveCountyFarmers(short countyId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county of which the
+     * sub-county desk officer mans
+     * @return the list of people
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveCountyAgroDealers(short countyId) throws MilesException;
 
 }

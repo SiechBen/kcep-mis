@@ -62,7 +62,7 @@
                                 <tr>
                                     <td>${index.count}</td>
                                     <td>${subActivity.annualWorkplanReferenceCode}</td>
-                                    <td>${subActivity.gfssCode.category.name} <c:if test="not empty ${subActivity.gfssCode.category.name}">-</c:if> ${subActivity.gfssCode.category.child.name}</td>
+                                    <td>${subActivity.gfssCode.category.name} <c:if test="not empty ${subActivity.gfssCode.category.name}">-</c:if> ${subActivity.gfssCode.category.relative.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.expectedOutcome.category.name}">${subActivity.expectedOutcome.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.component.component}">${subActivity.component.component}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subComponent.subComponent}">${subActivity.subComponent.subComponent}</td>

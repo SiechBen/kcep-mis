@@ -37,7 +37,16 @@ public interface SubActivityRequestsLocal {
      * @return the list of sub activity record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<SubActivityDetails> retrieveSubActivities() throws MilesException;
+    public List<SubActivityDetails> retrieveHeadSubActivities() throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county of which the county
+     * desk officer mans
+     * @return the list of sub activity record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<SubActivityDetails> retrieveCountySubActivities(short countyId) throws MilesException;
 
     /**
      *

@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SubActivity.findCountySubActivities", query = "SELECT s FROM SubActivity s WHERE s.id BETWEEN :first AND :last"),
+    @NamedQuery(name = "SubActivity.findHeadSubActivities", query = "SELECT s FROM SubActivity s WHERE s.id BETWEEN :first AND :last"),
     @NamedQuery(name = "SubActivity.findReferenceCodes", query = "SELECT s.annualWorkplanReferenceCode FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findByFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId"),

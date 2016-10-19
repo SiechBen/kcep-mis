@@ -38,6 +38,7 @@ import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
+import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
@@ -392,7 +393,11 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        session.setAttribute("subActivities", subActivityService.retrieveSubActivities());
+                        if (path.equals("/head_sub_activities") || path.equals("/region_sub_activities")) {
+                            session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
+                        } else {
+                            session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                        }
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));

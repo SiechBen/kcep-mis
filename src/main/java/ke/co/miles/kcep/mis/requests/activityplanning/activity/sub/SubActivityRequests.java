@@ -141,9 +141,61 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<SubActivityDetails> retrieveSubActivities() throws MilesException {
+    public List<SubActivityDetails> retrieveHeadSubActivities() throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        setQ(em.createNamedQuery("SubActivity.findAll"));
+        setQ(em.createNamedQuery("SubActivity.findHeadSubActivities"));
+        q.setParameter("first", 1);
+        q.setParameter("last", 215);
+        try {
+            subActivities = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertSubActivitiesToSubActivityDetailsList(subActivities);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<SubActivityDetails> retrieveCountySubActivities(short countyId) throws MilesException {
+        List<SubActivity> subActivities = new ArrayList<>();
+        setQ(em.createNamedQuery("SubActivity.findCountySubActivities"));
+        switch (countyId) {
+            case 1:
+                q.setParameter("first", 216);
+                q.setParameter("last", 430);
+                break;
+            case 2:
+                q.setParameter("first", 431);
+                q.setParameter("last", 645);
+                break;
+            case 3:
+                q.setParameter("first", 646);
+                q.setParameter("last", 860);
+                break;
+            case 4:
+                q.setParameter("first", 861);
+                q.setParameter("last", 1075);
+                break;
+            case 5:
+                q.setParameter("first", 1076);
+                q.setParameter("last", 1290);
+                break;
+            case 6:
+                q.setParameter("first", 1291);
+                q.setParameter("last", 1505);
+                break;
+            case 7:
+                q.setParameter("first", 1506);
+                q.setParameter("last", 1720);
+                break;
+            case 8:
+                q.setParameter("first", 1721);
+                q.setParameter("last", 1935);
+                break;
+            default:
+                break;
+        }
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -910,7 +962,8 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         SubActivity subActivity = em.find(SubActivity.class, subActivityDetails.getId());
         subActivity.setId(subActivityDetails.getId());
         subActivity.setAnnualWorkplanReferenceCode(subActivityDetails.getAnnualWorkplanReferenceCode());
-        subActivity.setStartDate(subActivityDetails.getEndDate());
+        subActivity.setStartDate(subActivityDetails.getStartDate());
+        subActivity.setEndDate(subActivityDetails.getEndDate());
         subActivity.setUnitCost(subActivityDetails.getUnitCost());
         subActivity.setAwpbTarget(subActivityDetails.getAwpbTarget());
         subActivity.setProgrammeTarget(subActivityDetails.getProgrammeTarget());
