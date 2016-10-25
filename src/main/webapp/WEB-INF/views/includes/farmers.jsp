@@ -5,7 +5,6 @@
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -16,17 +15,15 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <label hidden id="add-label">addPerson</label>
-                    <table id="farmers-table" class="table table-bordered table-hover evoucher-people">
+                    <label hidden id="add-label">addFarmer</label>
+                    <table id="farmers-table" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
-                                <th>Person role</th>
                                 <th>Gender</th>
                                 <th>Age</th>
                                 <th>National id</th>
-                                <!--<th>Business name</th>-->
                                 <th>Farmer group</th>
                                 <th>Farmer sub-group</th>
                                 <th>County</th>
@@ -40,7 +37,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="15">List of farmers</td>
+                                <td colspan="14">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -48,11 +45,9 @@
                                 <tr class="farmer-row">
                                     <td onclick="loadFarmWindow(${person.id})">${index.count}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.name}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.personRole}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.age}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.nationalId}</td>
-                                    <!--<td onclick="loadFarmWindow(${person.id})">${person.businessName}</td>-->
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.county.name}</td>
@@ -61,7 +56,7 @@
                                     <td onclick="loadFarmWindow(${person.id})">${person.contact.phone}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.contact.email}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
+                                                    '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
                                                     '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
@@ -69,45 +64,7 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <table class="table table-bordered table-hover evoucher-data-table">
-                        <tbody>
-                            <tr>
-                                <td> Count by: </td>
-                                <td colspan="6">
-                                    <select id="counter" onchange="updateCounts()">
-                                        <c:forEach var="countOption" items="${sessionScope.countOptions}">
-                                            <option value="${countOption.id}">${countOption.personRole}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"> <strong>Female</strong> </td>
-                                <td colspan="3"> <strong>Male</strong> </td>
-                                <td rowspan="2"> <strong>Total</strong> </td>
-                            </tr>
-                            <tr>
-                                <td> <strong>Youth(<35 years old)</strong> </td>
-                                <td> <strong>Elderly(>35 years old)</strong> </td>
-                                <td> <strong>Female Total</strong> </td>
-                                <td> <strong>Youth(<35 years old)</strong> </td>
-                                <td> <strong>Elderly(>35 years old)</strong> </td>
-                                <td> <strong>Male Total</strong> </td>
-                            </tr>
-                            <tr id="people-summary">
-                                <td> ${sessionScope.femaleYouth} </td>
-                                <td> ${sessionScope.femaleElderly} </td>
-                                <td> ${sessionScope.femaleTotal} </td>
-                                <td> ${sessionScope.maleYouth} </td>
-                                <td> ${sessionScope.maleElderly} </td>
-                                <td> ${sessionScope.maleTotal} </td>
-                                <td> ${sessionScope.totalPeople} </td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="divider"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <jsp:include page="people_count.jsp"/>
                 </div>
             </div>
         </div>
@@ -145,7 +102,7 @@
                     </div>
                     <div class="form-group">
                         Date Of Birth
-                        <input id="date-of-birth" name="date-of-birth" class="form-control datefield">
+                        <input id="year-of-birth" name="year-of-birth" class="form-control datefield">
                     </div>
                     <div class="form-group">
                         Business Name

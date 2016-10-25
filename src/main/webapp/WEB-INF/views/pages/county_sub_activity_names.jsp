@@ -1,5 +1,5 @@
 <%--
-    Document   : head_sub_activity_names
+    Document   : county_sub_activity_names
     Created on : Jul 15, 2016, 8:05:02 AM
     Author     : siech
 --%>
@@ -8,25 +8,25 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:head>
+<kcep:county>
     <jsp:attribute name="pagetitle"> KCEP-MIS - view sub-activity names </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-countying">
                         List of sub-activity names
                     </div>
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover data-table">
-                                <thead>
+                                <tcounty>
                                     <tr>
                                         <th><button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('addSubActivityName')">Add</button></th>
                                         <th>Sub-activity name</th>
                                     </tr>
-                                </thead>
+                                </tcounty>
                                 <tfoot>
                                     <tr>
                                         <td colspan="8"> List of sub-activity names </td>
@@ -48,4 +48,4 @@
         </div>
 
     </jsp:attribute>
-</kcep:head>
+</kcep:county>

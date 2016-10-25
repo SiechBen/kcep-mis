@@ -164,34 +164,42 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             case 1:
                 q.setParameter("first", 216);
                 q.setParameter("last", 430);
+                q.setParameter("other", 2151);
                 break;
             case 2:
                 q.setParameter("first", 431);
                 q.setParameter("last", 645);
+                q.setParameter("other", 2151);
                 break;
             case 3:
                 q.setParameter("first", 646);
                 q.setParameter("last", 860);
+                q.setParameter("other", 2151);
                 break;
             case 4:
                 q.setParameter("first", 861);
                 q.setParameter("last", 1075);
+                q.setParameter("other", 2151);
                 break;
             case 5:
                 q.setParameter("first", 1076);
                 q.setParameter("last", 1290);
+                q.setParameter("other", 2151);
                 break;
             case 6:
                 q.setParameter("first", 1291);
                 q.setParameter("last", 1505);
+                q.setParameter("other", 2151);
                 break;
             case 7:
                 q.setParameter("first", 1506);
                 q.setParameter("last", 1720);
+                q.setParameter("other", 2151);
                 break;
             case 8:
                 q.setParameter("first", 1721);
                 q.setParameter("last", 1935);
+                q.setParameter("other", 2151);
                 break;
             default:
                 break;

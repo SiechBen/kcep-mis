@@ -9,10 +9,10 @@
 <li>
     <a href="#"><i class="fa fa-calendar fa-fw"></i> Activity planning <span class="fa arrow"></span></a>
     <ul class="nav nav-second-level">
-        <!--        <li>
-                    <a href="#" onclick="loadAjaxWindow('activity_names');
-                                    return false;"><i class="fa fa-edit fa-fw"></i> Activity names </a>
-                </li>-->
+        <li>
+            <a href="#" onclick="loadAjaxWindow('activity_names');
+                            return false;"><i class="fa fa-edit fa-fw"></i> Activity names </a>
+        </li>
         <li>
             <a href="#" onclick="loadAjaxWindow('financial_years');
                     return false;"><i class="fa fa-edit fa-fw"></i> Financial years </a>

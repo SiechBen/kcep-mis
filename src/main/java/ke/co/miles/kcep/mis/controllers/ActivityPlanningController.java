@@ -658,15 +658,14 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setEndDate(null);
                     }
 
-                    //<editor-fold defaultstate="collapsed" desc="Uncomment enclosed try-catch block to enable saving of the added (sub-)activity">
-//                    try {
-//                        subActivityService.addSubActivity(subActivity);
-//                    } catch (MilesException ex) {
-//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//                        response.getWriter().write(getBundle().getString(ex.getCode()));
-//                        LOGGER.log(Level.INFO, "", ex);
-//                    }
-                    //</editor-fold>
+                    try {
+                        subActivityService.addSubActivity(subActivity);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
                     return;
 
                 case "/doEditSubActivity":

@@ -145,10 +145,10 @@
                         Description
                         <input id="description" class="form-control">
                     </div>
-                    <div class="form-group">
-                        Value achieved
-                        <input id="value-achieved" type="number" step="0.01" class="form-control">
-                    </div>
+                    <!--                    <div class="form-group">
+                                            Expenditure
+                                            <input id="value-achieved" type="number" step="0.01" class="form-control">
+                                        </div>-->
                     <div class="form-group">
                         Allocated budget
                         <input id="allocated-budget" type="number" step="0.01" class="form-control">

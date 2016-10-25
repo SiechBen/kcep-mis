@@ -7,7 +7,6 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +71,7 @@ public class PersonController extends Controller {
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
+                urlPaths.add("/changeCounter");
                 switch (rightsMap) {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
@@ -79,7 +79,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
-                            urlPaths.add("/changeCounter");
                             urlPaths.add("/searchFarmer");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
@@ -108,7 +107,6 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/changeCounter");
                             urlPaths.add("/searchFarmer");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
@@ -193,8 +191,10 @@ public class PersonController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/searchFarmer");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
+                            urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
                                     path = "/county_people";
@@ -363,10 +363,6 @@ public class PersonController extends Controller {
                         return;
                     }
 
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRoles());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/equity_people":
@@ -417,68 +413,40 @@ public class PersonController extends Controller {
                         return;
                     }
 
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/ward_people":
 
                     PersonDetails wao = (PersonDetails) session.getAttribute("person");
                     try {
-                        people = personService.retrieveWardPeople(wao.getLocation().getWard().getId());
+                        session.setAttribute("people", personService.retrieveWardPeople(wao.getLocation().getWard().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/kalro_people":
 
                     try {
-                        people = personService.retrieveKalroPeople();
+                        session.setAttribute("people", personService.retrieveKalroPeople());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/agmark_people":
 
                     try {
-                        people = personService.retrieveAgmarkPeople();
+                        session.setAttribute("people", personService.retrieveAgmarkPeople());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/region_people":
@@ -486,41 +454,76 @@ public class PersonController extends Controller {
                     PersonDetails regionalCoordinator = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        people = personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getRegion().getId());
+                        session.setAttribute("people", personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getRegion().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/county_people":
 
+                    try {
+                        countMap = personService.countCountyPeople(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId());
+                        int femaleYouth = 0;
+                        int femaleElderly = 0;
+                        int femaleTotal = 0;
+                        int maleYouth = 0;
+                        int maleElderly = 0;
+                        int maleTotal = 0;
+                        int totalPeople = 0;
+
+                        for (String countType : countMap.keySet()) {
+                            switch (countType) {
+                                case "Female youth":
+                                    femaleYouth = countMap.get(countType);
+                                    break;
+                                case "Female elderly":
+                                    femaleElderly = countMap.get(countType);
+                                    break;
+                                case "Female total":
+                                    femaleTotal = countMap.get(countType);
+                                    break;
+                                case "Male youth":
+                                    maleYouth = countMap.get(countType);
+                                    break;
+                                case "Male elderly":
+                                    maleElderly = countMap.get(countType);
+                                    break;
+                                case "Male total":
+                                    maleTotal = countMap.get(countType);
+                                    break;
+                                case "Total people":
+                                    totalPeople = countMap.get(countType);
+                                    break;
+                            }
+                        }
+
+                        session.setAttribute("femaleYouth", femaleYouth);
+                        session.setAttribute("femaleElderly", femaleElderly);
+                        session.setAttribute("femaleTotal", femaleTotal);
+                        session.setAttribute("maleYouth", maleYouth);
+                        session.setAttribute("maleElderly", maleElderly);
+                        session.setAttribute("maleTotal", maleTotal);
+                        session.setAttribute("totalPeople", totalPeople);
+                        session.setAttribute("countOptions", PersonRoleDetail.values());
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
                     PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        people = personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId());
+                        session.setAttribute("people", personService.retrieveCountyNonFarmersAndNonAgroDealers(countyDeskOfficer.getLocation().getCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/sub_county_people":
@@ -528,14 +531,10 @@ public class PersonController extends Controller {
                     PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        people = personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                        session.setAttribute("people", personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
-                    }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
                     }
 
                     List<WardDetails> wards = new ArrayList<>();
@@ -549,11 +548,6 @@ public class PersonController extends Controller {
 
                     session.setAttribute("wards", wards);
 
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                        MilesDebugger.debug(session.getAttribute("personRoles"));
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/agro_dealer_people":
@@ -561,20 +555,12 @@ public class PersonController extends Controller {
                     PersonDetails agroDealer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        people = personService.retrieveSubCountyFarmers(agroDealer.getLocation().getSubCounty().getId());
+                        session.setAttribute("people", personService.retrieveSubCountyFarmers(agroDealer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
 
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
-                        session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
-                    } catch (Exception e) {
-                    }
                     break;
 
                 case "/doAddPerson":
@@ -659,20 +645,14 @@ public class PersonController extends Controller {
                         contact.setPostalAddress(null);
                     }
                     try {
-                        person.setSex(SexDetail.getSexDetail(Short.valueOf(String.valueOf(request.getParameter("sex")))));
+                        person.setSex(SexDetail.getSexDetail(Short.valueOf(request.getParameter("sex"))));
                     } catch (Exception e) {
                         person.setSex(null);
                     }
-
                     try {
-                        date = userDateFormat.parse(request.getParameter("dateOfBirth"));
-                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        person.setDateOfBirth(date);
-                    } catch (ParseException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
-                        person.setDateOfBirth(null);
+                        person.setYearOfBirth(Short.valueOf(request.getParameter("yearOfBirth")));
+                    } catch (Exception e) {
+                        person.setYearOfBirth(null);
                     }
 
                     try {
@@ -797,16 +777,10 @@ public class PersonController extends Controller {
                     } catch (Exception e) {
                         person.setSex(null);
                     }
-
                     try {
-                        date = userDateFormat.parse(request.getParameter("dateOfBirth"));
-                        date = databaseDateFormat.parse(databaseDateFormat.format(date));
-                        person.setDateOfBirth(date);
-                    } catch (ParseException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString("string_parse_error") + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString("string_parse_error"));
-                        person.setDateOfBirth(null);
+                        person.setYearOfBirth(Short.valueOf(request.getParameter("yearOfBirth")));
+                    } catch (Exception e) {
+                        person.setYearOfBirth(null);
                     }
 
                     try {
@@ -909,12 +883,11 @@ public class PersonController extends Controller {
                         return;
                     }
 
-                    wards = new ArrayList<>();
                     if (subCounties != null) {
 
                         for (SubCountyDetails subCountyDetails : subCounties) {
                             try {
-                                wards.addAll(wardService.retrieveWards(subCountyDetails.getId()));
+                                session.setAttribute("wards", wardService.retrieveWards(subCountyDetails.getId()));
                             } catch (MilesException ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
                                 return;
@@ -922,8 +895,6 @@ public class PersonController extends Controller {
                         }
 
                         session.setAttribute("subCounties", subCounties);
-                        session.setAttribute("wards", wards);
-
                     }
                     break;
 
@@ -932,16 +903,10 @@ public class PersonController extends Controller {
                     subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        wards = wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId());
+                        session.setAttribute("wards", wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
-                        return;
                     }
-
-                    if (wards != null) {
-                        session.setAttribute("wards", wards);
-                    }
-
                     break;
 
                 case "/head_userProfile":
@@ -968,8 +933,13 @@ public class PersonController extends Controller {
                 case "/changeCounter":
 
                     short counter = Short.valueOf(request.getParameter("counter"));
+                    person = (PersonDetails) session.getAttribute("person");
                     try {
-                        countMap = personService.countPeople(PersonRoleDetail.getPersonRoleDetail(counter));
+                        if (person.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
+                            countMap = personService.countCountyPeople(person.getLocation().getCounty().getId());
+                        } else {
+                            countMap = personService.countPeople(PersonRoleDetail.getPersonRoleDetail(counter));
+                        }
                         int femaleYouth = 0;
                         int femaleElderly = 0;
                         int femaleTotal = 0;

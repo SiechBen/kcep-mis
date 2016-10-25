@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -39,29 +40,33 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 
 //<editor-fold defaultstate="collapsed" desc="Create">
     @Override
-    public Integer addUserAccount(UserAccountDetails personDetails) throws MilesException {
+    public Integer addUserAccount(UserAccountDetails userAccountDetails) throws MilesException {
         //Method for adding a faculty record to the database
 
         //Checking validity of details
-        if (personDetails == null) {
+        if (userAccountDetails == null) {
             throw new InvalidArgumentException("error_015_01");
-        } else if (personDetails.getUsername() == null || personDetails.getUsername().trim().length() == 0) {
+        } else if (!userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER) && (userAccountDetails.getUsername() == null || userAccountDetails.getUsername().trim().length() == 0)) {
             throw new InvalidArgumentException("error_015_02");
-        } else if (personDetails.getUsername().trim().length() > 150) {
+        } else if (userAccountDetails.getUsername() != null && userAccountDetails.getUsername().trim().length() > 150) {
             throw new InvalidArgumentException("error_015_03");
-        } else if (personDetails.getPassword() == null || personDetails.getPassword().trim().length() == 0) {
+        } else if (userAccountDetails.getPassword() == null || userAccountDetails.getPassword().trim().length() == 0) {
             throw new InvalidArgumentException("error_015_04");
-        } else if (personDetails.getPassword().trim().length() > 150) {
+        } else if (userAccountDetails.getPassword().trim().length() > 150) {
             throw new InvalidArgumentException("error_015_05");
-        } else if (personDetails.getPerson() == null) {
+        } else if (userAccountDetails.getPerson() == null) {
             throw new InvalidArgumentException("error_015_06");
-        } else if (personDetails.getPersonRole() == null) {
+        } else if (userAccountDetails.getPersonRole() == null) {
             throw new InvalidArgumentException("error_015_07");
+        }
+
+        if (userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER)) {
+            userAccountDetails.setUsername(generateRandomUsername());
         }
 
         //Checking if the username is unique to a faculty
         setQ(em.createNamedQuery("UserAccount.findByUsername"));
-        q.setParameter("username", personDetails.getUsername());
+        q.setParameter("username", userAccountDetails.getUsername());
         UserAccount userAccount;
         try {
             userAccount = (UserAccount) q.getSingleResult();
@@ -71,7 +76,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidStateException("error_000_01");
         }
         if (userAccount != null) {
-            throw new MilesException("error_015_08");
+            if (userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER)) {
+                userAccountDetails.setUsername(generateRandomUsername());
+            } else {
+                throw new MilesException("error_015_08");
+            }
         }
 
         //Create a message digest algorithm object for SHA-256 hashing algorithm
@@ -84,10 +93,10 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 
         //Creating a container to hold faculty record
         userAccount = new UserAccount();
-        userAccount.setUsername(personDetails.getUsername());
-        userAccount.setPerson(em.getReference(Person.class, personDetails.getPerson().getId()));
-        userAccount.setPersonRole(em.getReference(PersonRole.class, personDetails.getPersonRole().getId()));
-        userAccount.setPassword(accessService.generateSHAPassword(messageDigest, personDetails.getPassword()));
+        userAccount.setUsername(userAccountDetails.getUsername());
+        userAccount.setPerson(em.getReference(Person.class, userAccountDetails.getPerson().getId()));
+        userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
+        userAccount.setPassword(accessService.generateSHAPassword(messageDigest, userAccountDetails.getPassword()));
 
         //Adding a faculty record to the database
         try {
@@ -100,6 +109,22 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         //Returning the unique identifier of the new record added
         return userAccount.getId();
 
+    }
+
+    private static String generateRandomUsername() {
+
+        // Pick from some letters that won't be easily mistaken for each
+        // other. So, for example, omit o O and 0, 1 l and L, s S and 5.
+        String characters = "abcdefghjk@mnpqrtuvwxyzABCDEFGHJKMNPQRTUVWX@YZ2346789";
+
+        String username = "";
+
+        for (int i = 0; i < USERNAME_LENGTH; i++) {
+            int index = (int) (new Random().nextDouble() * characters.length());
+            username += characters.substring(index, index + 1);
+        }
+
+        return username;
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
@@ -245,9 +270,9 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_01");
         } else if (userAccountDetails.getId() == null) {
             throw new InvalidArgumentException("error_015_09");
-        } else if (userAccountDetails.getUsername() == null || userAccountDetails.getUsername().trim().length() == 0) {
+        } else if (!userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER) && userAccountDetails.getUsername() == null || userAccountDetails.getUsername().trim().length() == 0) {
             throw new InvalidArgumentException("error_015_02");
-        } else if (userAccountDetails.getUsername().trim().length() > 150) {
+        } else if (userAccountDetails.getUsername() != null && userAccountDetails.getUsername().trim().length() > 150) {
             throw new InvalidArgumentException("error_015_03");
         } else if (userAccountDetails.getPassword() == null || userAccountDetails.getPassword().trim().length() == 0) {
             throw new InvalidArgumentException("error_015_04");
@@ -257,6 +282,10 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_06");
         } else if (userAccountDetails.getPersonRole() == null) {
             throw new InvalidArgumentException("error_015_07");
+        }
+
+        if (userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER)) {
+            userAccountDetails.setUsername(generateRandomUsername());
         }
 
         setQ(em.createNamedQuery("UserAccount.findByUsername"));
@@ -271,7 +300,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         }
         if (userAccount != null) {
             if (!userAccount.getId().equals(userAccountDetails.getId())) {
-                throw new InvalidStateException("error_015_08");
+                if (userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER)) {
+                    userAccountDetails.setUsername(generateRandomUsername());
+                } else {
+                    throw new InvalidStateException("error_015_08");
+                }
             }
         }
 
@@ -361,5 +394,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
     private PersonRoleRequestsLocal personRoleService;
     @EJB
     private AccessRequestsLocal accessService;
+
+    private static final int USERNAME_LENGTH = 35;
 
 }

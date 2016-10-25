@@ -222,6 +222,15 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @param countyId the unique identifier of the country for which the people
+     * to be retrieved belong
+     * @return the list of non-agro-dealers and non-farmers retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PersonDetails> retrieveCountyNonFarmersAndNonAgroDealers(short countyId) throws MilesException;
+
+    /**
+     *
      * @param name the name of the farmer
      * @param nationalId the national id of the farmer
      * @return the list of non-agro-dealers and non-farmers retrieved
@@ -255,5 +264,14 @@ public interface PersonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PersonDetails> retrieveCountyAgroDealers(short countyId) throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county for which the people
+     * are to be retrieved
+     * @return the list of people retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countCountyPeople(short countyId) throws MilesException;
 
 }

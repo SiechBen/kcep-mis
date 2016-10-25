@@ -18,12 +18,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 
@@ -152,6 +154,11 @@ public class AccessController extends Controller {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
                             }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
+                            }
                             break;
 
                         case "WAO (Ward Extension Officer)":
@@ -179,6 +186,11 @@ public class AccessController extends Controller {
                             } catch (Exception ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
+                            }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
                             }
                             break;
 
@@ -208,6 +220,11 @@ public class AccessController extends Controller {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
                             }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
+                            }
                             break;
 
                         case "AGMARK Officer":
@@ -236,6 +253,11 @@ public class AccessController extends Controller {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
                             }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
+                            }
                             break;
 
                         case "County Officer":
@@ -263,6 +285,11 @@ public class AccessController extends Controller {
                             } catch (MilesException ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
+                            }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
                             }
                             break;
 
@@ -293,6 +320,12 @@ public class AccessController extends Controller {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
                             }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                                MilesDebugger.debug(session.getAttribute("personRoles"));
+                            } catch (Exception e) {
+                            }
                             break;
 
                         case "Regional Coordinator":
@@ -321,6 +354,11 @@ public class AccessController extends Controller {
                             } catch (MilesException ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
+                            }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
                             }
                             break;
 
@@ -361,6 +399,11 @@ public class AccessController extends Controller {
                                 return;
                             }
 
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRoles());
+                            } catch (Exception e) {
+                            }
+
                             break;
 
                         case "Equity":
@@ -388,6 +431,11 @@ public class AccessController extends Controller {
                             } catch (MilesException ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during wards retrieval", ex);
                                 return;
+                            }
+
+                            try {
+                                session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
+                            } catch (Exception e) {
                             }
                             break;
 
@@ -452,5 +500,7 @@ public class AccessController extends Controller {
     private WardRequestsLocal wardService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private PersonRoleRequestsLocal personRoleService;
 
 }

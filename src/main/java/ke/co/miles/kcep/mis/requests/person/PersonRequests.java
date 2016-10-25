@@ -7,13 +7,15 @@ package ke.co.miles.kcep.mis.requests.person;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.County;
@@ -72,7 +74,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person = new Person();
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
-        person.setDateOfBirth(personDetails.getDateOfBirth());
+        person.setYearOfBirth(personDetails.getYearOfBirth());
         person.setBusinessName(personDetails.getBusinessName());
 
         person.setContact(contactService.addContact(personDetails.getContact()));
@@ -98,7 +100,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         userAccountDetails.setPersonRole(personRoleDetail);
         userAccountDetails.setPassword(personDetails.getNationalId());
         userAccountDetails.setPerson(convertPersonToPersonDetails(person));
-        userAccountDetails.setUsername(person.getContact().getEmail().toLowerCase());
+
+        if (!personRoleDetail.equals(PersonRoleDetail.FARMER)) {
+            userAccountDetails.setUsername(person.getContact().getEmail().toLowerCase());
+        }
 
         try {
             userAccountService.addUserAccount(userAccountDetails);
@@ -116,8 +121,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     public HashMap<String, Integer> countAllPeople() throws MilesException {
 
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) WHERE s.id = ?1 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -170,8 +175,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     @Override
     public HashMap<String, Integer> countCountyFarmersAndAgrodealers(short countyId) throws MilesException {
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN location l ON (p.location = l.id) INNER JOIN county c ON (l.county = c.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE c.id = ?4 AND s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN location l ON (p.location = l.id) INNER JOIN county c ON (l.county = c.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE c.id = ?4 AND s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN location l ON (p.location = l.id) INNER JOIN county c ON (l.county = c.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE c.id = ?4 AND s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN location l ON (p.location = l.id) INNER JOIN county c ON (l.county = c.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE c.id = ?4 AND s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -237,8 +242,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     @Override
     public HashMap<String, Integer> countAllFarmersAndAgrodealers() throws MilesException {
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -302,8 +307,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public HashMap<String, Integer> countPeople(PersonRoleDetail personRoleDetail)
             throws MilesException {
 
-        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35)";
-        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35)";
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35)";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -357,6 +362,66 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         return countMap;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countCountyPeople(short countyId)
+            throws MilesException {
+
+        String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN location l ON (p.location = l.id) WHERE s.id = ?1 AND l.county = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35)";
+        String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN location l ON (p.location = l.id) WHERE s.id = ?1 AND l.county = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35)";
+
+        List<UserAccount> femaleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.FEMALE.getId());
+        q.setParameter(2, countyId);
+        try {
+            femaleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleYouth = new ArrayList<>();
+        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.MALE.getId());
+        q.setParameter(2, countyId);
+        try {
+            maleYouth = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> femaleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.FEMALE.getId());
+        q.setParameter(2, countyId);
+        try {
+            femaleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        List<UserAccount> maleElderly = new ArrayList<>();
+        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        q.setParameter(1, SexDetail.MALE.getId());
+        q.setParameter(2, countyId);
+        try {
+            maleElderly = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("Female youth", femaleYouth.size());
+        countMap.put("Female elderly", femaleElderly.size());
+        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
+        countMap.put("Male youth", maleYouth.size());
+        countMap.put("Male elderly", maleElderly.size());
+        countMap.put("Male total", maleYouth.size() + maleElderly.size());
+        countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
+
+        return countMap;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public List<PersonDetails> retrieveRegionPeople(short regionId)
@@ -373,12 +438,12 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(em.createNamedQuery("Person.findByCountyId"));
+        setQ(em.createNamedQuery("UserAccount.findByCountyId"));
         for (County county : counties) {
             q.setParameter("countyId", county.getId());
             try {
                 peopleDetailsList.addAll(
-                        convertPeopleToPersonDetailsList(q.getResultList()));
+                        convertUserAccountsToPeople(q.getResultList()));
             } catch (Exception e) {
                 throw new InvalidStateException("error_000_01");
             }
@@ -393,11 +458,11 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(em.createNamedQuery("Person.findByCountyId"));
+        setQ(em.createNamedQuery("UserAccount.findByCountyId"));
         q.setParameter("countyId", countyId);
         try {
             peopleDetailsList
-                    = convertPeopleToPersonDetailsList(q.getResultList());
+                    = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -410,10 +475,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrieveWardPeople(short wardId) throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(em.createNamedQuery("Person.findByWardId"));
+        setQ(em.createNamedQuery("UserAccount.findByWardId"));
         q.setParameter("wardId", wardId);
         try {
-            peopleDetailsList = convertPeopleToPersonDetailsList(q.getResultList());
+            peopleDetailsList = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -427,10 +492,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         List<PersonDetails> peopleDetailsList = new ArrayList<>();
 
-        setQ(em.createNamedQuery("Person.findBySubCountyId"));
+        setQ(em.createNamedQuery("UserAccount.findBySubCountyId"));
         q.setParameter("subCountyId", subCountyId);
         try {
-            peopleDetailsList = convertPeopleToPersonDetailsList(q.getResultList());
+            peopleDetailsList = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -443,19 +508,14 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrieveSubCountyFarmers(short subCountyId)
             throws MilesException {
         List<PersonDetails> peopleDetailsList = null;
-        List<Person> people;
 
-        setQ(em.createNamedQuery("Person.findBySubCountyId"));
+        setQ(em.createNamedQuery("UserAccount.findSubCountyFarmers"));
         q.setParameter("subCountyId", subCountyId);
+        q.setParameter("personRoleId", PersonRoleDetail.FARMER.getId());
         try {
-            people = q.getResultList();
+            peopleDetailsList = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
-        }
-
-        if (people != null && !people.isEmpty()) {
-            peopleDetailsList = convertPeopleToPersonDetailsList(
-                    userAccountService.filterPeople(people, PersonRoleDetail.FARMER));
         }
 
         return peopleDetailsList;
@@ -519,7 +579,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throws MilesException {
         setQ(em.createNamedQuery("UserAccount.findByPersonRoleId"));
         q.setParameter("personRoleId", personRoleDetail.getId());
-        q.setMaxResults(200);
+        q.setMaxResults(50);
         List<UserAccount> userAccounts;
         try {
             userAccounts = q.getResultList();
@@ -603,6 +663,28 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         return convertUserAccountsToPeople(userAccounts);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PersonDetails> retrieveCountyNonFarmersAndNonAgroDealers(short countyId)
+            throws MilesException {
+
+        setQ(em.createNamedQuery("UserAccount.findCountyPeopleNotHavingPersonRoleIds"));
+        List<Short> personRoleIds = new ArrayList<>();
+        personRoleIds.add(PersonRoleDetail.FARMER.getId());
+        personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
+        q.setParameter("personRoleIds", personRoleIds);
+        q.setParameter("countyId", countyId);
+
+        List<UserAccount> userAccounts;
+        try {
+            userAccounts = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertUserAccountsToPeople(userAccounts);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<PersonDetails> searchFarmer(String name, String nationalId) throws MilesException {
@@ -675,7 +757,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         setQ(em.createNamedQuery("UserAccount.findByPersonRoleIdAndCountyId"));
         q.setParameter("personRoleId", PersonRoleDetail.FARMER.getId());
         q.setParameter("countyId", countyId);
-        q.setMaxResults(200);
+        q.setMaxResults(50);
         List<UserAccount> userAccounts;
         try {
             userAccounts = q.getResultList();
@@ -695,7 +777,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         setQ(em.createNamedQuery("UserAccount.findByPersonRoleIdAndCountyId"));
         q.setParameter("personRoleId", PersonRoleDetail.AGRO_DEALER.getId());
         q.setParameter("countyId", countyId);
-        q.setMaxResults(200);
+        q.setMaxResults(50);
         List<UserAccount> userAccounts;
         try {
             userAccounts = q.getResultList();
@@ -736,8 +818,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
         if (person != null) {
             if (person.getNationalId() != null && !person.getId().equals(personDetails.getId())) {
-                MilesDebugger.debug("Person id: " + person.getId());
-                MilesDebugger.debug("Person details id: " + personDetails.getId());
                 throw new InvalidArgumentException("error_001_02");
             }
         }
@@ -748,7 +828,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         person = em.find(Person.class, personDetails.getId());
         person.setName(personDetails.getName());
         person.setNationalId(personDetails.getNationalId());
-        person.setDateOfBirth(personDetails.getDateOfBirth());
+        person.setYearOfBirth(personDetails.getYearOfBirth());
         person.setBusinessName(personDetails.getBusinessName());
 
         person.setContact(em.getReference(Contact.class, personDetails.getContact().getId()));
@@ -836,12 +916,24 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
         personDetails.setContact(contactDetails);
         personDetails.setName(person.getName());
-        personDetails.setAge(person.getAge());
+        if (person.getAge() == null && person.getYearOfBirth() != null) {
+            LocalDate birthYear = LocalDate.of(person.getYearOfBirth(), 1, 1);
+            LocalDate now = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1);
+            person.setAge(Short.valueOf(String.valueOf(Period.between(birthYear, now).getYears())));
+            personDetails.setAge(person.getAge());
+            try {
+                em.merge(person);
+                em.flush();
+            } catch (Exception e) {
+            }
+        } else {
+            personDetails.setAge(person.getAge());
+        }
         personDetails.setLocation(locationDetails);
         personDetails.setPlotSize(person.getPlotSize());
         personDetails.setFarmerGroup(farmerGroupDetails);
         personDetails.setNationalId(person.getNationalId());
-        personDetails.setDateOfBirth(person.getDateOfBirth());
+        personDetails.setYearOfBirth(person.getYearOfBirth());
         personDetails.setFarmerSubGroup(farmerSubGroupDetails);
         personDetails.setBusinessName(person.getBusinessName());
         try {

@@ -1,6 +1,6 @@
 <%--
-    Document   : sub_county_addPerson
-    Created on : Jun 25, 2016, 1:47:18 PM
+    Document   : sub_county_addFarmer
+    Created on : Oct 25, 2016, 6:59:34 AM
     Author     : siech
 --%>
 
@@ -12,7 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - add farmer </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="../includes/addPerson.jsp"/>
+        <jsp:include page="../includes/addFarmer.jsp"/>
         <div class="form-group">
             <input type="hidden" id="county" class="form-control" value="${person.location.county.id}">
         </div>
@@ -27,7 +27,7 @@
                 </c:forEach>
             </select>
         </div>
-        <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save person</button>
+        <button type="button" class="btn btn-outline btn-primary" onclick="addFarmer()">Save farmer</button>
     </form>
 </div>
 </div>

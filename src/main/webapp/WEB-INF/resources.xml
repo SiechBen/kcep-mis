@@ -7,4 +7,10 @@
         autoReconnectForPools=true
         jdbcUrl=jdbc\:mysql\://localhost\:3306/kcep_mis?autoReconnect\=true
     </Resource>
+    <Resource id="jdbc/angular" type="javax.sql.DataSource">#Fri Oct 21 17:02:36 EAT 2016
+        jdbcDriver=com.mysql.jdbc.Driver
+        password=complex
+        userName=root
+        jdbcUrl=jdbc\:mysql\://localhost\:3306/angular?zeroDateTimeBehavior\=convertToNull
+    </Resource>
 </resources>

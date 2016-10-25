@@ -65,7 +65,7 @@
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.personRoleId}', '${person.nationalId}',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${person.dateOfBirth}"/>', '${person.businessName}',
+                                                    '${person.yearOfBirth}', '${person.businessName}',
                                                     '${person.farmerGroup.id}', '${person.farmerSubGroup.id}', '${person.location.id}', '${person.location.county.id}',
                                                     '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
@@ -74,45 +74,7 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <table class="table table-bordered table-hover data-table">
-                        <tbody>
-                            <tr>
-                                <td> Count by: </td>
-                                <td colspan="6">
-                                    <select id="counter" onchange="updateCounts()">
-                                        <c:forEach var="countOption" items="${sessionScope.countOptions}">
-                                            <option value="${countOption.id}">${countOption.personRole}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"> <strong>Female</strong> </td>
-                                <td colspan="3"> <strong>Male</strong> </td>
-                                <td rowspan="2"> <strong>Total</strong> </td>
-                            </tr>
-                            <tr>
-                                <td> <strong>Youth(35 and below)</strong> </td>
-                                <td> <strong>Above 35 years</strong> </td>
-                                <td> <strong>Female Total</strong> </td>
-                                <td> <strong>Youth(35 and below)</strong> </td>
-                                <td> <strong>Above 35 years</strong> </td>
-                                <td> <strong>Male Total</strong> </td>
-                            </tr>
-                            <tr id="people-summary">
-                                <td> ${sessionScope.femaleYouth} </td>
-                                <td> ${sessionScope.femaleElderly} </td>
-                                <td> ${sessionScope.femaleTotal} </td>
-                                <td> ${sessionScope.maleYouth} </td>
-                                <td> ${sessionScope.maleElderly} </td>
-                                <td> ${sessionScope.maleTotal} </td>
-                                <td> ${sessionScope.totalPeople} </td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" class="divider"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <jsp:include page="people_count.jsp"/>
                 </div>
             </div>
         </div>
@@ -149,8 +111,10 @@
                         <input id="national-id" name="national-id" class="form-control">
                     </div>
                     <div class="form-group">
-                        Date Of Birth
-                        <input id="date-of-birth" name="date-of-birth" class="form-control datefield">
+                        Year of birth
+                        <select id="year-of-birth" class="form-control">
+                            <option disabled>Select year</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         Business Name

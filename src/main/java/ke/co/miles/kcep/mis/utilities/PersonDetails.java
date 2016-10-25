@@ -6,7 +6,6 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  *
@@ -80,17 +79,17 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     }
 
     /**
-     * @return the dateOfBirth
+     * @return the yearOfBirth
      */
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Short getYearOfBirth() {
+        return yearOfBirth;
     }
 
     /**
-     * @param dateOfBirth the dateOfBirth to set
+     * @param yearOfBirth the yearOfBirth to set
      */
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setYearOfBirth(Short yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 
     /**
@@ -221,7 +220,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     private Short age;
     private String name;
     private SexDetail sex;
-    private Date dateOfBirth;
+    private Short yearOfBirth;
     private Double plotSize;
     private String nationalId;
     private String personRole;

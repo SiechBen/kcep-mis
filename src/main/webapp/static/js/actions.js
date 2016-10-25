@@ -82,6 +82,18 @@ $(function () {
         }
     }
 });
+
+$(function () {
+    var yearNow = new Date().getFullYear();
+    var twoCenturiesAgo = yearNow - 200;
+    for (yearOption = yearNow; yearOption >= twoCenturiesAgo; yearOption--) {
+        if (yearOption === yearNow) {
+            $("#year-of-birth").append($("<option/>").val(yearOption).attr("selected", "selected").html(yearOption));
+        } else {
+            $("#year-of-birth").append($("<option/>").val(yearOption).html(yearOption));
+        }
+    }
+});
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Cursor">
@@ -920,56 +932,62 @@ function loadPreviousWindow() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Login user">
-function loginUser() {
-    var username = $("#username").val();
-    var password = $("#password").val();
-    if (username.trim() !== "" || password !== "") {
-        if (username !== null || password !== null) {
-
-            if ($('#remember').prop('checked')) {
-                $.jStorage.set('username', username);
-                $.jStorage.set('password', password);
-            } else {
-                $.jStorage.deleteKey(username);
-                $.jStorage.deleteKey(password);
+//<editor-fold defaultstate="collapsed" desc="Account">
+function editAccount(accountNumber, eblBranch, solId, savings) {
+    $("#account-number").val(accountNumber);
+    $("#ebl-branch option[value=" + eblBranch + "]").attr('selected', 'selected');
+    $("#sol-id").val(solId);
+    $("#change").val(0);
+    $("#savings").val(savings);
+    $("#account-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_account_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditAccount",
+                    type: "POST",
+                    data: "accountNumber=" + $("#account-number").val() + "&eblBranch=" + $("#ebl-branch").val()
+                            + "&solId=" + $("#sol-id").val() + "&savings=" + $("#savings").val(),
+                    success: function (response) {
+                        $("#account-number").val("");
+                        $("#ebl-branch").val("");
+                        $("#sol-id").val("");
+                        $("#change").val("");
+                        $("#savings").val("");
+                        $("#account").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
             }
-
-            $.ajax({
-                url: "login",
-                type: "POST",
-                data: "username=" + username + "&password=" + password,
-                success: function () {
-                    loadAjaxWindow('home');
-                },
-                error: function (response) {
-                    showError("error_label", response.responseText);
-                },
-                dataType: "HTML"
-            });
+        },
+        close: function () {
+            $("#account-number").val("");
+            $("#ebl-branch").val("");
+            $("#sol-id").val("");
+            $("#change").val("");
+            $("#savings").val("");
         }
-    }
+    });
 }
-
-
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Person">
-function addPerson() {
+//<editor-fold defaultstate="collapsed" desc="Activity name">
+function addActivityName() {
     $.ajax({
-        url: "doAddPerson",
+        url: "doAddActivityName",
         type: "POST",
-        data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
-                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
-                "&farmerGroup=" + $("#farmer-group").val() + "&phoneNumber=" + $("#phone").val() +
-                "&email=" + $("#email").val() + "&businessName=" + $("#business-name").val() +
-                "&county=" + $("#county").val() + "&subCounty=" + $("#sub-county").val() +
-                "&personRole=" + $("#person-role").val() + "&ward=" + $("#ward").val() +
-                "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
-                "&dateOfBirth=" + $("#date-of-birth").val(),
+        data: "name=" + $("#name").val(),
         success: function () {
-            clearPersonFields();
-            loadAjaxWindow('people');
+            $("#name").val("");
+            loadAjaxWindow("activity_names");
             return;
         },
         error: function (response) {
@@ -979,240 +997,25 @@ function addPerson() {
     });
 }
 
-function updateCounts() {
-    $.ajax({
-        url: "changeCounter",
-        type: "POST",
-        data: "counter=" + $("#counter").val(),
-        success: function (response) {
-            $("tr#people-summary").html(response);
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        }
-        , dataType: 'HTML'
-    });
-}
-
-function updateTraineeCounts() {
-    $.ajax({
-        url: "changeTraineeCounter",
-        type: "POST",
-        data: "counter=" + $("#counter").val(),
-        success: function (response) {
-            $("tr#people-summary").html(response);
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        }
-        , dataType: 'HTML'
-    });
-}
-
-function editPerson(id, name, sex, personRole, nationalId, dateOfBirth, businessName,
-        farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
-    $("#person-name").val(name);
-    if (sex !== "")
-        $("#sex option[value=" + sex + "]").attr('selected', 'selected');
-    if (personRole !== "")
-        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
-    $("#national-id").val(nationalId);
-    $("#date-of-birth").val(dateOfBirth);
-    $("#business-name").val(businessName);
-    if (farmerGroup !== "")
-        $("#farmer-group option[value=" + farmerGroup + "]").attr('selected', 'selected');
-    if (farmerSubGroup !== "")
-        $("#farmer-sub-group option[value=" + farmerSubGroup + "]").attr('selected', 'selected');
-    if (county !== "")
-        $("#county option[value=" + county + "]").attr('selected', 'selected');
-    if (subCounty !== "")
-        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
-    if (ward !== "")
-        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
-    $("#phone").val(phone);
-    $("#email").val(email);
-    $("#person-dialog").dialog({
+function editActivityName(id, name) {
+    $("#name").val(name);
+    $("#activity-name-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_person_label",
+        title: "edit_activity_name_label",
         resizable: false,
         modal: false,
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditPerson",
+                    url: "doEditActivityName",
                     type: "POST",
-                    data: "id=" + id +
-                            "&contactId=" + contactId +
-                            "&name=" + $("#person-name").val() +
-                            "&nationalId=" + $("#national-id").val() +
-                            "&businessName=" + $("#business-name").val() +
-                            "&sex=" + $("#sex").val() +
-                            "&personRoleId=" + $("#person-role").val() +
-                            "&farmerGroup=" + $("#farmer-group").val() +
-                            "&phoneNumber=" + $("#phone").val() +
-                            "&locationId=" + location +
-                            "&email=" + $("#email").val() +
-                            "&county=" + $("#county").val() +
-                            "&subCounty=" + $("#sub-county").val() +
-                            "&personRole=" + $("#person-role").val() +
-                            "&ward=" + $("#ward").val() +
-                            "&farmerSubGroup=" + $("#farmer-sub-group").val() +
-                            "&postalAddress=" + $("#postal-address").val() +
-                            "&dateOfBirth=" + $("#date-of-birth").val(),
-                    success: function () {
-                        clearPersonFields();
-                        loadAjaxWindow('people');
-                        return;
-                    }, error: function (response) {
-                        showError("error_label", response.responseText);
+                    data: "name=" + $("#name").val() + "&id=" + id,
+                    success: function (response) {
+                        $("#name").val("");
+                        $("table#activity-name-table tbody").html(response);
                     },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "Exit": function () {
-                clearProcurementPlanFields();
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            clearPersonFields();
-        }
-    });
-}
-
-function deletePerson(id) {
-    $("#message").text("Are you sure you want to remove this person?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_training",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-//                $.ajax({
-//                    url: "doDeletePerson",
-//                    type: "POST",
-//                    data: "id=" + id,
-//                    success: function () {
-//                        loadAjaxWindow("people");
-//                    },
-//                    error: function (response) {
-//                        showError("error_label", response.responseText);
-//                    },
-//                    dataType: "HTML"
-//                });
-                loadAjaxWindow("people");
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-function clearPersonFields() {
-    $("#sex").val("");
-    $("#email").val("");
-    $("#phone").val("");
-    $("#national-id").val("");
-    $("#date-of-birth").val("");
-    $("#person-name").val("");
-    $("#farmer-group").val("");
-    $("#postal-address").val("");
-    $("#business-name").val("");
-    $("#farmer-sub-group").val("");
-}
-
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Training">
-$("#training").ajaxForm({
-    success: function () {
-        clearTrainingFields();
-        return;
-    },
-    error: function (response) {
-        showError("error_label", response.responseText);
-    }
-});
-function addToTrainers() {
-    $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
-    if ($("#trainer-names").val() === "") {
-        $("#trainer-names").val($("#trainer option[value='" + $("#trainer").val() + "']").text());
-    } else {
-        $("#trainer-names").val($("#trainer-names").val() + ", " + $("#trainer option[value='" + $("#trainer").val() + "']").text());
-    }
-
-    updateTrainingModules();
-}
-
-function addToTrainees() {
-    $("#trainee-ids").val($("#trainee-ids").val() + "-" + $("#trainee").val());
-    if ($("#trainee-names").val() === "") {
-        $("#trainee-names").val($("#trainee option[value='" + $("#trainee").val() + "']").text());
-    } else {
-        $("#trainee-names").val($("#trainee-names").val() + ", " + $("#trainee option[value='" + $("#trainee").val() + "']").text());
-    }
-}
-
-function showTrainees(trainingId) {
-    $.ajax({
-        url: "loadTrainees",
-        type: "POST",
-        data: "trainingId=" + trainingId,
-        success: function () {
-            loadAjaxWindow("trainees");
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        }, dataType: 'HTML'
-    });
-}
-
-function editTraining(id, startDate, endDate, topic, venue, county, subCounty, ward, numberOfTrainees) {
-
-    $("#start-date").val(startDate);
-    $("#end-date").val(endDate);
-    if (topic !== "")
-        $("#topic option[value=" + topic + "]").attr('selected', 'selected');
-    if (county !== "")
-        $("#county option[value=" + county + "]").attr('selected', 'selected');
-    if (subCounty !== "")
-        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
-    if (ward !== "")
-        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
-    $("#number-of-trainees").val(numberOfTrainees);
-    $("#training-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_training_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditTraining",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&startDate=" + $("#start-date").val() +
-                            "&endDate=" + $("#end-date").val() +
-                            "&topic=" + $("#topic").val() +
-                            "&county=" + $("#county").val() +
-                            "&subCounty=" + $("#sub-county").val() +
-                            "&venue=" + venue +
-                            "&ward=" + $("#ward").val() +
-                            "&numberOfTrainees=" + $("#number-of-trainees").val(),
-                    success: function () {
-                        clearTrainingFields();
-                        loadAjaxWindow("training");
-                    }, error: function (response) {
+                    error: function (response) {
                         showError("error_label", response.responseText);
                     },
                     dataType: "HTML"
@@ -1221,27 +1024,26 @@ function editTraining(id, startDate, endDate, topic, venue, county, subCounty, w
             }
         },
         close: function () {
-            clearTrainingFields();
+            $("#name").val("");
         }
     });
 }
-
-function deleteTraining(id) {
-    $("#message").text("Are you sure you want to remove this Training?");
+function deleteActivityName(id) {
+    $("#message").text("Are you sure you want to remove this activity name?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_training",
+        title: "delete_activity_name",
         modal: true,
         resizable: false,
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteTraining",
+                    url: "doDeleteActivityName",
                     type: "POST",
                     data: "id=" + id,
-                    success: function () {
-                        loadAjaxWindow("training");
+                    success: function (response) {
+                        $("table#activity-name-table tbody").html(response);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -1259,15 +1061,6 @@ function deleteTraining(id) {
     });
 }
 
-function clearTrainingFields() {
-    $("#start-date").val("");
-    $("#end-date").val("");
-    $("#topic").val("");
-    $("#county").val("");
-    $("#sub-county").val("");
-    $("#ward").val("");
-    $("#number-of-trainees").val("");
-}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
@@ -1367,322 +1160,6 @@ function deletEVoucher(id) {
     });
 }
 
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Warehouse">
-function addWarehouse() {
-    $.ajax({
-        url: "doAddWarehouse",
-        type: "POST",
-        data: "name=" + $("#warehouse-name").val() +
-                "&warehouseType=" + $("#warehouse-type").val() +
-                "&warehouseOperator=" + $("#warehouse-operator").val() +
-                "&capacity=" + $("#capacity").val() +
-                "&capacityUnits=" + $("#capacity-units").val() +
-                "&offersWrs=" + $("#offers-wrs").val() +
-                "&certified=" + $("#certified").val() +
-                "&latitude=" + $("#warehouse-latitude").val() +
-                "&longitude=" + $("#warehouse-longitude").val() +
-                "&county=" + $("#county").val() +
-                "&subCounty=" + $("#sub-county").val() +
-                "&ward=" + $("#ward").val() +
-                "&warehouseType=" + $("#warehouse-type").val(),
-        success: function () {
-            clearWarehouseFields();
-            loadAjaxWindow('warehouses');
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
-}
-
-function editWarehouse(id, name, warehouseType, capacity, units, offersWrs,
-        certified, location, subCounty, county, ward, latitude, longitude, warehouseOperator) {
-    $("#warehouse-name").val(name);
-    $("#warehouse-type option[value=" + warehouseType + "]").attr('selected', 'selected');
-    $("#warehouse-operator option[value=" + warehouseOperator + "]").attr('selected', 'selected');
-    $("#capacity").val(capacity);
-    if (units !== "")
-        $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
-    $("#offers-wrs").val(offersWrs);
-    $("#certified").val(certified);
-    $("#warehouse-latitude").val(latitude);
-    $("#warehouse-longitude").val(longitude);
-    if (county !== "")
-        $("#county option[value=" + county + "]").attr('selected', 'selected');
-    if (subCounty !== "")
-        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
-    if (ward !== "")
-        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
-    $("#warehouse-type option[value=" + warehouseOperator + "]").val(warehouseOperator);
-    $("#warehouse-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_warehouse_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditWarehouse",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&location=" + location +
-                            "&name=" + $("#warehouse-name").val() +
-                            "&warehouseOperator=" + $("#warehouse-operator").val() +
-                            "&capacity=" + $("#capacity").val() +
-                            "&capacityUnits=" + $("#capacity-units").val() +
-                            "&offersWrs=" + $("#offers-wrs").val() +
-                            "&certified=" + $("#certified").val() +
-                            "&latitude=" + $("#warehouse-latitude").val() +
-                            "&longitude=" + $("#warehouse-longitude").val() +
-                            "&county=" + $("#county").val() +
-                            "&subCounty=" + $("#sub-county").val() +
-                            "&ward=" + $("#ward").val() +
-                            "&warehouseType=" + $("#warehouse-type").val(),
-                    success: function () {
-                        clearWarehouseFields();
-                        loadAjaxWindow("warehouses");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            clearWarehouseFields();
-        }
-    });
-}
-
-function deleteWarehouse(id) {
-    $("#message").text("Are you sure you want to remove this warehouse?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_warehouse",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteWarehouse",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function () {
-                        loadAjaxWindow("warehouses");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-function clearWarehouseFields() {
-    $("#warehouse-name").val("");
-    $("#warehouse-operator").val("");
-    $("#capacity").val("");
-    $("#capacity-units").val("");
-    $("#offers-wrs").val("");
-    $("#certified").val("");
-    $("#warehouse-latitude").val("");
-    $("#warehouse-longitude").val("");
-    $("#county").val("");
-    $("#sub-county").val("");
-}
-
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Warehouse operation">
-function addWarehouseOperation(warehouseId) {
-    $("#warehouse-operation-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_warehouse_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doAddWarehouseOperation",
-                    type: "POST",
-                    data: "warehouseId=" + warehouseId +
-                            "&quantityBrought=" + $("#quantity-brought").val() +
-                            "&produceTypeBrought=" + $("#produce-type-brought").val() +
-                            "&quantitySold=" + $("#warehouse-operation-quantity-sold").val() +
-                            "&produceTypeSold=" + $("#produce-type-sold").val() +
-                            "&sellingDate=" + $("#selling-date").val() +
-                            "&sellingPrice=" + $("#selling-price").val() +
-                            "&buyer=" + $("#buyer").val(),
-                    success: function () {
-                        clearWarehouseOperationFields();
-                        loadEquimentWindow(warehouseId);
-                        return;
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            clearWarehouseOperationFields();
-        }
-    });
-}
-
-function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBrought,
-        quantitySold, produceTypeSold, sellingDate, sellingPrice, buyer) {
-    $("#quantity-brought").val(quantityBrought);
-    if (produceTypeBrought !== "")
-        $("#produce-type-brought option[value=" + produceTypeBrought + "]").attr('selected', 'selected');
-    $("#warehouse-operation-quantity-sold").val(quantitySold);
-    if (produceTypeSold !== "")
-        $("#produce-type-sold option[value=" + produceTypeSold + "]").attr('selected', 'selected');
-    $("#selling-date").val(sellingDate);
-    $("#selling-price").val(sellingPrice);
-    $("#buyer").val(buyer);
-    $("#warehouse-operation-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_warehouse_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditWarehouseOperation",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&warehouseId=" + warehouseId +
-                            "&quantityBrought=" + $("#quantity-brought").val() +
-                            "&produceTypeBrought=" + $("#produce-type-brought").val() +
-                            "&quantitySold=" + $("#warehouse-operation-quantity-sold").val() +
-                            "&produceTypeSold=" + $("#produce-type-sold").val() +
-                            "&sellingDate=" + $("#selling-date").val() +
-                            "&sellingPrice=" + $("#selling-price").val() +
-                            "&buyer=" + $("#buyer").val(),
-                    success: function () {
-                        clearWarehouseOperationFields();
-                        loadEquimentWindow(warehouseId);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            clearWarehouseOperationFields();
-        }
-    });
-}
-
-function deleteWarehouseOperation(id, warehouseId) {
-    $("#message").text("Are you sure you want to remove this warehouse operation?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_warehouse",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteWarehouseOperation",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function () {
-                        clearWarehouseOperationFields();
-                        loadEquimentWindow(warehouseId);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-function clearWarehouseOperationFields() {
-    $("#quantity-brought").val("");
-    $("#produce-type-brought").val("");
-    $("#warehouse-operation-quantity-sold").val("");
-    $("#produce-type-sold").val("");
-    $("#selling-date").val("");
-    $("#selling-price").val("");
-    $("#buyer").val("");
-}
-
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Planning">
-function addActivityPlanning() {
-
-    $.ajax({
-        url: "doAddPlanning",
-        type: "POST",
-        data: "performanceIndicator=" + $("#performance-indicator").val() + "&implementingPartner=" +
-                $("#implementing-partner").val() + "&endPeriod=" + $("#end-period").val() +
-                "&allocatedBudget=" + $("#allocated-budget").val() + "&awpbTarget=" +
-                $("#awpb-target").val() + "&programmeTarget=" + $("#programme-target").val() +
-                "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
-                "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
-                "&measurementUnit=" + $("#measurement-unit").val() + "&activity=" + $("#activity").val() +
-                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
-                "&category=" + $("#category").val() + "&procurementPlan=" + $("#procurement-plan").val(),
-        success: function () {
-            $("#measurement-unit").val("");
-            $("#activity").val("");
-            $("#category").val("");
-            $("#awpb-target").val("");
-            $("#component").val("");
-            $("#end-period").val("");
-            $("#start-period").val("");
-            $("#value-achieved").val("");
-            $("#sub-component").val("");
-            $("#allocated-budget").val("");
-            $("#programme-target").val("");
-            $("#procurement-plan").val("");
-            $("#implementing-partner").val("");
-            $("#annual-workplan-reference-code").val("");
-            loadAjaxWindow('planning');
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
-}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Equipment">
@@ -1809,6 +1286,176 @@ function deleteEquipment(id, warehouseId) {
 
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Farm">
+function loadFarmWindow(farmerId) {
+    var target = "farm";
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: "farmerId=" + farmerId,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Farm activity">
+function addFarmActivity() {
+    $("#farm-activity-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_farm_activity_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddFarmActivity",
+                    type: "POST",
+                    data: "yield=" + $("#yield").val() +
+                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&farmActivityDate=" + $("#farm-activity-date").val() +
+                            "&postHarvestLoss=" + $("#post-harvest-loss").val() +
+                            "&farmActivityName=" + $("#farm-activity-name").val() +
+                            "&quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&familyConsumption=" + $("#family-consumption").val() +
+                            "&averageSellingPrice=" + $("#average-selling-price").val(),
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                        $("#yield").val("");
+                        $("#quantity-sold").val("");
+                        $("#farm-activity-date").val("");
+                        $("#post-harvest-loss").val("");
+                        $("#farm-activity-name").val("");
+                        $("#quantity-harvested").val("");
+                        $("#family-consumption").val("");
+                        $("#average-selling-price").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#yield").val("");
+            $("#quantity-sold").val("");
+            $("#farm-activity-date").val("");
+            $("#post-harvest-loss").val("");
+            $("#farm-activity-name").val("");
+            $("#quantity-harvested").val("");
+            $("#family-consumption").val("");
+            $("#average-selling-price").val("");
+        }
+    });
+}
+
+function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold,
+        postHarvestLoss, yield, farmActivityDate, farmActivityName, averageSellingPrice) {
+
+    $("#yield").val(yield);
+    $("#quantity-sold").val(quantitySold);
+    $("#farm-activity-date").val(farmActivityDate);
+    $("#post-harvest-loss").val(postHarvestLoss);
+    $("#farm-activity-name").val(farmActivityName);
+    $("#quantity-harvested").val(quantityHarvested);
+    $("#quantity-harvested").val(quantityHarvested);
+    $("#family-consumption").val(familyConsumption);
+    $("#average-selling-price").val(averageSellingPrice);
+    $("#farm-activity-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_farm_activity",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditFarmActivity",
+                    type: "POST",
+                    data: "yield=" + $("#yield").val() +
+                            "&quantitySold=" + $("#quantity-sold").val() +
+                            "&farmActivityDate=" + $("#farm-activity-date").val() +
+                            "&postHarvestLoss=" + $("#post-harvest-loss").val() +
+                            "&farmActivityName=" + $("#farm-activity-name").val() +
+                            "&quantityHarvested=" + $("#quantity-harvested").val() +
+                            "&familyConsumption=" + $("#family-consumption").val() +
+                            "&averageSellingPrice=" + $("#average-selling-price").val() +
+                            "&id=" + id,
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                        $("#yield").val("");
+                        $("#quantity-sold").val("");
+                        $("#farm-activity-date").val("");
+                        $("#post-harvest-loss").val("");
+                        $("#farm-activity-name").val("");
+                        $("#quantity-harvested").val("");
+                        $("#family-consumption").val("");
+                        $("#average-selling-price").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#yield").val("");
+            $("#quantity-sold").val("");
+            $("#farm-activity-date").val("");
+            $("#post-harvest-loss").val("");
+            $("#farm-activity-name").val("");
+            $("#quantity-harvested").val("");
+            $("#family-consumption").val("");
+            $("#average-selling-price").val("");
+        }
+    });
+}
+//
+function deleteFarmActivity(id) {
+    $("#message").text("Are you sure you want to remove this farm activity?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_farm_activity",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteFarmActivity",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#farm-activity-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Feedback">
 
 $("#feedback-form").ajaxForm({
@@ -1838,43 +1485,17 @@ function saveFeedback() {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Sub-activity">
-function addSubActivity() {
+//<editor-fold defaultstate="collapsed" desc="Financial year">
+
+function addFinancialYear() {
     $.ajax({
-        url: "doAddSubActivity",
+        url: "doAddFinancialYear",
         type: "POST",
-        data: "financialYear=" + $("#financial-year").val() +
-                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
-                "&gfssCode=" + $("#gfss-code").val() +
-                "&expectedOutcome=" + $("#expected-outcome").val() +
-                "&component=" + $("#component").val() +
-                "&subComponent=" + $("#sub-component").val() +
-                "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
-                "&activityName=" + $("#activity-name").val() +
-                "&subActivityName=" + $("#sub-activity-name").val() +
-                "&startDate=" + $("#start-date").val() +
-                "&endDate=" + $("#end-date").val() +
-                "&measurementUnit=" + $("#measurement-unit").val() +
-                "&unitCost=" + $("#unit-cost").val() +
-                "&awpbTarget=" + $("#awpb-target").val() +
-                "&programmeTarget=" + $("#programme-target").val() +
-                "&totals=" + $("#totals").val() +
-                "&responsePcu=" + $("#response-pcu").val() +
-                "&implementingPartner=" + $("#implementing-partner").val() +
-                "&procurementPlan=" + $("#procurement-plan").val() +
-                "&description=" + $("#description").val() +
-                "&valueAchieved=" + $("#value-achieved").val() +
-                "&allocatedBudget=" + $("#allocated-budget").val() +
-                "&expenditureCategory=" + $("#expected-category").val() +
-                "&gokPercentage=" + $("#gok-percentage").val() +
-                "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
-                "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
-                "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
-                "&euPercentage=" + $("#eu-percentage").val() +
-                "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
+        data: "financialYear=" + $("#financial-year").val() + "&current=" + $("#current").val(),
         success: function () {
-            clearSubActivityFields();
-            loadAjaxWindow("sub_activities");
+            $("#financial-year").val("");
+            $("#current").val("");
+            loadAjaxWindow("financial_years");
             return;
         },
         error: function (response) {
@@ -1883,130 +1504,22 @@ function addSubActivity() {
         dataType: "HTML"
     });
 }
-
-function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCode, expectedOutcome, component, subComponent,
-        activityName, subActvityName, startDate, endDate, measurementUnit, unitCost, awpbTarget,
-        programmeTarget, totals, responsePcu, implementingPartner, procurementPlan, description,
-        valueAchieved, allocatedBudget, expenditureCategory, gokPercentage,
-        ifadLoanPercentage, ifadGrantPercentage, beneficiariesPercentage, euPercentage, financialInstitutionPercentage) {
-    if (financialYear !== "")
-        $("#financial-year option[value=" + financialYear + "]").attr('selected', 'selected');
-    if (expectedOutcome !== "")
-        $("#expected-outcome option[value=" + expectedOutcome + "]").attr('selected', 'selected');
-    if (gfssCode !== "")
-        $("#gfss-code option[value=" + gfssCode + "]").attr('selected', 'selected');
-    if (measurementUnit !== "")
-        $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
-    if (subComponent !== "")
-        $("#sub-component option[value=" + subComponent + "]").attr('selected', 'selected');
-    if (activityName !== "")
-        $("#activity-name option[value=" + activityName + "]").attr('selected', 'selected');
-    if (subActvityName !== "")
-        $("#sub-activity-name option[value=" + subActvityName + "]").attr('selected', 'selected');
-    if (responsePcu !== "")
-        $("#response-pcu option[value=" + responsePcu + "]").attr('selected', 'selected');
-    if (implementingPartner !== "")
-        $("#implementing-partner option[value=" + implementingPartner + "]").attr('selected', 'selected');
-    if (expenditureCategory !== "")
-        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
-    $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
-    $("#expected-outcome").val(expectedOutcome);
-    $("#component option[value=" + component + "]").attr('selected', 'selected');
-    $("#start-date").val(startDate);
-    $("#end-date").val(endDate);
-    $("#unit-cost").val(unitCost);
-    $("#awpb-target").val(awpbTarget);
-    $("#programme-target").val(programmeTarget);
-    $("#totals").val(totals);
-    $("#procurement-plan").val(procurementPlan);
-    $("#description").val(description);
-    $("#value-achieved").val(valueAchieved);
-    $("#allocated-budget").val(allocatedBudget);
-    $("#gok-percentage").val(gokPercentage);
-    $("#ifad-loan-percentage").val(ifadLoanPercentage);
-    $("#ifad-grant-percentage").val(ifadGrantPercentage);
-    $("#beneficiaries-percentage").val(beneficiariesPercentage);
-    $("#eu-percentage").val(euPercentage);
-    $("#financial-institution-percentage").val(financialInstitutionPercentage);
-    $("#sub-activity-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_sub_activity",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditSubActivity",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&financialYear=" + $("#financial-year").val() +
-                            "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
-                            "&gfssCode=" + $("#gfss-code").val() +
-                            "&expectedOutcome=" + $("#expected-outcome").val() +
-                            "&component=" + $("#component").val() +
-                            "&subComponent=" + $("#sub-component").val() +
-                            "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
-                            "&activityName=" + $("#activity-name").val() +
-                            "&subActivityName=" + $("#sub-activity-name").val() +
-                            "&startDate=" + $("#start-date").val() +
-                            "&endDate=" + $("#end-date").val() +
-                            "&measurementUnit=" + $("#measurement-unit").val() +
-                            "&unitCost=" + $("#unit-cost").val() +
-                            "&awpbTarget=" + $("#awpb-target").val() +
-                            "&programmeTarget=" + $("#programme-target").val() +
-                            "&totals=" + $("#totals").val() +
-                            "&responsePcu=" + $("#response-pcu").val() +
-                            "&implementingPartner=" + $("#implementing-partner").val() +
-                            "&procurementPlan=" + $("#procurement-plan").val() +
-                            "&description=" + $("#description").val() +
-                            "&valueAchieved=" + $("#value-achieved").val() +
-                            "&allocatedBudget=" + $("#allocated-budget").val() +
-                            "&expenditureCategory=" + $("#expected-category").val() +
-                            "&gokPercentage=" + $("#gok-percentage").val() +
-                            "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
-                            "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
-                            "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
-                            "&euPercentage=" + $("#eu-percentage").val() +
-                            "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
-                    success: function () {
-                        clearSubActivityFields();
-                        loadAjaxWindow("sub_activities");
-                        return;
-                    }, error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "Exit": function () {
-                clearSubActivityFields();
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            clearSubActivityFields();
-        }
-    });
-}
-
-function deleteSubActivity(id) {
-    $("#message").text("Are you sure you want to remove this sub-activity?");
+function deleteFinancialYear(id) {
+    $("#message").text("Are you sure you want to remove this financial year?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_sub_activity",
+        title: "delete_financial_yaer",
         modal: true,
         resizable: false,
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteSubActivity",
+                    url: "doDeleteFinancialYear",
                     type: "POST",
                     data: "id=" + id,
-                    success: function () {
-                        loadAjaxWindow("sub_activities");
+                    success: function (response) {
+                        $("table#financial-yaer-table tbody").html(response);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2024,47 +1537,223 @@ function deleteSubActivity(id) {
     });
 }
 
-function clearSubActivityFields() {
-    $("#financial-year").val("");
-    $("#annual-workplan-reference-code").val("");
-    $("#gfss-code").val("");
-    $("#expected-outcome").val("");
-    $("#component").val("");
-    $("#sub-component").val("");
-    $("#annual-indicator").val("");
-    $("#annual-indicator-ids").val("");
-    $("#activity-name").val("");
-    $("#sub-activity-name").val("");
-    $("#start-date").val("");
-    $("#end-date").val("");
-    $("#measurement-unit").val("");
-    $("#unit-cost").val("");
-    $("#awpb-target").val("");
-    $("#programme-target").val("");
-    $("#totals").val("");
-    $("#response-pcu").val("");
-    $("#implementing-partner").val("");
-    $("#procurement-plan").val("");
-    $("#description").val("");
-    $("#value-achieved").val("");
-    $("#allocated-budget").val("");
-    $("#expected-category").val("");
-    $("#gok-percentage").val("");
-    $("#ifad-loan-percentage").val("");
-    $("#ifad-grant-percentage").val("");
-    $("#beneficiaries-percentage").val("");
-    $("#eu-percentage").val("");
-    $("#financial-institution-percentage").val("");
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Inputs collection">
+function addInputsCollection() {
+    $("#inputs-collection-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_inputs_collection_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddInputsCollection",
+                    type: "POST",
+                    data: "dateCollected=" + $("#date-collected").val() +
+                            "&inputVarietyId=" + $("#input-variety").val() +
+                            "&agroDealerId=" + $("#agro-dealer").val() +
+                            "&staticInputId=" + $("#static-input").val() +
+                            "&inputTypeId=" + $("#input-type").val() +
+                            "&quantity=" + $("#quantity").val(),
+                    success: function (response) {
+                        $("table#inputs-collection-table tbody").html(response);
+                        $("#date-collected").val("");
+                        $("#agro-dealer").val("");
+                        $("#input-variety").val("");
+                        $("#input-type").val("");
+                        $("#quantity").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#date-collected").val("");
+            $("#agro-dealer").val("");
+            $("#input-variety").val("");
+            $("#input-type").val("");
+            $("#quantity").val("");
+        }
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Loan">
+function addLoan() {
+    $("#loan-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "add_loan_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Add": function () {
+                $.ajax({
+                    url: "doAddLoan",
+                    type: "POST",
+                    data: "amount=" + $("#loan-amount").val() +
+                            "&type=" + $("#loan-type").val() +
+                            "&issuingBank=" + $("#issuing-bank").val(),
+                    success: function (response) {
+                        $("table#loan-table tbody").html(response);
+                        $("#loan-amount").val("");
+                        $("#loan-type").val("");
+                        $("#issuing-bank").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#loan-amount").val("");
+            $("#loan-type").val("");
+            $("#issuing-bank").val("");
+        }
+    });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Login user">
+function loginUser() {
+    var username = $("#username").val();
+    var password = $("#password").val();
+    if (username.trim() !== "" || password !== "") {
+        if (username !== null || password !== null) {
+
+            if ($('#remember').prop('checked')) {
+                $.jStorage.set('username', username);
+                $.jStorage.set('password', password);
+            } else {
+                $.jStorage.deleteKey(username);
+                $.jStorage.deleteKey(password);
+            }
+
+            $.ajax({
+                url: "login",
+                type: "POST",
+                data: "username=" + username + "&password=" + password,
+                success: function () {
+                    loadAjaxWindow('home');
+                },
+                error: function (response) {
+                    showError("error_label", response.responseText);
+                },
+                dataType: "HTML"
+            });
+        }
+    }
 }
 
-function loadSubActivitiesWindow(activityPlanningId) {
-    var target = "subActivities";
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Outcome reports">
+function changeOutcomeReport() {
     $.ajax({
-        url: target,
         type: "POST",
-        data: "activityPlanningId=" + activityPlanningId,
+        url: "outcomeLevelReports",
+        data: "projectYear=" + $("#project-year").val(),
         success: function () {
-            window.location = target;
+            loadAjaxWindow("outcomeLevelReports?projectYear=" + $("#project-year").val());
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function editOutcomeValue(id, actualValue, expectedValue, description) {
+
+    if (actualValue.trim() === "") {
+        actualValue = 0;
+    }
+    if (expectedValue.trim() === "") {
+        expectedValue = 0;
+    }
+
+    $("#ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+    if (expectedValue !== "")
+        $("#expected-value option[value=" + parseInt(expectedValue) + "]").attr("selected", "selected");
+    if (actualValue !== "")
+        $("#actual-value option[value=" + parseInt(actualValue) + "]").attr("selected", "selected");
+    $("#outcome-report-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                actualValue = $("#actual-value").val();
+                expectedValue = $("#expected-value").val();
+                $.ajax({
+                    url: "updateOutcomeValues",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&projectYear=" + $("#project-year").val() +
+                            "&actualValue=" + actualValue +
+                            "&expectedValue=" + expectedValue,
+                    success: function () {
+
+                        if (actualValue.trim() === "") {
+                            actualValue = 0;
+                        }
+                        if (expectedValue.trim() === "") {
+                            expectedValue = 0;
+                        }
+                        $("#outcome-ratio-" + id).html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+                        $("#expected-value-" + id).html(expectedValue);
+                        $("#actual-value-" + id).html(actualValue);
+                        $("#expected-value").val("");
+                        $("#actual-value").val("");
+                        $("#ratio").val("");
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#expected-value").val("");
+            $("#actual-value").val("");
+            $("#ratio").val("");
+        }
+    });
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Performance Indicator">
+function addPerformanceIndicator() {
+    $.ajax({
+        url: "doAddPerformanceIndicator",
+        type: "POST",
+        data: "performanceIndicatorType=" + $("#performance-indicator-type").val() +
+                "&resultHierarchy=" + $("#result-hierarchy").val() +
+                "&expectedValue=" + $("#expected-value").val() +
+                "&baselineValue=" + $("#baseline-value").val() +
+                "&baselineDate=" + $("#baseline-date").val() +
+                "&actualValue=" + $("#actual-value").val() +
+                "&description=" + $("#description").val() +
+                "&projectYear=" + $("#project-year").val() +
+                "&ratio=" + $("#ratio").val(),
+        success: function () {
+            clearPerformanceIndicatorFields();
+            loadAjaxWindow("performance_indicators");
             return;
         },
         error: function (response) {
@@ -2074,13 +1763,445 @@ function loadSubActivitiesWindow(activityPlanningId) {
     });
 }
 
-function addToAnnualIndicators() {
-    $("#annual-indicator-ids").val($("#annual-indicator-ids").val() + "-" + $("#annual-indicator").val());
-    if ($("#annual-indicator-descriptions").val() === "") {
-        $("#annual-indicator-descriptions").val($("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
-    } else {
-        $("#annual-indicator-descriptions").val($("#annual-indicator-descriptions").val() + ", " + $("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
-    }
+function clearPerformanceIndicatorFields() {
+    $("#performance-indicator-type").val("");
+    $("#result-hierarchy").val("");
+    $("#description").val("");
+    $("#baseline-date").val("");
+    $("#baseline-value").val("");
+    $("#project-year").val("");
+    $("#actual-value").val("");
+    $("#expected-value").val("");
+    $("#ratio").val("");
+}
+
+function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
+        baselineDate, baselineValue, projectYear, actualValue, expectedValue, ratio) {
+    $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
+    $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
+    $("#description").val(description);
+    $("#baseline-date").val(baselineDate);
+    $("#baseline-value").val(baselineValue);
+    $("#project-year").val(projectYear);
+    $("#actual-value").val(actualValue);
+    $("#expected-value").val(expectedValue);
+    $("#ratio").val(ratio);
+    $("#performance-indicators-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_perfomance_indicator_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditPerformanceIndicator",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&performanceIndicatorType=" + $("#performance-indicator-type").val() +
+                            "&resultHierarchy=" + $("#result-hierarchy").val() +
+                            "&expectedValue=" + $("#expected-value").val() +
+                            "&baselineValue=" + $("#baseline-value").val() +
+                            "&baselineDate=" + $("#baseline-date").val() +
+                            "&actualValue=" + $("#actual-value").val() +
+                            "&description=" + $("#description").val() +
+                            "&projectYear=" + $("#project-year").val() +
+                            "&ratio=" + $("#ratio").val(),
+                    success: function () {
+                        clearPerformanceIndicatorFields();
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearPerformanceIndicatorFields();
+        }
+    });
+}
+
+function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, description) {
+    $("#expected-value").val(expectedValue);
+    $("#actual-value").val(actualValue);
+    $("#ratio").val(ratio);
+    $("#performance-indicators-values-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditPerformanceIndicatorValues",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&expectedValue=" + $("#expected-value").val(),
+                    success: function () {
+                        $("#expected-value").val(0);
+                        $("#actual-value").val(0);
+                        $("#ratio").val(0.0);
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#expected-value").val(0);
+            $("#actual-value").val(0);
+            $("#ratio").val(0.0);
+        }
+    });
+}
+
+function editBaselineDate(id, baselineDate, description) {
+    $("#baseline-date").val(baselineDate);
+    $("#baseline-date-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditBaselineDate",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&baselineDate=" + $("#baseline-date").val(),
+                    success: function () {
+                        $("#baseline-date").val("");
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#ratio").val("");
+        }
+    });
+}
+
+function editBaselineValue(id, baselineValue, description) {
+    $("#baseline-value").val(baselineValue);
+    $("#baseline-value-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditBaselineValue",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&baselineValue=" + $("#baseline-value").val(),
+                    success: function () {
+                        $("#baseline-value").val("");
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#ratio").val("");
+        }
+    });
+}
+
+function deletePerformanceIndicator(id) {
+    $("#message").text("Are you sure you want to remove this performance indicator?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_performance_indicator",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeletePerformanceIndicator",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadAjaxWindow("performance_indicators");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Person">
+function addFarmer() {
+    $.ajax({
+        url: "doAddPerson",
+        type: "POST",
+        data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
+                "&sex=" + $("#sex").val() + "&farmerGroup=" + $("#farmer-group").val() +
+                "&phoneNumber=" + $("#phone").val() + "&businessName=" + $("#business-name").val() +
+                "&county=" + $("#county").val() + "&subCounty=" + $("#sub-county").val() +
+                "&personRole=" + $("#person-role").val() + "&ward=" + $("#ward").val() +
+                "&farmerSubGroup=" + $("#farmer-sub-group").val() + "&postalAddress=" + $("#postal-address").val() +
+                "&yearOfBirth=" + $("#year-of-birth").val(),
+        success: function () {
+            clearPersonFields();
+            loadAjaxWindow('farmers');
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function addPerson() {
+    $.ajax({
+        url: "doAddPerson",
+        type: "POST",
+        data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
+                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
+                "&phoneNumber=" + $("#phone").val() + "&email=" + $("#email").val() +
+                "&businessName=" + $("#business-name").val() + "&county=" + $("#county").val() +
+                "&subCounty=" + $("#sub-county").val() + "&personRole=" + $("#person-role").val() +
+                "&ward=" + $("#ward").val() + "&postalAddress=" + $("#postal-address").val() +
+                "&yearOfBirth=" + $("#year-of-birth").val(),
+        success: function () {
+            clearPersonFields();
+            loadAjaxWindow('people');
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function updateCounts() {
+    $.ajax({
+        url: "changeCounter",
+        type: "POST",
+        data: "counter=" + $("#counter").val(),
+        success: function (response) {
+            $("tr#people-summary").html(response);
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: 'HTML'
+    });
+}
+
+function updateTraineeCounts() {
+    $.ajax({
+        url: "changeTraineeCounter",
+        type: "POST",
+        data: "counter=" + $("#counter").val(),
+        success: function (response) {
+            $("tr#people-summary").html(response);
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: 'HTML'
+    });
+}
+
+function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, businessName,
+        farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
+    $("#person-name").val(name);
+    if (sex !== "")
+        $("#sex option[value=" + sex + "]").attr('selected', 'selected');
+    if (personRole !== "")
+        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
+    $("#national-id").val(nationalId);
+    $("#year-of-birth").val(yearOfBirth);
+    $("#business-name").val(businessName);
+    if (farmerGroup !== "")
+        $("#farmer-group option[value=" + farmerGroup + "]").attr('selected', 'selected');
+    if (farmerSubGroup !== "")
+        $("#farmer-sub-group option[value=" + farmerSubGroup + "]").attr('selected', 'selected');
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#phone").val(phone);
+    $("#email").val(email);
+    $("#person-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_person_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditPerson",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&contactId=" + contactId +
+                            "&name=" + $("#person-name").val() +
+                            "&nationalId=" + $("#national-id").val() +
+                            "&businessName=" + $("#business-name").val() +
+                            "&sex=" + $("#sex").val() +
+                            "&personRoleId=" + $("#person-role").val() +
+                            "&farmerGroup=" + $("#farmer-group").val() +
+                            "&phoneNumber=" + $("#phone").val() +
+                            "&locationId=" + location +
+                            "&email=" + $("#email").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&personRole=" + $("#person-role").val() +
+                            "&ward=" + $("#ward").val() +
+                            "&farmerSubGroup=" + $("#farmer-sub-group").val() +
+                            "&postalAddress=" + $("#postal-address").val() +
+                            "&yearOfBirth=" + $("#year-of-birth").val(),
+                    success: function () {
+                        clearPersonFields();
+                        loadAjaxWindow('people');
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "Exit": function () {
+                clearProcurementPlanFields();
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearPersonFields();
+        }
+    });
+}
+
+function deletePerson(id) {
+    $("#message").text("Are you sure you want to remove this person?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_training",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+//                $.ajax({
+//                    url: "doDeletePerson",
+//                    type: "POST",
+//                    data: "id=" + id,
+//                    success: function () {
+//                        loadAjaxWindow("people");
+//                    },
+//                    error: function (response) {
+//                        showError("error_label", response.responseText);
+//                    },
+//                    dataType: "HTML"
+//                });
+                loadAjaxWindow("people");
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+function clearPersonFields() {
+    $("#sex").val("");
+    $("#email").val("");
+    $("#phone").val("");
+    $("#national-id").val("");
+    $("#year-of-birth").val("");
+    $("#person-name").val("");
+    $("#farmer-group").val("");
+    $("#postal-address").val("");
+    $("#business-name").val("");
+    $("#farmer-sub-group").val("");
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Planning">
+function addActivityPlanning() {
+
+    $.ajax({
+        url: "doAddPlanning",
+        type: "POST",
+        data: "performanceIndicator=" + $("#performance-indicator").val() + "&implementingPartner=" +
+                $("#implementing-partner").val() + "&endPeriod=" + $("#end-period").val() +
+                "&allocatedBudget=" + $("#allocated-budget").val() + "&awpbTarget=" +
+                $("#awpb-target").val() + "&programmeTarget=" + $("#programme-target").val() +
+                "&valueAchieved=" + $("#value-achieved").val() + "&startPeriod=" + $("#start-period").val() +
+                "&component=" + $("#component").val() + "&subComponent=" + $("#sub-component").val() +
+                "&measurementUnit=" + $("#measurement-unit").val() + "&activity=" + $("#activity").val() +
+                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                "&category=" + $("#category").val() + "&procurementPlan=" + $("#procurement-plan").val(),
+        success: function () {
+            $("#measurement-unit").val("");
+            $("#activity").val("");
+            $("#category").val("");
+            $("#awpb-target").val("");
+            $("#component").val("");
+            $("#end-period").val("");
+            $("#start-period").val("");
+            $("#value-achieved").val("");
+            $("#sub-component").val("");
+            $("#allocated-budget").val("");
+            $("#programme-target").val("");
+            $("#procurement-plan").val("");
+            $("#implementing-partner").val("");
+            $("#annual-workplan-reference-code").val("");
+            loadAjaxWindow('planning');
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
 }
 //</editor-fold>
 
@@ -2614,23 +2735,43 @@ function editProcurementPlansCs(id, type, description,
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Performance Indicator">
-function addPerformanceIndicator() {
+//<editor-fold defaultstate="collapsed" desc="Sub-activity">
+function addSubActivity() {
     $.ajax({
-        url: "doAddPerformanceIndicator",
+        url: "doAddSubActivity",
         type: "POST",
-        data: "performanceIndicatorType=" + $("#performance-indicator-type").val() +
-                "&resultHierarchy=" + $("#result-hierarchy").val() +
-                "&expectedValue=" + $("#expected-value").val() +
-                "&baselineValue=" + $("#baseline-value").val() +
-                "&baselineDate=" + $("#baseline-date").val() +
-                "&actualValue=" + $("#actual-value").val() +
+        data: "financialYear=" + $("#financial-year").val() +
+                "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                "&gfssCode=" + $("#gfss-code").val() +
+                "&expectedOutcome=" + $("#expected-outcome").val() +
+                "&component=" + $("#component").val() +
+                "&subComponent=" + $("#sub-component").val() +
+                "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
+                "&activityName=" + $("#activity-name").val() +
+                "&subActivityName=" + $("#sub-activity-name").val() +
+                "&startDate=" + $("#start-date").val() +
+                "&endDate=" + $("#end-date").val() +
+                "&measurementUnit=" + $("#measurement-unit").val() +
+                "&unitCost=" + $("#unit-cost").val() +
+                "&awpbTarget=" + $("#awpb-target").val() +
+                "&programmeTarget=" + $("#programme-target").val() +
+                "&totals=" + $("#totals").val() +
+                "&responsePcu=" + $("#response-pcu").val() +
+                "&implementingPartner=" + $("#implementing-partner").val() +
+                "&procurementPlan=" + $("#procurement-plan").val() +
                 "&description=" + $("#description").val() +
-                "&projectYear=" + $("#project-year").val() +
-                "&ratio=" + $("#ratio").val(),
+                "&valueAchieved=" + $("#value-achieved").val() +
+                "&allocatedBudget=" + $("#allocated-budget").val() +
+                "&expenditureCategory=" + $("#expected-category").val() +
+                "&gokPercentage=" + $("#gok-percentage").val() +
+                "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
+                "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
+                "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
+                "&euPercentage=" + $("#eu-percentage").val() +
+                "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
         success: function () {
-            clearPerformanceIndicatorFields();
-            loadAjaxWindow("performance_indicators");
+            clearSubActivityFields();
+            loadAjaxWindow("sub_activities");
             return;
         },
         error: function (response) {
@@ -2640,189 +2781,129 @@ function addPerformanceIndicator() {
     });
 }
 
-function clearPerformanceIndicatorFields() {
-    $("#performance-indicator-type").val("");
-    $("#result-hierarchy").val("");
-    $("#description").val("");
-    $("#baseline-date").val("");
-    $("#baseline-value").val("");
-    $("#project-year").val("");
-    $("#actual-value").val("");
-    $("#expected-value").val("");
-    $("#ratio").val("");
-}
-
-function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
-        baselineDate, baselineValue, projectYear, actualValue, expectedValue, ratio) {
-    $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
-    $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
+function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCode, expectedOutcome, component, subComponent,
+        activityName, subActvityName, startDate, endDate, measurementUnit, unitCost, awpbTarget,
+        programmeTarget, totals, responsePcu, implementingPartner, procurementPlan, description,
+        valueAchieved, allocatedBudget, expenditureCategory, gokPercentage,
+        ifadLoanPercentage, ifadGrantPercentage, beneficiariesPercentage, euPercentage, financialInstitutionPercentage) {
+    if (financialYear !== "")
+        $("#financial-year option[value=" + financialYear + "]").attr('selected', 'selected');
+    if (expectedOutcome !== "")
+        $("#expected-outcome option[value=" + expectedOutcome + "]").attr('selected', 'selected');
+    if (gfssCode !== "")
+        $("#gfss-code option[value=" + gfssCode + "]").attr('selected', 'selected');
+    if (measurementUnit !== "")
+        $("#measurement-unit option[value=" + measurementUnit + "]").attr('selected', 'selected');
+    if (subComponent !== "")
+        $("#sub-component option[value=" + subComponent + "]").attr('selected', 'selected');
+    if (activityName !== "")
+        $("#activity-name option[value=" + activityName + "]").attr('selected', 'selected');
+    if (subActvityName !== "")
+        $("#sub-activity-name option[value=" + subActvityName + "]").attr('selected', 'selected');
+    if (responsePcu !== "")
+        $("#response-pcu option[value=" + responsePcu + "]").attr('selected', 'selected');
+    if (implementingPartner !== "")
+        $("#implementing-partner option[value=" + implementingPartner + "]").attr('selected', 'selected');
+    if (expenditureCategory !== "")
+        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
+    $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
+    $("#expected-outcome").val(expectedOutcome);
+    $("#component option[value=" + component + "]").attr('selected', 'selected');
+    $("#start-date").val(startDate);
+    $("#end-date").val(endDate);
+    $("#unit-cost").val(unitCost);
+    $("#awpb-target").val(awpbTarget);
+    $("#programme-target").val(programmeTarget);
+    $("#totals").val(totals);
+    $("#procurement-plan").val(procurementPlan);
     $("#description").val(description);
-    $("#baseline-date").val(baselineDate);
-    $("#baseline-value").val(baselineValue);
-    $("#project-year").val(projectYear);
-    $("#actual-value").val(actualValue);
-    $("#expected-value").val(expectedValue);
-    $("#ratio").val(ratio);
-    $("#performance-indicators-dialog").dialog({
+    $("#value-achieved").val(valueAchieved);
+    $("#allocated-budget").val(allocatedBudget);
+    $("#gok-percentage").val(gokPercentage);
+    $("#ifad-loan-percentage").val(ifadLoanPercentage);
+    $("#ifad-grant-percentage").val(ifadGrantPercentage);
+    $("#beneficiaries-percentage").val(beneficiariesPercentage);
+    $("#eu-percentage").val(euPercentage);
+    $("#financial-institution-percentage").val(financialInstitutionPercentage);
+    $("#sub-activity-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_perfomance_indicator_label",
+        title: "edit_sub_activity",
         resizable: false,
         modal: false,
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditPerformanceIndicator",
+                    url: "doEditSubActivity",
                     type: "POST",
                     data: "id=" + id +
-                            "&performanceIndicatorType=" + $("#performance-indicator-type").val() +
-                            "&resultHierarchy=" + $("#result-hierarchy").val() +
-                            "&expectedValue=" + $("#expected-value").val() +
-                            "&baselineValue=" + $("#baseline-value").val() +
-                            "&baselineDate=" + $("#baseline-date").val() +
-                            "&actualValue=" + $("#actual-value").val() +
+                            "&financialYear=" + $("#financial-year").val() +
+                            "&annualWorkplanReferenceCode=" + $("#annual-workplan-reference-code").val() +
+                            "&gfssCode=" + $("#gfss-code").val() +
+                            "&expectedOutcome=" + $("#expected-outcome").val() +
+                            "&component=" + $("#component").val() +
+                            "&subComponent=" + $("#sub-component").val() +
+                            "&annualIndicatorIds=" + $("#annual-indicator-ids").val() +
+                            "&activityName=" + $("#activity-name").val() +
+                            "&subActivityName=" + $("#sub-activity-name").val() +
+                            "&startDate=" + $("#start-date").val() +
+                            "&endDate=" + $("#end-date").val() +
+                            "&measurementUnit=" + $("#measurement-unit").val() +
+                            "&unitCost=" + $("#unit-cost").val() +
+                            "&awpbTarget=" + $("#awpb-target").val() +
+                            "&programmeTarget=" + $("#programme-target").val() +
+                            "&totals=" + $("#totals").val() +
+                            "&responsePcu=" + $("#response-pcu").val() +
+                            "&implementingPartner=" + $("#implementing-partner").val() +
+                            "&procurementPlan=" + $("#procurement-plan").val() +
                             "&description=" + $("#description").val() +
-                            "&projectYear=" + $("#project-year").val() +
-                            "&ratio=" + $("#ratio").val(),
+                            "&valueAchieved=" + $("#value-achieved").val() +
+                            "&allocatedBudget=" + $("#allocated-budget").val() +
+                            "&expenditureCategory=" + $("#expected-category").val() +
+                            "&gokPercentage=" + $("#gok-percentage").val() +
+                            "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
+                            "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
+                            "&beneficiariesPercentage=" + $("#beneficiaries-percentage").val() +
+                            "&euPercentage=" + $("#eu-percentage").val() +
+                            "&financialInstitutionPercentage=" + $("#financial-institution-percentage").val(),
                     success: function () {
-                        clearPerformanceIndicatorFields();
-                        loadAjaxWindow("performance_indicators");
-                    },
-                    error: function (response) {
+                        clearSubActivityFields();
+                        loadAjaxWindow("sub_activities");
+                        return;
+                    }, error: function (response) {
                         showError("error_label", response.responseText);
                     },
                     dataType: "HTML"
                 });
                 $(this).dialog("close");
-            }
-        },
-        close: function () {
-            clearPerformanceIndicatorFields();
-        }
-    });
-}
-
-function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, description) {
-    $("#expected-value").val(expectedValue);
-    $("#actual-value").val(actualValue);
-    $("#ratio").val(ratio);
-    $("#performance-indicators-values-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: description,
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditPerformanceIndicatorValues",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&expectedValue=" + $("#expected-value").val(),
-                    success: function () {
-                        $("#expected-value").val(0);
-                        $("#actual-value").val(0);
-                        $("#ratio").val(0.0);
-                        loadAjaxWindow("performance_indicators");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
+            },
+            "Exit": function () {
+                clearSubActivityFields();
                 $(this).dialog("close");
             }
         },
         close: function () {
-            $("#expected-value").val(0);
-            $("#actual-value").val(0);
-            $("#ratio").val(0.0);
+            clearSubActivityFields();
         }
     });
 }
 
-function editBaselineDate(id, baselineDate, description) {
-    $("#baseline-date").val(baselineDate);
-    $("#baseline-date-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: description,
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditBaselineDate",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&baselineDate=" + $("#baseline-date").val(),
-                    success: function () {
-                        $("#baseline-date").val("");
-                        loadAjaxWindow("performance_indicators");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#ratio").val("");
-        }
-    });
-}
-
-function editBaselineValue(id, baselineValue, description) {
-    $("#baseline-value").val(baselineValue);
-    $("#baseline-value-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: description,
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditBaselineValue",
-                    type: "POST",
-                    data: "id=" + id +
-                            "&baselineValue=" + $("#baseline-value").val(),
-                    success: function () {
-                        $("#baseline-value").val("");
-                        loadAjaxWindow("performance_indicators");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#ratio").val("");
-        }
-    });
-}
-
-function deletePerformanceIndicator(id) {
-    $("#message").text("Are you sure you want to remove this performance indicator?");
+function deleteSubActivity(id) {
+    $("#message").text("Are you sure you want to remove this sub-activity?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_performance_indicator",
+        title: "delete_sub_activity",
         modal: true,
         resizable: false,
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeletePerformanceIndicator",
+                    url: "doDeleteSubActivity",
                     type: "POST",
                     data: "id=" + id,
                     success: function () {
-                        loadAjaxWindow("performance_indicators");
+                        loadAjaxWindow("sub_activities");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2840,15 +2921,90 @@ function deletePerformanceIndicator(id) {
     });
 }
 
-//</editor-fold>
+function clearSubActivityFields() {
+    $("#financial-year").val("");
+    $("#annual-workplan-reference-code").val("");
+    $("#gfss-code").val("");
+    $("#expected-outcome").val("");
+    $("#component").val("");
+    $("#sub-component").val("");
+    $("#annual-indicator").val("");
+    $("#annual-indicator-ids").val("");
+    $("#activity-name").val("");
+    $("#sub-activity-name").val("");
+    $("#start-date").val("");
+    $("#end-date").val("");
+    $("#measurement-unit").val("");
+    $("#unit-cost").val("");
+    $("#awpb-target").val("");
+    $("#programme-target").val("");
+    $("#totals").val("");
+    $("#response-pcu").val("");
+    $("#implementing-partner").val("");
+    $("#procurement-plan").val("");
+    $("#description").val("");
+    $("#value-achieved").val("");
+    $("#allocated-budget").val("");
+    $("#expected-category").val("");
+    $("#gok-percentage").val("");
+    $("#ifad-loan-percentage").val("");
+    $("#ifad-grant-percentage").val("");
+    $("#beneficiaries-percentage").val("");
+    $("#eu-percentage").val("");
+    $("#financial-institution-percentage").val("");
+}
 
-//<editor-fold defaultstate="collapsed" desc="Farm">
-function loadFarmWindow(farmerId) {
-    var target = "farm";
+function loadSubActivitiesWindow(activityPlanningId) {
+    var target = "subActivities";
     $.ajax({
         url: target,
         type: "POST",
-        data: "farmerId=" + farmerId,
+        data: "activityPlanningId=" + activityPlanningId,
+        success: function () {
+            window.location = target;
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function addToAnnualIndicators() {
+    $("#annual-indicator-ids").val($("#annual-indicator-ids").val() + "-" + $("#annual-indicator").val());
+    if ($("#annual-indicator-descriptions").val() === "") {
+        $("#annual-indicator-descriptions").val($("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
+    } else {
+        $("#annual-indicator-descriptions").val($("#annual-indicator-descriptions").val() + ", " + $("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
+    }
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Sub-activity name">
+function addSubActivityName() {
+    $.ajax({
+        url: "doAddSubActivityName",
+        type: "POST",
+        data: "name=" + $("#name").val() + "&activityNameId=" + $("#activityNameId").val(),
+        success: function () {
+            $("#name").val("");
+            loadAjaxWindow("sub_activity_names");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function loadSubActivityNamesWindow(activityNameId) {
+    var target = "sub_activity_names";
+    $.ajax({
+        url: target,
+        type: "POST",
+        data: "activityNameId=" + activityNameId,
         success: function () {
             window.location = target;
             return;
@@ -2861,188 +3017,88 @@ function loadFarmWindow(farmerId) {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Loan">
-function addLoan() {
-    $("#loan-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "add_loan_label",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Add": function () {
-                $.ajax({
-                    url: "doAddLoan",
-                    type: "POST",
-                    data: "amount=" + $("#loan-amount").val() +
-                            "&type=" + $("#loan-type").val() +
-                            "&issuingBank=" + $("#issuing-bank").val(),
-                    success: function (response) {
-                        $("table#loan-table tbody").html(response);
-                        $("#loan-amount").val("");
-                        $("#loan-type").val("");
-                        $("#issuing-bank").val("");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#loan-amount").val("");
-            $("#loan-type").val("");
-            $("#issuing-bank").val("");
-        }
-    });
-}
-//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Training">
+$("#training").ajaxForm({
+    success: function () {
+        clearTrainingFields();
+        return;
+    },
+    error: function (response) {
+        showError("error_label", response.responseText);
+    }
+});
+function addToTrainers() {
+    $("#trainer-ids").val($("#trainer-ids").val() + "-" + $("#trainer").val());
+    if ($("#trainer-names").val() === "") {
+        $("#trainer-names").val($("#trainer option[value='" + $("#trainer").val() + "']").text());
+    } else {
+        $("#trainer-names").val($("#trainer-names").val() + ", " + $("#trainer option[value='" + $("#trainer").val() + "']").text());
+    }
 
-//<editor-fold defaultstate="collapsed" desc="Inputs collection">
-function addInputsCollection() {
-    $("#inputs-collection-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "add_inputs_collection_label",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Add": function () {
-                $.ajax({
-                    url: "doAddInputsCollection",
-                    type: "POST",
-                    data: "dateCollected=" + $("#date-collected").val() +
-                            "&inputVarietyId=" + $("#input-variety").val() +
-                            "&agroDealerId=" + $("#agro-dealer").val() +
-                            "&staticInputId=" + $("#static-input").val() +
-                            "&inputTypeId=" + $("#input-type").val() +
-                            "&quantity=" + $("#quantity").val(),
-                    success: function (response) {
-                        $("table#inputs-collection-table tbody").html(response);
-                        $("#date-collected").val("");
-                        $("#agro-dealer").val("");
-                        $("#input-variety").val("");
-                        $("#input-type").val("");
-                        $("#quantity").val("");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#date-collected").val("");
-            $("#agro-dealer").val("");
-            $("#input-variety").val("");
-            $("#input-type").val("");
-            $("#quantity").val("");
-        }
-    });
+    updateTrainingModules();
 }
-//</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Farm activity">
-function addFarmActivity() {
-    $("#farm-activity-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "add_farm_activity_label",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Add": function () {
-                $.ajax({
-                    url: "doAddFarmActivity",
-                    type: "POST",
-                    data: "yield=" + $("#yield").val() +
-                            "&quantitySold=" + $("#quantity-sold").val() +
-                            "&farmActivityDate=" + $("#farm-activity-date").val() +
-                            "&postHarvestLoss=" + $("#post-harvest-loss").val() +
-                            "&farmActivityName=" + $("#farm-activity-name").val() +
-                            "&quantityHarvested=" + $("#quantity-harvested").val() +
-                            "&familyConsumption=" + $("#family-consumption").val() +
-                            "&averageSellingPrice=" + $("#average-selling-price").val(),
-                    success: function (response) {
-                        $("table#farm-activity-table tbody").html(response);
-                        $("#yield").val("");
-                        $("#quantity-sold").val("");
-                        $("#farm-activity-date").val("");
-                        $("#post-harvest-loss").val("");
-                        $("#farm-activity-name").val("");
-                        $("#quantity-harvested").val("");
-                        $("#family-consumption").val("");
-                        $("#average-selling-price").val("");
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
+function addToTrainees() {
+    $("#trainee-ids").val($("#trainee-ids").val() + "-" + $("#trainee").val());
+    if ($("#trainee-names").val() === "") {
+        $("#trainee-names").val($("#trainee option[value='" + $("#trainee").val() + "']").text());
+    } else {
+        $("#trainee-names").val($("#trainee-names").val() + ", " + $("#trainee option[value='" + $("#trainee").val() + "']").text());
+    }
+}
+
+function showTrainees(trainingId) {
+    $.ajax({
+        url: "loadTrainees",
+        type: "POST",
+        data: "trainingId=" + trainingId,
+        success: function () {
+            loadAjaxWindow("trainees");
+            return;
         },
-        close: function () {
-            $("#yield").val("");
-            $("#quantity-sold").val("");
-            $("#farm-activity-date").val("");
-            $("#post-harvest-loss").val("");
-            $("#farm-activity-name").val("");
-            $("#quantity-harvested").val("");
-            $("#family-consumption").val("");
-            $("#average-selling-price").val("");
-        }
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }, dataType: 'HTML'
     });
 }
 
-function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold,
-        postHarvestLoss, yield, farmActivityDate, farmActivityName, averageSellingPrice) {
+function editTraining(id, startDate, endDate, topic, venue, county, subCounty, ward, numberOfTrainees) {
 
-    $("#yield").val(yield);
-    $("#quantity-sold").val(quantitySold);
-    $("#farm-activity-date").val(farmActivityDate);
-    $("#post-harvest-loss").val(postHarvestLoss);
-    $("#farm-activity-name").val(farmActivityName);
-    $("#quantity-harvested").val(quantityHarvested);
-    $("#quantity-harvested").val(quantityHarvested);
-    $("#family-consumption").val(familyConsumption);
-    $("#average-selling-price").val(averageSellingPrice);
-    $("#farm-activity-dialog").dialog({
+    $("#start-date").val(startDate);
+    $("#end-date").val(endDate);
+    if (topic !== "")
+        $("#topic option[value=" + topic + "]").attr('selected', 'selected');
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#number-of-trainees").val(numberOfTrainees);
+    $("#training-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_farm_activity",
-        modal: true,
+        title: "edit_training_label",
         resizable: false,
+        modal: false,
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditFarmActivity",
+                    url: "doEditTraining",
                     type: "POST",
-                    data: "yield=" + $("#yield").val() +
-                            "&quantitySold=" + $("#quantity-sold").val() +
-                            "&farmActivityDate=" + $("#farm-activity-date").val() +
-                            "&postHarvestLoss=" + $("#post-harvest-loss").val() +
-                            "&farmActivityName=" + $("#farm-activity-name").val() +
-                            "&quantityHarvested=" + $("#quantity-harvested").val() +
-                            "&familyConsumption=" + $("#family-consumption").val() +
-                            "&averageSellingPrice=" + $("#average-selling-price").val() +
-                            "&id=" + id,
-                    success: function (response) {
-                        $("table#farm-activity-table tbody").html(response);
-                        $("#yield").val("");
-                        $("#quantity-sold").val("");
-                        $("#farm-activity-date").val("");
-                        $("#post-harvest-loss").val("");
-                        $("#farm-activity-name").val("");
-                        $("#quantity-harvested").val("");
-                        $("#family-consumption").val("");
-                        $("#average-selling-price").val("");
-                    },
-                    error: function (response) {
+                    data: "id=" + id +
+                            "&startDate=" + $("#start-date").val() +
+                            "&endDate=" + $("#end-date").val() +
+                            "&topic=" + $("#topic").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&venue=" + venue +
+                            "&ward=" + $("#ward").val() +
+                            "&numberOfTrainees=" + $("#number-of-trainees").val(),
+                    success: function () {
+                        clearTrainingFields();
+                        loadAjaxWindow("training");
+                    }, error: function (response) {
                         showError("error_label", response.responseText);
                     },
                     dataType: "HTML"
@@ -3051,34 +3107,27 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
             }
         },
         close: function () {
-            $("#yield").val("");
-            $("#quantity-sold").val("");
-            $("#farm-activity-date").val("");
-            $("#post-harvest-loss").val("");
-            $("#farm-activity-name").val("");
-            $("#quantity-harvested").val("");
-            $("#family-consumption").val("");
-            $("#average-selling-price").val("");
+            clearTrainingFields();
         }
     });
 }
-//
-function deleteFarmActivity(id) {
-    $("#message").text("Are you sure you want to remove this farm activity?");
+
+function deleteTraining(id) {
+    $("#message").text("Are you sure you want to remove this Training?");
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_farm_activity",
+        title: "delete_training",
         modal: true,
         resizable: false,
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeleteFarmActivity",
+                    url: "doDeleteTraining",
                     type: "POST",
                     data: "id=" + id,
-                    success: function (response) {
-                        $("table#farm-activity-table tbody").html(response);
+                    success: function () {
+                        loadAjaxWindow("training");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -3094,6 +3143,16 @@ function deleteFarmActivity(id) {
         close: function () {
         }
     });
+}
+
+function clearTrainingFields() {
+    $("#start-date").val("");
+    $("#end-date").val("");
+    $("#topic").val("");
+    $("#county").val("");
+    $("#sub-county").val("");
+    $("#ward").val("");
+    $("#number-of-trainees").val("");
 }
 //</editor-fold>
 
@@ -3210,15 +3269,27 @@ function updateWards() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Activity name">
-function addActivityName() {
+//<editor-fold defaultstate="collapsed" desc="Warehouse">
+function addWarehouse() {
     $.ajax({
-        url: "doAddActivityName",
+        url: "doAddWarehouse",
         type: "POST",
-        data: "name=" + $("#name").val(),
+        data: "name=" + $("#warehouse-name").val() +
+                "&warehouseType=" + $("#warehouse-type").val() +
+                "&warehouseOperator=" + $("#warehouse-operator").val() +
+                "&capacity=" + $("#capacity").val() +
+                "&capacityUnits=" + $("#capacity-units").val() +
+                "&offersWrs=" + $("#offers-wrs").val() +
+                "&certified=" + $("#certified").val() +
+                "&latitude=" + $("#warehouse-latitude").val() +
+                "&longitude=" + $("#warehouse-longitude").val() +
+                "&county=" + $("#county").val() +
+                "&subCounty=" + $("#sub-county").val() +
+                "&ward=" + $("#ward").val() +
+                "&warehouseType=" + $("#warehouse-type").val(),
         success: function () {
-            $("#name").val("");
-            loadAjaxWindow("activity_names");
+            clearWarehouseFields();
+            loadAjaxWindow('warehouses');
             return;
         },
         error: function (response) {
@@ -3228,268 +3299,140 @@ function addActivityName() {
     });
 }
 
-function editActivityName(id, name) {
-    $("#name").val(name);
-    $("#activity-name-dialog").dialog({
+function editWarehouse(id, name, warehouseType, capacity, units, offersWrs,
+        certified, location, subCounty, county, ward, latitude, longitude, warehouseOperator) {
+    $("#warehouse-name").val(name);
+    $("#warehouse-type option[value=" + warehouseType + "]").attr('selected', 'selected');
+    $("#warehouse-operator option[value=" + warehouseOperator + "]").attr('selected', 'selected');
+    $("#capacity").val(capacity);
+    if (units !== "")
+        $("#capacity-units option[value=" + units + "]").attr('selected', 'selected');
+    $("#offers-wrs").val(offersWrs);
+    $("#certified").val(certified);
+    $("#warehouse-latitude").val(latitude);
+    $("#warehouse-longitude").val(longitude);
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#warehouse-type option[value=" + warehouseOperator + "]").val(warehouseOperator);
+    $("#warehouse-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "edit_activity_name_label",
+        title: "edit_warehouse_label",
         resizable: false,
         modal: false,
         buttons: {
             "Save": function () {
                 $.ajax({
-                    url: "doEditActivityName",
-                    type: "POST",
-                    data: "name=" + $("#name").val() + "&id=" + id,
-                    success: function (response) {
-                        $("#name").val("");
-                        $("table#activity-name-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#name").val("");
-        }
-    });
-}
-function deleteActivityName(id) {
-    $("#message").text("Are you sure you want to remove this activity name?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_activity_name",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteActivityName",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function (response) {
-                        $("table#activity-name-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Sub-activity name">
-function addSubActivityName() {
-    $.ajax({
-        url: "doAddSubActivityName",
-        type: "POST",
-        data: "name=" + $("#name").val() + "&activityNameId=" + $("#activityNameId").val(),
-        success: function () {
-            $("#name").val("");
-            loadAjaxWindow("sub_activity_names");
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
-}
-
-function loadSubActivityNamesWindow(activityNameId) {
-    var target = "sub_activity_names";
-    $.ajax({
-        url: target,
-        type: "POST",
-        data: "activityNameId=" + activityNameId,
-        success: function () {
-            window.location = target;
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
-}
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Financial year">
-
-function addFinancialYear() {
-    $.ajax({
-        url: "doAddFinancialYear",
-        type: "POST",
-        data: "financialYear=" + $("#financial-year").val() + "&current=" + $("#current").val(),
-        success: function () {
-            $("#financial-year").val("");
-            $("#current").val("");
-            loadAjaxWindow("financial_years");
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
-}
-function deleteFinancialYear(id) {
-    $("#message").text("Are you sure you want to remove this financial year?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_financial_yaer",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteFinancialYear",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function (response) {
-                        $("table#financial-yaer-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Account">
-function editAccount(accountNumber, eblBranch, solId, savings) {
-    $("#account-number").val(accountNumber);
-    $("#ebl-branch option[value=" + eblBranch + "]").attr('selected', 'selected');
-    $("#sol-id").val(solId);
-    $("#change").val(0);
-    $("#savings").val(savings);
-    $("#account-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_account_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditAccount",
-                    type: "POST",
-                    data: "accountNumber=" + $("#account-number").val() + "&eblBranch=" + $("#ebl-branch").val()
-                            + "&solId=" + $("#sol-id").val() + "&savings=" + $("#savings").val(),
-                    success: function (response) {
-                        $("#account-number").val("");
-                        $("#ebl-branch").val("");
-                        $("#sol-id").val("");
-                        $("#change").val("");
-                        $("#savings").val("");
-                        $("#account").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#account-number").val("");
-            $("#ebl-branch").val("");
-            $("#sol-id").val("");
-            $("#change").val("");
-            $("#savings").val("");
-        }
-    });
-}
-//</editor-fold>
-
-//<editor-fold defaultstate="collapsed" desc="Outcome reports">
-function changeOutcomeReport() {
-    $.ajax({
-        type: "POST",
-        url: "outcomeLevelReports",
-        data: "projectYear=" + $("#project-year").val(),
-        success: function () {
-            loadAjaxWindow("outcomeLevelReports?projectYear=" + $("#project-year").val());
-            return;
-        },
-        dataType: "HTML"
-    });
-}
-
-function editOutcomeValue(id, actualValue, expectedValue, description) {
-
-    if (actualValue.trim() === "") {
-        actualValue = 0;
-    }
-    if (expectedValue.trim() === "") {
-        expectedValue = 0;
-    }
-
-    $("#ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
-    if (expectedValue !== "")
-        $("#expected-value option[value=" + parseInt(expectedValue) + "]").attr("selected", "selected");
-    if (actualValue !== "")
-        $("#actual-value option[value=" + parseInt(actualValue) + "]").attr("selected", "selected");
-    $("#outcome-report-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: description,
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                actualValue = $("#actual-value").val();
-                expectedValue = $("#expected-value").val();
-                $.ajax({
-                    url: "updateOutcomeValues",
+                    url: "doEditWarehouse",
                     type: "POST",
                     data: "id=" + id +
-                            "&projectYear=" + $("#project-year").val() +
-                            "&actualValue=" + actualValue +
-                            "&expectedValue=" + expectedValue,
+                            "&location=" + location +
+                            "&name=" + $("#warehouse-name").val() +
+                            "&warehouseOperator=" + $("#warehouse-operator").val() +
+                            "&capacity=" + $("#capacity").val() +
+                            "&capacityUnits=" + $("#capacity-units").val() +
+                            "&offersWrs=" + $("#offers-wrs").val() +
+                            "&certified=" + $("#certified").val() +
+                            "&latitude=" + $("#warehouse-latitude").val() +
+                            "&longitude=" + $("#warehouse-longitude").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&ward=" + $("#ward").val() +
+                            "&warehouseType=" + $("#warehouse-type").val(),
                     success: function () {
+                        clearWarehouseFields();
+                        loadAjaxWindow("warehouses");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearWarehouseFields();
+        }
+    });
+}
 
-                        if (actualValue.trim() === "") {
-                            actualValue = 0;
-                        }
-                        if (expectedValue.trim() === "") {
-                            expectedValue = 0;
-                        }
-                        $("#outcome-ratio-" + id).html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
-                        $("#expected-value-" + id).html(expectedValue);
-                        $("#actual-value-" + id).html(actualValue);
-                        $("#expected-value").val("");
-                        $("#actual-value").val("");
-                        $("#ratio").val("");
+function deleteWarehouse(id) {
+    $("#message").text("Are you sure you want to remove this warehouse?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_warehouse",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteWarehouse",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadAjaxWindow("warehouses");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+function clearWarehouseFields() {
+    $("#warehouse-name").val("");
+    $("#warehouse-operator").val("");
+    $("#capacity").val("");
+    $("#capacity-units").val("");
+    $("#offers-wrs").val("");
+    $("#certified").val("");
+    $("#warehouse-latitude").val("");
+    $("#warehouse-longitude").val("");
+    $("#county").val("");
+    $("#sub-county").val("");
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Warehouse operation">
+function addWarehouseOperation(warehouseId) {
+    $("#warehouse-operation-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_warehouse_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doAddWarehouseOperation",
+                    type: "POST",
+                    data: "warehouseId=" + warehouseId +
+                            "&quantityBrought=" + $("#quantity-brought").val() +
+                            "&produceTypeBrought=" + $("#produce-type-brought").val() +
+                            "&quantitySold=" + $("#warehouse-operation-quantity-sold").val() +
+                            "&produceTypeSold=" + $("#produce-type-sold").val() +
+                            "&sellingDate=" + $("#selling-date").val() +
+                            "&sellingPrice=" + $("#selling-price").val() +
+                            "&buyer=" + $("#buyer").val(),
+                    success: function () {
+                        clearWarehouseOperationFields();
+                        loadEquimentWindow(warehouseId);
                         return;
                     },
                     error: function (response) {
@@ -3501,11 +3444,102 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
             }
         },
         close: function () {
-            $("#expected-value").val("");
-            $("#actual-value").val("");
-            $("#ratio").val("");
+            clearWarehouseOperationFields();
         }
     });
+}
+
+function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBrought,
+        quantitySold, produceTypeSold, sellingDate, sellingPrice, buyer) {
+    $("#quantity-brought").val(quantityBrought);
+    if (produceTypeBrought !== "")
+        $("#produce-type-brought option[value=" + produceTypeBrought + "]").attr('selected', 'selected');
+    $("#warehouse-operation-quantity-sold").val(quantitySold);
+    if (produceTypeSold !== "")
+        $("#produce-type-sold option[value=" + produceTypeSold + "]").attr('selected', 'selected');
+    $("#selling-date").val(sellingDate);
+    $("#selling-price").val(sellingPrice);
+    $("#buyer").val(buyer);
+    $("#warehouse-operation-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_warehouse_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditWarehouseOperation",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&warehouseId=" + warehouseId +
+                            "&quantityBrought=" + $("#quantity-brought").val() +
+                            "&produceTypeBrought=" + $("#produce-type-brought").val() +
+                            "&quantitySold=" + $("#warehouse-operation-quantity-sold").val() +
+                            "&produceTypeSold=" + $("#produce-type-sold").val() +
+                            "&sellingDate=" + $("#selling-date").val() +
+                            "&sellingPrice=" + $("#selling-price").val() +
+                            "&buyer=" + $("#buyer").val(),
+                    success: function () {
+                        clearWarehouseOperationFields();
+                        loadEquimentWindow(warehouseId);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearWarehouseOperationFields();
+        }
+    });
+}
+
+function deleteWarehouseOperation(id, warehouseId) {
+    $("#message").text("Are you sure you want to remove this warehouse operation?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_warehouse",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteWarehouseOperation",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        clearWarehouseOperationFields();
+                        loadEquimentWindow(warehouseId);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+function clearWarehouseOperationFields() {
+    $("#quantity-brought").val("");
+    $("#produce-type-brought").val("");
+    $("#warehouse-operation-quantity-sold").val("");
+    $("#produce-type-sold").val("");
+    $("#selling-date").val("");
+    $("#selling-price").val("");
+    $("#buyer").val("");
 }
 
 //</editor-fold>

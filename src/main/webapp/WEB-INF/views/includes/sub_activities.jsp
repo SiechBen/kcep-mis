@@ -39,7 +39,7 @@
                                 <th>Implementing partner</th>
                                 <th>Procurement plan</th>
                                 <th>Description</th>
-                                <th>Expenditure</th>
+                                <!--<th>Expenditure</th>-->
                                 <th>Allocated budget</th>
                                 <th>Expenditure category</th>
                                 <th>GOK percentage</th>
@@ -80,7 +80,7 @@
                                     <td>${subActivity.implementingPartner.category.name}</td>
                                     <td>${subActivity.procurementPlan}</td>
                                     <td>${subActivity.description}</td>
-                                    <td>${subActivity.valueAchieved}</td>
+                                    <!--<td>${subActivity.valueAchieved}</td>-->
                                     <td>${subActivity.allocatedBudget}</td>
                                     <td>${subActivity.expenditureCategory.category.name}</td>
                                     <td>${subActivity.gokPercentage}</td>
@@ -262,10 +262,10 @@
                         Description
                         <input id="description" class="form-control">
                     </div>
-                    <div class="form-group">
-                        Value achieved
-                        <input id="value-achieved" type="number" step="0.01" class="form-control">
-                    </div>
+                    <!--                    <div class="form-group">
+                                            Expenditure
+                                            <input id="value-achieved" type="number" step="0.01" class="form-control">
+                                        </div>-->
                     <div class="form-group">
                         Allocated budget
                         <input id="allocated-budget" type="number" step="0.01" class="form-control">

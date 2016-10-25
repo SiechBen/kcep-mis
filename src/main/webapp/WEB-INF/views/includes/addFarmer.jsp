@@ -1,7 +1,7 @@
 <%--
-    Document   : addPerson
-    Created on : Sep 7, 2016, 1:08:36 PM
-    Author     : ronne
+    Document   : addFarmer
+    Created on : Oct 25, 2016, 6:46:54 AM
+    Author     : siech
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,17 +15,12 @@
             </div>
             <div class="panel-body">
                 <form role="form">
+                    <div>
+                        <input type="hidden" id="person-role" value="1">
+                    </div>
                     <div class="form-group">
                         Name
                         <input id="person-name" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        Person role
-                        <select id="person-role" class="form-control">
-                            <c:forEach var="personRole" items="${sessionScope.personRoles}" varStatus="index">
-                                <option value="${personRole.id}">${personRole.personRole}</option>
-                            </c:forEach>
-                        </select>
                     </div>
                     <div class="form-group">
                         National id number
@@ -36,10 +31,6 @@
                         <select id="year-of-birth" class="form-control">
                             <option disabled>Select year</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        Business name
-                        <input id="business-name" class="form-control">
                     </div>
                     <div class="form-group">
                         Gender
@@ -58,6 +49,18 @@
                         <input id="postal-address" class="form-control">
                     </div>
                     <div class="form-group">
-                        Email address
-                        <input id="email" type="email" class="form-control">
+                        Farmer group
+                        <select id="farmer-group" class="form-control">
+                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index">
+                                <option value="${farmerGroup.id}">${farmerGroup.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Farmer sub-group
+                        <select id="farmer-sub-group" class="form-control">
+                            <c:forEach var="farmerSubGroup" items="${applicationScope.farmerSubGroups}" varStatus="index">
+                                <option value="${farmerSubGroup.id}">${farmerSubGroup.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>

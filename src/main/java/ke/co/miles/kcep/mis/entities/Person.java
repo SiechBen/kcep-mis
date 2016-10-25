@@ -1,7 +1,6 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -16,8 +15,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -38,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findById", query = "SELECT p FROM Person p WHERE p.id = :id"),
     @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
     @NamedQuery(name = "Person.findByNationalId", query = "SELECT p FROM Person p WHERE p.nationalId = :nationalId"),
-    @NamedQuery(name = "Person.findByDateOfBirth", query = "SELECT p FROM Person p WHERE p.dateOfBirth = :dateOfBirth"),
+    @NamedQuery(name = "Person.findByYearOfBirth", query = "SELECT p FROM Person p WHERE p.yearOfBirth = :yearOfBirth"),
     @NamedQuery(name = "Person.findByAge", query = "SELECT p FROM Person p WHERE p.age = :age"),
     @NamedQuery(name = "Person.findByBusinessName", query = "SELECT p FROM Person p WHERE p.businessName = :businessName"),
     @NamedQuery(name = "Person.findByPlotSize", query = "SELECT p FROM Person p WHERE p.plotSize = :plotSize"),
@@ -57,9 +54,8 @@ public class Person implements Serializable {
     @Size(max = 20)
     @Column(name = "national_id")
     private String nationalId;
-    @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
+    @Column(name = "year_of_birth")
+    private Short yearOfBirth;
     @Column(name = "age")
     private Short age;
     @Size(max = 45)
@@ -154,12 +150,12 @@ public class Person implements Serializable {
         this.nationalId = nationalId;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public Short getYearOfBirth() {
+        return yearOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setYearOfBirth(Short yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
     }
 
     public Short getAge() {

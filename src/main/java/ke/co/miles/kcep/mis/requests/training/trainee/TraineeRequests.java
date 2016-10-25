@@ -7,10 +7,8 @@ package ke.co.miles.kcep.mis.requests.training.trainee;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
@@ -80,12 +78,9 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         }
 
         if (trainee.getTraining().getTopic() != null && trainee.getTraining().getTopic().getId() == 11) {
-            Date date = (null == person.getDateOfBirth() ? new Date() : person.getDateOfBirth());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            LocalDate birthDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-            LocalDate now = LocalDate.now(ZoneId.of("Africa/Nairobi"));
-            int age = Period.between(birthDate, now).getYears();
+            LocalDate birthYear = (person.getYearOfBirth() == null ? LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1) : LocalDate.of(person.getYearOfBirth(), 1, 1));
+            LocalDate now = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1);
+            int age = Period.between(birthYear, now).getYears();
             if (person.getSex().getId().equals(SexDetail.FEMALE.getId())
                     || (person.getSex().getId().equals(SexDetail.MALE.getId())
                     && age <= 35)) {
@@ -122,8 +117,8 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
     @Override
     public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail, int trainingId) throws MilesException {
 
-        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35))";
-        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35))";
+        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35))";
+        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35))";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));
@@ -185,8 +180,8 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
     @Override
     public HashMap<String, Integer> countAllTrainees(int trainingId) throws MilesException {
 
-        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) <= 35))";
-        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (date_of_birth IS NULL) THEN 0 ELSE (TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())) END) > 35))";
+        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35))";
+        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35))";
 
         List<UserAccount> femaleYouth = new ArrayList<>();
         setQ(em.createNativeQuery(youthQuery, UserAccount.class));

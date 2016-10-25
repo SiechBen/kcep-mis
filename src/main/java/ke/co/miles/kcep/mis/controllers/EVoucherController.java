@@ -32,20 +32,22 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.EVoucherDetails;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 
 /**
  *
  * @author siech
  */
 @WebServlet(name = "EVoucherController", urlPatterns = {
-    //    "/addEVoucher",
-    //    "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
-    "/farmers", "/agroDealers"})
+    //        "/addEVoucher", "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
+    "/addFarmer", "/farmers", "/agroDealers"})
 @MultipartConfig
 public class EVoucherController extends Controller {
 
@@ -66,84 +68,188 @@ public class EVoucherController extends Controller {
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
-                if (rightsMap.equals("systemAdminSession") || rightsMap.equals("nationalOfficerSession")) {
-                    if (rightsMaps.get(rightsMap)) {
-                        urlPaths.add("/doAddEVoucher");
-                        urlPaths.add("/doEditEVoucher");
-                        urlPaths.add("/doDeleteEVoucher");
-                        switch (path) {
-                            case "/eVouchers":
-                                path = "/head_eVouchers";
-                                urlPaths.add(path);
-                                break;
-                            case "/addEVoucher":
-                                path = "/head_addEVoucher";
-                                urlPaths.add(path);
-                                break;
-                            case "/farmers":
-                                path = "/head_farmers";
-                                urlPaths.add(path);
-                                break;
-                            case "/agroDealers":
-                                path = "/head_agro_dealers";
-                                urlPaths.add(path);
-                                break;
-                            default:
-                                break;
+                switch (rightsMap) {
+                    case "systemAdminSession":
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/addFarmer");
+                            urlPaths.add("/doAddEVoucher");
+                            urlPaths.add("/doEditEVoucher");
+                            urlPaths.add("/doDeleteEVoucher");
+                            switch (path) {
+                                case "/eVouchers":
+                                    path = "/head_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addEVoucher":
+                                    path = "/head_addEVoucher";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/head_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/head_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/head_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                } else if (rightsMap.equals("equityPersonnelSession")) {
-                    if (rightsMaps.get(rightsMap)) {
-                        urlPaths.add("/doAddEVoucher");
-                        urlPaths.add("/doEditEVoucher");
-                        urlPaths.add("/doDeleteEVoucher");
-                        switch (path) {
-                            case "/eVouchers":
-                                path = "/equity_eVouchers";
-                                urlPaths.add(path);
-                                break;
-                            case "/addEVoucher":
-                                path = "/equity_addEVoucher";
-                                urlPaths.add(path);
-                                break;
-                            case "/farmers":
-                                path = "/equity_farmers";
-                                urlPaths.add(path);
-                                break;
-                            case "/agroDealers":
-                                path = "/equity_agro_dealers";
-                                urlPaths.add(path);
-                                break;
-                            default:
-                                break;
+                        break;
+                    case "equityPersonnelSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/addFarmer");
+                            urlPaths.add("/doAddEVoucher");
+                            urlPaths.add("/doEditEVoucher");
+                            urlPaths.add("/doDeleteEVoucher");
+                            switch (path) {
+                                case "/eVouchers":
+                                    path = "/equity_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addEVoucher":
+                                    path = "/equity_addEVoucher";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/equity_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/equity_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/equity_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                } else if (rightsMap.equals("countyDeskOfficerSession")) {
-                    if (rightsMaps.get(rightsMap)) {
-                        urlPaths.add("/doAddEVoucher");
-                        urlPaths.add("/doEditEVoucher");
-                        urlPaths.add("/doDeleteEVoucher");
-                        switch (path) {
-                            case "/eVouchers":
-                                path = "/county_eVouchers";
-                                urlPaths.add(path);
-                                break;
-                            case "/addEVoucher":
-                                path = "/county_addEVoucher";
-                                urlPaths.add(path);
-                                break;
-                            case "/farmers":
-                                path = "/county_farmers";
-                                urlPaths.add(path);
-                                break;
-                            case "/agroDealers":
-                                path = "/county_agro_dealers";
-                                urlPaths.add(path);
-                                break;
-                            default:
-                                break;
+                        break;
+                    case "countyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/addFarmer");
+                            urlPaths.add("/doAddEVoucher");
+                            urlPaths.add("/doEditEVoucher");
+                            urlPaths.add("/doDeleteEVoucher");
+                            switch (path) {
+                                case "/eVouchers":
+                                    path = "/county_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addEVoucher":
+                                    path = "/county_addEVoucher";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/county_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/county_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/county_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
+                        break;
+                    case "subCountyDeskOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/addFarmer");
+                            switch (path) {
+                                case "/farmers":
+                                    path = "/sub_county_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/sub_county_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/sub_county_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "waoSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/addFarmer");
+                            switch (path) {
+                                case "/farmers":
+                                    path = "/ward_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/ward_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/ward_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "agmarkSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            switch (path) {
+                                case "/eVouchers":
+                                    path = "/agmark_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/agmark_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/agmark_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "kalroSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            switch (path) {
+                                case "/eVouchers":
+                                    path = "/kalro_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/kalro_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/kalro_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -235,6 +341,8 @@ public class EVoucherController extends Controller {
                     break;
 
                 case "/equity_farmers":
+                case "/kalro_farmers":
+                case "/agmark_farmers":
                 case "/head_farmers":
 
                     if (session.getAttribute("farmerSearchFunction") == null || (session.getAttribute("farmerSearchFunction") != null && !((Boolean) session.getAttribute("farmerSearchFunction")))) {
@@ -317,12 +425,67 @@ public class EVoucherController extends Controller {
 
                     break;
 
+//                case "/kalro_addFarmer":
+//                case "/agmark_addFarmer":
+                case "/region_addFarmer":
+                case "/ward_addFarmer":
+                case "/head_addFarmer":
+                case "/agro_dealer_addFarmer":
+                    break;
+
+                case "/county_addFarmer":
+
+                    PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    List<SubCountyDetails> subCounties;
+                    try {
+                        subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
+                        return;
+                    }
+
+                    if (subCounties != null) {
+
+                        for (SubCountyDetails subCountyDetails : subCounties) {
+                            try {
+                                session.setAttribute("wards", wardService.retrieveWards(subCountyDetails.getId()));
+                            } catch (MilesException ex) {
+                                LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                                return;
+                            }
+                        }
+
+                        session.setAttribute("subCounties", subCounties);
+                    }
+                    break;
+
+                case "/sub_county_addFarmer":
+
+                    PersonDetails subCountyDeskOfficer = (PersonDetails) session.getAttribute("person");
+
+                    try {
+                        session.setAttribute("wards", wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                        return;
+                    }
+                    break;
+
                 case "/county_agro_dealers":
                 case "/equity_agro_dealers":
+                case "/kalro_agro_dealers":
+                case "/agmark_agro_dealers":
                 case "/head_agro_dealers":
                     if (session.getAttribute("agroDealerSearchFunction") == null || (session.getAttribute("agroDealerSearchFunction") != null && !((Boolean) session.getAttribute("agroDealerSearchFunction")))) {
                         try {
-                            HashMap<String, Integer> countMap = personService.countAllFarmersAndAgrodealers();
+                            HashMap<String, Integer> countMap;
+
+                            if (path.equals("/county_agro_dealers")) {
+                                countMap = personService.countCountyFarmersAndAgrodealers(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId());
+                            } else {
+                                countMap = personService.countAllFarmersAndAgrodealers();
+                            }
                             int femaleYouth = 0;
                             int femaleElderly = 0;
                             int femaleTotal = 0;
@@ -400,6 +563,8 @@ public class EVoucherController extends Controller {
                     break;
 
                 case "/equity_eVouchers":
+                case "/agmark_eVouchers":
+                case "/kalro_eVouchers":
                 case "/county_eVouchers":
                 case "/head_eVouchers":
 
@@ -640,11 +805,15 @@ public class EVoucherController extends Controller {
     //</editor-fold>
     private static final Logger LOGGER = Logger.getLogger(EVoucherController.class.getSimpleName());
     @EJB
-    private EVoucherRequestsLocal eVoucherService;
+    private WardRequestsLocal wardService;
     @EJB
     private PersonRequestsLocal personService;
     @EJB
+    private EVoucherRequestsLocal eVoucherService;
+    @EJB
     private InputTypeRequestsLocal inputTypeService;
+    @EJB
+    private SubCountyRequestsLocal subCountyService;
 
     //<editor-fold defaultstate="collapsed" desc="Update tables">
     private void updateEVoucherTable(HttpServletResponse response, List<EVoucherDetails> eVouchers) throws IOException {
