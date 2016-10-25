@@ -77,7 +77,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivityDetails.getImplementingPartner() != null) {
             subActivity.setImplementingPartner(em.getReference(Phenomenon.class, subActivityDetails.getImplementingPartner().getId()));
         }
-        if (subActivityDetails.getActivityName() == null) {
+        if (subActivityDetails.getActivityName() != null) {
             subActivity.setActivityName(em.getReference(ActivityName.class, subActivityDetails.getActivityName().getId()));
         }
         if (subActivityDetails.getExpectedOutcome() != null) {
@@ -160,11 +160,13 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     public List<SubActivityDetails> retrieveCountySubActivities(short countyId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findCountySubActivities"));
+        MilesDebugger.debug(countyId);
         switch (countyId) {
             case 1:
                 q.setParameter("first", 216);
                 q.setParameter("last", 430);
                 q.setParameter("other", 2151);
+                MilesDebugger.debug();
                 break;
             case 2:
                 q.setParameter("first", 431);

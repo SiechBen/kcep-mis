@@ -15,7 +15,7 @@
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
-                    <label hidden id="add-label">addPerson</label>
+                    <label hidden id="add-label">addAgroDealer</label>
                     <table id="agro-dealers-table" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>

@@ -38,10 +38,6 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        Business name
-                        <input id="business-name" class="form-control">
-                    </div>
-                    <div class="form-group">
                         Gender
                         <select id="sex" class="form-control">
                             <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index">

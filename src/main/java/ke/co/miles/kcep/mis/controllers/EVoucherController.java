@@ -47,7 +47,7 @@ import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
  */
 @WebServlet(name = "EVoucherController", urlPatterns = {
     //        "/addEVoucher", "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
-    "/addFarmer", "/farmers", "/agroDealers"})
+    "/addFarmer", "/addAgroDealer", "/farmers", "/agroDealers"})
 @MultipartConfig
 public class EVoucherController extends Controller {
 
@@ -73,6 +73,7 @@ public class EVoucherController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
                             urlPaths.add("/doDeleteEVoucher");
@@ -93,6 +94,10 @@ public class EVoucherController extends Controller {
                                     path = "/head_addFarmer";
                                     urlPaths.add(path);
                                     break;
+                                case "/addAgroDealer":
+                                    path = "/head_addAgroDealer";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/agroDealers":
                                     path = "/head_agro_dealers";
                                     urlPaths.add(path);
@@ -105,6 +110,7 @@ public class EVoucherController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
                             urlPaths.add("/doDeleteEVoucher");
@@ -125,6 +131,10 @@ public class EVoucherController extends Controller {
                                     path = "/equity_addFarmer";
                                     urlPaths.add(path);
                                     break;
+                                case "/addAgroDealer":
+                                    path = "/equity_addAgroDealer";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/agroDealers":
                                     path = "/equity_agro_dealers";
                                     urlPaths.add(path);
@@ -137,6 +147,7 @@ public class EVoucherController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
                             urlPaths.add("/doDeleteEVoucher");
@@ -157,6 +168,10 @@ public class EVoucherController extends Controller {
                                     path = "/county_addFarmer";
                                     urlPaths.add(path);
                                     break;
+                                case "/addAgroDealer":
+                                    path = "/county_addAgroDealer";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/agroDealers":
                                     path = "/county_agro_dealers";
                                     urlPaths.add(path);
@@ -169,6 +184,7 @@ public class EVoucherController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/addAgroDealer");
                             switch (path) {
                                 case "/farmers":
                                     path = "/sub_county_farmers";
@@ -176,6 +192,10 @@ public class EVoucherController extends Controller {
                                     break;
                                 case "/addFarmer":
                                     path = "/sub_county_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addAgroDealer":
+                                    path = "/sub_county_addAgroDealer";
                                     urlPaths.add(path);
                                     break;
                                 case "/agroDealers":
@@ -190,6 +210,7 @@ public class EVoucherController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/addAgroDealer");
                             switch (path) {
                                 case "/farmers":
                                     path = "/ward_farmers";
@@ -197,6 +218,10 @@ public class EVoucherController extends Controller {
                                     break;
                                 case "/addFarmer":
                                     path = "/ward_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addAgroDealer":
+                                    path = "/ward_addAgroDealer";
                                     urlPaths.add(path);
                                     break;
                                 case "/agroDealers":
@@ -423,14 +448,6 @@ public class EVoucherController extends Controller {
                         session.setAttribute("farmerSearchTimes", ++farmerSearchTimes);
                     }
 
-                    break;
-
-//                case "/kalro_addFarmer":
-//                case "/agmark_addFarmer":
-                case "/region_addFarmer":
-                case "/ward_addFarmer":
-                case "/head_addFarmer":
-                case "/agro_dealer_addFarmer":
                     break;
 
                 case "/county_addFarmer":

@@ -231,7 +231,7 @@
                     </div>
                     <div class="form-group">
                         Totals
-                        <input id="totals" class="form-control" type="number" step="0.01">
+                        <input id="totals" class="form-control" readonly>
                     </div>
                     <div class="form-group">
                         Response PCU

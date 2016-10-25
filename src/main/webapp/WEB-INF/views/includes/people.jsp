@@ -27,7 +27,6 @@
                                 <th>Gender</th>
                                 <th>Age</th>
                                 <th>National id</th>
-                                <th>Business name</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
                                 <th>Ward</th>
@@ -39,7 +38,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="14">List of system users</td>
+                                <td colspan="13">List of system users</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -58,7 +57,6 @@
                                     <td>${person.sex.sex}</td>
                                     <td>${person.age}</td>
                                     <td>${person.nationalId}</td>
-                                    <td>${person.businessName}</td>
                                     <td>${person.location.county.name}</td>
                                     <td>${person.location.subCounty.name}</td>
                                     <td>${person.location.ward.name}</td>

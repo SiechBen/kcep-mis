@@ -24,20 +24,19 @@
                                 <th>Gender</th>
                                 <th>Age</th>
                                 <th>National id</th>
-                                <th>Farmer group</th>
-                                <th>Farmer sub-group</th>
+                                <!--                                <th>Farmer group</th>
+                                                                <th>Farmer sub-group</th>-->
                                 <th>County</th>
                                 <th>Sub-county</th>
                                 <th>Ward</th>
                                 <th>Phone number</th>
-                                <th>Email address</th>
                                 <th>&nbsp;</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="14">List of farmers</td>
+                                <td colspan="11">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -48,13 +47,12 @@
                                     <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.age}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.nationalId}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>
+<!--                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>-->
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.county.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.subCounty.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.ward.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.contact.phone}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.contact.email}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
                                                     '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
                                                     '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',

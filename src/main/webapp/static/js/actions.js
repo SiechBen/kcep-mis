@@ -533,7 +533,7 @@ function loadApplicationAttributes() {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Indicator AV:EV ratio calculation">
+//<editor-fold defaultstate="collapsed" desc="Calculation">
 $("#actual-outcome-value").on("input", function () {
     calculateOutcomeRatio();
 });
@@ -573,6 +573,27 @@ $("#actual-value").on("input", function () {
 });
 $("#expected-value").on("input", function () {
     calculateRatio();
+});
+
+function calculateAWPBTotals() {
+
+    var unitCost = $("#unit-cost").val();
+    var awpbTarget = $("#awpb-target").val();
+    if (unitCost.trim() === "") {
+        unitCost = 0;
+    }
+    if (awpbTarget.trim() === "") {
+        awpbTarget = 0;
+    }
+
+    $("#totals").val((parseFloat(unitCost) * parseFloat(awpbTarget)).toFixed(2));
+}
+
+$("#unit-cost").on("input", function () {
+    calculateAWPBTotals();
+});
+$("#awpb-target").on("input", function () {
+    calculateAWPBTotals();
 });
 //</editor-fold>
 

@@ -1,6 +1,6 @@
 <%--
-    Document   : addFarmer
-    Created on : Oct 25, 2016, 6:46:54 AM
+    Document   : addAgroDealer
+    Created on : Oct 25, 2016, 8:50:38 AM
     Author     : siech
 --%>
 
@@ -16,7 +16,7 @@
             <div class="panel-body">
                 <form role="form">
                     <div>
-                        <input type="hidden" id="person-role" value="1">
+                        <input type="hidden" id="person-role" value="2">
                     </div>
                     <div class="form-group">
                         Name
@@ -31,6 +31,10 @@
                         <select id="year-of-birth" class="form-control">
                             <option disabled>Select year</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        Business name
+                        <input id="business-name" class="form-control">
                     </div>
                     <div class="form-group">
                         Gender
@@ -48,19 +52,7 @@
                         Postal address
                         <input id="postal-address" class="form-control">
                     </div>
-                    <!--                    <div class="form-group">
-                                            Farmer group
-                                            <select id="farmer-group" class="form-control">
-                    <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index">
-                        <option value="${farmerGroup.id}">${farmerGroup.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="form-group">
-                Farmer sub-group
-                <select id="farmer-sub-group" class="form-control">
-                    <c:forEach var="farmerSubGroup" items="${applicationScope.farmerSubGroups}" varStatus="index">
-                        <option value="${farmerSubGroup.id}">${farmerSubGroup.name}</option>
-                    </c:forEach>
-                </select>
-            </div>-->
+                    <div class="form-group">
+                        Email address
+                        <input id="email" type="email" class="form-control">
+                    </div>
