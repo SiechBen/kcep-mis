@@ -374,9 +374,11 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 
     @Override
     public UserAccountDetails convertUserAccountToUserAccountDetails(UserAccount userAccount) {
-        PersonDetails personDetails = personService.convertPersonToPersonDetails(userAccount.getPerson());
-
         PersonRoleDetail personRoleDetail = personRoleService.convertPersonRoleToPersonRoleDetail(userAccount.getPersonRole());
+
+        PersonDetails personDetails = personService.convertPersonToPersonDetails(userAccount.getPerson());
+        personDetails.setPersonRole(userAccount.getPersonRole().getPersonRole());
+        personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
 
         UserAccountDetails userAccountDetails = new UserAccountDetails(userAccount.getId());
         userAccountDetails.setUsername(userAccount.getUsername());

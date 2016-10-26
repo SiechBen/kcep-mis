@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
+import ke.co.miles.kcep.mis.requests.feedback.FeedbackRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.FeedbackDetails;
 import ke.co.miles.kcep.mis.utilities.FeedbackTypeDetail;
@@ -133,8 +133,7 @@ public abstract class Controller extends HttpServlet {
         getServletContext().setAttribute("sexes", Arrays.asList(SexDetail.values()));
 
         try {
-            getServletContext().setAttribute("measurementUnits",
-                    measurementUnitService.retrieveMeasurementUnits());
+            getServletContext().setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
         } catch (MilesException ex) {
             LOGGER.log(Level.SEVERE, "An error occurred during measurement units retrieval", ex);
         }

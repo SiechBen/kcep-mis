@@ -499,6 +499,8 @@ $(function () {
 $(function () {
     $('.reports-table').DataTable({
         responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
         "scrollCollapse": true,
         dom: "Brt",
         buttons: ['excel', 'print',

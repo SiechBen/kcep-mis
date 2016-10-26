@@ -210,7 +210,8 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
 
         locationService.editLocation(trainingDetails.getVenue());
 
-        Training training = em.find(Training.class, trainingDetails.getId());
+        Training training = em.getReference(Training.class, trainingDetails.getId());
+        MilesDebugger.debug(training);
         training.setId(trainingDetails.getId());
         training.setEndDate(trainingDetails.getEndDate());
         training.setStartDate(trainingDetails.getStartDate());
@@ -260,6 +261,11 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         trainingDetails.setAttendanceSheet(training.getAttendanceSheet());
         trainingDetails.setNumberOfTrainees(training.getNumberOfTrainees());
         trainingDetails.setTopic(topicService.convertTopicToTopicDetails(training.getTopic()));
+        if (training.getNumberOfTrainees() != null && !training.getTraineeList().isEmpty()) {
+            trainingDetails.setNumberOfNonBeneficiaries(training.getNumberOfTrainees() - training.getTraineeList().size());
+        } else {
+            trainingDetails.setNumberOfNonBeneficiaries(0);
+        }
         if (training.getVenue() != null) {
             trainingDetails.setVenue(locationService.convertLocationToLocationDetails(training.getVenue()));
         }

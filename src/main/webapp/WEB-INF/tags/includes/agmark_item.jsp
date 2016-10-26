@@ -7,5 +7,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <li>
-    <a onclick="loadAjaxWindow('agmark')"><i class="fa fa-table fa-fw"></i> AGMARK </a>
+    <a href="#" onclick="loadAjaxWindow('agmark')"><i class="fa fa-table fa-fw"></i> AGMARK </a>
 </li>

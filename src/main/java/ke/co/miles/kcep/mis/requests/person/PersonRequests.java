@@ -554,21 +554,16 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throw new AlgorithmException("error_0016_01");
         }
 
-        String hashedPassword
-                = accessService.generateSHAPassword(messageDigest, password);
+        String hashedPassword = accessService.generateSHAPassword(messageDigest, password);
         UserAccountDetails userAccountDetails;
         try {
-            userAccountDetails
-                    = userAccountService.retrieveUserAccount(username,
-                            hashedPassword);
+            userAccountDetails = userAccountService.retrieveUserAccount(username, hashedPassword);
         } catch (MilesException e) {
             throw e;
         }
 
-        Map<PersonDetails, PersonRoleDetail> personToPersonRoleMap
-                = new HashMap<>();
-        personToPersonRoleMap.put(userAccountDetails.getPerson(),
-                userAccountDetails.getPersonRole());
+        Map<PersonDetails, PersonRoleDetail> personToPersonRoleMap = new HashMap<>();
+        personToPersonRoleMap.put(userAccountDetails.getPerson(), userAccountDetails.getPersonRole());
 
         return personToPersonRoleMap;
     }

@@ -29,7 +29,8 @@
                                 <th>County</th>
                                 <th>Sub-county</th>
                                 <th>Ward</th>
-                                <th>Number of trainees</th>
+                                <th>Total no. of trainees</th>
+                                <th>Non-beneficiaries trained</th>
                                 <th>Category of trainees</th>
                                 <th>Attachments(e.g attendance sheet)</th>
                                 <th>&nbsp;</th>
@@ -38,7 +39,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="14"> List of training </td>
+                                <td colspan="15"> List of training </td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -57,11 +58,11 @@
                                     <td>${training.venue.county.name}</td>
                                     <td>${training.venue.subCounty.name}</td>
                                     <td>${training.venue.ward.name}</td>
-                                    <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees}</td>
+                                    <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees} ...</td>
+                                    <td>${training.numberOfNonBeneficiaries}</td>
                                     <td>${training.categoryOfTrainees.category.name}</td>
                                     <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
-                                    <td><button onclick="editTraining(
-                                                    '${training.id}',
+                                    <td><button onclick="editTraining('${training.id}',
                                                     '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/>',
                                                     '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.endDate}"/>',
                                                     '${training.topic.id}',

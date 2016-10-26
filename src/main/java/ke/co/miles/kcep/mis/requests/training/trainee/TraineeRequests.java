@@ -19,7 +19,6 @@ import ke.co.miles.kcep.mis.entities.FarmerGroup;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Trainee;
 import ke.co.miles.kcep.mis.entities.Training;
-import ke.co.miles.kcep.mis.entities.UserAccount;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -117,60 +116,60 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
     @Override
     public HashMap<String, Integer> countTrainees(PersonRoleDetail personRoleDetail, int trainingId) throws MilesException {
 
-        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35))";
-        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35))";
+        String youthQuery = "SELECT COUNT(t.id) FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35))";
+        String elderlyQuery = "SELECT COUNT(t.id) FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND r.id = ?3 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35))";
 
-        List<UserAccount> femaleYouth = new ArrayList<>();
-        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        int femaleYouth;
+        setQ(em.createNativeQuery(youthQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.FEMALE.getId());
         q.setParameter(3, personRoleDetail.getId());
         try {
-            femaleYouth = q.getResultList();
+            femaleYouth = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        List<UserAccount> maleYouth = new ArrayList<>();
-        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        int maleYouth;
+        setQ(em.createNativeQuery(youthQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.MALE.getId());
         q.setParameter(3, personRoleDetail.getId());
         try {
-            maleYouth = q.getResultList();
+            maleYouth = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        List<UserAccount> femaleElderly = new ArrayList<>();
-        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        int femaleElderly;
+        setQ(em.createNativeQuery(elderlyQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.FEMALE.getId());
         q.setParameter(3, personRoleDetail.getId());
         try {
-            femaleElderly = q.getResultList();
+            femaleElderly = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        List<UserAccount> maleElderly = new ArrayList<>();
-        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        int maleElderly;
+        setQ(em.createNativeQuery(elderlyQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.MALE.getId());
         q.setParameter(3, personRoleDetail.getId());
         try {
-            maleElderly = q.getResultList();
+            maleElderly = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
         HashMap<String, Integer> countMap = new HashMap<>();
-        countMap.put("Female youth", femaleYouth.size());
-        countMap.put("Female elderly", femaleElderly.size());
-        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
-        countMap.put("Male youth", maleYouth.size());
-        countMap.put("Male elderly", maleElderly.size());
-        countMap.put("Male total", maleYouth.size() + maleElderly.size());
+        countMap.put("Female youth", femaleYouth);
+        countMap.put("Female elderly", femaleElderly);
+        countMap.put("Female total", femaleYouth + femaleElderly);
+        countMap.put("Male youth", maleYouth);
+        countMap.put("Male elderly", maleElderly);
+        countMap.put("Male total", maleYouth + maleElderly);
         countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
 
         return countMap;
@@ -180,56 +179,56 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
     @Override
     public HashMap<String, Integer> countAllTrainees(int trainingId) throws MilesException {
 
-        String youthQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35))";
-        String elderlyQuery = "SELECT * FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35))";
+        String youthQuery = "SELECT COUNT(t.id) FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35))";
+        String elderlyQuery = "SELECT COUNT(t.id) FROM trainee t INNER JOIN training tr on (tr.id = t.training ) WHERE tr.id = ?1 AND t.person IN (SELECT p.id FROM person p INNER JOIN user_account u ON (p.id = u.person) INNER JOIN sex s ON (s.id = p.sex) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?2 AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35))";
 
-        List<UserAccount> femaleYouth = new ArrayList<>();
-        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        int femaleYouth;
+        setQ(em.createNativeQuery(youthQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.FEMALE.getId());
         try {
-            femaleYouth = q.getResultList();
+            femaleYouth = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        List<UserAccount> maleYouth = new ArrayList<>();
-        setQ(em.createNativeQuery(youthQuery, UserAccount.class));
+        int maleYouth;
+        setQ(em.createNativeQuery(youthQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.MALE.getId());
         try {
-            maleYouth = q.getResultList();
+            maleYouth = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        List<UserAccount> femaleElderly = new ArrayList<>();
-        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        int femaleElderly;
+        setQ(em.createNativeQuery(elderlyQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.FEMALE.getId());
         try {
-            femaleElderly = q.getResultList();
+            femaleElderly = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        List<UserAccount> maleElderly = new ArrayList<>();
-        setQ(em.createNativeQuery(elderlyQuery, UserAccount.class));
+        int maleElderly;
+        setQ(em.createNativeQuery(elderlyQuery));
         q.setParameter(1, trainingId);
         q.setParameter(2, SexDetail.MALE.getId());
         try {
-            maleElderly = q.getResultList();
+            maleElderly = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
         HashMap<String, Integer> countMap = new HashMap<>();
-        countMap.put("Female youth", femaleYouth.size());
-        countMap.put("Female elderly", femaleElderly.size());
-        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
-        countMap.put("Male youth", maleYouth.size());
-        countMap.put("Male elderly", maleElderly.size());
-        countMap.put("Male total", maleYouth.size() + maleElderly.size());
+        countMap.put("Female youth", femaleYouth);
+        countMap.put("Female elderly", femaleElderly);
+        countMap.put("Female total", femaleYouth + femaleElderly);
+        countMap.put("Male youth", maleYouth);
+        countMap.put("Male elderly", maleElderly);
+        countMap.put("Male total", maleYouth + maleElderly);
         countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
 
         return countMap;

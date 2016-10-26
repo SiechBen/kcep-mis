@@ -130,6 +130,20 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
         this.fileName = fileName;
     }
 
+    /**
+     * @return the numberOfNonBeneficiaries
+     */
+    public Integer getNumberOfNonBeneficiaries() {
+        return numberOfNonBeneficiaries;
+    }
+
+    /**
+     * @param numberOfNonBeneficiaries the numberOfNonBeneficiaries to set
+     */
+    public void setNumberOfNonBeneficiaries(Integer numberOfNonBeneficiaries) {
+        this.numberOfNonBeneficiaries = numberOfNonBeneficiaries;
+    }
+
     private Integer id;
     private TopicDetails topic;
     private Date startDate;
@@ -138,6 +152,7 @@ public class TrainingDetails implements Serializable, Comparable<TrainingDetails
     private LocationDetails venue;
     private String attendanceSheet;
     private Integer numberOfTrainees;
+    private Integer numberOfNonBeneficiaries;
     private PhenomenonDetails categoryOfTrainees;
 
 }
