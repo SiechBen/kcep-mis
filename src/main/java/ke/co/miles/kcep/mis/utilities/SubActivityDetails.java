@@ -328,6 +328,20 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.county = county;
     }
 
+    /**
+     * @return the region
+     */
+    public RegionDetail getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(RegionDetail region) {
+        this.region = region;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String annualWorkplanReferenceCode;
@@ -361,5 +375,6 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private SubActivityNameDetails subActivityName;
     private FinancialYearDetails financialYear;
     private CountyDetails county;
+    private RegionDetail region;
 
 }

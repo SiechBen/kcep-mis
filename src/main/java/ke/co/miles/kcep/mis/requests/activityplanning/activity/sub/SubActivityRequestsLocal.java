@@ -50,6 +50,15 @@ public interface SubActivityRequestsLocal {
 
     /**
      *
+     * @param regionId the unique identifier of the region of which the regional
+     * project coordinator mans
+     * @return the list of sub activity record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<SubActivityDetails> retrieveRegionSubActivities(short regionId) throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the sub activity record to be
      * retrieved
      * @return the details of the sub activity record retrieved

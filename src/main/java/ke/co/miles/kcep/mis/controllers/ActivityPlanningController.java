@@ -42,6 +42,7 @@ import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
+import ke.co.miles.kcep.mis.utilities.RegionDetail;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
 import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
@@ -143,6 +144,15 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doDeleteSubActivity");
+                            urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doEditActivityName");
+                            urlPaths.add("/doDeleteActivityName");
+                            urlPaths.add("/doEditSubActivityName");
+                            urlPaths.add("/doDeleteSubActivityName");
+                            urlPaths.add("/doAddFinancialYear");
+                            urlPaths.add("/doAddSubActivityName");
+                            urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/sub_activities":
                                     path = "/region_sub_activities";
@@ -150,6 +160,30 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/addSubActivity":
                                     path = "/region_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/sub_activity_names":
+                                    path = "/region_sub_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_names":
+                                    path = "/region_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivityName":
+                                    path = "/region_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/region_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/region_addFinancialYear";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityName":
+                                    path = "/region_addSubActivityName";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -257,6 +291,7 @@ public class ActivityPlanningController extends Controller {
 
                 case "/head_sub_activity_names":
                 case "/county_sub_activity_names":
+                case "/region_sub_activity_names":
                     try {
                         int activityNameId = Integer.valueOf(
                                 request.getParameter("activityNameId"));
@@ -272,6 +307,7 @@ public class ActivityPlanningController extends Controller {
                     break;
 
                 case "/head_financial_years":
+                case "/region_financial_years":
                 case "/county_financial_years":
                     try {
                         session.setAttribute("financialYears",
@@ -284,6 +320,7 @@ public class ActivityPlanningController extends Controller {
                     break;
 
                 case "/head_activity_names":
+                case "/region_activity_names":
                 case "/county_activity_names":
                     try {
                         session.setAttribute("activityNames",
@@ -479,10 +516,16 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        if (path.equals("/head_sub_activities") || path.equals("/region_sub_activities")) {
-                            session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
-                        } else {
-                            session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                        switch (path) {
+                            case "/head_sub_activities":
+                                session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
+                                break;
+                            case "/region_sub_activities":
+                                session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getRegion().getId()));
+                                break;
+                            default:
+                                session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                                break;
                         }
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -731,6 +774,8 @@ public class ActivityPlanningController extends Controller {
                     try {
                         if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
                             subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                            subActivity.setRegion(RegionDetail.getRegionDetail(accessingPerson.getLocation().getCounty().getRegion().getId()));
                         }
                     } catch (Exception e) {
                     }
@@ -916,6 +961,8 @@ public class ActivityPlanningController extends Controller {
                     try {
                         if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
                             subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                            subActivity.setRegion(RegionDetail.getRegionDetail(accessingPerson.getLocation().getCounty().getRegion().getId()));
                         }
                     } catch (Exception e) {
                     }

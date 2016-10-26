@@ -41,6 +41,8 @@ public class Region implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
     private List<County> countyList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
+    private List<SubActivity> subActivityList;
 
     public Region() {
     }
@@ -97,6 +99,20 @@ public class Region implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Region[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the subActivityList
+     */
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
+    }
+
+    /**
+     * @param subActivityList the subActivityList to set
+     */
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
     }
 
 }

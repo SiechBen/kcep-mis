@@ -20,6 +20,7 @@ import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
+import ke.co.miles.kcep.mis.entities.Region;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.entities.SubActivityName;
 import ke.co.miles.kcep.mis.entities.SubComponent;
@@ -32,10 +33,12 @@ import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequest
 import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
+import ke.co.miles.kcep.mis.utilities.RegionDetail;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 
 /**
@@ -115,6 +118,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivityDetails.getCounty() != null) {
             subActivity.setCounty(em.getReference(County.class, subActivityDetails.getCounty().getId()));
         }
+        if (subActivityDetails.getRegion() != null) {
+            subActivity.setRegion(em.getReference(Region.class, subActivityDetails.getRegion().getId()));
+        }
 
         try {
             em.persist(subActivity);
@@ -162,6 +168,21 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findCountySubActivities"));
         q.setParameter("countyId", countyId);
+        try {
+            subActivities = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertSubActivitiesToSubActivityDetailsList(subActivities);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<SubActivityDetails> retrieveRegionSubActivities(short regionId) throws MilesException {
+        List<SubActivity> subActivities = new ArrayList<>();
+        setQ(em.createNamedQuery("SubActivity.findRegionSubActivities"));
+        q.setParameter("regionId", regionId);
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -1000,6 +1021,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivityDetails.getCounty() != null) {
             subActivity.setCounty(em.getReference(County.class, subActivityDetails.getCounty().getId()));
         }
+        if (subActivityDetails.getRegion() != null) {
+            subActivity.setRegion(em.getReference(Region.class, subActivityDetails.getRegion().getId()));
+        }
 
         try {
             em.merge(subActivity);
@@ -1093,6 +1117,12 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivity.getGfssCode() != null) {
             subActivityDetails.setGfssCode(phenomenonService.convertPhenomenonToPhenomenonDetails(subActivity.getGfssCode()));
         }
+        if (subActivity.getCounty() != null) {
+            subActivityDetails.setCounty(countyService.convertCountyToCountyDetails(subActivity.getCounty()));
+        }
+        if (subActivity.getRegion() != null) {
+            subActivityDetails.setRegion(RegionDetail.getRegionDetail(subActivity.getRegion().getId()));
+        }
 
         return subActivityDetails;
 
@@ -1112,11 +1142,13 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="EJB injections">
     @EJB
+    private CountyRequestsLocal countyService;
+    @EJB
+    private ComponentRequestsLocal componentService;
+    @EJB
     private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private ActivityNameRequestsLocal activityService;
-    @EJB
-    private ComponentRequestsLocal componentService;
     @EJB
     private SubComponentRequestsLocal subComponentService;
     @EJB

@@ -31,11 +31,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SubActivity.findHeadSubActivities", query = "SELECT s FROM SubActivity s WHERE s.county IS NULL"),
     @NamedQuery(name = "SubActivity.findReferenceCodes", query = "SELECT s.annualWorkplanReferenceCode FROM SubActivity s"),
-    @NamedQuery(name = "SubActivity.findCountySubActivities", query = "SELECT s FROM SubActivity s WHERE s.county.id = :countyId"),
     @NamedQuery(name = "SubActivity.findByFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.financialYear.id =:financialYearId"),
+    @NamedQuery(name = "SubActivity.findHeadSubActivities", query = "SELECT s FROM SubActivity s WHERE s.county IS NULL AND s.region IS NULL"),
     @NamedQuery(name = "SubActivity.findByExpectedOutcomeId", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome.id = :expectedOutcomeId"),
+    @NamedQuery(name = "SubActivity.findCountySubActivities", query = "SELECT s FROM SubActivity s WHERE s.county.id = :countyId AND s.region IS NULL"),
+    @NamedQuery(name = "SubActivity.findRegionSubActivities", query = "SELECT s FROM SubActivity s WHERE s.region.id = :regionId AND s.county IS NULL"),
     @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
     @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.county IS NULL"),
     @NamedQuery(name = "SubActivity.findOfCountyByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.county.id = :countyId"),
@@ -148,6 +149,9 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
+    @JoinColumn(name = "region", referencedColumnName = "id")
+    @ManyToOne
+    private Region region;
 
     public SubActivity() {
     }
@@ -442,6 +446,20 @@ public class SubActivity implements Serializable {
      */
     public void setCounty(County county) {
         this.county = county;
+    }
+
+    /**
+     * @return the region
+     */
+    public Region getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
 }
