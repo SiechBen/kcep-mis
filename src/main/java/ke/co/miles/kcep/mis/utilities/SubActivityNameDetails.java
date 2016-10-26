@@ -16,15 +16,15 @@ public class SubActivityNameDetails implements Serializable, Comparable<SubActiv
     public SubActivityNameDetails() {
     }
 
-    public SubActivityNameDetails(Short id) {
+    public SubActivityNameDetails(Integer id) {
         this.id = id;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,7 +71,7 @@ public class SubActivityNameDetails implements Serializable, Comparable<SubActiv
     }
 
     private static final long serialVersionUID = 1L;
-    private Short id;
+    private Integer id;
     private String name;
     private ActivityNameDetails activityName;
 

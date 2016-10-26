@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.SubActivityName;
@@ -83,7 +84,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<SubActivityNameDetails> retrieveSubActivityNames(short activityNameId) throws MilesException {
+    public List<SubActivityNameDetails> retrieveSubActivityNames(int activityNameId) throws MilesException {
         List<SubActivityName> activities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivityName.findByActivityNameId"));
         q.setParameter("activityNameId", activityNameId);
@@ -122,8 +123,6 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
             throw new InvalidArgumentException("error_048_02");
         } else if (subActivityNameDetails.getName().length() > 200) {
             throw new InvalidArgumentException("error_048_03");
-        } else if (subActivityNameDetails.getActivityName() == null) {
-            throw new InvalidArgumentException("error_048_04");
         }
 
         SubActivityName subActivityName;
@@ -141,9 +140,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         }
 
         subActivityName = em.find(SubActivityName.class, subActivityNameDetails.getId());
-        subActivityName.setId(subActivityNameDetails.getId());
         subActivityName.setName(subActivityNameDetails.getName());
-        subActivityName.setActivityName(em.getReference(ActivityName.class, subActivityNameDetails.getActivityName().getId()));
 
         try {
             em.merge(subActivityName);
@@ -158,12 +155,18 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
     public void removeSubActivityName(int id) throws MilesException {
-        SubActivityName subActivityName = em.find(SubActivityName.class, id);
-        try {
-            em.remove(subActivityName);
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
+        SubActivityName subActivityName = em.getReference(SubActivityName.class, id);
+        if (subActivityName.getSubActivityList().isEmpty()) {
+            try {
+                em.remove(subActivityName);
+            } catch (Exception e) {
+                MilesDebugger.debug(e.toString());
+                throw new InvalidStateException("error_000_01");
+            }
+        } else {
+            throw new InvalidStateException("error_048_07");
         }
+
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert">

@@ -38,7 +38,7 @@ public class SubActivityName implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Short id;
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -53,20 +53,20 @@ public class SubActivityName implements Serializable {
     public SubActivityName() {
     }
 
-    public SubActivityName(Short id) {
+    public SubActivityName(Integer id) {
         this.id = id;
     }
 
-    public SubActivityName(Short id, String name) {
+    public SubActivityName(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

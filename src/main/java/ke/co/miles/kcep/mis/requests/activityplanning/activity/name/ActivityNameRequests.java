@@ -136,11 +136,18 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
     @Override
     public void removeActivityName(int id) throws MilesException {
         ActivityName activityName = em.find(ActivityName.class, id);
-        try {
-            em.remove(activityName);
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
+        if (activityName.getSubActivityList().isEmpty()
+                && activityName.getActivityNameList().isEmpty()
+                && activityName.getSubActivityNameList().isEmpty()) {
+            try {
+                em.remove(activityName);
+            } catch (Exception e) {
+                throw new InvalidStateException("error_000_01");
+            }
+        } else {
+            throw new InvalidStateException("error_032_06");
         }
+
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert">

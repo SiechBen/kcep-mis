@@ -18,15 +18,15 @@ public class ActivityNameDetails implements Serializable, Comparable<ActivityNam
     public ActivityNameDetails() {
     }
 
-    public ActivityNameDetails(Short id) {
+    public ActivityNameDetails(Integer id) {
         this.id = id;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -64,7 +64,7 @@ public class ActivityNameDetails implements Serializable, Comparable<ActivityNam
         return this.id.compareTo(o.getId());
     }
 
-    private Short id;
+    private Integer id;
     private String name;
 
 }

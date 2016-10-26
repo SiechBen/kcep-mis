@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
@@ -57,8 +58,8 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
             "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
             "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names",
             "/addSubActivityName", "/doAddSubActivityName",
-            "/doEditActivityName", "/updateSubComponents",
-            "/doDeleteActivityName", "/doEditSubActivity", "/doDeleteSubActivity"})
+            "/doEditActivityName", "/doEditSubActivityName", "/updateSubComponents",
+            "/doDeleteActivityName", "/doDeleteSubActivityName", "/doEditSubActivity", "/doDeleteSubActivity"})
 public class ActivityPlanningController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -95,6 +96,8 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doEditActivityName");
                             urlPaths.add("/doDeleteActivityName");
+                            urlPaths.add("/doEditSubActivityName");
+                            urlPaths.add("/doDeleteSubActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
@@ -160,6 +163,15 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doDeleteSubActivity");
+                            urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doEditActivityName");
+                            urlPaths.add("/doDeleteActivityName");
+                            urlPaths.add("/doEditSubActivityName");
+                            urlPaths.add("/doDeleteSubActivityName");
+                            urlPaths.add("/doAddFinancialYear");
+                            urlPaths.add("/doAddSubActivityName");
+                            urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/sub_activities":
                                     path = "/county_sub_activities";
@@ -167,6 +179,30 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/addSubActivity":
                                     path = "/county_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/sub_activity_names":
+                                    path = "/county_sub_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_names":
+                                    path = "/county_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivityName":
+                                    path = "/county_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/county_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/county_addFinancialYear";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityName":
+                                    path = "/county_addSubActivityName";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -204,11 +240,10 @@ public class ActivityPlanningController extends Controller {
                     return;
 
                 case "/updateSubActivityNames":
-
                     try {
                         for (SubActivityNameDetails subActivityName
                                 : subActivityNameService.retrieveSubActivityNames(
-                                        Short.valueOf(request
+                                        Integer.valueOf(request
                                                 .getParameter("activityNameId")))) {
                             out.write("<option value=\"" + subActivityName
                                     .getId() + "\">" + subActivityName.getName()
@@ -222,8 +257,9 @@ public class ActivityPlanningController extends Controller {
                     return;
 
                 case "/head_sub_activity_names":
+                case "/county_sub_activity_names":
                     try {
-                        short activityNameId = Short.valueOf(
+                        int activityNameId = Integer.valueOf(
                                 request.getParameter("activityNameId"));
                         session.setAttribute("activityNameId", activityNameId);
                         session.setAttribute("subActivityNames", subActivityNameService.
@@ -237,6 +273,7 @@ public class ActivityPlanningController extends Controller {
                     break;
 
                 case "/head_financial_years":
+                case "/county_financial_years":
                     try {
                         session.setAttribute("financialYears",
                                 financialYearService.retrieveFinancialYears());
@@ -248,6 +285,7 @@ public class ActivityPlanningController extends Controller {
                     break;
 
                 case "/head_activity_names":
+                case "/county_activity_names":
                     try {
                         session.setAttribute("activityNames",
                                 activityNameService.retrieveActivityNames());
@@ -259,11 +297,11 @@ public class ActivityPlanningController extends Controller {
                     break;
 
                 case "/doAddActivityName":
-                    ActivityNameDetails activity = new ActivityNameDetails();
-                    activity.setName(request.getParameter("name"));
+                    ActivityNameDetails activityName = new ActivityNameDetails();
+                    activityName.setName(request.getParameter("name"));
 
                     try {
-                        activityNameService.addActivityName(activity);
+                        activityNameService.addActivityName(activityName);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -282,9 +320,9 @@ public class ActivityPlanningController extends Controller {
 
                 case "/doEditActivityName":
                     try {
-                        activity = new ActivityNameDetails(Short.valueOf(request.getParameter("id")));
-                        activity.setName(request.getParameter("name"));
-                        activityNameService.editActivityName(activity);
+                        activityName = new ActivityNameDetails(Integer.valueOf(request.getParameter("id")));
+                        activityName.setName(request.getParameter("name"));
+                        activityNameService.editActivityName(activityName);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -306,7 +344,7 @@ public class ActivityPlanningController extends Controller {
 
                 case "/doDeleteActivityName":
                     try {
-                        activityNameService.removeActivityName(Short.valueOf(request.getParameter("id")));
+                        activityNameService.removeActivityName(Integer.valueOf(request.getParameter("id")));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -353,12 +391,13 @@ public class ActivityPlanningController extends Controller {
                     subActivityName.setName(request.getParameter("name"));
                     try {
                         subActivityName.setActivityName(new ActivityNameDetails(
-                                Short.valueOf(request.getParameter("activityNameId"))));
+                                Integer.valueOf(request.getParameter("activityNameId"))));
                     } catch (Exception e) {
                         subActivityName.setActivityName(null);
                     }
 
                     try {
+                        MilesDebugger.debug();
                         subActivityNameService.addSubActivityName(subActivityName);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -369,11 +408,58 @@ public class ActivityPlanningController extends Controller {
 
                     try {
                         session.setAttribute("subActivityNames", subActivityNameService.
-                                retrieveSubActivityNames(Short.valueOf(request.getParameter("activityNameId"))));
+                                retrieveSubActivityNames(Integer.valueOf(request.getParameter("activityNameId"))));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()));
                         LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/doEditSubActivityName":
+                    try {
+                        subActivityName = new SubActivityNameDetails(Integer.valueOf(request.getParameter("id")));
+                        subActivityName.setName(request.getParameter("name"));
+                        subActivityNameService.editSubActivityName(subActivityName);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+                    List<SubActivityNameDetails> subActivityNames;
+
+                    try {
+                        subActivityNames = subActivityNameService.retrieveSubActivityNames(Integer.valueOf(request.getParameter("activityNameId")));
+                        session.setAttribute("subActivityNames", subActivityNames);
+                        updateSubActivityNameTable(response, subActivityNames);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    } catch (NumberFormatException ex) {
+                    }
+                    return;
+
+                case "/doDeleteSubActivityName":
+                    try {
+                        subActivityNameService.removeSubActivityName(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.SEVERE, getBundle().getString(ex.getCode()));
+                        return;
+                    }
+
+                    try {
+                        subActivityNames = subActivityNameService.retrieveSubActivityNames(Integer.valueOf(request.getParameter("activityNameId")));
+                        session.setAttribute("subActivityNames", subActivityNames);
+                        updateSubActivityNameTable(response, subActivityNames);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    } catch (NumberFormatException ex) {
                     }
                     return;
 
@@ -587,7 +673,7 @@ public class ActivityPlanningController extends Controller {
                     }
                     try {
                         subActivity.setActivityName(new ActivityNameDetails(
-                                Short.valueOf(request.getParameter("activityName"))));
+                                Integer.valueOf(request.getParameter("activityName"))));
                     } catch (Exception e) {
                         subActivity.setActivityName(null);
                     }
@@ -605,7 +691,7 @@ public class ActivityPlanningController extends Controller {
                     }
                     try {
                         subActivity.setSubActivityName(new SubActivityNameDetails(
-                                Short.valueOf(request.getParameter("subActivityName"))));
+                                Integer.valueOf(request.getParameter("subActivityName"))));
                     } catch (Exception e) {
                         subActivity.setSubComponent(null);
                     }
@@ -771,7 +857,7 @@ public class ActivityPlanningController extends Controller {
                     }
                     try {
                         subActivity.setActivityName(new ActivityNameDetails(
-                                Short.valueOf(request.getParameter("activityName"))));
+                                Integer.valueOf(request.getParameter("activityName"))));
                     } catch (Exception e) {
                         subActivity.setActivityName(null);
                     }
@@ -789,7 +875,7 @@ public class ActivityPlanningController extends Controller {
                     }
                     try {
                         subActivity.setSubActivityName(new SubActivityNameDetails(
-                                Short.valueOf(request.getParameter("subActivityName"))));
+                                Integer.valueOf(request.getParameter("subActivityName"))));
                     } catch (Exception e) {
                         subActivity.setSubComponent(null);
                     }
@@ -905,6 +991,23 @@ public class ActivityPlanningController extends Controller {
                     + "                                            <td class=\"pointable\" onclick=\"loadSubActivityNamesWindow(" + activityName.getId() + ")\">" + activityName.getName() + "</td>\n"
                     + "                                            <td><button onclick=\"editActivityName('" + activityName.getId() + "', '" + activityName.getName() + "')\"><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
                     + "                                            <td><button onclick=\"deleteActivityName('" + activityName.getId() + "')\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>\n"
+                    + "                                        </tr>");
+        }
+    }
+
+    private void updateSubActivityNameTable(HttpServletResponse response, List<SubActivityNameDetails> subActivityNames) throws IOException {
+        PrintWriter out = response.getWriter();
+        int index = 0;
+        for (SubActivityNameDetails subActivityName : subActivityNames) {
+            if (index % 2 == 0) {
+                out.write("<tr class=\"odd\">");
+            } else {
+                out.write("<tr>");
+            }
+            out.write(" <td>" + ++index + "</td>\n"
+                    + "                                            <td>" + subActivityName.getName() + "</td>\n"
+                    + "                                            <td><button onclick='editSubActivityName(\"" + subActivityName.getId() + "\", \"" + subActivityName.getName() + "\",\"" + subActivityName.getActivityName().getId() + "\")'><span class=\"glyphicon glyphicon-pencil\"></span></button></td>\n"
+                    + "                                            <td><button onclick=\"deleteSubActivityName(" + subActivityName.getId() + "," + subActivityName.getActivityName().getId() + ")\"><span class=\"glyphicon glyphicon-trash\"></span></button></td>\n"
                     + "                                        </tr>");
         }
     }

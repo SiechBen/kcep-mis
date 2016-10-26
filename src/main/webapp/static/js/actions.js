@@ -3007,7 +3007,7 @@ function addSubActivityName() {
     $.ajax({
         url: "doAddSubActivityName",
         type: "POST",
-        data: "name=" + $("#name").val() + "&activityNameId=" + $("#activityNameId").val(),
+        data: "name=" + $("#name").val() + "&activityNameId=" + $("#activity-name-id").val(),
         success: function () {
             $("#name").val("");
             loadAjaxWindow("sub_activity_names");
@@ -3017,6 +3017,71 @@ function addSubActivityName() {
             showError("error_label", response.responseText);
         },
         dataType: "HTML"
+    });
+}
+
+function editSubActivityName(id, name, activityNameId) {
+    $("#name").val(name);
+    $("#sub-activity-name-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_activity_name_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditSubActivityName",
+                    type: "POST",
+                    data: "name=" + $("#name").val() + "&id=" + id + "&activityNameId=" + activityNameId,
+                    success: function (response) {
+                        $("#name").val("");
+                        $("table#sub-activity-name-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#name").val("");
+        }
+    });
+}
+
+function deleteSubActivityName(id, activityNameId) {
+    $("#message").text("Are you sure you want to remove this sub-activity name?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_activity_name",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteSubActivityName",
+                    type: "POST",
+                    data: "id=" + id + "&activityNameId=" + activityNameId,
+                    success: function (response) {
+                        $("table#sub-activity-name-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
     });
 }
 
