@@ -314,6 +314,20 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.annualIndicator = annualIndicator;
     }
 
+    /**
+     * @return the county
+     */
+    public CountyDetails getCounty() {
+        return county;
+    }
+
+    /**
+     * @param county the county to set
+     */
+    public void setCounty(CountyDetails county) {
+        this.county = county;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String annualWorkplanReferenceCode;
@@ -346,5 +360,6 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private PhenomenonDetails responsePcu;
     private SubActivityNameDetails subActivityName;
     private FinancialYearDetails financialYear;
+    private CountyDetails county;
 
 }

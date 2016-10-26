@@ -85,21 +85,25 @@ public interface SubActivityRequestsLocal {
      * @param financialYearId the unique identifier of the financial year for
      * which the financial plan by expenditure categories report is to be
      * generated
+     * @param countyId the unique identifier of the county for which the awpb
+     * summary is to be generated
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
     public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>>
-            summarizeFinancialPlanByCategories(short financialYearId) throws MilesException;
+            summarizeFinancialPlanByCategories(short financialYearId, Short countyId) throws MilesException;
 
     /**
      *
      * @param financialYearId the unique identifier of the financial year for
      * which the financial plan by components report is to be generated
+     * @param countyId the unique identifier of the county for which the awpb
+     * summary is to be generated
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
     public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>>
-            summarizeFinancialPlanByComponents(short financialYearId) throws MilesException;
+            summarizeFinancialPlanByComponents(short financialYearId, Short countyId) throws MilesException;
 
     /**
      *

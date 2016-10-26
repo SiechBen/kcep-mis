@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
+import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -112,6 +112,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivityDetails.getResponsePcu() != null) {
             subActivity.setResponsePcu(em.getReference(Phenomenon.class, subActivityDetails.getResponsePcu().getId()));
         }
+        if (subActivityDetails.getCounty() != null) {
+            subActivity.setCounty(em.getReference(County.class, subActivityDetails.getCounty().getId()));
+        }
 
         try {
             em.persist(subActivity);
@@ -144,8 +147,6 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     public List<SubActivityDetails> retrieveHeadSubActivities() throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findHeadSubActivities"));
-        q.setParameter("first", 1);
-        q.setParameter("last", 215);
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -160,52 +161,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     public List<SubActivityDetails> retrieveCountySubActivities(short countyId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
         setQ(em.createNamedQuery("SubActivity.findCountySubActivities"));
-        MilesDebugger.debug(countyId);
-        switch (countyId) {
-            case 1:
-                q.setParameter("first", 216);
-                q.setParameter("last", 430);
-                q.setParameter("other", 2151);
-                MilesDebugger.debug();
-                break;
-            case 2:
-                q.setParameter("first", 431);
-                q.setParameter("last", 645);
-                q.setParameter("other", 2151);
-                break;
-            case 3:
-                q.setParameter("first", 646);
-                q.setParameter("last", 860);
-                q.setParameter("other", 2151);
-                break;
-            case 4:
-                q.setParameter("first", 861);
-                q.setParameter("last", 1075);
-                q.setParameter("other", 2151);
-                break;
-            case 5:
-                q.setParameter("first", 1076);
-                q.setParameter("last", 1290);
-                q.setParameter("other", 2151);
-                break;
-            case 6:
-                q.setParameter("first", 1291);
-                q.setParameter("last", 1505);
-                q.setParameter("other", 2151);
-                break;
-            case 7:
-                q.setParameter("first", 1506);
-                q.setParameter("last", 1720);
-                q.setParameter("other", 2151);
-                break;
-            case 8:
-                q.setParameter("first", 1721);
-                q.setParameter("last", 1935);
-                q.setParameter("other", 2151);
-                break;
-            default:
-                break;
-        }
+        q.setParameter("countyId", countyId);
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -216,11 +172,18 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private List<SubActivityDetails> retrieveSubActivities(PhenomenonDetails expenditureCategoryDetails, short financialYearId) throws MilesException {
+    private List<SubActivityDetails> retrieveSubActivities(PhenomenonDetails expenditureCategoryDetails, short financialYearId, Short countyId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        setQ(em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
-        q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
-        q.setParameter("financialYearId", financialYearId);
+        if (countyId == null) {
+            setQ(em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
+            q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
+            q.setParameter("financialYearId", financialYearId);
+        } else {
+            setQ(em.createNamedQuery("SubActivity.findOfCountyByExpenditureCategoryIdAndFinancialYearId"));
+            q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
+            q.setParameter("financialYearId", financialYearId);
+            q.setParameter("countyId", countyId);
+        }
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -246,11 +209,18 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private List<SubActivityDetails> retrieveSubActivities(ComponentDetails component, short financialYearId) throws MilesException {
+    private List<SubActivityDetails> retrieveSubActivities(ComponentDetails component, short financialYearId, Short countyId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        setQ(em.createNamedQuery("SubActivity.findByComponentIdAndFinancialYearId"));
-        q.setParameter("componentId", component.getId());
-        q.setParameter("financialYearId", financialYearId);
+        if (countyId == null) {
+            setQ(em.createNamedQuery("SubActivity.findByComponentIdAndFinancialYearId"));
+            q.setParameter("componentId", component.getId());
+            q.setParameter("financialYearId", financialYearId);
+        } else {
+            setQ(em.createNamedQuery("SubActivity.findOfCountyByComponentIdAndFinancialYearId"));
+            q.setParameter("componentId", component.getId());
+            q.setParameter("financialYearId", financialYearId);
+            q.setParameter("countyId", countyId);
+        }
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -275,37 +245,37 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveExpenditureCategoriesMap(short financialYearId) throws MilesException {
+    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveExpenditureCategoriesMap(short financialYearId, Short countyId) throws MilesException {
         Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = new HashMap<>();
         List<PhenomenonDetails> expenditureCategoryDetailsList;
 
         expenditureCategoryDetailsList = phenomenonService.retrieveExpenditureCategories();
         for (PhenomenonDetails expenditureCategoryDetails : expenditureCategoryDetailsList) {
             expenditureCategoriesMap.put(expenditureCategoryDetails,
-                    retrieveSubActivities(expenditureCategoryDetails, financialYearId));
+                    retrieveSubActivities(expenditureCategoryDetails, financialYearId, countyId));
         }
 
         return expenditureCategoriesMap;
     }
 
     @SuppressWarnings("unchecked")
-    private Map<ComponentDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId) throws MilesException {
+    private Map<ComponentDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId, Short countyId) throws MilesException {
 
         Map<ComponentDetails, List<SubActivityDetails>> componentsMap = new HashMap<>();
         List<ComponentDetails> componentDetailsList;
         componentDetailsList = componentService.retrieveComponents();
         for (ComponentDetails componentDetails : componentDetailsList) {
             componentsMap.put(componentDetails,
-                    retrieveSubActivities(componentDetails, financialYearId));
+                    retrieveSubActivities(componentDetails, financialYearId, countyId));
         }
 
         return componentsMap;
     }
 
     @Override
-    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId, Short countyId) throws MilesException {
 
-        Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId);
+        Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId, countyId);
         Map<PhenomenonDetails, FinancialPlanDetails> categoryToFinancialPlansMap = new HashMap<>();
         Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> totalsToCategoryToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
@@ -350,13 +320,11 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 try {
                     if (financialPlanDetails.getEuValue() == null) {
                         financialPlanDetails.setEuValue(new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget()));
-                        MilesDebugger.debug(financialPlanDetails.getEuValue());
                     } else {
                         financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().add(
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
-                    MilesDebugger.debug(e);
                 }
 
                 try {
@@ -632,9 +600,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @Override
-    public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> summarizeFinancialPlanByComponents(short financialYearId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> summarizeFinancialPlanByComponents(short financialYearId, Short countyId) throws MilesException {
 
-        Map<ComponentDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId);
+        Map<ComponentDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId, countyId);
         Map<ComponentDetails, FinancialPlanDetails> componentToFinancialPlansMap = new HashMap<>();
         Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> totalsToComponentToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
@@ -1028,6 +996,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         }
         if (subActivityDetails.getResponsePcu() != null) {
             subActivity.setResponsePcu(em.getReference(Phenomenon.class, subActivityDetails.getResponsePcu().getId()));
+        }
+        if (subActivityDetails.getCounty() != null) {
+            subActivity.setCounty(em.getReference(County.class, subActivityDetails.getCounty().getId()));
         }
 
         try {

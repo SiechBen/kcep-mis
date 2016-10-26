@@ -8,5 +8,5 @@
 
 <li>
     <a href="#" onclick="loadAjaxWindow('activity_report');
-            return false;"><i class="fa fa-info fa-fw"></i> Activity report </a>
+            return false;"><i class="fa fa-wrench fa-fw"></i> Activity report </a>
 </li>

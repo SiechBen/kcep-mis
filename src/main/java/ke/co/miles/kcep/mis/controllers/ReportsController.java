@@ -24,6 +24,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYea
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
+import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 
 /**
@@ -370,7 +371,7 @@ public class ReportsController extends Controller {
 
                     try {
                         session.setAttribute("financialPlanByCategoryMap", subActivityService.
-                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId()));
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -379,11 +380,38 @@ public class ReportsController extends Controller {
                     }
 
                     break;
+
                 case "/head_financial_report_by_components":
 
                     try {
                         session.setAttribute("financialPlanByComponentMap", subActivityService.
-                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId()));
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+                    break;
+
+                case "/county_financial_report_by_categories":
+
+                    try {
+                        session.setAttribute("financialPlanByCategoryMap", subActivityService.
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+                case "/county_financial_report_by_components":
+
+                    try {
+                        session.setAttribute("financialPlanByComponentMap", subActivityService.
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");

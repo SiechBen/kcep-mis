@@ -35,10 +35,12 @@ import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIn
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
 import ke.co.miles.kcep.mis.utilities.ComponentDetails;
+import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
@@ -641,12 +643,18 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
                     }
+                    PersonDetails accessingPerson = (PersonDetails) session.getAttribute("person");
+                    try {
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
+                            subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
+                        }
+                    } catch (Exception e) {
+                    }
                     try {
                         date = userDateFormat.parse(request.getParameter("startDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setStartDate(date);
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setStartDate(null);
                     }
                     try {
@@ -654,7 +662,6 @@ public class ActivityPlanningController extends Controller {
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setEndDate(date);
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }
 
@@ -821,12 +828,18 @@ public class ActivityPlanningController extends Controller {
                                 Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
                     }
+                    accessingPerson = (PersonDetails) session.getAttribute("person");
+                    try {
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
+                            subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
+                        }
+                    } catch (Exception e) {
+                    }
                     try {
                         date = userDateFormat.parse(request.getParameter("startDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setStartDate(date);
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setStartDate(null);
                     }
                     try {
@@ -834,7 +847,6 @@ public class ActivityPlanningController extends Controller {
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         subActivity.setEndDate(date);
                     } catch (Exception ex) {
-                        LOGGER.log(Level.SEVERE, getBundle().getString("string_parse_error"), ex);
                         subActivity.setEndDate(null);
                     }
 

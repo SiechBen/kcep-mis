@@ -31,31 +31,33 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sub_activity", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SubActivity.findCountySubActivities", query = "SELECT s FROM SubActivity s WHERE s.id BETWEEN :first AND :last OR s.id > :other"),
-    @NamedQuery(name = "SubActivity.findHeadSubActivities", query = "SELECT s FROM SubActivity s WHERE s.id BETWEEN :first AND :last"),
+    @NamedQuery(name = "SubActivity.findHeadSubActivities", query = "SELECT s FROM SubActivity s WHERE s.county IS NULL"),
     @NamedQuery(name = "SubActivity.findReferenceCodes", query = "SELECT s.annualWorkplanReferenceCode FROM SubActivity s"),
+    @NamedQuery(name = "SubActivity.findCountySubActivities", query = "SELECT s FROM SubActivity s WHERE s.county.id = :countyId"),
     @NamedQuery(name = "SubActivity.findByFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.financialYear.id =:financialYearId"),
-    @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId"),
-    @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId"),
     @NamedQuery(name = "SubActivity.findByExpectedOutcomeId", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome.id = :expectedOutcomeId"),
+    @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
+    @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.county IS NULL"),
+    @NamedQuery(name = "SubActivity.findOfCountyByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.county.id = :countyId"),
+    @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId AND s.county IS NULL"),
+    @NamedQuery(name = "SubActivity.findOfCountyByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId AND s.county.id = :countyId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
-    @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
-    @NamedQuery(name = "SubActivity.findByStartDate", query = "SELECT s FROM SubActivity s WHERE s.startDate = :startDate"),
+    @NamedQuery(name = "SubActivity.findByTotals", query = "SELECT s FROM SubActivity s WHERE s.totals = :totals"),
     @NamedQuery(name = "SubActivity.findByEndDate", query = "SELECT s FROM SubActivity s WHERE s.endDate = :endDate"),
     @NamedQuery(name = "SubActivity.findByUnitCost", query = "SELECT s FROM SubActivity s WHERE s.unitCost = :unitCost"),
+    @NamedQuery(name = "SubActivity.findByStartDate", query = "SELECT s FROM SubActivity s WHERE s.startDate = :startDate"),
     @NamedQuery(name = "SubActivity.findByAwpbTarget", query = "SELECT s FROM SubActivity s WHERE s.awpbTarget = :awpbTarget"),
-    @NamedQuery(name = "SubActivity.findByProgrammeTarget", query = "SELECT s FROM SubActivity s WHERE s.programmeTarget = :programmeTarget"),
-    @NamedQuery(name = "SubActivity.findByTotals", query = "SELECT s FROM SubActivity s WHERE s.totals = :totals"),
-    @NamedQuery(name = "SubActivity.findByProcurementPlan", query = "SELECT s FROM SubActivity s WHERE s.procurementPlan = :procurementPlan"),
     @NamedQuery(name = "SubActivity.findByDescription", query = "SELECT s FROM SubActivity s WHERE s.description = :description"),
+    @NamedQuery(name = "SubActivity.findByEuPercentage", query = "SELECT s FROM SubActivity s WHERE s.euPercentage = :euPercentage"),
     @NamedQuery(name = "SubActivity.findByValueAchieved", query = "SELECT s FROM SubActivity s WHERE s.valueAchieved = :valueAchieved"),
-    @NamedQuery(name = "SubActivity.findByAllocatedBudget", query = "SELECT s FROM SubActivity s WHERE s.allocatedBudget = :allocatedBudget"),
     @NamedQuery(name = "SubActivity.findByGokPercentage", query = "SELECT s FROM SubActivity s WHERE s.gokPercentage = :gokPercentage"),
+    @NamedQuery(name = "SubActivity.findByProgrammeTarget", query = "SELECT s FROM SubActivity s WHERE s.programmeTarget = :programmeTarget"),
+    @NamedQuery(name = "SubActivity.findByProcurementPlan", query = "SELECT s FROM SubActivity s WHERE s.procurementPlan = :procurementPlan"),
+    @NamedQuery(name = "SubActivity.findByAllocatedBudget", query = "SELECT s FROM SubActivity s WHERE s.allocatedBudget = :allocatedBudget"),
     @NamedQuery(name = "SubActivity.findByIfadLoanPercentage", query = "SELECT s FROM SubActivity s WHERE s.ifadLoanPercentage = :ifadLoanPercentage"),
     @NamedQuery(name = "SubActivity.findByIfadGrantPercentage", query = "SELECT s FROM SubActivity s WHERE s.ifadGrantPercentage = :ifadGrantPercentage"),
     @NamedQuery(name = "SubActivity.findByBeneficiariesPercentage", query = "SELECT s FROM SubActivity s WHERE s.beneficiariesPercentage = :beneficiariesPercentage"),
-    @NamedQuery(name = "SubActivity.findByEuPercentage", query = "SELECT s FROM SubActivity s WHERE s.euPercentage = :euPercentage"),
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
@@ -143,6 +145,9 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
     @ManyToOne
     private FinancialYear financialYear;
+    @JoinColumn(name = "county", referencedColumnName = "id")
+    @ManyToOne
+    private County county;
 
     public SubActivity() {
     }
@@ -423,6 +428,20 @@ public class SubActivity implements Serializable {
 
     public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
         this.activityProgressList = activityProgressList;
+    }
+
+    /**
+     * @return the county
+     */
+    public County getCounty() {
+        return county;
+    }
+
+    /**
+     * @param county the county to set
+     */
+    public void setCounty(County county) {
+        this.county = county;
     }
 
 }
