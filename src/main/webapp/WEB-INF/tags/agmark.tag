@@ -17,7 +17,6 @@
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
 
     <jsp:attribute name="menuitems">
-        <jsp:include page="../../tags/includes/agmark_item.jsp"/>
         <jsp:include page="../../tags/includes/people_item.jsp"/>
         <jsp:include page="../../tags/includes/training_item.jsp"/>
         <jsp:include page="../../tags/includes/e_vouchers_item.jsp"/>

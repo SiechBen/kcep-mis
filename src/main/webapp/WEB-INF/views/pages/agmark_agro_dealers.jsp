@@ -12,7 +12,7 @@
     <jsp:attribute name="pagetitle"> KCEP-MIS - view agro-dealers</jsp:attribute>
     <jsp:attribute name="pagecontent">
 
-        <jsp:include page="../includes/agro_dealers.jsp"/>
+        <jsp:include page="../includes/partner_agro_dealers.jsp"/>
 
     </jsp:attribute>
 </kcep:agmark>

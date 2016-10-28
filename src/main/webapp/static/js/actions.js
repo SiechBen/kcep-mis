@@ -497,6 +497,109 @@ $(function () {
 });
 
 $(function () {
+    $("#partner-farmers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchFarmer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("farmers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+
+$(function () {
+    $("#partner-agro-dealers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchAgroDealer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("agroDealers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+
+$(function () {
     $('.reports-table').DataTable({
         responsive: true,
         "scrollX": true,
