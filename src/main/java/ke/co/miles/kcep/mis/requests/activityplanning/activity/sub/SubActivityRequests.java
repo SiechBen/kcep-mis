@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.Component;
@@ -307,6 +308,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
             for (SubActivityDetails subActivity : expenditureCategoriesMap.get(expenditureCategory)) {
                 financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
+                MilesDebugger.debug(subActivity.getAllocatedBudget());
 
                 try {
                     if (financialPlanDetails.getGokValue() == null) {
@@ -379,12 +381,17 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             }
 
             try {
-                if (financialPlanTotals.getTotalInitialAllocationValue() != null) {
+                MilesDebugger.debug();
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null && financialPlanDetails.getTotalInitialAllocationValue() != null) {
                     financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
-                } else {
+                } else if (financialPlanTotals.getTotalInitialAllocationValue() == null && financialPlanDetails.getTotalInitialAllocationValue() != null) {
+                    MilesDebugger.debug();
                     financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
+                } else {
+
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
 
             try {

@@ -182,3 +182,8 @@ ul.s_icons li.in:hover{
     background: url(../images/submit.png) left bottom no-repeat;
 }
 
+.login-link:hover{
+    color: #7EE577;
+    cursor: pointer;
+    text-decoration: underline;
+}

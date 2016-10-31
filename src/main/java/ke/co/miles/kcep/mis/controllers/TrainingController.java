@@ -483,21 +483,27 @@ public class TrainingController extends Controller {
                     InputStream inStream;
 
                     try {
-                        filePath = filePath + fileSeparator + fileName;
-                        new File(filePath).getParentFile().mkdirs();
+                        if (fileName != null & !fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
+                            filePath += fileSeparator;
+                            File toDelete = new File(filePath);
+                            if (toDelete.isFile()) {
+                                toDelete.delete();
+                            }
+                            filePath += fileName;
+                            new File(filePath).getParentFile().mkdirs();
 
-                        outStream = new FileOutputStream(filePath);
-                        inStream = filePart.getInputStream();
+                            outStream = new FileOutputStream(filePath);
+                            inStream = filePart.getInputStream();
 
-                        final int startOffset = 0;
-                        final byte[] buffer = new byte[1024];
-                        while (inStream.read(buffer) > 0) {
-                            outStream.write(buffer, startOffset, buffer.length);
+                            final int startOffset = 0;
+                            final byte[] buffer = new byte[1024];
+                            while (inStream.read(buffer) > 0) {
+                                outStream.write(buffer, startOffset, buffer.length);
+                            }
+
+                            training.setAttendanceSheet(filePath);
+                            outStream.close();
                         }
-
-                        training.setAttendanceSheet(filePath);
-                        outStream.close();
-
                     } catch (FileNotFoundException e) {
                         training.setAttendanceSheet(null);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

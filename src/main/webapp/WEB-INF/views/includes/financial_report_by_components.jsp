@@ -21,6 +21,11 @@
                             <th colspan="2">Description</th>
                             <th colspan="18">Sources of Funds</th>
                         </tr>
+                    </thead>
+                    <tfoot>
+                        <tr><td colspan="18">Financial report by categories for this AWPB</td></tr>
+                    </tfoot>
+                    <tbody>
                         <tr>
                             <th rowspan="2" colspan="2">Component &nbsp;</th>
                             <th colspan="2">GOK</th>
@@ -53,11 +58,6 @@
                             <th>%</th>
                             <th>USD '000</th>
                         </tr>
-                    </thead>
-                    <tfoot>
-                        <tr><td colspan="18">Financial report by categories for this AWPB</td></tr>
-                    </tfoot>
-                    <tbody>
                         <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByComponentMap.keySet()}">
                             <c:forEach var="component" items="${sessionScope.financialPlanByComponentMap.get(financialPlanTotals).keySet()}" varStatus="index">
                                 <tr>

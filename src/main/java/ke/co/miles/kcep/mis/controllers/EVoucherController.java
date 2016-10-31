@@ -668,21 +668,27 @@ public class EVoucherController extends Controller {
                     InputStream inStream;
 
                     try {
-                        filePath = filePath + fileSeparator + fileName;
-                        new File(filePath).getParentFile().mkdirs();
+                        if (fileName != null & !fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
+                            filePath += fileSeparator;
+                            File toDelete = new File(filePath);
+                            if (toDelete.isFile()) {
+                                toDelete.delete();
+                            }
+                            filePath += fileName;
+                            new File(filePath).getParentFile().mkdirs();
 
-                        outStream = new FileOutputStream(filePath);
-                        inStream = filePart.getInputStream();
+                            outStream = new FileOutputStream(filePath);
+                            inStream = filePart.getInputStream();
 
-                        final int startOffset = 0;
-                        final byte[] buffer = new byte[4096];
-                        while (inStream.read(buffer) > 0) {
-                            outStream.write(buffer, startOffset, buffer.length);
+                            final int startOffset = 0;
+                            final byte[] buffer = new byte[4096];
+                            while (inStream.read(buffer) > 0) {
+                                outStream.write(buffer, startOffset, buffer.length);
+                            }
+
+                            eVoucher.setInputsLogbookPage(filePath);
+                            outStream.close();
                         }
-
-                        eVoucher.setInputsLogbookPage(filePath);
-                        outStream.close();
-
                     } catch (FileNotFoundException e) {
                         eVoucher.setInputsLogbookPage(null);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

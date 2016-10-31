@@ -82,7 +82,7 @@
                     <a class="logo" href="#">--<span>--</span></a>
                 </div>
                 <div class="content">
-                    <h1><center>Welcome to KCEP-MIS</center></h1>
+                    <h1 class="login-link" onclick="loadAjaxWindow('loginpage')"><center>Welcome to KCEP-MIS</center></h1>
                 </div>
                 <div class="feedback">
                     <center>
