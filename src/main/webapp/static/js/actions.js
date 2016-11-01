@@ -1429,6 +1429,136 @@ function loadFarmWindow(farmerId) {
         dataType: "HTML"
     });
 }
+
+function editFarm(farmerId, plotSize, locationId, county, subCounty, ward, divisionalLocation, village, latitude, longitude) {
+    $("#plot-size").val(plotSize);
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#divisional-location").val(divisionalLocation);
+    $("#village").val(village);
+    $("#latitude").val(latitude);
+    $("#longitude").val(longitude);
+    $("#farm-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_farm_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+
+                latitude = $("#latitude").val();
+                longitude = $("#longitude").val();
+
+                //Ascertain validity of latitude
+                try {
+                    if (latitude.length >= 1) {
+                        latitude = parseFloat(latitude);
+                        if (latitude > 90 || latitude < -90) {
+                            showError("error_label", "Latitude value is out of the range (-90 to 90)");
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    showError("error_label", "Latitude format is invalid");
+                    return;
+                }
+
+                try {
+                    if (longitude.length >= 1) {
+                        longitude = parseFloat(longitude);
+                        if (longitude > 180 || longitude < -180) {
+                            showError("error_label", "Longitude value is out of the range (-180 to 180)");
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    showError("error_label", "Longitude format is invalid");
+                    return;
+                }
+
+                $.ajax({
+                    url: "doEditFarm",
+                    type: "POST",
+                    data: "farmerId=" + farmerId +
+                            "&plotSize=" + $("#plot-size").val() +
+                            "&locationId=" + locationId +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&ward=" + $("#ward").val() +
+                            "&divisionalLocation=" + $("#divisional-location").val() +
+                            "&village=" + $("#village").val() +
+                            "&latitude=" + $("#latitude").val() +
+                            "&longitude=" + $("#longitude").val(),
+                    success: function (response) {
+                        $("#farm").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+function toggleDivisionalLocationInput() {
+    $(".shown-dl").hide();
+    $("#other-divisional-location").show().focus();
+    return;
+}
+
+function addDivisionalLocation() {
+    $.ajax({
+        url: "doAddDivisionalLocation",
+        type: "POST",
+        data: "name=" + $("#other-divisional-location").val(),
+        success: function (response) {
+            $("#divisional-location").append($('<option>', {value: response, text: $("#other-divisional-location").val()}));
+            $("#divisional-location option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-dl").show();
+            $("#other-divisional-location").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleVillageInput() {
+    $(".shown-v").hide();
+    $("#other-village").show().focus();
+    return;
+}
+
+function addVillage() {
+    $.ajax({
+        url: "doAddVillage",
+        type: "POST",
+        data: "name=" + $("#other-village").val(),
+        success: function (response) {
+            $("#village").append($('<option>', {value: response, text: $("#other-village").val()}));
+            $("#village option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-v").show();
+            $("#other-village").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        },
+        dataType: "HTML"
+    });
+}
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm activity">

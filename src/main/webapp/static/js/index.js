@@ -22,7 +22,7 @@ function saveFeedback() {
         type: "POST",
         data: "feedback=" + $("#feedback").val(),
         success: function () {
-            $("#feedback").val("");
+            $("#feedback").val("Feedback has been received. Thank you!");
         },
         error: function (response) {
             showError("error_label", response.responseText);

@@ -520,11 +520,11 @@ public class ActivityPlanningController extends Controller {
                             case "/head_sub_activities":
                                 session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
                                 break;
-                            case "/region_sub_activities":
-                                session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getRegion().getId()));
-                                break;
                             default:
                                 session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                                break;
+                            case "/region_sub_activities":
+                                session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getRegion().getId()));
                                 break;
                         }
                     } catch (MilesException ex) {

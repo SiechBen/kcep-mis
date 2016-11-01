@@ -34,7 +34,12 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="farm">
-                        <h4>Farm Details</h4>
+                        <div class="float-left">
+                            <h4>Farm Details</h4>
+                        </div>
+                        <div class="float-right">
+                            <button onclick="editFarm('${sessionScope.farmer.id}', '${sessionScope.farmer.plotSize}', '${sessionScope.farmer.location.id}', '${sessionScope.farmer.location.county.id}', '${sessionScope.farmer.location.subCounty.id}', '${sessionScope.farmer.location.ward.id}', '${sessionScope.farmer.location.divisionalLocation.id}', '${sessionScope.farmer.location.village.id}', '${sessionScope.farmer.location.latitude}', '${sessionScope.farmer.location.longitude}')"><span class="glyphicon glyphicon-pencil large-12"></span></button>
+                        </div>
                         <table id="farm-table" class="table table-striped table-bordered table-hover farm-data-table">
                             <tr>
                                 <th>Plot Size</th>
@@ -46,7 +51,7 @@
                             </tr>
                             <tr>
                                 <th>Sub-county</th>
-                                <td>${sessionScope.farmer.location.county.name}</td>
+                                <td>${sessionScope.farmer.location.subCounty.name}</td>
                             </tr>
                             <tr>
                                 <th>Ward</th>
@@ -193,6 +198,72 @@
         </div>
     </div>
 </div>
+<div class="row dialog" id="farm-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form id="farm-form" role="form">
+                    <div class="form-group">
+                        Plot size
+                        <input type="number" step="0.01" class="form-control" id="plot-size">
+                    </div>
+                    <div class="form-group">
+                        County
+                        <select id="county" class="form-control" onchange="updateSubCounties()">
+                            <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
+                                <option value="${county.id}">${county.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Sub-county
+                        <select id="sub-county" class="form-control" onchange="updateWards()">
+                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
+                                <option value="${subCounty.id}">${subCounty.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Ward
+                        <select id="ward" class="form-control">
+                            <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">
+                                <option value="${ward.id}">${ward.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        Divisional location
+                        <select id="divisional-location" class="partial form-control shown-dl">
+                            <c:forEach var="divisionalLocation" items="${sessionScope.divisionalLocations}" varStatus="index">
+                                <option value="${divisionalLocation.id}">${divisionalLocation.name}</option>
+                            </c:forEach>
+                        </select>
+                        <button class="shown-dl" onclick="toggleDivisionalLocationInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-divisional-location" class="form-control" onchange="addDivisionalLocation(); return false;">
+                    </div>
+                    <div class="form-group">
+                        Village
+                        <select id="village" class="partial form-control shown-v">
+                            <c:forEach var="village" items="${sessionScope.villages}" varStatus="index">
+                                <option value="${village.id}">${village.name}</option>
+                            </c:forEach>
+                        </select>
+                        <button class="shown-v" onclick="toggleVillageInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-village" class="form-control" onchange="addVillage(); return false;">
+                    </div>
+                    <div class="form-group">
+                        Latitude
+                        <input type="number" class="form-control" id="latitude" min="-90" max="90">
+                    </div>
+                    <div class="form-group">
+                        Longitude
+                        <input type="number" class="form-control" id="longitude" min="-180" max="180">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row dialog" id="account-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
@@ -218,8 +289,8 @@
                         Deposit(+) or withdrawal(-)
                         <input type="number" step="0.01" class="form-control" id="change">
                     </div>
-                    Savings
                     <div class="form-group">
+                        Savings
                         <input type="number" step="0.01" class="form-control" id="savings"  readonly>
                     </div>
                 </form>

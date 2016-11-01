@@ -24,7 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "activity_progress", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ActivityProgress.findByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId"),
+    @NamedQuery(name = "ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId AND a.subActivity.region.id = :regionId AND a.subActivity.county IS NULL"),
+    @NamedQuery(name = "ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId AND a.subActivity.county.id = :countyId AND a.subActivity.region IS NULL"),
+    @NamedQuery(name = "ActivityProgress.findForHeadByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId AND a.subActivity.county IS NULL AND a.subActivity.region IS NULL"),
     @NamedQuery(name = "ActivityProgress.findByFinancialYearId", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId"),
     @NamedQuery(name = "ActivityProgress.findBySubActivityId", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.id = :subActivityId"),
     @NamedQuery(name = "ActivityProgress.findAll", query = "SELECT a FROM ActivityProgress a"),

@@ -432,3 +432,16 @@ table.dataTable thead .sorting:after {
 .tooltipped {
     cursor: default;
 }
+
+#other-village {
+    display: none;
+}
+
+#other-divisional-location {
+    display: none;
+}
+
+.partial {
+    width: 93.73%;
+    display: inline-block;
+}

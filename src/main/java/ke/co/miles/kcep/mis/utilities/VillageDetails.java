@@ -20,6 +20,10 @@ public class VillageDetails implements Serializable, Comparable<VillageDetails> 
         this.id = id;
     }
 
+    public VillageDetails(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

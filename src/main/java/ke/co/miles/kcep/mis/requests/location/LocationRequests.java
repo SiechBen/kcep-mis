@@ -12,8 +12,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
+import ke.co.miles.kcep.mis.entities.DivisionalLocation;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.SubCounty;
+import ke.co.miles.kcep.mis.entities.Village;
 import ke.co.miles.kcep.mis.entities.Ward;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
@@ -145,8 +147,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
             }
         }
 
-        Location location = em.find(Location.class, locationDetails.getId());
-        location.setId(locationDetails.getId());
+        Location location = em.getReference(Location.class, locationDetails.getId());
         location.setLatitude(locationDetails.getLatitude());
         location.setLongitude(locationDetails.getLongitude());
         try {
@@ -163,6 +164,16 @@ public class LocationRequests extends EntityRequests implements LocationRequests
             location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
             location.setWard(null);
+        }
+        try {
+            location.setDivisionalLocation(em.getReference(DivisionalLocation.class, locationDetails.getDivisionalLocation().getId()));
+        } catch (Exception e) {
+            location.setDivisionalLocation(null);
+        }
+        try {
+            location.setVillage(em.getReference(Village.class, locationDetails.getVillage().getId()));
+        } catch (Exception e) {
+            location.setVillage(null);
         }
 
         try {
@@ -193,13 +204,23 @@ public class LocationRequests extends EntityRequests implements LocationRequests
     public LocationDetails convertLocationToLocationDetails(Location location) {
 
         LocationDetails locationDetails = new LocationDetails(location.getId());
-        locationDetails.setDivisionalLocation(divisionalLocationService.
-                convertDivisionalLocationToDivisionalLocationDetails(location.getDivisionalLocation()));
-        locationDetails.setSubCounty(subCountyService.
-                convertSubCountyToSubCountyDetails(location.getSubCounty()));
-        locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
-        locationDetails.setVillage(villageService.convertVillageToVillageDetails(location.getVillage()));
-        locationDetails.setWard(wardService.convertWardToWardDetails(location.getWard()));
+        if (location.getDivisionalLocation() != null) {
+            locationDetails.setDivisionalLocation(divisionalLocationService.
+                    convertDivisionalLocationToDivisionalLocationDetails(location.getDivisionalLocation()));
+        }
+        if (location.getSubCounty() != null) {
+            locationDetails.setSubCounty(subCountyService.
+                    convertSubCountyToSubCountyDetails(location.getSubCounty()));
+        }
+        if (location.getDivisionalLocation() != null) {
+            locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
+        }
+        if (location.getVillage() != null) {
+            locationDetails.setVillage(villageService.convertVillageToVillageDetails(location.getVillage()));
+        }
+        if (location.getWard() != null) {
+            locationDetails.setWard(wardService.convertWardToWardDetails(location.getWard()));
+        }
         locationDetails.setLatitude(location.getLatitude());
         locationDetails.setLongitude(location.getLongitude());
         return locationDetails;

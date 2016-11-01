@@ -5,6 +5,8 @@
  */
 package ke.co.miles.kcep.mis.controllers;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -178,11 +180,11 @@ public class ProcurementController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
                     } else {
 
-                        FileOutputStream outStream;
-                        InputStream inStream;
+                        BufferedOutputStream outStream = null;
+                        BufferedInputStream inStream = null;
 
                         try {
-                            if (fileName != null & !fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
+                            if (!fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
                                 filePath += fileSeparator;
                                 File toDelete = new File(filePath);
                                 if (toDelete.isFile()) {
@@ -191,8 +193,8 @@ public class ProcurementController extends Controller {
                                 filePath += fileName;
                                 new File(filePath).getParentFile().mkdirs();
 
-                                outStream = new FileOutputStream(filePath);
-                                inStream = filePart.getInputStream();
+                                outStream = new BufferedOutputStream(new FileOutputStream(filePath));
+                                inStream = new BufferedInputStream(filePart.getInputStream());
 
                                 final int startOffset = 0;
                                 final byte[] buffer = new byte[4096];
@@ -209,6 +211,13 @@ public class ProcurementController extends Controller {
                             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                             response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
                             LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                        } finally {
+                            if (outStream != null) {
+                                outStream.close();
+                            }
+                            if (inStream != null) {
+                                inStream.close();
+                            }
                         }
                     }
 

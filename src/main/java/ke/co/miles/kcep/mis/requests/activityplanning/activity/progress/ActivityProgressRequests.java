@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityProgress;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -124,15 +123,35 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
     }
 
     @Override
-    public ActivityProgressReportDetails retrieveActivityProgress(String awpbReferenceCode) throws MilesException {
+    public ActivityProgressReportDetails retrieveActivityProgress(String awpbReferenceCode, String level, Short levelId) throws MilesException {
         ActivityProgressReportDetails activityProgressReport = new ActivityProgressReportDetails();
         ActivityProgress activityProgress;
         for (short i = 1; i <= 4; i++) {
-            setQ(em.createNamedQuery("ActivityProgress.findByFinancialYearIdAndReferenceCode"));
-            q.setParameter("quarter", i);
-            q.setParameter("awpbReferenceCode", awpbReferenceCode);
-            q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
-            q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+            switch (level) {
+                case "Region":
+                    setQ(em.createNamedQuery("ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode"));
+                    q.setParameter("quarter", i);
+                    q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                    q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
+                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    break;
+                case "County":
+                    setQ(em.createNamedQuery("ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode"));
+                    q.setParameter("quarter", i);
+                    q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                    q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
+                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    break;
+                case "Head":
+                    setQ(em.createNamedQuery("ActivityProgress.findForHeadByFinancialYearIdAndReferenceCode"));
+                    q.setParameter("quarter", i);
+                    q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                    q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
+                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    break;
+                default:
+                    return activityProgressReport;
+            }
             try {
                 activityProgress = (ActivityProgress) q.getSingleResult();
                 switch (i) {
@@ -153,11 +172,33 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 throw new InvalidStateException("error_000_01");
             }
 
-            setQ(em.createNamedQuery("ActivityProgress.findByFinancialYearIdAndReferenceCode"));
-            q.setParameter("quarter", i);
-            q.setParameter("awpbReferenceCode", awpbReferenceCode);
-            q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
-            q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+            switch (level) {
+                case "Region":
+                    setQ(em.createNamedQuery("ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode"));
+                    q.setParameter("quarter", i);
+                    q.setParameter("regionId", levelId);
+                    q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                    q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
+                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    break;
+                case "County":
+                    setQ(em.createNamedQuery("ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode"));
+                    q.setParameter("quarter", i);
+                    q.setParameter("countyId", levelId);
+                    q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                    q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
+                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    break;
+                case "Head":
+                    setQ(em.createNamedQuery("ActivityProgress.findForHeadByFinancialYearIdAndReferenceCode"));
+                    q.setParameter("quarter", i);
+                    q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                    q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
+                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    break;
+                default:
+                    return activityProgressReport;
+            }
             try {
                 activityProgress = (ActivityProgress) q.getSingleResult();
                 switch (i) {
@@ -207,7 +248,6 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         }
 
         activityProgressReport.setCummulativePhysicalProgress(activityProgressDetails);
-        MilesDebugger.debug(activityProgressReport.getCummulativePhysicalProgress());
 
         activityProgressDetails = new ActivityProgressDetails();
         try {
@@ -237,7 +277,6 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         }
 
         activityProgressReport.setCummulativeFinancialProgress(activityProgressDetails);
-        MilesDebugger.debug(activityProgressReport.getCummulativeFinancialProgress());
 
         return activityProgressReport;
     }

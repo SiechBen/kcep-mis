@@ -25,6 +25,7 @@ import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLo
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
+import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 
 /**
@@ -246,8 +247,15 @@ public class ReportsController extends Controller {
 
                 case "/getActivityProgress":
 
+                    PersonDetails accessingPerson = (PersonDetails) session.getAttribute("person");
                     try {
-                        session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode")));
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                            session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Region", accessingPerson.getLocation().getCounty().getRegion().getId()));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
+                            session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "County", accessingPerson.getLocation().getCounty().getId()));
+                        } else {
+                            session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Head", null));
+                        }
                     } catch (Exception e) {
                         MilesDebugger.debug(e);
                     }

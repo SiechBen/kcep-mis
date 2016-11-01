@@ -20,6 +20,10 @@ public class DivisionalLocationDetails implements Serializable, Comparable<Divis
         this.id = id;
     }
 
+    public DivisionalLocationDetails(String name) {
+        this.name = name;
+    }
+
     public Short getId() {
         return id;
     }

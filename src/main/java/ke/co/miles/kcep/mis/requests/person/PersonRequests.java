@@ -35,10 +35,6 @@ import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.subgroup.FarmerSubGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.useraccount.UserAccountRequestsLocal;
-import ke.co.miles.kcep.mis.utilities.ContactDetails;
-import ke.co.miles.kcep.mis.utilities.FarmerGroupDetails;
-import ke.co.miles.kcep.mis.utilities.FarmerSubGroupDetails;
-import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
@@ -855,6 +851,26 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         }
 
     }
+
+    @Override
+    public void editFarm(PersonDetails farmerDetails) throws MilesException {
+        if (farmerDetails == null) {
+            throw new InvalidArgumentException("error_001_01");
+        } else if (farmerDetails.getId() == null) {
+            throw new InvalidArgumentException("error_001_03");
+        }
+
+        Person farmer = em.getReference(Person.class, farmerDetails.getId());
+        farmer.setPlotSize(farmerDetails.getPlotSize());
+
+        try {
+            locationService.editLocation(farmerDetails.getLocation());
+            em.flush();
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Delete">
 
@@ -876,41 +892,19 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     public PersonDetails convertPersonToPersonDetails(Person person) {
 
-        ContactDetails contactDetails = null;
-        if (person.getContact() != null) {
-            contactDetails
-                    = contactService.convertContactToContactDetails(
-                            person.getContact());
-        }
-
-        LocationDetails locationDetails = null;
-        if (person.getLocation() != null) {
-            locationDetails = locationService.
-                    convertLocationToLocationDetails(person.getLocation());
-        }
-
-        FarmerGroupDetails farmerGroupDetails = null;
-        if (person.getFarmerGroup() != null) {
-            farmerGroupDetails = farmerGroupService.
-                    convertFarmerGroupToFarmerGroupDetails(
-                            person.getFarmerGroup());
-        }
-
-        FarmerSubGroupDetails farmerSubGroupDetails = null;
-        if (person.getFarmerSubGroup() != null) {
-            farmerSubGroupDetails = farmerSubGroupService.
-                    convertFarmerSubGroupToFarmerSubGroupDetails(
-                            person.getFarmerSubGroup());
-        }
-
         PersonDetails personDetails;
         try {
             personDetails = new PersonDetails(person.getId());
         } catch (Exception e) {
             return null;
         }
-        personDetails.setContact(contactDetails);
+
         personDetails.setName(person.getName());
+        personDetails.setPlotSize(person.getPlotSize());
+        personDetails.setNationalId(person.getNationalId());
+        personDetails.setYearOfBirth(person.getYearOfBirth());
+        personDetails.setBusinessName(person.getBusinessName());
+
         if (person.getAge() == null && person.getYearOfBirth() != null) {
             LocalDate birthYear = LocalDate.of(person.getYearOfBirth(), 1, 1);
             LocalDate now = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1);
@@ -924,13 +918,24 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         } else {
             personDetails.setAge(person.getAge());
         }
-        personDetails.setLocation(locationDetails);
-        personDetails.setPlotSize(person.getPlotSize());
-        personDetails.setFarmerGroup(farmerGroupDetails);
-        personDetails.setNationalId(person.getNationalId());
-        personDetails.setYearOfBirth(person.getYearOfBirth());
-        personDetails.setFarmerSubGroup(farmerSubGroupDetails);
-        personDetails.setBusinessName(person.getBusinessName());
+        if (person.getLocation() != null) {
+            personDetails.setLocation(locationService.
+                    convertLocationToLocationDetails(person.getLocation()));
+        }
+        if (person.getContact() != null) {
+            personDetails.setContact(contactService.convertContactToContactDetails(
+                    person.getContact()));
+        }
+        if (person.getFarmerGroup() != null) {
+            personDetails.setFarmerGroup(farmerGroupService.
+                    convertFarmerGroupToFarmerGroupDetails(
+                            person.getFarmerGroup()));
+        }
+        if (person.getFarmerSubGroup() != null) {
+            personDetails.setFarmerSubGroup(farmerSubGroupService.
+                    convertFarmerSubGroupToFarmerSubGroupDetails(
+                            person.getFarmerSubGroup()));
+        }
         try {
             personDetails.setSex(SexDetail.getSexDetail(person.getSex().getId()));
         } catch (Exception e) {

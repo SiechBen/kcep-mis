@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         County
-                        <select id="county" name="training-county" class="form-control" onchange="updateSubCounties()">
+                        <select id="county" name="county" class="form-control" onchange="updateSubCounties()">
                             <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <select id="sub-county" name="training-sub-county" class="form-control" onchange="updateWards()">
+                        <select id="sub-county" name="sub-county" class="form-control" onchange="updateWards()">
                             <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>

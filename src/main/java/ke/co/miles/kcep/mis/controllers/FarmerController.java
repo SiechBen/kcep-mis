@@ -37,22 +37,33 @@ import ke.co.miles.kcep.mis.requests.farmer.loan.LoanRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.variety.InputVarietyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.divisionallocation.DivisionalLocationRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.village.VillageRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
+import ke.co.miles.kcep.mis.utilities.CountyDetails;
+import ke.co.miles.kcep.mis.utilities.DivisionalLocationDetails;
 import ke.co.miles.kcep.mis.utilities.EblBranchDetails;
 import ke.co.miles.kcep.mis.utilities.FarmActivityDetails;
 import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.InputVarietyDetails;
 import ke.co.miles.kcep.mis.utilities.InputsCollectionDetails;
 import ke.co.miles.kcep.mis.utilities.LoanDetails;
+import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.StaticInputDetails;
+import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.VillageDetails;
+import ke.co.miles.kcep.mis.utilities.WardDetails;
 
-@WebServlet(name = "FarmerController", urlPatterns = {"/farm", "/doAddLoan", "/doAddInputsCollection",
-    "/doAddFarmActivity", "/updateStaticInputs", "/updateInputVarieties", "/doEditAccount",
-    "/doEditFarmActivity", "/doDeleteFarmActivity"})
+@WebServlet(name = "FarmerController", urlPatterns = {
+    "/farm", "/doAddLoan", "/doAddInputsCollection",
+    "/doAddFarmActivity", "/updateStaticInputs",
+    "/updateInputVarieties", "/doEditAccount",
+    "/doEditFarm", "/doEditFarmActivity",
+    "/doDeleteFarmActivity"})
 public class FarmerController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -83,6 +94,7 @@ public class FarmerController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -103,6 +115,7 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -123,6 +136,7 @@ public class FarmerController extends Controller {
                     case "agmarkSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -143,6 +157,7 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -163,6 +178,7 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -183,6 +199,7 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -203,6 +220,7 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
                             urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
@@ -222,6 +240,7 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
+                        urlPaths.add("/doEditFarm");
                         urlPaths.add("/doEditAccount");
                         urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/updateInputVarieties");
@@ -258,7 +277,7 @@ public class FarmerController extends Controller {
                     try {
                         staticInputs = staticInputService
                                 .retrieveStaticInputs(Short.valueOf(request.getParameter("inputTypeId")));
-                        out.write("<option disabled selected>Select input name</option>");
+                        out.write("<option disabled selected>Select input.getName()</option>");
                         for (StaticInputDetails staticInput : staticInputs) {
                             out.write("<option value=\"" + staticInput.getId() + "\">" + staticInput.getName() + "</option>");
                         }
@@ -574,19 +593,90 @@ public class FarmerController extends Controller {
                     updateFarmActivitiesTable(response, farmActivities);
                     return;
 
+                case "/doEditFarm":
+                    try {
+                        farmer = new PersonDetails(Integer.valueOf(request.getParameter("farmerId")));
+                    } catch (Exception e) {
+                        farmer = new PersonDetails();
+                    }
+                    try {
+                        farmer.setPlotSize(new Double(request.getParameter("plotSize")));
+                    } catch (Exception e) {
+                        farmer.setPlotSize(null);
+                    }
+
+                    LocationDetails location;
+                    try {
+                        location = new LocationDetails(Integer.valueOf(request.getParameter("locationId")));
+                    } catch (Exception e) {
+                        location = new LocationDetails();
+                    }
+
+                    try {
+                        location.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
+                    } catch (Exception e) {
+                        location.setCounty(null);
+                    }
+                    try {
+                        location.setSubCounty(new SubCountyDetails(Short.valueOf(request.getParameter("subCounty"))));
+                    } catch (Exception e) {
+                        location.setSubCounty(null);
+                    }
+                    try {
+                        location.setWard(new WardDetails(Short.valueOf(request.getParameter("ward"))));
+                    } catch (Exception e) {
+                        location.setWard(null);
+                    }
+                    try {
+                        location.setDivisionalLocation(new DivisionalLocationDetails(Short.valueOf(request.getParameter("divisionalLocation"))));
+                    } catch (Exception e) {
+                        location.setDivisionalLocation(null);
+                    }
+                    try {
+                        location.setVillage(new VillageDetails(Integer.valueOf(request.getParameter("village"))));
+                    } catch (Exception e) {
+                        location.setVillage(null);
+                    }
+                    try {
+                        location.setLatitude(new BigDecimal(request.getParameter("latitude")));
+                    } catch (Exception e) {
+                        location.setLatitude(null);
+                    }
+                    try {
+                        location.setLongitude(new BigDecimal(request.getParameter("longitude")));
+                    } catch (Exception e) {
+                        location.setLongitude(null);
+                    }
+
+                    farmer.setLocation(location);
+
+                    try {
+                        farmerService.editFarm(farmer);
+                        farmer = farmerService.retrievePerson(farmer.getId());
+                        session.setAttribute("farmer", farmer);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                        return;
+                    }
+
+                    updateFarmTable(response, farmer);
+                    return;
+
                 case "/head_farm":
                 case "/ward_farm":
                 case "/kalro_farm":
                 case "/agmark_farm":
                 case "/region_farm":
-                case "/county_farm":
-                case "/sub_county_farm":
+                case "getCounty()_farm":
+                case "/subgetCounty()_farm":
                 case "/agro_dealer_farm":
 
                     Integer farmerId;
                     try {
                         farmerId = Integer.valueOf(request.getParameter("farmerId"));
-                        farmer = personService.retrievePerson(farmerId);
+                        farmer = farmerService.retrievePerson(farmerId);
                         session.setAttribute("farmer", farmer);
                         session.setAttribute("inputsCollections", inputsCollectionService.retrieveInputsCollections(farmer.getId()));
                         session.setAttribute("farmActivities", farmActivityService.retrieveFarmActivities(farmer.getId()));
@@ -604,8 +694,10 @@ public class FarmerController extends Controller {
                     try {
                         account = accountService.retrieveAccount(farmerId);
                         session.setAttribute("account", account);
-                        session.setAttribute("loans", loanService.retrieveLoans(account.getId()));
+                        session.setAttribute("villages", villageService.retrieveVillages());
                         session.setAttribute("issuingBanks", phenomenonService.retrieveBanks());
+                        session.setAttribute("loans", loanService.retrieveLoans(account.getId()));
+                        session.setAttribute("divisionalLocations", divisionalLocationService.retrieveDivisionalLocations());
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -615,7 +707,7 @@ public class FarmerController extends Controller {
 
                     List<PersonDetails> agroDealers;
                     try {
-                        agroDealers = personService.retrievePeople(PersonRoleDetail.AGRO_DEALER);
+                        agroDealers = farmerService.retrievePeople(PersonRoleDetail.AGRO_DEALER);
                         session.setAttribute("agroDealers", agroDealers);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -667,6 +759,63 @@ public class FarmerController extends Controller {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Update tables">
+    private void updateFarmTable(HttpServletResponse response, PersonDetails farmer)
+            throws IOException {
+        MilesDebugger.debug(farmer);
+        MilesDebugger.debug(farmer.getLocation());
+        MilesDebugger.debug(farmer.getLocation().getCounty());
+        MilesDebugger.debug(farmer.getLocation().getSubCounty());
+        MilesDebugger.debug(farmer.getLocation().getWard());
+        MilesDebugger.debug(farmer.getLocation().getDivisionalLocation());
+        MilesDebugger.debug(farmer.getLocation().getVillage());
+        MilesDebugger.debug(farmer.getLocation().getVillage());
+        PrintWriter out = response.getWriter();
+        out.write("                     <div class=\"float-left\">\n"
+                + "                            <h4>Farm Details</h4>\n"
+                + "                        </div>\n"
+                + "                        <div class=\"float-right\">\n"
+                + "                           <button onclick=\"editFarm('" + farmer.getId() + "', '" + farmer.getPlotSize() + "', '"
+                + (farmer.getLocation() == null ? null : farmer.getLocation().getId()) + "', '"
+                + (farmer.getLocation() == null ? null : (farmer.getLocation().getCounty() == null ? null : farmer.getLocation().getCounty().getId())) + "', '"
+                + (farmer.getLocation() == null ? null : (farmer.getLocation().getSubCounty() == null ? null : farmer.getLocation().getSubCounty().getId())) + "', '"
+                + (farmer.getLocation() == null ? null : (farmer.getLocation().getWard() == null ? null : farmer.getLocation().getWard().getId())) + "', '"
+                + (farmer.getLocation() == null ? null : (farmer.getLocation().getDivisionalLocation() == null ? null : farmer.getLocation().getDivisionalLocation().getId())) + "', '"
+                + (farmer.getLocation() == null ? null : (farmer.getLocation().getVillage() == null ? null : farmer.getLocation().getVillage().getId())) + "', '"
+                + (farmer.getLocation() == null ? null : farmer.getLocation().getLatitude()) + "', '"
+                + (farmer.getLocation() == null ? null : farmer.getLocation().getLongitude()) + "')\"><span class=\"glyphicon glyphicon-pencil large-12\"></span></button>\n"
+                + "                        </div>\n"
+                + "                        <table id=\"farm-table\" class=\"table table-striped table-bordered table-hover farm-data-table\">\n"
+                + "                            <tr>\n"
+                + "                                <th>Plot Size</th>\n"
+                + "                                <td>" + farmer.getPlotSize() + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>County</th>\n"
+                + "                                <td>" + (farmer.getLocation() == null ? null : (farmer.getLocation().getCounty() == null ? null : farmer.getLocation().getCounty().getName())) + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>SubgetCounty()</th>\n"
+                + "                                <td>" + (farmer.getLocation() == null ? null : (farmer.getLocation().getSubCounty() == null ? null : farmer.getLocation().getSubCounty().getName())) + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Ward</th>\n"
+                + "                                <td>" + (farmer.getLocation() == null ? null : (farmer.getLocation().getWard() == null ? null : farmer.getLocation().getWard().getName())) + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Divisional Location</th>\n"
+                + "                                <td>" + (farmer.getLocation() == null ? null : (farmer.getLocation().getDivisionalLocation() == null ? null : farmer.getLocation().getDivisionalLocation().getName())) + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Village</th>\n"
+                + "                                <td>" + (farmer.getLocation() == null ? null : (farmer.getLocation().getVillage() == null ? null : farmer.getLocation().getVillage().getName())) + "</td>\n"
+                + "                            </tr>\n"
+                + "                            <tr>\n"
+                + "                                <th>Latitude,Longitude</th>\n"
+                + "                                <td>" + (farmer.getLocation() == null ? null : farmer.getLocation().getLatitude() + "," + farmer.getLocation().getLongitude()) + "</td>\n"
+                + "                            </tr>\n"
+                + "                        </table>");
+    }
+
     private void updateAccountTable(HttpServletResponse response, AccountDetails account)
             throws IOException {
         PrintWriter out = response.getWriter();
@@ -775,7 +924,9 @@ public class FarmerController extends Controller {
     @EJB
     private LoanRequestsLocal loanService;
     @EJB
-    private PersonRequestsLocal personService;
+    private PersonRequestsLocal farmerService;
+    @EJB
+    private VillageRequestsLocal villageService;
     @EJB
     private AccountRequestsLocal accountService;
     @EJB
@@ -792,5 +943,7 @@ public class FarmerController extends Controller {
     private FarmActivityRequestsLocal farmActivityService;
     @EJB
     private InputsCollectionRequestsLocal inputsCollectionService;
+    @EJB
+    private DivisionalLocationRequestsLocal divisionalLocationService;
 
 }

@@ -274,4 +274,12 @@ public interface PersonRequestsLocal {
      */
     public HashMap<String, Integer> countCountyPeople(short countyId) throws MilesException;
 
+    /**
+     *
+     * @param farmerDetails the farm details of the farmer to be updated
+     * @throws MilesException when the database is in an incorrect state or when
+     * the arguments are incorrectly specified
+     */
+    public void editFarm(PersonDetails farmerDetails) throws MilesException;
+
 }

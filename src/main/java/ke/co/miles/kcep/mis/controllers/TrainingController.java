@@ -5,11 +5,12 @@
  */
 package ke.co.miles.kcep.mis.controllers;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -409,14 +410,14 @@ public class TrainingController extends Controller {
 
                     SubCountyDetails subCounty = new SubCountyDetails();
                     try {
-                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("training-sub-county"))));
+                        subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("sub-county"))));
                     } catch (Exception e) {
                         subCounty = null;
                     }
 
                     CountyDetails county = new CountyDetails();
                     try {
-                        county.setId(Short.valueOf(String.valueOf(request.getParameter("training-county"))));
+                        county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
                         county = null;
                     }
@@ -433,7 +434,7 @@ public class TrainingController extends Controller {
 
                     WardDetails ward = new WardDetails();
                     try {
-                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("training-ward"))));
+                        ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
                         ward = null;
                     }
@@ -479,8 +480,8 @@ public class TrainingController extends Controller {
                     String filePath = realPath + "documents" + fileSeparator + "training" + fileSeparator + "attendance_sheets";
                     Part filePart = request.getPart("attendance-sheet");
                     String fileName = getFileName(filePart);
-                    FileOutputStream outStream;
-                    InputStream inStream;
+                    BufferedOutputStream outStream = null;
+                    BufferedInputStream inStream = null;
 
                     try {
                         if (fileName != null & !fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
@@ -492,8 +493,8 @@ public class TrainingController extends Controller {
                             filePath += fileName;
                             new File(filePath).getParentFile().mkdirs();
 
-                            outStream = new FileOutputStream(filePath);
-                            inStream = filePart.getInputStream();
+                            outStream = new BufferedOutputStream(new FileOutputStream(filePath));
+                            inStream = new BufferedInputStream(filePart.getInputStream());
 
                             final int startOffset = 0;
                             final byte[] buffer = new byte[1024];
@@ -509,6 +510,13 @@ public class TrainingController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    } finally {
+                        if (outStream != null) {
+                            outStream.close();
+                        }
+                        if (inStream != null) {
+                            inStream.close();
+                        }
                     }
 
                     String[] trainerPersonIds = String.valueOf(request.getParameter("trainer-ids")).split("-");

@@ -5,11 +5,12 @@
  */
 package ke.co.miles.kcep.mis.controllers;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -345,8 +346,8 @@ public class FeedbackController extends Controller {
                     String filePath = realPath + "documents" + fileSeparator + "success_stories" + fileSeparator + "media_files";
                     Part filePart = request.getPart("media-file");
                     String fileName = getFileName(filePart);
-                    FileOutputStream outStream;
-                    InputStream inStream;
+                    BufferedOutputStream outStream = null;
+                    BufferedInputStream inStream = null;
 
                     try {
                         if (fileName != null & !fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
@@ -358,8 +359,8 @@ public class FeedbackController extends Controller {
                             filePath += fileName;
                             new File(filePath).getParentFile().mkdirs();
 
-                            outStream = new FileOutputStream(filePath);
-                            inStream = filePart.getInputStream();
+                            outStream = new BufferedOutputStream(new FileOutputStream(filePath));
+                            inStream = new BufferedInputStream(filePart.getInputStream());
 
                             final int startOffset = 0;
                             final byte[] buffer = new byte[4096];
@@ -376,6 +377,13 @@ public class FeedbackController extends Controller {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    } finally {
+                        if (outStream != null) {
+                            outStream.close();
+                        }
+                        if (inStream != null) {
+                            inStream.close();
+                        }
                     }
 
                     try {

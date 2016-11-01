@@ -18,16 +18,20 @@ import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.divisionallocation.DivisionalLocationRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.village.VillageRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
+import ke.co.miles.kcep.mis.utilities.DivisionalLocationDetails;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.VillageDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 
 /**
  *
  * @author siech
  */
-@WebServlet(name = "LocationController", urlPatterns = {"/updateCounties", "/updateSubCounties", "/updateWards"})
+@WebServlet(name = "LocationController", urlPatterns = {"/updateCounties", "/updateSubCounties", "/updateWards", "/doAddDivisionalLocation", "/doAddVillage"})
 public class LocationController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +50,10 @@ public class LocationController extends Controller {
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
+            urlPaths.add("/doAddDivisionalLocation");
             urlPaths.add("/updateSubCounties");
             urlPaths.add("/updateCounties");
+            urlPaths.add("/doAddVillage");
             urlPaths.add("/updateWards");
         }
 
@@ -56,6 +62,30 @@ public class LocationController extends Controller {
             availApplicationAttributes();
 
             switch (path) {
+
+                case "/doAddDivisionalLocation":
+
+                    try {
+                        out.write(String.valueOf(divisionalLocationService.addDivisionalLocation(new DivisionalLocationDetails(request.getParameter("name")))));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    return;
+
+                case "/doAddVillage":
+
+                    try {
+                        out.write(String.valueOf(villageService.addVillage(new VillageDetails(request.getParameter("name")))));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+
+                    return;
 
                 case "/updateSubCounties":
 
@@ -119,7 +149,11 @@ public class LocationController extends Controller {
     private static final Logger LOGGER = Logger.getLogger(LocationController.class.getSimpleName());
 
     @EJB
+    private DivisionalLocationRequestsLocal divisionalLocationService;
+    @EJB
     private SubCountyRequestsLocal subCountyService;
+    @EJB
+    private VillageRequestsLocal villageService;
     @EJB
     private CountyRequestsLocal countyService;
     @EJB

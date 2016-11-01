@@ -5,11 +5,12 @@
  */
 package ke.co.miles.kcep.mis.controllers;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -664,8 +665,8 @@ public class EVoucherController extends Controller {
                     String filePath = realPath + "documents" + fileSeparator + "eVoucher" + fileSeparator + "inputs_logbook_pages";
                     Part filePart = request.getPart("inputs-loogbook-page");
                     String fileName = getFileName(filePart);
-                    FileOutputStream outStream;
-                    InputStream inStream;
+                    BufferedOutputStream outStream = null;
+                    BufferedInputStream inStream = null;
 
                     try {
                         if (fileName != null & !fileName.isEmpty() && fileName.trim().length() != 0 && !fileName.equals("")) {
@@ -677,8 +678,8 @@ public class EVoucherController extends Controller {
                             filePath += fileName;
                             new File(filePath).getParentFile().mkdirs();
 
-                            outStream = new FileOutputStream(filePath);
-                            inStream = filePart.getInputStream();
+                            outStream = new BufferedOutputStream(new FileOutputStream(filePath));
+                            inStream = new BufferedInputStream(filePart.getInputStream());
 
                             final int startOffset = 0;
                             final byte[] buffer = new byte[4096];
@@ -687,13 +688,19 @@ public class EVoucherController extends Controller {
                             }
 
                             eVoucher.setInputsLogbookPage(filePath);
-                            outStream.close();
                         }
                     } catch (FileNotFoundException e) {
                         eVoucher.setInputsLogbookPage(null);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("file_not_found_error") + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString("file_not_found_error"));
+                    } finally {
+                        if (outStream != null) {
+                            outStream.close();
+                        }
+                        if (inStream != null) {
+                            inStream.close();
+                        }
                     }
 
                     try {
