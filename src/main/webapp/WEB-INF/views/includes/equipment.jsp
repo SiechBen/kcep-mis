@@ -101,6 +101,25 @@
                                         <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
+                                <tr>
+                                    <td colspan="3">
+                                        <select id="counter" onchange="updateProduceCounts(${sessionScope.warehouse.id})">
+                                            <option disabled selected>Select produce type</option>
+                                            <c:forEach var="produceType" items="${sessionScope.produceTypes}" varStatus="index">
+                                                <option value="${produceType.id}">${produceType.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                    <td colspan="2"> <strong>Total bags brought in</strong> </td>
+                                    <td colspan="2"> <strong>Total bags sold</strong> </td>
+                                    <td colspan="3"> <strong>Total bags in the warehouse</strong> </td>
+                                </tr>
+                                <tr id="produce-summary">
+                                    <td colspan="3"> &nbsp; </td>
+                                    <td colspan="2"> ${sessionScope.totalBagsBroughtIn} </td>
+                                    <td colspan="2"> ${sessionScope.totalBagsSold} </td>
+                                    <td colspan="3"> ${sessionScope.totalBagsIn} </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

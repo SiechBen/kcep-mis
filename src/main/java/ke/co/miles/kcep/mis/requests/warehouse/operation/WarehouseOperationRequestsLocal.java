@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.warehouse.operation;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.WarehouseOperation;
@@ -43,12 +44,13 @@ public interface WarehouseOperationRequestsLocal {
     /**
      *
      * @param warehouseId the unique identifier for the warehouse to which the
-     * warehouse operation belongs
-     * @return the list of warehouse operation record details retrieved
+     * warehouse operations belong
+     * @return the map of warehouse operation summaries and list of warehouse
+     * operation record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<WarehouseOperationDetails>
-            retrieveWarehouseOperations(int warehouseId) throws MilesException;
+    public HashMap<HashMap<String, Integer>, List<WarehouseOperationDetails>> retrieveWarehouseOperations(
+            int warehouseId) throws MilesException;
 
     /**
      *
@@ -89,4 +91,14 @@ public interface WarehouseOperationRequestsLocal {
             convertWarehouseOperationToWarehouseOperationDetails(
                     WarehouseOperation warehouseOperation);
 
+    /**
+     *
+     * @param warehouseId the unique identifier of the warehouse for which the
+     * produce summary is to be retrieved
+     * @param produceTypeId the unique identifier of the produce type for which
+     * the summary is to be retrieved
+     * @return the map of counts/summaries
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countWarehouseProduce(int warehouseId, int produceTypeId) throws MilesException;
 }

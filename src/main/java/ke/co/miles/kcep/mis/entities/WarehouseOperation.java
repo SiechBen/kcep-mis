@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "warehouse_operation", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "WarehouseOperation.findProduceBroughtByWarehouseIdAndProduceTypeId", query = "SELECT w FROM WarehouseOperation w WHERE w.warehouse.id = :warehouseId AND w.produceTypeBrought.id = :produceTypeId"),
+    @NamedQuery(name = "WarehouseOperation.findProduceSoldByWarehouseIdAndProduceTypeId", query = "SELECT w FROM WarehouseOperation w WHERE w.warehouse.id = :warehouseId AND w.produceTypeSold.id = :produceTypeId"),
     @NamedQuery(name = "WarehouseOperation.findByWarehouseId", query = "SELECT w FROM WarehouseOperation w WHERE w.warehouse.id = :warehouseId"),
     @NamedQuery(name = "WarehouseOperation.findAll", query = "SELECT w FROM WarehouseOperation w"),
     @NamedQuery(name = "WarehouseOperation.findById", query = "SELECT w FROM WarehouseOperation w WHERE w.id = :id"),

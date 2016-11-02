@@ -6,10 +6,12 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -37,7 +39,8 @@ import ke.co.miles.kcep.mis.utilities.WarehouseOperationDetails;
 @WebServlet(name = "EquipmentController", urlPatterns = {"/equipment",
     "/doEditEquipment", "/doEditWarehouseOperation", "/addEquipment",
     "/addWarehouseOperation", "/doAddEquipment", "/doAddWarehouseOperation",
-    "/doDeleteEquipment", "/doDeleteWarehouseOperation"})
+    "/doDeleteEquipment", "/doDeleteWarehouseOperation",
+    "/changeProduceCounter"})
 public class EquipmentController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +54,7 @@ public class EquipmentController extends Controller {
         setBundle(ResourceBundle.getBundle("text", locale));
 
         HttpSession session = request.getSession();
+        PrintWriter out = response.getWriter();
         String path = request.getServletPath();
         String destination;
 
@@ -64,6 +68,7 @@ public class EquipmentController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
@@ -81,6 +86,7 @@ public class EquipmentController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
@@ -98,6 +104,7 @@ public class EquipmentController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
@@ -115,6 +122,7 @@ public class EquipmentController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
@@ -150,6 +158,31 @@ public class EquipmentController extends Controller {
 
             switch (path) {
 
+                case "/changeProduceCounter":
+
+                    HashMap<String, Integer> countMap;
+
+                    try {
+                        countMap = warehouseOperationService.countWarehouseProduce(Integer.valueOf(request.getParameter("warehouseId")), Integer.valueOf(request.getParameter("counter")));
+
+                        session.setAttribute("totalBagsBroughtIn", countMap.get("tbbi"));
+                        session.setAttribute("totalBagsSold", countMap.get("tbs"));
+                        session.setAttribute("totalBagsIn", countMap.get("tbi"));
+
+                        out.write("<td colspan=\"3\"> &nbsp; </td>\n");
+                        out.write("<td colspan=\"2\">" + countMap.get("tbbi") + "</td>");
+                        out.write("<td colspan=\"2\">" + countMap.get("tbs") + "</td>");
+                        out.write("<td colspan=\"3\">" + countMap.get("tbi") + "</td>");
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NumberFormatException e) {
+                    }
+
+                    return;
+
                 case "/head_equipment":
                 case "/ward_equipment":
                 case "/warehouse_equipment":
@@ -160,6 +193,15 @@ public class EquipmentController extends Controller {
                         session.setAttribute("produceTypes", staticInputService.retrieveProduceTypes());
                         session.setAttribute("equipment", equipmentService.retrieveEquipmentList(warehouseId));
                         session.setAttribute("warehouseOperations", warehouseOperationService.retrieveWarehouseOperations(warehouseId));
+                        HashMap<HashMap<String, Integer>, List<WarehouseOperationDetails>> map
+                                = warehouseOperationService.retrieveWarehouseOperations(warehouseId);
+                        for (HashMap<String, Integer> countMap1 : map.keySet()) {
+                            session.setAttribute("warehouseOperations", map.get(countMap1));
+                            session.setAttribute("totalBagsBroughtIn", countMap1.get("tbbi"));
+                            session.setAttribute("totalBagsSold", countMap1.get("tbs"));
+                            session.setAttribute("totalBagsIn", countMap1.get("tbi"));
+                        }
+
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.setContentType("text/html;charset=UTF-8");

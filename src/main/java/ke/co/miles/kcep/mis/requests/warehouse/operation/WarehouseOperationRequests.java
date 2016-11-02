@@ -1,6 +1,7 @@
 package ke.co.miles.kcep.mis.requests.warehouse.operation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -75,6 +76,53 @@ public class WarehouseOperationRequests extends EntityRequests
 //<editor-fold defaultstate="collapsed" desc="Read">
 
     @Override
+    @SuppressWarnings("unchecked")
+    public HashMap<String, Integer> countWarehouseProduce(int warehouseId, int produceTypeId) throws MilesException {
+
+        int totalBagsBroughtIn = 0;
+        int totalBagsSold = 0;
+        setQ(em.createNamedQuery("WarehouseOperation.findProduceBroughtByWarehouseIdAndProduceTypeId"));
+        q.setParameter("warehouseId", warehouseId);
+        q.setParameter("produceTypeId", produceTypeId);
+
+        List<WarehouseOperationDetails> warehouseOperations;
+        try {
+            warehouseOperations = convertWarehouseOperationListToWarehouseOperationDetailsList(q.getResultList());
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        for (WarehouseOperationDetails warehouseOperation : warehouseOperations) {
+            if (warehouseOperation.getQuantityBrought() != null) {
+                totalBagsBroughtIn += warehouseOperation.getQuantityBrought();
+            }
+        }
+
+        setQ(em.createNamedQuery("WarehouseOperation.findProduceSoldByWarehouseIdAndProduceTypeId"));
+        q.setParameter("warehouseId", warehouseId);
+        q.setParameter("produceTypeId", produceTypeId);
+
+        try {
+            warehouseOperations = convertWarehouseOperationListToWarehouseOperationDetailsList(q.getResultList());
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        for (WarehouseOperationDetails warehouseOperation : warehouseOperations) {
+            if (warehouseOperation.getQuantitySold() != null) {
+                totalBagsSold += warehouseOperation.getQuantitySold();
+            }
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("tbbi", totalBagsBroughtIn);
+        countMap.put("tbs", totalBagsSold);
+        countMap.put("tbi", totalBagsBroughtIn - totalBagsSold);
+
+        return countMap;
+    }
+
+    @Override
     public WarehouseOperationDetails retrieveWarehouseOperation(int id)
             throws MilesException {
 
@@ -92,22 +140,41 @@ public class WarehouseOperationRequests extends EntityRequests
 
     }
 
+    @SuppressWarnings({"unchecked"})
     @Override
-    @SuppressWarnings("unchecked")
-    public List<WarehouseOperationDetails> retrieveWarehouseOperations(
+    public HashMap<HashMap<String, Integer>, List<WarehouseOperationDetails>> retrieveWarehouseOperations(
             int warehouseId) throws MilesException {
 
         setQ(em.createNamedQuery("WarehouseOperation.findByWarehouseId"));
         q.setParameter("warehouseId", warehouseId);
-        List<WarehouseOperation> warehouseOperationList;
+        List<WarehouseOperationDetails> warehouseOperations;
         try {
-            warehouseOperationList = q.getResultList();
+            warehouseOperations = convertWarehouseOperationListToWarehouseOperationDetailsList(q.getResultList());
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        return convertWarehouseOperationListToWarehouseOperationDetailsList(
-                warehouseOperationList);
+        int totalBagsBroughtIn = 0;
+        int totalBagsSold = 0;
+
+        for (WarehouseOperationDetails warehouseOperation : warehouseOperations) {
+            if (warehouseOperation.getQuantityBrought() != null) {
+                totalBagsBroughtIn += warehouseOperation.getQuantityBrought();
+            }
+            if (warehouseOperation.getQuantitySold() != null) {
+                totalBagsSold += warehouseOperation.getQuantitySold();
+            }
+        }
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("tbbi", totalBagsBroughtIn);
+        countMap.put("tbs", totalBagsSold);
+        countMap.put("tbi", totalBagsBroughtIn - totalBagsSold);
+
+        HashMap<HashMap<String, Integer>, List<WarehouseOperationDetails>> map = new HashMap<>();
+        map.put(countMap, warehouseOperations);
+
+        return map;
     }
 
 //</editor-fold>

@@ -142,6 +142,7 @@ $(function () {
                                                 },
                                                 error: function (response) {
                                                     showError("error_label", response.responseText);
+                                                    return;
                                                 },
                                                 dataType: "HTML"
                                             });
@@ -301,6 +302,7 @@ $(function () {
                                     },
                                     error: function (response) {
                                         showError("error_label", response.responseText);
+                                        return;
                                     },
                                     dataType: "HTML"
                                 });
@@ -422,6 +424,7 @@ $(function () {
                                     },
                                     error: function (response) {
                                         showError("error_label", response.responseText);
+                                        return;
                                     },
                                     dataType: "HTML"
                                 });
@@ -480,6 +483,7 @@ $(function () {
                                     },
                                     error: function (response) {
                                         showError("error_label", response.responseText);
+                                        return;
                                     },
                                     dataType: "HTML"
                                 });
@@ -532,6 +536,7 @@ $(function () {
                                     },
                                     error: function (response) {
                                         showError("error_label", response.responseText);
+                                        return;
                                     },
                                     dataType: "HTML"
                                 });
@@ -583,6 +588,7 @@ $(function () {
                                     },
                                     error: function (response) {
                                         showError("error_label", response.responseText);
+                                        return;
                                     },
                                     dataType: "HTML"
                                 });
@@ -621,7 +627,7 @@ $(function () {
 //    type: "POST",
 //    data: "",
 //    error: function (response) {
-//        showError("error_label", response.responseText);
+//        showError("error_label", response.responseText);return;
 //    },
 //    dataType: "HTML"
 //});
@@ -632,6 +638,7 @@ function loadApplicationAttributes() {
         data: "",
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1046,6 +1053,7 @@ function loadAjaxWindow(target) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1088,6 +1096,7 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1118,6 +1127,7 @@ function addActivityName() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1143,6 +1153,7 @@ function editActivityName(id, name) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1173,6 +1184,7 @@ function deleteActivityName(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1202,6 +1214,7 @@ $("#e-voucher-form").ajaxForm({
     },
     error: function (response) {
         showError("error_label", response.responseText);
+        return;
     }
 });
 function editEVoucher(id, amount, inputType, person, dateRedeemed) {
@@ -1237,6 +1250,7 @@ function editEVoucher(id, amount, inputType, person, dateRedeemed) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1272,6 +1286,7 @@ function deletEVoucher(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1302,6 +1317,7 @@ function loadEquimentWindow(warehouseId) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1326,6 +1342,7 @@ function addEquipment(warehouseId) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1362,6 +1379,7 @@ function editEquipment(id, warehouseId, type, serialNumber, count, status) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1396,6 +1414,7 @@ function deleteEquipment(id, warehouseId) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1425,6 +1444,7 @@ function loadFarmWindow(farmerId) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1499,6 +1519,7 @@ function editFarm(farmerId, plotSize, locationId, county, subCounty, ward, divis
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1530,6 +1551,7 @@ function addDivisionalLocation() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1555,6 +1577,7 @@ function addVillage() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1595,6 +1618,7 @@ function addFarmActivity() {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1659,6 +1683,7 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1697,6 +1722,7 @@ function deleteFarmActivity(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1722,6 +1748,7 @@ $("#feedback-form").ajaxForm({
     },
     error: function (response) {
         showError("error_label", response.responseText);
+        return;
     }
 });
 
@@ -1735,6 +1762,7 @@ function saveFeedback() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1756,6 +1784,7 @@ function addFinancialYear() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -1779,6 +1808,7 @@ function deleteFinancialYear(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1824,6 +1854,7 @@ function addInputsCollection() {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1865,6 +1896,7 @@ function addLoan() {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -1904,6 +1936,7 @@ function loginUser() {
                 },
                 error: function (response) {
                     showError("error_label", response.responseText);
+                    return;
                 },
                 dataType: "HTML"
             });
@@ -1977,6 +2010,7 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2014,6 +2048,7 @@ function addPerformanceIndicator() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -2069,6 +2104,7 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2106,6 +2142,7 @@ function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, d
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2141,6 +2178,7 @@ function editBaselineDate(id, baselineDate, description) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2174,6 +2212,7 @@ function editBaselineValue(id, baselineValue, description) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2205,6 +2244,7 @@ function deletePerformanceIndicator(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2240,6 +2280,7 @@ function addFarmer() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -2263,6 +2304,7 @@ function addPerson() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -2278,6 +2320,7 @@ function updateCounts() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         }
         , dataType: 'HTML'
     });
@@ -2293,6 +2336,7 @@ function updateTraineeCounts() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         }
         , dataType: 'HTML'
     });
@@ -2355,6 +2399,7 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2389,7 +2434,7 @@ function deletePerson(id) {
 //                        loadAjaxWindow("people");
 //                    },
 //                    error: function (response) {
-//                        showError("error_label", response.responseText);
+//                        showError("error_label", response.responseText);return;
 //                    },
 //                    dataType: "HTML"
 //                });
@@ -2455,6 +2500,7 @@ function addActivityPlanning() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -2470,6 +2516,7 @@ $("#procurement-form").ajaxForm({
     },
     error: function (response) {
         showError("error_label", response.responseText);
+        return;
     }
 });
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
@@ -2510,6 +2557,7 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2541,6 +2589,7 @@ function deleteProcuremenet(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2615,6 +2664,7 @@ function addProcurementPlan() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         }
         , dataType: "HTML"
     });
@@ -2680,6 +2730,7 @@ function editProcurementPlan(id, procurementPlanType, description, ifadPriorRevi
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2735,6 +2786,7 @@ function deleteProcurementPlan(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2814,6 +2866,7 @@ function addProcurementPlanCs() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         }
         , dataType: "HTML"
     });
@@ -2837,6 +2890,7 @@ function deleteProcurementPlanCs(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -2953,6 +3007,7 @@ function editProcurementPlansCs(id, type, description,
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3032,6 +3087,7 @@ function addSubActivity() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -3128,6 +3184,7 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3163,6 +3220,7 @@ function deleteSubActivity(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3222,6 +3280,7 @@ function loadSubActivitiesWindow(activityPlanningId) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -3250,6 +3309,7 @@ function addSubActivityName() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -3275,6 +3335,7 @@ function editSubActivityName(id, name, activityNameId) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3306,6 +3367,7 @@ function deleteSubActivityName(id, activityNameId) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3332,6 +3394,7 @@ function loadSubActivityNamesWindow(activityNameId) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -3346,6 +3409,7 @@ $("#training").ajaxForm({
     },
     error: function (response) {
         showError("error_label", response.responseText);
+        return;
     }
 });
 function addToTrainers() {
@@ -3379,6 +3443,7 @@ function showTrainees(trainingId) {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         }, dataType: 'HTML'
     });
 }
@@ -3421,6 +3486,7 @@ function editTraining(id, startDate, endDate, topic, venue, county, subCounty, w
                         loadAjaxWindow("training");
                     }, error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3452,6 +3518,7 @@ function deleteTraining(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3591,6 +3658,23 @@ function updateWards() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
+function updateProduceCounts(warehouseId) {
+    $.ajax({
+        url: "changeProduceCounter",
+        type: "POST",
+        data: "warehouseId=" + warehouseId + "&counter=" + $("#counter").val(),
+        success: function (response) {
+            $("tr#produce-summary").html(response);
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        }
+        , dataType: 'HTML'
+    });
+}
+
 function updateWarehouseCounts() {
     $.ajax({
         url: "changeWarehouseCounter",
@@ -3598,9 +3682,11 @@ function updateWarehouseCounts() {
         data: "counter=" + $("#counter").val(),
         success: function (response) {
             $("tr#warehouse-summary").html(response);
+            return;
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         }
         , dataType: 'HTML'
     });
@@ -3630,6 +3716,7 @@ function addWarehouse() {
         },
         error: function (response) {
             showError("error_label", response.responseText);
+            return;
         },
         dataType: "HTML"
     });
@@ -3685,6 +3772,7 @@ function editWarehouse(id, name, warehouseType, capacity, units, offersWrs,
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3716,6 +3804,7 @@ function deleteWarehouse(id) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3755,6 +3844,10 @@ function addWarehouseOperation(warehouseId) {
         modal: false,
         buttons: {
             "Save": function () {
+                if ($("#selling-date").val().trim().length < 1) {
+                    showError("error_label", "Kindly select the selling date");
+                    return;
+                }
                 $.ajax({
                     url: "doAddWarehouseOperation",
                     type: "POST",
@@ -3773,6 +3866,8 @@ function addWarehouseOperation(warehouseId) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3804,6 +3899,7 @@ function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBro
         modal: false,
         buttons: {
             "Save": function () {
+
                 $.ajax({
                     url: "doEditWarehouseOperation",
                     type: "POST",
@@ -3822,6 +3918,7 @@ function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBro
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
@@ -3854,6 +3951,7 @@ function deleteWarehouseOperation(id, warehouseId) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
+                        return;
                     },
                     dataType: "HTML"
                 });
