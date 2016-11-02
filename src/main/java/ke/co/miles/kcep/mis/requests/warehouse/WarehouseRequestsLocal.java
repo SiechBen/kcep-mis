@@ -5,6 +5,7 @@
  */
 package ke.co.miles.kcep.mis.requests.warehouse;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.Warehouse;
@@ -55,8 +56,8 @@ public interface WarehouseRequestsLocal {
 
     /**
      *
-     * @param countyId the unique identifier of the county where the warehouses are
-     * located
+     * @param countyId the unique identifier of the county where the warehouses
+     * are located
      * @return the list of warehouses in the county retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -64,8 +65,8 @@ public interface WarehouseRequestsLocal {
 
     /**
      *
-     * @param subCountyId the unique identifier of the sub-county where the warehouses are
-     * located
+     * @param subCountyId the unique identifier of the sub-county where the
+     * warehouses are located
      * @return the list of warehouses in the sub-county retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -93,5 +94,21 @@ public interface WarehouseRequestsLocal {
      * @return the details of the warehouse record
      */
     public WarehouseDetails convertWarehouseToWarehouseDetails(Warehouse warehouse);
+
+    /**
+     *
+     * @return the map of count values
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countAllWarehouses() throws MilesException;
+
+    /**
+     *
+     * @param countyId the unique identifier of the county at which the
+     * warehouses to be counted are located
+     * @return the map of count values
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<String, Integer> countCountyWarehouses(short countyId) throws MilesException;
 
 }

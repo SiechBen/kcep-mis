@@ -212,7 +212,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
             locationDetails.setSubCounty(subCountyService.
                     convertSubCountyToSubCountyDetails(location.getSubCounty()));
         }
-        if (location.getDivisionalLocation() != null) {
+        if (location.getCounty() != null) {
             locationDetails.setCounty(countyService.convertCountyToCountyDetails(location.getCounty()));
         }
         if (location.getVillage() != null) {

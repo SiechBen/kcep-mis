@@ -75,7 +75,7 @@ public class StaticInputRequests extends EntityRequests
     public List<StaticInputDetails> retrieveProduceTypes() throws MilesException {
         List<StaticInput> staticInputs = new ArrayList<>();
         setQ(em.createNamedQuery("StaticInput.findByInputTypeId"));
-        q.setParameter("inputTypeId", 1);
+        q.setParameter("inputTypeId", new Short("1"));
         try {
             staticInputs = q.getResultList();
         } catch (Exception e) {

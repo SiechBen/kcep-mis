@@ -1,6 +1,6 @@
 <%--
-    Document   : head_warehouses
-    Created on : Jun 22, 2016, 3:35:17 PM
+    Document   : region_warehouses
+    Created on : Nov 2, 2016, 9:19:15 AM
     Author     : siech
 --%>
 
@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
-<kcep:head>
+<kcep:region>
     <jsp:attribute name="pagetitle"> KCEP-MIS - view warehouses </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
@@ -16,4 +16,4 @@
         <jsp:include page="../includes/warehouse_count.jsp" />
 
     </jsp:attribute>
-</kcep:head>
+</kcep:region>

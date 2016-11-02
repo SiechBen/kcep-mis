@@ -3591,6 +3591,21 @@ function updateWards() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
+function updateWarehouseCounts() {
+    $.ajax({
+        url: "changeWarehouseCounter",
+        type: "POST",
+        data: "counter=" + $("#counter").val(),
+        success: function (response) {
+            $("tr#warehouse-summary").html(response);
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+        }
+        , dataType: 'HTML'
+    });
+}
+
 function addWarehouse() {
     $.ajax({
         url: "doAddWarehouse",

@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.requests.warehouse;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,6 +23,8 @@ import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.requests.warehouse.equipment.EquipmentRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
+import ke.co.miles.kcep.mis.utilities.WarehouseOperatorDetail;
+import ke.co.miles.kcep.mis.utilities.WarehouseTypeDetail;
 
 /**
  *
@@ -105,6 +108,381 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countAllWarehouses() throws MilesException {
+
+        //<editor-fold defaultstate="collapsed" desc="certified/uncertified">
+        int certifiedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeId"));
+        q.setParameter("certified", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            certifiedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int certifiedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeId"));
+        q.setParameter("certified", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            certifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int unCertifiedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeId"));
+        q.setParameter("certified", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            unCertifiedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int unCertifiedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeId"));
+        q.setParameter("certified", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            unCertifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="oferring wrs/not">
+        int warehousesOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeId"));
+        q.setParameter("offersWrs", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            warehousesOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int collectionCentresOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeId"));
+        q.setParameter("offersWrs", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            collectionCentresOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int warehousesNotOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeId"));
+        q.setParameter("offersWrs", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            warehousesNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int collectionCentresNotOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeId"));
+        q.setParameter("offersWrs", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            collectionCentresNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="farmer/privately owned">
+        int farmerOwnedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorId"));
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.FARMER_OWNED.getId());
+        try {
+            farmerOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int farmerOwnedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorId"));
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.FARMER_OWNED.getId());
+        try {
+            farmerOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int privatelyOwnedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorId"));
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.PRIVATELY_OWNED.getId());
+        try {
+            privatelyOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int privatelyOwnedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorId"));
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.PRIVATELY_OWNED.getId());
+        try {
+            privatelyOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="totals">
+        int total;
+        setQ(em.createNamedQuery("Warehouse.countAll"));
+        try {
+            total = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int warehouses;
+        setQ(em.createNamedQuery("Warehouse.countByWarehouseTypeId"));
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            warehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int collectionCentres;
+        setQ(em.createNamedQuery("Warehouse.countByWarehouseTypeId"));
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            collectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("cw", certifiedWarehouses);
+        countMap.put("uw", unCertifiedWarehouses);
+        countMap.put("fow", farmerOwnedWarehouses);
+        countMap.put("pow", privatelyOwnedWarehouses);
+        countMap.put("wnow", warehousesNotOfferingWrs);
+        countMap.put("wow", warehousesOfferingWrs);
+
+        countMap.put("ccc", certifiedCollectionCentres);
+        countMap.put("ucc", unCertifiedCollectionCentres);
+        countMap.put("ccow", collectionCentresOfferingWrs);
+        countMap.put("focc", farmerOwnedCollectionCentres);
+        countMap.put("pocc", privatelyOwnedCollectionCentres);
+        countMap.put("ccnow", collectionCentresNotOfferingWrs);
+
+        countMap.put("Total", total);
+        countMap.put("Total w", warehouses);
+        countMap.put("Total cc", collectionCentres);
+
+        return countMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public HashMap<String, Integer> countCountyWarehouses(short countyId) throws MilesException {
+
+        //<editor-fold defaultstate="collapsed" desc="certified/uncertified">
+        int certifiedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("certified", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            certifiedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int certifiedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("certified", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            certifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int unCertifiedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("certified", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            unCertifiedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int unCertifiedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByCertifiedAndWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("certified", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            unCertifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="oferring wrs/not">
+        int warehousesOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("offersWrs", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            warehousesOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int collectionCentresOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("offersWrs", Boolean.TRUE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            collectionCentresOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int warehousesNotOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("offersWrs", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            warehousesNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int collectionCentresNotOfferingWrs;
+        setQ(em.createNamedQuery("Warehouse.findByOffersWrsWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("offersWrs", Boolean.FALSE);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            collectionCentresNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="farmer/privately owned">
+        int farmerOwnedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.FARMER_OWNED.getId());
+        try {
+            farmerOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int farmerOwnedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.FARMER_OWNED.getId());
+        try {
+            farmerOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int privatelyOwnedWarehouses;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.PRIVATELY_OWNED.getId());
+        try {
+            privatelyOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int privatelyOwnedCollectionCentres;
+        setQ(em.createNamedQuery("Warehouse.findByWarehouseTypeIdAndWarehouseOperatorIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        q.setParameter("warehouseOperatorId", WarehouseOperatorDetail.PRIVATELY_OWNED.getId());
+        try {
+            privatelyOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="totals">
+        int total;
+        setQ(em.createNamedQuery("Warehouse.countByCountyId"));
+        q.setParameter("countyId", countyId);
+        try {
+            total = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int warehouses;
+        setQ(em.createNamedQuery("Warehouse.countByWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.WAREHOUSE.getId());
+        try {
+            warehouses = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        int collectionCentres;
+        setQ(em.createNamedQuery("Warehouse.countByWarehouseTypeIdAndCountyId"));
+        q.setParameter("countyId", countyId);
+        q.setParameter("warehouseTypeId", WarehouseTypeDetail.COLLECTION_CENTRE.getId());
+        try {
+            collectionCentres = ((Number) q.getSingleResult()).intValue();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+        //</editor-fold>
+
+        HashMap<String, Integer> countMap = new HashMap<>();
+        countMap.put("cw", certifiedWarehouses);
+        countMap.put("uw", unCertifiedWarehouses);
+        countMap.put("fow", farmerOwnedWarehouses);
+        countMap.put("pow", privatelyOwnedWarehouses);
+        countMap.put("wnow", warehousesNotOfferingWrs);
+        countMap.put("wow", warehousesOfferingWrs);
+
+        countMap.put("ccc", certifiedCollectionCentres);
+        countMap.put("ucc", unCertifiedCollectionCentres);
+        countMap.put("ccow", collectionCentresOfferingWrs);
+        countMap.put("focc", farmerOwnedCollectionCentres);
+        countMap.put("pocc", privatelyOwnedCollectionCentres);
+        countMap.put("ccnow", collectionCentresNotOfferingWrs);
+
+        countMap.put("Total", total);
+        countMap.put("Total w", warehouses);
+        countMap.put("Total cc", collectionCentres);
+
+        return countMap;
+    }
 
     @Override
     public WarehouseDetails retrieveWarehouse(int warehouseOperatorId) throws MilesException {

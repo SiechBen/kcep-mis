@@ -12,7 +12,6 @@
             <div class="panel-heading">
                 List of warehouses
             </div>
-            <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <label hidden id="add-label">addWarehouse</label>
@@ -60,6 +59,7 @@
         </div>
     </div>
 </div>
+
 <div class="row dialog" id="warehouse-dialog">
     <div class="col-lg-12">
         <div class="panel-default">

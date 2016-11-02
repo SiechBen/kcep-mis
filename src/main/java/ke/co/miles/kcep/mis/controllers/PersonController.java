@@ -28,7 +28,6 @@ import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
-import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
@@ -515,10 +514,8 @@ public class PersonController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     }
 
-                    PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
-
                     try {
-                        session.setAttribute("people", personService.retrieveCountyNonFarmersAndNonAgroDealers(countyDeskOfficer.getLocation().getCounty().getId()));
+                        session.setAttribute("people", personService.retrieveCountyNonFarmersAndNonAgroDealers(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
@@ -537,16 +534,12 @@ public class PersonController extends Controller {
                         return;
                     }
 
-                    List<WardDetails> wards = new ArrayList<>();
-
                     try {
-                        wards.addAll(wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
+                        session.setAttribute("wards", wardService.retrieveWards(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
                         return;
                     }
-
-                    session.setAttribute("wards", wards);
 
                     break;
 
@@ -873,11 +866,9 @@ public class PersonController extends Controller {
 
                 case "/county_addPerson":
 
-                    countyDeskOfficer = (PersonDetails) session.getAttribute("person");
-
                     List<SubCountyDetails> subCounties;
                     try {
-                        subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
+                        subCounties = subCountyService.retrieveSubCounties(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
                         return;
@@ -1065,7 +1056,5 @@ public class PersonController extends Controller {
     private InputTypeRequestsLocal inputTypeService;
     @EJB
     private SubCountyRequestsLocal subCountyService;
-    @EJB
-    private PersonRoleRequestsLocal personRoleService;
 
 }

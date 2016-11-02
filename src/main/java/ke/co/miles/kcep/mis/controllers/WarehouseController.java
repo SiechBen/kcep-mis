@@ -1,6 +1,7 @@
 package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +37,10 @@ import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
  * @author siech
  */
 @WebServlet(name = "WarehouseController",
-        urlPatterns = {"/warehouses", "/addWarehouse",
-            "/doAddWarehouse", "/doEditWarehouse", "/doDeleteWarehouse"})
+        urlPatterns = {
+            "/warehouses", "/addWarehouse",
+            "/doAddWarehouse", "/doEditWarehouse",
+            "/doDeleteWarehouse", "/changeWarehouseCounter"})
 public class WarehouseController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +49,7 @@ public class WarehouseController extends Controller {
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
@@ -67,11 +71,27 @@ public class WarehouseController extends Controller {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/doDeleteWarehouse");
+                            urlPaths.add("/changeWarehouseCounter");
                             if (path.equals("/warehouses")) {
                                 path = "/head_warehouses";
                                 urlPaths.add(path);
                             } else if (path.equals("/addWarehouse")) {
                                 path = "/head_addWarehouse";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
+                    case "regionalCoordinatorSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddWarehouse");
+                            urlPaths.add("/doEditWarehouse");
+                            urlPaths.add("/doDeleteWarehouse");
+                            urlPaths.add("/changeWarehouseCounter");
+                            if (path.equals("/warehouses")) {
+                                path = "/region_warehouses";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addWarehouse")) {
+                                path = "/region_addWarehouse";
                                 urlPaths.add(path);
                             }
                         }
@@ -130,7 +150,79 @@ public class WarehouseController extends Controller {
 
             switch (path) {
 
+                case "/changeWarehouseCounter":
+                    HashMap<String, Integer> countMap;
+
+                    try {
+                        countMap = warehouseService.countCountyWarehouses(Short.valueOf(request.getParameter("counter")));
+
+                        session.setAttribute("total", countMap.get("Total"));
+                        session.setAttribute("certifiedWarehouses", countMap.get("cw"));
+                        session.setAttribute("totalWarehouses", countMap.get("Total w"));
+                        session.setAttribute("unCertifiedWarehouses", countMap.get("uw"));
+                        session.setAttribute("warehousesOfferingWrs", countMap.get("wow"));
+                        session.setAttribute("farmerOwnedWarehouses", countMap.get("fow"));
+                        session.setAttribute("privatelyOwnedWarehouses", countMap.get("pow"));
+                        session.setAttribute("warehousesNotOfferingWrs", countMap.get("wnow"));
+                        session.setAttribute("certifiedCollectionCentres", countMap.get("ccc"));
+                        session.setAttribute("totalCollectionCentres", countMap.get("Total cc"));
+                        session.setAttribute("unCertifiedCollectionCentres", countMap.get("ucc"));
+                        session.setAttribute("collectionCentresOfferingWrs", countMap.get("ccow"));
+                        session.setAttribute("farmerOwnedCollectionCentres", countMap.get("focc"));
+                        session.setAttribute("privatelyOwnedCollectionCentres", countMap.get("pocc"));
+                        session.setAttribute("collectionCentresNotOfferingWrs", countMap.get("ccnow"));
+
+                        out.write("<td>" + countMap.get("cw") + "</td>");
+                        out.write("<td>" + countMap.get("uw") + "</td>");
+                        out.write("<td>" + countMap.get("wow") + "</td>");
+                        out.write("<td>" + countMap.get("wnow") + "</td>");
+                        out.write("<td>" + countMap.get("fow") + "</td>");
+                        out.write("<td>" + countMap.get("pow") + "</td>");
+                        out.write("<td>" + countMap.get("Total w") + "</td>");
+                        out.write("<td>" + countMap.get("ccc") + "</td>");
+                        out.write("<td>" + countMap.get("ucc") + "</td>");
+                        out.write("<td>" + countMap.get("ccow") + "</td>");
+                        out.write("<td>" + countMap.get("ccnow") + "</td>");
+                        out.write("<td>" + countMap.get("focc") + "</td>");
+                        out.write("<td>" + countMap.get("pocc") + "</td>");
+                        out.write("<td>" + countMap.get("Total cc") + "</td>");
+                        out.write("<td>" + countMap.get("Total") + "</td>");
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
+
+                    return;
+
                 case "/head_warehouses":
+                case "/region_warehouses":
+
+                    try {
+                        countMap = warehouseService.countAllWarehouses();
+
+                        session.setAttribute("total", countMap.get("Total"));
+                        session.setAttribute("certifiedWarehouses", countMap.get("cw"));
+                        session.setAttribute("totalWarehouses", countMap.get("Total w"));
+                        session.setAttribute("unCertifiedWarehouses", countMap.get("uw"));
+                        session.setAttribute("warehousesOfferingWrs", countMap.get("wow"));
+                        session.setAttribute("farmerOwnedWarehouses", countMap.get("fow"));
+                        session.setAttribute("privatelyOwnedWarehouses", countMap.get("pow"));
+                        session.setAttribute("warehousesNotOfferingWrs", countMap.get("wnow"));
+                        session.setAttribute("certifiedCollectionCentres", countMap.get("ccc"));
+                        session.setAttribute("totalCollectionCentres", countMap.get("Total cc"));
+                        session.setAttribute("unCertifiedCollectionCentres", countMap.get("ucc"));
+                        session.setAttribute("collectionCentresOfferingWrs", countMap.get("ccow"));
+                        session.setAttribute("farmerOwnedCollectionCentres", countMap.get("focc"));
+                        session.setAttribute("privatelyOwnedCollectionCentres", countMap.get("pocc"));
+                        session.setAttribute("collectionCentresNotOfferingWrs", countMap.get("ccnow"));
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    }
 
                     try {
                         session.setAttribute("warehouseOperators", phenomenonService.retrieveWarehouseOperators());
@@ -141,55 +233,19 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    List<WarehouseDetails> warehouses;
                     try {
-                        warehouses = warehouseService.retrieveWarehouses();
+                        session.setAttribute("warehouses", warehouseService.retrieveWarehouses());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during warehouses retrieval", ex);
                         return;
                     }
 
-                    if (warehouses != null) {
-                        session.setAttribute("warehouses", warehouses);
-                    }
-
-                    List<PersonDetails> people;
                     try {
-                        people = personService.retrievePeople();
+                        session.setAttribute("people", personService.retrievePeople());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
                     }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    PersonDetails nationalOfficer = (PersonDetails) session.getAttribute("person");
-
-                    List<SubCountyDetails> subCounties;
-                    try {
-                        subCounties = subCountyService.retrieveSubCounties(nationalOfficer.getLocation().getCounty().getId());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-counties", ex);
-                        return;
-                    }
-
-                    List<WardDetails> wards = new ArrayList<>();
-                    if (subCounties != null) {
-
-                        for (SubCountyDetails subCounty : subCounties) {
-                            try {
-                                wards.addAll(wardService.retrieveWards(subCounty.getId()));
-                            } catch (MilesException ex) {
-                                LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
-                                return;
-                            }
-                        }
-                    }
-
-                    session.setAttribute("subCounties", subCounties);
-                    session.setAttribute("wards", wards);
                     break;
 
                 case "/ward_warehouses":
@@ -204,27 +260,18 @@ public class WarehouseController extends Controller {
                     }
 
                     PersonDetails waoOfficer = (PersonDetails) session.getAttribute("person");
-
                     try {
-                        warehouses = warehouseService.retrieveWardWarehouses(waoOfficer.getLocation().getWard().getId());
+                        session.setAttribute("warehouses", warehouseService.retrieveWardWarehouses(waoOfficer.getLocation().getWard().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during warehouses retrieval", ex);
                         return;
                     }
 
-                    if (warehouses != null) {
-                        session.setAttribute("warehouses", warehouses);
-                    }
-
                     try {
-                        people = personService.retrieveWardPeople(waoOfficer.getLocation().getWard().getId());
+                        session.setAttribute("people", personService.retrieveWardPeople(waoOfficer.getLocation().getWard().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
-                    }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
                     }
                     break;
 
@@ -242,16 +289,13 @@ public class WarehouseController extends Controller {
                     PersonDetails countyDeskOfficer = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        warehouses = warehouseService.retrieveCountyWarehouses(countyDeskOfficer.getLocation().getCounty().getId());
+                        session.setAttribute("warehouses", warehouseService.retrieveCountyWarehouses(countyDeskOfficer.getLocation().getCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during warehouses retrieval", ex);
                         return;
                     }
 
-                    if (warehouses != null) {
-                        session.setAttribute("warehouses", warehouses);
-                    }
-
+                    List<SubCountyDetails> subCounties;
                     try {
                         subCounties = subCountyService.retrieveSubCounties(countyDeskOfficer.getLocation().getCounty().getId());
                         session.setAttribute("subCounties", subCounties);
@@ -273,14 +317,10 @@ public class WarehouseController extends Controller {
                     }
 
                     try {
-                        people = personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId());
+                        session.setAttribute("people", personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
-                    }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
                     }
                     break;
 
