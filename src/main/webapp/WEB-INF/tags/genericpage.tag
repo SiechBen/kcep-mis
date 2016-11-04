@@ -22,7 +22,7 @@
 <%@attribute name="content" fragment="true"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
 
     <head>
 
@@ -169,6 +169,7 @@
         <script src="static/plugins/jquery-awesome-cursor/js/jquery.awesome-cursor.min.js"></script>
         <script src="static/plugins/isLoading/jquery.isloading.js"></script>
         <script src="static/plugins/jstorage/jstorage.js"></script>
+        <script src="static/plugins/modernizr/modernizr.js"></script>
         ${scripts}
         <script src="static/js/actions.js"></script>
 

@@ -64,7 +64,9 @@ $('[data-toggle="tooltip"]').tooltip(); //initialize all tooltips in the documen
 
 //<editor-fold defaultstate="collapsed" desc="Datepicker">
 $(function () {
-    $(".datefield").datepicker();
+    if (!Modernizr.inputtypes.date) {
+        $(".datefield").datepicker();
+    }
 });
 //</editor-fold>
 
@@ -642,7 +644,6 @@ function calculateOutcomeRatio(id) {
 
     var actualValue = parseFloat($("#actual-outcome-value-" + id + "").val()) || 0.0;
     var expectedValue = parseFloat($("#awpb-outcome-target-" + id + "").val()) || 0.0;
-
     $("#outcome-ratio-" + id + "").html((actualValue / expectedValue * 100).toFixed(2) + "%");
 }
 
@@ -650,7 +651,6 @@ function calculateRatio() {
 
     var actualValue = parseFloat($("#actual-value").val()) || 0.0;
     var expectedValue = parseFloat($("#expected-value").val()) || 0.0;
-
     $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
 }
 
@@ -710,7 +710,6 @@ function calculatePostHarvestLoss() {
     var quantityHarvested = parseFloat($("#quantity-harvested").val()) || 0.0;
     var familyConsumption = parseFloat($("#family-consumption").val()) || 0.0;
     var quantitySold = parseFloat($("#quantity-sold").val()) || 0.0;
-
     $("#post-harvest-loss").val((quantityHarvested - (familyConsumption + quantitySold)).toFixed(2));
 }
 //</editor-fold>
@@ -1003,6 +1002,7 @@ function showError(title, message) {
 
 //<editor-fold defaultstate="collapsed" desc="Windows">
 function loadWindow(target) {
+    $(".loader").show();
     $.isLoading();
     window.location = target;
 }
@@ -1010,7 +1010,6 @@ function loadWindow(target) {
 function loadAjaxWindow(target) {
     $(".loader").show();
     $.isLoading();
-
     $.ajax({
         url: target,
         type: "POST",
@@ -1021,8 +1020,8 @@ function loadAjaxWindow(target) {
         },
         error: function (response) {
             $.isLoading("hide");
+            $(".loader").hide();
             showError("error_label", response.responseText);
-
             return;
         },
         dataType: "HTML"
@@ -1175,11 +1174,8 @@ function deleteActivityName(id) {
 function editActivityProgress(cell, activityProgressId, valueType, quarter) {
 
     var cellIndex = cell.cellIndex + 1;
-
     var initialActivityProgressValue = parseFloat($('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text()) || 0.0;
-
     $("#activity-progress-value").val(initialActivityProgressValue);
-
     $("#activity-progress-dialog").dialog({
         width: 495,
         height: "auto",
@@ -1190,7 +1186,6 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
             "Save": function () {
 
                 var newActivityProgressValue = parseFloat($("#activity-progress-value").val()) || 0.0;
-
                 $.ajax({
                     url: "doEditActivityProgress",
                     type: "POST",
@@ -1199,9 +1194,7 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
                     success: function () {
 
                         $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text(newActivityProgressValue);
-
                         var deltaActivityProgressValue = newActivityProgressValue - initialActivityProgressValue;
-
                         if (cellIndex < Indices.CUMMULATIVE_TARGET) {
 
                             if (valueType === "Target") {
@@ -1245,7 +1238,6 @@ var Indices = {
     CUMMULATIVE_BUDGET: 24,
     CUMMULATIVE_EXPENSE: 25
 };
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
@@ -1354,8 +1346,8 @@ function deletEVoucher(id) {
 
 function loadEquimentWindow(warehouseId) {
 
+    $(".loader").show();
     $.isLoading();
-
     var target = "equipment";
     $.ajax({
         url: target,
@@ -1366,6 +1358,9 @@ function loadEquimentWindow(warehouseId) {
             return;
         },
         error: function (response) {
+
+            $.isLoading("hide");
+            $(".loader").hide();
             showError("error_label", response.responseText);
             return;
         },
@@ -1484,8 +1479,8 @@ function deleteEquipment(id, warehouseId) {
 //<editor-fold defaultstate="collapsed" desc="Farm">
 function loadFarmWindow(farmerId) {
 
+    $(".loader").show();
     $.isLoading();
-
     var target = "farm";
     $.ajax({
         url: target,
@@ -1496,6 +1491,9 @@ function loadFarmWindow(farmerId) {
             return;
         },
         error: function (response) {
+
+            $.isLoading("hide");
+            $(".loader").hide();
             showError("error_label", response.responseText);
             return;
         },
@@ -2016,7 +2014,6 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
 
     actualValue = parseFloat(actualValue) || 0.0;
     expectedValue = parseFloat(expectedValue) || 0.0;
-
     $("#ratio-" + id + "").html((actualValue / expectedValue * 100).toFixed(2) + "%");
     if (expectedValue !== "")
         $("#expected-value option[value=" + parseInt(expectedValue) + "]").attr("selected", "selected");
@@ -3311,8 +3308,8 @@ function clearSubActivityFields() {
 
 function loadSubActivitiesWindow(activityPlanningId) {
 
+    $(".loader").show();
     $.isLoading();
-
     var target = "subActivities";
     $.ajax({
         url: target,
@@ -3323,6 +3320,9 @@ function loadSubActivitiesWindow(activityPlanningId) {
             return;
         },
         error: function (response) {
+
+            $.isLoading("hide");
+            $(".loader").hide();
             showError("error_label", response.responseText);
             return;
         },
@@ -3428,8 +3428,8 @@ function deleteSubActivityName(id, activityNameId) {
 
 function loadSubActivityNamesWindow(activityNameId) {
 
+    $(".loader").show();
     $.isLoading();
-
     var target = "sub_activity_names";
     $.ajax({
         url: target,
@@ -3440,6 +3440,9 @@ function loadSubActivityNamesWindow(activityNameId) {
             return;
         },
         error: function (response) {
+
+            $.isLoading("hide");
+            $(".loader").hide();
             showError("error_label", response.responseText);
             return;
         },
