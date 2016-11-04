@@ -35,11 +35,11 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
     public int addActivityProgress(ActivityProgressDetails activityProgressDetails) throws MilesException {
 
         if (activityProgressDetails == null) {
-            throw new InvalidArgumentException("error_023_01");
+            throw new InvalidArgumentException("error_056_01");
         } else if (activityProgressDetails.getSubActivity() == null) {
-            throw new InvalidArgumentException("error_023_02");
+            throw new InvalidArgumentException("error_056_02");
         } else if (activityProgressDetails.getProgressType() == null) {
-            throw new InvalidArgumentException("error_023_04");
+            throw new InvalidArgumentException("error_056_03");
         }
 
         ActivityProgress activityProgress = new ActivityProgress();
@@ -131,6 +131,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 case "Region":
                     setQ(em.createNamedQuery("ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode"));
                     q.setParameter("quarter", i);
+                    q.setParameter("regionId", levelId);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
                     q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
@@ -138,6 +139,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 case "County":
                     setQ(em.createNamedQuery("ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode"));
                     q.setParameter("quarter", i);
+                    q.setParameter("countyId", levelId);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
                     q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
@@ -316,21 +318,18 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
     public void editActivityProgress(ActivityProgressDetails activityProgressDetails) throws MilesException {
 
         if (activityProgressDetails == null) {
-            throw new InvalidArgumentException("error_023_01");
+            throw new InvalidArgumentException("error_056_01");
         } else if (activityProgressDetails.getId() == null) {
-            throw new InvalidArgumentException("error_023_06");
-        } else if (activityProgressDetails.getSubActivity() == null) {
-            throw new InvalidArgumentException("error_023_02");
-        } else if (activityProgressDetails.getProgressType() == null) {
-            throw new InvalidArgumentException("error_023_04");
+            throw new InvalidArgumentException("error_056_04");
         }
 
         ActivityProgress activityProgress = em.getReference(ActivityProgress.class, activityProgressDetails.getId());
-        activityProgress.setId(activityProgressDetails.getId());
-        activityProgress.setTargetOrBudget(activityProgressDetails.getTargetOrBudget());
-        activityProgress.setValueAchievedOrExpense(activityProgressDetails.getValueAchievedOrExpense());
-        activityProgress.setProgressType(em.getReference(Phenomenon.class, activityProgressDetails.getProgressType().getId()));
-        activityProgress.setSubActivity(em.getReference(SubActivity.class, activityProgressDetails.getSubActivity().getId()));
+        if (activityProgressDetails.getTargetOrBudget() != null) {
+            activityProgress.setTargetOrBudget(activityProgressDetails.getTargetOrBudget());
+        }
+        if (activityProgressDetails.getValueAchievedOrExpense() != null) {
+            activityProgress.setValueAchievedOrExpense(activityProgressDetails.getValueAchievedOrExpense());
+        }
 
         try {
             em.merge(activityProgress);

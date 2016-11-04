@@ -2,6 +2,7 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRe
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ActivityProgressDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
@@ -36,7 +38,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/financial_report_by_categories", "/financial_report_by_components",
     "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
-    "/getActivityProgress"})
+    "/getActivityProgress", "/doEditActivityProgress"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -50,6 +52,7 @@ public class ReportsController extends Controller {
         setBundle(ResourceBundle.getBundle("text", locale));
         HttpSession session = request.getSession();
         String path = request.getServletPath();
+        PrintWriter out = response.getWriter();
         String destination;
 
         @SuppressWarnings("unchecked")
@@ -62,12 +65,16 @@ public class ReportsController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
-                            urlPaths.add("/activity_report");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
                                     path = "/head_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_report":
+                                    path = "/head_activity_report";
                                     urlPaths.add(path);
                                     break;
                                 case "/outputLevelReports":
@@ -121,23 +128,37 @@ public class ReportsController extends Controller {
                         break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
-                                case "/outputLevelReports":
-                                    path = "/region_output_level_reports";
+                                case "/reports":
+                                    path = "/region_reports";
                                     urlPaths.add(path);
                                     break;
-                                case "/outcomeLevelReports":
-                                    path = "/region_outcome_level_reports";
+                                case "/activity_report":
+                                    path = "/region_activity_report";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/outputLevelReports":
+                                    path = "/region_output_level_reports";
                                     urlPaths.add(path);
                                     break;
                                 case "/goalLevelReports":
                                     path = "/region_goal_level_reports";
                                     urlPaths.add(path);
                                     break;
-                                case "/reports":
-                                    path = "/region_reports";
+                                case "/outcomeLevelReports":
+                                    path = "/region_outcome_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_components":
+                                    path = "/region_financial_report_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_categories":
+                                    path = "/region_financial_report_by_categories";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -145,15 +166,20 @@ public class ReportsController extends Controller {
                             }
                         }
                         break;
+
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
-                            urlPaths.add("/activity_report");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
                                     path = "/county_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_report":
+                                    path = "/county_activity_report";
                                     urlPaths.add(path);
                                     break;
                                 case "/outputLevelReports":
@@ -231,7 +257,9 @@ public class ReportsController extends Controller {
 
             switch (path) {
 
-                case "/activity_report":
+                case "/head_activity_report":
+                case "/county_activity_report":
+                case "/region_activity_report":
 
                     try {
                         activityProgressService.checkForActivityProgress(null);
@@ -244,6 +272,44 @@ public class ReportsController extends Controller {
                     }
 
                     break;
+
+                case "/doEditActivityProgress":
+
+                    ActivityProgressDetails activityProgress;
+                    try {
+                        activityProgress = new ActivityProgressDetails(Integer.valueOf(request.getParameter("id")));
+                        switch (request.getParameter("valueType")) {
+                            case "Value achieved":
+                            case "Expense":
+                                activityProgress.setValueAchievedOrExpense(new BigDecimal(request.getParameter("activityProgressValue")));
+                                break;
+                            case "Target":
+                            case "Budget":
+                                activityProgress.setTargetOrBudget(new BigDecimal(request.getParameter("activityProgressValue")));
+                        }
+
+                        activityProgressService.editActivityProgress(activityProgress);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NumberFormatException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("invalid_number_format") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("invalid_number_format"), e);
+                    }
+                    try {
+                        activityProgressService.checkForActivityProgress(null);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
+                    } catch (Exception e) {
+                    }
+
+                    return;
 
                 case "/getActivityProgress":
 

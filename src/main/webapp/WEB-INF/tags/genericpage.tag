@@ -55,7 +55,6 @@
 
         <div id="wrapper">
 
-            <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
@@ -102,11 +101,8 @@
                             <li><a onclick="loadAjaxWindow('logout')"><i class="fa fa-sign-out fa-fw"></i> Logout </a>
                             </li>
                         </ul>
-                        <!-- /.dropdown-user -->
                     </li>
-                    <!-- /.dropdown -->
                 </ul>
-                <!-- /.navbar-top-links -->
 
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
@@ -120,7 +116,6 @@
                                         </button>
                                     </span>
                                 </div>
-                                <!-- /input-group -->
                             </li>
                             <!--                            <li>
                                                             <a href="#" onclick="loadAjaxWindow('home')"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
@@ -138,6 +133,8 @@
             <div class="dialog" id="message-dialog">
                 <p id="message"></p>
             </div>
+
+            <div class="loader"></div>
 
             <!--             Footer
                         <footer>
@@ -170,6 +167,7 @@
         <script src="static/plugins/jquery-ui/jquery-ui.js"></script>
         <script src="static/plugins/jquery-form/jquery.form.js"></script>
         <script src="static/plugins/jquery-awesome-cursor/js/jquery.awesome-cursor.min.js"></script>
+        <script src="static/plugins/isLoading/jquery.isloading.js"></script>
         <script src="static/plugins/jstorage/jstorage.js"></script>
         ${scripts}
         <script src="static/js/actions.js"></script>

@@ -1,5 +1,4 @@
 var language = "en";
-
 //<editor-fold defaultstate="collapsed" desc="Metis menu">
 $(function () {
     $('#side-menu').metisMenu();
@@ -82,7 +81,6 @@ $(function () {
         }
     }
 });
-
 $(function () {
     var yearNow = new Date().getFullYear();
     var twoCenturiesAgo = yearNow - 200;
@@ -190,7 +188,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $(".indicator-report-table").DataTable({
         responsive: true,
@@ -212,7 +209,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#awpb-table").DataTable({
         responsive: true,
@@ -246,7 +242,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $(".data-table").DataTable({
         responsive: true,
@@ -268,7 +263,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#activity-report-table").DataTable({
         responsive: true,
@@ -321,7 +315,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#warehouse-operations-table").DataTable({
         responsive: true,
@@ -337,7 +330,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#training-table").DataTable({
         responsive: true,
@@ -365,7 +357,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $(".farm-data-table").DataTable({
         responsive: true,
@@ -381,7 +372,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#farmers-table").DataTable({
         responsive: true,
@@ -440,7 +430,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#agro-dealers-table").DataTable({
         responsive: true,
@@ -499,7 +488,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#partner-farmers-table").DataTable({
         responsive: true,
@@ -552,7 +540,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $("#partner-agro-dealers-table").DataTable({
         responsive: true,
@@ -604,7 +591,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     $('.reports-table').DataTable({
         responsive: true,
@@ -654,30 +640,18 @@ $("#awpb-outcome-target").on("input", function () {
 });
 function calculateOutcomeRatio(id) {
 
-    var actualValue = $("#actual-outcome-value-" + id + "").val();
-    var expectedValue = $("#awpb-outcome-target-" + id + "").val();
-    if (actualValue.trim() === "") {
-        actualValue = 0;
-    }
-    if (expectedValue.trim() === "") {
-        expectedValue = 0;
-    }
+    var actualValue = parseFloat($("#actual-outcome-value-" + id + "").val()) || 0.0;
+    var expectedValue = parseFloat($("#awpb-outcome-target-" + id + "").val()) || 0.0;
 
-    $("#outcome-ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+    $("#outcome-ratio-" + id + "").html((actualValue / expectedValue * 100).toFixed(2) + "%");
 }
 
 function calculateRatio() {
 
-    var actualValue = $("#actual-value").val();
-    var expectedValue = $("#expected-value").val();
-    if (actualValue.trim() === "") {
-        actualValue = 0;
-    }
-    if (expectedValue.trim() === "") {
-        expectedValue = 0;
-    }
+    var actualValue = parseFloat($("#actual-value").val()) || 0.0;
+    var expectedValue = parseFloat($("#expected-value").val()) || 0.0;
 
-    $("#ratio").val((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2));
+    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
 }
 
 $("#actual-value").on("input", function () {
@@ -686,7 +660,6 @@ $("#actual-value").on("input", function () {
 $("#expected-value").on("input", function () {
     calculateRatio();
 });
-
 function calculateAWPBTotals() {
 
     var unitCost = $("#unit-cost").val();
@@ -734,20 +707,11 @@ $("#family-consumption").on("change", function () {
     calculatePostHarvestLoss();
 });
 function calculatePostHarvestLoss() {
-    var quantityHarvested = $("#quantity-harvested").val();
-    var familyConsumption = $("#family-consumption").val();
-    var quantitySold = $("#quantity-sold").val();
-    if (quantityHarvested.trim() === "") {
-        quantityHarvested = 0;
-    }
-    if (familyConsumption.trim() === "") {
-        familyConsumption = 0;
-    }
-    if (quantitySold.trim() === "") {
-        quantitySold = 0;
-    }
-    $("#post-harvest-loss").val((parseFloat(quantityHarvested) -
-            (parseFloat(familyConsumption) + parseFloat(quantitySold))).toFixed(2));
+    var quantityHarvested = parseFloat($("#quantity-harvested").val()) || 0.0;
+    var familyConsumption = parseFloat($("#family-consumption").val()) || 0.0;
+    var quantitySold = parseFloat($("#quantity-sold").val()) || 0.0;
+
+    $("#post-harvest-loss").val((quantityHarvested - (familyConsumption + quantitySold)).toFixed(2));
 }
 //</editor-fold>
 
@@ -1039,10 +1003,14 @@ function showError(title, message) {
 
 //<editor-fold defaultstate="collapsed" desc="Windows">
 function loadWindow(target) {
+    $.isLoading();
     window.location = target;
 }
 
 function loadAjaxWindow(target) {
+    $(".loader").show();
+    $.isLoading();
+
     $.ajax({
         url: target,
         type: "POST",
@@ -1052,7 +1020,9 @@ function loadAjaxWindow(target) {
             return;
         },
         error: function (response) {
+            $.isLoading("hide");
             showError("error_label", response.responseText);
+
             return;
         },
         dataType: "HTML"
@@ -1201,6 +1171,83 @@ function deleteActivityName(id) {
 
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Activity progress">
+function editActivityProgress(cell, activityProgressId, valueType, quarter) {
+
+    var cellIndex = cell.cellIndex + 1;
+
+    var initialActivityProgressValue = parseFloat($('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text()) || 0.0;
+
+    $("#activity-progress-value").val(initialActivityProgressValue);
+
+    $("#activity-progress-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: quarter + " " + valueType.toLowerCase() + " for ref code " + $('td:nth-child(' + 1 + ')', $(cell).parents('tr')).text(),
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+
+                var newActivityProgressValue = parseFloat($("#activity-progress-value").val()) || 0.0;
+
+                $.ajax({
+                    url: "doEditActivityProgress",
+                    type: "POST",
+                    data: "id=" + activityProgressId + "&valueType=" + valueType +
+                            "&activityProgressValue=" + newActivityProgressValue,
+                    success: function () {
+
+                        $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text(newActivityProgressValue);
+
+                        var deltaActivityProgressValue = newActivityProgressValue - initialActivityProgressValue;
+
+                        if (cellIndex < Indices.CUMMULATIVE_TARGET) {
+
+                            if (valueType === "Target") {
+                                var cummulativeTarget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text((cummulativeTarget + deltaActivityProgressValue));
+                            } else {
+                                var cummulativeValueAchieved = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text((cummulativeValueAchieved + deltaActivityProgressValue));
+                            }
+
+                        } else {
+
+                            if (valueType === "Budget") {
+                                var cummulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text((cummulativeBudget + deltaActivityProgressValue));
+                            } else {
+                                var cummulativeExpense = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text((cummulativeExpense + deltaActivityProgressValue));
+                            }
+
+                        }
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+var Indices = {
+    CUMMULATIVE_TARGET: 13,
+    CUMMULATIVE_VALUE_ACHIEVED: 14,
+    CUMMULATIVE_BUDGET: 24,
+    CUMMULATIVE_EXPENSE: 25
+};
+
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="E-voucher">
 $("#e-voucher-form").ajaxForm({
     success: function () {
@@ -1306,6 +1353,9 @@ function deletEVoucher(id) {
 //<editor-fold defaultstate="collapsed" desc="Equipment">
 
 function loadEquimentWindow(warehouseId) {
+
+    $.isLoading();
+
     var target = "equipment";
     $.ajax({
         url: target,
@@ -1433,6 +1483,9 @@ function deleteEquipment(id, warehouseId) {
 
 //<editor-fold defaultstate="collapsed" desc="Farm">
 function loadFarmWindow(farmerId) {
+
+    $.isLoading();
+
     var target = "farm";
     $.ajax({
         url: target,
@@ -1473,7 +1526,6 @@ function editFarm(farmerId, plotSize, locationId, county, subCounty, ward, divis
 
                 latitude = $("#latitude").val();
                 longitude = $("#longitude").val();
-
                 //Ascertain validity of latitude
                 try {
                     if (latitude.length >= 1) {
@@ -1751,7 +1803,6 @@ $("#feedback-form").ajaxForm({
         return;
     }
 });
-
 function saveFeedback() {
     $.ajax({
         url: "saveFeedback",
@@ -1963,14 +2014,10 @@ function changeOutcomeReport() {
 
 function editOutcomeValue(id, actualValue, expectedValue, description) {
 
-    if (actualValue.trim() === "") {
-        actualValue = 0;
-    }
-    if (expectedValue.trim() === "") {
-        expectedValue = 0;
-    }
+    actualValue = parseFloat(actualValue) || 0.0;
+    expectedValue = parseFloat(expectedValue) || 0.0;
 
-    $("#ratio-" + id + "").html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+    $("#ratio-" + id + "").html((actualValue / expectedValue * 100).toFixed(2) + "%");
     if (expectedValue !== "")
         $("#expected-value option[value=" + parseInt(expectedValue) + "]").attr("selected", "selected");
     if (actualValue !== "")
@@ -1983,8 +2030,8 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
         modal: false,
         buttons: {
             "Save": function () {
-                actualValue = $("#actual-value").val();
-                expectedValue = $("#expected-value").val();
+                actualValue = parseFloat($("#actual-value").val()) || 0;
+                expectedValue = parseFloat($("#expected-value").val()) || 0.0;
                 $.ajax({
                     url: "updateOutcomeValues",
                     type: "POST",
@@ -1994,13 +2041,7 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
                             "&expectedValue=" + expectedValue,
                     success: function () {
 
-                        if (actualValue.trim() === "") {
-                            actualValue = 0;
-                        }
-                        if (expectedValue.trim() === "") {
-                            expectedValue = 0;
-                        }
-                        $("#outcome-ratio-" + id).html((parseFloat(actualValue) / parseFloat(expectedValue) * 100).toFixed(2) + "%");
+                        $("#outcome-ratio-" + id).html((actualValue / expectedValue * 100).toFixed(2) + "%");
                         $("#expected-value-" + id).html(expectedValue);
                         $("#actual-value-" + id).html(actualValue);
                         $("#expected-value").val("");
@@ -3269,6 +3310,9 @@ function clearSubActivityFields() {
 }
 
 function loadSubActivitiesWindow(activityPlanningId) {
+
+    $.isLoading();
+
     var target = "subActivities";
     $.ajax({
         url: target,
@@ -3383,6 +3427,9 @@ function deleteSubActivityName(id, activityNameId) {
 }
 
 function loadSubActivityNamesWindow(activityNameId) {
+
+    $.isLoading();
+
     var target = "sub_activity_names";
     $.ajax({
         url: target,
@@ -3866,7 +3913,6 @@ function addWarehouseOperation(warehouseId) {
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
-                        return;
                         return;
                     },
                     dataType: "HTML"
