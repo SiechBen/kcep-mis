@@ -38,7 +38,7 @@
                             </div>
                             <div class="form-group">
                                 Date of birth
-                                <input id="date-of-birth" class="form-control datefield" value="${sessionScope.person.dateOfBirth}">
+                                <input id="date-of-birth" class="form-control datefield" type="date" value="${sessionScope.person.dateOfBirth}">
                             </div>
                             <div class="form-group">
                                 Business name

@@ -133,47 +133,47 @@
                     </div>
                     <div class="form-group">
                         Complete BD
-                        <input id="complete-bd" class="form-control datefield">
+                        <input id="complete-bd" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         *Approval by IFAD
-                        <input id="approval-by-ifad1" class="form-control datefield">
+                        <input id="approval-by-ifad1" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Approval by SDA
-                        <input id="approval-by-sda" class="form-control datefield">
+                        <input id="approval-by-sda" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Issue BD
-                        <input id="issue-bd" class="form-control datefield">
+                        <input id="issue-bd" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Receive bids
-                        <input id="receive-bids" class="form-control datefield">
+                        <input id="receive-bids" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Evaluate bids
-                        <input id="evaluate-bids" class="form-control datefield">
+                        <input id="evaluate-bids" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Award
-                        <input id="award" class="form-control datefield">
+                        <input id="award" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         *Approval by IFAD
-                        <input id="approval-by-ifad2" class="form-control datefield">
+                        <input id="approval-by-ifad2" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Approval by SDA/AG
-                        <input id="approval-by-sda-or-ag" class="form-control datefield">
+                        <input id="approval-by-sda-or-ag" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Sign contract
-                        <input id="sign-contract" class="form-control datefield">
+                        <input id="sign-contract" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Commence contract
-                        <input id="commence-contract" class="form-control datefield">
+                        <input id="commence-contract" class="form-control datefield" type="date">
                     </div>
                 </form>
             </div>

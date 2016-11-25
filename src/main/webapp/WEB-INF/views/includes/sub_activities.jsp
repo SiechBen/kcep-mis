@@ -202,11 +202,11 @@
                     </div>
                     <div class="form-group">
                         Start Date
-                        <input id="start-date" class="form-control datefield">
+                        <input id="start-date" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         End date
-                        <input id="end-date" class="form-control datefield">
+                        <input id="end-date" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Measurement unit

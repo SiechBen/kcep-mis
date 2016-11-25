@@ -89,7 +89,7 @@
                     </div>
                     <div class="form-group">
                         Date purchased
-                        <input type="date" id="date-purchased" name="date-purchased" class="form-control datefield">
+                        <input type="date" id="date-purchased" name="date-purchased" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Serial number

@@ -18,7 +18,7 @@
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <label hidden id="add-label">addPerson</label>
-                    <table class="table table-bordered table-hover data-table">
+                    <table class="table table-bordered table-hover" id="people-table">
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>

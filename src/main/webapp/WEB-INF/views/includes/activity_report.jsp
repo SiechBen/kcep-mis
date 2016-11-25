@@ -20,7 +20,7 @@
                                                 <th>Republic of Kenya</th>
                                                 <th>
                                                     Report date: &nbsp;
-                                                    <input id="report-date" class="datefield">
+                                                    <input id="report-date" class="datefield" type="date">
                                                 </th>
                                             </tr>
                                             <tr>

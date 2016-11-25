@@ -245,6 +245,33 @@ $(function () {
     });
 });
 $(function () {
+    $("#people-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            {
+                text: "Upload excel",
+                action: function () {
+                    loadAjaxWindow("uploadPeople");
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
+$(function () {
     $(".data-table").DataTable({
         responsive: true,
         "scrollX": true,

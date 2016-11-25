@@ -100,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         Date Of Birth
-                        <input id="year-of-birth" name="year-of-birth" class="form-control datefield">
+                        <input id="year-of-birth" name="year-of-birth" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Business Name
@@ -179,7 +179,7 @@
                     </div>
                     <div class="form-group">
                         Date redeemed
-                        <input id="date-redeemed" name="date-redeemed" class="form-control datefield">
+                        <input id="date-redeemed" name="date-redeemed" class="form-control datefield" type="date">
                     </div>
                 </form>
             </div>

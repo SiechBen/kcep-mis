@@ -40,7 +40,7 @@
         <link href="static/plugins/datatables/media/css/buttons.dataTables.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/select.dataTables.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
-        <link href="static/plugins/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet">
+        <link href="../../static/plugins/datatables-responsive/css/responsive.dataTables.scss">
         <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
         <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
         ${styles}
@@ -170,6 +170,7 @@
         <script src="static/plugins/isLoading/jquery.isloading.js"></script>
         <script src="static/plugins/jstorage/jstorage.js"></script>
         <script src="static/plugins/modernizr/modernizr.js"></script>
+        <script src="static/plugins/visualization/d3js/d3.min.js"></script>
         ${scripts}
         <script src="static/js/actions.js"></script>
 

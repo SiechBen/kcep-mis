@@ -89,11 +89,11 @@
                 <form role="form">
                     <div class="form-group">
                         Start date
-                        <input id="start-date" name="start-date" class="form-control datefield">
+                        <input id="start-date" name="start-date" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         End date
-                        <input id="end-date" name="end-date" class="form-control datefield">
+                        <input id="end-date" name="end-date" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Training module

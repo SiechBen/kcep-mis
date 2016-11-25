@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         Baseline date
-                        <input id="baseline-date" class="form-control datefield">
+                        <input id="baseline-date" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Baseline value

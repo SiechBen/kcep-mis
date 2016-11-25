@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         Date of birth
-                        <input id="date-of-birth" class="form-control datefield" value="<fmt:formatDate pattern='MM/dd/yyyy' value='${sessionScope.person.dateOfBirth}'/>">
+                        <input id="date-of-birth" class="form-control datefield" type="date" value="<fmt:formatDate pattern='MM/dd/yyyy' value='${sessionScope.person.dateOfBirth}'/>">
                     </div>
                     <div class="form-group">
                         Business name

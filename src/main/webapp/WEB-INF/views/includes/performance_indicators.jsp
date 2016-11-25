@@ -113,7 +113,7 @@
                 <form role="form">
                     <div class="form-group">
                         Baseline date
-                        <input id="baseline-date" class="form-control datefield">
+                        <input id="baseline-date" class="form-control datefield" type="date">
                     </div>
                 </form>
             </div>

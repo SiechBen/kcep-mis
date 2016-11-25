@@ -176,7 +176,7 @@
                     </div>
                     <div class="form-group">
                         Selling date
-                        <input type="date" id="selling-date" class="form-control datefield">
+                        <input type="date" id="selling-date" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Quantity sold(bags)

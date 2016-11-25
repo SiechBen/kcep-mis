@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group">
                         Date redeemed
-                        <input id="date-redeemed" name="date-redeemed" class="form-control datefield">
+                        <input id="date-redeemed" name="date-redeemed" class="form-control datefield" type="date">
                     </div>
                     <div class="form-group">
                         Attachment i.e scanned pages/ photos from the inputs logging book
