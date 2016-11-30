@@ -145,7 +145,7 @@ public interface PersonRequestsLocal {
      * Equity bank; e-voucher scheme).
      * @throws MilesException when the database is in an incorrect state
      */
-    public Object retrieveFarmersAndAgroDealers() throws MilesException;
+    public List<PersonDetails> retrieveFarmersAndAgroDealers() throws MilesException;
 
     /**
      * Retrieve people of a certain person role

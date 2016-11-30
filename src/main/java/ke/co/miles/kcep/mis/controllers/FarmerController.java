@@ -114,9 +114,9 @@ public class FarmerController extends Controller {
                         break;
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddLoan");
+//                            urlPaths.add("/doAddLoan");
                             urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
+//                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
@@ -135,9 +135,9 @@ public class FarmerController extends Controller {
                         break;
                     case "agmarkSession":
                         if (rightsMaps.get(rightsMap)) {
-                            urlPaths.add("/doAddLoan");
+//                            urlPaths.add("/doAddLoan");
                             urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
+//                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");

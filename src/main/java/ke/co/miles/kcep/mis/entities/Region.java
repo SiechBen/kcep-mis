@@ -76,6 +76,15 @@ public class Region implements Serializable {
         this.countyList = countyList;
     }
 
+    @XmlTransient
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
+    }
+
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,20 +108,6 @@ public class Region implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Region[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the subActivityList
-     */
-    public List<SubActivity> getSubActivityList() {
-        return subActivityList;
-    }
-
-    /**
-     * @param subActivityList the subActivityList to set
-     */
-    public void setSubActivityList(List<SubActivity> subActivityList) {
-        this.subActivityList = subActivityList;
     }
 
 }

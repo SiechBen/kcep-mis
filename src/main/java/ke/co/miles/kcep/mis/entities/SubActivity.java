@@ -62,8 +62,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
-    private List<ActivityProgress> activityProgressList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -116,18 +114,27 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "activity_name", referencedColumnName = "id")
     @ManyToOne
     private ActivityName activityName;
+    @JoinColumn(name = "region", referencedColumnName = "id")
+    @ManyToOne
+    private Region region;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne
     private Component component;
     @JoinColumn(name = "sub_component", referencedColumnName = "id")
     @ManyToOne
     private SubComponent subComponent;
+    @JoinColumn(name = "county", referencedColumnName = "id")
+    @ManyToOne
+    private County county;
     @JoinColumn(name = "gfss_code", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon gfssCode;
     @JoinColumn(name = "expected_outcome", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon expectedOutcome;
+    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
+    @ManyToOne
+    private SubActivityName subActivityName;
     @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon implementingPartner;
@@ -137,21 +144,14 @@ public class SubActivity implements Serializable {
     @JoinColumn(name = "annual_indicator", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon annualIndicator;
-    @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
-    @ManyToOne
-    private Phenomenon expenditureCategory;
-    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
-    @ManyToOne
-    private SubActivityName subActivityName;
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
     @ManyToOne
     private FinancialYear financialYear;
-    @JoinColumn(name = "county", referencedColumnName = "id")
+    @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
     @ManyToOne
-    private County county;
-    @JoinColumn(name = "region", referencedColumnName = "id")
-    @ManyToOne
-    private Region region;
+    private Phenomenon expenditureCategory;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
+    private List<ActivityProgress> activityProgressList;
 
     public SubActivity() {
     }
@@ -320,6 +320,14 @@ public class SubActivity implements Serializable {
         this.activityName = activityName;
     }
 
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     public Component getComponent() {
         return component;
     }
@@ -336,6 +344,14 @@ public class SubActivity implements Serializable {
         this.subComponent = subComponent;
     }
 
+    public County getCounty() {
+        return county;
+    }
+
+    public void setCounty(County county) {
+        this.county = county;
+    }
+
     public Phenomenon getGfssCode() {
         return gfssCode;
     }
@@ -350,6 +366,14 @@ public class SubActivity implements Serializable {
 
     public void setExpectedOutcome(Phenomenon expectedOutcome) {
         this.expectedOutcome = expectedOutcome;
+    }
+
+    public SubActivityName getSubActivityName() {
+        return subActivityName;
+    }
+
+    public void setSubActivityName(SubActivityName subActivityName) {
+        this.subActivityName = subActivityName;
     }
 
     public Phenomenon getImplementingPartner() {
@@ -376,6 +400,14 @@ public class SubActivity implements Serializable {
         this.annualIndicator = annualIndicator;
     }
 
+    public FinancialYear getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(FinancialYear financialYear) {
+        this.financialYear = financialYear;
+    }
+
     public Phenomenon getExpenditureCategory() {
         return expenditureCategory;
     }
@@ -384,20 +416,13 @@ public class SubActivity implements Serializable {
         this.expenditureCategory = expenditureCategory;
     }
 
-    public SubActivityName getSubActivityName() {
-        return subActivityName;
+    @XmlTransient
+    public List<ActivityProgress> getActivityProgressList() {
+        return activityProgressList;
     }
 
-    public void setSubActivityName(SubActivityName subActivityName) {
-        this.subActivityName = subActivityName;
-    }
-
-    public FinancialYear getFinancialYear() {
-        return financialYear;
-    }
-
-    public void setFinancialYear(FinancialYear financialYear) {
-        this.financialYear = financialYear;
+    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
+        this.activityProgressList = activityProgressList;
     }
 
     @Override
@@ -423,43 +448,6 @@ public class SubActivity implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.SubActivity[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<ActivityProgress> getActivityProgressList() {
-        return activityProgressList;
-    }
-
-    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
-        this.activityProgressList = activityProgressList;
-    }
-
-    /**
-     * @return the county
-     */
-    public County getCounty() {
-        return county;
-    }
-
-    /**
-     * @param county the county to set
-     */
-    public void setCounty(County county) {
-        this.county = county;
-    }
-
-    /**
-     * @return the region
-     */
-    public Region getRegion() {
-        return region;
-    }
-
-    /**
-     * @param region the region to set
-     */
-    public void setRegion(Region region) {
-        this.region = region;
     }
 
 }

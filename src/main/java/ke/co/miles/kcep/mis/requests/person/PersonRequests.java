@@ -622,6 +622,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         personRoleIds.add(PersonRoleDetail.FARMER.getId());
         personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
         q.setParameter("personRoleIds", personRoleIds);
+        q.setMaxResults(50);
 
         List<UserAccount> userAccounts;
         try {

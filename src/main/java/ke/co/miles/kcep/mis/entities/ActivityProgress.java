@@ -32,13 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ActivityProgress.findAll", query = "SELECT a FROM ActivityProgress a"),
     @NamedQuery(name = "ActivityProgress.findById", query = "SELECT a FROM ActivityProgress a WHERE a.id = :id"),
     @NamedQuery(name = "ActivityProgress.findByValueAchievedOrExpense", query = "SELECT a FROM ActivityProgress a WHERE a.valueAchievedOrExpense = :valueAchievedOrExpense"),
-    @NamedQuery(name = "ActivityProgress.findByTargetOrBudget", query = "SELECT a FROM ActivityProgress a WHERE a.targetOrBudget = :targetOrBudget")})
+    @NamedQuery(name = "ActivityProgress.findByTargetOrBudget", query = "SELECT a FROM ActivityProgress a WHERE a.targetOrBudget = :targetOrBudget"),
+    @NamedQuery(name = "ActivityProgress.findByQuarter", query = "SELECT a FROM ActivityProgress a WHERE a.quarter = :quarter")})
 public class ActivityProgress implements Serializable {
 
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "quarter")
-    private short quarter;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +47,10 @@ public class ActivityProgress implements Serializable {
     private BigDecimal valueAchievedOrExpense;
     @Column(name = "target_or_budget")
     private BigDecimal targetOrBudget;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "quarter")
+    private short quarter;
     @JoinColumn(name = "progress_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Phenomenon progressType;
@@ -62,6 +63,11 @@ public class ActivityProgress implements Serializable {
 
     public ActivityProgress(Integer id) {
         this.id = id;
+    }
+
+    public ActivityProgress(Integer id, short quarter) {
+        this.id = id;
+        this.quarter = quarter;
     }
 
     public Integer getId() {
@@ -86,6 +92,14 @@ public class ActivityProgress implements Serializable {
 
     public void setTargetOrBudget(BigDecimal targetOrBudget) {
         this.targetOrBudget = targetOrBudget;
+    }
+
+    public short getQuarter() {
+        return quarter;
+    }
+
+    public void setQuarter(short quarter) {
+        this.quarter = quarter;
     }
 
     public Phenomenon getProgressType() {
@@ -127,14 +141,6 @@ public class ActivityProgress implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.ActivityProgress[ id=" + id + " ]";
-    }
-
-    public short getQuarter() {
-        return quarter;
-    }
-
-    public void setQuarter(short quarter) {
-        this.quarter = quarter;
     }
 
 }

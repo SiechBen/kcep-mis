@@ -130,6 +130,13 @@ public abstract class Controller extends HttpServlet {
             return;
         }
 
+        try {
+            getServletContext().setAttribute("populationInfo", bundle.getString("provide_excel"));
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "An error occurred when availing population information", ex);
+            return;
+        }
+
         getServletContext().setAttribute("sexes", Arrays.asList(SexDetail.values()));
 
         try {

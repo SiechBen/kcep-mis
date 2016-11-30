@@ -10,31 +10,31 @@
 }
 
 html {
-
+    font-size: 100%;
 }
 
 body {
-    font-size: 100%;
+    font-size: 0.8em;
     background: #f8f8f8;
     font-family:"Century Gothic", Helvetica, sans-serif;
 }
 
 .panel-heading {
-    font-size: 160%;
+    font-size: 1.4em;
 }
 
 .nav > li {
-    font-size: 140%;
+    font-size: 1.2em;
 }
 
 .nav > li > ul > li {
-    font-size: 100%;
+    font-size: 0.9em;
 }
 
 .about-text {
     margin: 20px;
     padding: 20px;
-    font-size: 130%;
+    font-size: 1.3em;
 }
 
 #wrapper {
@@ -455,4 +455,36 @@ table.dataTable thead .sorting:after {
 .partial {
     width: 93.73%;
     display: inline-block;
+}
+
+#people-upload-table {
+    font-size: 1.2em;
+}
+
+.panel-default > .uploaded {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.panel-default > .not-uploaded {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.panel-wards {
+    margin-bottom: 0px;
+}
+
+.panel-wards > .panel-body {
+    padding-bottom: 10px;
+}
+
+.reduced {
+    opacity: 0.25;
+}
+
+.reduced:hover {
+    opacity: 0.9;
 }

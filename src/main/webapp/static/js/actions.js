@@ -272,6 +272,16 @@ $(function () {
     });
 });
 $(function () {
+    $("#wards-table").DataTable({
+        responsive: true,
+        dom: "Blftip",
+        "bLengthChange": false,
+        buttons: [
+            'excel'
+        ]
+    });
+});
+$(function () {
     $(".data-table").DataTable({
         responsive: true,
         "scrollX": true,
@@ -4052,4 +4062,10 @@ function clearWarehouseOperationFields() {
     $("#buyer").val("");
 }
 
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Change focus">
+function focusSpan() {
+    $(".dt-button").click().focus();
+}
 //</editor-fold>

@@ -33,9 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "progressType")
-    private List<ActivityProgress> activityProgressList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +53,8 @@ public class Phenomenon implements Serializable {
     private List<SubActivity> subActivityList5;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedbackType")
     private List<Feedback> feedbackList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "progressType")
+    private List<ActivityProgress> activityProgressList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicatorType")
     private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "warehouseOperator")
@@ -76,6 +75,8 @@ public class Phenomenon implements Serializable {
     @JoinColumn(name = "phenomenon_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PhenomenonType phenomenonType;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purpose")
+    private List<UploadedFile> uploadedFileList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phenomenon")
     private List<Trainer> trainerList;
 
@@ -158,6 +159,15 @@ public class Phenomenon implements Serializable {
     }
 
     @XmlTransient
+    public List<ActivityProgress> getActivityProgressList() {
+        return activityProgressList;
+    }
+
+    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
+        this.activityProgressList = activityProgressList;
+    }
+
+    @XmlTransient
     public List<PerformanceIndicator> getPerformanceIndicatorList() {
         return performanceIndicatorList;
     }
@@ -237,6 +247,15 @@ public class Phenomenon implements Serializable {
     }
 
     @XmlTransient
+    public List<UploadedFile> getUploadedFileList() {
+        return uploadedFileList;
+    }
+
+    public void setUploadedFileList(List<UploadedFile> uploadedFileList) {
+        this.uploadedFileList = uploadedFileList;
+    }
+
+    @XmlTransient
     public List<Trainer> getTrainerList() {
         return trainerList;
     }
@@ -268,15 +287,6 @@ public class Phenomenon implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<ActivityProgress> getActivityProgressList() {
-        return activityProgressList;
-    }
-
-    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
-        this.activityProgressList = activityProgressList;
     }
 
 }

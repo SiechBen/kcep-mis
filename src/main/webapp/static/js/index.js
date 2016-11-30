@@ -17,18 +17,21 @@ function loadAjaxWindow(target) {
 }
 
 function saveFeedback() {
-    $.ajax({
-        url: "saveFeedback",
-        type: "POST",
-        data: "feedback=" + $("#feedback").val(),
-        success: function () {
-            $("#feedback").val("Feedback has been received. Thank you!");
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-        },
-        dataType: "HTML"
-    });
+    if ($("#feedback").val() !== "Leave a comment to KCEP officials") {
+        $.ajax({
+            url: "saveFeedback",
+            type: "POST",
+            data: "feedback=" + $("#feedback").val(),
+            success: function () {
+                $("#feedback").val("Feedback has been received. Thank you!");
+            },
+            error: function (response) {
+                showError("error_label", response.responseText);
+            },
+            dataType: "HTML"
+        });
+    } else
+        return;
 }
 
 function showError(title, message) {

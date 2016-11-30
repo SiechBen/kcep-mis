@@ -51,11 +51,11 @@ public class County implements Serializable {
     @ManyToOne(optional = false)
     private Region region;
     @OneToMany(mappedBy = "county")
+    private List<SubActivity> subActivityList;
+    @OneToMany(mappedBy = "county")
     private List<Procurement> procurementList;
     @OneToMany(mappedBy = "county")
     private List<Location> locationList;
-    @OneToMany(mappedBy = "county")
-    private List<SubActivity> subActivityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "county")
     private List<TechnologyTargetCounty> technologyTargetCountyList;
 
@@ -102,6 +102,15 @@ public class County implements Serializable {
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList() {
+        return subActivityList;
+    }
+
+    public void setSubActivityList(List<SubActivity> subActivityList) {
+        this.subActivityList = subActivityList;
     }
 
     @XmlTransient
@@ -154,20 +163,6 @@ public class County implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.County[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the subActivityList
-     */
-    public List<SubActivity> getSubActivityList() {
-        return subActivityList;
-    }
-
-    /**
-     * @param subActivityList the subActivityList to set
-     */
-    public void setSubActivityList(List<SubActivity> subActivityList) {
-        this.subActivityList = subActivityList;
     }
 
 }

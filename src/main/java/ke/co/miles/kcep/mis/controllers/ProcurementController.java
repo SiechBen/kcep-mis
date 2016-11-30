@@ -64,8 +64,6 @@ public class ProcurementController extends Controller {
         String path = request.getServletPath();
         String destination;
 
-        final String fileSeparator = File.separator;
-
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps = (HashMap<String, Boolean>) session.getAttribute("rightsMaps");
         ArrayList<String> urlPaths = new ArrayList<>();
