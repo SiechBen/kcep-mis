@@ -185,7 +185,7 @@ public abstract class Controller extends HttpServlet {
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
 
-    protected final DateFormat userDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    protected final DateFormat userDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     protected final DateFormat databaseDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
     protected Date date;
     protected final String fileSeparator = File.separator;

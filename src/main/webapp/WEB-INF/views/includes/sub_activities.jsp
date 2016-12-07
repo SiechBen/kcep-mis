@@ -69,8 +69,8 @@
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.annualIndicator.category.name}">${subActivity.annualIndicator.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.activityName.name}">${subActivity.subActivityName.activityName.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.name}">${subActivity.subActivityName.name}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.startDate}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.endDate}"/></td>
+                                    <td><fmt:formatDate pattern="yy-MMM-dd" value="${subActivity.startDate}"/></td>
+                                    <td><fmt:formatDate pattern="yy-MMM-dd" value="${subActivity.endDate}"/></td>
                                     <td>${subActivity.measurementUnit.unit}</td>
                                     <td>${subActivity.unitCost}</td>
                                     <td>${subActivity.awpbTarget}</td>
@@ -98,8 +98,8 @@
                                                     '${subActivity.subComponent.id}',
                                                     '${subActivity.subActivityName.activityName.id}',
                                                     '${subActivity.subActivityName.id}',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.startDate}"/>',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${subActivity.endDate}"/>',
+                                                    '<fmt:formatDate pattern="yy-MMM-dd" value="${subActivity.startDate}"/>',
+                                                    '<fmt:formatDate pattern="yy-MMM-dd" value="${subActivity.endDate}"/>',
                                                     '${subActivity.measurementUnit.id}',
                                                     '${subActivity.unitCost}',
                                                     '${subActivity.awpbTarget}',

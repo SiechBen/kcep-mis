@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Below is the list of trainees for the training that started on <em><fmt:formatDate pattern="MM/dd/yyyy" value="${sessionScope.training.startDate}"/></em><br>
+                Below is the list of trainees for the training that started on <em><fmt:formatDate pattern="yy-MMM-dd" value="${sessionScope.training.startDate}"/></em><br>
                 The topic of the training was <b>${sessionScope.training.topic.topic}</b>.
             </div>
             <div class="panel-body">

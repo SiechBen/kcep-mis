@@ -42,9 +42,9 @@
                                     <td>${eVoucher.amount}</td>
                                     <td>${eVoucher.inputType.type}</td>
                                     <td>${eVoucher.person.name}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/></td>
+                                    <td><fmt:formatDate pattern="yy-MMM-dd" value="${eVoucher.dateRedeemed}"/></td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${eVoucher.inputsLogbookPage}')" target="_blank">${eVoucher.fileName}</a></td>
-                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${eVoucher.dateRedeemed}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editEVoucher('${eVoucher.id}', '${eVoucher.amount}', '${eVoucher.inputType.id}', '${eVoucher.person.id}', '<fmt:formatDate pattern="yy-MMM-dd" value="${eVoucher.dateRedeemed}"/>')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletEVoucher(${eVoucher.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

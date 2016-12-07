@@ -47,7 +47,7 @@
                                     <!--<td>${procurement.gfssCode.category.name} - ${procurement.gfssCode.category.child.name}</td>-->
                                     <td>${procurement.item}</td>
                                     <td>${procurement.cost}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${procurement.datePurchased}"/></td>
+                                    <td><fmt:formatDate pattern="yy-MMM-dd" value="${procurement.datePurchased}"/></td>
                                     <td>${procurement.serialNumber}</td>
                                     <td>${procurement.description}</td>
                                     <td>${procurement.targetOffice}</td>
@@ -55,7 +55,7 @@
                                     <td>${procurement.subCounty.name}</td>
                                     <td>${procurement.lpoNumber}</td>
                                     <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
-                                    <td><button onclick="editProcurement('${procurement.id}', '${procurement.item}', '${procurement.cost}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${procurement.datePurchased}"/>', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editProcurement('${procurement.id}', '${procurement.item}', '${procurement.cost}', '<fmt:formatDate pattern="yy-MMM-dd" value="${procurement.datePurchased}"/>', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteProcuremenet(${procurement.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>

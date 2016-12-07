@@ -51,7 +51,7 @@
                                     <td>${performanceIndicator.performanceIndicatorType.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.resultHierarchy.description}">${performanceIndicator.resultHierarchy.description}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${performanceIndicator.description}">${performanceIndicator.description}</td>
-                                    <td class="editable pencil" onclick="editBaselineDate('${performanceIndicator.id}', '${performanceIndicator.baselineDate}', '${performanceIndicator.description}')"><fmt:formatDate pattern="MM/dd/yyyy" value="${performanceIndicator.baselineDate}"/></td>
+                                    <td class="editable pencil" onclick="editBaselineDate('${performanceIndicator.id}', '${performanceIndicator.baselineDate}', '${performanceIndicator.description}')"><fmt:formatDate pattern="yy-MMM-dd" value="${performanceIndicator.baselineDate}"/></td>
                                     <td class="editable pencil" onclick="editBaselineValue('${performanceIndicator.id}', '${performanceIndicator.baselineValue}', '${performanceIndicator.description}')">${performanceIndicator.baselineValue}</td>
                                     <c:forEach var="performanceIndicatorValues" items="${sessionScope.performanceIndicatorsMap.get(performanceIndicator)}">
                                         <td>${performanceIndicatorValues.actualValue}</td>

@@ -65,7 +65,7 @@ $('[data-toggle="tooltip"]').tooltip(); //initialize all tooltips in the documen
 //<editor-fold defaultstate="collapsed" desc="Datepicker">
 $(function () {
     if (!Modernizr.inputtypes.date) {
-        $(".datefield").datepicker();
+        $(".datefield").datepicker({dateFormat: 'yy-mm-dd'});
     }
 });
 //</editor-fold>

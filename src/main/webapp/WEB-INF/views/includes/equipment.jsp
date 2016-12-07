@@ -92,12 +92,12 @@
                                         <td>${index.count}</td>
                                         <td>${warehouseOperation.quantityBrought}</td>
                                         <td>${warehouseOperation.produceTypeBrought.name}</td>
-                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/></td>
+                                        <td><fmt:formatDate pattern="yy-MMM-dd" value="${warehouseOperation.sellingDate}"/></td>
                                         <td>${warehouseOperation.quantitySold}</td>
                                         <td>${warehouseOperation.produceTypeSold.name}</td>
                                         <td>${warehouseOperation.sellingPrice}</td>
                                         <td>${warehouseOperation.buyer}</td>
-                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought.id}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold.id}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${warehouseOperation.sellingDate}"/>', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="editWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}', '${warehouseOperation.quantityBrought}', '${warehouseOperation.produceTypeBrought.id}', '${warehouseOperation.quantitySold}', '${warehouseOperation.produceTypeSold.id}', '<fmt:formatDate pattern="yy-MMM-dd" value="${warehouseOperation.sellingDate}"/>', '${warehouseOperation.sellingPrice}', '${warehouseOperation.buyer}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                         <td><button onclick="deleteWarehouseOperation('${warehouseOperation.id}', '${warehouseOperation.warehouse.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>

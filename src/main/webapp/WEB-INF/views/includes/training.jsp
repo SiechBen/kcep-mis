@@ -46,8 +46,8 @@
                             <c:forEach var="training" items="${sessionScope.trainingMap.keySet()}" varStatus="index">
                                 <tr>
                                     <td>${index.count}</td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/></td>
-                                    <td><fmt:formatDate pattern="MM/dd/yyyy" value="${training.endDate}"/></td>
+                                    <td><fmt:formatDate pattern="yy-MMM-dd" value="${training.startDate}"/></td>
+                                    <td><fmt:formatDate pattern="yy-MMM-dd" value="${training.endDate}"/></td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="<c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}" varStatus="i">${i.count}. ${trainer.phenomenon.category.name} </c:forEach>">
                                         <c:forEach var="trainer" items="${sessionScope.trainingMap.get(training)}">
                                             ${trainer.phenomenon.category.name}
@@ -63,8 +63,8 @@
                                     <td>${training.categoryOfTrainees.category.name}</td>
                                     <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
                                     <td><button onclick="editTraining('${training.id}',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.startDate}"/>',
-                                                    '<fmt:formatDate pattern="MM/dd/yyyy" value="${training.endDate}"/>',
+                                                    '<fmt:formatDate pattern="yy-MMM-dd" value="${training.startDate}"/>',
+                                                    '<fmt:formatDate pattern="yy-MMM-dd" value="${training.endDate}"/>',
                                                     '${training.topic.id}',
                                                     '${training.venue.id}',
                                                     '${training.venue.county.id}',

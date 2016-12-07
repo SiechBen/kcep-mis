@@ -144,7 +144,7 @@
                                 <c:forEach var="inputsCollection" items="${sessionScope.inputsCollections}" varStatus="index">
                                     <tr>
                                         <td>${index.count}</td>
-                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${inputsCollection.dateCollected}"/></td>
+                                        <td><fmt:formatDate pattern="yy-MMM-dd" value="${inputsCollection.dateCollected}"/></td>
                                         <td>${inputsCollection.agroDealer.name}</td>
                                         <td>${inputsCollection.agroDealer.businessName}</td>
                                         <td>${inputsCollection.inputType.type}</td>
@@ -180,13 +180,13 @@
                                         <td>${index.count}</td>
                                         <td>${farmActivity.name}</td>
                                         <td>${farmActivity.yield}</td>
-                                        <td><fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/></td>
+                                        <td><fmt:formatDate pattern="yy-MMM-dd" value="${farmActivity.dateDone}"/></td>
                                         <td>${farmActivity.quantityHarvested}</td>
                                         <td>${farmActivity.familyConsumption}</td>
                                         <td>${farmActivity.quantitySold}</td>
                                         <td>${farmActivity.postHarvestLoss}</td>
                                         <td>${farmActivity.averageSellingPrice}</td>
-                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '<fmt:formatDate pattern="MM/dd/yyyy" value="${farmActivity.dateDone}"/>', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button onclick="editFarmActivity('${farmActivity.id}', '${farmActivity.quantityHarvested}', '${farmActivity.familyConsumption}', '${farmActivity.quantitySold}', '${farmActivity.postHarvestLoss}', '${farmActivity.yield}', '<fmt:formatDate pattern="yy-MMM-dd" value="${farmActivity.dateDone}"/>', '${farmActivity.name}', '${farmActivity.averageSellingPrice}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                         <td><button onclick="deleteFarmActivity('${farmActivity.id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 </c:forEach>
