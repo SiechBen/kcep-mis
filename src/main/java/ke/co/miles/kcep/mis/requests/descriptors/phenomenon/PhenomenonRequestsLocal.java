@@ -21,10 +21,11 @@ public interface PhenomenonRequestsLocal {
     /**
      *
      * @param phenomenonDetails details of the phenomenon record to be created
+     * @return the unique idenfitifer of the newly created phenomenon
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
-    public void addPhenomenon(PhenomenonDetails phenomenonDetails) throws MilesException;
+    public int addPhenomenon(PhenomenonDetails phenomenonDetails) throws MilesException;
 
     /**
      *
@@ -92,6 +93,22 @@ public interface PhenomenonRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<PhenomenonDetails> retrieveGFSSCodes() throws MilesException;
+
+    /**
+     *
+     * @return the list of sub-components retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveSubComponents() throws MilesException;
+
+    /**
+     *
+     * @param componentId the unique identifier of the component under which the
+     * sub-components to be retrieved belong
+     * @return the list of sub-components retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<PhenomenonDetails> retrieveSubComponents(int componentId) throws MilesException;
 
     /**
      *

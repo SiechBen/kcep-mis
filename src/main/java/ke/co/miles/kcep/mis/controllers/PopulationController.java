@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -35,7 +36,7 @@ import ke.co.miles.kcep.mis.requests.population.MysqlConnection;
 import ke.co.miles.kcep.mis.requests.population.PopulationTimer;
 import ke.co.miles.kcep.mis.requests.population.excelreader.AgroDealerReader;
 import ke.co.miles.kcep.mis.requests.population.excelreader.FarmerReader;
-import ke.co.miles.kcep.mis.requests.uploadedfile.UploadedFileRequestsLocal;
+import ke.co.miles.kcep.mis.requests.population.uploadedfile.UploadedFileRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
@@ -200,7 +201,10 @@ public class PopulationController extends Controller {
                                 toDelete.delete();
                             }
                             filePath += fileName;
-                            if (filePath.endsWith(".xlsx")) {
+                            if (filePath.endsWith("people-upload-file.xlsx")) {
+
+                                filePath = filePath.replace(".xlsx", "") + " " + new Date() + ".xlsx";
+
                                 new File(filePath).getParentFile().mkdirs();
 
                                 outStream = new BufferedOutputStream(new FileOutputStream(filePath));
@@ -301,7 +305,16 @@ public class PopulationController extends Controller {
              * Integer.parseInt(JOptionPane.showInputDialog("Kindly enter the
              * row number of the last record.")); firstRow = 6; lastRow = 137;
              */
-            HashMap<PersonDetails, AccountDetails> peopleMap = new FarmerReader().retrievePeopleFromExcel(fileName);
+            HashMap<PersonDetails, AccountDetails> peopleMap;
+            try {
+                peopleMap = new FarmerReader().retrievePeopleFromExcel(fileName);
+            } catch (MilesException e) {
+//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                response.getWriter().write(getBundle().getString(e.getCode()) + "<br>");
+                getServletContext().setAttribute("populationInfo", getBundle().getString(e.getCode()));
+                LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                return;
+            }
             ContactDetails contact;
             CountyDetails county;
             EblBranchDetails eblBranch;
@@ -316,7 +329,7 @@ public class PopulationController extends Controller {
                     messageDigest = MessageDigest.getInstance("SHA-256");
                     password = Generator.generateSHAPassword(messageDigest, person.getNationalId());
                 } catch (NoSuchAlgorithmException e) {
-                    System.err.println("Message digest algorithm not found");
+                    LOGGER.log(Level.WARNING, "Message digest algorithm not found");
                     return;
                 }
 
@@ -435,7 +448,7 @@ public class PopulationController extends Controller {
                     //Create the person's user account record
                     statement.executeUpdate("INSERT INTO user_account(person, username, password, person_role) VALUES (" + personId + ",'" + person.getContact().getEmail() + "','" + password + "'," + PersonRoleDetail.FARMER.getId() + ")");
 
-                    System.out.println(++j + " Farmer " + person.getName() + " saved successfully");
+                    LOGGER.log(Level.INFO, "{0} Farmer {1} saved successfully", new Object[]{++j, person.getName()});
 
                 } catch (SQLException e) {
                     System.err.println("Farmer record error occurred: " + e);
@@ -469,7 +482,16 @@ public class PopulationController extends Controller {
              * Integer.parseInt(JOptionPane.showInputDialog("Kindly enter the
              * row number of the last record.")); firstRow = 6; lastRow = 137;
              */
-            List<PersonDetails> people = new AgroDealerReader().retrievePeopleFromExcel(fileName);
+            List<PersonDetails> people;
+            try {
+                people = new AgroDealerReader().retrievePeopleFromExcel(fileName);
+            } catch (MilesException e) {
+//                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//                response.getWriter().write(getBundle().getString(e.getCode()) + "<br>");
+                getServletContext().setAttribute("populationInfo", getBundle().getString(e.getCode()));
+                LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                return;
+            }
             int j = 0;
 
             //<editor-fold defaultstate="collapsed" desc="Loop excel records">
@@ -536,7 +558,7 @@ public class PopulationController extends Controller {
                     //Create the person's user account record
                     statement.executeUpdate("INSERT INTO user_account(person, username, password, person_role) VALUES (" + person.getId() + ",'" + person.getContact().getEmail() + "','" + password + "'," + PersonRoleDetail.AGRO_DEALER.getId() + ")");
 
-                    System.out.println(++j + " Agro-dealer " + person.getName() + " saved successfully");
+                    LOGGER.log(Level.INFO, ++j + " Agro-dealer " + person.getName() + " saved successfully");
 
                 } catch (Exception e) {
                     System.err.println("Agro-dealer record error occurred: " + e);

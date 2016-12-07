@@ -11,8 +11,10 @@ package ke.co.miles.kcep.mis.exceptions;
  */
 public class InvalidStateException extends MilesException {
 
-    public InvalidStateException(String message) {
-        super(message);
+    private static final long serialVersionUID = 1L;
+
+    public InvalidStateException(String code) {
+        super(code);
     }
 
     public InvalidStateException(String code, String prepend, String append) {

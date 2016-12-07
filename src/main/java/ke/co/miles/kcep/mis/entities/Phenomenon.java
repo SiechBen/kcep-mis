@@ -26,12 +26,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "phenomenon", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Phenomenon.findByPhenomenonTypeIdAndRelativeId", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId AND p.category.relative.id = :relativeId"),
     @NamedQuery(name = "Phenomenon.findByPhenomenonTypeIdAndRelative", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId AND p.category.relative = :relative"),
     @NamedQuery(name = "Phenomenon.findByPhenomenonTypeId", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId"),
     @NamedQuery(name = "Phenomenon.findByRelativeId", query = "SELECT p FROM Phenomenon p WHERE p.category.relative.id = :relativeId"),
     @NamedQuery(name = "Phenomenon.findAll", query = "SELECT p FROM Phenomenon p"),
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
+
+    @OneToMany(mappedBy = "component")
+    private List<ResultHierarchy> resultHierarchyList;
+    @OneToMany(mappedBy = "subComponent")
+    private List<ResultHierarchy> resultHierarchyList1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -287,6 +293,24 @@ public class Phenomenon implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Phenomenon[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<ResultHierarchy> getResultHierarchyList() {
+        return resultHierarchyList;
+    }
+
+    public void setResultHierarchyList(List<ResultHierarchy> resultHierarchyList) {
+        this.resultHierarchyList = resultHierarchyList;
+    }
+
+    @XmlTransient
+    public List<ResultHierarchy> getResultHierarchyList1() {
+        return resultHierarchyList1;
+    }
+
+    public void setResultHierarchyList1(List<ResultHierarchy> resultHierarchyList1) {
+        this.resultHierarchyList1 = resultHierarchyList1;
     }
 
 }

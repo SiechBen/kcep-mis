@@ -198,19 +198,19 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.performanceIndicator = performanceIndicator;
     }
 
-    public ComponentDetails getComponent() {
+    public PhenomenonDetails getComponent() {
         return component;
     }
 
-    public void setComponent(ComponentDetails component) {
+    public void setComponent(PhenomenonDetails component) {
         this.component = component;
     }
 
-    public SubComponentDetails getSubComponent() {
+    public PhenomenonDetails getSubComponent() {
         return subComponent;
     }
 
-    public void setSubComponent(SubComponentDetails subComponent) {
+    public void setSubComponent(PhenomenonDetails subComponent) {
         this.subComponent = subComponent;
     }
 
@@ -367,8 +367,8 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private ActivityNameDetails activityName;
     private PhenomenonDetails expenditureCategory;
     private PerformanceIndicatorDetails performanceIndicator;
-    private ComponentDetails component;
-    private SubComponentDetails subComponent;
+    private PhenomenonDetails component;
+    private PhenomenonDetails subComponent;
     private PhenomenonDetails implementingPartner;
     private MeasurementUnitDetails measurementUnit;
     private PhenomenonDetails responsePcu;

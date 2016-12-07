@@ -282,6 +282,16 @@ $(function () {
     });
 });
 $(function () {
+    $("#warehouse-count-table").DataTable({
+        responsive: true,
+        dom: "Blftip",
+//        "bLengthChange": false,
+//        "searching": false,
+        "scrollX": true,
+        "scrollCollapse": true
+    });
+});
+$(function () {
     $(".data-table").DataTable({
         responsive: true,
         "scrollX": true,
@@ -425,6 +435,12 @@ $(function () {
                     loadAjaxWindow($("#add-label").text());
                 }
             },
+            {
+                text: "Upload excel",
+                action: function () {
+                    loadAjaxWindow("uploadPeople");
+                }
+            },
             'excel',
             {
                 extend: 'colvis',
@@ -481,6 +497,12 @@ $(function () {
                 text: 'Add',
                 action: function () {
                     loadAjaxWindow($("#add-label").text());
+                }
+            },
+            {
+                text: "Upload excel",
+                action: function () {
+                    loadAjaxWindow("uploadPeople");
                 }
             },
             'excel',
@@ -1053,6 +1075,8 @@ function loadAjaxWindow(target) {
         data: null,
         success: function () {
             window.location = target;
+            $.isLoading("hide");
+            $(".loader").hide();
             return;
         },
         error: function (response) {
@@ -1669,6 +1693,163 @@ function addVillage() {
         dataType: "HTML"
     });
 }
+
+function toggleExpectedOutcomeInput() {
+    $(".shown-eo").hide();
+    $("#other-expected-outcome").show().focus();
+    return;
+}
+
+function addExpectedOutcome(phenomenonTypeId) {
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-expected-outcome").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&phenomenonType=Expected outcome",
+        success: function (response) {
+            $("#expected-outcome").append($('<option>', {value: response, text: $("#other-expected-outcome").val()}));
+            $("#expected-outcome option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-eo").show();
+            $("#other-expected-outcome").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleComponentInput() {
+    $(".shown-c").hide();
+    $("#other-component").show().focus();
+    return;
+}
+
+function addComponent(phenomenonTypeId) {
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-component").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&phenomenonType=Component",
+        success: function (response) {
+            $("#component").append($('<option>', {value: response, text: $("#other-component").val()}));
+            $("#component option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-c").show();
+            $("#other-component").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleSubComponentInput() {
+    $(".shown-sc").hide();
+    $("#other-sub-component").show().focus();
+    return;
+}
+
+function addSubComponent(phenomenonTypeId, relativeId) {
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-sub-component").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&relativeId=" + $("#component").val() + "&phenomenonType=Sub-component",
+        success: function (response) {
+            $("#sub-component").append($('<option>', {value: response, text: $("#other-sub-component").val()}));
+            $("#sub-component option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-sc").show();
+            $("#other-sub-component").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleAnnualIndicatorInput() {
+    $(".shown-ai").hide();
+    $("#other-annual-indicator").show().focus();
+    return;
+}
+
+function addAnnualIndicator(phenomenonTypeId) {
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-annual-indicator").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&phenomenonType=Annual indicator",
+        success: function (response) {
+            $("#annual-indicator").append($('<option>', {value: response, text: $("#other-annual-indicator").val()}));
+            $("#annual-indicator option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-ai").show();
+            $("#other-annual-indicator").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleActivityNameInput() {
+    $(".shown-an").hide();
+    $("#other-activity-name").show().focus();
+    return;
+}
+
+function flyAddActivityName() {
+    $.ajax({
+        url: "flyAddActivityName",
+        type: "POST",
+        data: "name=" + $("#other-activity-name").val(),
+        success: function (response) {
+            $("#activity-name").append($('<option>', {value: response, text: $("#other-activity-name").val()}));
+            $("#activity-name option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-an").show();
+            $("#other-activity-name").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleSubActivityNameInput() {
+    $(".shown-san").hide();
+    $("#other-sub-activity-name").show().focus();
+    return;
+}
+
+function flyAddSubActivityName() {
+    $.ajax({
+        url: "flyAddSubActivityName",
+        type: "POST",
+        data: "name=" + $("#other-sub-activity-name").val() + "&activityNameId=" + $("#activity-name").val(),
+        success: function (response) {
+            $("#sub-activity-name").append($('<option>', {value: response, text: $("#other-sub-activity-name").val()}));
+            $("#sub-activity-name option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-san").show();
+            $("#other-sub-activity-name").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm activity">
@@ -4064,8 +4245,44 @@ function clearWarehouseOperationFields() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Change focus">
-function focusSpan() {
-    $(".dt-button").click().focus();
+//<editor-fold defaultstate="collapsed" desc="Password check">
+function validatePassword() {
+    $.ajax({
+        url: "validatePassword",
+        type: "POST",
+        data: "password=" + $("#old-password").val() + "&personId=" + $("#person-id").val(),
+        success: function (data) {
+            $("#valid-password-information").html(data);
+        }
+    });
+}
+
+function matchPassword() {
+
+    var password = $("#new-password").val();
+    var confirmationPassword = $("#confirm-password").val();
+    if (password !== confirmationPassword) {
+        $("#matching-password-information").html("<span class=\"btn btn-warning\">Passwords do not match!</span>");
+    } else {
+        $("#matching-password-information").html("");
+    }
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="User account">
+function editUserAccount() {
+    $.ajax({
+        url: "editUserAccount",
+        type: "POST",
+        data: "username=" + $("#username").val() + "&oldPassword=" + $("#old-password").val() + "&newPassword=" + $("#new-password").val() + "&confirmPassword=" + $("#confirm-password").val() + "&personId=" + $("#person-id").val(),
+        success: function (response) {
+            showMessage("success_label", response);
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        }
+    });
 }
 //</editor-fold>

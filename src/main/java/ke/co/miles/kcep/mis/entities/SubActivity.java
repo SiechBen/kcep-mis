@@ -119,10 +119,10 @@ public class SubActivity implements Serializable {
     private Region region;
     @JoinColumn(name = "component", referencedColumnName = "id")
     @ManyToOne
-    private Component component;
+    private Phenomenon component;
     @JoinColumn(name = "sub_component", referencedColumnName = "id")
     @ManyToOne
-    private SubComponent subComponent;
+    private Phenomenon subComponent;
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
@@ -328,19 +328,19 @@ public class SubActivity implements Serializable {
         this.region = region;
     }
 
-    public Component getComponent() {
+    public Phenomenon getComponent() {
         return component;
     }
 
-    public void setComponent(Component component) {
+    public void setComponent(Phenomenon component) {
         this.component = component;
     }
 
-    public SubComponent getSubComponent() {
+    public Phenomenon getSubComponent() {
         return subComponent;
     }
 
-    public void setSubComponent(SubComponent subComponent) {
+    public void setSubComponent(Phenomenon subComponent) {
         this.subComponent = subComponent;
     }
 

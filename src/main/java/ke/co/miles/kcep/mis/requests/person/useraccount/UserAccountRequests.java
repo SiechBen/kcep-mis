@@ -266,11 +266,13 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
 
     @Override
     public void editCredentials(UserAccountDetails userAccountDetails) throws MilesException {
+
         if (userAccountDetails == null) {
             throw new InvalidArgumentException("error_015_01");
         } else if (userAccountDetails.getId() == null) {
             throw new InvalidArgumentException("error_015_09");
-        } else if (!userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER) && userAccountDetails.getUsername() == null || userAccountDetails.getUsername().trim().length() == 0) {
+        } else if (!userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER)
+                && userAccountDetails.getUsername() == null || userAccountDetails.getUsername().trim().length() == 0) {
             throw new InvalidArgumentException("error_015_02");
         } else if (userAccountDetails.getUsername() != null && userAccountDetails.getUsername().trim().length() > 150) {
             throw new InvalidArgumentException("error_015_03");
@@ -280,8 +282,6 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             throw new InvalidArgumentException("error_015_05");
         } else if (userAccountDetails.getPerson() == null) {
             throw new InvalidArgumentException("error_015_06");
-        } else if (userAccountDetails.getPersonRole() == null) {
-            throw new InvalidArgumentException("error_015_07");
         }
 
         if (userAccountDetails.getPersonRole().equals(PersonRoleDetail.FARMER)) {
@@ -308,23 +308,13 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             }
         }
 
-        MessageDigest messageDigest;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new AlgorithmException("error_016_01");
-        }
-
         userAccount = em.find(UserAccount.class, userAccountDetails.getId());
-        userAccount.setId(userAccountDetails.getId());
-        userAccount.setPassword(userAccountDetails.getPassword());
         userAccount.setUsername(userAccountDetails.getUsername());
-        userAccount.setPerson(em.getReference(Person.class, userAccountDetails.getPerson().getId()));
-        userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
-        userAccount.setPassword(accessService.generateSHAPassword(messageDigest, userAccountDetails.getPassword()));
+        userAccount.setPassword(userAccountDetails.getPassword());
 
         try {
             em.merge(userAccount);
+            em.flush();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }

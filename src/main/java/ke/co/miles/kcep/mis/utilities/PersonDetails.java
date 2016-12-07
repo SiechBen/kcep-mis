@@ -216,6 +216,20 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         this.personRole = personRole;
     }
 
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     private Integer id;
     private Short age;
     private String name;
@@ -223,6 +237,7 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     private Short yearOfBirth;
     private Double plotSize;
     private String nationalId;
+    private String username;
     private String personRole;
     private Short personRoleId;
     private String businessName;

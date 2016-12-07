@@ -36,19 +36,19 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
         this.description = description;
     }
 
-    public ComponentDetails getComponent() {
+    public PhenomenonDetails getComponent() {
         return component;
     }
 
-    public void setComponent(ComponentDetails component) {
+    public void setComponent(PhenomenonDetails component) {
         this.component = component;
     }
 
-    public SubComponentDetails getSubComponent() {
+    public PhenomenonDetails getSubComponent() {
         return subComponentDetails;
     }
 
-    public void setSubComponent(SubComponentDetails subComponentDetails) {
+    public void setSubComponent(PhenomenonDetails subComponentDetails) {
         this.subComponentDetails = subComponentDetails;
     }
 
@@ -81,7 +81,7 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
     private static final long serialVersionUID = 1L;
     private Short id;
     private String description;
-    private ComponentDetails component;
-    private SubComponentDetails subComponentDetails;
+    private PhenomenonDetails component;
+    private PhenomenonDetails subComponentDetails;
 
 }

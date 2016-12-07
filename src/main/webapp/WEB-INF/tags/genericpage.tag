@@ -28,9 +28,10 @@
 
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, user-scalable=no">
+        <meta name="description" content="The tag file from which all jsps inherit from">
+        <meta name="author" content="Ben Siech">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
         <title> ${title} </title>
 
@@ -40,7 +41,7 @@
         <link href="static/plugins/datatables/media/css/buttons.dataTables.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/select.dataTables.min.css" rel="stylesheet">
         <link href="static/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
-        <link href="../../static/plugins/datatables-responsive/css/responsive.dataTables.scss">
+        <link href="static/plugins/datatables-responsive/css/responsive.dataTables.scss">
         <link href="static/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
         <link href="static/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
         ${styles}
@@ -55,7 +56,7 @@
 
         <div id="wrapper">
 
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
                 </div>
@@ -94,7 +95,7 @@
                         <ul class="dropdown-menu dropdown-user">
                             <li><a href="userProfile"><i class="fa fa-user fa-fw"></i> User Profile</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <li><a href="user_account"><i class="fa fa-gear fa-fw"></i> Settings</a>
                             </li>
                             <li class="divider"></li>
                             <li><a onclick="loadAjaxWindow('loginpage')"><i class="fa fa-sign-in fa-fw"></i> Login </a>

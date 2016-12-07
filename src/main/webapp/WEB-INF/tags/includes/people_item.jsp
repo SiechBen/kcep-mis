@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : people_item
     Created on : Sep 14, 2016, 9:20:28 AM
     Author     : siech
@@ -8,5 +8,5 @@
 
 <li>
     <a href="#" onclick="loadAjaxWindow('people');
-                    return false;"><i class="fa fa-male  fa-fw"></i> People </a>
+            return false;"><i class="fa fa-male  fa-fw"></i> System users </a>
 </li>

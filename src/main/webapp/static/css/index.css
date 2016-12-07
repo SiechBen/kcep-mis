@@ -20,7 +20,7 @@ body{
 
 .main_container{
     width: 900px;
-    margin: 100px auto;
+    margin: 150px auto;
 }
 
 .header{
@@ -30,6 +30,13 @@ body{
 
 #wrapper {
     width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    /* applies only if the screen is narrower than 500px */
+    .navbar-fixed-top {
+        position: static;
+    }
 }
 
 a:hover

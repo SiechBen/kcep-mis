@@ -11,6 +11,8 @@ package ke.co.miles.kcep.mis.exceptions;
  */
 public class AlgorithmException extends MilesException {
 
+    private static final long serialVersionUID = 1L;
+
     public AlgorithmException(String code) {
         super(code);
     }

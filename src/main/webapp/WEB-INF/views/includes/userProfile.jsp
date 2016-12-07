@@ -3,6 +3,7 @@
     Created on : Sep 7, 2016, 2:12:34 PM
     Author     : ronne
 --%>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,7 +23,7 @@
                     <div class="form-group">
                         Person role
                         <select id="person-role" class="form-control">
-                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
+                            <c:forEach var="personRole" items="${sessionScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}" <c:if test="${personRole.id} == ${sessionScope.personRole.id}">selected</c:if>>${personRole.personRole}</option>
                             </c:forEach>
                         </select>
@@ -32,8 +33,10 @@
                         <input id="national-id" class="form-control" value="${sessionScope.person.nationalId}">
                     </div>
                     <div class="form-group">
-                        Date of birth
-                        <input id="date-of-birth" class="form-control datefield" type="date" value="<fmt:formatDate pattern='MM/dd/yyyy' value='${sessionScope.person.dateOfBirth}'/>">
+                        Year of birth
+                        <select id="year-of-birth" class="form-control">
+                            <option selected value="${sessionScope.person.yearOfBirth}">${sessionScope.person.yearOfBirth}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         Business name
@@ -61,15 +64,6 @@
                         <input id="email" type="email" class="form-control" value="${sessionScope.person.contact.email}">
                     </div>
                     <div class="form-group">
-                        Farmer group
-                        <select id="farmer-group" class="form-control">
-                            <option value="${sessionScope.person.farmerGroup.id}"selected>${sessionScope.person.farmerGroup.name}</option>
-                            <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index">
-                                <option value="${farmerGroup.id}">${farmerGroup.name}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         County
                         <select id="county" class="form-control" onchange="updateSubCounties()">
                             <option value="${sessionScope.person.location.county.id}"selected>${sessionScope.person.location.county.name}</option>
@@ -80,11 +74,21 @@
                     </div>
                     <div class="form-group">
                         Sub-county
-                        <input id="sub-county" class="form-control" value="${sessionScope.person.location.subCounty}">
+                        <select id="sub-county" class="form-control" onchange="updateSubCounties()">
+                            <option value="${sessionScope.person.location.subCounty.id}"selected>${sessionScope.person.location.subCounty.name}</option>
+                            <c:forEach var="subCounty" items="${applicationScope.counties}" varStatus="index">
+                                <option value="${subCounty.id}">${subCounty.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <div class="form-group">
                         Ward
-                        <input id="ward" class="form-control" value="${sessionScope.person.location.ward}">
+                        <select id="ward" class="form-control" onchange="updateSubCounties()">
+                            <option value="${sessionScope.person.location.ward.id}"selected>${sessionScope.person.location.ward.name}</option>
+                            <c:forEach var="ward" items="${applicationScope.counties}" varStatus="index">
+                                <option value="${ward.id}">${ward.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
                     <button type="button" class="btn btn-outline btn-primary" onclick="editPerson()">Save person</button>
                 </form>

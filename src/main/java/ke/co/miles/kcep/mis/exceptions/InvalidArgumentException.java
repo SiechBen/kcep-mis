@@ -13,8 +13,8 @@ public class InvalidArgumentException extends MilesException {
 
     private static final long serialVersionUID = 1L;
 
-    public InvalidArgumentException(String message) {
-        super(message);
+    public InvalidArgumentException(String code) {
+        super(code);
     }
 
     public InvalidArgumentException(String code, String prepend, String append) {

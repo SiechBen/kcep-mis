@@ -584,16 +584,16 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @Override
     public PersonDetails retrievePerson(int id) throws MilesException {
 
-        setQ(em.createNamedQuery("Person.findById"));
-        q.setParameter("id", id);
-        Person person;
+        setQ(em.createNamedQuery("UserAccount.findByPersonId"));
+        q.setParameter("personId", id);
+        UserAccount userAccount;
         try {
-            person = (Person) q.getSingleResult();
+            userAccount = (UserAccount) q.getSingleResult();
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
 
-        return convertPersonToPersonDetails(person);
+        return convertUserAccountToPerson(userAccount);
 
     }
 
@@ -792,7 +792,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
     @Override
-    public void editPerson(PersonDetails personDetails, PersonRoleDetail personRoleDetail) throws MilesException {
+    public void editPerson(PersonDetails personDetails, UserAccountDetails userAccountDetails) throws MilesException {
 
         if (personDetails == null) {
             throw new InvalidArgumentException("error_001_01");
@@ -840,9 +840,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             throw new InvalidStateException("error_000_01");
         }
 
-        UserAccountDetails userAccountDetails = new UserAccountDetails();
         userAccountDetails.setPerson(personDetails);
-        userAccountDetails.setPersonRole(personRoleDetail);
 
         try {
             userAccountService.editUserAccount(userAccountDetails);
@@ -964,18 +962,23 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             convertUserAccountsToPeople(List<UserAccount> userAccounts) {
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (UserAccount userAccount : userAccounts) {
-
-            PersonDetails personDetails
-                    = convertPersonToPersonDetails(userAccount.getPerson());
-            personDetails.setPersonRoleId(
-                    userAccount.getPersonRole().getId());
-            personDetails.setPersonRole(
-                    userAccount.getPersonRole().getPersonRole());
-            personDetailsList.add(personDetails);
+            personDetailsList.add(convertUserAccountToPerson(userAccount));
 
         }
 
         return personDetailsList;
+
+    }
+
+    private PersonDetails convertUserAccountToPerson(UserAccount userAccount) {
+
+        PersonDetails personDetails
+                = convertPersonToPersonDetails(userAccount.getPerson());
+        personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
+        personDetails.setPersonRole(userAccount.getPersonRole().getPersonRole());
+        personDetails.setUsername(userAccount.getUsername());
+
+        return personDetails;
 
     }
 //</editor-fold>

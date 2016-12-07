@@ -38,53 +38,69 @@
                     </div>
                     <div class="form-group">
                         Expected outcome
-                        <select id="expected-outcome" class="form-control">
-                            <option value="">Select expected outcome</option>
+                        <select id="expected-outcome" class="form-control partial shown-eo">
+                            <option disabled>Select expected outcome</option>
                             <c:forEach var="expectedOutcome" items="${sessionScope.expectedOutcomes}" varStatus="counter">
                                 <option value="${expectedOutcome.id}">${expectedOutcome.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-eo" onclick="toggleExpectedOutcomeInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-expected-outcome" class="form-control" onchange="addExpectedOutcome(${sessionScope.expectedOutcomes[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         Component
-                        <select id="component" class="form-control" onchange="updateSubComponents()">
+                        <select id="component" class="form-control partial shown-c" onchange="updateSubComponents()">
+                            <option disabled>Select component</option>
                             <c:forEach var="component" items="${sessionScope.components}" varStatus="counter">
-                                <option value="${component.id}">${component.component}</option>
+                                <option value="${component.id}">${component.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-c" onclick="toggleComponentInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-component" class="form-control" onchange="addComponent(${sessionScope.components[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         Sub-component
-                        <select id="sub-component" class="form-control">
+                        <select id="sub-component" class="form-control partial shown-sc">
+                            <option disabled>Select sub-component</option>
                             <c:forEach var="subComponent" items="${sessionScope.subComponents}" varStatus="counter">
-                                <option value="${subComponent.id}">${subComponent.subComponent}</option>
+                                <option value="${subComponent.id}">${subComponent.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-sc" onclick="toggleSubComponentInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-sub-component" class="form-control" onchange="addSubComponent(${sessionScope.subComponents[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         Annual indicator
-                        <select id="annual-indicator" class="form-control">
+                        <select id="annual-indicator" class="form-control partial shown-ai">
+                            <option disabled>Select annual indicator</option>
                             <c:forEach var="annualIndicator" items="${sessionScope.annualIndicators}" varStatus="index">
                                 <option value="${annualIndicator.id}">${annualIndicator.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-ai" onclick="toggleAnnualIndicatorInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-annual-indicator" class="form-control" onchange="addAnnualIndicator(${sessionScope.annualIndicators[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         Activity name
-                        <select id="activity-name" class="form-control" onchange="updateSubActivityNames()">
+                        <select id="activity-name" class="form-control partial shown-an" onchange="updateSubActivityNames()">
                             <option disabled selected>Select activity name</option>
                             <c:forEach var="activityName" items="${sessionScope.activityNames}" varStatus="counter">
                                 <option value="${activityName.id}">${activityName.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-an" onclick="toggleActivityNameInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-activity-name" class="form-control" onchange="flyAddActivityName(); return false;">
                     </div>
                     <div class="form-group">
-                        Sub activity name
-                        <select id="sub-activity-name" class="form-control">
+                        Sub-activity name
+                        <select id="sub-activity-name" class="form-control partial shown-san">
+                            <option disabled selected>Select sub-activity name</option>
                             <c:forEach var="subActivityName" items="${sessionScope.subActivityNames}" varStatus="counter">
                                 <option value="${subActivityName.id}">${subActivityName.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-san" onclick="toggleSubActivityNameInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-sub-activity-name" class="form-control" onchange="flyAddSubActivityName(); return false;">
                     </div>
                     <div class="form-group">
                         Start Date

@@ -17,10 +17,11 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonTypeDetails;
  */
 @Local
 public interface PhenomenonTypeRequestsLocal {
-    
+
     /**
      *
-     * @param phenomenonTypeDetails details of the phenomenon type record to be created
+     * @param phenomenonTypeDetails details of the phenomenon type record to be
+     * created
      * @return the unique identifier of the new record created
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
@@ -36,7 +37,16 @@ public interface PhenomenonTypeRequestsLocal {
 
     /**
      *
-     * @param id the unique identifier of the phenomenon type record to be retrieved
+     * @param name the name of the phenomenon type record to be retrieved
+     * @return the details of the phenomenon type record retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public PhenomenonTypeDetails retrievePhenomenonType(String name) throws MilesException;
+
+    /**
+     *
+     * @param id the unique identifier of the phenomenon type record to be
+     * retrieved
      * @return the details of the phenomenon type record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
@@ -44,7 +54,8 @@ public interface PhenomenonTypeRequestsLocal {
 
     /**
      *
-     * @param phenomenonTypeDetails details of the phenomenon type record to be edited
+     * @param phenomenonTypeDetails details of the phenomenon type record to be
+     * edited
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
@@ -52,7 +63,8 @@ public interface PhenomenonTypeRequestsLocal {
 
     /**
      *
-     * @param id the unique identifier of the phenomenon type record to be removed
+     * @param id the unique identifier of the phenomenon type record to be
+     * removed
      * @throws MilesException when the database is in an incorrect state
      */
     public void removePhenomenonType(int id) throws MilesException;

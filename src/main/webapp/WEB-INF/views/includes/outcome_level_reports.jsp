@@ -44,7 +44,7 @@
                             <th>Outcome</th>
                             <th>Outcome indicator</th>
                             <th>Unit</th>
-                            <th>AWPB</th>
+                            <th>Appraisal</th>
                             <th>Actual</th>
                             <th>% of AWPB</th>
                         </tr>
@@ -79,7 +79,7 @@
             <div class="panel-body">
                 <form role="form">
                     <div class="form-group">
-                        AWPB target
+                        Appraisal target
                         <select id="expected-value" class="form-control">
                             <c:forEach var="ratingValue" items="${sessionScope.ratingValues}" varStatus="index">
                                 <option value="${ratingValue.category.name}">${ratingValue.category.name}</option>

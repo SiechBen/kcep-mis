@@ -64,8 +64,8 @@
                                     <td>${subActivity.annualWorkplanReferenceCode}</td>
                                     <td>${subActivity.gfssCode.category.name} <c:if test="not empty ${subActivity.gfssCode.category.name}">-</c:if> ${subActivity.gfssCode.category.relative.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.expectedOutcome.category.name}">${subActivity.expectedOutcome.category.name}</td>
-                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.component.component}">${subActivity.component.component}</td>
-                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subComponent.subComponent}">${subActivity.subComponent.subComponent}</td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.component.category.name}">${subActivity.component.category.name}</td>
+                                    <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subComponent.category.name}">${subActivity.subComponent.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.annualIndicator.category.name}">${subActivity.annualIndicator.category.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.activityName.name}">${subActivity.subActivityName.activityName.name}</td>
                                     <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${subActivity.subActivityName.name}">${subActivity.subActivityName.name}</td>
@@ -169,7 +169,7 @@
                         <select id="component" class="form-control">
                             <option value="">Select component</option>
                             <c:forEach var="component" items="${sessionScope.components}" varStatus="counter">
-                                <option value="${component.id}">${component.component}</option>
+                                <option value="${component.id}">${component.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -178,7 +178,7 @@
                         <select id="sub-component" class="form-control">
                             <option value="">Select sub-component</option>
                             <c:forEach var="subComponent" items="${sessionScope.subComponents}" varStatus="counter">
-                                <option value="${subComponent.id}">${subComponent.subComponent}</option>
+                                <option value="${subComponent.id}">${subComponent.category.name}</option>
                             </c:forEach>
                         </select>
                     </div>

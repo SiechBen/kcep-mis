@@ -30,7 +30,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
             throw new InvalidArgumentException("error_052_01");
         } else if (categoryDetails.getName() == null) {
             throw new InvalidArgumentException("error_052_02");
-        } else if (categoryDetails.getName().length() > 45) {
+        } else if (categoryDetails.getName().length() > 400) {
             throw new InvalidArgumentException("error_052_03");
         }
 
@@ -48,6 +48,9 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
 
         category = new Category();
         category.setName(categoryDetails.getName());
+        if (categoryDetails.getRelative() != null) {
+            category.setRelative(em.getReference(Category.class, categoryDetails.getRelative().getId()));
+        }
 
         try {
             em.persist(category);
@@ -100,7 +103,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
             throw new InvalidArgumentException("error_052_05");
         } else if (categoryDetails.getName() == null) {
             throw new InvalidArgumentException("error_052_02");
-        } else if (categoryDetails.getName().length() > 45) {
+        } else if (categoryDetails.getName().length() > 400) {
             throw new InvalidArgumentException("error_052_03");
         }
 

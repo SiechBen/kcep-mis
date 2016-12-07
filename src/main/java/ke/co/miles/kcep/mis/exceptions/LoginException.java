@@ -11,8 +11,10 @@ package ke.co.miles.kcep.mis.exceptions;
  */
 public class LoginException extends MilesException {
 
-    public LoginException(String message) {
-        super(message);
+    private static final long serialVersionUID = 1L;
+
+    public LoginException(String code) {
+        super(code);
     }
 
     public LoginException(String code, String prepend, String append) {

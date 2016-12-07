@@ -11,14 +11,12 @@ import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.Component;
+import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.ResultHierarchy;
-import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
+import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
 
 /**
@@ -55,10 +53,10 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         resultHierarchy = new ResultHierarchy();
         resultHierarchy.setDescription(resultHierarchyDetails.getDescription());
         if (resultHierarchyDetails.getComponent() != null) {
-            resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
+            resultHierarchy.setComponent(em.getReference(Phenomenon.class, resultHierarchyDetails.getComponent().getId()));
         }
         if (resultHierarchyDetails.getSubComponent() != null) {
-            resultHierarchy.setSubComponent(em.getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
+            resultHierarchy.setSubComponent(em.getReference(Phenomenon.class, resultHierarchyDetails.getSubComponent().getId()));
         }
 
         try {
@@ -114,7 +112,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
             throw new InvalidArgumentException("error_038_02");
         } else if (resultHierarchyDetails.getDescription().length() > 45) {
             throw new InvalidArgumentException("error_038_03");
-        } 
+        }
 
         ResultHierarchy resultHierarchy;
         setQ(em.createNamedQuery("ResultHierarchy.findByDescription"));
@@ -133,11 +131,11 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         resultHierarchy = em.find(ResultHierarchy.class, resultHierarchyDetails.getId());
         resultHierarchy.setId(resultHierarchyDetails.getId());
         resultHierarchy.setDescription(resultHierarchyDetails.getDescription());
-        resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
-            if (resultHierarchyDetails.getComponent() != null) {
-            resultHierarchy.setComponent(em.getReference(Component.class, resultHierarchyDetails.getComponent().getId()));
-        }   if (resultHierarchyDetails.getSubComponent() != null) {
-            resultHierarchy.setSubComponent(em.getReference(SubComponent.class, resultHierarchyDetails.getSubComponent().getId()));
+        if (resultHierarchyDetails.getComponent() != null) {
+            resultHierarchy.setComponent(em.getReference(Phenomenon.class, resultHierarchyDetails.getComponent().getId()));
+        }
+        if (resultHierarchyDetails.getSubComponent() != null) {
+            resultHierarchy.setSubComponent(em.getReference(Phenomenon.class, resultHierarchyDetails.getSubComponent().getId()));
         }
         try {
             em.merge(resultHierarchy);
@@ -168,14 +166,14 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         ResultHierarchyDetails resultHierarchyDetails = new ResultHierarchyDetails(resultHierarchy.getId());
         resultHierarchyDetails.setDescription(resultHierarchy.getDescription());
         if (resultHierarchy.getComponent() != null) {
-            resultHierarchyDetails.setComponent(componentService.
-                    convertComponentToComponentDetails(resultHierarchy.getComponent()));
+            resultHierarchyDetails.setComponent(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(resultHierarchy.getComponent()));
         }
         if (resultHierarchy.getSubComponent() != null) {
-            resultHierarchyDetails.setSubComponent(subComponentService.
-                    convertSubComponentToSubComponentDetails(resultHierarchy.getSubComponent()));
+            resultHierarchyDetails.setSubComponent(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(resultHierarchy.getSubComponent()));
         }
-        
+
         return resultHierarchyDetails;
 
     }
@@ -193,8 +191,6 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
 
 //</editor-fold>
     @EJB
-    private ComponentRequestsLocal componentService;
-    @EJB
-    private SubComponentRequestsLocal subComponentService;
+    private PhenomenonRequestsLocal phenomenonService;
 
 }

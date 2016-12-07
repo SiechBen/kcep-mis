@@ -7,6 +7,8 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +25,13 @@ import javax.servlet.http.HttpSession;
 import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.access.AccessRequestsLocal;
 import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
 import ke.co.miles.kcep.mis.requests.input.type.InputTypeRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.sub.SubCountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.person.useraccount.UserAccountRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
@@ -39,6 +43,7 @@ import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import ke.co.miles.kcep.mis.utilities.UserAccountDetails;
 import ke.co.miles.kcep.mis.utilities.WardDetails;
 
 /**
@@ -47,6 +52,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  */
 @WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson",
     "/doAddPerson", "/doEditPerson", "/doDeletePerson", "/userProfile",
+    "/user_account", "/validatePassword", "/editUserAccount",
     "/changeCounter", "/searchFarmer", "/searchAgroDealer"})
 public class PersonController extends Controller {
 
@@ -79,6 +85,8 @@ public class PersonController extends Controller {
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             urlPaths.add("/searchFarmer");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
@@ -97,6 +105,10 @@ public class PersonController extends Controller {
                                     path = "/head_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/head_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -107,6 +119,8 @@ public class PersonController extends Controller {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/searchFarmer");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
@@ -114,7 +128,11 @@ public class PersonController extends Controller {
                                     urlPaths.add(path);
                                     break;
                                 case "/userProfile":
-                                    path = "/head_userProfile";
+                                    path = "/equity_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/user_account":
+                                    path = "/equity_user_account";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -125,6 +143,8 @@ public class PersonController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             switch (path) {
@@ -136,6 +156,10 @@ public class PersonController extends Controller {
                                     path = "/kalro_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/kalro_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -144,6 +168,8 @@ public class PersonController extends Controller {
                     case "agmarkSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             switch (path) {
@@ -155,6 +181,10 @@ public class PersonController extends Controller {
                                     path = "/agmark_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/agmark_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -163,6 +193,8 @@ public class PersonController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             switch (path) {
@@ -182,6 +214,10 @@ public class PersonController extends Controller {
                                     path = "/region_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/region_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -191,6 +227,8 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/searchFarmer");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             urlPaths.add("/searchAgroDealer");
@@ -211,6 +249,10 @@ public class PersonController extends Controller {
                                     path = "/county_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/county_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -219,6 +261,8 @@ public class PersonController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             switch (path) {
@@ -238,6 +282,10 @@ public class PersonController extends Controller {
                                     path = "/sub_county_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/sub_county_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -246,6 +294,8 @@ public class PersonController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             switch (path) {
@@ -257,6 +307,10 @@ public class PersonController extends Controller {
                                     path = "/ward_userProfile";
                                     urlPaths.add(path);
                                     break;
+                                case "/user_account":
+                                    path = "/ward_user_account";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -265,6 +319,8 @@ public class PersonController extends Controller {
                     case "agroDealerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
                             switch (path) {
@@ -274,6 +330,10 @@ public class PersonController extends Controller {
                                     break;
                                 case "/userProfile":
                                     path = "/agro_dealer_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/user_account":
+                                    path = "/agro_dealer_user_account";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -776,8 +836,136 @@ public class PersonController extends Controller {
                         person.setYearOfBirth(null);
                     }
 
+                    /* set the person role */
+                    UserAccountDetails userAccount = new UserAccountDetails();
+                    userAccount.setPersonRole(personRole);
+
                     try {
-                        personService.editPerson(person, personRole);
+                        personService.editPerson(person, userAccount);
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                    }
+
+                    return;
+
+                case "/validatePassword":
+
+                    //Retrieve the person's user account
+                    LOGGER.log(Level.INFO, "Retrieving the person's user account");
+                    try {
+                        userAccount = userAccountService.retrieveUserAccountByPersonId(Integer.parseInt(request.getParameter("personId")));
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.setContentType("text/html;charset=UTF-8");
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                        return;
+                    }
+
+                    //Create a message digest algorithm for SHA-256 hashing algorithm
+                    LOGGER.log(Level.INFO, "Creating a message digest hashing algorithm object");
+                    MessageDigest messageDigest;
+                    try {
+                        messageDigest = MessageDigest.getInstance("SHA-256");
+                    } catch (NoSuchAlgorithmException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.setContentType("text/html;charset=UTF-8");
+                        response.getWriter().write(getBundle().getString("error_007_01"));
+                        LOGGER.log(Level.INFO, getBundle().getString("error_007_01"));
+                        break;
+                    }
+
+                    //Read in the entered password
+                    LOGGER.log(Level.INFO, "Reading in the entered password");
+                    String oldPassword;
+                    oldPassword = accessService.generateSHAPassword(messageDigest, request.getParameter("password"));
+
+                    //Check validity of the entered password
+                    LOGGER.log(Level.INFO, "Checking validity of the entered password");
+                    if (oldPassword.equals(userAccount.getPassword())) {
+                        //Password is valid
+                        LOGGER.log(Level.INFO, "Old password is valid");
+                        out.write("");
+                    } else {
+                        //Password is invalid
+                        LOGGER.log(Level.INFO, "Old password is invalid");
+                        out.write("<span class=\"btn btn-warning\">Wrong password entered!</span>");
+                    }
+
+                    return;
+
+                case "/editUserAccount":
+
+                    //Create a message digest algorithm for SHA-256 hashing algorithm
+                    LOGGER.log(Level.INFO, "Creating a message digest hashing algorithm object");
+                    try {
+                        messageDigest = MessageDigest.getInstance("SHA-256");
+                    } catch (NoSuchAlgorithmException e) {
+
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.setContentType("text/html;charset=UTF-8");
+                        response.getWriter().write(getBundle().getString("error_007_01"));
+                        LOGGER.log(Level.INFO, getBundle().getString("error_007_01"));
+                        break;
+                    }
+
+                    //Retrieve the person's user account
+                    LOGGER.log(Level.INFO, "Retrieving the person's user account");
+                    try {
+                        userAccount = userAccountService.retrieveUserAccountByPersonId(Integer.parseInt(request.getParameter("personId")));
+                    } catch (MilesException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.setContentType("text/html;charset=UTF-8");
+                        response.getWriter().write(getBundle().getString(e.getCode()));
+                        LOGGER.log(Level.INFO, getBundle().getString(e.getCode()));
+                        return;
+                    }
+
+                    //Read in the old entered password
+                    LOGGER.log(Level.INFO, "Reading in the old entered password");
+                    oldPassword = request.getParameter("oldPassword");
+                    if (oldPassword.trim().length() != 0) {
+                        oldPassword = accessService.generateSHAPassword(messageDigest, oldPassword);
+
+                        //Check validity of the entered old password
+                        LOGGER.log(Level.INFO, "Checking validity of the entered old password");
+                        if (oldPassword.equals(userAccount.getPassword())) {
+                            //Password is valid
+                            LOGGER.log(Level.INFO, "Old password is valid");
+                            String newPassword = request.getParameter("newPassword");
+                            String confirmationPassword = request.getParameter("confirmPassword");
+                            if (newPassword != null && newPassword.trim().length() > 0) {
+                                if (newPassword.equals(confirmationPassword)) {
+                                    userAccount.setPassword(accessService.generateSHAPassword(messageDigest, newPassword));
+                                } else {
+                                    //Password is invalid
+                                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                                    response.getWriter().write(getBundle().getString("confirm_password_mismatch"));
+                                    LOGGER.log(Level.INFO, getBundle().getString("confirm_password_mismatch"));
+                                    return;
+                                }
+                            } else {
+                                //Password is invalid
+                                LOGGER.log(Level.INFO, "Old password is unchanged");
+                            }
+                        } else {
+                            //Password is invalid
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString("invalid_old_password"));
+                            LOGGER.log(Level.INFO, getBundle().getString("invalid_old_password"));
+                            return;
+                        }
+                    }
+
+                    /* set the username */
+                    userAccount.setUsername(request.getParameter("username"));
+
+                    try {
+                        userAccountService.editCredentials(userAccount);
+                        response.getWriter().write(getBundle().getString("user_account_update_success"));
+                        LOGGER.log(Level.INFO, getBundle().getString("user_account_update_success"));
                     } catch (MilesException e) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(e.getCode()));
@@ -908,6 +1096,21 @@ public class PersonController extends Controller {
                 case "/county_userProfile":
                 case "/sub_county_userProfile":
                 case "/agro_dealer_userProfile":
+                    break;
+
+                case "/head_user_account":
+                case "/ward_user_account":
+                case "/kalro_user_account":
+                case "/agmark_user_account":
+                case "/region_user_account":
+                case "/county_user_account":
+                case "/sub_county_user_account":
+                case "/agro_dealer_user_account":
+                    try {
+                        session.setAttribute("person", personService.retrievePerson(((PersonDetails) session.getAttribute("person")).getId()));
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of wards", ex);
+                    }
                     break;
 
                 case "/head_editPerson":
@@ -1046,6 +1249,10 @@ public class PersonController extends Controller {
     }
 
     private static final Logger LOGGER = Logger.getLogger(PersonController.class.getSimpleName());
+    @EJB
+    private UserAccountRequestsLocal userAccountService;
+    @EJB
+    private AccessRequestsLocal accessService;
     @EJB
     private WardRequestsLocal wardService;
     @EJB

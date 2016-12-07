@@ -27,14 +27,12 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
-import ke.co.miles.kcep.mis.utilities.ComponentDetails;
+import ke.co.miles.kcep.mis.utilities.CategoryDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
@@ -42,10 +40,10 @@ import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
+import ke.co.miles.kcep.mis.utilities.PhenomenonTypeDetails;
 import ke.co.miles.kcep.mis.utilities.RegionDetail;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
-import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
 
 /**
  *
@@ -53,13 +51,32 @@ import ke.co.miles.kcep.mis.utilities.SubComponentDetails;
  */
 @WebServlet(
         name = "PlanningController",
-        urlPatterns = {"/activity_names", "/addActivityName",
-            "/doAddActivityName", "/sub_activities", "/addSubActivity",
-            "/doAddSubActivity", "/updateSubActivityNames", "/financial_years",
-            "/addFinancialYear", "/doAddFinancialYear", "/sub_activity_names",
-            "/addSubActivityName", "/doAddSubActivityName",
-            "/doEditActivityName", "/doEditSubActivityName", "/updateSubComponents",
-            "/doDeleteActivityName", "/doDeleteSubActivityName", "/doEditSubActivity", "/doDeleteSubActivity"})
+        urlPatterns = {
+            "/addSubActivity",
+            "/doAddPhenomenon",
+            "/sub_activities",
+            "/activity_names",
+            "/addActivityName",
+            "/financial_years",
+            "/addFinancialYear",
+            "/doAddSubActivity",
+            "/doAddSubComponent",
+            "/doAddActivityName",
+            "/doEditSubActivity",
+            "/doAddFinancialYear",
+            "/sub_activity_names",
+            "/addSubActivityName",
+            "/doEditActivityName",
+            "/flyAddActivityName",
+            "/updateSubComponents",
+            "/doDeleteSubActivity",
+            "/doDeleteActivityName",
+            "/doAddSubActivityName",
+            "/flyAddSubActivityName",
+            "/doEditSubActivityName",
+            "/updateSubActivityNames",
+            "/doDeleteSubActivityName"
+        })
 public class ActivityPlanningController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -91,6 +108,9 @@ public class ActivityPlanningController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/doAddActivityName");
@@ -143,6 +163,9 @@ public class ActivityPlanningController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/doAddActivityName");
@@ -194,6 +217,9 @@ public class ActivityPlanningController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
@@ -254,15 +280,95 @@ public class ActivityPlanningController extends Controller {
 
             switch (path) {
 
+                case "/flyAddActivityName":
+
+                    ActivityNameDetails activityName;
+
+                    try {
+                        activityName = new ActivityNameDetails();
+                        activityName.setName(request.getParameter("name"));
+
+                        out.write(String.valueOf(activityNameService.addActivityName(activityName)));
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/flyAddSubActivityName":
+
+                    SubActivityNameDetails subActivityName;
+
+                    try {
+                        activityName = new ActivityNameDetails(
+                                Integer.valueOf(request.getParameter("activityNameId")));
+
+                        subActivityName = new SubActivityNameDetails();
+                        subActivityName.setName(request.getParameter("name"));
+                        subActivityName.setActivityName(activityName);
+
+                        out.write(String.valueOf(subActivityNameService.addSubActivityName(subActivityName)));
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    } catch (NumberFormatException ex) {
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/doAddPhenomenon":
+
+                    CategoryDetails category;
+                    PhenomenonDetails phenomenon;
+                    PhenomenonTypeDetails phenomenonType;
+
+                    try {
+                        category = new CategoryDetails();
+                        category.setName(request.getParameter("name"));
+                        if (request.getParameter("phenomenonType").equals("Sub-component")) {
+                            try {
+                                category.setRelative(phenomenonService.retrievePhenomenon(Integer.valueOf(request.getParameter("relativeId"))).getCategory());
+                            } catch (MilesException e) {
+                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                                response.getWriter().write(getBundle().getString(e.getCode()));
+                                LOGGER.log(Level.INFO, "", e);
+                                return;
+                            } catch (NumberFormatException e) {
+                                LOGGER.log(Level.INFO, "", e);
+                                return;
+                            }
+                        }
+
+                        try {
+                            phenomenonType = new PhenomenonTypeDetails(
+                                    Integer.valueOf(request.getParameter("phenomenonTypeId")));
+
+                        } catch (Exception e) {
+                            phenomenonType = new PhenomenonTypeDetails();
+                            phenomenonType.setName(request.getParameter("phenomenonType"));
+                        }
+
+                        phenomenon = new PhenomenonDetails();
+                        phenomenon.setCategory(category);
+                        phenomenon.setPhenomenonType(phenomenonType);
+
+                        out.write(String.valueOf(phenomenonService.addPhenomenon(phenomenon)));
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
                 case "/updateSubComponents":
                     try {
-                        for (SubComponentDetails subComponent
-                                : subComponentService.retrieveSubComponents(
-                                        Short.parseShort(request.getParameter(
-                                                "componentId")))) {
-                            out.write("<option value=\"" + subComponent.getId()
-                                    + "\">" + subComponent.getSubComponent()
-                                    + "</option>");
+                        for (PhenomenonDetails subComponent : phenomenonService.retrieveSubComponents(Integer.parseInt(request.getParameter("componentId")))) {
+                            out.write("<option value=\"" + subComponent.getId() + "\">" + subComponent.getCategory().getName() + "</option>");
                         }
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -274,12 +380,12 @@ public class ActivityPlanningController extends Controller {
 
                 case "/updateSubActivityNames":
                     try {
-                        for (SubActivityNameDetails subActivityName
+                        for (SubActivityNameDetails subActivityName1
                                 : subActivityNameService.retrieveSubActivityNames(
                                         Integer.valueOf(request
                                                 .getParameter("activityNameId")))) {
-                            out.write("<option value=\"" + subActivityName
-                                    .getId() + "\">" + subActivityName.getName()
+                            out.write("<option value=\"" + subActivityName1
+                                    .getId() + "\">" + subActivityName1.getName()
                                     + "</option>");
                         }
                     } catch (MilesException ex) {
@@ -333,7 +439,7 @@ public class ActivityPlanningController extends Controller {
                     break;
 
                 case "/doAddActivityName":
-                    ActivityNameDetails activityName = new ActivityNameDetails();
+                    activityName = new ActivityNameDetails();
                     activityName.setName(request.getParameter("name"));
 
                     try {
@@ -423,7 +529,7 @@ public class ActivityPlanningController extends Controller {
                     return;
 
                 case "/doAddSubActivityName":
-                    SubActivityNameDetails subActivityName = new SubActivityNameDetails();
+                    subActivityName = new SubActivityNameDetails();
                     subActivityName.setName(request.getParameter("name"));
                     try {
                         subActivityName.setActivityName(new ActivityNameDetails(
@@ -595,9 +701,9 @@ public class ActivityPlanningController extends Controller {
                         return;
                     }
 
-                    List<ComponentDetails> components;
+                    List<PhenomenonDetails> components;
                     try {
-                        components = componentService.retrieveComponents();
+                        components = phenomenonService.retrieveComponents();
                         session.setAttribute("components", components);
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of components", ex);
@@ -605,9 +711,9 @@ public class ActivityPlanningController extends Controller {
                     }
 
                     try {
-                        ListIterator<ComponentDetails> iterator = components.listIterator();
+                        ListIterator<PhenomenonDetails> iterator = components.listIterator();
                         if (iterator.hasNext()) {
-                            session.setAttribute("subComponents", subComponentService.retrieveSubComponents(iterator.next().getId()));
+                            session.setAttribute("subComponents", phenomenonService.retrieveSubComponents(iterator.next().getId()));
                         }
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-components", ex);
@@ -707,7 +813,7 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setFinancialYear(null);
                     }
                     try {
-                        subActivity.setComponent(new ComponentDetails(Short.valueOf(
+                        subActivity.setComponent(new PhenomenonDetails(Integer.valueOf(
                                 request.getParameter("component"))));
                     } catch (Exception e) {
                         subActivity.setComponent(null);
@@ -719,8 +825,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setActivityName(null);
                     }
                     try {
-                        subActivity.setSubComponent(new SubComponentDetails(
-                                Short.valueOf(request.getParameter("subComponent"))));
+                        subActivity.setSubComponent(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("subComponent"))));
                     } catch (Exception e) {
                         subActivity.setSubComponent(null);
                     }
@@ -893,7 +999,7 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setFinancialYear(null);
                     }
                     try {
-                        subActivity.setComponent(new ComponentDetails(Short.valueOf(
+                        subActivity.setComponent(new PhenomenonDetails(Integer.valueOf(
                                 request.getParameter("component"))));
                     } catch (Exception e) {
                         subActivity.setComponent(null);
@@ -905,8 +1011,8 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setActivityName(null);
                     }
                     try {
-                        subActivity.setSubComponent(new SubComponentDetails(
-                                Short.valueOf(request.getParameter("subComponent"))));
+                        subActivity.setSubComponent(new PhenomenonDetails(
+                                Integer.valueOf(request.getParameter("subComponent"))));
                     } catch (Exception e) {
                         subActivity.setSubComponent(null);
                     }
@@ -1021,8 +1127,8 @@ public class ActivityPlanningController extends Controller {
             LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
-    //<editor-fold defaultstate="collapsed" desc="Update tables">
 
+    //<editor-fold defaultstate="collapsed" desc="Update tables">
     private void updateActivityNameTable(HttpServletResponse response, List<ActivityNameDetails> activityNames) throws IOException {
         PrintWriter out = response.getWriter();
         int index = 0;
@@ -1057,17 +1163,13 @@ public class ActivityPlanningController extends Controller {
         }
     }
     //</editor-fold>
-    private static final Logger LOGGER = Logger.getLogger(ActivityPlanningController.class
-            .getSimpleName());
 
-    @EJB
-    private ComponentRequestsLocal componentService;
+    private static final Logger LOGGER = Logger.getLogger(ActivityPlanningController.class.getSimpleName());
+
     @EJB
     private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private SubActivityRequestsLocal subActivityService;
-    @EJB
-    private SubComponentRequestsLocal subComponentService;
     @EJB
     private ActivityNameRequestsLocal activityNameService;
     @EJB

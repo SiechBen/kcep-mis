@@ -21,7 +21,7 @@
                         <thead>
                             <tr>
                                 <th rowspan="2">&nbsp;</th>
-                                <th rowspan="2">Performance indicator type</th>
+                                <th rowspan="2">Performance indicator source</th>
                                 <th rowspan="2">Result hierarchy</th>
                                 <th rowspan="2">Key Performance Indicator</th>
                                 <th rowspan="2">Baseline date</th>

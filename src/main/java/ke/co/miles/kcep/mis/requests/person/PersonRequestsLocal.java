@@ -13,6 +13,7 @@ import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.UserAccountDetails;
 
 /**
  *
@@ -63,12 +64,12 @@ public interface PersonRequestsLocal {
     /**
      *
      * @param personDetails details of the person record to be edited
-     * @param personRoleDetail details of the person role
+     * @param userAccountDetails the details of the user account
      * @throws MilesException when the database is in an incorrect state or when
      * the details are null or incorrectly specified
      */
     public void editPerson(PersonDetails personDetails,
-            PersonRoleDetail personRoleDetail) throws MilesException;
+            UserAccountDetails userAccountDetails) throws MilesException;
 
     /**
      *

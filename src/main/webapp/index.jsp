@@ -27,7 +27,7 @@
     <body>
         <div id="wrapper">
 
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
                 </div>
@@ -82,7 +82,7 @@
                     <a class="logo" href="#">--<span>--</span></a>
                 </div>
                 <div class="content">
-                    <h1 class="login-link" onclick="loadAjaxWindow('loginpage')"><center>Welcome to KCEP-MIS</center></h1>
+                    <h1 class="login-link" onclick="loadAjaxWindow('loginpage')" data-toggle="tooltip" data-placement="auto bottom" title="Click to log in"><center>Welcome to KCEP-MIS</center></h1>
                 </div>
                 <div class="feedback">
                     <center>

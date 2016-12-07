@@ -16,7 +16,6 @@ import javax.ejb.Stateless;
 import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
-import ke.co.miles.kcep.mis.entities.Component;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
@@ -24,14 +23,11 @@ import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Region;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.entities.SubActivityName;
-import ke.co.miles.kcep.mis.entities.SubComponent;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActivityNameRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.ComponentRequestsLocal;
-import ke.co.miles.kcep.mis.requests.activityplanning.component.sub.SubComponentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
@@ -76,7 +72,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
         if (subActivityDetails.getComponent() != null) {
-            subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
+            subActivity.setComponent(em.getReference(Phenomenon.class, subActivityDetails.getComponent().getId()));
         }
         if (subActivityDetails.getImplementingPartner() != null) {
             subActivity.setImplementingPartner(em.getReference(Phenomenon.class, subActivityDetails.getImplementingPartner().getId()));
@@ -88,7 +84,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setExpectedOutcome(em.getReference(Phenomenon.class, subActivityDetails.getExpectedOutcome().getId()));
         }
         if (subActivityDetails.getSubComponent() != null) {
-            subActivity.setSubComponent(em.getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
+            subActivity.setSubComponent(em.getReference(Phenomenon.class, subActivityDetails.getSubComponent().getId()));
         }
         if (subActivityDetails.getFinancialYear() != null) {
             subActivity.setFinancialYear(em.getReference(FinancialYear.class, subActivityDetails.getFinancialYear().getId()));
@@ -281,12 +277,12 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private Map<ComponentDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId, Short countyId) throws MilesException {
+    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId, Short countyId) throws MilesException {
 
-        Map<ComponentDetails, List<SubActivityDetails>> componentsMap = new HashMap<>();
-        List<ComponentDetails> componentDetailsList;
-        componentDetailsList = componentService.retrieveComponents();
-        for (ComponentDetails componentDetails : componentDetailsList) {
+        Map<PhenomenonDetails, List<SubActivityDetails>> componentsMap = new HashMap<>();
+        List<PhenomenonDetails> componentDetailsList;
+        componentDetailsList = phenomenonService.retrieveComponents();
+        for (PhenomenonDetails componentDetails : componentDetailsList) {
             componentsMap.put(componentDetails,
                     retrieveSubActivities(componentDetails, financialYearId, countyId));
         }
@@ -628,15 +624,15 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @Override
-    public Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> summarizeFinancialPlanByComponents(short financialYearId, Short countyId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByComponents(short financialYearId, Short countyId) throws MilesException {
 
-        Map<ComponentDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId, countyId);
-        Map<ComponentDetails, FinancialPlanDetails> componentToFinancialPlansMap = new HashMap<>();
-        Map<FinancialPlanDetails, Map<ComponentDetails, FinancialPlanDetails>> totalsToComponentToFinancialPlansMap = new HashMap<>();
+        Map<PhenomenonDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId, countyId);
+        Map<PhenomenonDetails, FinancialPlanDetails> componentToFinancialPlansMap = new HashMap<>();
+        Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> totalsToComponentToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
         FinancialPlanDetails financialPlanTotals = new FinancialPlanDetails();
 
-        for (ComponentDetails components : componentsMap.keySet()) {
+        for (PhenomenonDetails components : componentsMap.keySet()) {
             financialPlanDetails = new FinancialPlanDetails();
 
             for (SubActivityDetails subActivity : componentsMap.get(components)) {
@@ -985,7 +981,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
         if (subActivityDetails.getComponent() != null) {
-            subActivity.setComponent(em.getReference(Component.class, subActivityDetails.getComponent().getId()));
+            subActivity.setComponent(em.getReference(Phenomenon.class, subActivityDetails.getComponent().getId()));
         }
         if (subActivityDetails.getImplementingPartner() != null) {
             subActivity.setImplementingPartner(em.getReference(Phenomenon.class, subActivityDetails.getImplementingPartner().getId()));
@@ -997,7 +993,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             subActivity.setExpectedOutcome(em.getReference(Phenomenon.class, subActivityDetails.getExpectedOutcome().getId()));
         }
         if (subActivityDetails.getSubComponent() != null) {
-            subActivity.setSubComponent(em.getReference(SubComponent.class, subActivityDetails.getSubComponent().getId()));
+            subActivity.setSubComponent(em.getReference(Phenomenon.class, subActivityDetails.getSubComponent().getId()));
         }
         if (subActivityDetails.getFinancialYear() != null) {
             subActivity.setFinancialYear(em.getReference(FinancialYear.class, subActivityDetails.getFinancialYear().getId()));
@@ -1106,16 +1102,16 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     convertPhenomenonToPhenomenonDetails(subActivity.getExpenditureCategory()));
         }
         if (subActivity.getComponent() != null) {
-            subActivityDetails.setComponent(componentService.
-                    convertComponentToComponentDetails(subActivity.getComponent()));
+            subActivityDetails.setComponent(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getComponent()));
         }
         if (subActivity.getImplementingPartner() != null) {
             subActivityDetails.setImplementingPartner(phenomenonService.
                     convertPhenomenonToPhenomenonDetails(subActivity.getImplementingPartner()));
         }
         if (subActivity.getSubComponent() != null) {
-            subActivityDetails.setSubComponent(subComponentService.
-                    convertSubComponentToSubComponentDetails(subActivity.getSubComponent()));
+            subActivityDetails.setSubComponent(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getSubComponent()));
         }
         if (subActivity.getFinancialYear() != null) {
             subActivityDetails.setFinancialYear(financialYearService.
@@ -1151,13 +1147,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     @EJB
     private CountyRequestsLocal countyService;
     @EJB
-    private ComponentRequestsLocal componentService;
-    @EJB
     private PhenomenonRequestsLocal phenomenonService;
     @EJB
     private ActivityNameRequestsLocal activityService;
-    @EJB
-    private SubComponentRequestsLocal subComponentService;
     @EJB
     private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB

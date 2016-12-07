@@ -88,6 +88,20 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
 
         return convertPhenomenonTypeToPhenomenonTypeDetails(phenomenonType);
     }
+
+    @Override
+    public PhenomenonTypeDetails retrievePhenomenonType(String name) throws MilesException {
+        PhenomenonType phenomenonType;
+        setQ(em.createNamedQuery("PhenomenonType.findByName"));
+        q.setParameter("name", name);
+        try {
+            phenomenonType = (PhenomenonType) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertPhenomenonTypeToPhenomenonTypeDetails(phenomenonType);
+    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
 
