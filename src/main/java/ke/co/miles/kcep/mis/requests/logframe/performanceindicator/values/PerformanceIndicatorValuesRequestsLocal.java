@@ -96,6 +96,15 @@ public interface PerformanceIndicatorValuesRequestsLocal {
 
     /**
      *
+     * @param performanceIndicatorValuesDetails details of the performance
+     * indicator values record whose appraisal target is to be set
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void setAppraisalTarget(PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails) throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the performance indicator record to be
      * removed
      * @throws MilesException when the database is in an incorrect state
@@ -118,4 +127,5 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<Short> retrieveProjectYears() throws MilesException;
+
 }

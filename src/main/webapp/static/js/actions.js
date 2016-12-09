@@ -721,9 +721,17 @@ function calculateRatio() {
 $("#actual-value").on("input", function () {
     calculateRatio();
 });
+
 $("#expected-value").on("input", function () {
     calculateRatio();
 });
+
+$("#appraisal-target").on("input", function () {
+    var actualValue = parseFloat($("#actual-value").val()) || 0.0;
+    var expectedValue = parseFloat($("#appraisal-target").val()) || 0.0;
+    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
+
 function calculateAWPBTotals() {
 
     var unitCost = $("#unit-cost").val();
@@ -1236,7 +1244,7 @@ function deleteActivityName(id) {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Activity progress">
+//<editor-fold defaultstate="collapsed" desc="Activity progress report">
 function editActivityProgress(cell, activityProgressId, valueType, quarter) {
 
     var cellIndex = cell.cellIndex + 1;
@@ -2219,7 +2227,7 @@ function loginUser() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Outcome reports">
+//<editor-fold defaultstate="collapsed" desc="Outcome level reports">
 function changeOutcomeReport() {
     $.ajax({
         type: "POST",
@@ -2234,10 +2242,10 @@ function changeOutcomeReport() {
 }
 
 function editOutcomeValue(id, actualValue, expectedValue, description) {
-
-    actualValue = parseFloat(actualValue) || 0.0;
-    expectedValue = parseFloat(expectedValue) || 0.0;
-    $("#ratio-" + id + "").html((actualValue / expectedValue * 100).toFixed(2) + "%");
+    actualValue = parseFloat(actualValue) || 0;
+    expectedValue = parseFloat(expectedValue) || 0;
+    if (expectedValue !== 0)
+        $("#ratio").val(((actualValue / expectedValue) * 100).toFixed(2) + "%");
     if (expectedValue !== "")
         $("#expected-value option[value=" + parseInt(expectedValue) + "]").attr("selected", "selected");
     if (actualValue !== "")
@@ -2260,13 +2268,10 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
                             "&actualValue=" + actualValue +
                             "&expectedValue=" + expectedValue,
                     success: function () {
-
-                        $("#outcome-ratio-" + id).html((actualValue / expectedValue * 100).toFixed(2) + "%");
+                        if (expectedValue !== 0.0)
+                            $("#outcome-ratio-" + id).html(((actualValue / expectedValue) * 100).toFixed(2) + "%");
                         $("#expected-value-" + id).html(expectedValue);
                         $("#actual-value-" + id).html(actualValue);
-                        $("#expected-value").val("");
-                        $("#actual-value").val("");
-                        $("#ratio").val("");
                         return;
                     },
                     error: function (response) {
@@ -2279,14 +2284,60 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
             }
         },
         close: function () {
-            $("#expected-value").val("");
-            $("#actual-value").val("");
-            $("#ratio").val("");
         }
     });
 }
 
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Output level reports">
+function setAppraisalTarget(id, actualValue, appraisalTarget, description) {
+
+    actualValue = parseFloat(actualValue) || 0;
+    appraisalTarget = parseFloat(appraisalTarget) || 0;
+    if (appraisalTarget !== 0.0)
+        $("#ratio").val(((actualValue / appraisalTarget) * 100).toFixed(2) + "%");
+    if (appraisalTarget !== "")
+        $("#appraisal-target").val(appraisalTarget);
+    if (actualValue !== "")
+        $("#actual-value").val(actualValue);
+    $("#output-report-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                actualValue = parseFloat($("#actual-value").val()) || 0;
+                appraisalTarget = parseFloat($("#appraisal-target").val()) || 0.0;
+                $.ajax({
+                    url: "setAppraisalTarget",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&appraisalTarget=" + appraisalTarget,
+                    success: function () {
+                        if (appraisalTarget !== 0.0)
+                            $("#output-ratio-" + id).html(((actualValue / appraisalTarget) * 100).toFixed(2) + "%");
+                        $("#appraisal-target-" + id).html(appraisalTarget);
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+//</editor-fold>
+
 
 //<editor-fold defaultstate="collapsed" desc="Performance Indicator">
 function addPerformanceIndicator() {

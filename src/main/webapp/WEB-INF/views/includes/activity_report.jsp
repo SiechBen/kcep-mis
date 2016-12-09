@@ -27,7 +27,7 @@
                                                 <th>Kenya Cereal Enhancement Programme</th>
                                                 <th>
                                                     Project year: &nbsp;
-                                                    <select id="project-year" onchange="changeOutcomeReport()">
+                                                    <select id="project-year" onchange="changeActivityReport()">
                 <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
                     <option value="${projectYear}">${projectYear}</option>
                 </c:forEach>

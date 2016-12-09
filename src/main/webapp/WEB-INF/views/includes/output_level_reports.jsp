@@ -59,14 +59,37 @@
                                         <td>${outputIndicatorValues.actualValue}</td>
                                         <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
-                                    <td class="editable pencil" onclick="setAppraisalTarget()">${cummulativeIndicatorValues.expectedValue}</td>
+                                    <td id="appraisal-target-${cummulativeIndicatorValues.id}" class="editable pencil" onclick="setAppraisalTarget('${cummulativeIndicatorValues.id}', '${cummulativeIndicatorValues.actualValue}', '${cummulativeIndicatorValues.expectedValue}', '${outputIndicator.description}')">${cummulativeIndicatorValues.expectedValue}</td>
                                     <td>${cummulativeIndicatorValues.actualValue}</td>
-                                    <td><c:if test="${not empty cummulativeIndicatorValues.ratio}">${cummulativeIndicatorValues.ratio}%</c:if></td>
+                                    <td id="output-ratio-${cummulativeIndicatorValues.id}"><c:if test="${not empty cummulativeIndicatorValues.ratio}">${cummulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="output-report-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Appraisal target
+                        <input id="appraisal-target" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Actual value
+                        <input id="actual-value" readonly class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Ratio( = (AV/EV) * 100)
+                        <input id="ratio" readonly class="form-control">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

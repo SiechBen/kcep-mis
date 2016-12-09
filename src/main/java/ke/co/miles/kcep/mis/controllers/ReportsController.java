@@ -38,7 +38,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/financial_report_by_categories", "/financial_report_by_components",
     "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
-    "/getActivityProgress", "/doEditActivityProgress"})
+    "/getActivityProgress", "/doEditActivityProgress", "/setAppraisalTarget"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +67,7 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
@@ -130,6 +131,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
@@ -172,6 +174,7 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
@@ -351,6 +354,30 @@ public class ReportsController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     } catch (NullPointerException e) {
+                    }
+
+                    return;
+
+                case "/setAppraisalTarget":
+                    PerformanceIndicatorValuesDetails outputIndicatorValues;
+                    try {
+                        outputIndicatorValues = new PerformanceIndicatorValuesDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        outputIndicatorValues = new PerformanceIndicatorValuesDetails();
+                    }
+                    try {
+                        outputIndicatorValues.setExpectedValue(Double.valueOf(request.getParameter("appraisalTarget")));
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        performanceIndicatorValuesService.setAppraisalTarget(outputIndicatorValues);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                        MilesDebugger.debug(e);
                     }
 
                     return;
