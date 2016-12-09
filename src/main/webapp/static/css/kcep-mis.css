@@ -498,3 +498,7 @@ table.dataTable thead .sorting:after {
 .reduced:hover {
     opacity: 0.9;
 }
+
+.red {
+    border: 1px solid orangered;
+}

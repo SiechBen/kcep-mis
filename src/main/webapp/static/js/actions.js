@@ -654,11 +654,16 @@ $(function () {
 });
 $(function () {
     $('.reports-table').DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
+        "bLengthChange": false,
         "scrollCollapse": true,
-        dom: "Brt",
+        "searching": false,
+        "bPaginate": false,
+        responsive: true,
+        "bFilter": false,
+        "scrollX": true,
+        "bSort": false,
+        "bInfo": false,
+        dom: "Blftip",
         buttons: ['excel', 'print',
             {
                 extend: 'colvis',
@@ -3303,7 +3308,41 @@ function editProcurementPlansCs(id, type, description,
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity">
+$("[id$='-percentage']").each(function () {
+    $(this).on("change", function () {
+        if ($(this).val() > 100 || $(this).val() < 0) {
+            $(this).addClass("red");
+            $(this).attr('title', "Percentage value lies between 0 and 100");
+        } else {
+            $(this).removeClass("red");
+            $(this).attr('title', "");
+        }
+    });
+});
+
 function addSubActivity() {
+
+    var offRange = false;
+    var sum = 0;
+    $("[id$='-percentage']").each(function () {
+        if ($(this).val() > 100 || $(this).val() < 0) {
+            $(this).addClass("red");
+            offRange = true;
+            $(this).attr('title', "This percentage value should lie between 0 and 100");
+        } else {
+            $(this).removeClass("red");
+            $(this).attr('title', "");
+        }
+        if ($(this).val() !== "")
+            sum = sum + parseInt($(this).val());
+    });
+    if (offRange)
+        return;
+    if (sum > 100) {
+        showError("error_label", "Sum of all percentages should not exceed 100. Current sum is " + sum);
+        return;
+    }
+
     $.ajax({
         url: "doAddSubActivity",
         type: "POST",
@@ -3401,6 +3440,27 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
         modal: false,
         buttons: {
             "Save": function () {
+                var offRange = false;
+                var sum = 0;
+                $("[id$='-percentage']").each(function () {
+                    if ($(this).val() > 100 || $(this).val() < 0) {
+                        $(this).addClass("red");
+                        offRange = true;
+                        $(this).attr('title', "This percentage value should lie between 0 and 100");
+                    } else {
+                        $(this).removeClass("red");
+                        $(this).attr('title', "");
+                    }
+                    if ($(this).val() !== "")
+                        sum = sum + parseInt($(this).val());
+                });
+                if (offRange)
+                    return;
+                if (sum > 100) {
+                    showError("error_label", "Sum of all percentages should not exceed 100. Current sum is " + sum);
+                    return;
+                }
+
                 $.ajax({
                     url: "doEditSubActivity",
                     type: "POST",
@@ -4284,5 +4344,33 @@ function editUserAccount() {
             return;
         }
     });
+}
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Numeric inputs">
+if (!Modernizr.inputtypes.date) {
+
+    $("input[type='number']").keydown(function (e) {
+        /* Allow: backspace, delete, tab, escape, enter and . */
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1
+                /* Allow: Ctrl + A, Command + A */
+                || (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true))
+                /* Allow: Ctrl + C, Command + C */
+                || (e.keyCode === 67 && (e.ctrlKey === true || e.metaKey === true))
+                /* Allow: Ctrl + V, Command + V */
+                || (e.keyCode === 86 && (e.ctrlKey === true || e.metaKey === true))
+                /* Allow: Ctrl + X, Command + X */
+                || (e.keyCode === 88 && (e.ctrlKey === true || e.metaKey === true))
+                /* Allow: home, end, left, right, down, up */
+                || (e.keyCode >= 35 && e.keyCode <= 40)) {
+            /* Let it happen by doing nothing */
+            return;
+        }
+        /* Ensure that it is a number else stop the keypress */
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
 }
 //</editor-fold>

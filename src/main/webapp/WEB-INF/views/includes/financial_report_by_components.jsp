@@ -15,19 +15,14 @@
             </div>
             <div class="panel-body">
                 <h4>Financial report by components</h4>
-                <table id="financial-report-by-component-table" class="table table-striped table-bordered table-hover reports-table">
+                <table  id="financial-report-by-component-table" class="table table-bordered table-hover reports-table">
                     <thead>
                         <tr>
                             <th colspan="2">Description</th>
                             <th colspan="18">Sources of Funds</th>
                         </tr>
-                    </thead>
-                    <tfoot>
-                        <tr><td colspan="18">Financial report by categories for this AWPB</td></tr>
-                    </tfoot>
-                    <tbody>
                         <tr>
-                            <th rowspan="2" colspan="2">Component &nbsp;</th>
+                            <th colspan="2">Component</th>
                             <th colspan="2">GOK</th>
                             <th colspan="2">Beneficiaries</th>
                             <th colspan="2">IFAD Loan</th>
@@ -39,6 +34,8 @@
                             <th colspan="2">Balance</th>
                         </tr>
                         <tr>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                             <th>%</th>
                             <th>USD '000</th>
                             <th>%</th>
@@ -58,11 +55,18 @@
                             <th>%</th>
                             <th>USD '000</th>
                         </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td colspan="20">List of system users</td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
                         <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByComponentMap.keySet()}">
                             <c:forEach var="component" items="${sessionScope.financialPlanByComponentMap.get(financialPlanTotals).keySet()}" varStatus="index">
                                 <tr>
                                     <th>${index.count}</th>
-                                    <th>${component.component}</th>
+                                    <th>${component.category.name}</th>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).gokPercentage}</td>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).gokValue}</td>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).beneficiariesPercentage}</td>

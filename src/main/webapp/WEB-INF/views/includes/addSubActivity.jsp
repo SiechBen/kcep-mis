@@ -179,27 +179,27 @@
                     </div>
                     <div class="form-group">
                         GOK percentage
-                        <input id="gok-percentage" type="number" step="0.01" class="form-control">
+                        <input id="gok-percentage" type="number" step="0.01" class="form-control" data-toggle="tooltip" data-placement="auto top">
                     </div>
                     <div class="form-group">
                         IFAD loan percentage
-                        <input id="ifad-loan-percentage" type="number" step="0.01" class="form-control">
+                        <input id="ifad-loan-percentage" type="number" step="0.01" class="form-control" data-toggle="tooltip" data-placement="auto top">
                     </div>
                     <div class="form-group">
                         IFAD grant percentage
-                        <input id="ifad-grant-percentage" type="number" step="0.01" class="form-control">
+                        <input id="ifad-grant-percentage" type="number" step="0.01" class="form-control" data-toggle="tooltip" data-placement="auto top">
                     </div>
                     <div class="form-group">
                         Beneficiaries percentage
-                        <input id="beneficiaries-percentage" type="number" step="0.01" class="form-control">
+                        <input id="beneficiaries-percentage" type="number" step="0.01" class="form-control" data-toggle="tooltip" data-placement="auto top">
                     </div>
                     <div class="form-group">
                         EU percentage
-                        <input id="eu-percentage" type="number" step="0.01" class="form-control">
+                        <input id="eu-percentage" type="number" step="0.01" class="form-control" data-toggle="tooltip" data-placement="auto top">
                     </div>
                     <div class="form-group">
                         Financial institution percentage
-                        <input id="financial-institution-percentage" type="number" step="0.01" class="form-control">
+                        <input id="financial-institution-percentage" type="number" step="0.01" class="form-control" data-toggle="tooltip" data-placement="auto top">
                     </div>
                     <button type="button" class="btn btn-outline btn-primary" onclick="addSubActivity()">Save sub-activity</button>
                 </form>

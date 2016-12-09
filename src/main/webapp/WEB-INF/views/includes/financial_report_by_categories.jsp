@@ -21,13 +21,8 @@
                             <th colspan="2">Description</th>
                             <th colspan="18">Sources of Funds</th>
                         </tr>
-                    </thead>
-                    <tfoot>
-                        <tr><td colspan="20">Financial report by categories for this AWPB</td></tr>
-                    </tfoot>
-                    <tbody>
                         <tr>
-                            <th rowspan="2" colspan="2"> Exenditure category</th>
+                            <th colspan="2"> Exenditure category</th>
                             <th colspan="2">GOK</th>
                             <th colspan="2">Beneficiaries</th>
                             <th colspan="2">IFAD Loan</th>
@@ -39,6 +34,8 @@
                             <th colspan="2">Balance</th>
                         </tr>
                         <tr>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
                             <th>%</th>
                             <th>USD '000</th>
                             <th>%</th>
@@ -58,6 +55,11 @@
                             <th>%</th>
                             <th>USD '000</th>
                         </tr>
+                    </thead>
+                    <tfoot>
+                        <tr><td colspan="20">Financial report by categories for this AWPB</td></tr>
+                    </tfoot>
+                    <tbody>
                         <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByCategoryMap.keySet()}">
                             <c:forEach var="expenditureCategory" items="${sessionScope.financialPlanByCategoryMap.get(financialPlanTotals).keySet()}" varStatus="index">
                                 <tr>

@@ -37,51 +37,51 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
         this.totalsValue = totalsValue;
     }
 
-    public Double getGokPercentage() {
+    public BigDecimal getGokPercentage() {
         return gokPercentage;
     }
 
-    public void setGokPercentage(Double gokPercentage) {
+    public void setGokPercentage(BigDecimal gokPercentage) {
         this.gokPercentage = gokPercentage;
     }
 
-    public Double getIfadLoanPercentage() {
+    public BigDecimal getIfadLoanPercentage() {
         return ifadLoanPercentage;
     }
 
-    public void setIfadLoanPercentage(Double ifadLoanPercentage) {
+    public void setIfadLoanPercentage(BigDecimal ifadLoanPercentage) {
         this.ifadLoanPercentage = ifadLoanPercentage;
     }
 
-    public Double getIfadGrantPercentage() {
+    public BigDecimal getIfadGrantPercentage() {
         return ifadGrantPercentage;
     }
 
-    public void setIfadGrantPercentage(Double ifadGrantPercentage) {
+    public void setIfadGrantPercentage(BigDecimal ifadGrantPercentage) {
         this.ifadGrantPercentage = ifadGrantPercentage;
     }
 
-    public Double getBeneficiariesPercentage() {
+    public BigDecimal getBeneficiariesPercentage() {
         return beneficiariesPercentage;
     }
 
-    public void setBeneficiariesPercentage(Double beneficiariesPercentage) {
+    public void setBeneficiariesPercentage(BigDecimal beneficiariesPercentage) {
         this.beneficiariesPercentage = beneficiariesPercentage;
     }
 
-    public Double getEuPercentage() {
+    public BigDecimal getEuPercentage() {
         return euPercentage;
     }
 
-    public void setEuPercentage(Double euPercentage) {
+    public void setEuPercentage(BigDecimal euPercentage) {
         this.euPercentage = euPercentage;
     }
 
-    public Double getFinancialInstitutionPercentage() {
+    public BigDecimal getFinancialInstitutionPercentage() {
         return financialInstitutionPercentage;
     }
 
-    public void setFinancialInstitutionPercentage(Double financialInstitutionPercentage) {
+    public void setFinancialInstitutionPercentage(BigDecimal financialInstitutionPercentage) {
         this.financialInstitutionPercentage = financialInstitutionPercentage;
     }
 
@@ -103,7 +103,7 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
 
     @Override
     public String toString() {
-        return "ke.co.miles.kcep.mis.utilities.FinancialPlanDetailsDetails[ totals=" + getTotalsValue()+ " ]";
+        return "ke.co.miles.kcep.mis.utilities.FinancialPlanDetailsDetails[ totals=" + getTotalsValue() + " ]";
     }
 
     @Override
@@ -198,14 +198,14 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
     /**
      * @return the totalsPercentage
      */
-    public Double getTotalsPercentage() {
+    public BigDecimal getTotalsPercentage() {
         return totalsPercentage;
     }
 
     /**
      * @param totalsPercentage the totalsPercentage to set
      */
-    public void setTotalsPercentage(Double totalsPercentage) {
+    public void setTotalsPercentage(BigDecimal totalsPercentage) {
         this.totalsPercentage = totalsPercentage;
     }
 
@@ -240,7 +240,7 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
     /**
      * @return the totalInitialAllocationPercentage
      */
-    public Double getTotalInitialAllocationPercentage() {
+    public BigDecimal getTotalInitialAllocationPercentage() {
         return totalInitialAllocationPercentage;
     }
 
@@ -248,34 +248,34 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
      * @param totalInitialAllocationPercentage the
      * totalInitialAllocationPercentage to set
      */
-    public void setTotalInitialAllocationPercentage(Double totalInitialAllocationPercentage) {
+    public void setTotalInitialAllocationPercentage(BigDecimal totalInitialAllocationPercentage) {
         this.totalInitialAllocationPercentage = totalInitialAllocationPercentage;
     }
 
     /**
      * @return the balancePercentage
      */
-    public Double getBalancePercentage() {
+    public BigDecimal getBalancePercentage() {
         return balancePercentage;
     }
 
     /**
      * @param balancePercentage the balancePercentage to set
      */
-    public void setBalancePercentage(Double balancePercentage) {
+    public void setBalancePercentage(BigDecimal balancePercentage) {
         this.balancePercentage = balancePercentage;
     }
 
     private static final long serialVersionUID = 1L;
     private Integer id;
     private BigDecimal totalsValue;
-    private Double totalsPercentage;
-    private Double gokPercentage;
-    private Double ifadLoanPercentage;
-    private Double ifadGrantPercentage;
-    private Double beneficiariesPercentage;
-    private Double euPercentage;
-    private Double financialInstitutionPercentage;
+    private BigDecimal totalsPercentage;
+    private BigDecimal gokPercentage;
+    private BigDecimal ifadLoanPercentage;
+    private BigDecimal ifadGrantPercentage;
+    private BigDecimal beneficiariesPercentage;
+    private BigDecimal euPercentage;
+    private BigDecimal financialInstitutionPercentage;
     private BigDecimal gokValue;
     private BigDecimal ifadLoanValue;
     private BigDecimal ifadGrantValue;
@@ -284,7 +284,7 @@ public class FinancialPlanDetails implements Serializable, Comparable<FinancialP
     private BigDecimal financialInstitutionValue;
     private BigDecimal totalInitialAllocationValue;
     private BigDecimal balanceValue;
-    private Double totalInitialAllocationPercentage;
-    private Double balancePercentage;
+    private BigDecimal totalInitialAllocationPercentage;
+    private BigDecimal balancePercentage;
 
 }
