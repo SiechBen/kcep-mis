@@ -14,7 +14,9 @@ import java.io.Serializable;
 public enum ProgressTypeDetail implements Serializable {
 
     PHYSICAL(new Integer("167"), "Physical"),
-    FINANCIAL(new Integer("168"), "Financial");
+    FINANCIAL(new Integer("168"), "Financial"),
+    PHYSICAL_APPRAISAL(new Integer("173"), "Physical appraisal"),
+    FINANCIAL_APPRAISAL(new Integer("174"), "Financial appraisal");
 
     private ProgressTypeDetail(Integer id, String name) {
         this.id = id;
@@ -23,10 +25,14 @@ public enum ProgressTypeDetail implements Serializable {
 
     public static ProgressTypeDetail getProgressTypeDetail(int id) {
         switch (id) {
-            case 157:
-                return FINANCIAL;
-            case 158:
+            case 167:
                 return PHYSICAL;
+            case 168:
+                return FINANCIAL;
+            case 173:
+                return PHYSICAL_APPRAISAL;
+            case 174:
+                return FINANCIAL_APPRAISAL;
             default:
                 return null;
         }

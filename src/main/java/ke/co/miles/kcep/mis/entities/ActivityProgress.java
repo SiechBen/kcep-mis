@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,6 +26,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId AND a.subActivity.region.id = :regionId AND a.subActivity.county IS NULL"),
     @NamedQuery(name = "ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId AND a.subActivity.county.id = :countyId AND a.subActivity.region IS NULL"),
     @NamedQuery(name = "ActivityProgress.findForHeadByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter = :quarter AND a.progressType.id = :progressTypeId AND a.subActivity.county IS NULL AND a.subActivity.region IS NULL"),
+    @NamedQuery(name = "ActivityProgress.findAppraisalForRegionByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter IS NULL AND a.progressType.id = :progressTypeId AND a.subActivity.region.id = :regionId AND a.subActivity.county IS NULL"),
+    @NamedQuery(name = "ActivityProgress.findAppraisalForCountyByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter IS NULL AND a.progressType.id = :progressTypeId AND a.subActivity.county.id = :countyId AND a.subActivity.region IS NULL"),
+    @NamedQuery(name = "ActivityProgress.findAppraisalForHeadByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.quarter IS NULL AND a.progressType.id = :progressTypeId AND a.subActivity.county IS NULL AND a.subActivity.region IS NULL"),
     @NamedQuery(name = "ActivityProgress.findByFinancialYearId", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.financialYear.id = :financialYearId"),
     @NamedQuery(name = "ActivityProgress.findBySubActivityId", query = "SELECT a FROM ActivityProgress a WHERE a.subActivity.id = :subActivityId"),
     @NamedQuery(name = "ActivityProgress.findAll", query = "SELECT a FROM ActivityProgress a"),
@@ -48,9 +50,8 @@ public class ActivityProgress implements Serializable {
     @Column(name = "target_or_budget")
     private BigDecimal targetOrBudget;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "quarter")
-    private short quarter;
+    private Short quarter;
     @JoinColumn(name = "progress_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Phenomenon progressType;
@@ -65,7 +66,7 @@ public class ActivityProgress implements Serializable {
         this.id = id;
     }
 
-    public ActivityProgress(Integer id, short quarter) {
+    public ActivityProgress(Integer id, Short quarter) {
         this.id = id;
         this.quarter = quarter;
     }
@@ -94,11 +95,11 @@ public class ActivityProgress implements Serializable {
         this.targetOrBudget = targetOrBudget;
     }
 
-    public short getQuarter() {
+    public Short getQuarter() {
         return quarter;
     }
 
-    public void setQuarter(short quarter) {
+    public void setQuarter(Short quarter) {
         this.quarter = quarter;
     }
 

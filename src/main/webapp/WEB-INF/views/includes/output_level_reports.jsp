@@ -5,6 +5,7 @@
 --%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -22,8 +23,10 @@
                             <th rowspan="2">&nbsp;</th>
                             <th rowspan="2">Output</th>
                             <th rowspan="2">Indicator</th>
-                            <th rowspan="2">Indicator type</th>
+                            <th rowspan="2">Indicator source</th>
                             <th rowspan="2">Unit</th>
+                            <th rowspan="2">Baseline date</th>
+                            <th rowspan="2">Baseline value</th>
                                 <c:forEach var="year" items="${sessionScope.projectYears}" varStatus="index">
                                 <th colspan="3">Year ${index.count} (${year})</th>
                                 </c:forEach>
@@ -42,7 +45,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <td colspan="${8 + (fn:length(sessionScope.projectYears) * 3)}"> Report on output level indicators</td>
+                            <td colspan="${10 + (fn:length(sessionScope.projectYears) * 3)}"> Report on output level indicators</td>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -52,14 +55,16 @@
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outputIndicator.resultHierarchy.description}">${outputIndicator.resultHierarchy.description}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outputIndicator.description}">${outputIndicator.description}</td>
                                 <td>${outputIndicator.performanceIndicatorType.category.name}</td>
-                                <td class="editable" data-placement="auto bottom" title="${outputIndicator.description}"></td>
+                                <td class="editable pencil" onclick="editMeasurementUnit(this, ${outputIndicator.id}, '${outputIndicator.measurementUnit}', '${outputIndicator.description}')">${outputIndicator.measurementUnit}</td>
+                                <td class="editable pencil" onclick="editBaselineDate(this, ${outputIndicator.id}, '${outputIndicator.baselineDate}', '${outputIndicator.description}')"><fmt:formatDate pattern="yy-MMM-dd" value="${outputIndicator.baselineDate}"/></td>
+                                <td class="editable pencil" onclick="editBaselineValue(this, ${outputIndicator.id}, '${outputIndicator.baselineValue}', '${outputIndicator.description}')">${outputIndicator.baselineValue}</td>
                                 <c:forEach var="cummulativeIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).keySet()}">
                                     <c:forEach var="outputIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).get(cummulativeIndicatorValues)}">
                                         <td class="editable">${outputIndicatorValues.expectedValue}</td>
                                         <td>${outputIndicatorValues.actualValue}</td>
                                         <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
-                                    <td id="appraisal-target-${cummulativeIndicatorValues.id}" class="editable pencil" onclick="setAppraisalTarget('${cummulativeIndicatorValues.id}', '${cummulativeIndicatorValues.actualValue}', '${cummulativeIndicatorValues.expectedValue}', '${outputIndicator.description}')">${cummulativeIndicatorValues.expectedValue}</td>
+                                    <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setAppraisalTarget('${outputIndicator.id}', '${cummulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
                                     <td>${cummulativeIndicatorValues.actualValue}</td>
                                     <td id="output-ratio-${cummulativeIndicatorValues.id}"><c:if test="${not empty cummulativeIndicatorValues.ratio}">${cummulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
@@ -88,6 +93,37 @@
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)
                         <input id="ratio" readonly class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row dialog" id="baseline-date-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Baseline date
+                        <input id="baseline-date" class="form-control datefield" type="date">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="baseline-value-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Baseline value
+                        <input type="number" step="0.01"  id="baseline-value" class="form-control">
                     </div>
                 </form>
             </div>

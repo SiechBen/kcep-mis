@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -313,29 +312,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         PerformanceIndicatorValues performanceIndicatorValues
                 = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
         performanceIndicatorValues.setActualValue(performanceIndicatorValuesDetails.getActualValue());
-        performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
-
-        try {
-            em.merge(performanceIndicatorValues);
-            em.flush();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
-
-    }
-
-    @Override
-    public void setAppraisalTarget(PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails) throws MilesException {
-
-        if (performanceIndicatorValuesDetails == null) {
-            throw new InvalidArgumentException("error_055_01");
-        } else if (performanceIndicatorValuesDetails.getId() == null) {
-            throw new InvalidArgumentException("error_055_03");
-        }
-
-        PerformanceIndicatorValues performanceIndicatorValues
-                = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
-        MilesDebugger.debug(performanceIndicatorValuesDetails.getId());
         performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
 
         try {

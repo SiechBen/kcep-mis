@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue")})
 public class PerformanceIndicator implements Serializable {
 
+    @Column(name = "appraisal_target")
+    private Double appraisalTarget;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +65,9 @@ public class PerformanceIndicator implements Serializable {
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
+    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
+    @ManyToOne(optional = true)
+    private MeasurementUnit measurementUnit;
 
     public PerformanceIndicator() {
     }
@@ -156,6 +161,28 @@ public class PerformanceIndicator implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.PerformanceIndicator[ id=" + id + " ]";
+    }
+
+    public Double getAppraisalTarget() {
+        return appraisalTarget;
+    }
+
+    public void setAppraisalTarget(Double appraisalTarget) {
+        this.appraisalTarget = appraisalTarget;
+    }
+
+    /**
+     * @return the measurementUnit
+     */
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
+    }
+
+    /**
+     * @param measurementUnit the measurementUnit to set
+     */
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
 }

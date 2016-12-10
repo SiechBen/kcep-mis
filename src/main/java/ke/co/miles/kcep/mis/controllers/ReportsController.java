@@ -5,9 +5,11 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -20,11 +22,16 @@ import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.progress.ActivityProgressRequestsLocal;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.progress.comment.ActivityProgressCommentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.ActivityProgressCommentDetails;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressDetails;
+import ke.co.miles.kcep.mis.utilities.ActivityProgressReportDetails;
+import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
@@ -38,7 +45,8 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/financial_report_by_categories", "/financial_report_by_components",
     "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
-    "/getActivityProgress", "/doEditActivityProgress", "/setAppraisalTarget"})
+    "/getActivityProgress", "/setAppraisalTarget",
+    "/doEditActivityProgress", "/doEditActivityProgressComment"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +74,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
@@ -131,6 +140,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/changeOutcomeReport");
@@ -173,6 +183,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
@@ -274,6 +285,41 @@ public class ReportsController extends Controller {
                     } catch (Exception e) {
                     }
 
+                    PersonDetails accessingPerson = (PersonDetails) session.getAttribute("person");
+                    Set<ActivityProgressReportDetails> previousActivityProgressReports;
+                    Set<ActivityProgressReportDetails> newActivityProgressReports;
+                    ActivityProgressReportDetails newActivityProgressReport;
+                    newActivityProgressReports = new HashSet<>();
+                    try {
+                        previousActivityProgressReports = (Set< ActivityProgressReportDetails>) session.getAttribute("activityProgressReports");
+                        if (previousActivityProgressReports == null) {
+                            previousActivityProgressReports = new HashSet<>();
+                        }
+                    } catch (Exception e) {
+                        previousActivityProgressReports = new HashSet<>();
+                    }
+                    try {
+                        /* Retrieve activity progress details and add those available previously to the report(set) */
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                            for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId()));
+                            }
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
+                            for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "County", accessingPerson.getLocation().getCounty().getId()));
+                            }
+                        } else {
+                            for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Head", null));
+                            }
+                        }
+
+                        /* Avail the progress report set in session */
+                        session.setAttribute("activityProgressReports", newActivityProgressReports);
+                    } catch (Exception e) {
+                        MilesDebugger.debug(e);
+                    }
+
                     break;
 
                 case "/doEditActivityProgress":
@@ -288,6 +334,7 @@ public class ReportsController extends Controller {
                                 break;
                             case "Target":
                             case "Budget":
+                            case "Appraisal":
                                 activityProgress.setTargetOrBudget(new BigDecimal(request.getParameter("activityProgressValue")));
                         }
 
@@ -314,17 +361,73 @@ public class ReportsController extends Controller {
 
                     return;
 
+                case "/doEditActivityProgressComment":
+
+                    ActivityProgressCommentDetails activityProgressComment;
+                    try {
+
+                        activityProgressComment = new ActivityProgressCommentDetails(Integer.valueOf(request.getParameter("id")));
+                        activityProgressComment.setComment(request.getParameter("comment"));
+
+                        activityProgressCommentService.editActivityProgressComment(activityProgressComment);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NumberFormatException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("invalid_number_format") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("invalid_number_format"), e);
+                    }
+                    try {
+                        activityProgressService.checkForActivityProgress(null);
+                    } catch (Exception e) {
+                    }
+
+                    try {
+                        session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
+                    } catch (Exception e) {
+                    }
+
+                    return;
+
                 case "/getActivityProgress":
 
-                    PersonDetails accessingPerson = (PersonDetails) session.getAttribute("person");
+                    accessingPerson = (PersonDetails) session.getAttribute("person");
+                    newActivityProgressReports = new HashSet<>();
                     try {
-                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
-                            session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Region", accessingPerson.getLocation().getCounty().getRegion().getId()));
-                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
-                            session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "County", accessingPerson.getLocation().getCounty().getId()));
-                        } else {
-                            session.setAttribute("activityProgressReport", activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Head", null));
+                        previousActivityProgressReports = (Set< ActivityProgressReportDetails>) session.getAttribute("activityProgressReports");
+                        if (previousActivityProgressReports == null) {
+                            previousActivityProgressReports = new HashSet<>();
                         }
+                    } catch (Exception e) {
+                        previousActivityProgressReports = new HashSet<>();
+                    }
+                    try {
+                        /* Retrieve activity progress details and add those available previously to the report(set) */
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                            for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId()));
+                            }
+                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Region", accessingPerson.getLocation().getCounty().getRegion().getId());
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
+                            for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "County", accessingPerson.getLocation().getCounty().getId()));
+                            }
+                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "County", accessingPerson.getLocation().getCounty().getId());
+                        } else {
+                            for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Head", null));
+                            }
+                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Head", null);
+                        }
+
+                        /* Add the new activity progress details to the report if it doesn't exist already */
+                        newActivityProgressReports.add(newActivityProgressReport);
+
+                        /* Avail the progress report set in session */
+                        session.setAttribute("activityProgressReports", newActivityProgressReports);
                     } catch (Exception e) {
                         MilesDebugger.debug(e);
                     }
@@ -359,19 +462,19 @@ public class ReportsController extends Controller {
                     return;
 
                 case "/setAppraisalTarget":
-                    PerformanceIndicatorValuesDetails outputIndicatorValues;
+                    PerformanceIndicatorDetails performanceIndicator;
                     try {
-                        outputIndicatorValues = new PerformanceIndicatorValuesDetails(Integer.valueOf(request.getParameter("id")));
+                        performanceIndicator = new PerformanceIndicatorDetails(Short.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
-                        outputIndicatorValues = new PerformanceIndicatorValuesDetails();
+                        performanceIndicator = new PerformanceIndicatorDetails();
                     }
                     try {
-                        outputIndicatorValues.setExpectedValue(Double.valueOf(request.getParameter("appraisalTarget")));
+                        performanceIndicator.setAppraisalTarget(Double.valueOf(request.getParameter("appraisalTarget")));
                     } catch (Exception e) {
                     }
 
                     try {
-                        performanceIndicatorValuesService.setAppraisalTarget(outputIndicatorValues);
+                        performanceIndicatorService.setAppraisalTarget(performanceIndicator);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -585,6 +688,10 @@ public class ReportsController extends Controller {
     private FinancialYearRequestsLocal financialYearService;
     @EJB
     private ActivityProgressRequestsLocal activityProgressService;
+    @EJB
+    private PerformanceIndicatorRequestsLocal performanceIndicatorService;
+    @EJB
+    private ActivityProgressCommentRequestsLocal activityProgressCommentService;
     @EJB
     private PerformanceIndicatorValuesRequestsLocal performanceIndicatorValuesService;
 

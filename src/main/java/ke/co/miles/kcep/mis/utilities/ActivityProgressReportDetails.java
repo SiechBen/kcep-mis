@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author siech
  */
-public class ActivityProgressReportDetails implements Serializable {
+public class ActivityProgressReportDetails implements Serializable, Comparable<ActivityProgressReportDetails> {
 
     /**
      * @return the physicalProgressQ1
@@ -149,16 +149,102 @@ public class ActivityProgressReportDetails implements Serializable {
         this.cummulativeFinancialProgress = cummulativeFinancialProgress;
     }
 
+    /**
+     * @return the physicalAppraisal
+     */
+    public ActivityProgressDetails getPhysicalAppraisal() {
+        return physicalAppraisal;
+    }
+
+    /**
+     * @param physicalAppraisal the physicalAppraisal to set
+     */
+    public void setPhysicalAppraisal(ActivityProgressDetails physicalAppraisal) {
+        this.physicalAppraisal = physicalAppraisal;
+    }
+
+    /**
+     * @return the financialAppraisal
+     */
+    public ActivityProgressDetails getFinancialAppraisal() {
+        return financialAppraisal;
+    }
+
+    /**
+     * @param financialAppraisal the financialAppraisal to set
+     */
+    public void setFinancialAppraisal(ActivityProgressDetails financialAppraisal) {
+        this.financialAppraisal = financialAppraisal;
+    }
+
+    /**
+     * @return the activityProgressComment
+     */
+    public ActivityProgressCommentDetails getActivityProgressComment() {
+        return activityProgressComment;
+    }
+
+    /**
+     * @param activityProgressComment the activityProgressComment to set
+     */
+    public void setActivityProgressComment(ActivityProgressCommentDetails activityProgressComment) {
+        this.activityProgressComment = activityProgressComment;
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof ActivityProgressReportDetails)) {
+            return false;
+        }
+        ActivityProgressReportDetails other = (ActivityProgressReportDetails) object;
+        return !((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId())));
+    }
+
+    @Override
+    public String toString() {
+        return "ke.co.miles.kcep.mis.utilities.ActivityProgressReportDetails[ id=" + id + " ]";
+    }
+
+    @Override
+    public int compareTo(ActivityProgressReportDetails o) {
+        return this.id.compareTo(o.getId());
+    }
+
+    private Integer id;
     private static final long serialVersionUID = 1L;
     private ActivityProgressDetails physicalProgressQ1;
     private ActivityProgressDetails physicalProgressQ2;
     private ActivityProgressDetails physicalProgressQ3;
     private ActivityProgressDetails physicalProgressQ4;
     private ActivityProgressDetails cummulativePhysicalProgress;
+    private ActivityProgressDetails physicalAppraisal;
     private ActivityProgressDetails financialProgressQ1;
     private ActivityProgressDetails financialProgressQ2;
     private ActivityProgressDetails financialProgressQ3;
     private ActivityProgressDetails financialProgressQ4;
     private ActivityProgressDetails cummulativeFinancialProgress;
+    private ActivityProgressDetails financialAppraisal;
+    private ActivityProgressCommentDetails activityProgressComment;
 
 }

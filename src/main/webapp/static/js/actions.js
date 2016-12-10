@@ -721,17 +721,14 @@ function calculateRatio() {
 $("#actual-value").on("input", function () {
     calculateRatio();
 });
-
 $("#expected-value").on("input", function () {
     calculateRatio();
 });
-
 $("#appraisal-target").on("input", function () {
     var actualValue = parseFloat($("#actual-value").val()) || 0.0;
     var expectedValue = parseFloat($("#appraisal-target").val()) || 0.0;
     $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
 });
-
 function calculateAWPBTotals() {
 
     var unitCost = $("#unit-cost").val();
@@ -1253,7 +1250,7 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
     $("#activity-progress-dialog").dialog({
         width: 495,
         height: "auto",
-        title: quarter + " " + valueType.toLowerCase() + " for ref code " + $('td:nth-child(' + 1 + ')', $(cell).parents('tr')).text(),
+        title: quarter !== undefined ? "" : quarter + " " + valueType.toLowerCase() + " for ref code " + $('td:nth-child(' + 1 + ')', $(cell).parents('tr')).text(),
         resizable: false,
         modal: false,
         buttons: {
@@ -1274,7 +1271,7 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
                             if (valueType === "Target") {
                                 var cummulativeTarget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text()) || 0.0;
                                 $('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text((cummulativeTarget + deltaActivityProgressValue));
-                            } else {
+                            } else if (valueType === "Value achieved") {
                                 var cummulativeValueAchieved = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text()) || 0.0;
                                 $('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text((cummulativeValueAchieved + deltaActivityProgressValue));
                             }
@@ -1284,7 +1281,7 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
                             if (valueType === "Budget") {
                                 var cummulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
                                 $('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text((cummulativeBudget + deltaActivityProgressValue));
-                            } else {
+                            } else if (valueType === "Expense") {
                                 var cummulativeExpense = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text()) || 0.0;
                                 $('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text((cummulativeExpense + deltaActivityProgressValue));
                             }
@@ -1306,11 +1303,47 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
     });
 }
 
+function editActivityProgressComment(cell, activityProgressCommentId, comment) {
+    var cellIndex = cell.cellIndex + 1;
+    $("#activity-progress-comment").val(comment);
+    $("#activity-progress-comment-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "Comments for reference code " + $('td:nth-child(' + 1 + ')', $(cell).parents('tr')).text(),
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+
+                comment = $("#activity-progress-comment").val();
+                $.ajax({
+                    url: "doEditActivityProgressComment",
+                    type: "POST",
+                    data: "id=" + activityProgressCommentId + "&comment=" + comment,
+                    success: function () {
+
+                        $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text(comment);
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 var Indices = {
-    CUMMULATIVE_TARGET: 13,
-    CUMMULATIVE_VALUE_ACHIEVED: 14,
-    CUMMULATIVE_BUDGET: 24,
-    CUMMULATIVE_EXPENSE: 25
+    CUMMULATIVE_TARGET: 14,
+    CUMMULATIVE_VALUE_ACHIEVED: 15,
+    CUMMULATIVE_BUDGET: 26,
+    CUMMULATIVE_EXPENSE: 27
 };
 //</editor-fold>
 
@@ -2338,7 +2371,6 @@ function setAppraisalTarget(id, actualValue, appraisalTarget, description) {
 
 //</editor-fold>
 
-
 //<editor-fold defaultstate="collapsed" desc="Performance Indicator">
 function addPerformanceIndicator() {
     $.ajax({
@@ -2469,7 +2501,10 @@ function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, d
     });
 }
 
-function editBaselineDate(id, baselineDate, description) {
+function editBaselineDate(cell, id, baselineDate, description) {
+
+    /* get the cell index */
+    var cellIndex = cell.cellIndex + 1;
     $("#baseline-date").val(baselineDate);
     $("#baseline-date-dialog").dialog({
         width: 495,
@@ -2485,8 +2520,11 @@ function editBaselineDate(id, baselineDate, description) {
                     data: "id=" + id +
                             "&baselineDate=" + $("#baseline-date").val(),
                     success: function () {
+                        var date = new Date($("#baseline-date").val());
+
+                        console.log(getShortYear(date.getFullYear()) + "-" + getMonth(date.getMonth()) + "-" + date.getDate());
+                        $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text(getShortYear(date.getFullYear()) + "-" + getMonth(date.getMonth()) + "-" + date.getDate());
                         $("#baseline-date").val("");
-                        loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2496,14 +2534,13 @@ function editBaselineDate(id, baselineDate, description) {
                 });
                 $(this).dialog("close");
             }
-        },
-        close: function () {
-            $("#ratio").val("");
         }
     });
 }
 
-function editBaselineValue(id, baselineValue, description) {
+function editBaselineValue(cell, id, baselineValue, description) {
+
+    var cellIndex = cell.cellIndex + 1;
     $("#baseline-value").val(baselineValue);
     $("#baseline-value-dialog").dialog({
         width: 495,
@@ -2519,8 +2556,8 @@ function editBaselineValue(id, baselineValue, description) {
                     data: "id=" + id +
                             "&baselineValue=" + $("#baseline-value").val(),
                     success: function () {
+                        $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text($("#baseline-value").val());
                         $("#baseline-value").val("");
-                        loadAjaxWindow("performance_indicators");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2530,9 +2567,6 @@ function editBaselineValue(id, baselineValue, description) {
                 });
                 $(this).dialog("close");
             }
-        },
-        close: function () {
-            $("#ratio").val("");
         }
     });
 }
@@ -2570,6 +2604,71 @@ function deletePerformanceIndicator(id) {
         }
     });
 }
+
+function getShortYear(year) {
+    /* convert to string */
+    var yearString = year.toString();
+    yearString = yearString.substring(2);
+    return yearString;
+}
+
+function getMonth(num) {
+    switch (num) {
+        case 0:
+            return  Months.JAN;
+            break;
+        case 1:
+            return  Months.FEB;
+            break;
+        case 2:
+            return  Months.MAR;
+            break;
+        case 3:
+            return  Months.APR;
+            break;
+        case 4:
+            return  Months.MAY;
+            break;
+        case 5:
+            return  Months.JUN;
+            break;
+        case 6:
+            return  Months.JUL;
+            break;
+        case 7:
+            return  Months.AUG;
+            break;
+        case 8:
+            return  Months.SEP;
+            break;
+        case 9:
+            return  Months.OCT;
+            break;
+        case 10:
+            return  Months.NOV;
+            break;
+        case 11:
+            return  Months.DEC;
+            break;
+        default:
+            break;
+    }
+}
+
+var Months = {
+    JAN: "Jan",
+    FEB: "Feb",
+    MAR: "Mar",
+    APR: "Apr",
+    MAY: "May",
+    JUN: "Jun",
+    JUL: "Jul",
+    AUG: "Aug",
+    SEP: "Sep",
+    OCT: "Oct",
+    NOV: "Nov",
+    DEC: "Dec"
+};
 
 //</editor-fold>
 
@@ -3370,7 +3469,6 @@ $("[id$='-percentage']").each(function () {
         }
     });
 });
-
 function addSubActivity() {
 
     var offRange = false;
@@ -4422,6 +4520,5 @@ if (!Modernizr.inputtypes.date) {
             e.preventDefault();
         }
     });
-
 }
 //</editor-fold>

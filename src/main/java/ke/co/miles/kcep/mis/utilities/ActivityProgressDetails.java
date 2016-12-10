@@ -85,14 +85,14 @@ public class ActivityProgressDetails implements Serializable, Comparable<Activit
     /**
      * @return the quarter
      */
-    public short getQuarter() {
+    public Short getQuarter() {
         return quarter;
     }
 
     /**
      * @param quarter the quarter to set
      */
-    public void setQuarter(short quarter) {
+    public void setQuarter(Short quarter) {
         this.quarter = quarter;
     }
 
@@ -101,7 +101,7 @@ public class ActivityProgressDetails implements Serializable, Comparable<Activit
     private ProgressTypeDetail progressType;
     private SubActivityDetails subActivity;
     private BigDecimal targetOrBudget;
-    private short quarter;
+    private Short quarter;
     private Integer id;
 
 }

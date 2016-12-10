@@ -95,12 +95,42 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the appraisalTarget
+     */
+    public Double getAppraisalTarget() {
+        return appraisalTarget;
+    }
+
+    /**
+     * @param appraisalTarget the appraisalTarget to set
+     */
+    public void setAppraisalTarget(Double appraisalTarget) {
+        this.appraisalTarget = appraisalTarget;
+    }
+
+    /**
+     * @return the measurementUnit
+     */
+    public MeasurementUnitDetails getMeasurementUnit() {
+        return measurementUnit;
+    }
+
+    /**
+     * @param measurementUnit the measurementUnit to set
+     */
+    public void setMeasurementUnit(MeasurementUnitDetails measurementUnit) {
+        this.measurementUnit = measurementUnit;
+    }
+
     private static final long serialVersionUID = 1L;
     private Short id;
     private String description;
     private Date baselineDate;
     private Double baselineValue;
+    private Double appraisalTarget;
     private ResultHierarchyDetails resultHierarchy;
+    private MeasurementUnitDetails measurementUnit;
     private PhenomenonDetails performanceIndicatorType;
 
 }

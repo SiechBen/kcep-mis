@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.ResultHierarchy;
@@ -18,6 +19,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
+import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 
 /**
@@ -95,6 +97,28 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
     @Override
+    public void setAppraisalTarget(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException {
+
+        if (performanceIndicatorDetails == null) {
+            throw new InvalidArgumentException("error_040_01");
+        } else if (performanceIndicatorDetails.getId() == null) {
+            throw new InvalidArgumentException("error_040_05");
+        }
+
+        PerformanceIndicator performanceIndicator
+                = em.find(PerformanceIndicator.class, performanceIndicatorDetails.getId());
+        performanceIndicator.setAppraisalTarget(performanceIndicatorDetails.getAppraisalTarget());
+
+        try {
+            em.merge(performanceIndicator);
+            em.flush();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+    }
+
+    @Override
     public void editPerformanceIndicator(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException {
 
         if (performanceIndicatorDetails == null) {
@@ -116,6 +140,9 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         }
         if (performanceIndicatorDetails.getBaselineValue() != null) {
             performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
+        }
+        if (performanceIndicatorDetails.getMeasurementUnit() != null) {
+            performanceIndicator.setMeasurementUnit(em.getReference(MeasurementUnit.class, performanceIndicatorDetails.getMeasurementUnit().getId()));
         }
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
             performanceIndicator.setPerformanceIndicatorType(em.getReference(Phenomenon.class,
@@ -153,6 +180,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     public PerformanceIndicatorDetails convertPerformanceIndicatorToPerformanceIndicatorDetails(PerformanceIndicator performanceIndicator) {
 
         PerformanceIndicatorDetails performanceIndicatorDetails = new PerformanceIndicatorDetails(performanceIndicator.getId());
+        performanceIndicatorDetails.setAppraisalTarget(performanceIndicator.getAppraisalTarget());
         performanceIndicatorDetails.setBaselineValue(performanceIndicator.getBaselineValue());
         performanceIndicatorDetails.setBaselineDate(performanceIndicator.getBaselineDate());
         performanceIndicatorDetails.setDescription(performanceIndicator.getDescription());
@@ -162,8 +190,11 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         }
         if (performanceIndicator.getResultHierarchy() != null) {
             performanceIndicatorDetails.setResultHierarchy(resultHierarchyService.
-                    convertResultHierarchyToResultHierarchyDetails(performanceIndicator.getResultHierarchy())
-            );
+                    convertResultHierarchyToResultHierarchyDetails(performanceIndicator.getResultHierarchy()));
+        }
+        if (performanceIndicator.getMeasurementUnit() != null) {
+            performanceIndicatorDetails.setMeasurementUnit(measurementUnitService.
+                    convertMeasurementUnitToMeasurementUnitDetails(performanceIndicator.getMeasurementUnit()));
         }
 
         return performanceIndicatorDetails;
@@ -183,6 +214,8 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
     }
 
 //</editor-fold>
+    @EJB
+    private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
     private ResultHierarchyRequestsLocal resultHierarchyService;
     @EJB

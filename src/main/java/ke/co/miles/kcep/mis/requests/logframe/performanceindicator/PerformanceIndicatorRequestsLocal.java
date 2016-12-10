@@ -48,6 +48,15 @@ public interface PerformanceIndicatorRequestsLocal {
 
     /**
      *
+     * @param performanceIndicatorDetails details of the performance indicator
+     * record whose appraisal target is to be set
+     * @throws MilesException when the database is in an incorrect state or when
+     * the details are null or incorrectly specified
+     */
+    public void setAppraisalTarget(PerformanceIndicatorDetails performanceIndicatorDetails) throws MilesException;
+
+    /**
+     *
      * @param id the unique identifier of the performance indicator record to be
      * removed
      * @throws MilesException when the database is in an incorrect state

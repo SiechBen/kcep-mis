@@ -12,11 +12,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityProgress;
+import ke.co.miles.kcep.mis.entities.ActivityProgressComment;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.activityplanning.activity.progress.comment.ActivityProgressCommentRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressDetails;
@@ -86,6 +88,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
             activityProgressList = q.getResultList();
             if (activityProgressList == null || activityProgressList.isEmpty()) {
                 List<SubActivity> subActivities = retrieveSubActivities(financialYearId);
+                ActivityProgressComment activityProgressComment;
                 ActivityProgress activityProgress;
                 int one = 0;
                 for (SubActivity subActivity : subActivities) {
@@ -108,7 +111,32 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                         } catch (Exception e) {
                             throw new InvalidStateException("error_000_01");
                         }
-
+                    }
+                    activityProgress = new ActivityProgress();
+                    activityProgress.setProgressType(em.getReference(Phenomenon.class, ProgressTypeDetail.PHYSICAL_APPRAISAL.getId()));
+                    activityProgress.setSubActivity(subActivity);
+                    activityProgress.setQuarter(null);
+                    try {
+                        em.persist(activityProgress);
+                    } catch (Exception e) {
+                        throw new InvalidStateException("error_000_01");
+                    }
+                    activityProgress = new ActivityProgress();
+                    activityProgress.setProgressType(em.getReference(Phenomenon.class, ProgressTypeDetail.FINANCIAL_APPRAISAL.getId()));
+                    activityProgress.setSubActivity(subActivity);
+                    activityProgress.setQuarter(null);
+                    try {
+                        em.persist(activityProgress);
+                    } catch (Exception e) {
+                        throw new InvalidStateException("error_000_01");
+                    }
+                    /* persist activity progress comment */
+                    activityProgressComment = new ActivityProgressComment();
+                    activityProgressComment.setSubActivity(subActivity);
+                    try {
+                        em.persist(activityProgressComment);
+                    } catch (Exception e) {
+                        throw new InvalidStateException("error_000_01");
                     }
                 }
 
@@ -222,7 +250,92 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
             }
         }
 
-        ActivityProgressDetails activityProgressDetails = new ActivityProgressDetails();
+        ActivityProgressDetails activityProgressDetails;
+
+        switch (level) {
+            case "Region":
+                setQ(em.createNamedQuery("ActivityProgress.findAppraisalForRegionByFinancialYearIdAndReferenceCode"));
+                q.setParameter("regionId", levelId);
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL_APPRAISAL.getId());
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            case "County":
+                setQ(em.createNamedQuery("ActivityProgress.findAppraisalForCountyByFinancialYearIdAndReferenceCode"));
+                q.setParameter("countyId", levelId);
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL_APPRAISAL.getId());
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            case "Head":
+                setQ(em.createNamedQuery("ActivityProgress.findAppraisalForHeadByFinancialYearIdAndReferenceCode"));
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL_APPRAISAL.getId());
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            default:
+                return activityProgressReport;
+        }
+
+        activityProgressDetails = convertActivityProgressToActivityProgressDetails((ActivityProgress) q.getSingleResult());
+        activityProgressReport.setPhysicalAppraisal(activityProgressDetails);
+
+        switch (level) {
+            case "Region":
+                setQ(em.createNamedQuery("ActivityProgress.findAppraisalForRegionByFinancialYearIdAndReferenceCode"));
+                setQ(em.createNamedQuery("ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode"));
+                q.setParameter("regionId", levelId);
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL_APPRAISAL.getId());
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            case "County":
+                setQ(em.createNamedQuery("ActivityProgress.findAppraisalForCountyByFinancialYearIdAndReferenceCode"));
+                q.setParameter("countyId", levelId);
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL_APPRAISAL.getId());
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            case "Head":
+                setQ(em.createNamedQuery("ActivityProgress.findAppraisalForHeadByFinancialYearIdAndReferenceCode"));
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL_APPRAISAL.getId());
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            default:
+                return activityProgressReport;
+        }
+
+        activityProgressDetails = convertActivityProgressToActivityProgressDetails((ActivityProgress) q.getSingleResult());
+        activityProgressReport.setFinancialAppraisal(activityProgressDetails);
+
+        switch (level) {
+            case "Region":
+                setQ(em.createNamedQuery("ActivityProgressComment.findForRegionByFinancialYearIdAndReferenceCode"));
+                setQ(em.createNamedQuery("ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode"));
+                q.setParameter("regionId", levelId);
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            case "County":
+                setQ(em.createNamedQuery("ActivityProgressComment.findForCountyByFinancialYearIdAndReferenceCode"));
+                q.setParameter("countyId", levelId);
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            case "Head":
+                setQ(em.createNamedQuery("ActivityProgressComment.findForHeadByFinancialYearIdAndReferenceCode"));
+                q.setParameter("awpbReferenceCode", awpbReferenceCode);
+                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                break;
+            default:
+                return activityProgressReport;
+        }
+
+        /* retrieve activity progress comment */
+        activityProgressReport.setActivityProgressComment(activityProgressCommentService.convertActivityProgressCommentToActivityProgressCommentDetails((ActivityProgressComment) q.getSingleResult()));
+
+        activityProgressDetails = new ActivityProgressDetails();
         try {
             activityProgressDetails.setTargetOrBudget(
                     (activityProgressReport.getPhysicalProgressQ1().getTargetOrBudget() == null ? new BigDecimal("0") : activityProgressReport.getPhysicalProgressQ1().getTargetOrBudget())
@@ -279,6 +392,9 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         }
 
         activityProgressReport.setCummulativeFinancialProgress(activityProgressDetails);
+
+        /* Set the report id as the id of financial progress for quarter 4 */
+        activityProgressReport.setId(activityProgressReport.getFinancialProgressQ4().getId());
 
         return activityProgressReport;
     }
@@ -393,5 +509,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
     private SubActivityRequestsLocal subActivityService;
     @EJB
     private FinancialYearRequestsLocal financialYearService;
+    @EJB
+    private ActivityProgressCommentRequestsLocal activityProgressCommentService;
 
 }

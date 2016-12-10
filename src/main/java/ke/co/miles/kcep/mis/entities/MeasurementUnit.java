@@ -51,6 +51,8 @@ public class MeasurementUnit implements Serializable {
     private String use;
     @OneToMany(mappedBy = "measurementUnit")
     private List<SubActivity> subActivityList;
+    @OneToMany(mappedBy = "measurementUnit")
+    private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "units")
     private List<Warehouse> warehouseList;
 
@@ -139,6 +141,20 @@ public class MeasurementUnit implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.MeasurementUnit[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the performanceIndicatorList
+     */
+    public List<PerformanceIndicator> getPerformanceIndicatorList() {
+        return performanceIndicatorList;
+    }
+
+    /**
+     * @param performanceIndicatorList the performanceIndicatorList to set
+     */
+    public void setPerformanceIndicatorList(List<PerformanceIndicator> performanceIndicatorList) {
+        this.performanceIndicatorList = performanceIndicatorList;
     }
 
 }
