@@ -48,9 +48,15 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         performanceIndicator.setDescription(performanceIndicatorDetails.getDescription());
         performanceIndicator.setBaselineDate(performanceIndicatorDetails.getBaselineDate());
         performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
-        performanceIndicator.setResultHierarchy(em.getReference(ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
+        performanceIndicator.setResultHierarchy(em.getReference(
+                ResultHierarchy.class, performanceIndicatorDetails.getResultHierarchy().getId()));
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
-            performanceIndicator.setPerformanceIndicatorType(em.getReference(Phenomenon.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
+            performanceIndicator.setPerformanceIndicatorType(em.getReference(
+                    Phenomenon.class, performanceIndicatorDetails.getPerformanceIndicatorType().getId()));
+        }
+        if (performanceIndicatorDetails.getMeasurementUnit() != null) {
+            performanceIndicator.setMeasurementUnit(em.getReference(
+                    MeasurementUnit.class, performanceIndicatorDetails.getMeasurementUnit().getId()));
         }
 
         try {
@@ -142,7 +148,8 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             performanceIndicator.setBaselineValue(performanceIndicatorDetails.getBaselineValue());
         }
         if (performanceIndicatorDetails.getMeasurementUnit() != null) {
-            performanceIndicator.setMeasurementUnit(em.getReference(MeasurementUnit.class, performanceIndicatorDetails.getMeasurementUnit().getId()));
+            performanceIndicator.setMeasurementUnit(em.getReference(
+                    MeasurementUnit.class, performanceIndicatorDetails.getMeasurementUnit().getId()));
         }
         if (performanceIndicatorDetails.getPerformanceIndicatorType() != null) {
             performanceIndicator.setPerformanceIndicatorType(em.getReference(Phenomenon.class,

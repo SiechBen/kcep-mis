@@ -28,9 +28,11 @@ import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYea
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.values.PerformanceIndicatorValuesRequestsLocal;
+import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressCommentDetails;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressDetails;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressReportDetails;
+import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
@@ -46,7 +48,8 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
     "/getActivityProgress", "/setAppraisalTarget",
-    "/doEditActivityProgress", "/doEditActivityProgressComment"})
+    "/doEditActivityProgress", "/doEditActivityProgressComment",
+    "/doEditMeasurementUnit"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -74,6 +77,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
@@ -140,6 +144,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/updateOutcomeValues");
@@ -183,6 +188,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
@@ -392,6 +398,27 @@ public class ReportsController extends Controller {
 
                     return;
 
+                case "/doEditMeasurementUnit":
+
+                    PerformanceIndicatorDetails performanceIndicator;
+                    try {
+
+                        performanceIndicator = new PerformanceIndicatorDetails(Short.valueOf(request.getParameter("id")));
+                        performanceIndicator.setMeasurementUnit(new MeasurementUnitDetails(Short.valueOf(request.getParameter("measurementUnit"))));
+
+                        performanceIndicatorService.editPerformanceIndicator(performanceIndicator);
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NumberFormatException e) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("invalid_number_format") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString("invalid_number_format"), e);
+                    }
+                    return;
+
                 case "/getActivityProgress":
 
                     accessingPerson = (PersonDetails) session.getAttribute("person");
@@ -462,7 +489,6 @@ public class ReportsController extends Controller {
                     return;
 
                 case "/setAppraisalTarget":
-                    PerformanceIndicatorDetails performanceIndicator;
                     try {
                         performanceIndicator = new PerformanceIndicatorDetails(Short.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
@@ -555,10 +581,15 @@ public class ReportsController extends Controller {
                 case "/county_output_level_reports":
                 case "/region_output_level_reports":
                     try {
-
                         session.setAttribute("projectYears", performanceIndicatorValuesService.retrieveProjectYears());
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
+                        return;
+                    }
+                    try {
+                        session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
                         return;
                     }
                     try {
@@ -686,6 +717,8 @@ public class ReportsController extends Controller {
     private SubActivityRequestsLocal subActivityService;
     @EJB
     private FinancialYearRequestsLocal financialYearService;
+    @EJB
+    private MeasurementUnitRequestsLocal measurementUnitService;
     @EJB
     private ActivityProgressRequestsLocal activityProgressService;
     @EJB

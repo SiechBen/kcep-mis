@@ -2412,8 +2412,10 @@ function clearPerformanceIndicatorFields() {
 
 function editPerformanceIndicator(id, type, resultHierarchyDescription, description,
         baselineDate, baselineValue, projectYear, actualValue, expectedValue, ratio) {
-    $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
-    $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
+    if (type !== "")
+        $("#performance-indicator-type option[value=" + type + "]").attr('selected', 'selected');
+    if (resultHierarchyDescription !== "")
+        $("#result-hierarchy option[value=" + resultHierarchyDescription + "]").attr('selected', 'selected');
     $("#description").val(description);
     $("#baseline-date").val(baselineDate);
     $("#baseline-value").val(baselineValue);
@@ -2558,6 +2560,39 @@ function editBaselineValue(cell, id, baselineValue, description) {
                     success: function () {
                         $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text($("#baseline-value").val());
                         $("#baseline-value").val("");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
+function editMeasurementUnit(cell, id, measurementUnitId, description) {
+
+    var cellIndex = cell.cellIndex + 1;
+    if (measurementUnitId !== "")
+        $("#measurement-unit option[value=" + measurementUnitId + "]").attr("selected", "selected");
+    $("#measurement-unit-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditMeasurementUnit",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&measurementUnit=" + $("#measurement-unit").val(),
+                    success: function () {
+                        $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text($("#measurement-unit option[value=" + $("#measurement-unit").val() + "]").text());
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
