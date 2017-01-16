@@ -689,6 +689,24 @@ $(function () {
             }]
     });
 });
+
+function changeQuarter() {
+    $.ajax({
+        url: "changeQuarter",
+        type: "POST",
+        data: "quarter=" + $("#quarter").val(),
+        success: function () {
+            loadAjaxWindow("activity_report");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
 function editActivityProgress(cell, activityProgressId, valueType, quarter) {
 
     var cellIndex = cell.cellIndex + 1;
@@ -812,10 +830,10 @@ function editActivityProgressComment(cell, activityProgressCommentId, comment) {
 }
 
 var Indices = {
-    CUMMULATIVE_TARGET: 14,
-    CUMMULATIVE_VALUE_ACHIEVED: 15,
-    CUMMULATIVE_BUDGET: 26,
-    CUMMULATIVE_EXPENSE: 27
+    CUMMULATIVE_TARGET: 7,
+    CUMMULATIVE_VALUE_ACHIEVED: 8,
+    CUMMULATIVE_BUDGET: 13,
+    CUMMULATIVE_EXPENSE: 14
 };
 //</editor-fold>
 
@@ -2402,6 +2420,87 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
+        "footerCallback": function () {
+            var api = this.api();
+
+            // Total over all pages
+            var totalPeople = api
+                    .column(2)
+                    .data()
+                    .reduce(function (a) {
+                        return a + 1;
+                    }, 0);
+
+            var femaleYouth = api
+                    .column(2, {page: 'current'})
+                    .data()
+                    .reduce(function (a, b) {
+                        var array = b.split(", ");
+                        var sex = array[0];
+                        var age = array[1];
+                        if (parseInt(age) <= 35 && sex === "Female") {
+                            return a + 1;
+                        } else
+                            return a;
+                    }, 0);
+
+            var femaleElderly = api
+                    .column(2, {page: 'current'})
+                    .data()
+                    .reduce(function (a, b) {
+                        var array = b.split(", ");
+                        var sex = array[0];
+                        var age = array[1];
+                        if (parseInt(age) > 35 && sex === "Female") {
+                            return a + 1;
+                        } else
+                            return a;
+                    }, 0);
+
+            var maleYouth = api
+                    .column(2, {page: 'current'})
+                    .data()
+                    .reduce(function (a, b) {
+                        var array = b.split(", ");
+                        var sex = array[0];
+                        var age = array[1];
+                        if (parseInt(age) <= 35 && sex === "Male") {
+                            return a + 1;
+                        } else
+                            return a;
+                    }, 0);
+
+            var maleElderly = api
+                    .column(2, {page: 'current'})
+                    .data()
+                    .reduce(function (a, b) {
+                        var array = b.split(", ");
+                        var sex = array[0];
+                        var age = array[1];
+                        if (parseInt(age) > 35 && sex === "Male") {
+                            return a + 1;
+                        } else
+                            return a;
+                    }, 0);
+
+            // Total over this page
+            var pageTotal = api
+                    .column(2, {page: 'current'})
+                    .data()
+                    .reduce(function (a) {
+                        return a + 1;
+                    }, 0);
+
+            /* update people-count-table */
+            var rows = $("table#people-count-table").find("tbody").find("tr");
+            $(rows[2]).find("td:eq(0)").html(femaleYouth);
+            $(rows[2]).find("td:eq(1)").html(femaleElderly);
+            $(rows[2]).find("td:eq(2)").html(femaleYouth + femaleElderly);
+            $(rows[2]).find("td:eq(3)").html(maleYouth);
+            $(rows[2]).find("td:eq(4)").html(maleElderly);
+            $(rows[2]).find("td:eq(5)").html(maleYouth + maleElderly);
+            $(rows[2]).find("td:eq(6)").html(pageTotal);
+        },
         buttons: [
             {
                 text: 'Add',

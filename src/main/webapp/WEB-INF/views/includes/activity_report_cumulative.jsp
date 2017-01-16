@@ -38,27 +38,25 @@
                 <table class="table table-striped table-bordered table-hover" id="activity-report-table">
                     <thead>
                         <tr>
-                            <th colspan="8">Physical progress</th>
-                            <th colspan="6">Fincancial progress</th>
+                            <th colspan="14">Physical progress</th>
+                            <th colspan="12">Fincancial progress</th>
                             <th>Comments</th>
                         </tr>
                         <tr>
                             <th colspan="1">&nbsp;</th>
                             <th colspan="1">&nbsp;</th>
                             <th colspan="1">&nbsp;</th>
-                            <th colspan="2">
-                                Quarter
-                                <select id="quarter" onchange="changeQuarter()">
-                                    <option value="1" <c:if test="${sessionScope.quarter == 1}">selected</c:if>>1</option>
-                                    <option value="2" <c:if test="${sessionScope.quarter == 2}">selected</c:if>>2</option>
-                                    <option value="3" <c:if test="${sessionScope.quarter == 3}">selected</c:if>>3</option>
-                                    <option value="4" <c:if test="${sessionScope.quarter == 4}">selected</c:if>>4</option>
-                                    </select>
-                                </th>
-                                <th rowspan="2">Appraisal</th>
-                                <th colspan="2">Cumulative</th>
-                                <th colspan="1">Expenditure category</th>
-                                <th colspan="2">Quarter ${sessionScope.quarter}</th>
+                            <th colspan="2">Q1</th>
+                            <th colspan="2">Q2</th>
+                            <th colspan="2">Q3</th>
+                            <th colspan="2">Q4</th>
+                            <th rowspan="2">Appraisal</th>
+                            <th colspan="2">Cumulative</th>
+                            <th colspan="1">Expenditure category</th>
+                            <th colspan="2">Q1</th>
+                            <th colspan="2">Q2</th>
+                            <th colspan="2">Q3</th>
+                            <th colspan="2">Q4</th>
                             <th rowspan="2">Appraisal</th>
                             <th colspan="2">Cumulative</th>
                             <th>&nbsp;</th>
@@ -71,7 +69,19 @@
                             <th colspan="1">Value achieved</th>
                             <th colspan="1">Target</th>
                             <th colspan="1">Value achieved</th>
+                            <th colspan="1">Target</th>
+                            <th colspan="1">Value achieved</th>
+                            <th colspan="1">Target</th>
+                            <th colspan="1">Value achieved</th>
+                            <th colspan="1">Target</th>
+                            <th colspan="1">Value achieved</th>
                             <th colspan="1">&nbsp;</th>
+                            <th colspan="1">Planned budget</th>
+                            <th colspan="1">Actual expenditure</th>
+                            <th colspan="1">Planned budget</th>
+                            <th colspan="1">Actual expenditure</th>
+                            <th colspan="1">Planned budget</th>
+                            <th colspan="1">Actual expenditure</th>
                             <th colspan="1">Planned budget</th>
                             <th colspan="1">Actual expenditure</th>
                             <th colspan="1">Planned budget</th>
@@ -81,7 +91,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="15">Report on second level results</th>
+                            <th colspan="27">Report on second level results</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -90,50 +100,26 @@
                                 <td>${activityProgressReport.physicalProgressQ1.subActivity.annualWorkplanReferenceCode}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${activityProgressReport.physicalProgressQ1.subActivity.subActivityName.name}">${activityProgressReport.physicalProgressQ1.subActivity.subActivityName.name}</td>
                                 <td>${activityProgressReport.physicalProgressQ1.subActivity.measurementUnit.unit}</td>
-                                <c:if test="${empty sessionScope.quarter}">
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==1}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ1.id}, 'Target', 'Quarter 1')">${activityProgressReport.physicalProgressQ1.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ1.id}, 'Value achieved', 'Quarter 1')">${activityProgressReport.physicalProgressQ1.valueAchievedOrExpense}</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==2}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ2.id}, 'Target', 'Quarter 2')">${activityProgressReport.physicalProgressQ2.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ2.id}, 'Value achieved', 'Quarter 2')">${activityProgressReport.physicalProgressQ2.valueAchievedOrExpense}</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==3}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ3.id}, 'Target', 'Quarter 3')">${activityProgressReport.physicalProgressQ3.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ3.id}, 'Value achieved', 'Quarter 3')">${activityProgressReport.physicalProgressQ3.valueAchievedOrExpense}</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==4}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ4.id}, 'Target', 'Quarter 4')">${activityProgressReport.physicalProgressQ4.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ4.id}, 'Value achieved', 'Quarter 4')">${activityProgressReport.physicalProgressQ4.valueAchievedOrExpense}</td>
-                                </c:if>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ1.id}, 'Target', 'Quarter 1')">${activityProgressReport.physicalProgressQ1.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ1.id}, 'Value achieved', 'Quarter 1')">${activityProgressReport.physicalProgressQ1.valueAchievedOrExpense}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ2.id}, 'Target', 'Quarter 2')">${activityProgressReport.physicalProgressQ2.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ2.id}, 'Value achieved', 'Quarter 2')">${activityProgressReport.physicalProgressQ2.valueAchievedOrExpense}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ3.id}, 'Target', 'Quarter 3')">${activityProgressReport.physicalProgressQ3.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ3.id}, 'Value achieved', 'Quarter 3')">${activityProgressReport.physicalProgressQ3.valueAchievedOrExpense}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ4.id}, 'Target', 'Quarter 4')">${activityProgressReport.physicalProgressQ4.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ4.id}, 'Value achieved', 'Quarter 4')">${activityProgressReport.physicalProgressQ4.valueAchievedOrExpense}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalAppraisal.id}, 'Appraisal')">${activityProgressReport.physicalAppraisal.targetOrBudget}</td>
                                 <td>${activityProgressReport.cumulativePhysicalProgress.targetOrBudget}</td>
                                 <td>${activityProgressReport.cumulativePhysicalProgress.valueAchievedOrExpense}</td>
                                 <td>${activityProgressReport.financialProgressQ1.subActivity.expenditureCategory.category.name}</td>
-                                <c:if test="${empty sessionScope.quarter}">
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==1}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ1.id}, 'Budget', 'Quarter 1')">${activityProgressReport.financialProgressQ1.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ1.id}, 'Expense', 'Quarter 1')">${activityProgressReport.financialProgressQ1.valueAchievedOrExpense}</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==2}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ2.id}, 'Budget', 'Quarter 2')">${activityProgressReport.financialProgressQ2.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ2.id}, 'Expense', 'Quarter 2')">${activityProgressReport.financialProgressQ2.valueAchievedOrExpense}</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==3}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ3.id}, 'Budget', 'Quarter 3')">${activityProgressReport.financialProgressQ3.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ3.id}, 'Expense', 'Quarter 3')">${activityProgressReport.financialProgressQ3.valueAchievedOrExpense}</td>
-                                </c:if>
-                                <c:if test="${sessionScope.quarter==4}">
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Budget', 'Quarter 4')">${activityProgressReport.financialProgressQ4.targetOrBudget}</td>
-                                    <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Expense', 'Quarter 4')">${activityProgressReport.financialProgressQ4.valueAchievedOrExpense}</td>
-                                </c:if>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ1.id}, 'Budget', 'Quarter 1')">${activityProgressReport.financialProgressQ1.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ1.id}, 'Expense', 'Quarter 1')">${activityProgressReport.financialProgressQ1.valueAchievedOrExpense}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ2.id}, 'Budget', 'Quarter 2')">${activityProgressReport.financialProgressQ2.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ2.id}, 'Expense', 'Quarter 2')">${activityProgressReport.financialProgressQ2.valueAchievedOrExpense}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ3.id}, 'Budget', 'Quarter 3')">${activityProgressReport.financialProgressQ3.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ3.id}, 'Expense', 'Quarter 3')">${activityProgressReport.financialProgressQ3.valueAchievedOrExpense}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Budget', 'Quarter 4')">${activityProgressReport.financialProgressQ4.targetOrBudget}</td>
+                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Expense', 'Quarter 4')">${activityProgressReport.financialProgressQ4.valueAchievedOrExpense}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialAppraisal.id}, 'Appraisal')">${activityProgressReport.financialAppraisal.targetOrBudget}</td>
                                 <td>${activityProgressReport.cumulativeFinancialProgress.targetOrBudget}</td>
                                 <td>${activityProgressReport.cumulativeFinancialProgress.valueAchievedOrExpense}</td>

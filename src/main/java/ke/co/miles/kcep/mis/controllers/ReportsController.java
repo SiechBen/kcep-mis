@@ -49,7 +49,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
     "/getActivityProgress", "/setAppraisalTarget",
     "/doEditActivityProgress", "/doEditActivityProgressComment",
-    "/doEditMeasurementUnit"})
+    "/doEditMeasurementUnit", "/changeQuarter"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -71,11 +71,13 @@ public class ReportsController extends Controller {
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
+
                 switch (rightsMap) {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/changeQuarter");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -143,6 +145,7 @@ public class ReportsController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/changeQuarter");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -187,6 +190,7 @@ public class ReportsController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/changeQuarter");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -508,6 +512,12 @@ public class ReportsController extends Controller {
                     } catch (NullPointerException e) {
                         MilesDebugger.debug(e);
                     }
+
+                    return;
+
+                case "/changeQuarter":
+                    short quarter = Short.valueOf(request.getParameter("quarter"));
+                    session.setAttribute("quarter", quarter);
 
                     return;
 

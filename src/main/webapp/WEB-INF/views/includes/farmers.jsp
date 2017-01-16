@@ -21,8 +21,7 @@
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
-                                <th>Gender</th>
-                                <th>Age</th>
+                                <th>Gender, Age</th>
                                 <th>National id</th>
                                 <!--                                <th>Farmer group</th>
                                                                 <th>Farmer sub-group</th>-->
@@ -44,7 +43,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="18">List of farmers</td>
+                                <td colspan="17">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -52,8 +51,7 @@
                                 <tr class="farmer-row">
                                     <td onclick="loadFarmWindow(${person.id})">${index.count}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.name}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.age}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}, ${person.age}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.nationalId}</td>
 <!--                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>-->

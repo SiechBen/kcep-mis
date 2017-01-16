@@ -21,8 +21,7 @@
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
-                                <th>Gender</th>
-                                <th>Age</th>
+                                <th>Gender, Age</th>
                                 <th>National id</th>
                                 <th>Business name</th>
                                 <th>County</th>
@@ -36,7 +35,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="13">List of agro-dealers</td>
+                                <td colspan="12">List of agro-dealers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -44,8 +43,7 @@
                                 <tr>
                                     <td>${index.count}</td>
                                     <td>${person.name}</td>
-                                    <td>${person.sex.sex}</td>
-                                    <td>${person.age}</td>
+                                    <td>${person.sex.sex}, ${person.age}</td>
                                     <td>${person.nationalId}</td>
                                     <td>${person.businessName}</td>
                                     <td>${person.location.county.name}</td>
