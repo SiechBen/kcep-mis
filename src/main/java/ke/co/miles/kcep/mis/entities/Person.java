@@ -102,9 +102,9 @@ public class Person implements Serializable {
     @ManyToOne
     private Sex sex;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "agroDealer")
-    private List<InputsCollection> inputsCollectionList;
+    private List<InputsCollection> agroDealerInputsCollectionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "farmer")
-    private List<InputsCollection> inputsCollectionList1;
+    private List<InputsCollection> farmerInputsCollectionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Trainee> traineeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -305,21 +305,21 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
-    public List<InputsCollection> getInputsCollectionList() {
-        return inputsCollectionList;
+    public List<InputsCollection> getAgroDealerInputsCollectionList() {
+        return agroDealerInputsCollectionList;
     }
 
-    public void setInputsCollectionList(List<InputsCollection> inputsCollectionList) {
-        this.inputsCollectionList = inputsCollectionList;
+    public void setAgroDealerInputsCollectionList(List<InputsCollection> agroDealerInputsCollectionList) {
+        this.agroDealerInputsCollectionList = agroDealerInputsCollectionList;
     }
 
     @XmlTransient
-    public List<InputsCollection> getInputsCollectionList1() {
-        return inputsCollectionList1;
+    public List<InputsCollection> getFarmerInputsCollectionList() {
+        return farmerInputsCollectionList;
     }
 
-    public void setInputsCollectionList1(List<InputsCollection> inputsCollectionList1) {
-        this.inputsCollectionList1 = inputsCollectionList1;
+    public void setFarmerInputsCollectionList(List<InputsCollection> farmerInputsCollectionList) {
+        this.farmerInputsCollectionList = farmerInputsCollectionList;
     }
 
     @XmlTransient

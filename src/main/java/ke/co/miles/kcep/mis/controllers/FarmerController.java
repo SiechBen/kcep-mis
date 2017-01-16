@@ -277,7 +277,7 @@ public class FarmerController extends Controller {
                     try {
                         staticInputs = staticInputService
                                 .retrieveStaticInputs(Short.valueOf(request.getParameter("inputTypeId")));
-                        out.write("<option disabled selected>Select input.getName()</option>");
+                        out.write("<option disabled selected>Select input name</option>");
                         for (StaticInputDetails staticInput : staticInputs) {
                             out.write("<option value=\"" + staticInput.getId() + "\">" + staticInput.getName() + "</option>");
                         }
@@ -385,7 +385,7 @@ public class FarmerController extends Controller {
                 case "/doAddInputsCollection":
                     InputsCollectionDetails inputsCollection = new InputsCollectionDetails();
                     try {
-                        inputsCollection.setQuantity(request.getParameter("quantity"));
+                        inputsCollection.setQuantity(Short.valueOf(request.getParameter("quantity")));
                         if (inputsCollection.getQuantity().equals("null")) {
                             inputsCollection.setQuantity(null);
                         }

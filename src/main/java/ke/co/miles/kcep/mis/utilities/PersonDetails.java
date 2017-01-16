@@ -230,6 +230,34 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
         this.username = username;
     }
 
+    /**
+     * @return the account
+     */
+    public AccountDetails getAccount() {
+        return account;
+    }
+
+    /**
+     * @param account the account to set
+     */
+    public void setAccount(AccountDetails account) {
+        this.account = account;
+    }
+
+    /**
+     * @return the totalInputsCollected
+     */
+    public Integer getTotalInputsCollected() {
+        return totalInputsCollected;
+    }
+
+    /**
+     * @param totalInputsCollected the totalInputsCollected to set
+     */
+    public void setTotalInputsCollected(Integer totalInputsCollected) {
+        this.totalInputsCollected = totalInputsCollected;
+    }
+
     private Integer id;
     private Short age;
     private String name;
@@ -241,8 +269,10 @@ public class PersonDetails implements Serializable, Comparable<PersonDetails> {
     private String personRole;
     private Short personRoleId;
     private String businessName;
+    private AccountDetails account;
     private ContactDetails contact;
     private LocationDetails location;
+    private Integer totalInputsCollected;
     private FarmerGroupDetails farmerGroup;
     private FarmerSubGroupDetails farmerSubGroup;
     private DesignationInGroupDetails designationInGroup;

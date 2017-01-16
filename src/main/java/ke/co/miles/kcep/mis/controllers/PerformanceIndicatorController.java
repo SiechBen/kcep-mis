@@ -39,7 +39,8 @@ import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
         urlPatterns = {"/performance_indicators", "/addPerformanceIndicator",
             "/doEditPerformanceIndicator", "/doDeletePerformanceIndicator",
             "/doAddPerformanceIndicator", "/doEditPerformanceIndicatorValues",
-            "/addProjectYear", "/doEditBaselineValue", "/doEditBaselineDate"})
+            "/addProjectYear", "/doEditBaselineValue", "/doEditBaselineDate",
+            "/performanceIndicators"})
 public class PerformanceIndicatorController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -68,6 +69,7 @@ public class PerformanceIndicatorController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/performanceIndicators");
                             urlPaths.add("/addProjectYear");
                             urlPaths.add("/doEditBaselineValue");
                             urlPaths.add("/doEditBaselineDate");
@@ -221,32 +223,6 @@ public class PerformanceIndicatorController extends Controller {
 
                     return;
 
-                case "/performanceIndicators":
-//<editor-fold defaultstate="collapsed" desc="commented">
-
-//                    try {
-//                        HashMap<PerformanceIndicatorDetails, LinkedList<PerformanceIndicatorValuesDetails>> doEditPerformanceIndicatorValues
-//                                = performanceIndicatorValuesService.retrievePerformanceIndicators();
-//
-//                        JSONObject jsonObject = new JSONObject();
-////                        JSONArray list;
-//                        for (PerformanceIndicatorDetails pi : doEditPerformanceIndicatorValues) {
-//                            list = new JSONArray();
-//                            list.add(pi.getPerformanceIndicatorType().getCategory().getName());
-//                            list.add(pi.getResultHierarchy().getDescription());
-//                            list.add(pi.getDescription());
-//
-//                        }
-//
-//                        response.setContentType("application/json");
-//                        response.getWriter().write(jsonObject.toJSONString());
-//                    } catch (MilesException ex) {
-//                        LOGGER.log(Level.SEVERE, "An error occurred during performance indicator retrieval", ex);
-//                        return;
-//                    }
-//</editor-fold>
-                    return;
-
                 case "/head_performance_indicators":
                 case "/county_performance_indicators":
                 case "/region_performance_indicators":
@@ -267,6 +243,13 @@ public class PerformanceIndicatorController extends Controller {
                         LOGGER.log(Level.SEVERE, "An error occurred during performance indicator map retrieval ", ex);
                         return;
                     }
+//                    try {
+//                        session.setAttribute("fullIndicatorsMap",
+//                                performanceIndicatorValuesService.retrieveAllIndicators(projectYears));
+//                    } catch (MilesException ex) {
+//                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of all performance indicators", ex);
+//                        return;
+//                    }
 
                     try {
                         session.setAttribute("performanceIndicatorTypes",

@@ -29,14 +29,22 @@
                                 <th>County</th>
                                 <th>Sub-county</th>
                                 <th>Ward</th>
+                                <th>Division</th>
+                                <th>Village</th>
+                                <th>Latitude,Longitude</th>
                                 <th>Phone number</th>
+                                <th>Plot size</th>
+                                <th>Total inputs collected</th>
+                                <th>Account number</th>
+                                <th>Amount of savings</th>
+                                <th>Loan amount</th>
                                 <th>&nbsp;</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="11">List of farmers</td>
+                                <td colspan="18">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -52,7 +60,15 @@
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.county.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.subCounty.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.ward.name}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.location.divisionalLocation.name}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.location.village.name}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.location.latitude},${person.location.longitude}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.contact.phone}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.plotSize}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.totalInputsCollected}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.account.accountNumber}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.account.savings}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.account.totalLoanAmount}</td>
                                     <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
                                                     '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
                                                     '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
@@ -64,6 +80,20 @@
                     </table>
                     <jsp:include page="people_count.jsp"/>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Farmers locations on map
+            </div>
+            <div class="panel-body">
+                <input type="hidden" id="person-type" value="Farmer">
+                <div id="map"></div>
             </div>
         </div>
     </div>
@@ -205,3 +235,7 @@
         </div>
     </div>
 </div>
+
+<script src="static/js/maps.js" type="text/javascript"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAosZcLbpuT4q2Mrl96oMfgtsC2etLRvLw&callback=getLocations"></script>

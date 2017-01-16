@@ -73,9 +73,9 @@ $(function () {
 //<editor-fold defaultstate="collapsed" desc="Year picker">
 $(function () {
     var yearNow = new Date().getFullYear();
-    var yearInTheFuture = yearNow + 10;
-    var decadeAgo = yearNow - 10;
-    for (yearOption = decadeAgo; yearOption <= yearInTheFuture; yearOption++) {
+    var yearInTheFuture = yearNow + 5;
+    var startYear = 2015;
+    for (yearOption = startYear; yearOption <= yearInTheFuture; yearOption++) {
         if (yearOption === yearNow) {
             $(".yearfield").append($("<option/>").val(yearOption).attr("selected", "selected").html(yearOption));
         } else {
@@ -104,174 +104,6 @@ $(function () {
 
 //<editor-fold defaultstate="collapsed" desc="DataTable">
 $(function () {
-    $("#performance-indicator-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add project year',
-                action: function () {
-                    $("#project-year-dialog").dialog({
-                        width: 495,
-                        height: "auto",
-                        title: "add_project_year_label",
-                        resizable: false,
-                        modal: false,
-                        buttons: {
-                            "Save": function () {
-                                $("#message").text("Are you sure you want to add this project year?\nThis action is irreversible.");
-                                $("#message-dialog").dialog({
-                                    width: 495,
-                                    height: "auto",
-                                    title: "add_project_year",
-                                    modal: true,
-                                    resizable: false,
-                                    buttons: {
-                                        "Yes": function () {
-                                            $.ajax({
-                                                url: "addProjectYear",
-                                                type: "POST",
-                                                data: "projectYear=" + $("#project-year").val(),
-                                                success: function () {
-                                                    $("#name").val("");
-                                                    loadAjaxWindow("performance_indicators");
-                                                    return;
-                                                },
-                                                error: function (response) {
-                                                    showError("error_label", response.responseText);
-                                                    return;
-                                                },
-                                                dataType: "HTML"
-                                            });
-                                            $(this).dialog("close");
-                                        },
-                                        "No": function () {
-                                            $(this).dialog("close");
-                                        }
-                                    },
-                                    close: function () {
-                                    }
-                                });
-                            }
-                        },
-                        close: function () {
-                            $("#project-year").val("");
-                        }
-                    });
-                }
-            },
-            'excel',
-            {
-                text: "Output level report",
-                action: function () {
-                    loadAjaxWindow("outputLevelReports");
-                }
-            },
-            {
-                text: "Outcome level report",
-                action: function () {
-                    loadAjaxWindow("outcomeLevelReports");
-                }
-            },
-            {
-                text: "Goals report",
-                action: function () {
-                    loadAjaxWindow("goalLevelReports");
-                }
-            }],
-        columnDefs: [{
-                targets: [2, 3],
-                render: function (data, type) {
-                    return type === "display" && data.length > 31 ? data.substr(0, 31) + "..." : data;
-                }
-            }]
-    });
-});
-$(function () {
-    $(".indicator-report-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            }],
-        columnDefs: [{
-                targets: [1, 2],
-                render: function (data, type) {
-                    return type === "display" && data.length > 75 ? data.substr(0, 75) + "..." : data;
-                }
-            }]
-    });
-});
-$(function () {
-    $("#awpb-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add',
-                action: function () {
-                    loadAjaxWindow("addSubActivity");
-                }
-            },
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"},
-            {
-                text: "Financial reports",
-                action: function () {
-                    loadAjaxWindow("reports");
-                }
-            }
-        ],
-        columnDefs: [{
-                targets: [3, 4, 5, 6, 7, 8],
-                render: function (data, type) {
-                    return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
-                }
-            }]
-    });
-});
-$(function () {
-    $("#people-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add',
-                action: function () {
-                    loadAjaxWindow($("#add-label").text());
-                }
-            },
-            {
-                text: "Upload excel",
-                action: function () {
-                    loadAjaxWindow("uploadPeople");
-                }
-            },
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            }]
-    });
-});
-$(function () {
     $("#wards-table").DataTable({
         responsive: true,
         dom: "Blftip",
@@ -279,16 +111,6 @@ $(function () {
         buttons: [
             'excel'
         ]
-    });
-});
-$(function () {
-    $("#warehouse-count-table").DataTable({
-        responsive: true,
-        dom: "Blftip",
-//        "bLengthChange": false,
-//        "searching": false,
-        "scrollX": true,
-        "scrollCollapse": true
     });
 });
 $(function () {
@@ -309,346 +131,6 @@ $(function () {
             {
                 extend: 'colvis',
                 text: "Hide / show columns"
-            }]
-    });
-});
-$(function () {
-    $("#activity-report-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            },
-            {
-                text: 'Choose reference code',
-                action: function () {
-                    $("#awpb-reference-code-dialog").dialog({
-                        width: 495,
-                        height: "auto",
-                        title: "pick_awpb_reference_code",
-                        resizable: false,
-                        modal: false,
-                        buttons: {
-                            "Retrieve": function () {
-                                $.ajax({
-                                    url: "getActivityProgress",
-                                    type: "POST",
-                                    data: "awpbReferenceCode=" + $("#awpb-reference-code").val(),
-                                    success: function () {
-                                        loadAjaxWindow("activity_report");
-                                    },
-                                    error: function (response) {
-                                        showError("error_label", response.responseText);
-                                        return;
-                                    },
-                                    dataType: "HTML"
-                                });
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
-                }
-            }
-        ],
-        columnDefs: [{
-                targets: [1, 2],
-                render: function (data, type) {
-                    return type === "display" && data.length > 30 ? data.substr(0, 27) + "..." : data;
-                }
-            }]
-    });
-});
-$(function () {
-    $("#warehouse-operations-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            }]
-    });
-});
-$(function () {
-    $("#training-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add',
-                action: function () {
-                    loadAjaxWindow($("#add-label").text());
-                }
-            },
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            }],
-        columnDefs: [{
-                targets: 3,
-                render: function (data, type) {
-                    return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
-                }
-            }]
-    });
-});
-$(function () {
-    $(".farm-data-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            }]
-    });
-});
-$(function () {
-    $("#farmers-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add',
-                action: function () {
-                    loadAjaxWindow($("#add-label").text());
-                }
-            },
-            {
-                text: "Upload excel",
-                action: function () {
-                    loadAjaxWindow("uploadPeople");
-                }
-            },
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            },
-            {
-                text: 'Search person',
-                action: function () {
-                    $("#search-person-dialog").dialog({
-                        width: 495,
-                        height: "auto",
-                        title: "search_criteria_label",
-                        resizable: false,
-                        modal: false,
-                        buttons: {
-                            "Search": function () {
-                                $.ajax({
-                                    url: "searchFarmer",
-                                    type: "POST",
-                                    data: "nationalId=" + $("#search-national-id").val() +
-                                            "&name=" + $("#search-name").val(),
-                                    success: function () {
-                                        $("#search-national-id").val("");
-                                        $("#search-name").val("");
-                                        loadAjaxWindow("farmers");
-                                    },
-                                    error: function (response) {
-                                        showError("error_label", response.responseText);
-                                        return;
-                                    },
-                                    dataType: "HTML"
-                                });
-                                $(this).dialog("close");
-                            }
-                        },
-                        close: function () {
-                            $("#search-national-id").val("");
-                            $("#search-name").val("");
-                        }
-                    });
-                }
-            }]
-    });
-});
-$(function () {
-    $("#agro-dealers-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add',
-                action: function () {
-                    loadAjaxWindow($("#add-label").text());
-                }
-            },
-            {
-                text: "Upload excel",
-                action: function () {
-                    loadAjaxWindow("uploadPeople");
-                }
-            },
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            },
-            {
-                text: 'Search person',
-                action: function () {
-                    $("#search-person-dialog").dialog({
-                        width: 495,
-                        height: "auto",
-                        title: "search_criteria_label",
-                        resizable: false,
-                        modal: false,
-                        buttons: {
-                            "Search": function () {
-                                $.ajax({
-                                    url: "searchAgroDealer",
-                                    type: "POST",
-                                    data: "nationalId=" + $("#search-national-id").val() +
-                                            "&name=" + $("#search-name").val(),
-                                    success: function () {
-                                        $("#search-national-id").val("");
-                                        $("#search-name").val("");
-                                        loadAjaxWindow("agroDealers");
-                                    },
-                                    error: function (response) {
-                                        showError("error_label", response.responseText);
-                                        return;
-                                    },
-                                    dataType: "HTML"
-                                });
-                                $(this).dialog("close");
-                            }
-                        },
-                        close: function () {
-                            $("#search-national-id").val("");
-                            $("#search-name").val("");
-                        }
-                    });
-                }
-            }]
-    });
-});
-$(function () {
-    $("#partner-farmers-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            },
-            {
-                text: 'Search person',
-                action: function () {
-                    $("#search-person-dialog").dialog({
-                        width: 495,
-                        height: "auto",
-                        title: "search_criteria_label",
-                        resizable: false,
-                        modal: false,
-                        buttons: {
-                            "Search": function () {
-                                $.ajax({
-                                    url: "searchFarmer",
-                                    type: "POST",
-                                    data: "nationalId=" + $("#search-national-id").val() +
-                                            "&name=" + $("#search-name").val(),
-                                    success: function () {
-                                        $("#search-national-id").val("");
-                                        $("#search-name").val("");
-                                        loadAjaxWindow("farmers");
-                                    },
-                                    error: function (response) {
-                                        showError("error_label", response.responseText);
-                                        return;
-                                    },
-                                    dataType: "HTML"
-                                });
-                                $(this).dialog("close");
-                            }
-                        },
-                        close: function () {
-                            $("#search-national-id").val("");
-                            $("#search-name").val("");
-                        }
-                    });
-                }
-            }]
-    });
-});
-$(function () {
-    $("#partner-agro-dealers-table").DataTable({
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            },
-            {
-                text: 'Search person',
-                action: function () {
-                    $("#search-person-dialog").dialog({
-                        width: 495,
-                        height: "auto",
-                        title: "search_criteria_label",
-                        resizable: false,
-                        modal: false,
-                        buttons: {
-                            "Search": function () {
-                                $.ajax({
-                                    url: "searchAgroDealer",
-                                    type: "POST",
-                                    data: "nationalId=" + $("#search-national-id").val() +
-                                            "&name=" + $("#search-name").val(),
-                                    success: function () {
-                                        $("#search-national-id").val("");
-                                        $("#search-name").val("");
-                                        loadAjaxWindow("agroDealers");
-                                    },
-                                    error: function (response) {
-                                        showError("error_label", response.responseText);
-                                        return;
-                                    },
-                                    dataType: "HTML"
-                                });
-                                $(this).dialog("close");
-                            }
-                        },
-                        close: function () {
-                            $("#search-national-id").val("");
-                            $("#search-name").val("");
-                        }
-                    });
-                }
             }]
     });
 });
@@ -1154,94 +636,59 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Activity name">
-function addActivityName() {
-    $.ajax({
-        url: "doAddActivityName",
-        type: "POST",
-        data: "name=" + $("#name").val(),
-        success: function () {
-            $("#name").val("");
-            loadAjaxWindow("activity_names");
-            return;
-        },
-        error: function (response) {
-            showError("error_label", response.responseText);
-            return;
-        },
-        dataType: "HTML"
-    });
-}
-
-function editActivityName(id, name) {
-    $("#name").val(name);
-    $("#activity-name-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "edit_activity_name_label",
-        resizable: false,
-        modal: false,
-        buttons: {
-            "Save": function () {
-                $.ajax({
-                    url: "doEditActivityName",
-                    type: "POST",
-                    data: "name=" + $("#name").val() + "&id=" + id,
-                    success: function (response) {
-                        $("#name").val("");
-                        $("table#activity-name-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                        return;
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-            $("#name").val("");
-        }
-    });
-}
-function deleteActivityName(id) {
-    $("#message").text("Are you sure you want to remove this activity name?");
-    $("#message-dialog").dialog({
-        width: 495,
-        height: "auto",
-        title: "delete_activity_name",
-        modal: true,
-        resizable: false,
-        buttons: {
-            "Yes": function () {
-                $.ajax({
-                    url: "doDeleteActivityName",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function (response) {
-                        $("table#activity-name-table tbody").html(response);
-                    },
-                    error: function (response) {
-                        showError("error_label", response.responseText);
-                        return;
-                    },
-                    dataType: "HTML"
-                });
-                $(this).dialog("close");
-            },
-            "No": function () {
-                $(this).dialog("close");
-            }
-        },
-        close: function () {
-        }
-    });
-}
-
-//</editor-fold>
-
 //<editor-fold defaultstate="collapsed" desc="Activity progress report">
+$(function () {
+    $("#activity-report-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Choose reference code',
+                action: function () {
+                    $("#awpb-reference-code-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "pick_awpb_reference_code",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Retrieve": function () {
+                                $.ajax({
+                                    url: "getActivityProgress",
+                                    type: "POST",
+                                    data: "awpbReferenceCode=" + $("#awpb-reference-code").val(),
+                                    success: function () {
+                                        loadAjaxWindow("activity_report");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                        return;
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                }
+            }
+        ],
+        columnDefs: [{
+                targets: [1, 2],
+                render: function (data, type) {
+                    return type === "display" && data.length > 30 ? data.substr(0, 27) + "..." : data;
+                }
+            }]
+    });
+});
 function editActivityProgress(cell, activityProgressId, valueType, quarter) {
 
     var cellIndex = cell.cellIndex + 1;
@@ -1257,6 +704,31 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
             "Save": function () {
 
                 var newActivityProgressValue = parseFloat($("#activity-progress-value").val()) || 0.0;
+                var deltaActivityProgressValue = newActivityProgressValue - initialActivityProgressValue;
+                if (cellIndex < Indices.CUMMULATIVE_TARGET) {
+
+                    if (valueType === "Target") {
+                        var cumulativeTarget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text()) || 0.0;
+                        var appraisalTarget = parseFloat($('td:nth-child(' + (Indices.CUMMULATIVE_TARGET - 1) + ')', $(cell).parents('tr')).text()) || 0.0;
+                        if ((cumulativeTarget + deltaActivityProgressValue) > appraisalTarget) {
+                            showError("error_label", "Cumulative target[" + (cumulativeTarget + deltaActivityProgressValue) + "] has exceeded the appraisal target[" + appraisalTarget + "].");
+                            return;
+                        }
+                    }
+
+                } else {
+
+                    if (valueType === "Budget") {
+                        var cumulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
+                        var appraisalTarget = parseFloat($('td:nth-child(' + (Indices.CUMMULATIVE_BUDGET - 1) + ')', $(cell).parents('tr')).text()) || 0.0;
+                        if ((cumulativeBudget + deltaActivityProgressValue) > appraisalTarget) {
+                            showError("error_label", "Cumulative planned budget[" + (cumulativeBudget + deltaActivityProgressValue) + "] has exceeded the appraisal target[" + appraisalTarget + "].");
+                            return;
+                        }
+                    }
+
+                }
+
                 $.ajax({
                     url: "doEditActivityProgress",
                     type: "POST",
@@ -1269,21 +741,21 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
                         if (cellIndex < Indices.CUMMULATIVE_TARGET) {
 
                             if (valueType === "Target") {
-                                var cummulativeTarget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text()) || 0.0;
-                                $('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text((cummulativeTarget + deltaActivityProgressValue));
+                                var cumulativeTarget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_TARGET + ')', $(cell).parents('tr')).text((cumulativeTarget + deltaActivityProgressValue));
                             } else if (valueType === "Value achieved") {
-                                var cummulativeValueAchieved = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text()) || 0.0;
-                                $('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text((cummulativeValueAchieved + deltaActivityProgressValue));
+                                var cumulativeValueAchieved = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_VALUE_ACHIEVED + ')', $(cell).parents('tr')).text((cumulativeValueAchieved + deltaActivityProgressValue));
                             }
 
                         } else {
 
                             if (valueType === "Budget") {
-                                var cummulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
-                                $('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text((cummulativeBudget + deltaActivityProgressValue));
+                                var cumulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text((cumulativeBudget + deltaActivityProgressValue));
                             } else if (valueType === "Expense") {
-                                var cummulativeExpense = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text()) || 0.0;
-                                $('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text((cummulativeExpense + deltaActivityProgressValue));
+                                var cumulativeExpense = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text()) || 0.0;
+                                $('td:nth-child(' + Indices.CUMMULATIVE_EXPENSE + ')', $(cell).parents('tr')).text((cumulativeExpense + deltaActivityProgressValue));
                             }
 
                         }
@@ -1584,6 +1056,21 @@ function deleteEquipment(id, warehouseId) {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm">
+$(function () {
+    $(".farm-data-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
 function loadFarmWindow(farmerId) {
 
     $(".loader").show();
@@ -2160,7 +1647,6 @@ function addInputsCollection() {
                     success: function (response) {
                         $("table#inputs-collection-table tbody").html(response);
                         $("#date-collected").val("");
-                        $("#agro-dealer").val("");
                         $("#input-variety").val("");
                         $("#input-type").val("");
                         $("#quantity").val("");
@@ -2176,7 +1662,6 @@ function addInputsCollection() {
         },
         close: function () {
             $("#date-collected").val("");
-            $("#agro-dealer").val("");
             $("#input-variety").val("");
             $("#input-type").val("");
             $("#quantity").val("");
@@ -2219,7 +1704,6 @@ function addLoan() {
         close: function () {
             $("#loan-amount").val("");
             $("#loan-type").val("");
-            $("#issuing-bank").val("");
         }
     });
 }
@@ -2260,6 +1744,29 @@ function loginUser() {
 
 //</editor-fold>
 
+//<editor-fold defaultstate="collapsed" desc="Indicator reports">
+
+$(function () {
+    $(".indicator-report-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }],
+        columnDefs: [{
+                targets: [1, 2],
+                render: function (data, type) {
+                    return type === "display" && data.length > 75 ? data.substr(0, 75) + "..." : data;
+                }
+            }]
+    });
+});
 //<editor-fold defaultstate="collapsed" desc="Outcome level reports">
 function changeOutcomeReport() {
     $.ajax({
@@ -2371,7 +1878,187 @@ function setAppraisalTarget(id, actualValue, appraisalTarget, description) {
 
 //</editor-fold>
 
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Performance Indicator">
+
+//<editor-fold defaultstate="collapsed" desc="Performance Indicator Datatable">
+$(function () {
+    $("#performance-indicator-table").removeAttr('width').DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "autoWidth": false,
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add project year',
+                action: function () {
+                    $("#project-year-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "add_project_year_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Save": function () {
+                                $("#message").text("Are you sure you want to add this project year?\nThis action is irreversible.");
+                                $("#message-dialog").dialog({
+                                    width: 495,
+                                    height: "auto",
+                                    title: "add_project_year",
+                                    modal: true,
+                                    resizable: false,
+                                    buttons: {
+                                        "Yes": function () {
+                                            $.ajax({
+                                                url: "addProjectYear",
+                                                type: "POST",
+                                                data: "projectYear=" + $("#project-year").val(),
+                                                success: function () {
+                                                    $("#name").val("");
+                                                    loadAjaxWindow("performance_indicators");
+                                                    return;
+                                                },
+                                                error: function (response) {
+                                                    showError("error_label", response.responseText);
+                                                    return;
+                                                },
+                                                dataType: "HTML"
+                                            });
+                                            $(this).dialog("close");
+                                        },
+                                        "No": function () {
+                                            $(this).dialog("close");
+                                        }
+                                    },
+                                    close: function () {
+                                    }
+                                });
+                            }
+                        },
+                        close: function () {
+                            $("#project-year").val("");
+                        }
+                    });
+                }
+            },
+            'excel',
+            {
+                text: "Output level report",
+                action: function () {
+                    loadAjaxWindow("outputLevelReports");
+                }
+            },
+            {
+                text: "Outcome level report",
+                action: function () {
+                    loadAjaxWindow("outcomeLevelReports");
+                }
+            },
+            {
+                text: "Goals report",
+                action: function () {
+                    loadAjaxWindow("goalLevelReports");
+                }
+            }],
+        columnDefs: [{
+                "width": "50%", "targets": 3
+            }],
+        fixedColumns: true
+    });
+});
+//</editor-fold>
+
+$('#performance-indicator-table').each(function () {
+    /* Target column to be grouped */
+    var columnNumber = 3;
+
+    /* previousCell holds the first instance of same td. Initially first TD=null */
+    var previousCell = null;
+    var i = 1, j = 1;
+    $("tbody", this).find('tr').each(function () {
+        /* find the correct td of the correct column */
+        /* we are considering the table column 1, You can apply on any table column */
+        var currentCell = $(this).find('td:nth-child(' + columnNumber + ')');
+
+        if (j === 11) {
+            i = 1;
+            j = 1;
+            previousCell = null;
+        }
+        j++;
+
+        if (previousCell === null) {
+            /* for first row */
+            previousCell = currentCell;
+            i = 1;
+        } else if (currentCell.text() === previousCell.text()) {
+            /* the current td is identical to the previous row td */
+            /* remove the current td */
+            currentCell.hide();
+            /* increment the rowspan attribute of the first row td instance */
+            previousCell.attr('rowspan', i + 1);
+            i = i + 1;
+        } else {
+            /* means new value found in current td. So initialize counter variable i */
+            previousCell = currentCell;
+            i = 1;
+        }
+    });
+});
+
+$('#awpb-table').each(function () {
+    /* Target column to be grouped */
+    var columnNumber = [4, 5, 6, 7];
+
+    /* previousCell holds the first instance of same td. Initially first TD=null */
+    var previousCell = null;
+    var i = 1, j = 1, k;
+    $("tbody", this).find('tr').each(function () {
+        var currentCell;
+
+        for (k = 0; k <= 3; k++) {
+            /* find the correct td of the correct column */
+            /* we are considering the table column 1, You can apply on any table column */
+            currentCell = $(this).find('td:nth-child(' + columnNumber[k] + ')');
+
+            if (j === 11) {
+                i = 1;
+                j = 1;
+                previousCell = null;
+            }
+
+            if (previousCell === null) {
+                /* for first row */
+                previousCell = currentCell;
+                i = 1;
+            } else if (currentCell.text() === previousCell.text()) {
+                /* the current td is identical to the previous row td */
+                /* remove the current td */
+                currentCell.hide();
+                /* increment the rowspan attribute of the first row td instance */
+                previousCell.attr('rowspan', i + 1);
+                i = i + 1;
+            } else {
+                /* means new value found in current td. So initialize counter variable i */
+                previousCell = currentCell;
+                i = 1;
+            }
+        }
+        j++;
+    });
+});
+
+
+$("#performance-indicator-table tbody").find('tr').each(function () {
+    var colIndex = 4;
+    var currentCell = $(this).find('td:nth-child(' + colIndex + ')');
+    var data = currentCell.text();
+    currentCell.html(data.length > 31 ? data.substr(0, 31) + "..." : data);
+});
+
 function addPerformanceIndicator() {
     $.ajax({
         url: "doAddPerformanceIndicator",
@@ -2523,7 +2210,6 @@ function editBaselineDate(cell, id, baselineDate, description) {
                             "&baselineDate=" + $("#baseline-date").val(),
                     success: function () {
                         var date = new Date($("#baseline-date").val());
-
                         console.log(getShortYear(date.getFullYear()) + "-" + getMonth(date.getMonth()) + "-" + date.getDate());
                         $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text(getShortYear(date.getFullYear()) + "-" + getMonth(date.getMonth()) + "-" + date.getDate());
                         $("#baseline-date").val("");
@@ -2704,10 +2390,313 @@ var Months = {
     NOV: "Nov",
     DEC: "Dec"
 };
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Person">
+
+//<editor-fold defaultstate="collapsed" desc="Person Datatable">
+$(function () {
+    $("#farmers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            {
+                text: "Upload excel",
+                action: function () {
+                    loadAjaxWindow("uploadPeople");
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchFarmer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("farmers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                        return;
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+$(function () {
+    $("#agro-dealers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            {
+                text: "Upload excel",
+                action: function () {
+                    loadAjaxWindow("uploadPeople");
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchAgroDealer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("agroDealers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                        return;
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+$(function () {
+    $("#partner-farmers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchFarmer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("farmers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                        return;
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+$(function () {
+    $("#partner-agro-dealers-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            },
+            {
+                text: 'Search person',
+                action: function () {
+                    $("#search-person-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "search_criteria_label",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchAgroDealer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("agroDealers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                        return;
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
+                }
+            }]
+    });
+});
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="mapping">
+function initMap() {
+
+    var locations = [
+        [
+            '<strong>Java House</strong><br>Moktar Daddah St<br>',
+            -1.282641,
+            36.8174466
+        ],
+        [
+            '<strong>Chipotle on Belmont</strong><br>1025 W Belmont Ave<br> Chicago, IL 60657',
+            -1.2827956,
+            36.8290233
+        ],
+        [
+            '<strong>Chipotle on Sheridan</strong><br>6600 N Sheridan Rd<br> Chicago, IL 60626<br>',
+            -1.2827956,
+            36.824365
+        ]
+    ];
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: new google.maps.LatLng(locations[0][1], locations[0][2]),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    var infowindow = new google.maps.InfoWindow({});
+    var marker, i;
+    for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+        });
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                infowindow.setContent(locations[i][0]);
+                infowindow.open(map, marker);
+            };
+        })(marker, i));
+    }
+}
+//</editor-fold>
+
+$(function () {
+    $("#people-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            {
+                text: "Upload excel",
+                action: function () {
+                    loadAjaxWindow("uploadPeople");
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
 function addFarmer() {
     $.ajax({
         url: "doAddPerson",
@@ -3492,7 +3481,40 @@ function editProcurementPlansCs(id, type, description,
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Sub-activity">
+//<editor-fold defaultstate="collapsed" desc="AWPB">
+$(function () {
+    $("#awpb-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow("addSubActivity");
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"},
+            {
+                text: "Financial reports",
+                action: function () {
+                    loadAjaxWindow("reports");
+                }
+            }
+        ],
+        columnDefs: [{
+                targets: [3, 4, 5, 6, 7, 8],
+                render: function (data, type) {
+                    return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
+                }
+            }]
+    });
+});
 $("[id$='-percentage']").each(function () {
     $(this).on("change", function () {
         if ($(this).val() > 100 || $(this).val() < 0) {
@@ -3522,8 +3544,8 @@ function addSubActivity() {
     });
     if (offRange)
         return;
-    if (sum > 100) {
-        showError("error_label", "Sum of all percentages should not exceed 100. Current sum is " + sum);
+    if (sum !== 100) {
+        showError("error_label", "Sum of all percentages should be 100. Current sum is " + sum);
         return;
     }
 
@@ -3640,8 +3662,8 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
                 });
                 if (offRange)
                     return;
-                if (sum > 100) {
-                    showError("error_label", "Sum of all percentages should not exceed 100. Current sum is " + sum);
+                if (sum !== 100) {
+                    showError("error_label", "Sum of all percentages should be 100. Current sum is " + sum);
                     return;
                 }
 
@@ -3800,6 +3822,92 @@ function addToAnnualIndicators() {
         $("#annual-indicator-descriptions").val($("#annual-indicator-descriptions").val() + ", " + $("#annual-indicator option[value='" + $("#annual-indicator").val() + "']").text());
     }
 }
+
+//<editor-fold defaultstate="collapsed" desc="Activity name">
+function addActivityName() {
+    $.ajax({
+        url: "doAddActivityName",
+        type: "POST",
+        data: "name=" + $("#name").val(),
+        success: function () {
+            $("#name").val("");
+            loadAjaxWindow("activity_names");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function editActivityName(id, name) {
+    $("#name").val(name);
+    $("#activity-name-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_activity_name_label",
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                $.ajax({
+                    url: "doEditActivityName",
+                    type: "POST",
+                    data: "name=" + $("#name").val() + "&id=" + id,
+                    success: function (response) {
+                        $("#name").val("");
+                        $("table#activity-name-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            $("#name").val("");
+        }
+    });
+}
+function deleteActivityName(id) {
+    $("#message").text("Are you sure you want to remove this activity name?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_activity_name",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteActivityName",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (response) {
+                        $("table#activity-name-table tbody").html(response);
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Sub-activity name">
@@ -3913,7 +4021,36 @@ function loadSubActivityNamesWindow(activityNameId) {
 }
 //</editor-fold>
 
+//</editor-fold>
+
 //<editor-fold defaultstate="collapsed" desc="Training">
+$(function () {
+    $("#training-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }],
+        columnDefs: [{
+                targets: 3,
+                render: function (data, type) {
+                    return type === "display" && data.length > 20 ? data.substr(0, 20) + "..." : data;
+                }
+            }]
+    });
+});
 $("#training").ajaxForm({
     success: function () {
         clearTrainingFields();
@@ -4170,6 +4307,16 @@ function updateWards() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
+$(function () {
+    $("#warehouse-count-table").DataTable({
+        responsive: true,
+        dom: "Blftip",
+//        "bLengthChange": false,
+//        "searching": false,
+        "scrollX": true,
+        "scrollCollapse": true
+    });
+});
 function updateProduceCounts(warehouseId) {
     $.ajax({
         url: "changeProduceCounter",
@@ -4347,6 +4494,21 @@ function clearWarehouseFields() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Warehouse operation">
+$(function () {
+    $("#warehouse-operations-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
 function addWarehouseOperation(warehouseId) {
     $("#warehouse-operation-dialog").dialog({
         width: 495,
@@ -4556,4 +4718,24 @@ if (!Modernizr.inputtypes.date) {
         }
     });
 }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="comment">
+//, {
+//                text: "Merge cells",
+//                action: function () {
+//                    $("tr th:nth-child(3)").each(function () {
+//                        var t = $(this);
+//                        var n = t.next();
+//                        t.html(t.html() + n.html());
+//                        n.remove();
+//                    });
+//                    $("tr td:nth-child(3)").each(function () {
+//                        var t = $(this);
+//                        var n = t.next();
+//                        t.html(t.html() + n.html());
+//                        n.remove();
+//                    });
+//                }
+//            }
 //</editor-fold>

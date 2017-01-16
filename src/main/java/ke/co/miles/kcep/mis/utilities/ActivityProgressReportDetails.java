@@ -65,17 +65,17 @@ public class ActivityProgressReportDetails implements Serializable, Comparable<A
     }
 
     /**
-     * @return the cummulativePhysicalProgress
+     * @return the cumulativePhysicalProgress
      */
-    public ActivityProgressDetails getCummulativePhysicalProgress() {
-        return cummulativePhysicalProgress;
+    public ActivityProgressDetails getCumulativePhysicalProgress() {
+        return cumulativePhysicalProgress;
     }
 
     /**
-     * @param cummulativePhysicalProgress the cummulativePhysicalProgress to set
+     * @param cumulativePhysicalProgress the cumulativePhysicalProgress to set
      */
-    public void setCummulativePhysicalProgress(ActivityProgressDetails cummulativePhysicalProgress) {
-        this.cummulativePhysicalProgress = cummulativePhysicalProgress;
+    public void setCumulativePhysicalProgress(ActivityProgressDetails cumulativePhysicalProgress) {
+        this.cumulativePhysicalProgress = cumulativePhysicalProgress;
     }
 
     /**
@@ -135,18 +135,17 @@ public class ActivityProgressReportDetails implements Serializable, Comparable<A
     }
 
     /**
-     * @return the cummulativeFinancialProgress
+     * @return the cumulativeFinancialProgress
      */
-    public ActivityProgressDetails getCummulativeFinancialProgress() {
-        return cummulativeFinancialProgress;
+    public ActivityProgressDetails getCumulativeFinancialProgress() {
+        return cumulativeFinancialProgress;
     }
 
     /**
-     * @param cummulativeFinancialProgress the cummulativeFinancialProgress to
-     * set
+     * @param cumulativeFinancialProgress the cumulativeFinancialProgress to set
      */
-    public void setCummulativeFinancialProgress(ActivityProgressDetails cummulativeFinancialProgress) {
-        this.cummulativeFinancialProgress = cummulativeFinancialProgress;
+    public void setCumulativeFinancialProgress(ActivityProgressDetails cumulativeFinancialProgress) {
+        this.cumulativeFinancialProgress = cumulativeFinancialProgress;
     }
 
     /**
@@ -237,13 +236,13 @@ public class ActivityProgressReportDetails implements Serializable, Comparable<A
     private ActivityProgressDetails physicalProgressQ2;
     private ActivityProgressDetails physicalProgressQ3;
     private ActivityProgressDetails physicalProgressQ4;
-    private ActivityProgressDetails cummulativePhysicalProgress;
+    private ActivityProgressDetails cumulativePhysicalProgress;
     private ActivityProgressDetails physicalAppraisal;
     private ActivityProgressDetails financialProgressQ1;
     private ActivityProgressDetails financialProgressQ2;
     private ActivityProgressDetails financialProgressQ3;
     private ActivityProgressDetails financialProgressQ4;
-    private ActivityProgressDetails cummulativeFinancialProgress;
+    private ActivityProgressDetails cumulativeFinancialProgress;
     private ActivityProgressDetails financialAppraisal;
     private ActivityProgressCommentDetails activityProgressComment;
 

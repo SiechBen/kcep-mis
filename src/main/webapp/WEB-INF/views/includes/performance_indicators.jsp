@@ -8,6 +8,9 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<fmt:setBundle basename="text"/>
+<fmt:setLocale value="en"/>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -27,7 +30,7 @@
                                 <th rowspan="2">Baseline date</th>
                                 <th rowspan="2">Baseline value</th>
                                     <c:forEach var="year" items="${sessionScope.projectYears}" varStatus="index">
-                                    <th colspan="4">Year ${index.count} (${year})</th>
+                                    <th colspan="4">Year ${year}</th>
                                     </c:forEach>
                             </tr>
                             <tr>

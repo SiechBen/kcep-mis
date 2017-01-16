@@ -76,6 +76,7 @@ public class FarmerReader {
                 rowIterator = sheet.iterator();
                 rowIterator.next();
                 rowIterator.next();
+                rowIterator.next();
                 while (rowIterator.hasNext()) {
                     row = rowIterator.next();
                     num++;

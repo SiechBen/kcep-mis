@@ -362,7 +362,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         } catch (Exception e) {
         }
 
-        activityProgressReport.setCummulativePhysicalProgress(activityProgressDetails);
+        activityProgressReport.setCumulativePhysicalProgress(activityProgressDetails);
 
         activityProgressDetails = new ActivityProgressDetails();
         try {
@@ -391,7 +391,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         } catch (Exception e) {
         }
 
-        activityProgressReport.setCummulativeFinancialProgress(activityProgressDetails);
+        activityProgressReport.setCumulativeFinancialProgress(activityProgressDetails);
 
         /* Set the report id as the id of financial progress for quarter 4 */
         activityProgressReport.setId(activityProgressReport.getFinancialProgressQ4().getId());

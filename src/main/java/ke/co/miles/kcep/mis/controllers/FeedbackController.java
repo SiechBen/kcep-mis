@@ -429,7 +429,7 @@ public class FeedbackController extends Controller {
     }
 
 //</editor-fold>
-    private static final Logger LOGGER = Logger.getLogger(EVoucherController.class
+    private static final Logger LOGGER = Logger.getLogger(EVoucherPersonController.class
             .getSimpleName());
     @EJB
     private FeedbackRequestsLocal feedbackService;

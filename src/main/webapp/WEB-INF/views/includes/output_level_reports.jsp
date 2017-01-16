@@ -28,17 +28,17 @@
                             <th rowspan="2">Baseline date</th>
                             <th rowspan="2">Baseline value</th>
                                 <c:forEach var="year" items="${sessionScope.projectYears}" varStatus="index">
-                                <th colspan="3">Year ${index.count} (${year})</th>
+                                <th colspan="3">Year ${year}</th>
                                 </c:forEach>
-                            <th colspan="3">Cummulative</th>
+                            <th rowspan="2">Appraisal Target</th>
+                            <th colspan="2">Cumulative</th>
                         </tr>
                         <tr>
                             <c:forEach var="year" items="${sessionScope.projectYears}">
-                                <th>AWPB Target</th>
+                                <th>Annual Target</th>
                                 <th>Actual</th>
-                                <th>% AWPB</th>
+                                <th>% Annual</th>
                                 </c:forEach>
-                            <th>Appraisal Target</th>
                             <th>Actual</th>
                             <th>% Appraisal</th>
                         </tr>
@@ -58,15 +58,15 @@
                                 <td class="editable pencil" onclick="editMeasurementUnit(this, ${outputIndicator.id}, '${outputIndicator.measurementUnit.id}', '${outputIndicator.description}')">${outputIndicator.measurementUnit.unit}<c:if test="${measurementUnit.symbol}">(${measurementUnit.symbol})</c:if></td>
                                 <td class="editable pencil" onclick="editBaselineDate(this, ${outputIndicator.id}, '${outputIndicator.baselineDate}', '${outputIndicator.description}')"><fmt:formatDate pattern="yy-MMM-dd" value="${outputIndicator.baselineDate}"/></td>
                                 <td class="editable pencil" onclick="editBaselineValue(this, ${outputIndicator.id}, '${outputIndicator.baselineValue}', '${outputIndicator.description}')">${outputIndicator.baselineValue}</td>
-                                <c:forEach var="cummulativeIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).keySet()}">
-                                    <c:forEach var="outputIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).get(cummulativeIndicatorValues)}">
+                                <c:forEach var="cumulativeIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).keySet()}">
+                                    <c:forEach var="outputIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).get(cumulativeIndicatorValues)}">
                                         <td class="editable">${outputIndicatorValues.expectedValue}</td>
                                         <td>${outputIndicatorValues.actualValue}</td>
                                         <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
-                                    <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setAppraisalTarget('${outputIndicator.id}', '${cummulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
-                                    <td>${cummulativeIndicatorValues.actualValue}</td>
-                                    <td id="output-ratio-${cummulativeIndicatorValues.id}"><c:if test="${not empty cummulativeIndicatorValues.ratio}">${cummulativeIndicatorValues.ratio}%</c:if></td>
+                                    <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setAppraisalTarget('${outputIndicator.id}', '${cumulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
+                                    <td>${cumulativeIndicatorValues.actualValue}</td>
+                                    <td id="output-ratio-${cumulativeIndicatorValues.id}"><c:if test="${not empty cumulativeIndicatorValues.ratio}">${cumulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
                             </tr>
                         </c:forEach>

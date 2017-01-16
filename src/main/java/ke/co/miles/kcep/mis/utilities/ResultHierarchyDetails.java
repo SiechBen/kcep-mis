@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -78,10 +79,39 @@ public class ResultHierarchyDetails implements Serializable, Comparable<ResultHi
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the subComponentDetails
+     */
+    public PhenomenonDetails getSubComponentDetails() {
+        return subComponentDetails;
+    }
+
+    /**
+     * @param subComponentDetails the subComponentDetails to set
+     */
+    public void setSubComponentDetails(PhenomenonDetails subComponentDetails) {
+        this.subComponentDetails = subComponentDetails;
+    }
+
+    /**
+     * @return the performanceIndicatorList
+     */
+    public List<PerformanceIndicatorDetails> getPerformanceIndicatorList() {
+        return performanceIndicatorList;
+    }
+
+    /**
+     * @param performanceIndicatorList the performanceIndicatorList to set
+     */
+    public void setPerformanceIndicatorList(List<PerformanceIndicatorDetails> performanceIndicatorList) {
+        this.performanceIndicatorList = performanceIndicatorList;
+    }
+
     private static final long serialVersionUID = 1L;
     private Short id;
     private String description;
     private PhenomenonDetails component;
     private PhenomenonDetails subComponentDetails;
+    private List<PerformanceIndicatorDetails> performanceIndicatorList;
 
 }

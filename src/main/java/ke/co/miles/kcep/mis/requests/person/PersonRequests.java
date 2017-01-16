@@ -17,10 +17,13 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.Account;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.FarmerGroup;
 import ke.co.miles.kcep.mis.entities.FarmerSubGroup;
+import ke.co.miles.kcep.mis.entities.InputsCollection;
+import ke.co.miles.kcep.mis.entities.Loan;
 import ke.co.miles.kcep.mis.entities.Location;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Sex;
@@ -30,11 +33,13 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.access.AccessRequestsLocal;
+import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
 import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.subgroup.FarmerSubGroupRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.useraccount.UserAccountRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
@@ -939,7 +944,17 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             personDetails.setSex(SexDetail.getSexDetail(person.getSex().getId()));
         } catch (Exception e) {
         }
-
+        try {
+            personDetails.setAccount(convertAccountToAccountDetails(personDetails,
+                    person.getAccountList().get(0)));
+        } catch (Exception e) {
+        }
+        try {
+            for (InputsCollection inputsCollection : person.getFarmerInputsCollectionList()) {
+                personDetails.setTotalInputsCollected(personDetails.getTotalInputsCollected() == null ? inputsCollection.getQuantity() : personDetails.getTotalInputsCollected() + inputsCollection.getQuantity());
+            }
+        } catch (Exception e) {
+        }
         return personDetails;
 
     }
@@ -981,9 +996,47 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         return personDetails;
 
     }
+
+    private AccountDetails convertAccountToAccountDetails(PersonDetails farmer, Account account) {
+
+        AccountDetails accountDetails = new AccountDetails();
+        try {
+            accountDetails.setId(account.getId());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setAccountNumber(account.getAccountNumber());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setSolId(account.getSolId());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setSavings(account.getSavings());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setEblBranch((eblBranchService.convertEblBranchToEblBranchDetails(account.getEblBranch())));
+        } catch (Exception e) {
+        }
+        try {
+            for (Loan loan : account.getLoanList()) {
+                accountDetails.setTotalLoanAmount((accountDetails.getTotalLoanAmount() == null ? loan.getAmount() : accountDetails.getTotalLoanAmount().add(loan.getAmount())));
+            }
+        } catch (Exception e) {
+        }
+
+        accountDetails.setFarmer(farmer);
+
+        return accountDetails;
+
+    }
 //</editor-fold>
     @EJB
     private ContactRequestsLocal contactService;
+    @EJB
+    private EblBranchRequestsLocal eblBranchService;
     @EJB
     private AccessRequestsLocal accessService;
     @EJB

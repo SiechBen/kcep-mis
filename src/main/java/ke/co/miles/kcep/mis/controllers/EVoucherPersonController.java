@@ -41,6 +41,8 @@ import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 
 /**
  *
@@ -48,13 +50,14 @@ import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
  */
 @WebServlet(name = "EVoucherController", urlPatterns = {
     //        "/addEVoucher", "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
-    "/addFarmer", "/addAgroDealer", "/farmers", "/agroDealers"})
+    "/addFarmer", "/addAgroDealer", "/farmers", "/getLocations", "/agroDealers"})
 @MultipartConfig
-public class EVoucherController extends Controller {
+public class EVoucherPersonController extends Controller {
 
     private static final long serialVersionUID = 1L;
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Locale locale = request.getLocale();
@@ -73,6 +76,7 @@ public class EVoucherController extends Controller {
                     case "systemAdminSession":
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getLocations");
                             urlPaths.add("/addFarmer");
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
@@ -111,6 +115,7 @@ public class EVoucherController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/getLocations");
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
@@ -148,6 +153,7 @@ public class EVoucherController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/getLocations");
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
@@ -184,6 +190,7 @@ public class EVoucherController extends Controller {
                         break;
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getLocations");
                             urlPaths.add("/addFarmer");
                             urlPaths.add("/addAgroDealer");
                             switch (path) {
@@ -211,6 +218,7 @@ public class EVoucherController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
+                            urlPaths.add("/getLocations");
                             urlPaths.add("/addAgroDealer");
                             switch (path) {
                                 case "/farmers":
@@ -236,6 +244,7 @@ public class EVoucherController extends Controller {
                         break;
                     case "agmarkSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getLocations");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/agmark_eVouchers";
@@ -256,6 +265,7 @@ public class EVoucherController extends Controller {
                         break;
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getLocations");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/kalro_eVouchers";
@@ -450,6 +460,73 @@ public class EVoucherController extends Controller {
                     }
 
                     break;
+
+                case "/getLocations":
+
+                    try {
+
+                        JSONObject jsonLocation;
+                        JSONArray jsonList = new JSONArray();
+                        StringBuilder farmerInfo;
+                        List<PersonDetails> people = new ArrayList<>();
+
+                        String personType = request.getParameter("personType");
+                        if (personType.equals("Farmer")) {
+                            people = (List<PersonDetails>) session.getAttribute("farmers");
+                        } else if (personType.equals("AgroDealer")) {
+                            people = (List<PersonDetails>) session.getAttribute("agroDealers");
+                        }
+
+                        for (PersonDetails farmer : people) {
+                            farmerInfo = new StringBuilder();
+                            farmerInfo.append("<strong>");
+                            farmerInfo.append(farmer.getName());
+                            farmerInfo.append("</strong>");
+                            farmerInfo.append("<br>");
+                            if (farmer.getLocation() == null) {
+                                continue;
+                            }
+                            if (farmer.getLocation().getWard() != null) {
+                                farmerInfo.append(farmer.getLocation().getWard().getName());
+                                if (farmer.getLocation().getWard().getName() != null) {
+                                    farmerInfo.append(", ");
+                                }
+                                farmerInfo.append(farmer.getLocation().getWard().getSubCounty().getName());
+                                farmerInfo.append(", ");
+                                farmerInfo.append(farmer.getLocation().getWard().getSubCounty().getCounty().getName());
+                                farmerInfo.append("<br>");
+                            }
+                            if (farmer.getLocation().getVillage() != null) {
+                                farmerInfo.append(farmer.getLocation().getVillage().getName());
+                                if (farmer.getLocation().getVillage().getName() != null) {
+                                    farmerInfo.append(" village");
+                                    if (farmer.getLocation().getDivisionalLocation() != null) {
+                                        farmerInfo.append(", ");
+                                        farmerInfo.append(farmer.getLocation().getDivisionalLocation().getName());
+                                        farmerInfo.append(" division");
+                                    }
+                                }
+
+                            } else if (farmer.getLocation().getDivisionalLocation() != null) {
+                                farmerInfo.append(farmer.getLocation().getDivisionalLocation().getName());
+                            }
+                            farmerInfo.append("<br>");
+                            jsonLocation = new JSONObject();
+                            jsonLocation.put("info", farmerInfo.toString());
+                            jsonLocation.put("lat", farmer.getLocation().getLatitude().doubleValue());
+                            jsonLocation.put("long", farmer.getLocation().getLongitude().doubleValue());
+                            jsonList.add(jsonLocation);
+                        }
+
+                        response.setContentType("application/json");
+                        response.getWriter().write(jsonList.toJSONString());
+
+                    } catch (Exception ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during performance indicator retrieval", ex);
+                        return;
+                    }
+
+                    return;
 
                 case "/county_addFarmer":
 
@@ -831,9 +908,8 @@ public class EVoucherController extends Controller {
             LOGGER.log(Level.INFO, getBundle().getString("error_016_02"));
         }
     }
-
     //</editor-fold>
-    private static final Logger LOGGER = Logger.getLogger(EVoucherController.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(EVoucherPersonController.class.getSimpleName());
     @EJB
     private WardRequestsLocal wardService;
     @EJB

@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,6 +27,10 @@
 
     </head>
     <body>
+
+        <fmt:setBundle basename="text"/>
+        <fmt:setLocale value="en"/>
+
         <div id="wrapper">
 
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
@@ -32,32 +38,36 @@
                     <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    <li>
+                        <a class="text-center" href="<fmt:message key='home_link'/>">
+                            <i class="fa fa-home"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                            <c:forEach var="feedback" items="${applicationScope.latestFeedbackList}">
-                                <li>
-                                    <a onclick="loadAjaxWindow('feedback')">
-                                        <div>
-                                            <strong>${feedback.farmer.name}</strong>
-                                            <span class="pill-right text-muted">
-                                                <em>${feedback.timePosted}</em>
-                                            </span>
-                                        </div>
-                                        <div>${feedback.shortMessage}</div>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                            </c:forEach>
+                    </li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <c:forEach var="feedback" items="${applicationScope.latestFeedbackList}">
                             <li>
-                                <a class="text-center" onclick="loadAjaxWindow('feedback'')">
-                                    <strong>Read All Messages</strong>
-                                    <i class="fa fa-angle-right"></i>
+                                <a onclick="loadAjaxWindow('feedback')">
+                                    <div>
+                                        <strong>${feedback.farmer.name}</strong>
+                                        <span class="pill-right text-muted">
+                                            <em>${feedback.timePosted}</em>
+                                        </span>
+                                    </div>
+                                    <div>${feedback.shortMessage}</div>
                                 </a>
                             </li>
-                        </ul>
+                            <li class="divider"></li>
+                        </c:forEach>
+                        <li>
+                            <a class="text-center" onclick="loadAjaxWindow('feedback'')">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -87,8 +97,8 @@
                 <div class="feedback">
                     <center>
                         <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials')
-                                    this.value = '';" onblur="if (this.value.trim() === '')
-                                                this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
+                                this.value = '';" onblur="if (this.value.trim() === '')
+                                            this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
                         <input type="button" class="submit" onclick="saveFeedback()">
                     </center>
                 </div>

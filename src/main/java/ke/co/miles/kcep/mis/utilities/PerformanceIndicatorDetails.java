@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -123,6 +124,21 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         this.measurementUnit = measurementUnit;
     }
 
+    /**
+     * @return the performanceIndicatorValuesList
+     */
+    public List<PerformanceIndicatorValuesDetails> getPerformanceIndicatorValuesList() {
+        return performanceIndicatorValuesList;
+    }
+
+    /**
+     * @param performanceIndicatorValuesList the performanceIndicatorValuesList
+     * to set
+     */
+    public void setPerformanceIndicatorValuesList(List<PerformanceIndicatorValuesDetails> performanceIndicatorValuesList) {
+        this.performanceIndicatorValuesList = performanceIndicatorValuesList;
+    }
+
     private static final long serialVersionUID = 1L;
     private Short id;
     private String description;
@@ -132,5 +148,6 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     private ResultHierarchyDetails resultHierarchy;
     private MeasurementUnitDetails measurementUnit;
     private PhenomenonDetails performanceIndicatorType;
+    private List<PerformanceIndicatorValuesDetails> performanceIndicatorValuesList;
 
 }

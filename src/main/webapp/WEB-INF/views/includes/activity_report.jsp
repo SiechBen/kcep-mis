@@ -51,13 +51,15 @@
                             <th colspan="2">Q2</th>
                             <th colspan="2">Q3</th>
                             <th colspan="2">Q4</th>
-                            <th colspan="3">Cummulative</th>
+                            <th rowspan="2">Appraisal</th>
+                            <th colspan="2">Cumulative</th>
                             <th colspan="1">Expenditure category</th>
                             <th colspan="2">Q1</th>
                             <th colspan="2">Q2</th>
                             <th colspan="2">Q3</th>
                             <th colspan="2">Q4</th>
-                            <th colspan="3">Cummulative</th>
+                            <th rowspan="2">Appraisal</th>
+                            <th colspan="2">Cumulative</th>
                             <th>&nbsp;</th>
                         </tr>
                         <tr>
@@ -73,7 +75,6 @@
                             <th colspan="1">Value achieved</th>
                             <th colspan="1">Target</th>
                             <th colspan="1">Value achieved</th>
-                            <th colspan="1">Appraisal</th>
                             <th colspan="1">Target</th>
                             <th colspan="1">Value achieved</th>
                             <th colspan="1">&nbsp;</th>
@@ -85,7 +86,6 @@
                             <th colspan="1">Actual expenditure</th>
                             <th colspan="1">Planned budget</th>
                             <th colspan="1">Actual expenditure</th>
-                            <th colspan="1">Appraisal</th>
                             <th colspan="1">Planned budget</th>
                             <th colspan="1">Actual expenditure</th>
                             <th colspan="1">&nbsp;</th>
@@ -112,8 +112,8 @@
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ4.id}, 'Target', 'Quarter 4')">${activityProgressReport.physicalProgressQ4.targetOrBudget}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalProgressQ4.id}, 'Value achieved', 'Quarter 4')">${activityProgressReport.physicalProgressQ4.valueAchievedOrExpense}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.physicalAppraisal.id}, 'Appraisal')">${activityProgressReport.physicalAppraisal.targetOrBudget}</td>
-                                <td>${activityProgressReport.cummulativePhysicalProgress.targetOrBudget}</td>
-                                <td>${activityProgressReport.cummulativePhysicalProgress.valueAchievedOrExpense}</td>
+                                <td>${activityProgressReport.cumulativePhysicalProgress.targetOrBudget}</td>
+                                <td>${activityProgressReport.cumulativePhysicalProgress.valueAchievedOrExpense}</td>
                                 <td>${activityProgressReport.financialProgressQ1.subActivity.expenditureCategory.category.name}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ1.id}, 'Budget', 'Quarter 1')">${activityProgressReport.financialProgressQ1.targetOrBudget}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ1.id}, 'Expense', 'Quarter 1')">${activityProgressReport.financialProgressQ1.valueAchievedOrExpense}</td>
@@ -124,8 +124,8 @@
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Budget', 'Quarter 4')">${activityProgressReport.financialProgressQ4.targetOrBudget}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Expense', 'Quarter 4')">${activityProgressReport.financialProgressQ4.valueAchievedOrExpense}</td>
                                 <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialAppraisal.id}, 'Appraisal')">${activityProgressReport.financialAppraisal.targetOrBudget}</td>
-                                <td>${activityProgressReport.cummulativeFinancialProgress.targetOrBudget}</td>
-                                <td>${activityProgressReport.cummulativeFinancialProgress.valueAchievedOrExpense}</td>
+                                <td>${activityProgressReport.cumulativeFinancialProgress.targetOrBudget}</td>
+                                <td>${activityProgressReport.cumulativeFinancialProgress.valueAchievedOrExpense}</td>
                                 <td class="editable pencil" onclick="editActivityProgressComment(this, ${activityProgressReport.activityProgressComment.id}, '${activityProgressReport.activityProgressComment.comment}')">${activityProgressReport.activityProgressComment.comment}</td>
                             </tr>
                         </c:forEach>

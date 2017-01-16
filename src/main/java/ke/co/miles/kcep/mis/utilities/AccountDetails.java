@@ -101,6 +101,20 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
         this.savings = savings;
     }
 
+    /**
+     * @return the totalLoanAmount
+     */
+    public BigDecimal getTotalLoanAmount() {
+        return totalLoanAmount;
+    }
+
+    /**
+     * @param totalLoanAmount the totalLoanAmount to set
+     */
+    public void setTotalLoanAmount(BigDecimal totalLoanAmount) {
+        this.totalLoanAmount = totalLoanAmount;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String accountNumber;
@@ -108,5 +122,6 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
     private String solId;
     private PersonDetails farmer;
     private BigDecimal savings;
+    private BigDecimal totalLoanAmount;
 
 }

@@ -44,8 +44,6 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             throw new InvalidArgumentException("error_047_02");
         } else if (inputsCollectionDetails.getAgroDealer() == null) {
             throw new InvalidArgumentException("error_047_03");
-        } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
-            throw new InvalidArgumentException("error_047_05");
         }
 
         //find previous inputs collection for this farmer
@@ -122,8 +120,6 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
             throw new InvalidArgumentException("error_047_02");
         } else if (inputsCollectionDetails.getAgroDealer() == null) {
             throw new InvalidArgumentException("error_047_03");
-        } else if (inputsCollectionDetails.getQuantity() != null && inputsCollectionDetails.getQuantity().trim().length() > 45) {
-            throw new InvalidArgumentException("error_047_05");
         }
 
         InputsCollection inputsCollection = em.find(InputsCollection.class, inputsCollectionDetails.getId());

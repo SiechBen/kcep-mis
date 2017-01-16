@@ -69,6 +69,20 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Agro-dealer locations on map
+            </div>
+            <div class="panel-body">
+                <input type="hidden" id="person-type" value="AgroDealer">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="dialog" id="person-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
@@ -170,3 +184,7 @@
         </div>
     </div>
 </div>
+
+<script src="static/js/maps.js" type="text/javascript"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAosZcLbpuT4q2Mrl96oMfgtsC2etLRvLw&callback=getLocations"></script>

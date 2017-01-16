@@ -368,7 +368,7 @@
                     </div>
                     <div class="form-group">
                         Quantity
-                        <input type="number " step="0.1" class="form-control" id="quantity" required="true">
+                        <input type="number " step="1" class="form-control" id="quantity" required="true">
                     </div>
                 </form>
             </div>

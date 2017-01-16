@@ -37,11 +37,11 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
         this.dateCollected = dateCollected;
     }
 
-    public String getQuantity() {
+    public Short getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Short quantity) {
         this.quantity = quantity;
     }
 
@@ -126,7 +126,7 @@ public class InputsCollectionDetails implements Serializable, Comparable<InputsC
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Date dateCollected;
-    private String quantity;
+    private Short quantity;
     private PersonDetails farmer;
     private PersonDetails agroDealer;
     private InputTypeDetails inputType;

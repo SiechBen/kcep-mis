@@ -6,6 +6,7 @@
 
 <%@tag description="This is the parent tag for java server pages used in kcep-mis" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <%-- The list of normal attributes:--%>
@@ -54,6 +55,9 @@
 
     <body>
 
+        <fmt:setBundle basename="text"/>
+        <fmt:setLocale value="en"/>
+
         <div id="wrapper">
 
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
@@ -61,6 +65,11 @@
                     <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a class="text-center" href="<fmt:message key='home_link'/>">
+                            <i class="fa fa-home"></i>
+                        </a>
+                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -137,14 +146,12 @@
 
             <div class="loader"></div>
 
-            <!--             Footer
-                        <footer>
+            <!--            <footer>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <p>Copyright &copy; Your Website 2014</p>
                                 </div>
                             </div>
-                             /.row
                         </footer>-->
 
         </div>

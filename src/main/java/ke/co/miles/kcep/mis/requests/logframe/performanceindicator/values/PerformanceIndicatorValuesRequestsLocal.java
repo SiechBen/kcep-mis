@@ -13,6 +13,7 @@ import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
+import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
 
 /**
  *
@@ -118,5 +119,23 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<Short> retrieveProjectYears() throws MilesException;
+
+    /**
+     *
+     * @param projectYears the list of project years to be used in ordering the
+     * performance indicator values
+     * @return the map of performance indicator record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<ResultHierarchyDetails> reportOnOutputLevelIndicators(List<Short> projectYears) throws MilesException;
+
+    /**
+     *
+     * @param projectYears the list of project years to be used in ordering the
+     * performance indicator values
+     * @return the map of performance indicator record details retrieved
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<ResultHierarchyDetails> retrieveAllIndicators(List<Short> projectYears) throws MilesException;
 
 }

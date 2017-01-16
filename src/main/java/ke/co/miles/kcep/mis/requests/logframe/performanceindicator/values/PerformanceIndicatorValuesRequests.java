@@ -16,12 +16,15 @@ import javax.persistence.NoResultException;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
+import ke.co.miles.kcep.mis.entities.ResultHierarchy;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.requests.logframe.hierarchy.ResultHierarchyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
+import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
 
 /**
  *
@@ -86,6 +89,95 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Read">
+    @SuppressWarnings({"unchecked", "unchecked"})
+    @Override
+    public List<ResultHierarchyDetails> retrieveAllIndicators(List<Short> projectYears) throws MilesException {
+        ResultHierarchyDetails resultHierarchyDetails;
+        PerformanceIndicatorDetails performanceIndicatorDetails;
+        List<ResultHierarchy> resultHierarchies = new ArrayList<>();
+        List<ResultHierarchyDetails> resultHierarchyDetailsList = new ArrayList<>();
+        List<PerformanceIndicatorDetails> performanceIndicatorDetailsList = new ArrayList<>();
+        setQ(em.createNamedQuery("ResultHierarchy.findAll"));
+        try {
+            resultHierarchies = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        ArrayList<PerformanceIndicatorValuesDetails> orderedList;
+        try {
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
+            for (ResultHierarchy rh : resultHierarchies) {
+                resultHierarchyDetails = resultHierarchyService.convertResultHierarchyToResultHierarchyDetails(rh);
+
+                for (PerformanceIndicator performanceIndicator : rh.getPerformanceIndicatorList()) {
+                    performanceIndicatorDetails = performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator);
+                    orderedList = new ArrayList<>();
+                    q.setParameter("performanceIndicatorId", performanceIndicator.getId());
+                    for (short projectYear : projectYears) {
+                        q.setParameter("projectYear", projectYear);
+                        try {
+                            orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                        } catch (Exception e) {
+                        }
+                    }
+                    performanceIndicatorDetails.setPerformanceIndicatorValuesList(orderedList);
+                    performanceIndicatorDetailsList.add(performanceIndicatorDetails);
+                }
+                resultHierarchyDetails.setPerformanceIndicatorList(performanceIndicatorDetailsList);
+                resultHierarchyDetailsList.add(resultHierarchyDetails);
+            }
+        } catch (Exception e) {
+        }
+
+        return resultHierarchyDetailsList;
+
+    }
+
+    @SuppressWarnings({"unchecked", "unchecked"})
+    @Override
+    public List<ResultHierarchyDetails> reportOnOutputLevelIndicators(List<Short> projectYears) throws MilesException {
+        ResultHierarchyDetails resultHierarchyDetails;
+        PerformanceIndicatorDetails performanceIndicatorDetails;
+        List<ResultHierarchy> resultHierarchies = new ArrayList<>();
+        List<ResultHierarchyDetails> resultHierarchyDetailsList = new ArrayList<>();
+        List<PerformanceIndicatorDetails> performanceIndicatorDetailsList = new ArrayList<>();
+        setQ(em.createNativeQuery("SELECT * FROM result_hierarchy r WHERE r.description REGEXP ?1"));
+        q.setParameter(1, "^Output");
+        try {
+            resultHierarchies = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        ArrayList<PerformanceIndicatorValuesDetails> orderedList;
+        try {
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
+            for (ResultHierarchy rh : resultHierarchies) {
+                resultHierarchyDetails = resultHierarchyService.convertResultHierarchyToResultHierarchyDetails(rh);
+
+                for (PerformanceIndicator performanceIndicator : rh.getPerformanceIndicatorList()) {
+                    performanceIndicatorDetails = performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator);
+                    orderedList = new ArrayList<>();
+                    q.setParameter("performanceIndicatorId", performanceIndicator.getId());
+                    for (short projectYear : projectYears) {
+                        q.setParameter("projectYear", projectYear);
+                        try {
+                            orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                        } catch (Exception e) {
+                        }
+                    }
+                    performanceIndicatorDetails.setPerformanceIndicatorValuesList(orderedList);
+                    performanceIndicatorDetailsList.add(performanceIndicatorDetails);
+                }
+                resultHierarchyDetails.setPerformanceIndicatorList(performanceIndicatorDetailsList);
+                resultHierarchyDetailsList.add(resultHierarchyDetails);
+            }
+        } catch (Exception e) {
+        }
+
+        return resultHierarchyDetailsList;
+
+    }
+
     @Override
     public HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportOnOutputIndicators() throws MilesException {
 
@@ -373,6 +465,8 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     }
 
 //</editor-fold>
+    @EJB
+    private ResultHierarchyRequestsLocal resultHierarchyService;
     @EJB
     private PerformanceIndicatorRequestsLocal performanceIndicatorService;
     private final DecimalFormat decimalFormat = new DecimalFormat("######.##");
