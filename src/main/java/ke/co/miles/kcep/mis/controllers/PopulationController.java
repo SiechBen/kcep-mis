@@ -201,7 +201,7 @@ public class PopulationController extends Controller {
                                 toDelete.delete();
                             }
                             filePath += fileName;
-                            if (filePath.endsWith("people-upload-file.xlsx")) {
+                            if (filePath.endsWith("SN_PUF020.xlsx")) {
 
                                 filePath = filePath.replace(".xlsx", "") + " " + new Date() + ".xlsx";
 
