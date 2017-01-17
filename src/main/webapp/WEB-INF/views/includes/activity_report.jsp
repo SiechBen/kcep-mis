@@ -15,50 +15,45 @@
             </div>
             <div class="panel-body">
                 <h4>Activity progress report</h4>
-                <!--                        <table>
-                                            <tr>
-                                                <th>Republic of Kenya</th>
-                                                <th>
-                                                    Report date: &nbsp;
-                                                    <input id="report-date" class="datefield" type="date">
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <th>Kenya Cereal Enhancement Programme</th>
-                                                <th>
-                                                    Project year: &nbsp;
-                                                    <select id="project-year" onchange="changeActivityReport()">
-                <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
-                    <option value="${projectYear}">${projectYear}</option>
-                </c:forEach>
-            </select>
-        </th>
-    </tr>
-</table>-->
                 <table class="table table-striped table-bordered table-hover" id="activity-report-table">
                     <thead>
                         <tr>
-                            <th colspan="8">Physical progress</th>
-                            <th colspan="6">Fincancial progress</th>
-                            <th>Comments</th>
-                        </tr>
-                        <tr>
-                            <th colspan="1">&nbsp;</th>
-                            <th colspan="1">&nbsp;</th>
-                            <th colspan="1">&nbsp;</th>
                             <th colspan="2">
+                                Financial year: &nbsp;
+                                <select id="financial-year" onchange="changeFinancialYear()">
+                                    <c:forEach var="financialYear" items="${sessionScope.financialYears}" varStatus="index">
+                                        <option value="${financialYear.id}"
+                                                <c:if test="${empty sessionScope.financialYear && financialYear.currentYear}">selected</c:if>
+                                                <c:if test="${sessionScope.financialYear == financialYear.id}">selected</c:if>>
+                                            ${financialYear.financialYear}</option>
+                                        </c:forEach>
+                                </select>
+                            </th>
+                            <th colspan="13">
                                 Quarter
                                 <select id="quarter" onchange="changeQuarter()">
+                                    <option value="0"selected>select</option>
                                     <option value="1" <c:if test="${sessionScope.quarter == 1}">selected</c:if>>1</option>
                                     <option value="2" <c:if test="${sessionScope.quarter == 2}">selected</c:if>>2</option>
                                     <option value="3" <c:if test="${sessionScope.quarter == 3}">selected</c:if>>3</option>
                                     <option value="4" <c:if test="${sessionScope.quarter == 4}">selected</c:if>>4</option>
                                     </select>
                                 </th>
-                                <th rowspan="2">Appraisal</th>
-                                <th colspan="2">Cumulative</th>
-                                <th colspan="1">Expenditure category</th>
+                            </tr>
+                            <tr>
+                                <th colspan="8">Physical progress</th>
+                                <th colspan="6">Fincancial progress</th>
+                                <th>Comments</th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">&nbsp;</th>
+                                <th colspan="1">&nbsp;</th>
+                                <th colspan="1">&nbsp;</th>
                                 <th colspan="2">Quarter ${sessionScope.quarter}</th>
+                            <th rowspan="2">Appraisal</th>
+                            <th colspan="2">Cumulative</th>
+                            <th colspan="1">Expenditure category</th>
+                            <th colspan="2">Quarter ${sessionScope.quarter}</th>
                             <th rowspan="2">Appraisal</th>
                             <th colspan="2">Cumulative</th>
                             <th>&nbsp;</th>

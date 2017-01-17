@@ -49,7 +49,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
     "/getActivityProgress", "/setAppraisalTarget",
     "/doEditActivityProgress", "/doEditActivityProgressComment",
-    "/doEditMeasurementUnit", "/changeQuarter"})
+    "/doEditMeasurementUnit", "/changeQuarter", "/changeFinancialYear"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -78,6 +78,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
+                            urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -146,6 +147,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
+                            urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -191,6 +193,7 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
+                            urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -289,9 +292,17 @@ public class ReportsController extends Controller {
                         activityProgressService.checkForActivityProgress(null);
                     } catch (Exception e) {
                     }
-
+                    try {
+                        session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
+                    } catch (Exception e) {
+                    }
                     try {
                         session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
+                    } catch (Exception e) {
+                    }
+                    Short financialYearId = null;
+                    try {
+                        financialYearId = (Short) session.getAttribute("financialYear");
                     } catch (Exception e) {
                     }
 
@@ -312,15 +323,15 @@ public class ReportsController extends Controller {
                         /* Retrieve activity progress details and add those available previously to the report(set) */
                         if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
-                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId()));
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId(), financialYearId));
                             }
                         } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
-                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "County", accessingPerson.getLocation().getCounty().getId()));
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "County", accessingPerson.getLocation().getCounty().getId(), financialYearId));
                             }
                         } else {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
-                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Head", null));
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Head", null, financialYearId));
                             }
                         }
 
@@ -426,6 +437,13 @@ public class ReportsController extends Controller {
                 case "/getActivityProgress":
 
                     accessingPerson = (PersonDetails) session.getAttribute("person");
+
+                    financialYearId = null;
+                    try {
+                        financialYearId = (Short) session.getAttribute("financialYear");
+                    } catch (Exception e) {
+                    }
+
                     newActivityProgressReports = new HashSet<>();
                     try {
                         previousActivityProgressReports = (Set< ActivityProgressReportDetails>) session.getAttribute("activityProgressReports");
@@ -439,19 +457,19 @@ public class ReportsController extends Controller {
                         /* Retrieve activity progress details and add those available previously to the report(set) */
                         if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
-                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId()));
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId(), financialYearId));
                             }
-                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Region", accessingPerson.getLocation().getCounty().getRegion().getId());
+                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Region", accessingPerson.getLocation().getCounty().getRegion().getId(), financialYearId);
                         } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
-                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "County", accessingPerson.getLocation().getCounty().getId()));
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "County", accessingPerson.getLocation().getCounty().getId(), financialYearId));
                             }
-                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "County", accessingPerson.getLocation().getCounty().getId());
+                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "County", accessingPerson.getLocation().getCounty().getId(), financialYearId);
                         } else {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
-                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Head", null));
+                                newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Head", null, financialYearId));
                             }
-                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Head", null);
+                            newActivityProgressReport = activityProgressService.retrieveActivityProgress(request.getParameter("awpbReferenceCode"), "Head", null, financialYearId);
                         }
 
                         /* Add the new activity progress details to the report if it doesn't exist already */
@@ -521,6 +539,37 @@ public class ReportsController extends Controller {
 
                     return;
 
+                case "/changeFinancialYear":
+                    financialYearId = Short.valueOf(request.getParameter("financialYear"));
+                    session.setAttribute("financialYear", financialYearId);
+
+                    return;
+
+                case "/head_output_level_reports":
+                case "/county_output_level_reports":
+                case "/region_output_level_reports":
+                    try {
+                        session.setAttribute("projectYears", performanceIndicatorValuesService.retrieveProjectYears());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
+                        return;
+                    }
+                    try {
+                        session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
+                        return;
+                    }
+                    try {
+                        session.setAttribute("outputsReport", performanceIndicatorValuesService.reportOnOutputIndicators());
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+                    break;
+
                 case "/head_outcome_level_reports":
                 case "/county_outcome_level_reports":
                 case "/region_outcome_level_reports":
@@ -544,6 +593,7 @@ public class ReportsController extends Controller {
                         } catch (Exception e) {
                             projectYear = null;
                         }
+                        session.setAttribute("projectYear", projectYear);
                         session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -585,31 +635,6 @@ public class ReportsController extends Controller {
                     } catch (NullPointerException e) {
                     }
 
-                    break;
-
-                case "/head_output_level_reports":
-                case "/county_output_level_reports":
-                case "/region_output_level_reports":
-                    try {
-                        session.setAttribute("projectYears", performanceIndicatorValuesService.retrieveProjectYears());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
-                        return;
-                    }
-                    try {
-                        session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
-                        return;
-                    }
-                    try {
-                        session.setAttribute("outputsReport", performanceIndicatorValuesService.reportOnOutputIndicators());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
-                    } catch (NullPointerException e) {
-                    }
                     break;
 
                 case "/head_financial_report_by_categories":

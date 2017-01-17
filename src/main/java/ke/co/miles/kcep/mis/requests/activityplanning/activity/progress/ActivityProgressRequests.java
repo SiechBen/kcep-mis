@@ -151,7 +151,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
     }
 
     @Override
-    public ActivityProgressReportDetails retrieveActivityProgress(String awpbReferenceCode, String level, Short levelId) throws MilesException {
+    public ActivityProgressReportDetails retrieveActivityProgress(String awpbReferenceCode, String level, Short levelId, Short financialYearId) throws MilesException {
         ActivityProgressReportDetails activityProgressReport = new ActivityProgressReportDetails();
         ActivityProgress activityProgress;
         for (short i = 1; i <= 4; i++) {
@@ -162,7 +162,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     q.setParameter("regionId", levelId);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
-                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                     break;
                 case "County":
                     setQ(em.createNamedQuery("ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode"));
@@ -170,14 +170,14 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     q.setParameter("countyId", levelId);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
-                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                     break;
                 case "Head":
                     setQ(em.createNamedQuery("ActivityProgress.findForHeadByFinancialYearIdAndReferenceCode"));
                     q.setParameter("quarter", i);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL.getId());
-                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                     break;
                 default:
                     return activityProgressReport;
@@ -209,7 +209,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     q.setParameter("regionId", levelId);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
-                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                     break;
                 case "County":
                     setQ(em.createNamedQuery("ActivityProgress.findForCountyByFinancialYearIdAndReferenceCode"));
@@ -217,14 +217,14 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     q.setParameter("countyId", levelId);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
-                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                     break;
                 case "Head":
                     setQ(em.createNamedQuery("ActivityProgress.findForHeadByFinancialYearIdAndReferenceCode"));
                     q.setParameter("quarter", i);
                     q.setParameter("awpbReferenceCode", awpbReferenceCode);
                     q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL.getId());
-                    q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                    q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                     break;
                 default:
                     return activityProgressReport;
@@ -258,20 +258,20 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 q.setParameter("regionId", levelId);
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
                 q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL_APPRAISAL.getId());
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             case "County":
                 setQ(em.createNamedQuery("ActivityProgress.findAppraisalForCountyByFinancialYearIdAndReferenceCode"));
                 q.setParameter("countyId", levelId);
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
                 q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL_APPRAISAL.getId());
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             case "Head":
                 setQ(em.createNamedQuery("ActivityProgress.findAppraisalForHeadByFinancialYearIdAndReferenceCode"));
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
                 q.setParameter("progressTypeId", ProgressTypeDetail.PHYSICAL_APPRAISAL.getId());
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             default:
                 return activityProgressReport;
@@ -287,20 +287,20 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 q.setParameter("regionId", levelId);
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
                 q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL_APPRAISAL.getId());
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             case "County":
                 setQ(em.createNamedQuery("ActivityProgress.findAppraisalForCountyByFinancialYearIdAndReferenceCode"));
                 q.setParameter("countyId", levelId);
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
                 q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL_APPRAISAL.getId());
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             case "Head":
                 setQ(em.createNamedQuery("ActivityProgress.findAppraisalForHeadByFinancialYearIdAndReferenceCode"));
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
                 q.setParameter("progressTypeId", ProgressTypeDetail.FINANCIAL_APPRAISAL.getId());
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             default:
                 return activityProgressReport;
@@ -315,18 +315,18 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 setQ(em.createNamedQuery("ActivityProgress.findForRegionByFinancialYearIdAndReferenceCode"));
                 q.setParameter("regionId", levelId);
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             case "County":
                 setQ(em.createNamedQuery("ActivityProgressComment.findForCountyByFinancialYearIdAndReferenceCode"));
                 q.setParameter("countyId", levelId);
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             case "Head":
                 setQ(em.createNamedQuery("ActivityProgressComment.findForHeadByFinancialYearIdAndReferenceCode"));
                 q.setParameter("awpbReferenceCode", awpbReferenceCode);
-                q.setParameter("financialYearId", financialYearService.retrieveCurrentFinancialYear().getId());
+                q.setParameter("financialYearId", financialYearId == null ? financialYearService.retrieveCurrentFinancialYear().getId() : financialYearId);
                 break;
             default:
                 return activityProgressReport;

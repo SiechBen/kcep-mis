@@ -707,6 +707,23 @@ function changeQuarter() {
     });
 }
 
+function changeFinancialYear() {
+    $.ajax({
+        url: "changeFinancialYear",
+        type: "POST",
+        data: "financialYear=" + $("#financial-year").val(),
+        success: function () {
+            loadAjaxWindow("activity_report");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
 function editActivityProgress(cell, activityProgressId, valueType, quarter) {
 
     var cellIndex = cell.cellIndex + 1;

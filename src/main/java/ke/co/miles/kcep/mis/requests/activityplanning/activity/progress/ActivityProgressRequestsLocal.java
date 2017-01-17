@@ -53,10 +53,11 @@ public interface ActivityProgressRequestsLocal {
      * @param level the administrative level for which the activity progress
      * report to be retrieved belongs to
      * @param levelId the unique identifier of the administrative level
+     * @param financialYearId the unique identifier of the financial year
      * @return the details of the activity progress record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public ActivityProgressReportDetails retrieveActivityProgress(String awpbReferenceCode, String level, Short levelId) throws MilesException;
+    public ActivityProgressReportDetails retrieveActivityProgress(String awpbReferenceCode, String level, Short levelId, Short financialYearId) throws MilesException;
 
     /**
      *

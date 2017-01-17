@@ -31,7 +31,7 @@
                                 Project year: &nbsp;
                                 <select id="project-year" onchange="changeOutcomeReport()">
                                     <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
-                                        <option value="${projectYear}">${projectYear}</option>
+                                        <option value="${projectYear}" <c:if test="${sessionScope.projectYear == projectYear}">selected</c:if>>${projectYear}</option>
                                     </c:forEach>
                                 </select>
                             </th>
