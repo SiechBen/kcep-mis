@@ -21,7 +21,8 @@
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
-                                <th>Gender, Age</th>
+                                <th>Gender</th>
+                                <th>Age</th>
                                 <th>National id</th>
                                 <th>Business name</th>
                                 <th>County</th>
@@ -43,7 +44,8 @@
                                 <tr>
                                     <td>${index.count}</td>
                                     <td>${person.name}</td>
-                                    <td>${person.sex.sex}, ${person.age}</td>
+                                    <td>${person.sex.sex}</td>
+                                    <td>${person.age}</td>
                                     <td>${person.nationalId}</td>
                                     <td>${person.businessName}</td>
                                     <td>${person.location.county.name}</td>
