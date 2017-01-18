@@ -139,12 +139,27 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         this.performanceIndicatorValuesList = performanceIndicatorValuesList;
     }
 
+    /**
+     * @return the accumulatedActual
+     */
+    public Double getAccumulatedActual() {
+        return accumulatedActual;
+    }
+
+    /**
+     * @param accumulatedActual the accumulatedActual to set
+     */
+    public void setAccumulatedActual(Double accumulatedActual) {
+        this.accumulatedActual = accumulatedActual;
+    }
+
     private static final long serialVersionUID = 1L;
     private Short id;
     private String description;
     private Date baselineDate;
     private Double baselineValue;
     private Double appraisalTarget;
+    private Double accumulatedActual;
     private ResultHierarchyDetails resultHierarchy;
     private MeasurementUnitDetails measurementUnit;
     private PhenomenonDetails performanceIndicatorType;

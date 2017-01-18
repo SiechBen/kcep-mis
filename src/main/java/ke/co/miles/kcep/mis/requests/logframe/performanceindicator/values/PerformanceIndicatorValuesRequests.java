@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -313,13 +314,25 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         q.setParameter(4, "^Programme ");
         q.setParameter(2, year);
         q.setParameter(3, "Outcome report");
-        List<PerformanceIndicatorValues> orderedList = new ArrayList<>();
+        List<PerformanceIndicatorValuesDetails> orderedList = new ArrayList<>();
         try {
-            orderedList = q.getResultList();
+            orderedList = convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(q.getResultList());
         } catch (Exception e) {
         }
 
-        return convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(orderedList);
+        for (PerformanceIndicatorValuesDetails performanceIndicatorValues : orderedList) {
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findOfPreviousYears"));
+            q.setParameter("projectYear", projectYear);
+            q.setParameter("purpose", "Outcome report");
+            q.setParameter("performanceIndicatorId", performanceIndicatorValues.getPerformanceIndicator().getId());
+            try {
+                performanceIndicatorValues.getPerformanceIndicator().setAccumulatedActual((double) q.getSingleResult());
+                MilesDebugger.debug(performanceIndicatorValues.getPerformanceIndicator().getId() + " -> " + performanceIndicatorValues.getId() + " -> " + performanceIndicatorValues.getPerformanceIndicator().getAccumulatedActual());
+            } catch (Exception e) {
+            }
+        }
+
+        return orderedList;
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})
@@ -329,9 +342,9 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         short year = Short.valueOf(String.valueOf(projectYear == null ? calendar.get(Calendar.YEAR) : projectYear));
 
         setQ(em.createNativeQuery("SELECT * FROM performance_indicator_values pv INNER JOIN performance_indicator p ON (pv.performance_indicator = p.id) INNER JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE r.description REGEXP ?1 AND pv.project_year = ?2 AND pv.purpose = ?3", PerformanceIndicatorValues.class));
-        q.setParameter(1, "^Outcome ");
+        q.setParameter(1, "^Goal ");
         q.setParameter(2, year);
-        q.setParameter(3, "Outcome report");
+        q.setParameter(3, "Goal report");
         List<PerformanceIndicatorValues> orderedList = new ArrayList<>();
         try {
             orderedList = q.getResultList();

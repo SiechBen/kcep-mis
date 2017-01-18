@@ -52,16 +52,18 @@
     </div>
 </div>
 
-<div class="dialog" id="documents-dialog">
-    <form id="document-form" action="saveDocument" method="POST" enctype="multipart/form-data">
-        <table class="table table-bordered table-hover">
-            <tbody>
-                <tr>
-                    <td>
-                        <input type="file" name="document" multiple>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="row dialog" id="documents-dialog">
+    <form role="form" id="document-form" action="saveDocument" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <table class="table table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="file" name="document" multiple>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </form>
 </div>

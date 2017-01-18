@@ -64,7 +64,7 @@
                                         <td>${outputIndicatorValues.actualValue}</td>
                                         <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
-                                    <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setAppraisalTarget('${outputIndicator.id}', '${cumulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
+                                    <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setOutputAppraisalTarget('${outputIndicator.id}', '${cumulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
                                     <td>${cumulativeIndicatorValues.actualValue}</td>
                                     <td id="output-ratio-${cumulativeIndicatorValues.id}"><c:if test="${not empty cumulativeIndicatorValues.ratio}">${cumulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>

@@ -1802,6 +1802,44 @@ $(function () {
     });
 });
 //<editor-fold defaultstate="collapsed" desc="Outcome level reports">
+function setOutcomeAppraisalTarget(id, appraisalTarget, description) {
+
+    appraisalTarget = parseFloat(appraisalTarget) || 0;
+    if (appraisalTarget !== "")
+        $("#appraisal-target").val(appraisalTarget);
+    $("#appraisal-target-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: description,
+        resizable: false,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                appraisalTarget = parseFloat($("#appraisal-target").val()) || 0.0;
+                $.ajax({
+                    url: "setAppraisalTarget",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&appraisalTarget=" + appraisalTarget,
+                    success: function () {
+                        if (appraisalTarget !== 0.0)
+                            $("#appraisal-target-" + id).html(appraisalTarget);
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 function changeOutcomeReport() {
     $.ajax({
         type: "POST",
@@ -1865,7 +1903,7 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Output level reports">
-function setAppraisalTarget(id, actualValue, appraisalTarget, description) {
+function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description) {
 
     actualValue = parseFloat(actualValue) || 0;
     appraisalTarget = parseFloat(appraisalTarget) || 0;

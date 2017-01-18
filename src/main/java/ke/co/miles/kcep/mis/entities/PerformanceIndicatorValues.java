@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "performance_indicator_values", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "PerformanceIndicatorValues.findOfPreviousYears", query = "SELECT SUM(p.actualValue) FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear < :projectYear AND p.purpose = :purpose"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorId", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId"),
     @NamedQuery(name = "PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose", query = "SELECT p FROM PerformanceIndicatorValues p WHERE p.performanceIndicator.id = :performanceIndicatorId AND p.projectYear = :projectYear AND p.purpose IS NULL"),
     @NamedQuery(name = "PerformanceIndicatorValues.findProjectYears", query = "SELECT DISTINCT p.projectYear FROM PerformanceIndicatorValues p ORDER BY p.projectYear"),
