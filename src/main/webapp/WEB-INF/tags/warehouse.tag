@@ -18,6 +18,7 @@
 
     <jsp:attribute name="menuitems">
         <jsp:include page="../../tags/includes/equipment_item.jsp"/>
+        <jsp:include page="../../tags/includes/documents_item.jsp"/>
     </jsp:attribute>
 
     <jsp:attribute name="content">

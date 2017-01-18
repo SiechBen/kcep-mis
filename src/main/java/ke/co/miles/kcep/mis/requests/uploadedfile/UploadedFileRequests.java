@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.population.uploadedfile;
+package ke.co.miles.kcep.mis.requests.uploadedfile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,6 +67,66 @@ public class UploadedFileRequests extends EntityRequests implements UploadedFile
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<UploadedFileDetails> retrieveWardUploadedFiles(UploadedFileTypeDetail uploadedFileType, int wardId) throws MilesException {
+        List<UploadedFile> uploadedFileList = new ArrayList<>();
+        setQ(em.createNamedQuery("UploadedFile.findByWardIdAndPurposeId"));
+        q.setParameter("wardId", wardId);
+        q.setParameter("purposeId", uploadedFileType.getId());
+        try {
+            uploadedFileList = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertUploadedFilesToUploadedFileDetailsList(uploadedFileList);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<UploadedFileDetails> retrieveRegionUploadedFiles(UploadedFileTypeDetail uploadedFileType, int regionId) throws MilesException {
+        List<UploadedFile> uploadedFileList = new ArrayList<>();
+        setQ(em.createNamedQuery("UploadedFile.findByRegionIdAndPurposeId"));
+        q.setParameter("purposeId", uploadedFileType.getId());
+        q.setParameter("regionId", regionId);
+        try {
+            uploadedFileList = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertUploadedFilesToUploadedFileDetailsList(uploadedFileList);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<UploadedFileDetails> retrieveCountyUploadedFiles(UploadedFileTypeDetail uploadedFileType, short countyId) throws MilesException {
+        List<UploadedFile> uploadedFileList = new ArrayList<>();
+        setQ(em.createNamedQuery("UploadedFile.findByCountyIdAndPurposeId"));
+        q.setParameter("purposeId", uploadedFileType.getId());
+        q.setParameter("countyId", countyId);
+        try {
+            uploadedFileList = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertUploadedFilesToUploadedFileDetailsList(uploadedFileList);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<UploadedFileDetails> retrieveSubCountyUploadedFiles(UploadedFileTypeDetail uploadedFileType, int subCountyId) throws MilesException {
+        List<UploadedFile> uploadedFileList = new ArrayList<>();
+        setQ(em.createNamedQuery("UploadedFile.findBySubCountyIdAndPurposeId"));
+        q.setParameter("purposeId", uploadedFileType.getId());
+        q.setParameter("subCountyId", subCountyId);
+        try {
+            uploadedFileList = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertUploadedFilesToUploadedFileDetailsList(uploadedFileList);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<UploadedFileDetails> retrieveLatestUploadedFile() throws MilesException {
         List<UploadedFile> uploadedFileList = new ArrayList<>();
         setQ(em.createNamedQuery("UploadedFile.findLatest"));
@@ -81,10 +141,24 @@ public class UploadedFileRequests extends EntityRequests implements UploadedFile
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<UploadedFileDetails> retrieveUploadedFile(UploadedFileTypeDetail uploadedFileType) throws MilesException {
+    public List<UploadedFileDetails> retrieveUploadedFiles(UploadedFileTypeDetail uploadedFileType) throws MilesException {
         List<UploadedFile> uploadedFileList = new ArrayList<>();
-        setQ(em.createNamedQuery("UploadedFile.findAllByUploadedFileTypeId"));
-        q.setParameter("uploadedFileTypeId", uploadedFileType.getId());
+        setQ(em.createNamedQuery("UploadedFile.findAllByPurposeId"));
+        q.setParameter("purposeId", uploadedFileType.getId());
+        try {
+            uploadedFileList = q.getResultList();
+        } catch (Exception e) {
+        }
+
+        return convertUploadedFilesToUploadedFileDetailsList(uploadedFileList);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<UploadedFileDetails> retrieveLatestUploadedFiles() throws MilesException {
+        List<UploadedFile> uploadedFileList = new ArrayList<>();
+        setQ(em.createNamedQuery("UploadedFile.findLatest"));
+        q.setMaxResults(3);
         try {
             uploadedFileList = q.getResultList();
         } catch (Exception e) {

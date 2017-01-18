@@ -930,7 +930,7 @@ function deletEVoucher(id) {
         buttons: {
             "Yes": function () {
                 $.ajax({
-                    url: "doDeletEVoucher",
+                    url: "doDeleteEVoucher",
                     type: "POST",
                     data: "id=" + id,
                     success: function (response) {
@@ -953,7 +953,6 @@ function deletEVoucher(id) {
         }
     });
 }
-
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Equipment">
@@ -4836,7 +4835,76 @@ if (!Modernizr.inputtypes.date) {
 }
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="comment">
+//<editor-fold defaultstate="collapsed" desc="Uploaded file">
+$(function () {
+    $("#documents-table").DataTable({
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Upload new document',
+                action: function () {
+                    $("#documents-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "upload_document_title",
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            "Submit": function () {
+                                $("#document-form").submit();
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                        }
+                    });
+                }
+            }]
+    });
+});
+
+function deleteDocument(documentId, cell) {
+    $("#message").text("Are you sure you want to remove this document?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_document_label",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "deleteDocument",
+                    type: "POST",
+                    data: "id=" + documentId,
+                    success: function () {
+                        $(cell).closest('tr').remove();
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Merge cells">
 //, {
 //                text: "Merge cells",
 //                action: function () {

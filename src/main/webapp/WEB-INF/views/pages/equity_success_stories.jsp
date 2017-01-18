@@ -9,7 +9,7 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:equity>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - view people </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - view success stories </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/success_stories.jsp"/>

@@ -14,7 +14,8 @@ import java.io.Serializable;
 public enum UploadedFileTypeDetail implements Serializable {
 
     FARMERS_EXCEL_FILE(new Integer("169"), "Farmers Excel File"),
-    AGRO_DEALERS_EXCEL_FILE(new Integer("170"), "Agro-dealers Excel File");
+    AGRO_DEALERS_EXCEL_FILE(new Integer("170"), "Agro-dealers Excel File"),
+    COMMON_KCEP_FILE(new Integer("175"), "Common KCEP file");
 
     private UploadedFileTypeDetail(Integer id, String name) {
         this.id = id;
@@ -27,6 +28,8 @@ public enum UploadedFileTypeDetail implements Serializable {
                 return FARMERS_EXCEL_FILE;
             case 170:
                 return AGRO_DEALERS_EXCEL_FILE;
+            case 175:
+                return COMMON_KCEP_FILE;
             default:
                 return null;
         }

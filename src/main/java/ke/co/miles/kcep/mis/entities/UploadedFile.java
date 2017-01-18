@@ -28,6 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "uploaded_file", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "UploadedFile.findAllByPurposeId", query = "SELECT f FROM UploadedFile f WHERE f.purpose.id = :purposeId ORDER BY f.timeUploaded DESC"),
+    @NamedQuery(name = "UploadedFile.findByWardIdAndPurposeId", query = "SELECT f FROM UploadedFile f WHERE f.uploader.location.ward.id = :wardId AND f.purpose.id = :purposeId ORDER BY f.timeUploaded DESC"),
+    @NamedQuery(name = "UploadedFile.findByCountyIdAndPurposeId", query = "SELECT f FROM UploadedFile f WHERE f.uploader.location.county.id = :countyId AND f.purpose.id = :purposeId ORDER BY f.timeUploaded DESC"),
+    @NamedQuery(name = "UploadedFile.findByRegionIdAndPurposeId", query = "SELECT f FROM UploadedFile f WHERE f.uploader.location.county.region.id = :regionId AND f.purpose.id = :purposeId ORDER BY f.timeUploaded DESC"),
+    @NamedQuery(name = "UploadedFile.findBySubCountyIdAndPurposeId", query = "SELECT f FROM UploadedFile f WHERE f.uploader.location.subCounty.id = :subCountyId AND f.purpose.id = :purposeId ORDER BY f.timeUploaded DESC"),
+    @NamedQuery(name = "UploadedFile.findLatest", query = "SELECT f FROM UploadedFile f ORDER BY f.timeUploaded DESC"),
     @NamedQuery(name = "UploadedFile.findAll", query = "SELECT u FROM UploadedFile u"),
     @NamedQuery(name = "UploadedFile.findById", query = "SELECT u FROM UploadedFile u WHERE u.id = :id")})
 public class UploadedFile implements Serializable {

@@ -36,7 +36,7 @@ import ke.co.miles.kcep.mis.requests.population.MysqlConnection;
 import ke.co.miles.kcep.mis.requests.population.PopulationTimer;
 import ke.co.miles.kcep.mis.requests.population.excelreader.AgroDealerReader;
 import ke.co.miles.kcep.mis.requests.population.excelreader.FarmerReader;
-import ke.co.miles.kcep.mis.requests.population.uploadedfile.UploadedFileRequestsLocal;
+import ke.co.miles.kcep.mis.requests.uploadedfile.UploadedFileRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
 import ke.co.miles.kcep.mis.utilities.ContactDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
@@ -201,7 +201,7 @@ public class PopulationController extends Controller {
                                 toDelete.delete();
                             }
                             filePath += fileName;
-                            if (filePath.endsWith("SN_PUF020.xlsx")) {
+                            if (filePath.endsWith("SN PUF.xlsx")) {
 
                                 filePath = filePath.replace(".xlsx", "") + " " + new Date() + ".xlsx";
 

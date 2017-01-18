@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ke.co.miles.kcep.mis.requests.population.uploadedfile;
+package ke.co.miles.kcep.mis.requests.uploadedfile;
 
 import java.util.List;
 import javax.ejb.Local;
@@ -34,14 +34,14 @@ public interface UploadedFileRequestsLocal {
      * @return the list of feedback record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<UploadedFileDetails> retrieveUploadedFile(UploadedFileTypeDetail feedbackType) throws MilesException;
+    public List<UploadedFileDetails> retrieveUploadedFiles(UploadedFileTypeDetail feedbackType) throws MilesException;
 
     /**
      *
      * @return the list of latest feedback records
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<UploadedFileDetails> retrieveLatestUploadedFile() throws MilesException;
+    public List<UploadedFileDetails> retrieveLatestUploadedFiles() throws MilesException;
 
     /**
      *
@@ -72,5 +72,52 @@ public interface UploadedFileRequestsLocal {
      * @return the details of the converted feedback
      */
     public UploadedFileDetails convertUploadedFileToUploadedFileDetails(UploadedFile feedback);
+
+    /**
+     *
+     * @param uploadedFileType the purpose of the file uploaded
+     * @param regionId the unique identifier of the region where the uploader
+     * belongs
+     * @return the list of uploaded documents
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<UploadedFileDetails> retrieveRegionUploadedFiles(UploadedFileTypeDetail uploadedFileType, int regionId) throws MilesException;
+
+    /**
+     *
+     * @param uploadedFileType the purpose of the file uploaded
+     * @param countyId the unique identifier of the county where the uploader
+     * belongs
+     * @return the list of uploaded documents
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<UploadedFileDetails> retrieveCountyUploadedFiles(UploadedFileTypeDetail uploadedFileType, short countyId) throws MilesException;
+
+    /**
+     *
+     * @param uploadedFileType the purpose of the file uploaded
+     * @param subCountyId the unique identifier of the sub-county where the
+     * uploader belongs
+     * @return the list of uploaded documents
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<UploadedFileDetails> retrieveSubCountyUploadedFiles(UploadedFileTypeDetail uploadedFileType, int subCountyId) throws MilesException;
+
+    /**
+     *
+     * @param uploadedFileType the purpose of the file uploaded
+     * @param wardId the unique identifier of the ward where the uploader
+     * belongs
+     * @return the list of uploaded documents
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<UploadedFileDetails> retrieveWardUploadedFiles(UploadedFileTypeDetail uploadedFileType, int wardId) throws MilesException;
+
+    /**
+     *
+     * @return the list of latest uploaded documents
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public List<UploadedFileDetails> retrieveLatestUploadedFile() throws MilesException;
 
 }
