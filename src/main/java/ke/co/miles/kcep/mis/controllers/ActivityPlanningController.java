@@ -104,7 +104,6 @@ public class ActivityPlanningController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
@@ -159,6 +158,58 @@ public class ActivityPlanningController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doEditActivityName");
+                            urlPaths.add("/doEditSubActivityName");
+                            urlPaths.add("/doAddFinancialYear");
+                            urlPaths.add("/doAddSubActivityName");
+                            urlPaths.add("/updateSubActivityNames");
+                            switch (path) {
+                                case "/sub_activities":
+                                    path = "/head_sub_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/sub_activity_names":
+                                    path = "/head_sub_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_names":
+                                    path = "/head_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivityName":
+                                    path = "/head_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/head_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/head_addFinancialYear";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivity":
+                                    path = "/head_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityName":
+                                    path = "/head_addSubActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
@@ -167,12 +218,9 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doEditSubActivity");
-                            urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doEditActivityName");
-                            urlPaths.add("/doDeleteActivityName");
                             urlPaths.add("/doEditSubActivityName");
-                            urlPaths.add("/doDeleteSubActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
@@ -222,12 +270,9 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doEditSubActivity");
-                            urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doEditActivityName");
-                            urlPaths.add("/doDeleteActivityName");
                             urlPaths.add("/doEditSubActivityName");
-                            urlPaths.add("/doDeleteSubActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");

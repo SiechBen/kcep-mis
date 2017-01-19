@@ -62,20 +62,47 @@ public class ProcurementPlanController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlan");
                             urlPaths.add("/doEditProcurementPlan");
                             urlPaths.add("/doDeleteProcurementPlan");
-                            if (path.equals("/procurement_plans_ncs")) {
-                                path = "/head_procurement_plans_ncs";
-                                urlPaths.add(path);
-                            } else if (path.equals("/procurement_plans_goods")) {
-                                path = "/head_procurement_plans_goods";
-                                urlPaths.add(path);
-                            } else if (path.equals("/addProcurementPlan")) {
-                                path = "/head_addProcurementPlan";
-                                urlPaths.add(path);
+                            switch (path) {
+                                case "/procurement_plans_ncs":
+                                    path = "/head_procurement_plans_ncs";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/procurement_plans_goods":
+                                    path = "/head_procurement_plans_goods";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addProcurementPlan":
+                                    path = "/head_addProcurementPlan";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddProcurementPlan");
+                            urlPaths.add("/doEditProcurementPlan");
+                            switch (path) {
+                                case "/procurement_plans_ncs":
+                                    path = "/head_procurement_plans_ncs";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/procurement_plans_goods":
+                                    path = "/head_procurement_plans_goods";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addProcurementPlan":
+                                    path = "/head_addProcurementPlan";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
                             }
                         }
                         break;
@@ -83,16 +110,21 @@ public class ProcurementPlanController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlan");
                             urlPaths.add("/doEditProcurementPlan");
-                            urlPaths.add("/doDeleteProcurementPlan");
-                            if (path.equals("/procurement_plans_ncs")) {
-                                path = "/region_procurement_plans_ncs";
-                                urlPaths.add(path);
-                            } else if (path.equals("/procurement_plans_goods")) {
-                                path = "/region_procurement_plans_goods";
-                                urlPaths.add(path);
-                            } else if (path.equals("/addProcurementPlan")) {
-                                path = "/region_addProcurementPlan";
-                                urlPaths.add(path);
+                            switch (path) {
+                                case "/procurement_plans_ncs":
+                                    path = "/region_procurement_plans_ncs";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/procurement_plans_goods":
+                                    path = "/region_procurement_plans_goods";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addProcurementPlan":
+                                    path = "/region_addProcurementPlan";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
                             }
                         }
                         break;
@@ -100,16 +132,21 @@ public class ProcurementPlanController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlan");
                             urlPaths.add("/doEditProcurementPlan");
-                            urlPaths.add("/doDeleteProcurementPlan");
-                            if (path.equals("/procurement_plans_ncs")) {
-                                path = "/county_procurement_plans_ncs";
-                                urlPaths.add(path);
-                            } else if (path.equals("/procurement_plans_goods")) {
-                                path = "/county_procurement_plans_goods";
-                                urlPaths.add(path);
-                            } else if (path.equals("/addProcurementPlan")) {
-                                path = "/county_addProcurementPlan";
-                                urlPaths.add(path);
+                            switch (path) {
+                                case "/procurement_plans_ncs":
+                                    path = "/county_procurement_plans_ncs";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/procurement_plans_goods":
+                                    path = "/county_procurement_plans_goods";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addProcurementPlan":
+                                    path = "/county_addProcurementPlan";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
                             }
                         }
                         break;

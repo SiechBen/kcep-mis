@@ -97,8 +97,8 @@
                 <div class="feedback">
                     <center>
                         <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials')
-                                this.value = '';" onblur="if (this.value.trim() === '')
-                                            this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
+                                    this.value = '';" onblur="if (this.value.trim() === '')
+                                                this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
                         <input type="button" class="submit" onclick="saveFeedback()">
                     </center>
                 </div>

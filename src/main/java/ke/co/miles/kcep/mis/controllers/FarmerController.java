@@ -90,8 +90,6 @@ public class FarmerController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
-                    case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
                             urlPaths.add("/doEditFarm");
@@ -112,6 +110,27 @@ public class FarmerController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                    case "equityPersonnelSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddLoan");
+                            urlPaths.add("/doEditFarm");
+                            urlPaths.add("/doEditAccount");
+                            urlPaths.add("/updateStaticInputs");
+                            urlPaths.add("/updateInputVarieties");
+                            urlPaths.add("/doAddFarmActivity");
+                            urlPaths.add("/doEditFarmActivity");
+                            urlPaths.add("/doAddInputsCollection");
+                            switch (path) {
+                                case "/farm":
+                                    path = "/head_farm";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
 //                            urlPaths.add("/doAddLoan");
@@ -121,7 +140,6 @@ public class FarmerController extends Controller {
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doEditFarmActivity");
-                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -142,7 +160,6 @@ public class FarmerController extends Controller {
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doEditFarmActivity");
-                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -163,7 +180,6 @@ public class FarmerController extends Controller {
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doEditFarmActivity");
-                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -184,7 +200,6 @@ public class FarmerController extends Controller {
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doEditFarmActivity");
-                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -205,7 +220,6 @@ public class FarmerController extends Controller {
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doEditFarmActivity");
-                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -226,7 +240,6 @@ public class FarmerController extends Controller {
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
                             urlPaths.add("/doEditFarmActivity");
-                            urlPaths.add("/doDeleteFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -246,7 +259,6 @@ public class FarmerController extends Controller {
                         urlPaths.add("/updateInputVarieties");
                         urlPaths.add("/doAddFarmActivity");
                         urlPaths.add("/doEditFarmActivity");
-                        urlPaths.add("/doDeleteFarmActivity");
                         urlPaths.add("/doAddInputsCollection");
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {

@@ -69,11 +69,24 @@ public class ProcurementController extends Controller {
         ArrayList<String> urlPaths = new ArrayList<>();
         if (rightsMaps != null) {
             for (String rightsMap : rightsMaps.keySet()) {
-                if (rightsMap.equals("systemAdminSession") || rightsMap.equals("nationalOfficerSession")) {
+                if (rightsMap.equals("systemAdminSession")) {
                     if (rightsMaps.get(rightsMap)) {
                         urlPaths.add("/doAddProcurement");
                         urlPaths.add("/doEditProcurement");
                         urlPaths.add("/doDeleteProcurement");
+                        if (path.equals("/procurements")) {
+                            path = "/head_procurements";
+                            urlPaths.add(path);
+                        } else if (path.equals("/addProcurement")) {
+                            path = "/head_addProcurement";
+                            urlPaths.add(path);
+                        }
+                    }
+                }
+                if (rightsMap.equals("nationalOfficerSession")) {
+                    if (rightsMaps.get(rightsMap)) {
+                        urlPaths.add("/doAddProcurement");
+                        urlPaths.add("/doEditProcurement");
                         if (path.equals("/procurements")) {
                             path = "/head_procurements";
                             urlPaths.add(path);

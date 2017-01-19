@@ -508,7 +508,6 @@ function validateform(form) {
     };
 })(jQuery);
 $(".add-item").click(function () {
-
     $("#status-area").flash_message({
         text: "Added to cart!",
         how: "append"
@@ -1791,7 +1790,17 @@ $(function () {
             'excel',
             {
                 extend: 'colvis',
-                text: "Hide / show columns"
+                text: "Hide / show columns",
+                className: "stretch-display hidden",
+                action: function (e, dt, node, config) {
+                    alert("sadasds");
+//                    var default_action = data_table.button(2).action();
+//
+//                    data_table.button(2).action(function (e, dt, button, config) {
+//
+//                        default_action(e, dt, button, config);
+//                    });
+                }
             }],
         columnDefs: [{
                 targets: [1, 2],
@@ -1947,7 +1956,6 @@ function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description)
         }
     });
 }
-
 //</editor-fold>
 
 //</editor-fold>

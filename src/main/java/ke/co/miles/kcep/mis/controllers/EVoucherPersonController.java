@@ -74,7 +74,6 @@ public class EVoucherPersonController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getLocations");
                             urlPaths.add("/addFarmer");
@@ -112,6 +111,43 @@ public class EVoucherPersonController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getLocations");
+                            urlPaths.add("/addFarmer");
+                            urlPaths.add("/addAgroDealer");
+                            urlPaths.add("/doAddEVoucher");
+                            urlPaths.add("/doEditEVoucher");
+                            switch (path) {
+                                case "/eVouchers":
+                                    path = "/head_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addEVoucher":
+                                    path = "/head_addEVoucher";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/head_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/head_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addAgroDealer":
+                                    path = "/head_addAgroDealer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/head_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/addFarmer");
@@ -119,7 +155,6 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
-                            urlPaths.add("/doDeleteEVoucher");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/equity_eVouchers";
@@ -157,7 +192,6 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             urlPaths.add("/doEditEVoucher");
-                            urlPaths.add("/doDeleteEVoucher");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/county_eVouchers";

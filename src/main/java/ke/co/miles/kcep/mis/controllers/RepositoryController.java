@@ -62,7 +62,6 @@ public class RepositoryController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
                             urlPaths.add("/deleteDocument");
@@ -73,10 +72,19 @@ public class RepositoryController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/saveDocument");
+                            destination = "/head_documents";
+                            if (path.equals("/documents")) {
+                                path = "/head_documents";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
                     case "agroDealerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/agro_dealer_documents";
                             if (path.equals("/documents")) {
                                 path = "/agro_dealer_documents";
@@ -87,7 +95,6 @@ public class RepositoryController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/county_documents";
                             if (path.equals("/documents")) {
                                 path = "/county_documents";
@@ -98,7 +105,6 @@ public class RepositoryController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/sub_county_documents";
                             if (path.equals("/documents")) {
                                 path = "/sub_county_documents";
@@ -109,7 +115,6 @@ public class RepositoryController extends Controller {
                     case "equityPersonellSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/equity_documents";
                             if (path.equals("/documents")) {
                                 path = "/equitydocuments";
@@ -120,7 +125,6 @@ public class RepositoryController extends Controller {
                     case "kalroOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/kalro_documents";
                             if (path.equals("/documents")) {
                                 path = "/kalro_documents";
@@ -131,7 +135,6 @@ public class RepositoryController extends Controller {
                     case "agmarkOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/agmark_documents";
                             if (path.equals("/documents")) {
                                 path = "/agmark_documents";
@@ -142,7 +145,6 @@ public class RepositoryController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/region_documents";
                             if (path.equals("/documents")) {
                                 path = "/region_documents";
@@ -153,7 +155,6 @@ public class RepositoryController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveDocument");
-                            urlPaths.add("/deleteDocument");
                             destination = "/ward_documents";
                             if (path.equals("/documents")) {
                                 path = "/ward_documents";
@@ -168,7 +169,6 @@ public class RepositoryController extends Controller {
         }
 
         urlPaths.add("/saveDocument");
-        urlPaths.add("/deleteDocument");
 
         if (urlPaths.contains(path)) {
 

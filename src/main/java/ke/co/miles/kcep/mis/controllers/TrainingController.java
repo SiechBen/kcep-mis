@@ -705,7 +705,6 @@ public class TrainingController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
                             urlPaths.add("/changeTraineeCounter");
@@ -737,6 +736,37 @@ public class TrainingController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateTopics");
+                            urlPaths.add("/changeTraineeCounter");
+                            urlPaths.add("/updateTrainingModules");
+                            urlPaths.add("/doAddTraining");
+                            urlPaths.add("/doEditTraining");
+                            urlPaths.add("/loadTrainees");
+                            level = "head";
+                            switch (path) {
+                                case "/training":
+                                    path = "/head_training";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/trainees":
+                                    path = "/head_trainees";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addTraining":
+                                    path = "/head_addTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editTraining":
+                                    path = "/head_editTraining";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateTopics");
@@ -744,7 +774,6 @@ public class TrainingController extends Controller {
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             level = "equity";
                             switch (path) {
@@ -776,7 +805,6 @@ public class TrainingController extends Controller {
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             level = "kalro";
                             switch (path) {
@@ -808,7 +836,6 @@ public class TrainingController extends Controller {
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             level = "agmark";
                             switch (path) {
@@ -840,7 +867,6 @@ public class TrainingController extends Controller {
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             level = "ward";
                             switch (path) {
@@ -872,7 +898,6 @@ public class TrainingController extends Controller {
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             level = "county";
                             switch (path) {
@@ -904,7 +929,6 @@ public class TrainingController extends Controller {
                             urlPaths.add("/updateTrainingModules");
                             urlPaths.add("/doAddTraining");
                             urlPaths.add("/doEditTraining");
-                            urlPaths.add("/doDeleteTraining");
                             urlPaths.add("/loadTrainees");
                             level = "sub-county";
                             switch (path) {

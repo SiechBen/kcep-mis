@@ -519,3 +519,12 @@ table.dataTable thead .sorting:after {
     white-space: nowrap;
     overflow:auto;
 }
+
+.center-logo {
+    margin-top: 1px;
+    margin-left: 2em;
+}
+
+.navbar-brand {
+    width: 35em;
+}

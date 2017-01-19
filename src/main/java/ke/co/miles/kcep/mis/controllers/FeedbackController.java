@@ -74,7 +74,6 @@ public class FeedbackController extends Controller {
                             }
                         }
                         break;
-
                     case "farmerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/feedback");

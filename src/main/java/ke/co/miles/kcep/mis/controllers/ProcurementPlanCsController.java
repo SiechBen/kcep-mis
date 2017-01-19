@@ -66,7 +66,6 @@ public class ProcurementPlanCsController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
                             urlPaths.add("/doEditProcurementPlanCs");
@@ -80,11 +79,23 @@ public class ProcurementPlanCsController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddProcurementPlanCs");
+                            urlPaths.add("/doEditProcurementPlanCs");
+                            if (path.equals("/procurement_plans_cs")) {
+                                path = "/head_procurement_plans_cs";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addProcurementPlanCs")) {
+                                path = "/head_addProcurementPlanCs";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
                             urlPaths.add("/doEditProcurementPlanCs");
-                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/region_procurement_plans_cs";
                                 urlPaths.add(path);
@@ -98,7 +109,6 @@ public class ProcurementPlanCsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlanCs");
                             urlPaths.add("/doEditProcurementPlanCs");
-                            urlPaths.add("/doDeleteProcurementPlanCs");
                             if (path.equals("/procurement_plans_cs")) {
                                 path = "/county_procurement_plans_cs";
                                 urlPaths.add(path);

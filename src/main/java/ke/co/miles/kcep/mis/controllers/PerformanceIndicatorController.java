@@ -66,7 +66,6 @@ public class PerformanceIndicatorController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/performanceIndicators");
@@ -85,6 +84,24 @@ public class PerformanceIndicatorController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerformanceIndicator");
+                            urlPaths.add("/performanceIndicators");
+                            urlPaths.add("/addProjectYear");
+                            urlPaths.add("/doEditBaselineValue");
+                            urlPaths.add("/doEditBaselineDate");
+                            urlPaths.add("/doEditPerformanceIndicatorValues");
+                            urlPaths.add("/doEditPerformanceIndicator");
+                            if (path.equals("/performance_indicators")) {
+                                path = "/head_performance_indicators";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addPerformanceIndicator")) {
+                                path = "/head_addPerformanceIndicator";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
@@ -93,7 +110,6 @@ public class PerformanceIndicatorController extends Controller {
                             urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
-                            urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/region_performance_indicators";
                                 urlPaths.add(path);
@@ -111,7 +127,6 @@ public class PerformanceIndicatorController extends Controller {
                             urlPaths.add("/doEditBaselineDate");
                             urlPaths.add("/doEditPerformanceIndicatorValues");
                             urlPaths.add("/doEditPerformanceIndicator");
-                            urlPaths.add("/doDeletePerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/county_performance_indicators";
                                 urlPaths.add(path);

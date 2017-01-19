@@ -66,7 +66,6 @@ public class WarehouseController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
@@ -81,11 +80,24 @@ public class WarehouseController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddWarehouse");
+                            urlPaths.add("/doEditWarehouse");
+                            urlPaths.add("/changeWarehouseCounter");
+                            if (path.equals("/warehouses")) {
+                                path = "/head_warehouses";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addWarehouse")) {
+                                path = "/head_addWarehouse";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
-                            urlPaths.add("/doDeleteWarehouse");
                             urlPaths.add("/changeWarehouseCounter");
                             if (path.equals("/warehouses")) {
                                 path = "/region_warehouses";
@@ -100,7 +112,6 @@ public class WarehouseController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
-                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/ward_warehouses";
                                 urlPaths.add(path);
@@ -114,7 +125,6 @@ public class WarehouseController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
-                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/sub_county_warehouses";
                                 urlPaths.add(path);
@@ -128,7 +138,6 @@ public class WarehouseController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
                             urlPaths.add("/doEditWarehouse");
-                            urlPaths.add("/doDeleteWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/county_warehouses";
                                 urlPaths.add(path);

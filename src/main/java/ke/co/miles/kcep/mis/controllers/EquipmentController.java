@@ -65,7 +65,6 @@ public class EquipmentController extends Controller {
             for (String rightsMap : rightsMaps.keySet()) {
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
                             urlPaths.add("/changeProduceCounter");
@@ -83,6 +82,22 @@ public class EquipmentController extends Controller {
                             }
                         }
                         break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddEquipment");
+                            urlPaths.add("/changeProduceCounter");
+                            urlPaths.add("/doAddWarehouseOperation");
+                            urlPaths.add("/doEditEquipment");
+                            urlPaths.add("/doEditWarehouseOperation");
+                            if (path.equals("/equipment")) {
+                                path = "/head_equipment";
+                                urlPaths.add(path);
+                            } else if (path.equals("/addEquipment")) {
+                                path = "/head_addEquipment";
+                                urlPaths.add(path);
+                            }
+                        }
+                        break;
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddEquipment");
@@ -90,8 +105,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteEquipment");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/ward_equipment";
                                 urlPaths.add(path);
@@ -108,8 +121,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteEquipment");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/sub_county_equipment";
                                 urlPaths.add(path);
@@ -126,8 +137,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddWarehouseOperation");
                             urlPaths.add("/doEditEquipment");
                             urlPaths.add("/doEditWarehouseOperation");
-                            urlPaths.add("/doDeleteEquipment");
-                            urlPaths.add("/doDeleteWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/county_equipment";
                                 urlPaths.add(path);

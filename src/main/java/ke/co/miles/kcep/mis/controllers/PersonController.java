@@ -79,11 +79,44 @@ public class PersonController extends Controller {
                 urlPaths.add("/changeCounter");
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
                             urlPaths.add("/doDeletePerson");
+                            urlPaths.add("/searchFarmer");
+                            urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
+                            urlPaths.add("/searchAgroDealer");
+                            switch (path) {
+                                case "/people":
+                                    path = "/head_people";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addPerson":
+                                    path = "/head_addPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/editPerson":
+                                    path = "/head_editPerson";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/userProfile":
+                                    path = "/head_userProfile";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/user_account":
+                                    path = "/head_user_account";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doAddPerson");
+                            urlPaths.add("/doEditPerson");
                             urlPaths.add("/searchFarmer");
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
@@ -146,7 +179,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/kalro_people";
@@ -171,7 +203,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/agmark_people";
@@ -196,7 +227,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/region_people";
@@ -230,7 +260,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
@@ -264,7 +293,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/sub_county_people";
@@ -297,7 +325,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/ward_people";
@@ -322,7 +349,6 @@ public class PersonController extends Controller {
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
                             switch (path) {
                                 case "/people":
                                     path = "/agro_dealer_people";

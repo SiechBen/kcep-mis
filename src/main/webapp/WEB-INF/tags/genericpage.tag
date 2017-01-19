@@ -64,6 +64,7 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
                 </div>
+                <img class="center-logo" src="static/images/log small.png">
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <a class="text-center" href="<fmt:message key='home_link'/>">
