@@ -64,7 +64,7 @@ body {
     z-index: 1;
     position: absolute;
     width: 21.25em;
-    margin-top: 2.55em;
+    margin-top: 0.6em;
 }
 
 .loader {
@@ -187,7 +187,7 @@ a:hover {
         z-index: 1;
         position: absolute;
         width: 21.25em;
-        margin-top: 4.0em;
+        margin-top: 1.1em;
     }
 
     .navbar-top-links .dropdown-messages,
