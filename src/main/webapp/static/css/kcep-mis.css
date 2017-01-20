@@ -10,7 +10,8 @@ html {
 
 body {
     font-size: 0.8em;
-    background: #f8f8f8;
+    line-height: 1.8em;
+    background: #0A8300;
     font-family:"Century Gothic", Helvetica, sans-serif;
 }
 
@@ -522,9 +523,61 @@ table.dataTable thead .sorting:after {
 
 .center-logo {
     margin-top: 1px;
-    margin-left: 2em;
+    margin-left: 1.5em;
 }
 
 .navbar-brand {
-    width: 35em;
+    width: 32em;
+}
+
+.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    max-height: 100%;
+}
+
+.navbar-default {
+    background-color: #0A8300;
+    border-color: #fdfbfb;
+}
+
+.panel-default > .panel-heading {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #ddd;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+    border: 1px solid #0A8300;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #0A8300;
+    border-color: #0A8300;
+}
+
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #0A8300;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #337ab7;
+    background-color: transparent;
 }

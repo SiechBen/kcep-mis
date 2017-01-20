@@ -544,8 +544,11 @@ public class EVoucherPersonController extends Controller {
                             farmerInfo.append("<br>");
                             jsonLocation = new JSONObject();
                             jsonLocation.put("info", farmerInfo.toString());
-                            jsonLocation.put("lat", farmer.getLocation().getLatitude().doubleValue());
-                            jsonLocation.put("long", farmer.getLocation().getLongitude().doubleValue());
+                            try {
+                                jsonLocation.put("lat", farmer.getLocation().getLatitude().doubleValue());
+                                jsonLocation.put("long", farmer.getLocation().getLongitude().doubleValue());
+                            } catch (Exception e) {
+                            }
                             jsonList.add(jsonLocation);
                         }
 
