@@ -83,7 +83,6 @@ public class WarehouseController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
-                            urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/changeWarehouseCounter");
                             if (path.equals("/warehouses")) {
                                 path = "/head_warehouses";
@@ -97,7 +96,6 @@ public class WarehouseController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
-                            urlPaths.add("/doEditWarehouse");
                             urlPaths.add("/changeWarehouseCounter");
                             if (path.equals("/warehouses")) {
                                 path = "/region_warehouses";
@@ -111,7 +109,6 @@ public class WarehouseController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
-                            urlPaths.add("/doEditWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/ward_warehouses";
                                 urlPaths.add(path);
@@ -124,7 +121,6 @@ public class WarehouseController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
-                            urlPaths.add("/doEditWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/sub_county_warehouses";
                                 urlPaths.add(path);
@@ -137,7 +133,6 @@ public class WarehouseController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddWarehouse");
-                            urlPaths.add("/doEditWarehouse");
                             if (path.equals("/warehouses")) {
                                 path = "/county_warehouses";
                                 urlPaths.add(path);

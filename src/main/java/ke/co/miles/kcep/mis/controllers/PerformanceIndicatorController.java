@@ -89,10 +89,6 @@ public class PerformanceIndicatorController extends Controller {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/performanceIndicators");
                             urlPaths.add("/addProjectYear");
-                            urlPaths.add("/doEditBaselineValue");
-                            urlPaths.add("/doEditBaselineDate");
-                            urlPaths.add("/doEditPerformanceIndicatorValues");
-                            urlPaths.add("/doEditPerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/head_performance_indicators";
                                 urlPaths.add(path);
@@ -106,10 +102,6 @@ public class PerformanceIndicatorController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/addProjectYear");
-                            urlPaths.add("/doEditBaselineValue");
-                            urlPaths.add("/doEditBaselineDate");
-                            urlPaths.add("/doEditPerformanceIndicatorValues");
-                            urlPaths.add("/doEditPerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/region_performance_indicators";
                                 urlPaths.add(path);
@@ -123,10 +115,6 @@ public class PerformanceIndicatorController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerformanceIndicator");
                             urlPaths.add("/addProjectYear");
-                            urlPaths.add("/doEditBaselineValue");
-                            urlPaths.add("/doEditBaselineDate");
-                            urlPaths.add("/doEditPerformanceIndicatorValues");
-                            urlPaths.add("/doEditPerformanceIndicator");
                             if (path.equals("/performance_indicators")) {
                                 path = "/county_performance_indicators";
                                 urlPaths.add(path);

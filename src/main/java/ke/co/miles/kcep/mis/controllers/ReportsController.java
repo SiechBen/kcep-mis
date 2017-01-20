@@ -74,7 +74,6 @@ public class ReportsController extends Controller {
 
                 switch (rightsMap) {
                     case "systemAdminSession":
-                    case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
@@ -82,6 +81,48 @@ public class ReportsController extends Controller {
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgressComment");
+                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/setAppraisalTarget");
+                            urlPaths.add("/changeOutcomeReport");
+                            switch (path) {
+                                case "/reports":
+                                    path = "/head_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_report":
+                                    path = "/head_activity_report";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/outputLevelReports":
+                                    path = "/head_output_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/goalLevelReports":
+                                    path = "/head_goal_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/outcomeLevelReports":
+                                    path = "/head_outcome_level_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_components":
+                                    path = "/head_financial_report_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_categories":
+                                    path = "/head_financial_report_by_categories";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "nationalOfficerSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/getActivityProgress");
+                            urlPaths.add("/changeQuarter");
+                            urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
@@ -148,9 +189,6 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
-                            urlPaths.add("/doEditActivityProgress");
-                            urlPaths.add("/doEditMeasurementUnit");
-                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/changeOutcomeReport");
@@ -194,9 +232,6 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
-                            urlPaths.add("/doEditActivityProgress");
-                            urlPaths.add("/doEditMeasurementUnit");
-                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");

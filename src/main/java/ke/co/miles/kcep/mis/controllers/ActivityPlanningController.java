@@ -165,10 +165,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
-                            urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doAddActivityName");
-                            urlPaths.add("/doEditActivityName");
-                            urlPaths.add("/doEditSubActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
@@ -217,10 +214,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
-                            urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doAddActivityName");
-                            urlPaths.add("/doEditActivityName");
-                            urlPaths.add("/doEditSubActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
@@ -269,10 +263,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doAddSubActivity");
-                            urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doAddActivityName");
-                            urlPaths.add("/doEditActivityName");
-                            urlPaths.add("/doEditSubActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");

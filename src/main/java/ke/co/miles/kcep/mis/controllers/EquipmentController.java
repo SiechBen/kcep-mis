@@ -87,8 +87,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddEquipment");
                             urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditEquipment");
-                            urlPaths.add("/doEditWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/head_equipment";
                                 urlPaths.add(path);
@@ -103,8 +101,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddEquipment");
                             urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditEquipment");
-                            urlPaths.add("/doEditWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/ward_equipment";
                                 urlPaths.add(path);
@@ -119,8 +115,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddEquipment");
                             urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditEquipment");
-                            urlPaths.add("/doEditWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/sub_county_equipment";
                                 urlPaths.add(path);
@@ -135,8 +129,6 @@ public class EquipmentController extends Controller {
                             urlPaths.add("/doAddEquipment");
                             urlPaths.add("/changeProduceCounter");
                             urlPaths.add("/doAddWarehouseOperation");
-                            urlPaths.add("/doEditEquipment");
-                            urlPaths.add("/doEditWarehouseOperation");
                             if (path.equals("/equipment")) {
                                 path = "/county_equipment";
                                 urlPaths.add(path);

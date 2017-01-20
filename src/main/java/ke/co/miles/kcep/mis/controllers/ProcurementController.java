@@ -86,7 +86,6 @@ public class ProcurementController extends Controller {
                 if (rightsMap.equals("nationalOfficerSession")) {
                     if (rightsMaps.get(rightsMap)) {
                         urlPaths.add("/doAddProcurement");
-                        urlPaths.add("/doEditProcurement");
                         if (path.equals("/procurements")) {
                             path = "/head_procurements";
                             urlPaths.add(path);

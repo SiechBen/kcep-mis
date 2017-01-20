@@ -114,12 +114,9 @@ public class FarmerController extends Controller {
                     case "equityPersonnelSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -134,12 +131,9 @@ public class FarmerController extends Controller {
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
 //                            urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-//                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -154,12 +148,9 @@ public class FarmerController extends Controller {
                     case "agmarkSession":
                         if (rightsMaps.get(rightsMap)) {
 //                            urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-//                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -174,12 +165,9 @@ public class FarmerController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -194,12 +182,9 @@ public class FarmerController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -214,12 +199,9 @@ public class FarmerController extends Controller {
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -234,12 +216,9 @@ public class FarmerController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddLoan");
-                            urlPaths.add("/doEditFarm");
-                            urlPaths.add("/doEditAccount");
                             urlPaths.add("/updateStaticInputs");
                             urlPaths.add("/updateInputVarieties");
                             urlPaths.add("/doAddFarmActivity");
-                            urlPaths.add("/doEditFarmActivity");
                             urlPaths.add("/doAddInputsCollection");
                             switch (path) {
                                 case "/farm":
@@ -253,12 +232,9 @@ public class FarmerController extends Controller {
                         break;
                     case "agroDealerSession":
                         urlPaths.add("/doAddLoan");
-                        urlPaths.add("/doEditFarm");
-                        urlPaths.add("/doEditAccount");
                         urlPaths.add("/updateStaticInputs");
                         urlPaths.add("/updateInputVarieties");
                         urlPaths.add("/doAddFarmActivity");
-                        urlPaths.add("/doEditFarmActivity");
                         urlPaths.add("/doAddInputsCollection");
                         if (rightsMaps.get(rightsMap)) {
                             switch (path) {

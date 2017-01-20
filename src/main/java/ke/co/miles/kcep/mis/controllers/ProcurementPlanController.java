@@ -87,7 +87,6 @@ public class ProcurementPlanController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlan");
-                            urlPaths.add("/doEditProcurementPlan");
                             switch (path) {
                                 case "/procurement_plans_ncs":
                                     path = "/head_procurement_plans_ncs";
@@ -109,7 +108,6 @@ public class ProcurementPlanController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlan");
-                            urlPaths.add("/doEditProcurementPlan");
                             switch (path) {
                                 case "/procurement_plans_ncs":
                                     path = "/region_procurement_plans_ncs";
@@ -131,7 +129,6 @@ public class ProcurementPlanController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddProcurementPlan");
-                            urlPaths.add("/doEditProcurementPlan");
                             switch (path) {
                                 case "/procurement_plans_ncs":
                                     path = "/county_procurement_plans_ncs";

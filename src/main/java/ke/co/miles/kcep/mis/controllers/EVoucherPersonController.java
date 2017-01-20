@@ -117,7 +117,6 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addFarmer");
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
-                            urlPaths.add("/doEditEVoucher");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/head_eVouchers";
@@ -154,7 +153,6 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/getLocations");
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
-                            urlPaths.add("/doEditEVoucher");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/equity_eVouchers";
@@ -191,7 +189,6 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/getLocations");
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
-                            urlPaths.add("/doEditEVoucher");
                             switch (path) {
                                 case "/eVouchers":
                                     path = "/county_eVouchers";
