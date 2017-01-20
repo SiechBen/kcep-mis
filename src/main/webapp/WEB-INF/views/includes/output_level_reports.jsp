@@ -17,7 +17,7 @@
             </div>
             <div class="panel-body">
                 <h4>Output level indicators report</h4>
-                <table class="table table-striped table-bordered table-hover indicator-report-table">
+                <table id="output-report-table" class="table table-striped table-bordered table-hover indicator-report-table">
                     <thead>
                         <tr>
                             <th rowspan="2">&nbsp;</th>

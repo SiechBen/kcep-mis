@@ -105,6 +105,7 @@ $(function () {
 //<editor-fold defaultstate="collapsed" desc="DataTable">
 $(function () {
     $("#wards-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         dom: "Blftip",
         "bLengthChange": false,
@@ -115,6 +116,7 @@ $(function () {
 });
 $(function () {
     $(".data-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -136,6 +138,7 @@ $(function () {
 });
 $(function () {
     $('.reports-table').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "bLengthChange": false,
         "scrollCollapse": true,
         "searching": false,
@@ -636,15 +639,30 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Activity progress report">
+
+//<editor-fold defaultstate="collapsed" desc="Activity progress report Datatable">
+var exportActivityProgress = {
+    exportOptions: {
+        format: {
+            body: function (data, row, col, node) {
+                if (row === 1)
+                    return $('#activity-report-table tbody tr').eq(col).find('td').eq(row).attr("title");
+                else
+                    return data;
+            }
+        }
+    }
+};
 $(function () {
     $("#activity-report-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
         buttons: [
-            'excel',
+            $.extend(true, {}, exportActivityProgress, {extend: 'excel'}),
             {
                 extend: 'colvis',
                 text: "Hide / show columns"
@@ -688,6 +706,7 @@ $(function () {
             }]
     });
 });
+//</editor-fold>
 
 function changeQuarter() {
     $.ajax({
@@ -1091,6 +1110,7 @@ function deleteEquipment(id, warehouseId) {
 //<editor-fold defaultstate="collapsed" desc="Farm">
 $(function () {
     $(".farm-data-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -1777,30 +1797,36 @@ function loginUser() {
 
 //</editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="Indicator reports">
+//<editor-fold defaultstate="collapsed" desc="Outcome level reports">
 
+//<editor-fold defaultstate="collapsed" desc="Outcome level reports Datatable">
+var exportOutcome = {
+    exportOptions: {
+        format: {
+            body: function (data, row, col, node) {
+                if (row === 1)
+                    return "";
+                else if (row === 2)
+                    return $('#outcome-report-table tbody tr').eq(col).find('td').eq(row).attr("title");
+                else
+                    return data;
+            }
+        }
+    }
+};
 $(function () {
-    $(".indicator-report-table").DataTable({
+    $("#outcome-report-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
         buttons: [
-            'excel',
+            $.extend(true, {}, exportOutcome, {extend: 'excel'}),
             {
                 extend: 'colvis',
-                text: "Hide / show columns",
-                className: "stretch-display hidden",
-                action: function (e, dt, node, config) {
-                    alert("sadasds");
-//                    var default_action = data_table.button(2).action();
-//
-//                    data_table.button(2).action(function (e, dt, button, config) {
-//
-//                        default_action(e, dt, button, config);
-//                    });
-                }
+                text: "Hide / show columns"
             }],
         columnDefs: [{
                 targets: [1, 2],
@@ -1810,7 +1836,8 @@ $(function () {
             }]
     });
 });
-//<editor-fold defaultstate="collapsed" desc="Outcome level reports">
+//</editor-fold>
+
 function setOutcomeAppraisalTarget(id, appraisalTarget, description) {
 
     appraisalTarget = parseFloat(appraisalTarget) || 0;
@@ -1912,6 +1939,44 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Output level reports">
+
+//<editor-fold defaultstate="collapsed" desc="Output level reports Datatable">
+var exportOutput = {
+    exportOptions: {
+        format: {
+            body: function (data, row, col, node) {
+                if (row === 2 || row === 1)
+                    return $('#output-report-table tbody tr').eq(col).find('td').eq(row).attr("title");
+                else
+                    return data;
+            }
+        }
+    }
+};
+$(function () {
+    $("#output-report-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            $.extend(true, {}, exportOutput, {extend: 'excel'}),
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }],
+        columnDefs: [{
+                targets: [1, 2],
+                render: function (data, type) {
+                    return type === "display" && data.length > 75 ? data.substr(0, 75) + "..." : data;
+                }
+            }]
+    });
+});
+//</editor-fold>
+
 function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description) {
 
     actualValue = parseFloat(actualValue) || 0;
@@ -1956,15 +2021,28 @@ function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description)
         }
     });
 }
-//</editor-fold>
 
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Performance Indicator">
 
 //<editor-fold defaultstate="collapsed" desc="Performance Indicator Datatable">
+var exportIndicator = {
+    exportOptions: {
+        format: {
+            body: function (data, row, col, node) {
+                if (row === 3)
+                    return $('#performance-indicator-table tbody tr').eq(col).find('td').eq(row).attr("title");
+                else
+                    return data;
+            }
+        }
+    }
+};
+
 $(function () {
     $("#performance-indicator-table").removeAttr('width').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -2024,7 +2102,7 @@ $(function () {
                     });
                 }
             },
-            'excel',
+            $.extend(true, {}, exportIndicator, {extend: 'excel'}),
             {
                 text: "Output level report",
                 action: function () {
@@ -2054,7 +2132,6 @@ $(function () {
 $('#performance-indicator-table').each(function () {
     /* Target column to be grouped */
     var columnNumber = 3;
-
     /* previousCell holds the first instance of same td. Initially first TD=null */
     var previousCell = null;
     var i = 1, j = 1;
@@ -2062,14 +2139,12 @@ $('#performance-indicator-table').each(function () {
         /* find the correct td of the correct column */
         /* we are considering the table column 1, You can apply on any table column */
         var currentCell = $(this).find('td:nth-child(' + columnNumber + ')');
-
         if (j === 11) {
             i = 1;
             j = 1;
             previousCell = null;
         }
         j++;
-
         if (previousCell === null) {
             /* for first row */
             previousCell = currentCell;
@@ -2088,22 +2163,18 @@ $('#performance-indicator-table').each(function () {
         }
     });
 });
-
 $('#awpb-table').each(function () {
     /* Target column to be grouped */
     var columnNumber = [4, 5, 6, 7];
-
     /* previousCell holds the first instance of same td. Initially first TD=null */
     var previousCell = null;
     var i = 1, j = 1, k;
     $("tbody", this).find('tr').each(function () {
         var currentCell;
-
         for (k = 0; k <= 3; k++) {
             /* find the correct td of the correct column */
             /* we are considering the table column 1, You can apply on any table column */
             currentCell = $(this).find('td:nth-child(' + columnNumber[k] + ')');
-
             if (j === 11) {
                 i = 1;
                 j = 1;
@@ -2130,15 +2201,12 @@ $('#awpb-table').each(function () {
         j++;
     });
 });
-
-
 $("#performance-indicator-table tbody").find('tr').each(function () {
     var colIndex = 4;
     var currentCell = $(this).find('td:nth-child(' + colIndex + ')');
     var data = currentCell.text();
     currentCell.html(data.length > 31 ? data.substr(0, 31) + "..." : data);
 });
-
 function addPerformanceIndicator() {
     $.ajax({
         url: "doAddPerformanceIndicator",
@@ -2477,6 +2545,7 @@ var Months = {
 //<editor-fold defaultstate="collapsed" desc="Person Datatable">
 $(function () {
     $("#farmers-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -2484,7 +2553,6 @@ $(function () {
         dom: "Blftip",
         "footerCallback": function () {
             var api = this.api();
-
             // Total over all pages
             var totalPeople = api
                     .column(2)
@@ -2492,7 +2560,6 @@ $(function () {
                     .reduce(function (a) {
                         return a + 1;
                     }, 0);
-
             var femaleYouth = api
                     .column(2, {page: 'current'})
                     .data()
@@ -2505,7 +2572,6 @@ $(function () {
                         } else
                             return a;
                     }, 0);
-
             var femaleElderly = api
                     .column(2, {page: 'current'})
                     .data()
@@ -2518,7 +2584,6 @@ $(function () {
                         } else
                             return a;
                     }, 0);
-
             var maleYouth = api
                     .column(2, {page: 'current'})
                     .data()
@@ -2531,7 +2596,6 @@ $(function () {
                         } else
                             return a;
                     }, 0);
-
             var maleElderly = api
                     .column(2, {page: 'current'})
                     .data()
@@ -2544,7 +2608,6 @@ $(function () {
                         } else
                             return a;
                     }, 0);
-
             // Total over this page
             var pageTotal = api
                     .column(2, {page: 'current'})
@@ -2552,7 +2615,6 @@ $(function () {
                     .reduce(function (a) {
                         return a + 1;
                     }, 0);
-
             /* update people-count-table */
             var rows = $("table#people-count-table").find("tbody").find("tr");
             $(rows[2]).find("td:eq(0)").html(femaleYouth);
@@ -2622,6 +2684,7 @@ $(function () {
 });
 $(function () {
     $("#agro-dealers-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -2686,6 +2749,7 @@ $(function () {
 });
 $(function () {
     $("#partner-farmers-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -2738,6 +2802,7 @@ $(function () {
 });
 $(function () {
     $("#partner-agro-dealers-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -2833,6 +2898,7 @@ function initMap() {
 
 $(function () {
     $("#people-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -3643,8 +3709,22 @@ function editProcurementPlansCs(id, type, description,
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="AWPB">
+var exportAWPB = {
+    exportOptions: {
+        format: {
+            body: function (data, row, col, node) {
+                if (row === 3 || row === 4 || row === 5 || row === 6 || row === 7 || row === 8)
+                    return $('#awpb-table tbody tr').eq(col).find('td').eq(row).attr("title");
+                else
+                    return data;
+            }
+        }
+    }
+};
+
 $(function () {
     $("#awpb-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -3657,7 +3737,7 @@ $(function () {
                     loadAjaxWindow("addSubActivity");
                 }
             },
-            'excel',
+            $.extend(true, {}, exportAWPB, {extend: 'excel'}),
             {
                 extend: 'colvis',
                 text: "Hide / show columns"},
@@ -4187,6 +4267,7 @@ function loadSubActivityNamesWindow(activityNameId) {
 //<editor-fold defaultstate="collapsed" desc="Training">
 $(function () {
     $("#training-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -4470,6 +4551,7 @@ function updateWards() {
 //<editor-fold defaultstate="collapsed" desc="Warehouse">
 $(function () {
     $("#warehouse-count-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         dom: "Blftip",
 //        "bLengthChange": false,
@@ -4657,6 +4739,7 @@ function clearWarehouseFields() {
 //<editor-fold defaultstate="collapsed" desc="Warehouse operation">
 $(function () {
     $("#warehouse-operations-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -4672,6 +4755,7 @@ $(function () {
 });
 function addWarehouseOperation(warehouseId) {
     $("#warehouse-operation-dialog").dialog({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         width: 495,
         height: "auto",
         title: "edit_warehouse_label",
@@ -4884,6 +4968,7 @@ if (!Modernizr.inputtypes.date) {
 //<editor-fold defaultstate="collapsed" desc="Uploaded file">
 $(function () {
     $("#documents-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
@@ -4912,7 +4997,6 @@ $(function () {
             }]
     });
 });
-
 function deleteDocument(documentId, cell) {
     $("#message").text("Are you sure you want to remove this document?");
     $("#message-dialog").dialog({
