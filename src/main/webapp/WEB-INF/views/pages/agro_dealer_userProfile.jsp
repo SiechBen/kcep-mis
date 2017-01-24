@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : agro_dealer_userProfile
     Created on : Jun 22, 2016, 5:18:48 PM
     Author     : siech
@@ -30,10 +30,10 @@
                                     <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
                                         <option value="${personRole.id}" <c:if test="${personRole.id} == ${sessionScope.personRole.id}">selected</c:if>>${personRole.personRole}</option>
                                     </c:forEach>
-                                </select>    
+                                </select>
                             </div>
                             <div class="form-group">
-                                National id number
+                                National ID number
                                 <input id="national-id" class="form-control" value="${sessionScope.person.nationalId}">
                             </div>
                             <div class="form-group">
@@ -48,10 +48,10 @@
                                 Sex
                                 <select id="sex" class="form-control">
                                     <option value="${sessionScope.person.sex.id}" selected>${sessionScope.person.sex.sex}</option>
-                                    <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index"> 
+                                    <c:forEach var="sex" items="${applicationScope.sexes}" varStatus="index">
                                         <option value="${sex.id}">${sex.sex}</option>
                                     </c:forEach>
-                                </select> 
+                                </select>
                             </div>
                             <div class="form-group">
                                 Phone number
@@ -69,19 +69,19 @@
                                 Farmer group
                                 <select id="farmer-group" class="form-control">
                                     <option value="${sessionScope.person.farmerGroup.id}"selected>${sessionScope.person.farmerGroup.name}</option>
-                                    <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index"> 
+                                    <c:forEach var="farmerGroup" items="${applicationScope.farmerGroups}" varStatus="index">
                                         <option value="${farmerGroup.id}">${farmerGroup.name}</option>
                                     </c:forEach>
-                                </select>    
+                                </select>
                             </div>
                             <div class="form-group">
                                 County
                                 <select id="person-county" class="form-control">
                                     <option value="${sessionScope.person.location.county.id}"selected>${sessionScope.person.location.county.name}</option>
-                                    <c:forEach var="county" items="${applicationScope.counties}" varStatus="index"> 
+                                    <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
                                         <option value="${county.id}">${county.name}</option>
                                     </c:forEach>
-                                </select>  
+                                </select>
                             </div>
                             <div class="form-group">
                                 Sub-county

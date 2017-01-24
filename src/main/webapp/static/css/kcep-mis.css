@@ -59,13 +59,14 @@ body {
     }
 }
 
-@media (max-width: 38.4em)
-.sidebar {
-    display: block;
-    z-index: 1;
-    position: absolute;
-    width: 21.25em;
-    margin-top: 0.6em;
+@media (max-width: 38.4em){
+    .sidebar {
+        display: block;
+        z-index: 1;
+        position: absolute;
+        width: 21.25em;
+        margin-top: 0.6em;
+    }
 }
 
 .loader {
@@ -527,7 +528,7 @@ table.dataTable thead .sorting:after {
 }
 
 .navbar-brand {
-    width: 32em;
+    width: 26em;
 }
 
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
@@ -580,4 +581,88 @@ a {
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
     color: #337ab7;
     background-color: transparent;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #0A8300;
+}
+
+#login-button {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #0A8300;
+}
+
+.file-link {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.tab-link {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #fff;
+    cursor: default;
+    background-color: #0A8300;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+
+.panel-default {
+    border-color: #0A8300;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #0A8300;
+}
+
+.form-control {
+    border: 1px solid lightgreen;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #0A8300;
+}
+
+.btn-primary {
+    border-color: #0A8300;
+}
+
+.btn-primary.btn-outline {
+    color: #0A8300;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #0A8300;
+}
+
+.form-control:focus {
+    border-color: darkgreen;
+}
+
+.error-form-control:focus {
+    border-color: #FF0000;
+}
+
+.floating-table {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.push-up {
+    bottom: 5em;
+}
+
+#region-hidden {
+    display: none;
 }

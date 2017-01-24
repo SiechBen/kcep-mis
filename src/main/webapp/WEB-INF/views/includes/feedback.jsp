@@ -17,10 +17,10 @@
             <div class="panel-body">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#success-stories" data-toggle="tab">Success  stories</a>
+                        <a href="#success-stories" data-toggle="tab" class="tab-link">Success  stories</a>
                     </li>
                     <li>
-                        <a href="#feedback-messages" data-toggle="tab">Feedback</a>
+                        <a href="#feedback-messages" data-toggle="tab" class="tab-link">Feedback</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -41,7 +41,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><a href="download?filePath=${successStory.attachment}" target="_blank">Attached file(s): ${successStory.fileName}</a></td>
+                                        <td><a class="file-link" href="download?filePath=${successStory.attachment}" target="_blank">Attached file(s): ${successStory.fileName}</a></td>
                                     </tr>
                                 </tbody>
                             </table>

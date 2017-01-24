@@ -163,6 +163,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/updateSubComponents");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
                             urlPaths.add("/doAddActivityName");
@@ -210,6 +211,7 @@ public class ActivityPlanningController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
@@ -259,6 +261,7 @@ public class ActivityPlanningController extends Controller {
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");

@@ -23,8 +23,8 @@
                         <input id="person-name" class="form-control">
                     </div>
                     <div class="form-group">
-                        National id number
-                        <input id="national-id" class="form-control">
+                        National ID number
+                        <input id="national-id" type="number" pattern="[0-9]{7}|{8}" title="National ID format" class="form-control">
                     </div>
                     <div class="form-group">
                         Year of birth

@@ -13,7 +13,15 @@
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/addPerson.jsp" />
-        <div class="form-group">
+        <div class="form-group" id="region-hidden">
+            Region
+            <select id="region" class="form-control">
+                <c:forEach var="region" items="${sessionScope.regions}" varStatus="index">
+                    <option value="${region.id}">${region.name}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="form-group" id="county-to-hide">
             County
             <select id="county" class="form-control" onchange="updateSubCounties()">
                 <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
@@ -21,7 +29,7 @@
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="sub-county-to-hide">
             Sub-county
             <select id="sub-county" class="form-control" onchange="updateWards()">
                 <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
@@ -29,7 +37,7 @@
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="ward-to-hide">
             Ward
             <select id="ward" class="form-control">
                 <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">

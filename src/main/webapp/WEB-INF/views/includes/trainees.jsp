@@ -24,7 +24,7 @@
                                 <th>Name</th>
                                 <!--<th>Person role</th>-->
                                 <th>Gender</th>
-                                <th>National id</th>
+                                <th>National ID</th>
                                 <th>Age</th>
                                 <th>Business name</th>
                                 <th>County</th>

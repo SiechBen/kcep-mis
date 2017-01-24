@@ -38,7 +38,7 @@
                             <c:forEach var="document" items="${sessionScope.documents}" varStatus="index">
                                 <tr>
                                     <td>${index.count}</td>
-                                    <td><a href="download?filePath=${document.name}" target="_blank">${document.fileName}</a></td>
+                                    <td><a class="file-link" href="download?filePath=${document.name}" target="_blank">${document.fileName}</a></td>
                                     <td><fmt:formatDate pattern="yy-MMM-dd" value="${document.timeUploaded}"/></td>
                                     <td>${document.uploader.name}</td>
                                     <td><button onclick="deleteDocument(${document.id}, this)"><span class="glyphicon glyphicon-trash"></span></button></td>

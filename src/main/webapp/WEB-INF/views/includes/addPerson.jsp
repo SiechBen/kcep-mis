@@ -14,21 +14,21 @@
                 Person details
             </div>
             <div class="panel-body">
-                <form role="form">
+                <form role="form" id="add-person-form">
                     <div class="form-group">
                         Name
                         <input id="person-name" class="form-control">
                     </div>
                     <div class="form-group">
                         Person role
-                        <select id="person-role" class="form-control">
+                        <select id="person-role" class="form-control" onchange="hideLocation()">
                             <c:forEach var="personRole" items="${sessionScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}">${personRole.personRole}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="form-group">
-                        National id number
+                        National ID number
                         <input id="national-id" class="form-control">
                     </div>
                     <div class="form-group">

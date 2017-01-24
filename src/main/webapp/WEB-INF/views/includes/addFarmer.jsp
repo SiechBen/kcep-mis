@@ -23,7 +23,7 @@
                         <input id="person-name" class="form-control">
                     </div>
                     <div class="form-group">
-                        National id number
+                        National ID number
                         <input id="national-id" class="form-control">
                     </div>
                     <div class="form-group">

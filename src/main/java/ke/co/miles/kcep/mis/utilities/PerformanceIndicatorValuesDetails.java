@@ -96,12 +96,27 @@ public class PerformanceIndicatorValuesDetails implements Serializable,
         return this.id.compareTo(o.getId());
     }
 
+    /**
+     * @return the purpose
+     */
+    public String getPurpose() {
+        return purpose;
+    }
+
+    /**
+     * @param purpose the purpose to set
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private Double ratio;
     private Short projectYear;
     private Double actualValue;
     private Double expectedValue;
+    private String purpose;
     private PerformanceIndicatorDetails performanceIndicator;
 
 }

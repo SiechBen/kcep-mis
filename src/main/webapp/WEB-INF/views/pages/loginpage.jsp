@@ -15,7 +15,14 @@
         <link href="static/plugins/password/css/password.css" rel="stylesheet">
     </jsp:attribute>
     <jsp:attribute name="content">
-
+        <style>
+            body {
+                font-size: 100%;
+                line-height: 1.8em;
+                background: #fff;
+                font-family:"Century Gothic", Helvetica, sans-serif;
+            }
+        </style>
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
@@ -36,7 +43,7 @@
                                         <input id="remember" type="checkbox" value="Remember Me"> Remember Me
                                     </label>
                                 </div>
-                                <button id="login-button" class="btn btn-lg btn-success btn-block" onclick="loginUser()">Login</button>
+                                <button id="login-button" class="btn btn-lg btn-block" onclick="loginUser()">Login</button>
                             </fieldset>
                         </div>
                     </div>

@@ -17,13 +17,13 @@
             <div class="panel-body">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#farm" data-toggle="tab">Farm</a>
+                        <a href="#farm" data-toggle="tab" class="tab-link">Farm</a>
                     </li>
                     <li>
-                        <a href="#inputs" data-toggle="tab">Inputs</a>
+                        <a href="#inputs" data-toggle="tab" class="tab-link">Inputs</a>
                     </li>
                     <li>
-                        <a href="#farm-activities" data-toggle="tab">Farm Activities</a>
+                        <a href="#farm-activities" data-toggle="tab" class="tab-link">Farm Activities</a>
                     </li>
                 </ul>
                 <div class="tab-content">

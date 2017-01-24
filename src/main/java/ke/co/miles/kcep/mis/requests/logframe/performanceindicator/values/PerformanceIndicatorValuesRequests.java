@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -315,8 +314,14 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         q.setParameter(2, year);
         q.setParameter(3, "Outcome report");
         List<PerformanceIndicatorValuesDetails> orderedList = new ArrayList<>();
+        List<PerformanceIndicatorValues> orderedValues;
         try {
-            orderedList = convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(q.getResultList());
+            orderedValues = q.getResultList();
+            for (PerformanceIndicatorValues performanceIndicatorValues : orderedValues) {
+                if (performanceIndicatorValues.getPurpose() != null && performanceIndicatorValues.getPurpose().equals("Outcome report")) {
+                    orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(performanceIndicatorValues));
+                }
+            }
         } catch (Exception e) {
         }
 
@@ -327,7 +332,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             q.setParameter("performanceIndicatorId", performanceIndicatorValues.getPerformanceIndicator().getId());
             try {
                 performanceIndicatorValues.getPerformanceIndicator().setAccumulatedActual((double) q.getSingleResult());
-                MilesDebugger.debug(performanceIndicatorValues.getPerformanceIndicator().getId() + " -> " + performanceIndicatorValues.getId() + " -> " + performanceIndicatorValues.getPerformanceIndicator().getAccumulatedActual());
             } catch (Exception e) {
             }
         }
@@ -447,6 +451,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
         PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails = new PerformanceIndicatorValuesDetails(performanceIndicatorValues.getId());
         performanceIndicatorValuesDetails.setActualValue(performanceIndicatorValues.getActualValue());
+        performanceIndicatorValuesDetails.setPurpose(performanceIndicatorValues.getPurpose());
         performanceIndicatorValuesDetails.setExpectedValue(performanceIndicatorValues.getExpectedValue());
         performanceIndicatorValuesDetails.setProjectYear(performanceIndicatorValues.getProjectYear());
         try {

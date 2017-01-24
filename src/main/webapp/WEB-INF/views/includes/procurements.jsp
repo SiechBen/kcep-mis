@@ -54,7 +54,7 @@
                                     <td>${procurement.county.name}</td>
                                     <td>${procurement.subCounty.name}</td>
                                     <td>${procurement.lpoNumber}</td>
-                                    <td><a onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
+                                    <td><a class="file-link" onclick="loadAjaxWindow('download?filePath=${procurement.invoiceOrReceipt}')" target="_blank">${procurement.fileName}</a></td>
                                     <td><button onclick="editProcurement('${procurement.id}', '${procurement.item}', '${procurement.cost}', '<fmt:formatDate pattern="yy-MMM-dd" value="${procurement.datePurchased}"/>', '${procurement.serialNumber}', '${procurement.description}', '${procurement.targetOffice}', '${procurement.county.id}', '${procurement.subCounty.id}', '${procurement.lpoNumber}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deleteProcuremenet(${procurement.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>

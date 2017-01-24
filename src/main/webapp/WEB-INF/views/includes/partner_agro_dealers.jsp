@@ -28,7 +28,7 @@
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Age</th>
-                                <th>National id</th>
+                                <th>National ID</th>
                                 <th>Business name</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
@@ -73,7 +73,7 @@
             <div class="panel-body">
                 <form role="form">
                     <div class="form-group">
-                        National id
+                        National ID
                         <input id="search-national-id" name="search-national-id" class="form-control">
                     </div>
                     <div class="form-group">

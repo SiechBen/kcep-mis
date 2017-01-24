@@ -16,7 +16,7 @@
         <div>
             <input type="hidden" id="county" value="${sessionScope.person.location.county.id}">
         </div>
-        <div class="form-group">
+        <div class="form-group" id="sub-county-to-hide">
             Sub-county
             <select id="sub-county" class="form-control" onchange="updateWards()">
                 <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
@@ -24,7 +24,7 @@
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="ward-to-hide">
             Ward
             <select id="ward" class="form-control">
                 <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">

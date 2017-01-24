@@ -7,7 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div class="row">
+<div class="row push-up">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -22,7 +22,7 @@
                                 <th>&nbsp;</th>
                                 <th>Name</th>
                                 <th>Gender, Age</th>
-                                <th>National id</th>
+                                <th>National ID</th>
                                 <!--                                <th>Farmer group</th>
                                                                 <th>Farmer sub-group</th>-->
                                 <th>County</th>
@@ -76,7 +76,6 @@
                             </c:forEach>
                         </tbody>
                     </table>
-                    <jsp:include page="people_count.jsp"/>
                 </div>
             </div>
         </div>
@@ -84,6 +83,12 @@
 </div>
 
 <div class="row">
+    <div class="col-lg-12">
+        <jsp:include page="people_count.jsp"/>
+    </div>
+</div>
+
+<!--<div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -95,7 +100,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 <div class="dialog" id="person-dialog">
     <div class="col-lg-12">
@@ -221,7 +226,7 @@
             <div class="panel-body">
                 <form role="form">
                     <div class="form-group">
-                        National id
+                        National ID
                         <input id="search-national-id" name="search-national-id" class="form-control">
                     </div>
                     <div class="form-group">
@@ -234,6 +239,6 @@
     </div>
 </div>
 
-<script src="static/js/maps.js" type="text/javascript"></script>
+<!--<script src="static/js/maps.js" type="text/javascript"></script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAosZcLbpuT4q2Mrl96oMfgtsC2etLRvLw&callback=getLocations"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAosZcLbpuT4q2Mrl96oMfgtsC2etLRvLw&callback=getLocations"></script>-->

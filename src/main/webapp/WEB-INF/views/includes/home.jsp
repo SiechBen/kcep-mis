@@ -17,9 +17,18 @@
             <div class="about-text">
                 <center>
                     <p>The programme is a partnership between the Government of Kenya (GOK), The European Union (EU), and the International Fund for Agricultural Development(IFAD)</p>
-                    <p>The Kenya Ceraals Enhancement Programme (KCEP) is an agricultural Sector programme being implimented in eight counties of:<center><ul>Bungoma</ul>Transnzoia<ul>Kakamega</ul>Nandi<ul>Nakuru</ul>Kitui<ul>Embu and,</ul><ul>Tharaka Nithi</ul></p>
-                        <p>The development objectives of the programme are to contribute to National Food Security and Smallholder income generation by supporting farmers to increase productivity and profitability of key cereal comodities.</p>
-                    </center>
+                    <p>The Kenya Ceral Enhancement Programme (KCEP) is an agricultural sector programme being implemented in eight counties of:
+                    <ul>Bungoma</ul>
+                    <ul>Embu</ul>
+                    <ul>Kakamega</ul>
+                    <ul>Kitui</ul>
+                    <ul>Nakuru</ul>
+                    <ul>Nandi</ul>
+                    <ul>Tharaka Nithi and</ul>
+                    <ul>Transnzoia</ul>
+                    </p>
+                    <p>The development objectives of the programme are to contribute to National Food Security and smallholder income generation by supporting farmers to increase productivity and profitability of key cereal commodities.</p>
+                </center>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                List of training
+                Training records
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -39,7 +39,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="15"> List of training </td>
+                                <td colspan="15"> Training records </td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -61,7 +61,7 @@
                                     <td class="pointable" onclick="showTrainees(${training.id})">${training.numberOfTrainees} ...</td>
                                     <td>${training.numberOfNonBeneficiaries}</td>
                                     <td>${training.categoryOfTrainees.category.name}</td>
-                                    <td><a href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
+                                    <td><a class="file-link"e href="download?filePath=${training.attendanceSheet}" target="_blank">${training.fileName}</a></td>
                                     <td><button onclick="editTraining('${training.id}',
                                                     '<fmt:formatDate pattern="yy-MMM-dd" value="${training.startDate}"/>',
                                                     '<fmt:formatDate pattern="yy-MMM-dd" value="${training.endDate}"/>',

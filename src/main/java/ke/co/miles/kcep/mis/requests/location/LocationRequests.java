@@ -14,6 +14,7 @@ import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.DivisionalLocation;
 import ke.co.miles.kcep.mis.entities.Location;
+import ke.co.miles.kcep.mis.entities.Region;
 import ke.co.miles.kcep.mis.entities.SubCounty;
 import ke.co.miles.kcep.mis.entities.Village;
 import ke.co.miles.kcep.mis.entities.Ward;
@@ -26,6 +27,7 @@ import ke.co.miles.kcep.mis.requests.location.divisionallocation.DivisionalLocat
 import ke.co.miles.kcep.mis.requests.location.village.VillageRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.ward.WardRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
+import ke.co.miles.kcep.mis.utilities.RegionDetail;
 
 /**
  *
@@ -78,9 +80,19 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         } catch (Exception e) {
             location.setWard(null);
         }
+        try {
+            location.setRegion(em.getReference(Region.class, locationDetails.getRegion().getId()));
+        } catch (Exception e) {
+            location.setRegion(null);
+        }
 
         try {
             em.persist(location);
+            try {
+                location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
+            } catch (Exception e) {
+                location.setWard(null);
+            }
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -175,6 +187,11 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         } catch (Exception e) {
             location.setVillage(null);
         }
+        try {
+            location.setRegion(em.getReference(Region.class, locationDetails.getRegion().getId()));
+        } catch (Exception e) {
+            location.setRegion(null);
+        }
 
         try {
             em.merge(location);
@@ -221,6 +238,10 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         if (location.getWard() != null) {
             locationDetails.setWard(wardService.convertWardToWardDetails(location.getWard()));
         }
+        if (location.getRegion() != null) {
+            locationDetails.setRegion(RegionDetail.getRegionDetail((location.getRegion().getId())));
+        }
+
         locationDetails.setLatitude(location.getLatitude());
         locationDetails.setLongitude(location.getLongitude());
         return locationDetails;

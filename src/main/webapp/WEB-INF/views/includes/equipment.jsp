@@ -16,10 +16,10 @@
             <div class="panel-body">
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#equipment" data-toggle="tab">Equipment</a>
+                        <a href="#equipment" data-toggle="tab" class="tab-link">Equipment</a>
                     </li>
                     <li>
-                        <a href="#warehouse-operations" data-toggle="tab">Warehouse operations</a>
+                        <a href="#warehouse-operations" data-toggle="tab" class="tab-link">Warehouse operations</a>
                     </li>
                 </ul>
                 <div class="tab-content">

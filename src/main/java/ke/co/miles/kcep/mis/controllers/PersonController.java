@@ -41,6 +41,7 @@ import ke.co.miles.kcep.mis.utilities.InputTypeDetails;
 import ke.co.miles.kcep.mis.utilities.LocationDetails;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.RegionDetail;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 import ke.co.miles.kcep.mis.utilities.SubCountyDetails;
 import ke.co.miles.kcep.mis.utilities.UserAccountDetails;
@@ -118,6 +119,7 @@ public class PersonController extends Controller {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/searchFarmer");
                             urlPaths.add("/validatePassword");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
                                 case "/people":
@@ -145,6 +147,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/searchFarmer");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
@@ -167,6 +170,7 @@ public class PersonController extends Controller {
                         break;
                     case "kalroSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/validatePassword");
                             switch (path) {
@@ -189,6 +193,7 @@ public class PersonController extends Controller {
                         break;
                     case "agmarkSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/validatePassword");
                             switch (path) {
@@ -212,6 +217,7 @@ public class PersonController extends Controller {
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/validatePassword");
                             switch (path) {
                                 case "/people":
@@ -239,6 +245,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/searchFarmer");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/searchAgroDealer");
                             switch (path) {
@@ -265,6 +272,7 @@ public class PersonController extends Controller {
                         break;
                     case "subCountyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/validatePassword");
                             switch (path) {
@@ -292,6 +300,7 @@ public class PersonController extends Controller {
                     case "waoSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/validatePassword");
                             switch (path) {
                                 case "/people":
@@ -314,6 +323,7 @@ public class PersonController extends Controller {
                     case "agroDealerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
+                            urlPaths.add("/editUserAccount");
                             urlPaths.add("/validatePassword");
                             switch (path) {
                                 case "/people":
@@ -650,6 +660,13 @@ public class PersonController extends Controller {
                         ward = null;
                     }
 
+                    RegionDetail region;
+                    try {
+                        region = RegionDetail.getRegionDetail(Short.valueOf(String.valueOf(request.getParameter("region"))));
+                    } catch (Exception e) {
+                        region = null;
+                    }
+
                     LocationDetails location = new LocationDetails();
                     location.setSubCounty(subCounty);
                     location.setCounty(county);
@@ -658,6 +675,19 @@ public class PersonController extends Controller {
                     PersonRoleDetail personRole;
                     try {
                         personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
+                        if (personRole.equals(PersonRoleDetail.NATIONAL_OFFICER)
+                                || personRole.equals(PersonRoleDetail.SYSTEM_ADMIN)
+                                || personRole.equals(PersonRoleDetail.AGMARK_OFFICER)) {
+                            location.setCounty(null);
+                            location.setSubCounty(null);
+                            location.setWard(null);
+                            location.setRegion(null);
+                        } else if (personRole.equals(PersonRoleDetail.REGIONAL_COORDINATOR)) {
+                            location.setCounty(null);
+                            location.setSubCounty(null);
+                            location.setWard(null);
+                            location.setRegion(region);
+                        }
                     } catch (Exception e) {
                         personRole = null;
                     }
@@ -776,9 +806,26 @@ public class PersonController extends Controller {
                     location.setWard(ward);
 
                     try {
-                        personRole = PersonRoleDetail.getPersonRoleDetail(
-                                Short.valueOf(String.valueOf(
-                                        request.getParameter("personRole"))));
+                        region = RegionDetail.getRegionDetail(Short.valueOf(String.valueOf(request.getParameter("region"))));
+                    } catch (Exception e) {
+                        region = null;
+                    }
+
+                    try {
+                        personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
+                        if (personRole.equals(PersonRoleDetail.NATIONAL_OFFICER)
+                                || personRole.equals(PersonRoleDetail.SYSTEM_ADMIN)
+                                || personRole.equals(PersonRoleDetail.AGMARK_OFFICER)) {
+                            location.setCounty(null);
+                            location.setSubCounty(null);
+                            location.setWard(null);
+                            location.setRegion(null);
+                        } else if (personRole.equals(PersonRoleDetail.REGIONAL_COORDINATOR)) {
+                            location.setCounty(null);
+                            location.setSubCounty(null);
+                            location.setWard(null);
+                            location.setRegion(region);
+                        }
                     } catch (Exception e) {
                         personRole = null;
                     }
@@ -1240,7 +1287,8 @@ public class PersonController extends Controller {
         }
     }
 
-    private static final Logger LOGGER = Logger.getLogger(PersonController.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(PersonController.class
+            .getSimpleName());
     @EJB
     private UserAccountRequestsLocal userAccountService;
     @EJB

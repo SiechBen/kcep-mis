@@ -62,9 +62,9 @@
 
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
+                    <strong><a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a></strong>
                 </div>
-                <img class="center-logo" src="static/images/log small.png">
+                <img class="center-logo" src="static/images/tri_logo_small.png">
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <a class="text-center" href="<fmt:message key='home_link'/>">

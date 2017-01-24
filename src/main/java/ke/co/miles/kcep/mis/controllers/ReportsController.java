@@ -78,8 +78,8 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
-                            urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditMeasurementUnit");
+                            urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
@@ -123,6 +123,9 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
+                            urlPaths.add("/doEditMeasurementUnit");
+                            urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/updateOutcomeValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
@@ -188,6 +191,9 @@ public class ReportsController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
+                            urlPaths.add("/doEditMeasurementUnit");
+                            urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/updateOutcomeValues");
@@ -233,6 +239,9 @@ public class ReportsController extends Controller {
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/doEditMeasurementUnit");
+                            urlPaths.add("/doEditActivityProgress");
+                            urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
@@ -629,6 +638,9 @@ public class ReportsController extends Controller {
                             projectYear = null;
                         }
                         session.setAttribute("projectYear", projectYear);
+                        for (PerformanceIndicatorValuesDetails reportOnOutcomeIndicator : performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear)) {
+                            MilesDebugger.debug(reportOnOutcomeIndicator);
+                        }
                         session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

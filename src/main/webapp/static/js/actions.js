@@ -85,7 +85,7 @@ $(function () {
 });
 $(function () {
     var yearNow = new Date().getFullYear();
-    var twoCenturiesAgo = yearNow - 200;
+    var twoCenturiesAgo = yearNow - 100;
     for (yearOption = yearNow; yearOption >= twoCenturiesAgo; yearOption--) {
         if (yearOption === yearNow) {
             $("#year-of-birth").append($("<option/>").val(yearOption).attr("selected", "selected").html(yearOption));
@@ -468,6 +468,7 @@ function setTableIcons() {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Forms">
+
 function submitForm(form) {
     $("#" + form).submit();
 }
@@ -1841,6 +1842,7 @@ $(function () {
 function setOutcomeAppraisalTarget(id, appraisalTarget, description) {
 
     appraisalTarget = parseFloat(appraisalTarget) || 0;
+    console.log(appraisalTarget);
     if (appraisalTarget !== "")
         $("#appraisal-target").val(appraisalTarget);
     $("#appraisal-target-dialog").dialog({
@@ -2544,6 +2546,29 @@ var Months = {
 
 //<editor-fold defaultstate="collapsed" desc="Person Datatable">
 $(function () {
+    $("#people-table").DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        responsive: true,
+        "scrollX": true,
+        "scrollY": "200",
+        "scrollCollapse": true,
+        dom: "Blftip",
+        buttons: [
+            {
+                text: 'Add',
+                action: function () {
+                    loadAjaxWindow($("#add-label").text());
+                }
+            },
+            'excel',
+            {
+                extend: 'colvis',
+                text: "Hide / show columns"
+            }]
+    });
+});
+
+$(function () {
     $("#farmers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
@@ -2896,35 +2921,39 @@ function initMap() {
 }
 //</editor-fold>
 
-$(function () {
-    $("#people-table").DataTable({
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        responsive: true,
-        "scrollX": true,
-        "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
-        buttons: [
-            {
-                text: 'Add',
-                action: function () {
-                    loadAjaxWindow($("#add-label").text());
-                }
-            },
-            {
-                text: "Upload excel",
-                action: function () {
-                    loadAjaxWindow("uploadPeople");
-                }
-            },
-            'excel',
-            {
-                extend: 'colvis',
-                text: "Hide / show columns"
-            }]
-    });
-});
+function hideLocation() {
+    var personRole = parseInt($("#person-role").val());
+    console.log(personRole);
+    if (personRole === 7 || personRole === 9 || personRole === 12) {
+        $("#ward-to-hide").attr("hidden", "hidden");
+        $("#county-to-hide").attr("hidden", "hidden");
+        $("#sub-county-to-hide").attr("hidden", "hidden");
+        $("#region-hidden").hide();
+    } else if (personRole === 6) {
+        $("#ward-to-hide").attr("hidden", "hidden");
+        $("#county-to-hide").attr("hidden", "hidden");
+        $("#sub-county-to-hide").attr("hidden", "hidden");
+        $("#region-hidden").show();
+    } else {
+        $("#ward-to-hide").attr("hidden", false);
+        $("#county-to-hide").attr("hidden", false);
+        $("#sub-county-to-hide").attr("hidden", false);
+        $("#region-hidden").hide();
+    }
+}
 function addFarmer() {
+
+    var nationalId = $("#national-id").val();
+    var regex = new RegExp("^[0-9]{7,8}$");
+    if (nationalId.trim().length > 0 && !regex.test(nationalId)) {
+        $("#national-id").addClass("error-form-control").focus();
+        $("#national-id").attr("title", "National ID should contain 7-8 digits");
+        return;
+    } else {
+        $("#national-id").attr("title", "");
+        $("#national-id").removeClass("error-form-control");
+    }
+
     $.ajax({
         url: "doAddPerson",
         type: "POST",
@@ -2949,16 +2978,35 @@ function addFarmer() {
 }
 
 function addPerson() {
+
+    var nationalId = $("#national-id").val();
+    var regex = new RegExp("^[0-9]{7,8}$");
+    if (nationalId.trim().length > 0 && !regex.test(nationalId)) {
+        $("#national-id").addClass("error-form-control").focus();
+        $("#national-id").attr("title", "National ID should contain 7-8 digits");
+        return;
+    } else {
+        $("#national-id").attr("title", "");
+        $("#national-id").removeClass("error-form-control");
+    }
+
     $.ajax({
         url: "doAddPerson",
         type: "POST",
-        data: "name=" + $("#person-name").val() + "&nationalId=" + $("#national-id").val() +
-                "&businessName=" + $("#business-name").val() + "&sex=" + $("#sex").val() +
-                "&phoneNumber=" + $("#phone").val() + "&email=" + $("#email").val() +
-                "&businessName=" + $("#business-name").val() + "&county=" + $("#county").val() +
-                "&subCounty=" + $("#sub-county").val() + "&personRole=" + $("#person-role").val() +
-                "&ward=" + $("#ward").val() + "&postalAddress=" + $("#postal-address").val() +
-                "&yearOfBirth=" + $("#year-of-birth").val(),
+        data: "sex=" + $("#sex").val() +
+                "&ward=" + $("#ward").val() +
+                "&email=" + $("#email").val() +
+                "&county=" + $("#county").val() +
+                "&region=" + $("#region").val() +
+                "&name=" + $("#person-name").val() +
+                "&phoneNumber=" + $("#phone").val() +
+                "&subCounty=" + $("#sub-county").val() +
+                "&personRole=" + $("#person-role").val() +
+                "&nationalId=" + $("#national-id").val() +
+                "&yearOfBirth=" + $("#year-of-birth").val() +
+                "&businessName=" + $("#business-name").val() +
+                "&businessName=" + $("#business-name").val() +
+                "&postalAddress=" + $("#postal-address").val(),
         success: function () {
             clearPersonFields();
             loadAjaxWindow('people');
@@ -3034,6 +3082,18 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
         modal: false,
         buttons: {
             "Save": function () {
+
+                var nationalId = $("#national-id").val();
+                var regex = new RegExp("^[0-9]{7,8}$");
+                if (nationalId.trim().length > 0 && !regex.test(nationalId)) {
+                    $("#national-id").addClass("error-form-control").focus();
+                    $("#national-id").attr("title", "National ID should contain 7-8 digits");
+                    return;
+                } else {
+                    $("#national-id").attr("title", "");
+                    $("#national-id").removeClass("error-form-control");
+                }
+
                 $.ajax({
                     url: "doEditPerson",
                     type: "POST",
@@ -3048,6 +3108,7 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
                             "&phoneNumber=" + $("#phone").val() +
                             "&locationId=" + location +
                             "&email=" + $("#email").val() +
+                            "&region=" + $("#region").val() +
                             "&county=" + $("#county").val() +
                             "&subCounty=" + $("#sub-county").val() +
                             "&personRole=" + $("#person-role").val() +
@@ -3083,7 +3144,7 @@ function deletePerson(id) {
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_training",
+        title: "delete_person",
         modal: true,
         resizable: false,
         buttons: {

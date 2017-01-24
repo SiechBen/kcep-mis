@@ -89,14 +89,14 @@
 
             <div class="main_container">
                 <div class="header">
-                    <a class="logo" href="#">--<span>--</span></a>
+                    <a class="logo" href="#"></a>
                 </div>
                 <div class="content">
                     <h1 class="login-link" onclick="loadAjaxWindow('loginpage')" data-toggle="tooltip" data-placement="auto bottom" title="Click to log in"><center>Welcome to KCEP-MIS</center></h1>
                 </div>
                 <div class="feedback">
                     <center>
-                        <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials')
+                        <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials' || this.value === 'Feedback has been received. Thank you!')
                                     this.value = '';" onblur="if (this.value.trim() === '')
                                                 this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
                         <input type="button" class="submit" onclick="saveFeedback()">

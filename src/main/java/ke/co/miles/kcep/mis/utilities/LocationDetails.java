@@ -125,7 +125,22 @@ public class LocationDetails implements Serializable, Comparable<LocationDetails
         this.village = village;
     }
 
+    /**
+     * @return the region
+     */
+    public RegionDetail getRegion() {
+        return region;
+    }
+
+    /**
+     * @param region the region to set
+     */
+    public void setRegion(RegionDetail region) {
+        this.region = region;
+    }
+
     private Integer id;
+    private RegionDetail region;
     private CountyDetails county;
     private SubCountyDetails subCounty;
     private WardDetails ward;

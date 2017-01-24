@@ -28,6 +28,7 @@ import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.role.PersonRoleRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.PersonDetails;
 import ke.co.miles.kcep.mis.utilities.PersonRoleDetail;
+import ke.co.miles.kcep.mis.utilities.RegionDetail;
 
 /**
  *
@@ -334,6 +335,7 @@ public class AccessController extends Controller {
                             session.setAttribute("home", "/region");
                             session.setAttribute("userTitle", ": Regional Project Coordinator");
                             session.setAttribute("locationLabel", "region");
+                            session.setAttribute("regions", RegionDetail.values());
 
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties(person.getLocation().getCounty().getRegion().getId()));
@@ -367,6 +369,7 @@ public class AccessController extends Controller {
 
                             rightsMaps.clear();
                             session.setAttribute("home", "/head");
+                            session.setAttribute("regions", RegionDetail.values());
 
                             if (personRole.getPersonRole().equals("National Officer")) {
                                 rightsMaps.put("nationalOfficerSession", true);

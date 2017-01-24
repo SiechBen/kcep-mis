@@ -29,7 +29,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        National id number
+                        National ID number
                         <input id="national-id" class="form-control" value="${sessionScope.person.nationalId}">
                     </div>
                     <div class="form-group">
