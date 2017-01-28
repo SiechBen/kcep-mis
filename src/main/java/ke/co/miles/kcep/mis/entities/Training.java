@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "training", catalog = "kcep_mis", schema = "")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Training.findByTrainerId", query = "SELECT t FROM Training t WHERE t.topic.module.trainer.id IN (:trainerIds) OR t.topic.trainer.id IN (:trainerIds)"),
     @NamedQuery(name = "Training.findByIds", query = "SELECT t FROM Training t WHERE t.id IN (:ids)"),
     @NamedQuery(name = "Training.findByWardId", query = "SELECT t FROM Training t WHERE t.venue.ward.id = :wardId"),
     @NamedQuery(name = "Training.findByCountyId", query = "SELECT t FROM Training t WHERE t.venue.county.id = :countyId"),

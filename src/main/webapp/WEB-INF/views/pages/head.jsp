@@ -8,7 +8,7 @@
 <%@taglib prefix="kcep" tagdir="/WEB-INF/tags/" %>
 
 <kcep:head>
-    <jsp:attribute name="pagetitle"> KCEP-MIS - PCU project coordinator </jsp:attribute>
+    <jsp:attribute name="pagetitle"> KCEP-MIS - PCU programme coordinator </jsp:attribute>
     <jsp:attribute name="pagecontent">
 
         <jsp:include page="../includes/home.jsp"/>

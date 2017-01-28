@@ -45,7 +45,7 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
  */
 @WebServlet(name = "ReportsController", urlPatterns = {"/reports",
     "/financial_report_by_categories", "/financial_report_by_components",
-    "/updateOutcomeValues", "/changeOutcomeReport", "/goalLevelReports",
+    "/updateIndicatorValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
     "/getActivityProgress", "/setAppraisalTarget",
     "/doEditActivityProgress", "/doEditActivityProgressComment",
@@ -81,7 +81,7 @@ public class ReportsController extends Controller {
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditActivityProgressComment");
-                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/updateIndicatorValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
@@ -126,7 +126,7 @@ public class ReportsController extends Controller {
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditActivityProgressComment");
-                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/updateIndicatorValues");
                             urlPaths.add("/setAppraisalTarget");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
@@ -196,7 +196,7 @@ public class ReportsController extends Controller {
                             urlPaths.add("/doEditActivityProgressComment");
                             urlPaths.add("/changeFinancialYear");
                             urlPaths.add("/setAppraisalTarget");
-                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/updateIndicatorValues");
                             urlPaths.add("/changeOutcomeReport");
                             switch (path) {
                                 case "/reports":
@@ -238,7 +238,7 @@ public class ReportsController extends Controller {
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
-                            urlPaths.add("/updateOutcomeValues");
+                            urlPaths.add("/updateIndicatorValues");
                             urlPaths.add("/doEditMeasurementUnit");
                             urlPaths.add("/doEditActivityProgress");
                             urlPaths.add("/doEditActivityProgressComment");
@@ -527,24 +527,24 @@ public class ReportsController extends Controller {
 
                     return;
 
-                case "/updateOutcomeValues":
-                    PerformanceIndicatorValuesDetails outcomeIndicatorValues;
+                case "/updateIndicatorValues":
+                    PerformanceIndicatorValuesDetails performanceIndicatorValues;
                     try {
-                        outcomeIndicatorValues = new PerformanceIndicatorValuesDetails(Integer.valueOf(request.getParameter("id")));
+                        performanceIndicatorValues = new PerformanceIndicatorValuesDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
-                        outcomeIndicatorValues = new PerformanceIndicatorValuesDetails();
+                        performanceIndicatorValues = new PerformanceIndicatorValuesDetails();
                     }
                     try {
-                        outcomeIndicatorValues.setActualValue(Double.valueOf(request.getParameter("actualValue")));
+                        performanceIndicatorValues.setActualValue(Double.valueOf(request.getParameter("actualValue")));
                     } catch (Exception e) {
                     }
                     try {
-                        outcomeIndicatorValues.setExpectedValue(Double.valueOf(request.getParameter("expectedValue")));
+                        performanceIndicatorValues.setExpectedValue(Double.valueOf(request.getParameter("expectedValue")));
                     } catch (Exception e) {
                     }
 
                     try {
-                        performanceIndicatorValuesService.editOutcomeValues(outcomeIndicatorValues);
+                        performanceIndicatorValuesService.editPerformanceIndicatorValues(performanceIndicatorValues);
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -638,9 +638,6 @@ public class ReportsController extends Controller {
                             projectYear = null;
                         }
                         session.setAttribute("projectYear", projectYear);
-                        for (PerformanceIndicatorValuesDetails reportOnOutcomeIndicator : performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear)) {
-                            MilesDebugger.debug(reportOnOutcomeIndicator);
-                        }
                         session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

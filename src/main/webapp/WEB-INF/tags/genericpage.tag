@@ -62,12 +62,12 @@
 
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <strong><a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a></strong>
-                </div>
-                <img class="center-logo" src="static/images/tri_logo_small.png">
-                <ul class="nav navbar-top-links navbar-right">
-                    <li>
-                        <a class="text-center" href="<fmt:message key='home_link'/>">
+                    <strong><a class="navbar-brand" <c:if test="${sessionScope.userTitle}">href="home"</c:if>>KCEP-MIS ${sessionScope.userTitle}</a></strong>
+                    </div>
+                    <img class="center-logo" src="static/images/tri_logo_small.png">
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a class="text-center" href="<fmt:message key='home_link'/>">
                             <i class="fa fa-home"></i>
                         </a>
                     </li>

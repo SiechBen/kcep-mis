@@ -60,13 +60,13 @@
                                 <td class="editable pencil" onclick="editBaselineValue(this, ${outputIndicator.id}, '${outputIndicator.baselineValue}', '${outputIndicator.description}')">${outputIndicator.baselineValue}</td>
                                 <c:forEach var="cumulativeIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).keySet()}">
                                     <c:forEach var="outputIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).get(cumulativeIndicatorValues)}">
-                                        <td class="editable">${outputIndicatorValues.expectedValue}</td>
-                                        <td>${outputIndicatorValues.actualValue}</td>
-                                        <td><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
+                                        <td id="annual-target-value-${outputIndicatorValues.id}" class="editable pencil" onclick="editOutputValue('${outputIndicatorValues.id}', '${outputIndicator.id}', '${outputIndicatorValues.actualValue}', '${outputIndicatorValues.expectedValue}', '${outputIndicator.description}')">${outputIndicatorValues.expectedValue}</td>
+                                        <td id="annual-actual-value-${outputIndicatorValues.id}" class="editable pencil" onclick="editOutputValue('${outputIndicatorValues.id}', '${outputIndicator.id}', '${outputIndicatorValues.actualValue}', '${outputIndicatorValues.expectedValue}', '${outputIndicator.description}')">${outputIndicatorValues.actualValue}</td>
+                                        <td id="output-ratio-${outputIndicator.id}"><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
                                     <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setOutputAppraisalTarget('${outputIndicator.id}', '${cumulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
                                     <td>${cumulativeIndicatorValues.actualValue}</td>
-                                    <td id="output-ratio-${cumulativeIndicatorValues.id}"><c:if test="${not empty cumulativeIndicatorValues.ratio}">${cumulativeIndicatorValues.ratio}%</c:if></td>
+                                    <td id="appraisal-ratio-${outputIndicator.id}"><c:if test="${not empty cumulativeIndicatorValues.ratio}">${cumulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
                             </tr>
                         </c:forEach>
@@ -77,7 +77,7 @@
     </div>
 </div>
 
-<div class="row dialog" id="output-report-dialog">
+<div class="row dialog" id="appraisal-dialog">
     <div class="col-lg-12">
         <div class="panel-default">
             <div class="panel-body">
@@ -92,7 +92,7 @@
                     </div>
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)
-                        <input id="ratio" readonly class="form-control">
+                        <input id="appraisal-ratio" readonly class="form-control">
                     </div>
                 </form>
             </div>
@@ -100,6 +100,28 @@
     </div>
 </div>
 
+<div class="row dialog" id="output-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Annual target value
+                        <input id="annual-target-value" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Annual actual value
+                        <input id="annual-actual-value" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        Ratio( = (AV/EV) * 100)
+                        <input id="annual-ratio" readonly class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row dialog" id="baseline-date-dialog">
     <div class="col-lg-12">

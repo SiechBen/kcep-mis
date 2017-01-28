@@ -211,8 +211,23 @@ $("#expected-value").on("input", function () {
 });
 $("#appraisal-target").on("input", function () {
     var actualValue = parseFloat($("#actual-value").val()) || 0.0;
-    var expectedValue = parseFloat($("#appraisal-target").val()) || 0.0;
-    $("#ratio").val((actualValue / expectedValue * 100).toFixed(2));
+    var expectedValue = parseFloat($("#appraisal-target").val()) || 1.0;
+    $("#appraisal-ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
+$("#actual-value").on("input", function () {
+    var actualValue = parseFloat($("#actual-value").val()) || 0.0;
+    var expectedValue = parseFloat($("#appraisal-target").val()) || 1.0;
+    $("#appraisal-ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
+$("#annual-target-value").on("input", function () {
+    var actualValue = parseFloat($("#annual-actual-value").val()) || 0.0;
+    var expectedValue = parseFloat($("#annual-target-value").val()) || 1.0;
+    $("#annual-ratio").val((actualValue / expectedValue * 100).toFixed(2));
+});
+$("#annual-actual-value").on("input", function () {
+    var actualValue = parseFloat($("#annual-actual-value").val()) || 0.0;
+    var expectedValue = parseFloat($("#annual-target-value").val()) || 1.0;
+    $("#annual-ratio").val((actualValue / expectedValue * 100).toFixed(2));
 });
 function calculateAWPBTotals() {
 
@@ -524,7 +539,7 @@ function showMessage(title, message) {
     //Pop the message dialog
     $("#message-dialog").dialog({
         resizable: false,
-        height: 160,
+        height: "auto",
         modal: true,
         title: title,
         buttons: {
@@ -602,7 +617,7 @@ function editAccount(accountNumber, eblBranch, solId, savings) {
         width: 495,
         height: "auto",
         title: "edit_account_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -675,7 +690,7 @@ $(function () {
                         width: 495,
                         height: "auto",
                         title: "pick_awpb_reference_code",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Retrieve": function () {
@@ -743,6 +758,23 @@ function changeFinancialYear() {
     });
 }
 
+function changeAWPB() {
+    $.ajax({
+        url: "changeAWPB",
+        type: "POST",
+        data: "awpbUser=" + $("#awpb-user").val(),
+        success: function () {
+            loadAjaxWindow("sub_activities");
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
 function editActivityProgress(cell, activityProgressId, valueType, quarter) {
 
     var cellIndex = cell.cellIndex + 1;
@@ -752,7 +784,7 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
         width: 495,
         height: "auto",
         title: quarter !== undefined ? "" : quarter + " " + valueType.toLowerCase() + " for ref code " + $('td:nth-child(' + 1 + ')', $(cell).parents('tr')).text(),
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -836,7 +868,7 @@ function editActivityProgressComment(cell, activityProgressCommentId, comment) {
         width: 495,
         height: "auto",
         title: "Comments for reference code " + $('td:nth-child(' + 1 + ')', $(cell).parents('tr')).text(),
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -899,7 +931,7 @@ function editEVoucher(id, amount, inputType, person, dateRedeemed) {
         width: 495,
         height: "auto",
         title: "edit_evouchers_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -1034,7 +1066,7 @@ function editEquipment(id, warehouseId, type, serialNumber, count, status) {
         width: 495,
         height: "auto",
         title: "edit_equipment_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -1163,9 +1195,9 @@ function editFarm(farmerId, plotSize, locationId, county, subCounty, ward, divis
     $("#longitude").val(longitude);
     $("#farm-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_farm_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -1443,10 +1475,10 @@ function flyAddSubActivityName() {
 function addFarmActivity() {
     $("#farm-activity-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "add_farm_activity_label",
         modal: true,
-        resizable: false,
+        resizable: true,
         buttons: {
             "Add": function () {
                 $.ajax({
@@ -1507,10 +1539,10 @@ function editFarmActivity(id, quantityHarvested, familyConsumption, quantitySold
     $("#average-selling-price").val(averageSellingPrice);
     $("#farm-activity-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_farm_activity",
         modal: true,
-        resizable: false,
+        resizable: true,
         buttons: {
             "Save": function () {
                 $.ajax({
@@ -1683,10 +1715,10 @@ function deleteFinancialYear(id) {
 function addInputsCollection() {
     $("#inputs-collection-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "add_inputs_collection_label",
         modal: true,
-        resizable: false,
+        resizable: true,
         buttons: {
             "Add": function () {
                 $.ajax({
@@ -1731,7 +1763,7 @@ function addLoan() {
         height: "auto",
         title: "add_loan_label",
         modal: true,
-        resizable: false,
+        resizable: true,
         buttons: {
             "Add": function () {
                 $.ajax({
@@ -1849,7 +1881,7 @@ function setOutcomeAppraisalTarget(id, appraisalTarget, description) {
         width: 495,
         height: "auto",
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -1902,16 +1934,16 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
         $("#actual-value option[value=" + parseInt(actualValue) + "]").attr("selected", "selected");
     $("#outcome-report-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
                 actualValue = parseFloat($("#actual-value").val()) || 0;
                 expectedValue = parseFloat($("#expected-value").val()) || 0.0;
                 $.ajax({
-                    url: "updateOutcomeValues",
+                    url: "updateIndicatorValues",
                     type: "POST",
                     data: "id=" + id +
                             "&projectYear=" + $("#project-year").val() +
@@ -1979,7 +2011,7 @@ $(function () {
 });
 //</editor-fold>
 
-function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description) {
+function setOutputAppraisalTarget(id, indicatorId, actualValue, appraisalTarget, description) {
 
     actualValue = parseFloat(actualValue) || 0;
     appraisalTarget = parseFloat(appraisalTarget) || 0;
@@ -1989,11 +2021,11 @@ function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description)
         $("#appraisal-target").val(appraisalTarget);
     if (actualValue !== "")
         $("#actual-value").val(actualValue);
-    $("#output-report-dialog").dialog({
+    $("#appraisal-dialog").dialog({
         width: 495,
         height: "auto",
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -2006,8 +2038,55 @@ function setOutputAppraisalTarget(id, actualValue, appraisalTarget, description)
                             "&appraisalTarget=" + appraisalTarget,
                     success: function () {
                         if (appraisalTarget !== 0.0)
-                            $("#output-ratio-" + id).html(((actualValue / appraisalTarget) * 100).toFixed(2) + "%");
+                            $("#output-ratio-" + indicatorId).html(((actualValue / appraisalTarget) * 100).toFixed(2) + "%");
                         $("#appraisal-target-" + id).html(appraisalTarget);
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
+function editOutputValue(id, indicatorId, annualActualValue, annualTargetValue, description) {
+    annualActualValue = parseFloat(annualActualValue) || 0;
+    annualTargetValue = parseFloat(annualTargetValue) || 0;
+    if (annualTargetValue !== 0)
+        $("#annual-ratio").val(((annualActualValue / annualTargetValue) * 100).toFixed(2) + "%");
+    if (annualTargetValue !== "")
+        $("#annual-target-value option[value=" + parseInt(annualTargetValue) + "]").attr("selected", "selected");
+    if (annualActualValue !== "")
+        $("#annual-actual-value option[value=" + parseInt(annualActualValue) + "]").attr("selected", "selected");
+    $("#output-dialog").dialog({
+        width: 495,
+        height: 500,
+        title: description,
+        resizable: true,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                annualActualValue = parseFloat($("#annual-actual-value").val()) || 0;
+                annualTargetValue = parseFloat($("#annual-target-value").val()) || 0.0;
+                $.ajax({
+                    url: "updateIndicatorValues",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&projectYear=" + $("#project-year").val() +
+                            "&actualValue=" + annualActualValue +
+                            "&expectedValue=" + annualTargetValue,
+                    success: function () {
+                        if (annualTargetValue !== 0.0)
+                            $("#output-ratio-" + indicatorId).html(((annualActualValue / annualTargetValue) * 100).toFixed(2) + "%");
+                        $("#annual-target-value-" + id).html(annualTargetValue);
+                        $("#annual-actual-value-" + id).html(annualActualValue);
                         return;
                     },
                     error: function (response) {
@@ -2059,7 +2138,7 @@ $(function () {
                         width: 495,
                         height: "auto",
                         title: "add_project_year_label",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Save": function () {
@@ -2262,9 +2341,9 @@ function editPerformanceIndicator(id, type, resultHierarchyDescription, descript
     $("#ratio").val(ratio);
     $("#performance-indicators-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_perfomance_indicator_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -2308,7 +2387,7 @@ function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, d
         width: 495,
         height: "auto",
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -2316,6 +2395,7 @@ function editPerformanceIndicatorValues(id, expectedValue, actualValue, ratio, d
                     url: "doEditPerformanceIndicatorValues",
                     type: "POST",
                     data: "id=" + id +
+                            "&actualValue=" + $("#actual-value").val() +
                             "&expectedValue=" + $("#expected-value").val(),
                     success: function () {
                         $("#expected-value").val(0);
@@ -2349,7 +2429,7 @@ function editBaselineDate(cell, id, baselineDate, description) {
         width: 495,
         height: "auto",
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -2384,7 +2464,7 @@ function editBaselineValue(cell, id, baselineValue, description) {
         width: 495,
         height: "auto",
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -2418,7 +2498,7 @@ function editMeasurementUnit(cell, id, measurementUnitId, description) {
         width: 495,
         height: "auto",
         title: description,
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -2669,13 +2749,19 @@ $(function () {
                 text: "Hide / show columns"
             },
             {
+                text: "View on map",
+                action: function () {
+                    loadAjaxWindow("mapFarmers");
+                }
+            },
+            {
                 text: 'Search person',
                 action: function () {
                     $("#search-person-dialog").dialog({
                         width: 495,
                         height: "auto",
                         title: "search_criteria_label",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Search": function () {
@@ -2707,6 +2793,7 @@ $(function () {
             }]
     });
 });
+
 $(function () {
     $("#agro-dealers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -2734,13 +2821,19 @@ $(function () {
                 text: "Hide / show columns"
             },
             {
+                text: "View on map",
+                action: function () {
+                    loadAjaxWindow("mapAgroDealers");
+                }
+            },
+            {
                 text: 'Search person',
                 action: function () {
                     $("#search-person-dialog").dialog({
                         width: 495,
                         height: "auto",
                         title: "search_criteria_label",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Search": function () {
@@ -2793,7 +2886,7 @@ $(function () {
                         width: 495,
                         height: "auto",
                         title: "search_criteria_label",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Search": function () {
@@ -2845,7 +2938,7 @@ $(function () {
                         width: 495,
                         height: "auto",
                         title: "search_criteria_label",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Search": function () {
@@ -2941,6 +3034,7 @@ function hideLocation() {
         $("#region-hidden").hide();
     }
 }
+
 function addFarmer() {
 
     var nationalId = $("#national-id").val();
@@ -3076,9 +3170,9 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
     $("#email").val(email);
     $("#person-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_person_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -3255,9 +3349,9 @@ function editProcurement(id, item, cost, date, serial, description, office, coun
     $("#lpo-number").val(lpoNumber);
     $("#procurements-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_procurement_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -3419,9 +3513,9 @@ function editProcurementPlan(id, procurementPlanType, description, ifadPriorRevi
     $("#commence-contract").val(commenceContract);
     $("#procurement-plans-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_procurement_plan_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -3662,9 +3756,9 @@ function editProcurementPlansCs(id, type, description,
     $("#commence-contract").val(commenceContract);
     $("#procurement-plans-cs-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_procurements_plans_cs_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -3942,9 +4036,9 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
     $("#financial-institution-percentage").val(financialInstitutionPercentage);
     $("#sub-activity-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_sub_activity",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -4415,9 +4509,9 @@ function editTraining(id, startDate, endDate, topic, venue, county, subCounty, w
     $("#number-of-trainees").val(numberOfTrainees);
     $("#training-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_training_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -4706,9 +4800,9 @@ function editWarehouse(id, name, warehouseType, capacity, units, offersWrs,
     $("#warehouse-type option[value=" + warehouseOperator + "]").val(warehouseOperator);
     $("#warehouse-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_warehouse_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -4818,9 +4912,9 @@ function addWarehouseOperation(warehouseId) {
     $("#warehouse-operation-dialog").dialog({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_warehouse_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -4872,9 +4966,9 @@ function editWarehouseOperation(id, warehouseId, quantityBrought, produceTypeBro
     $("#buyer").val(buyer);
     $("#warehouse-operation-dialog").dialog({
         width: 495,
-        height: "auto",
+        height: 500,
         title: "edit_warehouse_label",
-        resizable: false,
+        resizable: true,
         modal: false,
         buttons: {
             "Save": function () {
@@ -5043,7 +5137,7 @@ $(function () {
                         width: 495,
                         height: "auto",
                         title: "upload_document_title",
-                        resizable: false,
+                        resizable: true,
                         modal: false,
                         buttons: {
                             "Submit": function () {

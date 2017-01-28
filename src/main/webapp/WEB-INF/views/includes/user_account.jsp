@@ -4,6 +4,7 @@
     Author     : siech
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="row">
@@ -42,3 +43,42 @@
         </div>
     </div>
 </div>
+
+<c:choose>
+    <c:when test="${sessionScope.person.personRoleId == 7}">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        System backup
+                    </div>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('backupSystem')">Backup system</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:when>
+    <c:when test="${sessionScope.person.personRoleId == 9}">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        System backup
+                    </div>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline btn-primary" onclick="loadAjaxWindow('backupSystem')">Backup system</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:when>
+</c:choose>

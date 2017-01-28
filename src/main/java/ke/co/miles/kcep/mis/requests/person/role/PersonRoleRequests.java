@@ -70,7 +70,8 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         setQ(em.createNamedQuery("PersonRole.findNotAdminOrPcu"));
         List<Short> personRoleIds = new ArrayList<>();
         personRoleIds.add(PersonRoleDetail.SYSTEM_ADMIN.getId());
-        personRoleIds.add(PersonRoleDetail.NATIONAL_OFFICER.getId());
+        personRoleIds.add(PersonRoleDetail.PROGRAMME_COORDINATOR.getId());
+        personRoleIds.add(PersonRoleDetail.SENIOR_PROGRAMME_COORDINATOR.getId());
         q.setParameter("personRoleIds", personRoleIds);
         try {
             personRoles = q.getResultList();

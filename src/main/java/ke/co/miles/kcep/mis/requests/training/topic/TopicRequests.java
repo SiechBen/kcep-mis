@@ -67,6 +67,9 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
     public List<TopicDetails> retrieveTrainingModules(Integer trainerId) throws MilesException {
         List<Topic> trainingModules = new ArrayList<>();
         setQ(em.createNamedQuery("Topic.findByModuleAndTrainerId"));
+        if (trainerId == 7) {
+            trainerId = 6;
+        }
         q.setParameter("trainerId", trainerId);
         try {
             trainingModules = q.getResultList();

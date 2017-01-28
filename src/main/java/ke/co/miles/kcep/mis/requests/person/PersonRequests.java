@@ -989,8 +989,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
         PersonDetails personDetails
                 = convertPersonToPersonDetails(userAccount.getPerson());
-        personDetails.setPersonRoleId(userAccount.getPersonRole().getId());
-        personDetails.setPersonRole(userAccount.getPersonRole().getPersonRole());
+        personDetails.setPersonRoleId(PersonRoleDetail.getPersonRoleDetail(userAccount.getPersonRole().getId()).getId());
+        personDetails.setPersonRole(PersonRoleDetail.getPersonRoleDetail(userAccount.getPersonRole().getId()).getPersonRole());
         personDetails.setUsername(userAccount.getUsername());
 
         return personDetails;

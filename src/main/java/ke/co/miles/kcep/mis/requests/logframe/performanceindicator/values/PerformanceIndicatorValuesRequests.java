@@ -398,28 +398,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 
         PerformanceIndicatorValues performanceIndicatorValues
                 = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
-        performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
-
-        try {
-            em.merge(performanceIndicatorValues);
-            em.flush();
-        } catch (Exception e) {
-            throw new InvalidStateException("error_000_01");
-        }
-
-    }
-
-    @Override
-    public void editOutcomeValues(PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails) throws MilesException {
-
-        if (performanceIndicatorValuesDetails == null) {
-            throw new InvalidArgumentException("error_055_01");
-        } else if (performanceIndicatorValuesDetails.getId() == null) {
-            throw new InvalidArgumentException("error_055_03");
-        }
-
-        PerformanceIndicatorValues performanceIndicatorValues
-                = em.find(PerformanceIndicatorValues.class, performanceIndicatorValuesDetails.getId());
         performanceIndicatorValues.setActualValue(performanceIndicatorValuesDetails.getActualValue());
         performanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
 

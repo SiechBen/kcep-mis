@@ -40,7 +40,7 @@ public interface CountyRequestsLocal {
      * @return the details of the county record retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public CountyDetails retrieveCounty(int id) throws MilesException;
+    public CountyDetails retrieveCounty(short id) throws MilesException;
 
     /**
      *
@@ -55,7 +55,7 @@ public interface CountyRequestsLocal {
      * @param id the unique identifier of the county record to be removed
      * @throws MilesException when the database is in an incorrect state
      */
-    public void removeCounty(int id) throws MilesException;
+    public void removeCounty(short id) throws MilesException;
 
     /**
      *

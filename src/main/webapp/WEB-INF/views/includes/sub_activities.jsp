@@ -12,12 +12,35 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Annual Workplan Budget
+                Annual Workplan Budget for ${sessionScope.awpbUser}
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <table id="awpb-table" class="table table-striped table-bordered table-hover">
                         <thead>
+                            <tr>
+                                <th colspan="30">
+                                    Choose awpb for: &nbsp;
+                                    <select id="awpb-user" onchange="changeAWPB()">
+                                        <option value="national"
+                                                <c:if test="${sessionScope.awpbNational}">selected</c:if>>
+                                                    National office
+                                                </option>
+                                        <c:forEach var="region" items="${sessionScope.regions}" varStatus="index">
+                                            <option value="region-${region.id}"
+                                                    <c:if test="${sessionScope.awpbRegion == region.id}">selected</c:if>>
+                                                ${region.name} region
+                                            </option>
+                                        </c:forEach>
+                                        <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
+                                            <option value="county-${county.id}"
+                                                    <c:if test="${sessionScope.awpbCounty == county.id}">selected</c:if>>
+                                                ${county.name} county
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </th>
+                            </tr>
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Annual workplan reference code</th>

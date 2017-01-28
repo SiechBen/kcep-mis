@@ -412,6 +412,8 @@ table.dataTable thead .sorting:after {
 
 .dialog {
     display: none;
+    height: 600px;
+    overflow: auto; /* Or scroll, depending on your needs*/
 }
 
 #warehouse-table tbody tr {
@@ -507,8 +509,8 @@ table.dataTable thead .sorting:after {
 
 #map {
     width: 100%;
-    height: 400px;
-    background-color: grey;
+    height: 54em;
+    background-color: #777;
 }
 
 #performance-indicator-table td:nth-child(3) {
@@ -645,6 +647,12 @@ a {
     border-color: #0A8300;
 }
 
+.btn-info:hover {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #0A8300;
+}
+
 .form-control:focus {
     border-color: darkgreen;
 }
@@ -655,8 +663,7 @@ a {
 
 .floating-table {
     position: fixed;
-    bottom: 0;
-    width: 100%;
+    bottom: -1.7em;;
 }
 
 .push-up {
@@ -665,4 +672,14 @@ a {
 
 #region-hidden {
     display: none;
+}
+
+#people-count-table {
+    background: #ffffff;
+}
+
+.panel-green .panel-heading {
+    border-color: #0A8300;
+    color: #fff;
+    background-color: #0A8300;
 }

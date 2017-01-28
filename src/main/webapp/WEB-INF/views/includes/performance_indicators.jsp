@@ -82,7 +82,7 @@
                     </div>
                     <div class="form-group">
                         Actual value
-                        <input type="number" step="0.01"  id="actual-value" readonly value="0.00" class="form-control">
+                        <input type="number" step="0.01"  id="actual-value" value="0.00" class="form-control">
                     </div>
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)

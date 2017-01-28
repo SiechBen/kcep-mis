@@ -28,7 +28,7 @@
                         <tr>
                             <th colspan="2">Kenya Cereal Enhancement Programme</th>
                             <th colspan="7">
-                                Project year: &nbsp;
+                                Programme year: &nbsp;
                                 <select id="project-year" onchange="changeOutcomeReport()">
                                     <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
                                         <option value="${projectYear}" <c:if test="${sessionScope.projectYear == projectYear}">selected</c:if>>${projectYear}</option>
@@ -44,7 +44,7 @@
                             <th>Reference code</th>
                             <th>Outcome indicator</th>
                             <th>Unit</th>
-                            <th>Target(end of project)</th>
+                            <th>Target(end of programme)</th>
                             <th>Actual accumulated at end of previous year</th>
                             <th>Target end of year</th>
                             <th>Actual end of year</th>

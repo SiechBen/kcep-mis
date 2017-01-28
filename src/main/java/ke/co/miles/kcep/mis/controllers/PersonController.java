@@ -675,7 +675,8 @@ public class PersonController extends Controller {
                     PersonRoleDetail personRole;
                     try {
                         personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
-                        if (personRole.equals(PersonRoleDetail.NATIONAL_OFFICER)
+                        if (personRole.equals(PersonRoleDetail.PROGRAMME_COORDINATOR)
+                                || personRole.equals(PersonRoleDetail.SENIOR_PROGRAMME_COORDINATOR)
                                 || personRole.equals(PersonRoleDetail.SYSTEM_ADMIN)
                                 || personRole.equals(PersonRoleDetail.AGMARK_OFFICER)) {
                             location.setCounty(null);
@@ -813,7 +814,8 @@ public class PersonController extends Controller {
 
                     try {
                         personRole = PersonRoleDetail.getPersonRoleDetail(Short.valueOf(String.valueOf(request.getParameter("personRole"))));
-                        if (personRole.equals(PersonRoleDetail.NATIONAL_OFFICER)
+                        if (personRole.equals(PersonRoleDetail.PROGRAMME_COORDINATOR)
+                                || personRole.equals(PersonRoleDetail.SENIOR_PROGRAMME_COORDINATOR)
                                 || personRole.equals(PersonRoleDetail.SYSTEM_ADMIN)
                                 || personRole.equals(PersonRoleDetail.AGMARK_OFFICER)) {
                             location.setCounty(null);

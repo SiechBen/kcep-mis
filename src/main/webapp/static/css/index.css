@@ -20,9 +20,20 @@ body {
     font-family:"Century Gothic", Helvetica, sans-serif;
 }
 
-.main_container{
+.main-container{
     width: 900px;
     margin: 150px auto;
+    /*overflow: scroll;*/
+}
+
+.info-container{
+    padding: 2em;
+    width: 80em;
+    height: 47em;
+    margin: 4em auto;
+    overflow-y: scroll;
+    word-wrap: normal;
+    line-break: normal;
 }
 
 .header{
@@ -195,4 +206,31 @@ ul.s_icons li.in:hover{
     color: #7EE577;
     cursor: pointer;
     text-decoration: underline;
+}
+
+.login-label {
+    font-size: 12px;
+    margin-top: -3.0em;
+    margin-left: 32em;
+}
+
+.info-label {
+    font-size: 12px;
+    margin-top: -1.5em;
+    margin-left: 36em;
+}
+
+.indented {
+    margin-left: 2.5em;
+}
+
+.fixed-bottom {
+    position: absolute;
+    bottom: 2.5em;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: #0A8300;
+    border-color: #0A8300;
 }

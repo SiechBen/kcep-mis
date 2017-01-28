@@ -28,7 +28,7 @@
                         <tr>
                             <th colspan="2">Kenya Cereal Enhancement Programme</th>
                             <th colspan="5">
-                                Project year: &nbsp;
+                                Programme year: &nbsp;
                                 <select id="project-year" onchange="changeOutcomeReport()">
                                     <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
                                         <option value="${projectYear}" <c:if test="${sessionScope.projectYear == projectYear}">selected</c:if>>${projectYear}</option>

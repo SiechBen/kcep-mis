@@ -28,6 +28,7 @@
         <jsp:include page="../../tags/includes/success_stories_item.jsp"/>
         <jsp:include page="../../tags/includes/surveys_item.jsp"/>
         <jsp:include page="../../tags/includes/documents_item.jsp"/>
+        <%--<jsp:include page="../../tags/includes/backup_item.jsp"/>--%>
     </jsp:attribute>
 
     <jsp:attribute name="content">

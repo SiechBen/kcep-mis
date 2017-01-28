@@ -120,6 +120,7 @@ public class AccessController extends Controller {
                     session.setAttribute("person", person);
                     session.setAttribute("user", person.getName());
                     session.setAttribute("personRole", personRole);
+                    MilesDebugger.debug(personRole.getPersonRole());
 
                     switch (personRole.getPersonRole()) {
                         case "Farmer":
@@ -364,16 +365,21 @@ public class AccessController extends Controller {
                             }
                             break;
 
-                        case "National Officer":
+                        case "Senior Programme Coordinator":
+                        case "Programme Coordinator":
                         case "System Admin":
 
                             rightsMaps.clear();
                             session.setAttribute("home", "/head");
                             session.setAttribute("regions", RegionDetail.values());
 
-                            if (personRole.getPersonRole().equals("National Officer")) {
+                            if (personRole.getPersonRole().equals("Programme Coordinator")) {
                                 rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", ": PCU Project Coordinator");
+                                session.setAttribute("userTitle", ": Project Coordinator");
+                                session.setAttribute("locationLabel", "country");
+                            } else if (personRole.getPersonRole().equals("Senior Programme Coordinator")) {
+                                rightsMaps.put("nationalOfficerSession", true);
+                                session.setAttribute("userTitle", ": Senior Project Coordinator");
                                 session.setAttribute("locationLabel", "country");
                             } else {
                                 rightsMaps.put("systemAdminSession", true);
@@ -403,7 +409,7 @@ public class AccessController extends Controller {
                             }
 
                             try {
-                                session.setAttribute("personRoles", personRoleService.retrievePersonRoles());
+                                session.setAttribute("personRoles", PersonRoleDetail.values());
                             } catch (Exception e) {
                             }
 

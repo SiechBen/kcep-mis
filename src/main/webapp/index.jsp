@@ -4,6 +4,7 @@
     Author     : siech
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -35,7 +36,7 @@
 
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="home">KCEP-MIS ${sessionScope.userTitle}</a>
+                    <a class="navbar-brand">KCEP-MIS</a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
@@ -60,7 +61,7 @@
                                 </a>
                             </li>
                             <li class="divider"></li>
-                        </c:forEach>
+                            </c:forEach>
                         <li>
                             <a class="text-center" onclick="loadAjaxWindow('feedback'')">
                                 <strong>Read All Messages</strong>
@@ -87,12 +88,14 @@
                 </ul>
             </nav>
 
-            <div class="main_container">
+            <div class="main-container">
                 <div class="header">
                     <a class="logo" href="#"></a>
                 </div>
                 <div class="content">
                     <h1 class="login-link" onclick="loadAjaxWindow('loginpage')" data-toggle="tooltip" data-placement="auto bottom" title="Click to log in"><center>Welcome to KCEP-MIS</center></h1>
+                    <!--<center> <div class="login-label">Follow this link to login</div> </center>-->
+                    <center> <div class="info-label"><a href="info.jsp"><button class="btn btn-info">READ MORE >></button></a></div> </center>
                 </div>
                 <div class="feedback">
                     <center>

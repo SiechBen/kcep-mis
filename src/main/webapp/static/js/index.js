@@ -50,3 +50,10 @@ function showError(title, message) {
         }
     });
 }
+
+//<editor-fold defaultstate="collapsed" desc="Windows">
+function loadPreviousWindow() {
+    parent.history.back();
+    return false;
+}
+//</editor-fold>

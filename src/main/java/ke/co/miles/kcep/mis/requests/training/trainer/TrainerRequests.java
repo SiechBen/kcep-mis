@@ -131,6 +131,47 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainerTrainings(String trainer) throws MilesException {
+
+        List<Training> trainings = new ArrayList<>();
+        setQ(em.createNamedQuery("Training.findByTrainerId"));
+        List<Integer> trainerIds;
+        switch (trainer) {
+            case "agmark":
+                trainerIds = new ArrayList<>();
+                trainerIds.add(5);
+                q.setParameter("trainerIds", trainerIds);
+                break;
+            case "equity":
+                trainerIds = new ArrayList<>();
+                trainerIds.add(6);
+                trainerIds.add(7);
+                q.setParameter("trainerIds", trainerIds);
+                break;
+            case "kalro":
+                trainerIds = new ArrayList<>();
+                trainerIds.add(11);
+                q.setParameter("trainerIds", trainerIds);
+                break;
+        }
+
+        try {
+            trainings = q.getResultList();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        HashMap<TrainingDetails, List<TrainerDetails>> trainingMap = new HashMap<>();
+
+        for (Training training : trainings) {
+            trainingMap.put(trainingService.convertTrainingToTrainingDetails(training), TrainerRequests.this.retrieveTrainers(training.getId()));
+        }
+
+        return trainingMap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainings() throws MilesException {
 
         List<Training> trainings = new ArrayList<>();
@@ -304,7 +345,8 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
 //<editor-fold defaultstate="collapsed" desc="Convert">
 
     @Override
-    public TrainerDetails convertTrainerToTrainerDetails(Trainer trainer) {
+    public TrainerDetails convertTrainerToTrainerDetails(Trainer trainer
+    ) {
 
         TrainerDetails trainerDetails = new TrainerDetails(trainer.getId());
         trainerDetails.setPhenomenon(phenomenonService.convertPhenomenonToPhenomenonDetails(trainer.getPhenomenon()));

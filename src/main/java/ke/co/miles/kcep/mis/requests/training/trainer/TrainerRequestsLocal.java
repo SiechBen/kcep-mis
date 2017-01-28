@@ -55,6 +55,14 @@ public interface TrainerRequestsLocal {
 
     /**
      *
+     * @param trainer the name of the trainer for the trainings to be retrieved
+     * @return the retrieved map of training record details to trainers
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public HashMap<TrainingDetails, List<TrainerDetails>> retrieveTrainerTrainings(String trainer) throws MilesException;
+
+    /**
+     *
      * @param wardId the unique identifier of the ward at which the training
      * activities were held
      * @return the retrieved map of training record details to trainers

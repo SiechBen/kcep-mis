@@ -50,7 +50,8 @@ import net.minidev.json.JSONObject;
  */
 @WebServlet(name = "EVoucherController", urlPatterns = {
     //        "/addEVoucher", "/doAddEVoucher", "/doEditEVoucher", "/doDeleteEVoucher", "/eVouchers",
-    "/addFarmer", "/addAgroDealer", "/farmers", "/getLocations", "/agroDealers"})
+    "/addFarmer", "/addAgroDealer", "/farmers", "/getLocations", "/agroDealers",
+    "/mapFarmers", "/mapAgroDealers"})
 @MultipartConfig
 public class EVoucherPersonController extends Controller {
 
@@ -82,6 +83,14 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/doEditEVoucher");
                             urlPaths.add("/doDeleteEVoucher");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/head_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/head_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/eVouchers":
                                     path = "/head_eVouchers";
                                     urlPaths.add(path);
@@ -118,6 +127,14 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/head_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/head_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/eVouchers":
                                     path = "/head_eVouchers";
                                     urlPaths.add(path);
@@ -154,6 +171,14 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/equity_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/equity_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/eVouchers":
                                     path = "/equity_eVouchers";
                                     urlPaths.add(path);
@@ -190,6 +215,14 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addAgroDealer");
                             urlPaths.add("/doAddEVoucher");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/county_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/county_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/eVouchers":
                                     path = "/county_eVouchers";
                                     urlPaths.add(path);
@@ -225,6 +258,14 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addFarmer");
                             urlPaths.add("/addAgroDealer");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/sub_county_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/sub_county_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/farmers":
                                     path = "/sub_county_farmers";
                                     urlPaths.add(path);
@@ -252,6 +293,14 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/getLocations");
                             urlPaths.add("/addAgroDealer");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/wao_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/wao_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/farmers":
                                     path = "/ward_farmers";
                                     urlPaths.add(path);
@@ -277,6 +326,14 @@ public class EVoucherPersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getLocations");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/agmark_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/agmark_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/eVouchers":
                                     path = "/agmark_eVouchers";
                                     urlPaths.add(path);
@@ -298,6 +355,14 @@ public class EVoucherPersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/getLocations");
                             switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/kalro_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/kalro_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
                                 case "/eVouchers":
                                     path = "/kalro_eVouchers";
                                     urlPaths.add(path);
@@ -498,7 +563,7 @@ public class EVoucherPersonController extends Controller {
 
                         JSONObject jsonLocation;
                         JSONArray jsonList = new JSONArray();
-                        StringBuilder farmerInfo;
+                        StringBuilder personInfo;
                         List<PersonDetails> people = new ArrayList<>();
 
                         String personType = request.getParameter("personType");
@@ -508,45 +573,45 @@ public class EVoucherPersonController extends Controller {
                             people = (List<PersonDetails>) session.getAttribute("agroDealers");
                         }
 
-                        for (PersonDetails farmer : people) {
-                            farmerInfo = new StringBuilder();
-                            farmerInfo.append("<strong>");
-                            farmerInfo.append(farmer.getName());
-                            farmerInfo.append("</strong>");
-                            farmerInfo.append("<br>");
-                            if (farmer.getLocation() == null) {
+                        for (PersonDetails person : people) {
+                            personInfo = new StringBuilder();
+                            personInfo.append("<strong>");
+                            personInfo.append(person.getName());
+                            personInfo.append("</strong>");
+                            personInfo.append("<br>");
+                            if (person.getLocation() == null) {
                                 continue;
                             }
-                            if (farmer.getLocation().getWard() != null) {
-                                farmerInfo.append(farmer.getLocation().getWard().getName());
-                                if (farmer.getLocation().getWard().getName() != null) {
-                                    farmerInfo.append(", ");
+                            if (person.getLocation().getWard() != null) {
+                                personInfo.append(person.getLocation().getWard().getName());
+                                if (person.getLocation().getWard().getName() != null) {
+                                    personInfo.append(", ");
                                 }
-                                farmerInfo.append(farmer.getLocation().getWard().getSubCounty().getName());
-                                farmerInfo.append(", ");
-                                farmerInfo.append(farmer.getLocation().getWard().getSubCounty().getCounty().getName());
-                                farmerInfo.append("<br>");
+                                personInfo.append(person.getLocation().getWard().getSubCounty().getName());
+                                personInfo.append(", ");
+                                personInfo.append(person.getLocation().getWard().getSubCounty().getCounty().getName());
+                                personInfo.append("<br>");
                             }
-                            if (farmer.getLocation().getVillage() != null) {
-                                farmerInfo.append(farmer.getLocation().getVillage().getName());
-                                if (farmer.getLocation().getVillage().getName() != null) {
-                                    farmerInfo.append(" village");
-                                    if (farmer.getLocation().getDivisionalLocation() != null) {
-                                        farmerInfo.append(", ");
-                                        farmerInfo.append(farmer.getLocation().getDivisionalLocation().getName());
-                                        farmerInfo.append(" division");
+                            if (person.getLocation().getVillage() != null) {
+                                personInfo.append(person.getLocation().getVillage().getName());
+                                if (person.getLocation().getVillage().getName() != null) {
+                                    personInfo.append(" village");
+                                    if (person.getLocation().getDivisionalLocation() != null) {
+                                        personInfo.append(", ");
+                                        personInfo.append(person.getLocation().getDivisionalLocation().getName());
+                                        personInfo.append(" division");
                                     }
                                 }
 
-                            } else if (farmer.getLocation().getDivisionalLocation() != null) {
-                                farmerInfo.append(farmer.getLocation().getDivisionalLocation().getName());
+                            } else if (person.getLocation().getDivisionalLocation() != null) {
+                                personInfo.append(person.getLocation().getDivisionalLocation().getName());
                             }
-                            farmerInfo.append("<br>");
+                            personInfo.append("<br>");
                             jsonLocation = new JSONObject();
-                            jsonLocation.put("info", farmerInfo.toString());
+                            jsonLocation.put("info", personInfo.toString());
                             try {
-                                jsonLocation.put("lat", farmer.getLocation().getLatitude().doubleValue());
-                                jsonLocation.put("long", farmer.getLocation().getLongitude().doubleValue());
+                                jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
+                                jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
                             } catch (Exception e) {
                             }
                             jsonList.add(jsonLocation);

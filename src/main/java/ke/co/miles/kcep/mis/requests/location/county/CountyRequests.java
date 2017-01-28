@@ -95,7 +95,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
     }
 
     @Override
-    public CountyDetails retrieveCounty(int id) throws MilesException {
+    public CountyDetails retrieveCounty(short id) throws MilesException {
         County county;
         setQ(em.createNamedQuery("County.findById"));
         q.setParameter("id", id);
@@ -156,7 +156,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Delete">
     @Override
-    public void removeCounty(int id) throws MilesException {
+    public void removeCounty(short id) throws MilesException {
         County county = em.find(County.class, id);
         try {
             em.remove(county);

@@ -17,7 +17,7 @@
     <jsp:attribute name="title"> ${pagetitle} </jsp:attribute>
 
     <jsp:attribute name="menuitems">
-        <jsp:include page="../../tags/includes/samples_item.jsp"/>
+        <%--<jsp:include page="../../tags/includes/samples_item.jsp"/>--%>
         <jsp:include page="../../tags/includes/training_item.jsp"/>
         <jsp:include page="../../tags/includes/warehouses_item.jsp"/>
         <jsp:include page="../../tags/includes/success_stories_item.jsp"/>

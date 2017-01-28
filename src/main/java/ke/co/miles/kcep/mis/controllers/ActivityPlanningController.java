@@ -29,6 +29,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.sub.SubActiv
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.sub.SubActivityRequestsLocal;
 import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYearRequestsLocal;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
+import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
@@ -52,6 +53,7 @@ import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
 @WebServlet(
         name = "PlanningController",
         urlPatterns = {
+            "/changeAWPB",
             "/addSubActivity",
             "/doAddPhenomenon",
             "/sub_activities",
@@ -94,7 +96,7 @@ public class ActivityPlanningController extends Controller {
         HttpSession session = request.getSession();
 
         String path = request.getServletPath();
-        String destination;
+        String destination = null;
 
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps
@@ -121,6 +123,10 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
+                                case "/changeAWPB":
+                                    destination = "/head_sub_activities";
+                                    urlPaths.add("/changeAWPB");
+                                    break;
                                 case "/sub_activities":
                                     path = "/head_sub_activities";
                                     urlPaths.add(path);
@@ -171,6 +177,10 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
+                                case "/changeAWPB":
+                                    destination = "/head_sub_activities";
+                                    urlPaths.add("/changeAWPB");
+                                    break;
                                 case "/sub_activities":
                                     path = "/head_sub_activities";
                                     urlPaths.add(path);
@@ -221,6 +231,10 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
+                                case "/changeAWPB":
+                                    destination = "/region_sub_activities";
+                                    urlPaths.add("/changeAWPB");
+                                    break;
                                 case "/sub_activities":
                                     path = "/region_sub_activities";
                                     urlPaths.add(path);
@@ -643,33 +657,45 @@ public class ActivityPlanningController extends Controller {
                     }
                     return;
 
-                case "/head_sub_activities":
-                case "/county_sub_activities":
-                case "/region_sub_activities":
-                    try {
-                        session.setAttribute("expectedOutcomes", phenomenonService.retrieveExpectedOutcomes());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of expected outcomes", ex);
+                case "/changeAWPB":
+
+                    String awpbUser = request.getParameter("awpbUser");
+                    Short countyId = 0;
+                    Short regionId = 0;
+
+                    if (awpbUser.startsWith("county")) {
+                        countyId = Short.valueOf(awpbUser.split("-")[1]);
+                        awpbUser = awpbUser.split("-")[0];
+                    } else if (awpbUser.startsWith("region")) {
+                        regionId = Short.valueOf(awpbUser.split("-")[1]);
+                        awpbUser = awpbUser.split("-")[0];
+                    } else if (awpbUser.equals("national")) {
+                    } else {
                         return;
                     }
 
                     try {
-                        session.setAttribute("gfssCodes", phenomenonService.retrieveGFSSCodes());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
-                        return;
-                    }
-
-                    try {
-                        switch (path) {
-                            case "/head_sub_activities":
+                        switch (awpbUser) {
+                            case "national":
                                 session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
+                                session.setAttribute("awpbUser", "National office");
+                                session.setAttribute("awpbRegion", 0);
+                                session.setAttribute("awpbCounty", 0);
+                                session.setAttribute("awpbNational", true);
                                 break;
-                            default:
-                                session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                            case "county":
+                                session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(countyId));
+                                session.setAttribute("awpbUser", countyService.retrieveCounty(countyId).getName() + " county");
+                                session.setAttribute("awpbRegion", 0);
+                                session.setAttribute("awpbCounty", countyId);
+                                session.setAttribute("awpbNational", false);
                                 break;
-                            case "/region_sub_activities":
-                                session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getRegion().getId()));
+                            case "region":
+                                session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(regionId));
+                                session.setAttribute("awpbUser", RegionDetail.getRegionDetail(regionId).getName() + " region");
+                                session.setAttribute("awpbCounty", 0);
+                                session.setAttribute("awpbRegion", regionId);
+                                session.setAttribute("awpbNational", false);
                                 break;
                         }
                     } catch (MilesException ex) {
@@ -681,91 +707,152 @@ public class ActivityPlanningController extends Controller {
 
                     }
 
-                    try {
-                        session.setAttribute("subActivityNames", subActivityNameService.retrieveSubActivityNames());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, "", ex);
-                    }
+                    session.setAttribute("awpbChanged", true);
 
-                    try {
-                        session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, "", ex);
-                    }
+                    return;
 
-                    try {
-                        session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, "", ex);
-                    }
+                case "/head_sub_activities":
+                case "/county_sub_activities":
+                case "/region_sub_activities":
 
-                    try {
-                        session.setAttribute("measurementUnits", measurementUnitService.retrievePlanningMeasurementUnits());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
-                        return;
-                    }
-
-                    try {
-                        session.setAttribute("responsePCUList", phenomenonService.retrieveResponsePCUList());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of list of response PCU", ex);
-                        return;
-                    }
-
-                    try {
-                        session.setAttribute("annualIndicators", phenomenonService.retrieveAnnualIndicators());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of annual indicators", ex);
-                        return;
-                    }
-
-                    try {
-                        session.setAttribute("expenditureCategories", phenomenonService.retrieveExpenditureCategories());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of expenditure categories", ex);
-                        return;
-                    }
-
-                    try {
-                        session.setAttribute("implementingPartners", phenomenonService.retrieveImplementingPartners());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of implementing partners", ex);
-                        return;
-                    }
-
-                    List<PhenomenonDetails> components;
-                    try {
-                        components = phenomenonService.retrieveComponents();
-                        session.setAttribute("components", components);
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of components", ex);
-                        return;
-                    }
-
-                    try {
-                        ListIterator<PhenomenonDetails> iterator = components.listIterator();
-                        if (iterator.hasNext()) {
-                            session.setAttribute("subComponents", phenomenonService.retrieveSubComponents(iterator.next().getId()));
+                    Boolean awpbChanged = (Boolean) session.getAttribute("awpbChanged");
+                    if (awpbChanged == null || !awpbChanged) {
+                        try {
+                            session.setAttribute("expectedOutcomes", phenomenonService.retrieveExpectedOutcomes());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of expected outcomes", ex);
+                            return;
                         }
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-components", ex);
-                        return;
-                    }
 
-                    try {
-                        session.setAttribute("performanceIndicators", performanceIndicatorService.retrievePerformanceIndicators());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of performance indicators", ex);
-                        return;
-                    }
+                        try {
+                            session.setAttribute("gfssCodes", phenomenonService.retrieveGFSSCodes());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during procurements retrieval", ex);
+                            return;
+                        }
 
+                        try {
+                            switch (path) {
+                                case "/head_sub_activities":
+                                    session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
+                                    session.setAttribute("awpbUser", "National office");
+                                    session.setAttribute("awpbRegion", 0);
+                                    session.setAttribute("awpbCounty", 0);
+                                    session.setAttribute("awpbNational", true);
+                                    break;
+                                default:
+                                    countyId = ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId();
+                                    session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(countyId));
+                                    session.setAttribute("awpbUser", ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getName() + " county");
+                                    session.setAttribute("awpbRegion", 0);
+                                    session.setAttribute("awpbCounty", countyId);
+                                    session.setAttribute("awpbNational", false);
+                                    break;
+                                case "/region_sub_activities":
+                                    regionId = ((PersonDetails) session.getAttribute("person")).getLocation().getRegion().getId();
+                                    session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(regionId));
+                                    session.setAttribute("awpbUser", ((PersonDetails) session.getAttribute("person")).getLocation().getRegion().getName() + " region");
+                                    session.setAttribute("awpbCounty", 0);
+                                    session.setAttribute("awpbRegion", regionId);
+                                    session.setAttribute("awpbNational", false);
+                                    break;
+                            }
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, "", ex);
+                        } catch (NumberFormatException ex) {
+                            LOGGER.log(Level.INFO, "", ex);
+
+                        }
+
+                        session.setAttribute("awpbChanged", false);
+
+                        try {
+                            session.setAttribute("subActivityNames", subActivityNameService.retrieveSubActivityNames());
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, "", ex);
+                        }
+
+                        try {
+                            session.setAttribute("activityNames", activityNameService.retrieveActivityNames());
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, "", ex);
+                        }
+
+                        try {
+                            session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
+                        } catch (MilesException ex) {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write(getBundle().getString(ex.getCode()));
+                            LOGGER.log(Level.INFO, "", ex);
+                        }
+
+                        try {
+                            session.setAttribute("measurementUnits", measurementUnitService.retrievePlanningMeasurementUnits());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
+                            return;
+                        }
+
+                        try {
+                            session.setAttribute("responsePCUList", phenomenonService.retrieveResponsePCUList());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of list of response PCU", ex);
+                            return;
+                        }
+
+                        try {
+                            session.setAttribute("annualIndicators", phenomenonService.retrieveAnnualIndicators());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of annual indicators", ex);
+                            return;
+                        }
+
+                        try {
+                            session.setAttribute("expenditureCategories", phenomenonService.retrieveExpenditureCategories());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of expenditure categories", ex);
+                            return;
+                        }
+
+                        try {
+                            session.setAttribute("implementingPartners", phenomenonService.retrieveImplementingPartners());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of implementing partners", ex);
+                            return;
+                        }
+
+                        List<PhenomenonDetails> components;
+                        try {
+                            components = phenomenonService.retrieveComponents();
+                            session.setAttribute("components", components);
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of components", ex);
+                            return;
+                        }
+
+                        try {
+                            ListIterator<PhenomenonDetails> iterator = components.listIterator();
+                            if (iterator.hasNext()) {
+                                session.setAttribute("subComponents", phenomenonService.retrieveSubComponents(iterator.next().getId()));
+                            }
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of sub-components", ex);
+                            return;
+                        }
+
+                        try {
+                            session.setAttribute("performanceIndicators", performanceIndicatorService.retrievePerformanceIndicators());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of performance indicators", ex);
+                            return;
+                        }
+                    }
                     break;
 
                 case "/doAddSubActivity":
@@ -1205,6 +1292,8 @@ public class ActivityPlanningController extends Controller {
 
     private static final Logger LOGGER = Logger.getLogger(ActivityPlanningController.class.getSimpleName());
 
+    @EJB
+    private CountyRequestsLocal countyService;
     @EJB
     private PhenomenonRequestsLocal phenomenonService;
     @EJB

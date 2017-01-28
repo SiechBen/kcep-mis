@@ -25,12 +25,13 @@
                                         <option value="${financialYear.id}"
                                                 <c:if test="${empty sessionScope.financialYear && financialYear.currentYear}">selected</c:if>
                                                 <c:if test="${sessionScope.financialYear == financialYear.id}">selected</c:if>>
-                                            ${financialYear.financialYear}</option>
-                                        </c:forEach>
+                                            ${financialYear.financialYear}
+                                        </option>
+                                    </c:forEach>
                                 </select>
                             </th>
                             <th colspan="13">
-                                Quarter
+                                Quarter: &nbsp;
                                 <select id="quarter" onchange="changeQuarter()">
                                     <option value="0"selected>select</option>
                                     <option value="1" <c:if test="${sessionScope.quarter == 1}">selected</c:if>>1</option>
@@ -42,31 +43,29 @@
                             </tr>
                             <tr>
                                 <th colspan="8">Physical progress</th>
-                                <th colspan="6">Fincancial progress</th>
+                                <th colspan="5">Fincancial progress</th>
                                 <th>Comments</th>
                             </tr>
                             <tr>
                                 <th colspan="1">&nbsp;</th>
                                 <th colspan="1">&nbsp;</th>
-                                <th colspan="1">&nbsp;</th>
+                                <th rowspan="2">Unit</th>
                                 <th colspan="2">Quarter ${sessionScope.quarter}</th>
-                            <th rowspan="2">Appraisal</th>
+                            <th rowspan="2">Appraisal Target</th>
                             <th colspan="2">Cumulative</th>
-                            <th colspan="1">Expenditure category</th>
+                            <th rowspan="2">Expenditure category</th>
                             <th colspan="2">Quarter ${sessionScope.quarter}</th>
-                            <th rowspan="2">Appraisal</th>
+                            <!--<th rowspan="2">Appraisal</th>-->
                             <th colspan="2">Cumulative</th>
                             <th>&nbsp;</th>
                         </tr>
                         <tr>
                             <th colspan="1">AWPB ref code</th>
                             <th colspan="1">Planned activity</th>
-                            <th colspan="1">Unit</th>
                             <th colspan="1">Target</th>
                             <th colspan="1">Value achieved</th>
                             <th colspan="1">Target</th>
                             <th colspan="1">Value achieved</th>
-                            <th colspan="1">&nbsp;</th>
                             <th colspan="1">Planned budget</th>
                             <th colspan="1">Actual expenditure</th>
                             <th colspan="1">Planned budget</th>
@@ -76,7 +75,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="15">Report on second level results</th>
+                            <th colspan="14">Report on second level results</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -129,7 +128,7 @@
                                     <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Budget', 'Quarter 4')">${activityProgressReport.financialProgressQ4.targetOrBudget}</td>
                                     <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialProgressQ4.id}, 'Expense', 'Quarter 4')">${activityProgressReport.financialProgressQ4.valueAchievedOrExpense}</td>
                                 </c:if>
-                                <td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialAppraisal.id}, 'Appraisal')">${activityProgressReport.financialAppraisal.targetOrBudget}</td>
+                                <!--<td class="editable pencil" onclick="editActivityProgress(this, ${activityProgressReport.financialAppraisal.id}, 'Appraisal')">${activityProgressReport.financialAppraisal.targetOrBudget}</td>-->
                                 <td>${activityProgressReport.cumulativeFinancialProgress.targetOrBudget}</td>
                                 <td>${activityProgressReport.cumulativeFinancialProgress.valueAchievedOrExpense}</td>
                                 <td class="editable pencil" onclick="editActivityProgressComment(this, ${activityProgressReport.activityProgressComment.id}, '${activityProgressReport.activityProgressComment.comment}')">${activityProgressReport.activityProgressComment.comment}</td>

@@ -7,5 +7,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <li>
-    <a href="#" onclick="loadAjaxWindow('success_stories')"><i class="fa fa-edit fa-fw"></i> Success Stories</a>
+    <a href="#" onclick="loadAjaxWindow('success_stories')"><i class="fa fa-edit fa-fw"></i> Success stories</a>
 </li>
