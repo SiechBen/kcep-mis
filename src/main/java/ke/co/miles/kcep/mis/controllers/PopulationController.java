@@ -417,18 +417,20 @@ public class PopulationController extends Controller {
 
                     //Create ebl branch record if not exist
                     try {
-                        result = statement.executeQuery("SELECT * FROM ebl_branch WHERE name LIKE '%" + peopleMap.get(person).getEblBranch().getName() + "%' ");
+                        result = statement.executeQuery("SELECT * FROM ebl_branch WHERE name LIKE '%" + (null == peopleMap.get(person).getEblBranch() ? null : peopleMap.get(person).getEblBranch().getName()) + "%' ");
                         result.next();
                         eblBranch = peopleMap.get(person).getEblBranch();
                         eblBranch.setId(result.getShort("id"));
                         peopleMap.get(person).setEblBranch(eblBranch);
                     } catch (SQLException e) {
-                        statement.executeUpdate("INSERT INTO ebl_branch(name) VALUES('" + peopleMap.get(person).getEblBranch().getName() + "')");
-                        result = statement.executeQuery("SELECT * FROM ebl_branch ORDER BY id DESC LIMIT 1 ");
-                        result.next();
-                        eblBranch = peopleMap.get(person).getEblBranch();
-                        eblBranch.setId(result.getShort("id"));
-                        peopleMap.get(person).setEblBranch(eblBranch);
+                        if (peopleMap.get(person).getEblBranch() != null) {
+                            statement.executeUpdate("INSERT INTO ebl_branch(name) VALUES('" + peopleMap.get(person).getEblBranch().getName() + "')");
+                            result = statement.executeQuery("SELECT * FROM ebl_branch ORDER BY id DESC LIMIT 1 ");
+                            result.next();
+                            eblBranch = peopleMap.get(person).getEblBranch();
+                            eblBranch.setId(result.getShort("id"));
+                            peopleMap.get(person).setEblBranch(eblBranch);
+                        }
                     }
 
                     //Create the person's record. remember to use java.sql.Date
@@ -443,7 +445,7 @@ public class PopulationController extends Controller {
                     int personId = result.getInt("id");
 
                     //Create bank account for person
-                    statement.executeUpdate("INSERT INTO account(account_number,ebl_branch,sol_id,farmer) VALUES('" + peopleMap.get(person).getAccountNumber() + "'," + peopleMap.get(person).getEblBranch().getId() + ",'" + peopleMap.get(person).getSolId() + "'," + personId + ")");
+                    statement.executeUpdate("INSERT INTO account(account_number,ebl_branch,sol_id,farmer) VALUES('" + (peopleMap.get(person).getAccountNumber() + "'," + (peopleMap.get(person).getEblBranch() == null ? null : peopleMap.get(person).getEblBranch().getId())) + ",'" + peopleMap.get(person).getSolId() + "'," + personId + ")");
 
                     //Create the person's user account record
                     statement.executeUpdate("INSERT INTO user_account(person, username, password, person_role) VALUES (" + personId + ",'" + person.getContact().getEmail() + "','" + password + "'," + PersonRoleDetail.FARMER.getId() + ")");

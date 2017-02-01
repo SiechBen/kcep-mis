@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -333,7 +334,26 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             try {
                 performanceIndicatorValues.getPerformanceIndicator().setAccumulatedActual((double) q.getSingleResult());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
+            try {
+                performanceIndicatorValues.getPerformanceIndicator().setCumulativeActualValue(
+                        (null == performanceIndicatorValues.getPerformanceIndicator().getAccumulatedActual() ? 0 : performanceIndicatorValues.getPerformanceIndicator().getAccumulatedActual())
+                        + (null == performanceIndicatorValues.getActualValue() ? 0 : performanceIndicatorValues.getActualValue()));
+
+                performanceIndicatorValues.getPerformanceIndicator().setCumulativeActualValue(
+                        performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue() == 0 ? null : performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue());
+            } catch (Exception e) {
+                MilesDebugger.debug(e);
+            }
+//            try {
+//                performanceIndicatorValues.setRatio(
+//                        Double.parseDouble(decimalFormat.format(
+//                                (null == performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue() ? 0 : performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue())
+//                                / performanceIndicatorValues.getExpectedValue() * 100)));
+//            } catch (Exception e) {
+//                MilesDebugger.debug(e);
+//            }
         }
 
         return orderedList;

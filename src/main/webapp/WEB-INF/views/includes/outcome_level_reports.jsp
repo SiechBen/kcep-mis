@@ -20,14 +20,14 @@
                     <thead>
                         <tr>
                             <th colspan="2">Republic of Kenya</th>
-                            <th colspan="7">
+                            <th colspan="8">
                                 Report date: &nbsp;
                                 <input id="report-date" class="datefield" type="date">
                             </th>
                         </tr>
                         <tr>
                             <th colspan="2">Kenya Cereal Enhancement Programme</th>
-                            <th colspan="7">
+                            <th colspan="8">
                                 Programme year: &nbsp;
                                 <select id="project-year" onchange="changeOutcomeReport()">
                                     <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
@@ -37,7 +37,7 @@
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="9">Second level results</th>
+                            <th colspan="10">Second level results</th>
                         </tr>
                         <tr>
                             <th>&nbsp;</th>
@@ -47,13 +47,14 @@
                             <th>Target(end of programme)</th>
                             <th>Actual accumulated at end of previous year</th>
                             <th>Target end of year</th>
-                            <th>Actual end of year</th>
+                            <th>Actual end of reporting period</th>
+                            <th>Cumulative</th>
                             <th>% completion of yearly target</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th colspan="9">Report on second level results</th>
+                            <th colspan="10">Report on second level results</th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -65,8 +66,9 @@
                                 <td>Rating</td>
                                 <td id="appraisal-target-${outcome.performanceIndicator.id}" class="editable pencil" onclick="setOutcomeAppraisalTarget('${outcome.performanceIndicator.id}', '${outcome.performanceIndicator.appraisalTarget}', '${outcome.performanceIndicator.description}')">${outcome.performanceIndicator.appraisalTarget}</td>
                                 <td>${outcome.performanceIndicator.accumulatedActual}</td>
-                                <td id="expected-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.expectedValue}</td>
-                                <td id="actual-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.actualValue}</td>
+                                <td id="expected-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.performanceIndicator.accumulatedActual}', '${outcome.performanceIndicator.cumulativeActualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.expectedValue}</td>
+                                <td id="actual-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.performanceIndicator.accumulatedActual}', '${outcome.performanceIndicator.cumulativeActualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.actualValue}</td>
+                                <td id="cumulative-${outcome.id}">${outcome.performanceIndicator.cumulativeActualValue}</td>
                                 <td id="outcome-ratio-${outcome.id}"><c:if test="${not empty outcome.ratio}">${outcome.ratio}%</c:if></td>
                                 </tr>
                         </c:forEach>
@@ -101,6 +103,21 @@
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)
                         <input id="ratio" readonly class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="appraisal-target-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Appraisal target
+                        <input type="number" step="0.01"  id="appraisal-target" class="form-control">
                     </div>
                 </form>
             </div>

@@ -53,7 +53,7 @@
                                     <td>${person.location.ward.name}</td>
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
-                                    <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
+                                    <td><button onclick="editAgrodealer('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
                                                     '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
                                                     '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
@@ -64,20 +64,6 @@
                     </table>
                     <jsp:include page="people_count.jsp"/>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Agro-dealer locations on map
-            </div>
-            <div class="panel-body">
-                <input type="hidden" id="person-type" value="AgroDealer">
-                <div id="map"></div>
             </div>
         </div>
     </div>
@@ -119,14 +105,6 @@
                     <div class="form-group">
                         Business Name
                         <input id="business-name" name="person-business-name" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        Farmer Group
-                        <input id="farmer-group" name="person-framer-group" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        Farmer SubGroup
-                        <input id="farmer-sub-group" name="person-farmer-sub-group" class="form-control">
                     </div>
                     <div class="form-group">
                         County
@@ -184,7 +162,3 @@
         </div>
     </div>
 </div>
-
-<script src="static/js/maps.js" type="text/javascript"></script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAosZcLbpuT4q2Mrl96oMfgtsC2etLRvLw&callback=getLocations"></script>

@@ -62,7 +62,7 @@
 
             <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
-                    <strong><a class="navbar-brand" <c:if test="${sessionScope.userTitle}">href="home"</c:if>>KCEP-MIS ${sessionScope.userTitle}</a></strong>
+                    <strong><a class="navbar-brand" <c:if test="${sessionScope.userTitle}">href="home"</c:if>>KCEP-MIS <span id="user-title">: ${sessionScope.person.name} - ${sessionScope.userTitle}</span></a></strong>
                     </div>
                     <img class="center-logo" src="static/images/tri_logo_small.png">
                     <ul class="nav navbar-top-links navbar-right">

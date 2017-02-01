@@ -183,7 +183,11 @@ public class FarmerReader {
                                             Double d = cell.getNumericCellValue();
                                             eblBranch.setName(d.toString());
                                         }
-                                        account.setEblBranch(eblBranch);
+                                        if (eblBranch.getName() == null) {
+                                            account.setEblBranch(null);
+                                        } else {
+                                            account.setEblBranch(eblBranch);
+                                        }
                                         break;
                                     case 7:
                                         try {

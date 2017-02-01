@@ -8,5 +8,5 @@
 
 <li>
     <a href="#" onclick="loadAjaxWindow('documents');
-            return false;"><i class="fa fa-book fa-fw"></i> Documents </a>
+            return false;"><i class="fa fa-book fa-fw"></i> Repository </a>
 </li>

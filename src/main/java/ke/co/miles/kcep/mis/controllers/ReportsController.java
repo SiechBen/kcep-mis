@@ -638,6 +638,7 @@ public class ReportsController extends Controller {
                             projectYear = null;
                         }
                         session.setAttribute("projectYear", projectYear);
+                        session.setAttribute("outcomesReport", null);
                         session.setAttribute("outcomesReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

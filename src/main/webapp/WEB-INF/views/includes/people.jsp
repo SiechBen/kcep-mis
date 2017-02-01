@@ -63,11 +63,11 @@
                                     <td>${person.location.ward.name}</td>
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
-                                    <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.personRoleId}', '${person.nationalId}',
-                                                    '${person.yearOfBirth}', '${person.businessName}',
-                                                    '${person.farmerGroup.id}', '${person.farmerSubGroup.id}', '${person.location.id}', '${person.location.county.id}',
-                                                    '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
-                                                    '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                    <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}',
+                                                    '${person.personRoleId}', '${person.nationalId}', '${person.yearOfBirth}',
+                                                    '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}',
+                                                    '${person.location.ward.id}', '${person.contact.id}', '${person.contact.phone}',
+                                                    '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                     <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="form-group">
                         Person role
-                        <select id="person-role" class="form-control">
+                        <select id="person-role" class="form-control" onchange="hideLocation()">
                             <c:forEach var="personRole" items="${sessionScope.personRoles}" varStatus="index">
                                 <option value="${personRole.id}">${personRole.personRole}</option>
                             </c:forEach>
@@ -114,19 +114,15 @@
                             <option disabled>Select year</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        Business Name
-                        <input id="business-name" name="person-business-name" class="form-control">
+                    <div class="form-group" id="region-hidden">
+                        Region
+                        <select id="region" name="person-region" class="form-control">
+                            <c:forEach var="region" items="${sessionScope.regions}" varStatus="index">
+                                <option value="${region.id}">${region.name}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        Farmer Group
-                        <input id="farmer-group" name="person-framer-group" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        Farmer SubGroup
-                        <input id="farmer-sub-group" name="person-farmer-sub-group" class="form-control">
-                    </div>
-                    <div class="form-group">
+                    <div class="form-group" id="county-to-hide">
                         County
                         <select id="county" name="person-county" class="form-control" onchange="updateSubCounties()">
                             <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
@@ -134,7 +130,7 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="sub-county-to-hide">
                         Sub-county
                         <select id="sub-county" name="person-sub-county" class="form-control" onchange="updateWards()">
                             <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
@@ -142,7 +138,7 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="ward-to-hide">
                         Ward
                         <select id="ward" name="ward" class="form-control">
                             <c:forEach var="ward" items="${sessionScope.wards}" varStatus="index">

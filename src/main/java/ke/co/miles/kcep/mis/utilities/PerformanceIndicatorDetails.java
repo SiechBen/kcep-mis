@@ -153,6 +153,20 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
         this.accumulatedActual = accumulatedActual;
     }
 
+    /**
+     * @return the cumulativeActualValue
+     */
+    public Double getCumulativeActualValue() {
+        return cumulativeActualValue;
+    }
+
+    /**
+     * @param cumulativeActualValue the cumulativeActualValue to set
+     */
+    public void setCumulativeActualValue(Double cumulativeActualValue) {
+        this.cumulativeActualValue = cumulativeActualValue;
+    }
+
     private static final long serialVersionUID = 1L;
     private Short id;
     private String description;
@@ -160,6 +174,7 @@ public class PerformanceIndicatorDetails implements Serializable, Comparable<Per
     private Double baselineValue;
     private Double appraisalTarget;
     private Double accumulatedActual;
+    private Double cumulativeActualValue;
     private ResultHierarchyDetails resultHierarchy;
     private MeasurementUnitDetails measurementUnit;
     private PhenomenonDetails performanceIndicatorType;

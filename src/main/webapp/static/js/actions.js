@@ -1923,7 +1923,7 @@ function changeOutcomeReport() {
     });
 }
 
-function editOutcomeValue(id, actualValue, expectedValue, description) {
+function editOutcomeValue(id, actualValue, accumulatedActual, cumulativeActual, expectedValue, description) {
     actualValue = parseFloat(actualValue) || 0;
     expectedValue = parseFloat(expectedValue) || 0;
     if (expectedValue !== 0)
@@ -1934,7 +1934,7 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
         $("#actual-value option[value=" + parseInt(actualValue) + "]").attr("selected", "selected");
     $("#outcome-report-dialog").dialog({
         width: 495,
-        height: 500,
+        height: "auto",
         title: description,
         resizable: true,
         modal: false,
@@ -1942,6 +1942,7 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
             "Save": function () {
                 actualValue = parseFloat($("#actual-value").val()) || 0;
                 expectedValue = parseFloat($("#expected-value").val()) || 0.0;
+                cumulativeActual = actualValue + accumulatedActual;
                 $.ajax({
                     url: "updateIndicatorValues",
                     type: "POST",
@@ -1952,6 +1953,7 @@ function editOutcomeValue(id, actualValue, expectedValue, description) {
                     success: function () {
                         if (expectedValue !== 0.0)
                             $("#outcome-ratio-" + id).html(((actualValue / expectedValue) * 100).toFixed(2) + "%");
+                        $("#cumulative-" + id).html(cumulativeActual);
                         $("#expected-value-" + id).html(expectedValue);
                         $("#actual-value-" + id).html(actualValue);
                         return;
@@ -2067,7 +2069,7 @@ function editOutputValue(id, indicatorId, annualActualValue, annualTargetValue, 
         $("#annual-actual-value option[value=" + parseInt(annualActualValue) + "]").attr("selected", "selected");
     $("#output-dialog").dialog({
         width: 495,
-        height: 500,
+        height: "auto",
         title: description,
         resizable: true,
         modal: false,
@@ -2114,6 +2116,8 @@ var exportIndicator = {
             body: function (data, row, col, node) {
                 if (row === 3)
                     return $('#performance-indicator-table tbody tr').eq(col).find('td').eq(row).attr("title");
+                else if (row === 9)
+                    return "";
                 else
                     return data;
             }
@@ -2633,6 +2637,37 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
+        "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+            var age = 0;
+            var sex;
+            var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0, pageTotal = 0;
+            for (var i = 0; i < aaData.length; i++)
+            {
+                age = aaData[i][4] * 1;
+                sex = aaData[i][3];
+                console.log(age);
+                console.log(sex);
+                if (sex === "Male" && age > 35) {
+                    maleElderly += 1;
+                    console.log("This is a male elder");
+                } else if (sex === "Male" && age >= 18 && age <= 35) {
+                    maleYouth += 1;
+                    console.log("This is a male youth");
+                } else if (sex === "Female" && age > 35) {
+                    femaleElderly += 1;
+                    console.log("This is a female elder");
+                } else if (sex === "Female" && age >= 18 && age <= 35) {
+                    femaleYouth += 1;
+                    console.log("This is a female youth");
+                }
+                console.log("\n");
+            }
+            console.log("Male elders: " + maleElderly);
+            console.log("Female elders: " + femaleElderly);
+            console.log("Male youths: " + maleElderly);
+            console.log("Female youths: " + femaleElderly);
+            console.log("Page total: " + (femaleElderly + maleElderly + femaleYouth + femaleElderly));
+        },
         buttons: [
             {
                 text: 'Add',
@@ -2656,78 +2691,63 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
-        "footerCallback": function () {
-            var api = this.api();
-            // Total over all pages
-            var totalPeople = api
-                    .column(2)
-                    .data()
-                    .reduce(function (a) {
-                        return a + 1;
-                    }, 0);
-            var femaleYouth = api
-                    .column(2, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        var array = b.split(", ");
-                        var sex = array[0];
-                        var age = array[1];
-                        if (parseInt(age) <= 35 && sex === "Female") {
-                            return a + 1;
-                        } else
-                            return a;
-                    }, 0);
-            var femaleElderly = api
-                    .column(2, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        var array = b.split(", ");
-                        var sex = array[0];
-                        var age = array[1];
-                        if (parseInt(age) > 35 && sex === "Female") {
-                            return a + 1;
-                        } else
-                            return a;
-                    }, 0);
-            var maleYouth = api
-                    .column(2, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        var array = b.split(", ");
-                        var sex = array[0];
-                        var age = array[1];
-                        if (parseInt(age) <= 35 && sex === "Male") {
-                            return a + 1;
-                        } else
-                            return a;
-                    }, 0);
-            var maleElderly = api
-                    .column(2, {page: 'current'})
-                    .data()
-                    .reduce(function (a, b) {
-                        var array = b.split(", ");
-                        var sex = array[0];
-                        var age = array[1];
-                        if (parseInt(age) > 35 && sex === "Male") {
-                            return a + 1;
-                        } else
-                            return a;
-                    }, 0);
-            // Total over this page
-            var pageTotal = api
-                    .column(2, {page: 'current'})
-                    .data()
-                    .reduce(function (a) {
-                        return a + 1;
-                    }, 0);
+        "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+            var iTotalMarket = 0;
+            for (var i = 0; i < aaData.length; i++) {
+                iTotalMarket += aaData[i][3] * 1;
+            }
+
+            /* Calculate the market share for browsers on this page */
+            var iPageMarket = 0;
+            for (var i = iStart; i < iEnd; i++) {
+                iPageMarket += aaData[ aiDisplay[i] ][3] * 1;
+            }
+
+            /* Modify the footer row to match what we want */
+            console.log(parseInt(iPageMarket * 100) / 100 +
+                    '% (' + parseInt(iTotalMarket * 100) / 100 + '% total)');
+
+            var age = 0;
+            var sex;
+            var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0,
+                    maleTotal = 0, femaleTotal = 0, pageTotal = 0;
+            for (var i = iStart; i < iEnd; i++) {
+                sex = aaData[i][2];
+                age = aaData[i][3] * 1;
+                console.log(age);
+                console.log(sex);
+                if (sex === "Male" && age > 35) {
+                    maleElderly += 1;
+                    console.log("This is a male elder");
+                } else if (sex === "Male" && age >= 18 && age <= 35) {
+                    maleYouth += 1;
+                    console.log("This is a male youth");
+                } else if (sex === "Female" && age > 35) {
+                    femaleElderly += 1;
+                    console.log("This is a female elder");
+                } else if (sex === "Female" && age >= 18 && age <= 35) {
+                    femaleYouth += 1;
+                    console.log("This is a female youth");
+                }
+                console.log("\n");
+            }
+            console.log("Male elders: " + maleElderly);
+            console.log("Female elders: " + femaleElderly);
+            console.log("Male youths: " + maleElderly);
+            console.log("Female youths: " + femaleElderly);
+            console.log("Page total: " + (femaleElderly + maleElderly + femaleYouth + femaleElderly));
+            maleTotal = (maleYouth + maleElderly);
+            femaleTotal = (femaleYouth + femaleElderly);
+            pageTotal = (femaleTotal + maleTotal);
+
             /* update people-count-table */
             var rows = $("table#people-count-table").find("tbody").find("tr");
             $(rows[2]).find("td:eq(0)").html(femaleYouth);
             $(rows[2]).find("td:eq(1)").html(femaleElderly);
-            $(rows[2]).find("td:eq(2)").html(femaleYouth + femaleElderly);
+            $(rows[2]).find("td:eq(2)").html(femaleTotal);
             $(rows[2]).find("td:eq(3)").html(maleYouth);
             $(rows[2]).find("td:eq(4)").html(maleElderly);
-            $(rows[2]).find("td:eq(5)").html(maleYouth + maleElderly);
+            $(rows[2]).find("td:eq(5)").html(maleTotal);
             $(rows[2]).find("td:eq(6)").html(pageTotal);
         },
         buttons: [
@@ -2802,6 +2822,65 @@ $(function () {
         "scrollY": "200",
         "scrollCollapse": true,
         dom: "Blftip",
+        "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+            var iTotalMarket = 0;
+            for (var i = 0; i < aaData.length; i++) {
+                iTotalMarket += aaData[i][3] * 1;
+            }
+
+            /* Calculate the market share for browsers on this page */
+            var iPageMarket = 0;
+            for (var i = iStart; i < iEnd; i++) {
+                iPageMarket += aaData[ aiDisplay[i] ][3] * 1;
+            }
+
+            /* Modify the footer row to match what we want */
+            console.log(parseInt(iPageMarket * 100) / 100 +
+                    '% (' + parseInt(iTotalMarket * 100) / 100 + '% total)');
+
+            var age = 0;
+            var sex;
+            var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0,
+                    maleTotal = 0, femaleTotal = 0, pageTotal = 0;
+            for (var i = iStart; i < iEnd; i++) {
+                sex = aaData[i][2];
+                age = aaData[i][3] * 1;
+                console.log(age);
+                console.log(sex);
+                if (sex === "Male" && age > 35) {
+                    maleElderly += 1;
+                    console.log("This is a male elder");
+                } else if (sex === "Male" && age >= 18 && age <= 35) {
+                    maleYouth += 1;
+                    console.log("This is a male youth");
+                } else if (sex === "Female" && age > 35) {
+                    femaleElderly += 1;
+                    console.log("This is a female elder");
+                } else if (sex === "Female" && age >= 18 && age <= 35) {
+                    femaleYouth += 1;
+                    console.log("This is a female youth");
+                }
+                console.log("\n");
+            }
+            console.log("Male elders: " + maleElderly);
+            console.log("Female elders: " + femaleElderly);
+            console.log("Male youths: " + maleElderly);
+            console.log("Female youths: " + femaleElderly);
+            console.log("Page total: " + (femaleElderly + maleElderly + femaleYouth + femaleElderly));
+            maleTotal = (maleYouth + maleElderly);
+            femaleTotal = (femaleYouth + femaleElderly);
+            pageTotal = (femaleTotal + maleTotal);
+
+            /* update people-count-table */
+            var rows = $("table#people-count-table").find("tbody").find("tr");
+            $(rows[2]).find("td:eq(0)").html(femaleYouth);
+            $(rows[2]).find("td:eq(1)").html(femaleElderly);
+            $(rows[2]).find("td:eq(2)").html(femaleTotal);
+            $(rows[2]).find("td:eq(3)").html(maleYouth);
+            $(rows[2]).find("td:eq(4)").html(maleElderly);
+            $(rows[2]).find("td:eq(5)").html(maleTotal);
+            $(rows[2]).find("td:eq(6)").html(pageTotal);
+        },
         buttons: [
             {
                 text: 'Add',
@@ -3027,6 +3106,16 @@ function hideLocation() {
         $("#county-to-hide").attr("hidden", "hidden");
         $("#sub-county-to-hide").attr("hidden", "hidden");
         $("#region-hidden").show();
+    } else if (personRole === 4) {
+        $("#ward-to-hide").attr("hidden", "hidden");
+        $("#county-to-hide").attr("hidden", false);
+        $("#sub-county-to-hide").attr("hidden", false);
+        $("#region-hidden").hide();
+    } else if (personRole === 5) {
+        $("#ward-to-hide").attr("hidden", "hidden");
+        $("#county-to-hide").attr("hidden", false);
+        $("#sub-county-to-hide").attr("hidden", "hidden");
+        $("#region-hidden").hide();
     } else {
         $("#ward-to-hide").attr("hidden", false);
         $("#county-to-hide").attr("hidden", false);
@@ -3146,7 +3235,85 @@ function updateTraineeCounts() {
     });
 }
 
-function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, businessName,
+function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, location, county, subCounty, ward, contactId, phone, email) {
+    $("#person-name").val(name);
+    if (sex !== "")
+        $("#sex option[value=" + sex + "]").attr('selected', 'selected');
+    if (personRole !== "")
+        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
+    $("#national-id").val(nationalId);
+    $("#year-of-birth").val(yearOfBirth);
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#phone").val(phone);
+    $("#email").val(email);
+    $("#person-dialog").dialog({
+        width: 495,
+        height: 500,
+        title: "edit_person_label",
+        resizable: true,
+        modal: false,
+        buttons: {
+            "Save": function () {
+
+                var nationalId = $("#national-id").val();
+                var regex = new RegExp("^[0-9]{7,8}$");
+                if (nationalId.trim().length > 0 && !regex.test(nationalId)) {
+                    $("#national-id").addClass("error-form-control").focus();
+                    $("#national-id").attr("title", "National ID should contain 7-8 digits");
+                    return;
+                } else {
+                    $("#national-id").attr("title", "");
+                    $("#national-id").removeClass("error-form-control");
+                }
+
+                $.ajax({
+                    url: "doEditPerson",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&contactId=" + contactId +
+                            "&name=" + $("#person-name").val() +
+                            "&nationalId=" + $("#national-id").val() +
+                            "&sex=" + $("#sex").val() +
+                            "&personRoleId=" + $("#person-role").val() +
+                            "&phoneNumber=" + $("#phone").val() +
+                            "&locationId=" + location +
+                            "&email=" + $("#email").val() +
+                            "&region=" + $("#region").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&personRole=" + $("#person-role").val() +
+                            "&ward=" + $("#ward").val() +
+                            "&postalAddress=" + $("#postal-address").val() +
+                            "&yearOfBirth=" + $("#year-of-birth").val(),
+                    success: function () {
+                        clearPersonFields();
+                        loadAjaxWindow('people');
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "Exit": function () {
+                clearProcurementPlanFields();
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearPersonFields();
+        }
+    });
+}
+
+function editFarmer(id, name, sex, personRole, nationalId, yearOfBirth,
         farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
     $("#person-name").val(name);
     if (sex !== "")
@@ -3155,7 +3322,6 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
         $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
     $("#national-id").val(nationalId);
     $("#year-of-birth").val(yearOfBirth);
-    $("#business-name").val(businessName);
     if (farmerGroup !== "")
         $("#farmer-group option[value=" + farmerGroup + "]").attr('selected', 'selected');
     if (farmerSubGroup !== "")
@@ -3195,7 +3361,6 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
                             "&contactId=" + contactId +
                             "&name=" + $("#person-name").val() +
                             "&nationalId=" + $("#national-id").val() +
-                            "&businessName=" + $("#business-name").val() +
                             "&sex=" + $("#sex").val() +
                             "&personRoleId=" + $("#person-role").val() +
                             "&farmerGroup=" + $("#farmer-group").val() +
@@ -3208,6 +3373,86 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, business
                             "&personRole=" + $("#person-role").val() +
                             "&ward=" + $("#ward").val() +
                             "&farmerSubGroup=" + $("#farmer-sub-group").val() +
+                            "&postalAddress=" + $("#postal-address").val() +
+                            "&yearOfBirth=" + $("#year-of-birth").val(),
+                    success: function () {
+                        clearPersonFields();
+                        loadAjaxWindow('people');
+                        return;
+                    }, error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "Exit": function () {
+                clearProcurementPlanFields();
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+            clearPersonFields();
+        }
+    });
+}
+
+function editAgrodealer(id, name, sex, personRole, nationalId, yearOfBirth, businessName, location, county, subCounty, ward, contactId, phone, email) {
+    $("#person-name").val(name);
+    if (sex !== "")
+        $("#sex option[value=" + sex + "]").attr('selected', 'selected');
+    if (personRole !== "")
+        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
+    $("#national-id").val(nationalId);
+    $("#year-of-birth").val(yearOfBirth);
+    $("#business-name").val(businessName);
+    if (county !== "")
+        $("#county option[value=" + county + "]").attr('selected', 'selected');
+    if (subCounty !== "")
+        $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
+    if (ward !== "")
+        $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#phone").val(phone);
+    $("#email").val(email);
+    $("#person-dialog").dialog({
+        width: 495,
+        height: 500,
+        title: "edit_person_label",
+        resizable: true,
+        modal: false,
+        buttons: {
+            "Save": function () {
+
+                var nationalId = $("#national-id").val();
+                var regex = new RegExp("^[0-9]{7,8}$");
+                if (nationalId.trim().length > 0 && !regex.test(nationalId)) {
+                    $("#national-id").addClass("error-form-control").focus();
+                    $("#national-id").attr("title", "National ID should contain 7-8 digits");
+                    return;
+                } else {
+                    $("#national-id").attr("title", "");
+                    $("#national-id").removeClass("error-form-control");
+                }
+
+                $.ajax({
+                    url: "doEditPerson",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&contactId=" + contactId +
+                            "&name=" + $("#person-name").val() +
+                            "&nationalId=" + $("#national-id").val() +
+                            "&businessName=" + $("#business-name").val() +
+                            "&sex=" + $("#sex").val() +
+                            "&personRoleId=" + $("#person-role").val() +
+                            "&phoneNumber=" + $("#phone").val() +
+                            "&locationId=" + location +
+                            "&email=" + $("#email").val() +
+                            "&region=" + $("#region").val() +
+                            "&county=" + $("#county").val() +
+                            "&subCounty=" + $("#sub-county").val() +
+                            "&personRole=" + $("#person-role").val() +
+                            "&ward=" + $("#ward").val() +
                             "&postalAddress=" + $("#postal-address").val() +
                             "&yearOfBirth=" + $("#year-of-birth").val(),
                     success: function () {
@@ -3870,7 +4115,9 @@ var exportAWPB = {
             body: function (data, row, col, node) {
                 if (row === 3 || row === 4 || row === 5 || row === 6 || row === 7 || row === 8)
                     return $('#awpb-table tbody tr').eq(col).find('td').eq(row).attr("title");
-                else
+                else if (row === 28 || row === 29) {
+                    return "";
+                } else
                     return data;
             }
         }

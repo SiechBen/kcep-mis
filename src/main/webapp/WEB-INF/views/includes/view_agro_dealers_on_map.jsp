@@ -11,10 +11,10 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Farmers locations on map
+                Agro-dealers locations on map
             </div>
             <div class="panel-body">
-                <input type="hidden" id="person-type" value="Farmer">
+                <input type="hidden" id="person-type" value="Agrodealer">
                 <div id="map"></div>
             </div>
         </div>

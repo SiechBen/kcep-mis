@@ -127,14 +127,14 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("farmerSession", true);
                             session.setAttribute("home", "/farmer");
-                            session.setAttribute("userTitle", ": Farmer");
+                            session.setAttribute("userTitle", "Farmer");
                             break;
 
                         case "Agro-dealer":
                             rightsMaps.clear();
                             rightsMaps.put("agroDealerSession", true);
                             session.setAttribute("home", "/agro_dealer");
-                            session.setAttribute("userTitle", ": Agro-dealer");
+                            session.setAttribute("userTitle", "Agro-dealer");
                             session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
@@ -167,7 +167,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("waoSession", true);
                             session.setAttribute("home", "/ward");
-                            session.setAttribute("userTitle", ": Ward Agricultural Officer(WAO)");
+                            session.setAttribute("userTitle", "WAO");
                             session.setAttribute("locationLabel", "ward");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
@@ -200,7 +200,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("kalroSession", true);
                             session.setAttribute("home", "/kalro");
-                            session.setAttribute("userTitle", ": KALRO Officer");
+                            session.setAttribute("userTitle", "KALRO Officer");
                             session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
@@ -233,7 +233,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("agmarkSession", true);
                             session.setAttribute("home", "/agmark");
-                            session.setAttribute("userTitle", ": AGMARK Officer");
+                            session.setAttribute("userTitle", "AGMARK Officer");
                             session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
@@ -266,7 +266,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("countyDeskOfficerSession", true);
                             session.setAttribute("home", "/county");
-                            session.setAttribute("userTitle", ": County Desk Officer");
+                            session.setAttribute("userTitle", "County Desk Officer");
                             session.setAttribute("locationLabel", "county");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());
@@ -299,7 +299,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("subCountyDeskOfficerSession", true);
                             session.setAttribute("home", "/sub_county");
-                            session.setAttribute("userTitle", ": Sub-county Agricultural Officer(SCAO)");
+                            session.setAttribute("userTitle", "SCAO");
                             session.setAttribute("locationLabel", "sub-county");
 
                             try {
@@ -334,7 +334,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("regionalCoordinatorSession", true);
                             session.setAttribute("home", "/region");
-                            session.setAttribute("userTitle", ": Regional Project Coordinator");
+                            session.setAttribute("userTitle", "Regional Project Coordinator");
                             session.setAttribute("locationLabel", "region");
                             session.setAttribute("regions", RegionDetail.values());
 
@@ -375,15 +375,15 @@ public class AccessController extends Controller {
 
                             if (personRole.getPersonRole().equals("Programme Coordinator")) {
                                 rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", ": Project Coordinator");
+                                session.setAttribute("userTitle", "Project Coordinator");
                                 session.setAttribute("locationLabel", "country");
                             } else if (personRole.getPersonRole().equals("Senior Programme Coordinator")) {
                                 rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", ": Senior Project Coordinator");
+                                session.setAttribute("userTitle", "Senior Project Coordinator");
                                 session.setAttribute("locationLabel", "country");
                             } else {
                                 rightsMaps.put("systemAdminSession", true);
-                                session.setAttribute("userTitle", ": System Admin");
+                                session.setAttribute("userTitle", "System Admin");
                                 session.setAttribute("locationLabel", "country");
                             }
 
@@ -419,7 +419,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("equityPersonnelSession", true);
                             session.setAttribute("home", "/equity");
-                            session.setAttribute("userTitle", ": Equity Agent");
+                            session.setAttribute("userTitle", "Equity Agent");
                             session.setAttribute("locationLabel", "service");
                             try {
                                 session.setAttribute("counties", countyService.retrieveCounties());

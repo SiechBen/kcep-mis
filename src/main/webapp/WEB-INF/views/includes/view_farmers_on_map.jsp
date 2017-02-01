@@ -11,7 +11,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Agro-dealers locations on map
+                Farmers locations on map
             </div>
             <div class="panel-body">
                 <input type="hidden" id="person-type" value="Farmer">

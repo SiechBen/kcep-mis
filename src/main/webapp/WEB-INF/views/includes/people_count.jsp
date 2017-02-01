@@ -10,16 +10,16 @@
 <div class="floating-table">
     <table id="people-count-table" class="table table-bordered table-hover table-responsive">
         <thead>
-            <tr>
-                <th> Count by: </th>
-                <th colspan="6">
-                    <select id="counter" onchange="updateCounts()">
-                        <c:forEach var="countOption" items="${sessionScope.countOptions}">
-                            <option value="${countOption.id}">${countOption.personRole}</option>
-                        </c:forEach>
-                    </select>
-                </th>
-            </tr>
+            <!--            <tr>
+                            <th> Count by: </th>
+                            <th colspan="6">
+                                <select id="counter" onchange="updateCounts()">
+            <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                <option value="${countOption.id}">${countOption.personRole}</option>
+            </c:forEach>
+        </select>
+    </th>
+</tr>-->
         </thead>
         <tbody>
             <tr>

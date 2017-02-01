@@ -21,7 +21,8 @@
                             <tr>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
-                                <th>Gender, Age</th>
+                                <th>Gender</th>
+                                <th>Age</th>
                                 <th>National ID</th>
                                 <!--                                <th>Farmer group</th>
                                                                 <th>Farmer sub-group</th>-->
@@ -43,7 +44,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="17">List of farmers</td>
+                                <td colspan="18">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -51,7 +52,8 @@
                                 <tr class="farmer-row">
                                     <td onclick="loadFarmWindow(${person.id})">${index.count}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.name}</td>
-                                    <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}, ${person.age}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>
+                                    <td onclick="loadFarmWindow(${person.id})">${person.age}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.nationalId}</td>
 <!--                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>-->
@@ -67,7 +69,7 @@
                                     <td onclick="loadFarmWindow(${person.id})">${person.account.accountNumber}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.account.savings}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.account.totalLoanAmount}</td>
-                                    <td><button onclick="editPerson('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
+                                    <td><button onclick="editFarmer('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
                                                     '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
                                                     '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
@@ -87,20 +89,6 @@
         <jsp:include page="people_count.jsp"/>
     </div>
 </div>
-
-<!--<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Farmers locations on map
-            </div>
-            <div class="panel-body">
-                <input type="hidden" id="person-type" value="Farmer">
-                <div id="map"></div>
-            </div>
-        </div>
-    </div>
-</div>-->
 
 <div class="dialog" id="person-dialog">
     <div class="col-lg-12">
@@ -134,10 +122,6 @@
                     <div class="form-group">
                         Date Of Birth
                         <input id="year-of-birth" name="year-of-birth" class="form-control datefield" type="date">
-                    </div>
-                    <div class="form-group">
-                        Business Name
-                        <input id="business-name" name="person-business-name" class="form-control">
                     </div>
                     <div class="form-group">
                         Farmer Group
@@ -238,7 +222,3 @@
         </div>
     </div>
 </div>
-
-<!--<script src="static/js/maps.js" type="text/javascript"></script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAosZcLbpuT4q2Mrl96oMfgtsC2etLRvLw&callback=getLocations"></script>-->
