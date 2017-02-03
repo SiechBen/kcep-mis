@@ -19,6 +19,7 @@
                     <table id="agro-dealers-table" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th style="display: none">&nbsp;</th>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
                                 <th>Gender</th>
@@ -36,12 +37,13 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="12">List of agro-dealers</td>
+                                <td colspan="13">List of agro-dealers</td>
                             </tr>
                         </tfoot>
                         <tbody>
                             <c:forEach var="person" items="${sessionScope.agroDealers}" varStatus="index">
                                 <tr>
+                                    <td style="display: none">${person.id}</td>
                                     <td>${index.count}</td>
                                     <td>${person.name}</td>
                                     <td>${person.sex.sex}</td>

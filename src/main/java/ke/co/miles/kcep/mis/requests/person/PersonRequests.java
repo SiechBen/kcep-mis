@@ -242,7 +242,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     @SuppressWarnings("unchecked")
     @Override
-    public HashMap<String, Integer> countAllFarmersAndAgrodealers() throws MilesException {
+    public HashMap<String, Integer> countAllFarmersAndAgrodealers(boolean includeTotals) throws MilesException {
         String youthQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) <= 35)";
         String elderlyQuery = "SELECT * FROM user_account u INNER JOIN person p ON (u.person = p.id) INNER JOIN sex s ON (p.sex = s.id) INNER JOIN person_role r ON (u.person_role = r.id) WHERE s.id = ?1 AND r.id IN (?2, ?3 ) AND ((CASE WHEN (year_of_birth IS NULL) THEN 0 ELSE (YEAR(CURDATE()) - year_of_birth) END) > 35)";
 
@@ -293,11 +293,13 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         HashMap<String, Integer> countMap = new HashMap<>();
         countMap.put("Female youth", femaleYouth.size());
         countMap.put("Female elderly", femaleElderly.size());
-        countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
         countMap.put("Male youth", maleYouth.size());
         countMap.put("Male elderly", maleElderly.size());
-        countMap.put("Male total", maleYouth.size() + maleElderly.size());
-        countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
+        if (includeTotals) {
+            countMap.put("Female total", femaleYouth.size() + femaleElderly.size());
+            countMap.put("Male total", maleYouth.size() + maleElderly.size());
+            countMap.put("Total people", countMap.get("Female total") + countMap.get("Male total"));
+        }
 
         return countMap;
 

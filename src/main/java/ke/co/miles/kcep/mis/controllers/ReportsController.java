@@ -47,8 +47,8 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/financial_report_by_categories", "/financial_report_by_components",
     "/updateIndicatorValues", "/changeOutcomeReport", "/goalLevelReports",
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
-    "/getActivityProgress", "/setAppraisalTarget",
-    "/doEditActivityProgress", "/doEditActivityProgressComment",
+    "/getActivityProgress", "/setAppraisalTarget", "/getOutputValues",
+    "/doEditActivityProgress", "/doEditActivityProgressComment", "/getOutputValuess",
     "/doEditMeasurementUnit", "/changeQuarter", "/changeFinancialYear"})
 public class ReportsController extends Controller {
 
@@ -321,6 +321,9 @@ public class ReportsController extends Controller {
                 }
             }
         }
+
+        urlPaths.add("/getOutputValues");
+        urlPaths.add("/getOutputValuess");
 
         if (urlPaths.contains(path)) {
 
@@ -612,7 +615,30 @@ public class ReportsController extends Controller {
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     } catch (NullPointerException e) {
                     }
+
                     break;
+
+                case "/getOutputValues":
+
+                    try {
+                        response.setContentType("application/json");
+                        response.getWriter().write(performanceIndicatorValuesService.getOutputValues().toJSONString());
+                    } catch (MilesException | IOException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred when retrieving output indicator values", ex);
+                    }
+
+                    return;
+
+                case "/getOutputValuess":
+
+                    try {
+                        response.setContentType("application/json");
+                        response.getWriter().write(performanceIndicatorValuesService.getOutputValuess().toJSONString());
+                    } catch (MilesException | IOException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred when retrieving output indicator values", ex);
+                    }
+
+                    return;
 
                 case "/head_outcome_level_reports":
                 case "/county_outcome_level_reports":

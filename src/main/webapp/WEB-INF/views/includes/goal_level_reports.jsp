@@ -16,18 +16,18 @@
             </div>
             <div class="panel-body">
                 <h4>Goal level indicators report</h4>
-                <table class="table table-striped table-bordered table-hover indicator-report-table" id="goal-report-table">
+                <table class="table table-striped table-bordered table-hover indicator-report-table data-table" id="goal-report-table">
                     <thead>
                         <tr>
                             <th colspan="2">Republic of Kenya</th>
-                            <th colspan="5">
+                            <th colspan="6">
                                 Report date: &nbsp;
                                 <input id="report-date" class="datefield" type="date">
                             </th>
                         </tr>
                         <tr>
                             <th colspan="2">Kenya Cereal Enhancement Programme</th>
-                            <th colspan="5">
+                            <th colspan="6">
                                 Programme year: &nbsp;
                                 <select id="project-year" onchange="changeGoalReport()">
                                     <c:forEach var="projectYear" items="${sessionScope.projectYears}" varStatus="index">
@@ -65,6 +65,7 @@
                                 <td id="expected-value-${goal.id}" class="editable pencil" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.expectedValue}</td>
                                 <td id="actual-value-${goal.id}" class="editable pencil" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.actualValue}</td>
                                 <td id="goal-ratio-${goal.id}"><c:if test="${not empty goal.ratio}">${goal.ratio}%</c:if></td>
+                                    <td>&nbsp;</td>
                                 </tr>
                         </c:forEach>
                     </tbody>

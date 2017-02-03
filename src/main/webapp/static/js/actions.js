@@ -1874,7 +1874,6 @@ $(function () {
 function setOutcomeAppraisalTarget(id, appraisalTarget, description) {
 
     appraisalTarget = parseFloat(appraisalTarget) || 0;
-    console.log(appraisalTarget);
     if (appraisalTarget !== "")
         $("#appraisal-target").val(appraisalTarget);
     $("#appraisal-target-dialog").dialog({
@@ -2444,7 +2443,6 @@ function editBaselineDate(cell, id, baselineDate, description) {
                             "&baselineDate=" + $("#baseline-date").val(),
                     success: function () {
                         var date = new Date($("#baseline-date").val());
-                        console.log(getShortYear(date.getFullYear()) + "-" + getMonth(date.getMonth()) + "-" + date.getDate());
                         $('td:nth-child(' + cellIndex + ')', $(cell).parents('tr')).text(getShortYear(date.getFullYear()) + "-" + getMonth(date.getMonth()) + "-" + date.getDate());
                         $("#baseline-date").val("");
                     },
@@ -2629,6 +2627,8 @@ var Months = {
 //<editor-fold defaultstate="collapsed" desc="Person">
 
 //<editor-fold defaultstate="collapsed" desc="Person Datatable">
+var filteredIds;
+
 $(function () {
     $("#people-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -2645,28 +2645,16 @@ $(function () {
             {
                 age = aaData[i][4] * 1;
                 sex = aaData[i][3];
-                console.log(age);
-                console.log(sex);
                 if (sex === "Male" && age > 35) {
                     maleElderly += 1;
-                    console.log("This is a male elder");
                 } else if (sex === "Male" && age >= 18 && age <= 35) {
                     maleYouth += 1;
-                    console.log("This is a male youth");
                 } else if (sex === "Female" && age > 35) {
                     femaleElderly += 1;
-                    console.log("This is a female elder");
                 } else if (sex === "Female" && age >= 18 && age <= 35) {
                     femaleYouth += 1;
-                    console.log("This is a female youth");
                 }
-                console.log("\n");
             }
-            console.log("Male elders: " + maleElderly);
-            console.log("Female elders: " + femaleElderly);
-            console.log("Male youths: " + maleElderly);
-            console.log("Female youths: " + femaleElderly);
-            console.log("Page total: " + (femaleElderly + maleElderly + femaleYouth + femaleElderly));
         },
         buttons: [
             {
@@ -2684,7 +2672,7 @@ $(function () {
 });
 
 $(function () {
-    $("#farmers-table").DataTable({
+    var farmersTable = $("#farmers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
@@ -2704,9 +2692,6 @@ $(function () {
             }
 
             /* Modify the footer row to match what we want */
-            console.log(parseInt(iPageMarket * 100) / 100 +
-                    '% (' + parseInt(iTotalMarket * 100) / 100 + '% total)');
-
             var age = 0;
             var sex;
             var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0,
@@ -2714,28 +2699,16 @@ $(function () {
             for (var i = iStart; i < iEnd; i++) {
                 sex = aaData[i][2];
                 age = aaData[i][3] * 1;
-                console.log(age);
-                console.log(sex);
                 if (sex === "Male" && age > 35) {
                     maleElderly += 1;
-                    console.log("This is a male elder");
                 } else if (sex === "Male" && age >= 18 && age <= 35) {
                     maleYouth += 1;
-                    console.log("This is a male youth");
                 } else if (sex === "Female" && age > 35) {
                     femaleElderly += 1;
-                    console.log("This is a female elder");
                 } else if (sex === "Female" && age >= 18 && age <= 35) {
                     femaleYouth += 1;
-                    console.log("This is a female youth");
                 }
-                console.log("\n");
             }
-            console.log("Male elders: " + maleElderly);
-            console.log("Female elders: " + femaleElderly);
-            console.log("Male youths: " + maleElderly);
-            console.log("Female youths: " + femaleElderly);
-            console.log("Page total: " + (femaleElderly + maleElderly + femaleYouth + femaleElderly));
             maleTotal = (maleYouth + maleElderly);
             femaleTotal = (femaleYouth + femaleElderly);
             pageTotal = (femaleTotal + maleTotal);
@@ -2771,7 +2744,14 @@ $(function () {
             {
                 text: "View on map",
                 action: function () {
-                    loadAjaxWindow("mapFarmers");
+                    $.ajax({
+                        url: "updateFilteredIds",
+                        type: "POST",
+                        data: "filteredIds=" + filteredIds,
+                        success: function () {
+                            loadAjaxWindow("mapFarmers");
+                        }
+                    });
                 }
             },
             {
@@ -2810,12 +2790,33 @@ $(function () {
                         }
                     });
                 }
+            },
+            {
+                text: "Total summary",
+                action: function () {
+                    $("#female-youth").html($("#female-youth-hidden").val());
+                    $("#female-elderly").html($("#female-elderly-hidden").val());
+                    $("#female-total").html($("#female-total-hidden").val());
+                    $("#male-youth").html($("#male-youth-hidden").val());
+                    $("#male-elderly").html($("#male-elderly-hidden").val());
+                    $("#male-total").html($("#male-total-hidden").val());
+                    $("#people-total").html($("#people-total-hidden").val());
+                }
             }]
     });
+
+    farmersTable.on('search.dt', function () {
+        var filteredFarmers = farmersTable.rows({filter: 'applied'}).data();
+        filteredIds = [];
+        for (var i = 0; i < filteredFarmers.length; i++) {
+            filteredIds.push(filteredFarmers[i][0]);
+        }
+    });
+
 });
 
 $(function () {
-    $("#agro-dealers-table").DataTable({
+    var agroDealersTable = $("#agro-dealers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         responsive: true,
         "scrollX": true,
@@ -2835,9 +2836,6 @@ $(function () {
             }
 
             /* Modify the footer row to match what we want */
-            console.log(parseInt(iPageMarket * 100) / 100 +
-                    '% (' + parseInt(iTotalMarket * 100) / 100 + '% total)');
-
             var age = 0;
             var sex;
             var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0,
@@ -2845,28 +2843,16 @@ $(function () {
             for (var i = iStart; i < iEnd; i++) {
                 sex = aaData[i][2];
                 age = aaData[i][3] * 1;
-                console.log(age);
-                console.log(sex);
                 if (sex === "Male" && age > 35) {
                     maleElderly += 1;
-                    console.log("This is a male elder");
                 } else if (sex === "Male" && age >= 18 && age <= 35) {
                     maleYouth += 1;
-                    console.log("This is a male youth");
                 } else if (sex === "Female" && age > 35) {
                     femaleElderly += 1;
-                    console.log("This is a female elder");
                 } else if (sex === "Female" && age >= 18 && age <= 35) {
                     femaleYouth += 1;
-                    console.log("This is a female youth");
                 }
-                console.log("\n");
             }
-            console.log("Male elders: " + maleElderly);
-            console.log("Female elders: " + femaleElderly);
-            console.log("Male youths: " + maleElderly);
-            console.log("Female youths: " + femaleElderly);
-            console.log("Page total: " + (femaleElderly + maleElderly + femaleYouth + femaleElderly));
             maleTotal = (maleYouth + maleElderly);
             femaleTotal = (femaleYouth + femaleElderly);
             pageTotal = (femaleTotal + maleTotal);
@@ -2902,7 +2888,14 @@ $(function () {
             {
                 text: "View on map",
                 action: function () {
-                    loadAjaxWindow("mapAgroDealers");
+                    $.ajax({
+                        url: "updateFilteredIds",
+                        type: "POST",
+                        data: "filteredIds=" + filteredIds,
+                        success: function () {
+                            loadAjaxWindow("mapAgroDealers");
+                        }
+                    });
                 }
             },
             {
@@ -2941,9 +2934,37 @@ $(function () {
                         }
                     });
                 }
+            },
+            {
+                text: "Total summary",
+                action: function () {
+                    $("#female-youth").html($("#female-youth-hidden").val());
+                    $("#female-elderly").html($("#female-elderly-hidden").val());
+                    $("#female-total").html($("#female-total-hidden").val());
+                    $("#male-youth").html($("#male-youth-hidden").val());
+                    $("#male-elderly").html($("#male-elderly-hidden").val());
+                    $("#male-total").html($("#male-total-hidden").val());
+                    $("#people-total").html($("#people-total-hidden").val());
+                }
             }]
     });
+
+    agroDealersTable.on('search.dt', function () {
+//        console.log(agroDealersTable.rows({filter: 'applied'}).nodes().length);
+//        console.log(agroDealersTable.rows({filter: 'applied'}).data());
+        var filteredAgroDealers = agroDealersTable.rows({filter: 'applied'}).data();
+        filteredIds = [];
+        for (var i = 0; i < filteredAgroDealers.length; i++) {
+            filteredIds.push(filteredAgroDealers[i][0]);
+        }
+        console.log("\n");
+        console.log(filteredIds);
+
+//        console.log(filteredAgroDealers[2][0]);
+//        console.log(filteredAgroDealers[3][0]);
+    });
 });
+
 $(function () {
     $("#partner-farmers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -3095,7 +3116,6 @@ function initMap() {
 
 function hideLocation() {
     var personRole = parseInt($("#person-role").val());
-    console.log(personRole);
     if (personRole === 7 || personRole === 9 || personRole === 12) {
         $("#ward-to-hide").attr("hidden", "hidden");
         $("#county-to-hide").attr("hidden", "hidden");

@@ -14,7 +14,7 @@
                 Agro-dealers locations on map
             </div>
             <div class="panel-body">
-                <input type="hidden" id="person-type" value="Agrodealer">
+                <input type="hidden" id="person-type" value="AgroDealer">
                 <div id="map"></div>
             </div>
         </div>

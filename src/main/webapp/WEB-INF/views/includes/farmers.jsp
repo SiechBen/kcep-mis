@@ -19,6 +19,7 @@
                     <table id="farmers-table" class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th style="display: none">&nbsp;</th>
                                 <th>&nbsp;</th>
                                 <th>Name</th>
                                 <th>Gender</th>
@@ -44,12 +45,13 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="18">List of farmers</td>
+                                <td colspan="19">List of farmers</td>
                             </tr>
                         </tfoot>
                         <tbody>
                             <c:forEach var="person" items="${sessionScope.farmers}" varStatus="index">
                                 <tr class="farmer-row">
+                                    <td style="display: none">${person.id}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${index.count}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>

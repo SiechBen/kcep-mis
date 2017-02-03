@@ -31,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.requests.zip.ZipRequestsLocal;
 import org.eclipse.jdt.internal.compiler.batch.Main;
@@ -172,7 +171,6 @@ public class FileController extends Controller {
     }
 
     public void backupDatabase() {
-        MilesDebugger.debug();
         try {
 
             /* Defining database credentials */
@@ -234,7 +232,6 @@ public class FileController extends Controller {
 
             /* Archiving the attachments */
             try {
-                MilesDebugger.debug(getServletContext().getRealPath("/"));
                 zipService.zipFolder(getServletContext().getRealPath("/") + attachmentsFolder, filePath);
             } catch (Exception ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -26,6 +25,8 @@ import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIn
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 
 /**
  *
@@ -242,6 +243,79 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     }
 
     @Override
+    public JSONArray getOutputValues() throws MilesException {
+
+        HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportMap = new HashMap<>();
+        HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> performanceIndicatorToValuesMap;
+
+        Calendar calendar = Calendar.getInstance();
+        short year = Short.valueOf(String.valueOf(calendar.get(Calendar.YEAR)));
+        List<Short> projectYears = new ArrayList<>();
+        projectYears.add(year);
+
+        performanceIndicatorToValuesMap = retrieveOutputLevelIndicators(projectYears);
+
+        JSONObject jsonOutputValues;
+        JSONArray jsonList = new JSONArray();
+
+        for (PerformanceIndicatorDetails performanceIndicatorDetails : performanceIndicatorToValuesMap.keySet()) {
+
+            jsonOutputValues = new JSONObject();
+            jsonOutputValues.put("description", performanceIndicatorDetails.getDescription());
+            jsonOutputValues.put("shortDescription", performanceIndicatorDetails.getDescription().substring(0, 15));
+            try {
+                jsonOutputValues.put("targetValue", performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getExpectedValue());
+            } catch (Exception e) {
+            }
+            try {
+                jsonOutputValues.put("actualValue", performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getActualValue());
+            } catch (Exception e) {
+            }
+            jsonList.add(jsonOutputValues);
+
+        }
+
+        return jsonList;
+    }
+
+    @Override
+    public JSONArray getOutputValuess() throws MilesException {
+
+        HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportMap = new HashMap<>();
+        HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> performanceIndicatorToValuesMap;
+
+        Calendar calendar = Calendar.getInstance();
+        short year = Short.valueOf(String.valueOf(calendar.get(Calendar.YEAR)));
+        List<Short> projectYears = new ArrayList<>();
+        projectYears.add(year);
+
+        performanceIndicatorToValuesMap = retrieveOutputLevelIndicators(projectYears);
+
+        JSONObject jsonOutputValues = new JSONObject();
+        JSONArray jsonList = new JSONArray();
+        JSONArray jsonActualList = new JSONArray();
+        JSONArray jsonTargetList = new JSONArray();
+
+        for (PerformanceIndicatorDetails performanceIndicatorDetails : performanceIndicatorToValuesMap.keySet()) {
+            try {
+                jsonTargetList.add(performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getExpectedValue());
+            } catch (Exception e) {
+            }
+            try {
+                jsonActualList.add(performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getActualValue());
+            } catch (Exception e) {
+            }
+        }
+        jsonOutputValues.put("target", jsonTargetList);
+        jsonList.add(jsonTargetList);
+        jsonOutputValues = new JSONObject();
+        jsonOutputValues.put("actual", jsonActualList);
+        jsonList.add(jsonActualList);
+
+        return jsonList;
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<Short> retrieveProjectYears() throws MilesException {
 
@@ -334,7 +408,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             try {
                 performanceIndicatorValues.getPerformanceIndicator().setAccumulatedActual((double) q.getSingleResult());
             } catch (Exception e) {
-                MilesDebugger.debug(e);
             }
             try {
                 performanceIndicatorValues.getPerformanceIndicator().setCumulativeActualValue(
@@ -344,7 +417,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 performanceIndicatorValues.getPerformanceIndicator().setCumulativeActualValue(
                         performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue() == 0 ? null : performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue());
             } catch (Exception e) {
-                MilesDebugger.debug(e);
             }
 //            try {
 //                performanceIndicatorValues.setRatio(
@@ -352,7 +424,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
 //                                (null == performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue() ? 0 : performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue())
 //                                / performanceIndicatorValues.getExpectedValue() * 100)));
 //            } catch (Exception e) {
-//                MilesDebugger.debug(e);
 //            }
         }
 

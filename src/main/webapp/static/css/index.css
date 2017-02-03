@@ -4,16 +4,16 @@
 */
 /* Reset */
 
-* {
+*{
     margin: 0;
     padding: 0;
 }
 
-html {
+html{
 
 }
 
-body {
+body{
     font-size: 100%;
     line-height: 1.8em;
     background: #fff;
@@ -23,14 +23,12 @@ body {
 .main-container{
     width: 900px;
     margin: 150px auto;
+    margin-bottom: 5em;
     /*overflow: scroll;*/
 }
 
-.info-container{
-    padding: 2em;
-    width: 80em;
+.info-row{
     height: 47em;
-    margin: 4em auto;
     overflow-y: scroll;
     word-wrap: normal;
     line-break: normal;
@@ -41,13 +39,13 @@ body {
     float: left;
 }
 
-#wrapper {
+#wrapper{
     width: 100%;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 500px){
     /* applies only if the screen is narrower than 500px */
-    .navbar-fixed-top {
+    .navbar-fixed-top{
         position: static;
     }
 }
@@ -208,28 +206,27 @@ ul.s_icons li.in:hover{
     text-decoration: underline;
 }
 
-.login-label {
+.login-label{
     font-size: 12px;
     margin-top: -3.0em;
     margin-left: 32em;
 }
 
-.info-label {
+.info-label{
     font-size: 12px;
     margin-top: -1.5em;
     margin-left: 36em;
 }
 
-.indented {
+.indented{
     margin-left: 2.5em;
 }
 
-.fixed-bottom {
-    position: absolute;
-    bottom: 2.5em;
+.fixed-bottom{
+    margin-top: 1em;
 }
 
-.btn-info:hover {
+.btn-info:hover{
     color: #fff;
     background-color: #0A8300;
     border-color: #0A8300;

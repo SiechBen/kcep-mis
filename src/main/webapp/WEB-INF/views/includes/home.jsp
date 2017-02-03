@@ -108,7 +108,7 @@
                             <tr>
                                 <th>Programme Targeting</th>
                                 <td>
-                                    CoutniesBungoma, Kakamega, Nakuru, Nandi and Trans Nzoia, Embu, Kitui and Tharaka Nithi
+                                    Counties: Bungoma, Kakamega, Nakuru, Nandi, Trans Nzoia, Embu, Kitui and Tharaka Nithi
                                 </td>
                             </tr>
                             <tr>

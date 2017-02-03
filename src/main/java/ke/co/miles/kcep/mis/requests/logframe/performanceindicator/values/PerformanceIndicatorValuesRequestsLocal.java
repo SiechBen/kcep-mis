@@ -14,6 +14,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
 import ke.co.miles.kcep.mis.utilities.ResultHierarchyDetails;
+import net.minidev.json.JSONArray;
 
 /**
  *
@@ -127,5 +128,14 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      * @throws MilesException when the database is in an incorrect state
      */
     public List<ResultHierarchyDetails> retrieveAllIndicators(List<Short> projectYears) throws MilesException;
+
+    /**
+     *
+     * @return the json array of output indicator values
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public JSONArray getOutputValues() throws MilesException;
+
+    public JSONArray getOutputValuess() throws MilesException;
 
 }

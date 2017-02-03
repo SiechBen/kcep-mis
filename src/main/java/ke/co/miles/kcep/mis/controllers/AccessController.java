@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Programme Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -334,7 +334,7 @@ public class AccessController extends Controller {
                             rightsMaps.clear();
                             rightsMaps.put("regionalCoordinatorSession", true);
                             session.setAttribute("home", "/region");
-                            session.setAttribute("userTitle", "Regional Project Coordinator");
+                            session.setAttribute("userTitle", "Regional Programme Coordinator");
                             session.setAttribute("locationLabel", "region");
                             session.setAttribute("regions", RegionDetail.values());
 
@@ -375,11 +375,11 @@ public class AccessController extends Controller {
 
                             if (personRole.getPersonRole().equals("Programme Coordinator")) {
                                 rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", "Project Coordinator");
+                                session.setAttribute("userTitle", "Programme Coordinator");
                                 session.setAttribute("locationLabel", "country");
                             } else if (personRole.getPersonRole().equals("Senior Programme Coordinator")) {
                                 rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", "Senior Project Coordinator");
+                                session.setAttribute("userTitle", "Senior Programme Coordinator");
                                 session.setAttribute("locationLabel", "country");
                             } else {
                                 rightsMaps.put("systemAdminSession", true);

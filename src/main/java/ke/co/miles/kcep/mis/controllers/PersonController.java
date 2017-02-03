@@ -1217,13 +1217,20 @@ public class PersonController extends Controller {
                         session.setAttribute("maleTotal", maleTotal);
                         session.setAttribute("totalPeople", totalPeople);
 
-                        out.write("<td> " + femaleYouth + "</td>");
-                        out.write("<td>" + femaleElderly + "</td>");
-                        out.write("<td> " + femaleTotal + "</td>");
-                        out.write("<td> " + maleYouth + "</td>");
-                        out.write("<td>" + maleElderly + "</td>");
-                        out.write("<td> " + maleTotal + "</td>");
-                        out.write("<td> " + totalPeople + "</td>");
+                        out.write("<td id=\"female-youth\">" + femaleYouth + "</td>");
+                        out.write("<td id=\"female-elderly\">" + femaleElderly + "</td>");
+                        out.write("<td id=\"female-total\"> " + femaleTotal + "</td>");
+                        out.write("<td id=\"male-youth\"> " + maleYouth + "</td>");
+                        out.write("<td id=\"male-elderly\">" + maleElderly + "</td>");
+                        out.write("<td id=\"male-total\"> " + maleTotal + "</td>");
+                        out.write("<td id=\"people-total\"> " + totalPeople + "</td>");
+                        out.write("<input type=\"hidden\" id=\"female-youth-hidden\" value=\"" + femaleYouth + "\">");
+                        out.write("<input type=\"hidden\" id=\"female-elderly-hidden\" value=\"" + femaleElderly + "\">");
+                        out.write("<input type=\"hidden\" id=\"female-total-hidden\" value=\"" + femaleTotal + "\">");
+                        out.write("<input type=\"hidden\" id=\"male-youth-hidden\" value=\"" + maleYouth + "\">");
+                        out.write("<input type=\"hidden\" id=\"male-elderly-hidden\" value=\"" + maleElderly + "\">");
+                        out.write("<input type=\"hidden\" id=\"male-total-hidden\" value=\"" + maleTotal + "\">");
+                        out.write("<input type=\"hidden\" id=\"people-total-hidden\" value=\"" + totalPeople + "\">");
 
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

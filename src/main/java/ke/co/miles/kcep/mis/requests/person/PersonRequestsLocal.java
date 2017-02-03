@@ -186,10 +186,11 @@ public interface PersonRequestsLocal {
 
     /**
      *
+     * @param includeTotals whether to include totals or not
      * @return the map of counts
      * @throws MilesException when the database is in an incorrect state
      */
-    public HashMap<String, Integer> countAllFarmersAndAgrodealers() throws MilesException;
+    public HashMap<String, Integer> countAllFarmersAndAgrodealers(boolean includeTotals) throws MilesException;
 
     /**
      *

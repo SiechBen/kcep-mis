@@ -10,16 +10,16 @@
 <div class="floating-table">
     <table id="people-count-table" class="table table-bordered table-hover table-responsive">
         <thead>
-            <!--            <tr>
-                            <th> Count by: </th>
-                            <th colspan="6">
-                                <select id="counter" onchange="updateCounts()">
-            <c:forEach var="countOption" items="${sessionScope.countOptions}">
-                <option value="${countOption.id}">${countOption.personRole}</option>
-            </c:forEach>
-        </select>
-    </th>
-</tr>-->
+            <tr>
+                <th> Count by: </th>
+                <th colspan="6">
+                    <select id="counter" onchange="updateCounts()">
+                        <c:forEach var="countOption" items="${sessionScope.countOptions}">
+                            <option value="${countOption.id}">${countOption.personRole}</option>
+                        </c:forEach>
+                    </select>
+                </th>
+            </tr>
         </thead>
         <tbody>
             <tr>
@@ -36,17 +36,25 @@
                 <td> <strong>Male Total</strong> </td>
             </tr>
             <tr id="people-summary">
-                <td> ${sessionScope.femaleYouth} </td>
-                <td> ${sessionScope.femaleElderly} </td>
-                <td> ${sessionScope.femaleTotal} </td>
-                <td> ${sessionScope.maleYouth} </td>
-                <td> ${sessionScope.maleElderly} </td>
-                <td> ${sessionScope.maleTotal} </td>
-                <td> ${sessionScope.totalPeople} </td>
-            </tr>
-            <tr>
-                <td colspan="7" class="divider"></td>
-            </tr>
+                <td id="female-youth"> ${sessionScope.femaleYouth} </td>
+                <td id="female-elderly"> ${sessionScope.femaleElderly} </td>
+                <td id="female-total"> ${sessionScope.femaleTotal} </td>
+                <td id="male-youth"> ${sessionScope.maleYouth} </td>
+                <td id="male-elderly"> ${sessionScope.maleElderly} </td>
+                <td id="male-total"> ${sessionScope.maleTotal} </td>
+                <td id="people-total"> ${sessionScope.totalPeople} </td>
+        <input type="hidden" id="female-youth-hidden" value="${sessionScope.femaleYouth}">
+        <input type="hidden" id="female-elderly-hidden" value="${sessionScope.femaleElderly}">
+        <input type="hidden" id="female-total-hidden" value="${sessionScope.femaleTotal}">
+        <input type="hidden" id="male-youth-hidden" value="${sessionScope.maleYouth}">
+        <input type="hidden" id="male-elderly-hidden" value="${sessionScope.maleElderly}">
+        <input type="hidden" id="male-total-hidden" value="${sessionScope.maleTotal}">
+        <input type="hidden" id="people-total-hidden" value="${sessionScope.totalPeople}">
+        </tr>
+        <tr>
+            <td colspan="7" class="divider"></td>
+        </tr>
         </tbody>
     </table>
+
 </div>
