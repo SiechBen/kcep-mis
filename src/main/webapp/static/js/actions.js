@@ -2115,7 +2115,7 @@ var exportIndicator = {
             body: function (data, row, col, node) {
                 if (row === 3)
                     return $('#performance-indicator-table tbody tr').eq(col).find('td').eq(row).attr("title");
-                else if (row === 9)
+                else if (row === 9 || row === 13 || row === 18 || row === 22 || row === 26)
                     return "";
                 else
                     return data;

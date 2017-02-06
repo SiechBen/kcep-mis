@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-body warehouse-scroll">
                 <table id="warehouse-count-table" class="table table-bordered table-hover table-responsive">
                     <thead>
                         <tr>
