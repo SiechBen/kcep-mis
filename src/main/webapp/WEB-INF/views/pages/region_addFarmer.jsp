@@ -37,7 +37,7 @@
                 </c:forEach>
             </select>
         </div>
-        <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save farmer</button>
+        <button type="button" class="btn btn-outline btn-primary" onclick="addFarmer()">Save farmer</button>
     </form>
 </div>
 </div>

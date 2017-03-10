@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.ejb.Local;
 import ke.co.miles.kcep.mis.entities.SubActivity;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
+import ke.co.miles.kcep.mis.utilities.AwpbOwnerDetail;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.SubActivityDetails;
@@ -33,10 +34,12 @@ public interface SubActivityRequestsLocal {
 
     /**
      *
+     * @param awpbOwnerId the unique identifier of the phenomenon record of the
+     * awpb owner e.g. of partner or PCU
      * @return the list of sub activity record details retrieved
      * @throws MilesException when the database is in an incorrect state
      */
-    public List<SubActivityDetails> retrieveHeadSubActivities() throws MilesException;
+    public List<SubActivityDetails> retrieveHeadOrPartnerSubActivities(AwpbOwnerDetail awpbOwnerId) throws MilesException;
 
     /**
      *
@@ -93,25 +96,31 @@ public interface SubActivityRequestsLocal {
      * @param financialYearId the unique identifier of the financial year for
      * which the financial plan by expenditure categories report is to be
      * generated
+     * @param regionId the unique identifier of the region for which the awpb
+     * summary is to be generated
      * @param countyId the unique identifier of the county for which the awpb
      * summary is to be generated
+     * @param awpbOwner the entity for which the awpb summary is to be generated
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
     public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>>
-            summarizeFinancialPlanByCategories(short financialYearId, Short countyId) throws MilesException;
+            summarizeFinancialPlanByCategories(short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException;
 
     /**
      *
      * @param financialYearId the unique identifier of the financial year for
      * which the financial plan by components report is to be generated
+     * @param regionId the unique identifier of the region for which the awpb
+     * summary is to be generated
      * @param countyId the unique identifier of the county for which the awpb
      * summary is to be generated
+     * @param awpbOwner the entity for which the awpb summary is to be generated
      * @return the map of generated financial plan data
      * @throws MilesException when the database is in an incorrect
      */
     public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>>
-            summarizeFinancialPlanByComponents(short financialYearId, Short countyId) throws MilesException;
+            summarizeFinancialPlanByComponents(short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException;
 
     /**
      *

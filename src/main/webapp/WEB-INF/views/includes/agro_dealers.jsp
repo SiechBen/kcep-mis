@@ -29,9 +29,9 @@
                                 <th>County</th>
                                 <th>Sub-county</th>
                                 <th>Ward</th>
+                                <th>Latitude, Longitude</th>
                                 <th>Phone number</th>
                                 <th>Email address</th>
-                                <th>&nbsp;</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -53,13 +53,15 @@
                                     <td>${person.location.county.name}</td>
                                     <td>${person.location.subCounty.name}</td>
                                     <td>${person.location.ward.name}</td>
+                                    <td>${person.location.latitude}, ${person.location.longitude}</td>
                                     <td>${person.contact.phone}</td>
                                     <td>${person.contact.email}</td>
-                                    <td><button onclick="editAgrodealer('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
-                                                    '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
-                                                    '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
-                                                    '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                    <td><button onclick="editAgrodealer('${person.id}', '${person.name}', '${person.sex.id}',
+                                                    '${person.nationalId}', '${person.yearOfBirth}', '${person.businessName}',
+                                                    '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}',
+                                                    '${person.location.ward.id}', '${person.location.latitude}', '${person.location.longitude}',
+                                                    '${person.contact.id}', '${person.contact.phone}', '${person.contact.email}'
+                                                    )"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -88,21 +90,18 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <div class="form-group">
-                        Person role
-                        <select id="person-role" class="form-control">
-                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
-                                <option value="${personRole.id}">${personRole.personRole}</option>
-                            </c:forEach>
-                        </select>
+                    <div>
+                        <input type="hidden" id="person-role" value="2">
                     </div>
                     <div class="form-group">
                         National ID
                         <input id="national-id" name="national-id" class="form-control">
                     </div>
                     <div class="form-group">
-                        Date Of Birth
-                        <input id="year-of-birth" name="year-of-birth" class="form-control datefield" type="date">
+                        Year of birth
+                        <select id="year-of-birth" name="year-of-birth" class="form-control">
+                            <option disabled>Select year</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         Business Name
@@ -111,7 +110,7 @@
                     <div class="form-group">
                         County
                         <select id="county" name="person-county" class="form-control" onchange="updateSubCounties()">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
+                            <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
                         </select>
@@ -119,18 +118,26 @@
                     <div class="form-group">
                         Sub-county
                         <select id="sub-county" name="person-sub-county" class="form-control" onchange="updateWards()">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="form-group">
                         Ward
-                        <select id="ward" name="ward" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                        <select id="ward" name="person-ward" class="form-control">
+                            <c:forEach var="subCounty" items="${sessionScope.wards}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        Latitude
+                        <input type="number" name="person-latitude" class="form-control" id="latitude" min="-90" max="90">
+                    </div>
+                    <div class="form-group">
+                        Longitude
+                        <input type="number" name="person-longitude" class="form-control" id="longitude" min="-180" max="180">
                     </div>
                     <div class="form-group">
                         Phone

@@ -51,11 +51,8 @@ body{
     }
 }
 
-@media screen and (max-width: 500px){
-    /* applies only if the screen is narrower than 500px */
-    .navbar-fixed-top{
-        position: static;
-    }
+.navbar-fixed-top{
+    position: static;
 }
 
 @media (max-width: 38.4em){
@@ -452,6 +449,11 @@ table.dataTable thead .sorting:after{
 .farmer-row{
     cursor: pointer;
     background-color: #E0F3CD;
+}
+
+.category2-farmer-row{
+    cursor: pointer;
+    background-color: #d4daf7;
 }
 
 .tooltipped{

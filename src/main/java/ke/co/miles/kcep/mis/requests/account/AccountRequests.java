@@ -19,6 +19,7 @@ import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
 import ke.co.miles.kcep.mis.requests.person.PersonRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.AccountDetails;
+import ke.co.miles.kcep.mis.utilities.PersonDetails;
 
 /**
  *
@@ -35,8 +36,6 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
             throw new InvalidArgumentException("error_043_01");
         } else if (accountDetails.getFarmer() == null) {
             throw new InvalidArgumentException("error_043_02");
-        } else if (accountDetails.getSolId() != null && accountDetails.getSolId().trim().length() > 45) {
-            throw new InvalidArgumentException("error_043_03");
         } else if (accountDetails.getAccountNumber() != null && accountDetails.getAccountNumber().trim().length() > 45) {
             throw new InvalidArgumentException("error_043_04");
         }
@@ -77,7 +76,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<AccountDetails> retrieveCounties() throws MilesException {
+    public List<AccountDetails> retrieveAccounts() throws MilesException {
         List<Account> accounts = new ArrayList<>();
         setQ(em.createNamedQuery("Account.findAll"));
         try {
@@ -101,6 +100,20 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
 
         return convertAccountToAccountDetails(account);
     }
+
+    @Override
+    public AccountDetails retrieveAccount(PersonDetails farmer) throws MilesException {
+        Account account;
+        setQ(em.createNamedQuery("Account.findByFarmerId"));
+        q.setParameter("farmerId", farmer.getId());
+        try {
+            account = (Account) q.getSingleResult();
+        } catch (Exception e) {
+            throw new InvalidStateException("error_000_01");
+        }
+
+        return convertAccountToAccountDetails(account, farmer);
+    }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Update">
 
@@ -113,8 +126,6 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
             throw new InvalidArgumentException("error_043_06");
         } else if (accountDetails.getAccountNumber() == null) {
             throw new InvalidArgumentException("error_043_02");
-        } else if (accountDetails.getSolId() != null && accountDetails.getSolId().trim().length() > 45) {
-            throw new InvalidArgumentException("error_043_03");
         } else if (accountDetails.getAccountNumber() != null && accountDetails.getAccountNumber().trim().length() > 45) {
             throw new InvalidArgumentException("error_043_04");
         }
@@ -168,6 +179,38 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
     }
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Convert">
+
+    @Override
+    public AccountDetails convertAccountToAccountDetails(Account account, PersonDetails farmer) {
+
+        AccountDetails accountDetails = new AccountDetails();
+        try {
+            accountDetails.setId(account.getId());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setAccountNumber(account.getAccountNumber());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setSolId(account.getSolId());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setSavings(account.getSavings());
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setFarmer(farmer);
+        } catch (Exception e) {
+        }
+        try {
+            accountDetails.setEblBranch((eblBranchService.convertEblBranchToEblBranchDetails(account.getEblBranch())));
+        } catch (Exception e) {
+        }
+        return accountDetails;
+
+    }
 
     @Override
     public AccountDetails convertAccountToAccountDetails(Account account) {

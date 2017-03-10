@@ -83,6 +83,8 @@ public interface PersonRequestsLocal {
      *
      * @param person the person record
      * @return the details of the person record
+     * @throws MilesException when the database is in an incorrect state or when
+     * the farmer unique identifier is not provided
      */
     public PersonDetails convertPersonToPersonDetails(Person person);
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.population.PopulationTimer;
@@ -65,7 +66,7 @@ public class FarmerReader {
                     && row.getCell(2).getStringCellValue().equals("National ID")
                     && row.getCell(3).getStringCellValue().equals("Age(e.g. 32) or YOB (e.g. 1984)")
                     && row.getCell(4).getStringCellValue().equals("Bank account number")
-                    && row.getCell(5).getStringCellValue().equals("SOL ID")
+                    && row.getCell(5).getStringCellValue().equals("Category")
                     && row.getCell(6).getStringCellValue().equals("Equity branch name")
                     && row.getCell(7).getStringCellValue().equals("Divisional location name")
                     && row.getCell(8).getStringCellValue().equals("Ward ID")
@@ -77,9 +78,8 @@ public class FarmerReader {
                 rowIterator.next();
                 rowIterator.next();
                 rowIterator.next();
-                rowIterator.next();
+                row = rowIterator.next();
                 while (rowIterator.hasNext()) {
-                    row = rowIterator.next();
                     num++;
 
                     ward = new WardDetails();
@@ -110,8 +110,12 @@ public class FarmerReader {
                                         try {
                                             farmer.setNationalId(cell.getStringCellValue());
                                         } catch (Exception e) {
-                                            Double d = cell.getNumericCellValue();
-                                            farmer.setNationalId(d.toString());
+                                            try {
+                                                Double d = cell.getNumericCellValue();
+                                                farmer.setNationalId(d.toString());
+                                            } catch (Exception ex) {
+                                                MilesDebugger.debug(ex);
+                                            }
                                         }
                                         break;
                                     case 3:
@@ -170,10 +174,12 @@ public class FarmerReader {
                                         break;
                                     case 5:
                                         try {
-                                            account.setSolId(cell.getStringCellValue());
+                                            account.setSolId(Short.valueOf(cell.getStringCellValue()));
                                         } catch (Exception e) {
-                                            Double d = cell.getNumericCellValue();
-                                            account.setSolId(d.toString());
+                                            try {
+                                                account.setSolId(new Double(cell.getNumericCellValue()).shortValue());
+                                            } catch (Exception ex) {
+                                            }
                                         }
                                         break;
                                     case 6:
@@ -233,9 +239,12 @@ public class FarmerReader {
                         }
 
                         // end iterating a row, add all the elements of a row in list
-                        peopleMap.put(farmer, account);
+                        if (farmer.getNationalId() != null) {
+                            peopleMap.put(farmer, account);
+                        }
 
                     }
+                    row = rowIterator.next();
                 }
             } else {
                 throw new InvalidArgumentException("invalid_people_upload_file");

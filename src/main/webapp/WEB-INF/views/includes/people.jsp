@@ -110,7 +110,7 @@
                     </div>
                     <div class="form-group">
                         Year of birth
-                        <select id="year-of-birth" class="form-control">
+                        <select id="year-of-birth" name="year-of-birth" class="form-control">
                             <option disabled>Select year</option>
                         </select>
                     </div>

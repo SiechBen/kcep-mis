@@ -21,7 +21,7 @@
         <div class="form-group">
             <input type="hidden" id="ward" class="form-control" value="${person.location.ward.id}">
         </div>
-        <button type="button" class="btn btn-outline btn-primary" onclick="addPerson()">Save agro-dealer</button>
+        <button type="button" class="btn btn-outline btn-primary" onclick="addAgroDealer()">Save agro-dealer</button>
     </form>
 </div>
 </div>

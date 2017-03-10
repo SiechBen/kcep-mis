@@ -352,7 +352,7 @@ public class FarmerController extends Controller {
                         account.setEblBranch(null);
                     }
                     try {
-                        account.setSolId(request.getParameter("solId"));
+                        account.setSolId(Short.valueOf(request.getParameter("solId")));
                     } catch (Exception e) {
                         account.setSolId(null);
                     }

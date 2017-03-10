@@ -22,10 +22,12 @@
                                 <th colspan="30">
                                     Choose awpb for: &nbsp;
                                     <select id="awpb-user" onchange="changeAWPB()">
-                                        <option value="national"
-                                                <c:if test="${sessionScope.awpbNational}">selected</c:if>>
-                                                    National office
-                                                </option>
+                                        <c:forEach var="awpbOwner" items="${sessionScope.awpbOwners}" varStatus="index">
+                                            <option value="awpbOwner-${awpbOwner.id}"
+                                                    <c:if test="${sessionScope.awpbOwner == awpbOwner.id}">selected</c:if>>
+                                                ${awpbOwner.name}
+                                            </option>
+                                        </c:forEach>
                                         <c:forEach var="region" items="${sessionScope.regions}" varStatus="index">
                                             <option value="region-${region.id}"
                                                     <c:if test="${sessionScope.awpbRegion == region.id}">selected</c:if>>

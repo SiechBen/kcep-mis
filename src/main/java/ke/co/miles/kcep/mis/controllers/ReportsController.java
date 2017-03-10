@@ -32,6 +32,7 @@ import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLoca
 import ke.co.miles.kcep.mis.utilities.ActivityProgressCommentDetails;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressDetails;
 import ke.co.miles.kcep.mis.utilities.ActivityProgressReportDetails;
+import ke.co.miles.kcep.mis.utilities.AwpbOwnerDetail;
 import ke.co.miles.kcep.mis.utilities.MeasurementUnitDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorDetails;
 import ke.co.miles.kcep.mis.utilities.PerformanceIndicatorValuesDetails;
@@ -170,6 +171,14 @@ public class ReportsController extends Controller {
                                     path = "/kalro_reports";
                                     urlPaths.add(path);
                                     break;
+                                case "/financial_report_by_components":
+                                    path = "/kalro_financial_report_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_categories":
+                                    path = "/kalro_financial_report_by_categories";
+                                    urlPaths.add(path);
+                                    break;
                                 default:
                                     break;
                             }
@@ -180,6 +189,34 @@ public class ReportsController extends Controller {
                             switch (path) {
                                 case "/reports":
                                     path = "/agmark_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_components":
+                                    path = "/agmark_financial_report_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_categories":
+                                    path = "/agmark_financial_report_by_categories";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "equityPersonnelSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            switch (path) {
+                                case "/reports":
+                                    path = "/equity_reports";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_components":
+                                    path = "/equity_financial_report_by_components";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_report_by_categories":
+                                    path = "/equity_financial_report_by_categories";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -368,7 +405,7 @@ public class ReportsController extends Controller {
                     }
                     try {
                         /* Retrieve activity progress details and add those available previously to the report(set) */
-                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_REGIONAL_STAFF.getId())) {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
                                 newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId(), financialYearId));
                             }
@@ -502,7 +539,7 @@ public class ReportsController extends Controller {
                     }
                     try {
                         /* Retrieve activity progress details and add those available previously to the report(set) */
-                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                        if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_REGIONAL_STAFF.getId())) {
                             for (ActivityProgressReportDetails previousActivityProgressReport : previousActivityProgressReports) {
                                 newActivityProgressReports.add(activityProgressService.retrieveActivityProgress(previousActivityProgressReport.getActivityProgressComment().getSubActivity().getAnnualWorkplanReferenceCode(), "Region", accessingPerson.getLocation().getCounty().getRegion().getId(), financialYearId));
                             }
@@ -712,7 +749,7 @@ public class ReportsController extends Controller {
 
                     try {
                         session.setAttribute("financialPlanByCategoryMap", subActivityService.
-                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null));
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.PCU));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -726,7 +763,36 @@ public class ReportsController extends Controller {
 
                     try {
                         session.setAttribute("financialPlanByComponentMap", subActivityService.
-                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null));
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.PCU));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+                    break;
+
+                case "/region_financial_report_by_categories":
+
+                    try {
+                        session.setAttribute("financialPlanByCategoryMap", subActivityService.
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(),
+                                        ((PersonDetails) session.getAttribute("person")).getLocation().getRegion().getId(), null, null));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/region_financial_report_by_components":
+
+                    try {
+                        session.setAttribute("financialPlanByComponentMap", subActivityService.
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(),
+                                        ((PersonDetails) session.getAttribute("person")).getLocation().getRegion().getId(), null, null));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
@@ -739,7 +805,8 @@ public class ReportsController extends Controller {
 
                     try {
                         session.setAttribute("financialPlanByCategoryMap", subActivityService.
-                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null,
+                                        ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId(), null));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
@@ -748,11 +815,97 @@ public class ReportsController extends Controller {
                     }
 
                     break;
+
                 case "/county_financial_report_by_components":
 
                     try {
                         session.setAttribute("financialPlanByComponentMap", subActivityService.
-                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId()));
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null,
+                                        ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId(), null));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/kalro_financial_report_by_categories":
+
+                    try {
+                        session.setAttribute("financialPlanByCategoryMap", subActivityService.
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.KALRO));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/kalro_financial_report_by_components":
+
+                    try {
+                        session.setAttribute("financialPlanByComponentMap", subActivityService.
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.KALRO));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/agmark_financial_report_by_categories":
+
+                    try {
+                        session.setAttribute("financialPlanByCategoryMap", subActivityService.
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.AGMARK));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/agmark_financial_report_by_components":
+
+                    try {
+                        session.setAttribute("financialPlanByComponentMap", subActivityService.
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.AGMARK));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/equity_financial_report_by_categories":
+
+                    try {
+                        session.setAttribute("financialPlanByCategoryMap", subActivityService.
+                                summarizeFinancialPlanByCategories(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.EQUITY));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    break;
+
+                case "/equity_financial_report_by_components":
+
+                    try {
+                        session.setAttribute("financialPlanByComponentMap", subActivityService.
+                                summarizeFinancialPlanByComponents(financialYearService.retrieveCurrentFinancialYear().getId(), null, null, AwpbOwnerDetail.EQUITY));
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         response.getWriter().write(getBundle().getString("report_generation_failed") + "<br>");

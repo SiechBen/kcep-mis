@@ -45,11 +45,11 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
         this.eblBranch = eblBranch;
     }
 
-    public String getSolId() {
+    public Short getSolId() {
         return solId;
     }
 
-    public void setSolId(String solId) {
+    public void setSolId(Short solId) {
         this.solId = solId;
     }
 
@@ -119,7 +119,7 @@ public class AccountDetails implements Serializable, Comparable<AccountDetails> 
     private Integer id;
     private String accountNumber;
     private EblBranchDetails eblBranch;
-    private String solId;
+    private Short solId;
     private PersonDetails farmer;
     private BigDecimal savings;
     private BigDecimal totalLoanAmount;

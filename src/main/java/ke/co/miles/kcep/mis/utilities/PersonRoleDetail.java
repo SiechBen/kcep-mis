@@ -18,14 +18,15 @@ public enum PersonRoleDetail implements Serializable {
     WAO(new Short("3"), "WAO (Ward Extension Officer)"),
     SUB_COUNTY_OFFICER(new Short("4"), "Sub-county Officer"),
     COUNTY_OFFICER(new Short("5"), "County Officer"),
-    REGIONAL_COORDINATOR(new Short("6"), "Regional Coordinator"),
+    PCU_REGIONAL_STAFF(new Short("6"), "PCU Regional Staff"),
     PROGRAMME_COORDINATOR(new Short("7"), "Programme Coordinator"),
     KALRO_OFFICER(new Short("8"), "KALRO Officer"),
     SYSTEM_ADMIN(new Short("9"), "System Admin"),
     EQUITY_OFFICER(new Short("10"), "Equity"),
     WAREHOUSE_OPERATOR(new Short("11"), "Warehouse Operator"),
     AGMARK_OFFICER(new Short("12"), "AGMARK Officer"),
-    SENIOR_PROGRAMME_COORDINATOR(new Short("13"), "Senior Programme Coordinator");
+    SENIOR_PROGRAMME_COORDINATOR(new Short("13"), "Senior Programme Coordinator"),
+    PCU_STAFF(new Short("14"), "PCU Staff");
 
     private PersonRoleDetail(Short id, String personRole) {
         this.id = id;
@@ -45,7 +46,7 @@ public enum PersonRoleDetail implements Serializable {
             case 5:
                 return COUNTY_OFFICER;
             case 6:
-                return REGIONAL_COORDINATOR;
+                return PCU_REGIONAL_STAFF;
             case 7:
                 return PROGRAMME_COORDINATOR;
             case 8:
@@ -60,6 +61,8 @@ public enum PersonRoleDetail implements Serializable {
                 return AGMARK_OFFICER;
             case 13:
                 return SENIOR_PROGRAMME_COORDINATOR;
+            case 14:
+                return PCU_STAFF;
             default:
                 return null;
         }

@@ -7,6 +7,7 @@ package ke.co.miles.kcep.mis.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ import ke.co.miles.kcep.mis.utilities.WardDetails;
  * @author siech
  */
 @WebServlet(name = "PersonController", urlPatterns = {"/people", "/addPerson",
-    "/doAddPerson", "/doEditPerson", "/doDeletePerson", "/userProfile",
+    "/doAddPerson", "/doEditPerson", "/doDeleteNonBeneficiary", "/userProfile",
     "/user_account", "/validatePassword", "/editUserAccount",
     "/changeCounter", "/searchFarmer", "/searchAgroDealer"})
 public class PersonController extends Controller {
@@ -83,7 +84,7 @@ public class PersonController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/doAddPerson");
                             urlPaths.add("/doEditPerson");
-                            urlPaths.add("/doDeletePerson");
+                            urlPaths.add("/doDeleteNonBeneficiary");
                             urlPaths.add("/searchFarmer");
                             urlPaths.add("/validatePassword");
                             urlPaths.add("/editUserAccount");
@@ -515,7 +516,7 @@ public class PersonController extends Controller {
                     PersonDetails regionalCoordinator = (PersonDetails) session.getAttribute("person");
 
                     try {
-                        session.setAttribute("people", personService.retrieveRegionPeople(regionalCoordinator.getLocation().getCounty().getRegion().getId()));
+                        session.setAttribute("people", personService.retrieveRegionPeople(regionalCoordinator.getLocation().getRegion().getId()));
                     } catch (MilesException ex) {
                         LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
                         return;
@@ -683,7 +684,7 @@ public class PersonController extends Controller {
                             location.setSubCounty(null);
                             location.setWard(null);
                             location.setRegion(null);
-                        } else if (personRole.equals(PersonRoleDetail.REGIONAL_COORDINATOR)) {
+                        } else if (personRole.equals(PersonRoleDetail.PCU_REGIONAL_STAFF)) {
                             location.setCounty(null);
                             location.setSubCounty(null);
                             location.setWard(null);
@@ -807,9 +808,20 @@ public class PersonController extends Controller {
                     location.setWard(ward);
 
                     try {
-                        region = RegionDetail.getRegionDetail(Short.valueOf(String.valueOf(request.getParameter("region"))));
+                        region = RegionDetail.getRegionDetail(Short.valueOf(
+                                String.valueOf(request.getParameter("region"))));
                     } catch (Exception e) {
                         region = null;
+                    }
+                    try {
+                        location.setLatitude(new BigDecimal(request.getParameter("latitude")));
+                    } catch (Exception e) {
+                        location.setLatitude(null);
+                    }
+                    try {
+                        location.setLongitude(new BigDecimal(request.getParameter("longitude")));
+                    } catch (Exception e) {
+                        location.setLongitude(null);
                     }
 
                     try {
@@ -822,7 +834,7 @@ public class PersonController extends Controller {
                             location.setSubCounty(null);
                             location.setWard(null);
                             location.setRegion(null);
-                        } else if (personRole.equals(PersonRoleDetail.REGIONAL_COORDINATOR)) {
+                        } else if (personRole.equals(PersonRoleDetail.PCU_REGIONAL_STAFF)) {
                             location.setCounty(null);
                             location.setSubCounty(null);
                             location.setWard(null);
@@ -851,6 +863,7 @@ public class PersonController extends Controller {
                         person.setBusinessName(null);
                     }
                     if (person.getNationalId().equals("null")) {
+                        MilesDebugger.debug();
                         person.setNationalId(null);
                     }
                     if (person.getName().equals("null")) {
@@ -1015,7 +1028,7 @@ public class PersonController extends Controller {
 
                     return;
 
-                case "/doDeletePerson":
+                case "/doDeleteNonBeneficiary":
                     try {
                         personService.removePerson(Integer.valueOf(request.getParameter("id")));
                     } catch (MilesException ex) {

@@ -20,8 +20,6 @@
                     </select>
                 </th>
             </tr>
-        </thead>
-        <tbody>
             <tr>
                 <td colspan="3"> <strong>Female</strong> </td>
                 <td colspan="3"> <strong>Male</strong> </td>
@@ -35,6 +33,8 @@
                 <td> <strong>Above 35 years old</strong> </td>
                 <td> <strong>Male Total</strong> </td>
             </tr>
+        </thead>
+        <tbody>
             <tr id="people-summary">
                 <td id="female-youth"> ${sessionScope.femaleYouth} </td>
                 <td id="female-elderly"> ${sessionScope.femaleElderly} </td>
@@ -43,6 +43,13 @@
                 <td id="male-elderly"> ${sessionScope.maleElderly} </td>
                 <td id="male-total"> ${sessionScope.maleTotal} </td>
                 <td id="people-total"> ${sessionScope.totalPeople} </td>
+            </tr>
+            <tr>
+                <td colspan="7" class="divider"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
         <input type="hidden" id="female-youth-hidden" value="${sessionScope.femaleYouth}">
         <input type="hidden" id="female-elderly-hidden" value="${sessionScope.femaleElderly}">
         <input type="hidden" id="female-total-hidden" value="${sessionScope.femaleTotal}">
@@ -50,11 +57,6 @@
         <input type="hidden" id="male-elderly-hidden" value="${sessionScope.maleElderly}">
         <input type="hidden" id="male-total-hidden" value="${sessionScope.maleTotal}">
         <input type="hidden" id="people-total-hidden" value="${sessionScope.totalPeople}">
-        </tr>
-        <tr>
-            <td colspan="7" class="divider"></td>
-        </tr>
-        </tbody>
-    </table>
+    </div>
 
 </div>

@@ -20,8 +20,9 @@
         <jsp:include page="../../tags/includes/people_item.jsp"/>
         <jsp:include page="../../tags/includes/training_item.jsp"/>
         <jsp:include page="../../tags/includes/activity_planning_item.jsp"/>
-        <jsp:include page="../../tags/includes/procurements_item.jsp"/>
+        <jsp:include page="../../tags/includes/county_procurements_item.jsp"/>
         <jsp:include page="../../tags/includes/performance_indicators_item.jsp"/>
+        <jsp:include page="../../tags/includes/e_vouchers_item.jsp"/>
         <jsp:include page="../../tags/includes/success_stories_item.jsp"/>
         <jsp:include page="../../tags/includes/surveys_item.jsp"/>
         <jsp:include page="../../tags/includes/documents_item.jsp"/>

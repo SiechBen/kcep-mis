@@ -33,15 +33,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SubActivity.findReferenceCodes", query = "SELECT s.annualWorkplanReferenceCode FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findByFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.financialYear.id =:financialYearId"),
-    @NamedQuery(name = "SubActivity.findHeadSubActivities", query = "SELECT s FROM SubActivity s WHERE s.county IS NULL AND s.region IS NULL"),
+    @NamedQuery(name = "SubActivity.findByAwpbOwnerId", query = "SELECT s FROM SubActivity s WHERE s.awpbOwner.id = :awpbOwnerId"),
     @NamedQuery(name = "SubActivity.findByExpectedOutcomeId", query = "SELECT s FROM SubActivity s WHERE s.expectedOutcome.id = :expectedOutcomeId"),
     @NamedQuery(name = "SubActivity.findCountySubActivities", query = "SELECT s FROM SubActivity s WHERE s.county.id = :countyId AND s.region IS NULL"),
     @NamedQuery(name = "SubActivity.findRegionSubActivities", query = "SELECT s FROM SubActivity s WHERE s.region.id = :regionId AND s.county IS NULL"),
     @NamedQuery(name = "SubActivity.findByAnnualWorkplanReferenceCode", query = "SELECT s FROM SubActivity s WHERE s.annualWorkplanReferenceCode = :annualWorkplanReferenceCode"),
-    @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.county IS NULL"),
+    @NamedQuery(name = "SubActivity.findByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.awpbOwner.id = :awpbOwnerId"),
     @NamedQuery(name = "SubActivity.findOfCountyByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.county.id = :countyId"),
-    @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId AND s.county IS NULL"),
+    @NamedQuery(name = "SubActivity.findOfRegionByComponentIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.component.id = :componentId AND s.financialYear.id =:financialYearId AND s.region.id = :regionId"),
+    @NamedQuery(name = "SubActivity.findByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId AND s.awpbOwner.id = :awpbOwnerId"),
     @NamedQuery(name = "SubActivity.findOfCountyByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId AND s.county.id = :countyId"),
+    @NamedQuery(name = "SubActivity.findOfRegionByExpenditureCategoryIdAndFinancialYearId", query = "SELECT s FROM SubActivity s WHERE s.expenditureCategory.id = :expenditureCategoryId AND s.financialYear.id =:financialYearId AND s.region.id = :regionId"),
     @NamedQuery(name = "SubActivity.findAll", query = "SELECT s FROM SubActivity s"),
     @NamedQuery(name = "SubActivity.findById", query = "SELECT s FROM SubActivity s WHERE s.id = :id"),
     @NamedQuery(name = "SubActivity.findByTotals", query = "SELECT s FROM SubActivity s WHERE s.totals = :totals"),
@@ -61,6 +63,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByBeneficiariesPercentage", query = "SELECT s FROM SubActivity s WHERE s.beneficiariesPercentage = :beneficiariesPercentage"),
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
+
+    @JoinColumn(name = "awpb_owner", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon awpbOwner;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
     private List<ActivityProgressComment> activityProgressCommentList;
@@ -459,6 +465,14 @@ public class SubActivity implements Serializable {
 
     public void setActivityProgressCommentList(List<ActivityProgressComment> activityProgressCommentList) {
         this.activityProgressCommentList = activityProgressCommentList;
+    }
+
+    public Phenomenon getAwpbOwner() {
+        return awpbOwner;
+    }
+
+    public void setAwpbOwner(Phenomenon awpbOwner) {
+        this.awpbOwner = awpbOwner;
     }
 
 }

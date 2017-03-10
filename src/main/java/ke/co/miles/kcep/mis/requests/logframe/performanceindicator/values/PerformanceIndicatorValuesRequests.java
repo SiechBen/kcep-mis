@@ -245,15 +245,16 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     @Override
     public JSONArray getOutputValues() throws MilesException {
 
-        HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportMap = new HashMap<>();
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> performanceIndicatorToValuesMap;
 
         Calendar calendar = Calendar.getInstance();
         short year = Short.valueOf(String.valueOf(calendar.get(Calendar.YEAR)));
         List<Short> projectYears = new ArrayList<>();
-        projectYears.add(year);
+        for (int i = year - 2016; i >= 0; i--) {
+            projectYears.add(Short.valueOf(String.valueOf(year - i)));
+        }
 
-        performanceIndicatorToValuesMap = retrieveOutputLevelIndicators(projectYears);
+        performanceIndicatorToValuesMap = retrieveCoreOutputIndicators(projectYears);
 
         JSONObject jsonOutputValues;
         JSONArray jsonList = new JSONArray();
@@ -281,7 +282,6 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     @Override
     public JSONArray getOutputValuess() throws MilesException {
 
-        HashMap<PerformanceIndicatorDetails, HashMap<PerformanceIndicatorValuesDetails, ArrayList<PerformanceIndicatorValuesDetails>>> reportMap = new HashMap<>();
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> performanceIndicatorToValuesMap;
 
         Calendar calendar = Calendar.getInstance();
@@ -289,7 +289,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         List<Short> projectYears = new ArrayList<>();
         projectYears.add(year);
 
-        performanceIndicatorToValuesMap = retrieveOutputLevelIndicators(projectYears);
+        performanceIndicatorToValuesMap = retrieveCoreOutputIndicators(projectYears);
 
         JSONObject jsonOutputValues = new JSONObject();
         JSONArray jsonList = new JSONArray();
@@ -336,19 +336,30 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
+        PerformanceIndicatorValues piv;
+        PerformanceIndicatorValues temp;
         try {
             performanceIndicators = q.getResultList();
             setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
             for (PerformanceIndicator performanceIndicator : performanceIndicators) {
+                piv = null;
                 orderedList = new ArrayList<>();
                 q.setParameter("performanceIndicatorId", performanceIndicator.getId());
                 for (short projectYear : projectYears) {
                     q.setParameter("projectYear", projectYear);
                     try {
-                        orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                        if (piv == null) {
+                            piv = (PerformanceIndicatorValues) q.getSingleResult();
+                        } else {
+                            temp = (PerformanceIndicatorValues) q.getSingleResult();
+                            if (temp.getActualValue() != null || temp.getExpectedValue() != null) {
+                                piv = temp;
+                            }
+                        }
                     } catch (Exception e) {
                     }
                 }
+                orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(piv));
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }
         } catch (Exception e) {
@@ -372,6 +383,17 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 + "JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE "
                 + "r.description REGEXP ?1", PerformanceIndicator.class));
         q.setParameter(1, "^Output ");
+
+        return retrievePerformanceIndicators(projectYears);
+    }
+
+    @SuppressWarnings({"unchecked", "unchecked"})
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> retrieveCoreOutputIndicators(List<Short> projectYears) throws MilesException {
+        setQ(em.createNativeQuery("SELECT * FROM performance_indicator p INNER "
+                + "JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE "
+                + "r.description REGEXP ?1 AND p.core = ?2", PerformanceIndicator.class));
+        q.setParameter(1, "^Output ");
+        q.setParameter(2, Boolean.TRUE);
 
         return retrievePerformanceIndicators(projectYears);
     }

@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.defaults.Generator;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -146,7 +147,7 @@ public class PopulationController extends Controller {
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/uploadExcelFile");
                             switch (path) {
-                                case "/people":
+                                case "/uploadPeople":
                                     path = "/ward_upload_people";
                                     urlPaths.add(path);
                                     break;
@@ -327,6 +328,7 @@ public class PopulationController extends Controller {
             for (PersonDetails person : peopleMap.keySet()) {
                 try {
                     messageDigest = MessageDigest.getInstance("SHA-256");
+                    MilesDebugger.debug(person.getNationalId());
                     password = Generator.generateSHAPassword(messageDigest, person.getNationalId());
                 } catch (NoSuchAlgorithmException e) {
                     LOGGER.log(Level.WARNING, "Message digest algorithm not found");
@@ -445,7 +447,7 @@ public class PopulationController extends Controller {
                     int personId = result.getInt("id");
 
                     //Create bank account for person
-                    statement.executeUpdate("INSERT INTO account(account_number,ebl_branch,sol_id,farmer) VALUES('" + (peopleMap.get(person).getAccountNumber() + "'," + (peopleMap.get(person).getEblBranch() == null ? null : peopleMap.get(person).getEblBranch().getId())) + ",'" + peopleMap.get(person).getSolId() + "'," + personId + ")");
+                    statement.executeUpdate("INSERT INTO account(account_number,ebl_branch,sol_id,farmer) VALUES('" + (peopleMap.get(person).getAccountNumber() + "'," + (peopleMap.get(person).getEblBranch() == null ? null : peopleMap.get(person).getEblBranch().getId())) + "," + peopleMap.get(person).getSolId() + "," + personId + ")");
 
                     //Create the person's user account record
                     statement.executeUpdate("INSERT INTO user_account(person, username, password, person_role) VALUES (" + personId + ",'" + person.getContact().getEmail() + "','" + password + "'," + PersonRoleDetail.FARMER.getId() + ")");

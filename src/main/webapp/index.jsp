@@ -1,5 +1,5 @@
 <%--
-    Document   : indexx
+    Document   : index
     Created on : Oct 5, 2016, 2:09:55 PM
     Author     : siech
 --%>
@@ -88,26 +88,27 @@
                 </ul>
             </nav>
 
-            <div class="main-container">
+            <div class="container">
 
-                <div class="header">
-                    <a class="logo" href="#"></a>
-                </div>
-                <div class="content">
-                    <h1 class="login-link" onclick="loadAjaxWindow('loginpage')" data-toggle="tooltip" data-placement="auto bottom" title="Click to log in"><center>Welcome to KCEP-MIS</center></h1>
-                    <!--<center> <div class="login-label">Follow this link to login</div> </center>-->
-                    <center> <div class="info-label"><a href="#outputs"><button class="btn btn-info">READ MORE >></button></a></div> </center>
-                </div>
-                <div class="feedback">
-                    <center>
-                        <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials' || this.value === 'Feedback has been received. Thank you!')
-                                    this.value = '';" onblur="if (this.value.trim() === '')
-                                                this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
-                        <input type="button" class="submit" onclick="saveFeedback()">
-                    </center>
+                <div class="row">
+                    <div class="header">
+                        <a class="logo" href="#"></a>
+                    </div>
+                    <div class="content">
+                        <h1 class="login-link" onclick="loadAjaxWindow('loginpage')" data-toggle="tooltip" data-placement="auto bottom" title="Click to log in"><center>Welcome to KCEP-MIS</center></h1>
+                        <center> <div class="info-label"><a href="#outputs"><button class="btn btn-info">READ MORE >></button></a></div> </center>
+                    </div>
+                    <div class="feedback">
+                        <center>
+                            <input type="text" class="field" id="feedback" name="feedback" onfocus="if (this.value === 'Leave a comment to KCEP officials' || this.value === 'Feedback has been received. Thank you!')
+                                        this.value = '';" onblur="if (this.value.trim() === '')
+                                                    this.value = 'Leave a comment to KCEP officials';" value="Leave a comment to KCEP officials" />
+                            <input type="button" class="submit" onclick="saveFeedback()">
+                        </center>
+                    </div>
                 </div>
 
-                <div class="row push-down">
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">

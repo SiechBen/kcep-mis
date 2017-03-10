@@ -2682,13 +2682,13 @@ $(function () {
         "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
             var iTotalMarket = 0;
             for (var i = 0; i < aaData.length; i++) {
-                iTotalMarket += aaData[i][3] * 1;
+                iTotalMarket += aaData[i][4] * 1;
             }
 
             /* Calculate the market share for browsers on this page */
             var iPageMarket = 0;
             for (var i = iStart; i < iEnd; i++) {
-                iPageMarket += aaData[ aiDisplay[i] ][3] * 1;
+                iPageMarket += aaData[ aiDisplay[i] ][4] * 1;
             }
 
             /* Modify the footer row to match what we want */
@@ -2697,31 +2697,31 @@ $(function () {
             var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0,
                     maleTotal = 0, femaleTotal = 0, pageTotal = 0;
             for (var i = iStart; i < iEnd; i++) {
-                sex = aaData[i][2];
-                age = aaData[i][3] * 1;
+                sex = aaData[aiDisplay[i]][3];
+                age = aaData[aiDisplay[i]][4] * 1;
                 if (sex === "Male" && age > 35) {
-                    maleElderly += 1;
+                    maleElderly = maleElderly + 1;
                 } else if (sex === "Male" && age >= 18 && age <= 35) {
-                    maleYouth += 1;
+                    maleYouth = maleYouth + 1;
                 } else if (sex === "Female" && age > 35) {
-                    femaleElderly += 1;
+                    femaleElderly = femaleElderly + 1;
                 } else if (sex === "Female" && age >= 18 && age <= 35) {
-                    femaleYouth += 1;
+                    femaleYouth = femaleYouth + 1;
                 }
             }
+
             maleTotal = (maleYouth + maleElderly);
             femaleTotal = (femaleYouth + femaleElderly);
             pageTotal = (femaleTotal + maleTotal);
 
-            /* update people-count-table */
-            var rows = $("table#people-count-table").find("tbody").find("tr");
-            $(rows[2]).find("td:eq(0)").html(femaleYouth);
-            $(rows[2]).find("td:eq(1)").html(femaleElderly);
-            $(rows[2]).find("td:eq(2)").html(femaleTotal);
-            $(rows[2]).find("td:eq(3)").html(maleYouth);
-            $(rows[2]).find("td:eq(4)").html(maleElderly);
-            $(rows[2]).find("td:eq(5)").html(maleTotal);
-            $(rows[2]).find("td:eq(6)").html(pageTotal);
+            /* update people-summary row*/
+            $("#female-youth").html(femaleYouth);
+            $("#female-elderly").html(femaleElderly);
+            $("#female-total").html(femaleTotal);
+            $("#male-youth").html(maleYouth);
+            $("#male-elderly").html(maleElderly);
+            $("#male-total").html(maleTotal);
+            $("#people-total").html(pageTotal);
         },
         buttons: [
             {
@@ -2794,6 +2794,7 @@ $(function () {
             {
                 text: "Total summary",
                 action: function () {
+                    console.log($("#female-youth-hidden").val());
                     $("#female-youth").html($("#female-youth-hidden").val());
                     $("#female-elderly").html($("#female-elderly-hidden").val());
                     $("#female-total").html($("#female-total-hidden").val());
@@ -2801,6 +2802,42 @@ $(function () {
                     $("#male-elderly").html($("#male-elderly-hidden").val());
                     $("#male-total").html($("#male-total-hidden").val());
                     $("#people-total").html($("#people-total-hidden").val());
+                }
+            }, {
+                text: "Sample farmers",
+                action: function () {
+                    $("#sample-dialog").dialog({
+                        width: 495,
+                        height: "auto",
+                        title: "sample_label",
+                        resizable: true,
+                        modal: false,
+                        buttons: {
+                            "Search": function () {
+                                $.ajax({
+                                    url: "searchAgroDealer",
+                                    type: "POST",
+                                    data: "nationalId=" + $("#search-national-id").val() +
+                                            "&name=" + $("#search-name").val(),
+                                    success: function () {
+                                        $("#search-national-id").val("");
+                                        $("#search-name").val("");
+                                        loadAjaxWindow("agroDealers");
+                                    },
+                                    error: function (response) {
+                                        showError("error_label", response.responseText);
+                                        return;
+                                    },
+                                    dataType: "HTML"
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function () {
+                            $("#search-national-id").val("");
+                            $("#search-name").val("");
+                        }
+                    });
                 }
             }]
     });
@@ -2826,13 +2863,13 @@ $(function () {
         "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
             var iTotalMarket = 0;
             for (var i = 0; i < aaData.length; i++) {
-                iTotalMarket += aaData[i][3] * 1;
+                iTotalMarket += aaData[i][4] * 1;
             }
 
             /* Calculate the market share for browsers on this page */
             var iPageMarket = 0;
             for (var i = iStart; i < iEnd; i++) {
-                iPageMarket += aaData[ aiDisplay[i] ][3] * 1;
+                iPageMarket += aaData[ aiDisplay[i] ][4] * 1;
             }
 
             /* Modify the footer row to match what we want */
@@ -2841,8 +2878,8 @@ $(function () {
             var maleElderly = 0, femaleElderly = 0, maleYouth = 0, femaleYouth = 0,
                     maleTotal = 0, femaleTotal = 0, pageTotal = 0;
             for (var i = iStart; i < iEnd; i++) {
-                sex = aaData[i][2];
-                age = aaData[i][3] * 1;
+                sex = aaData[aiDisplay[i]][3];
+                age = aaData[aiDisplay[i]][4] * 1;
                 if (sex === "Male" && age > 35) {
                     maleElderly += 1;
                 } else if (sex === "Male" && age >= 18 && age <= 35) {
@@ -2853,19 +2890,19 @@ $(function () {
                     femaleYouth += 1;
                 }
             }
+
             maleTotal = (maleYouth + maleElderly);
             femaleTotal = (femaleYouth + femaleElderly);
             pageTotal = (femaleTotal + maleTotal);
 
-            /* update people-count-table */
-            var rows = $("table#people-count-table").find("tbody").find("tr");
-            $(rows[2]).find("td:eq(0)").html(femaleYouth);
-            $(rows[2]).find("td:eq(1)").html(femaleElderly);
-            $(rows[2]).find("td:eq(2)").html(femaleTotal);
-            $(rows[2]).find("td:eq(3)").html(maleYouth);
-            $(rows[2]).find("td:eq(4)").html(maleElderly);
-            $(rows[2]).find("td:eq(5)").html(maleTotal);
-            $(rows[2]).find("td:eq(6)").html(pageTotal);
+            /* update people-summary row*/
+            $("#female-youth").html(femaleYouth);
+            $("#female-elderly").html(femaleElderly);
+            $("#female-total").html(femaleTotal);
+            $("#male-youth").html(maleYouth);
+            $("#male-elderly").html(maleElderly);
+            $("#male-total").html(maleTotal);
+            $("#people-total").html(pageTotal);
         },
         buttons: [
             {
@@ -2950,18 +2987,11 @@ $(function () {
     });
 
     agroDealersTable.on('search.dt', function () {
-//        console.log(agroDealersTable.rows({filter: 'applied'}).nodes().length);
-//        console.log(agroDealersTable.rows({filter: 'applied'}).data());
         var filteredAgroDealers = agroDealersTable.rows({filter: 'applied'}).data();
         filteredIds = [];
         for (var i = 0; i < filteredAgroDealers.length; i++) {
             filteredIds.push(filteredAgroDealers[i][0]);
         }
-        console.log("\n");
-        console.log(filteredIds);
-
-//        console.log(filteredAgroDealers[2][0]);
-//        console.log(filteredAgroDealers[3][0]);
     });
 });
 
@@ -3116,7 +3146,8 @@ function initMap() {
 
 function hideLocation() {
     var personRole = parseInt($("#person-role").val());
-    if (personRole === 7 || personRole === 9 || personRole === 12) {
+    if (personRole === 7 || personRole === 9 || personRole === 12
+            || personRole === 13 || personRole === 14) {
         $("#ward-to-hide").attr("hidden", "hidden");
         $("#county-to-hide").attr("hidden", "hidden");
         $("#sub-county-to-hide").attr("hidden", "hidden");
@@ -3180,7 +3211,7 @@ function addFarmer() {
     });
 }
 
-function addPerson() {
+function addAgroDealer() {
 
     var nationalId = $("#national-id").val();
     var regex = new RegExp("^[0-9]{7,8}$");
@@ -3208,6 +3239,47 @@ function addPerson() {
                 "&nationalId=" + $("#national-id").val() +
                 "&yearOfBirth=" + $("#year-of-birth").val() +
                 "&businessName=" + $("#business-name").val() +
+                "&postalAddress=" + $("#postal-address").val(),
+        success: function () {
+            clearPersonFields();
+            loadAjaxWindow('agroDealers');
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function addPerson() {
+
+    var nationalId = $("#national-id").val();
+    var regex = new RegExp("^[0-9]{7,8}$");
+    if (nationalId.trim().length > 0 && !regex.test(nationalId)) {
+        $("#national-id").addClass("error-form-control").focus();
+        $("#national-id").attr("title", "National ID should contain 7-8 digits");
+        return;
+    } else {
+        $("#national-id").attr("title", "");
+        $("#national-id").removeClass("error-form-control");
+    }
+
+    $.ajax({
+        url: "doAddPerson",
+        type: "POST",
+        data: "sex=" + $("#sex").val() +
+                "&ward=" + $("#ward").val() +
+                "&email=" + $("#email").val() +
+                "&county=" + $("#county").val() +
+                "&region=" + $("#region").val() +
+                "&name=" + $("#person-name").val() +
+                "&phoneNumber=" + $("#phone").val() +
+                "&subCounty=" + $("#sub-county").val() +
+                "&personRole=" + $("#person-role").val() +
+                "&nationalId=" + $("#national-id").val() +
+                "&yearOfBirth=" + $("#year-of-birth").val() +
                 "&businessName=" + $("#business-name").val() +
                 "&postalAddress=" + $("#postal-address").val(),
         success: function () {
@@ -3333,13 +3405,11 @@ function editPerson(id, name, sex, personRole, nationalId, yearOfBirth, location
     });
 }
 
-function editFarmer(id, name, sex, personRole, nationalId, yearOfBirth,
+function editFarmer(id, name, sex, nationalId, yearOfBirth,
         farmerGroup, farmerSubGroup, location, county, subCounty, ward, contactId, phone, email) {
     $("#person-name").val(name);
     if (sex !== "")
         $("#sex option[value=" + sex + "]").attr('selected', 'selected');
-    if (personRole !== "")
-        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
     $("#national-id").val(nationalId);
     $("#year-of-birth").val(yearOfBirth);
     if (farmerGroup !== "")
@@ -3382,7 +3452,7 @@ function editFarmer(id, name, sex, personRole, nationalId, yearOfBirth,
                             "&name=" + $("#person-name").val() +
                             "&nationalId=" + $("#national-id").val() +
                             "&sex=" + $("#sex").val() +
-                            "&personRoleId=" + $("#person-role").val() +
+                            "&personRole=" + $("#person-role").val() +
                             "&farmerGroup=" + $("#farmer-group").val() +
                             "&phoneNumber=" + $("#phone").val() +
                             "&locationId=" + location +
@@ -3397,7 +3467,7 @@ function editFarmer(id, name, sex, personRole, nationalId, yearOfBirth,
                             "&yearOfBirth=" + $("#year-of-birth").val(),
                     success: function () {
                         clearPersonFields();
-                        loadAjaxWindow('people');
+                        loadAjaxWindow('farmers');
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
@@ -3418,12 +3488,11 @@ function editFarmer(id, name, sex, personRole, nationalId, yearOfBirth,
     });
 }
 
-function editAgrodealer(id, name, sex, personRole, nationalId, yearOfBirth, businessName, location, county, subCounty, ward, contactId, phone, email) {
+function editAgrodealer(id, name, sex, nationalId, yearOfBirth, businessName,
+        location, county, subCounty, ward, latitude, longitude, contactId, phone, email) {
     $("#person-name").val(name);
     if (sex !== "")
         $("#sex option[value=" + sex + "]").attr('selected', 'selected');
-    if (personRole !== "")
-        $("#person-role option[value=" + personRole + "]").attr('selected', 'selected');
     $("#national-id").val(nationalId);
     $("#year-of-birth").val(yearOfBirth);
     $("#business-name").val(businessName);
@@ -3433,6 +3502,8 @@ function editAgrodealer(id, name, sex, personRole, nationalId, yearOfBirth, busi
         $("#sub-county option[value=" + subCounty + "]").attr('selected', 'selected');
     if (ward !== "")
         $("#ward option[value=" + ward + "]").attr('selected', 'selected');
+    $("#latitude").val(latitude);
+    $("#longitude").val(longitude);
     $("#phone").val(phone);
     $("#email").val(email);
     $("#person-dialog").dialog({
@@ -3464,7 +3535,7 @@ function editAgrodealer(id, name, sex, personRole, nationalId, yearOfBirth, busi
                             "&nationalId=" + $("#national-id").val() +
                             "&businessName=" + $("#business-name").val() +
                             "&sex=" + $("#sex").val() +
-                            "&personRoleId=" + $("#person-role").val() +
+                            "&personRole=" + $("#person-role").val() +
                             "&phoneNumber=" + $("#phone").val() +
                             "&locationId=" + location +
                             "&email=" + $("#email").val() +
@@ -3473,11 +3544,13 @@ function editAgrodealer(id, name, sex, personRole, nationalId, yearOfBirth, busi
                             "&subCounty=" + $("#sub-county").val() +
                             "&personRole=" + $("#person-role").val() +
                             "&ward=" + $("#ward").val() +
+                            "&latitude=" + $("#latitude").val() +
+                            "&longitude=" + $("#longitude").val() +
                             "&postalAddress=" + $("#postal-address").val() +
                             "&yearOfBirth=" + $("#year-of-birth").val(),
                     success: function () {
                         clearPersonFields();
-                        loadAjaxWindow('people');
+                        loadAjaxWindow('agroDealers');
                         return;
                     }, error: function (response) {
                         showError("error_label", response.responseText);
@@ -3508,18 +3581,19 @@ function deletePerson(id) {
         resizable: false,
         buttons: {
             "Yes": function () {
-//                $.ajax({
-//                    url: "doDeletePerson",
-//                    type: "POST",
-//                    data: "id=" + id,
-//                    success: function () {
-//                        loadAjaxWindow("people");
-//                    },
-//                    error: function (response) {
-//                        showError("error_label", response.responseText);return;
-//                    },
-//                    dataType: "HTML"
-//                });
+                $.ajax({
+                    url: "doDeleteNonBeneficiary",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadAjaxWindow("people");
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
                 loadAjaxWindow("people");
                 $(this).dialog("close");
             },
@@ -3602,7 +3676,7 @@ $("#procurement-form").ajaxForm({
     }
 });
 function editProcurement(id, item, cost, date, serial, description, office, county, subcounty, lpoNumber) {
-//    $("#item option[value=" + item + "]").attr('selected', 'selected');
+    //    $("#item option[value=" + item + "]").attr('selected', 'selected');
     $("#item").val(item);
     $("#cost").val(cost);
     $("#date-purchased").val(date);
@@ -4977,7 +5051,7 @@ $(function () {
         responsive: true,
         dom: "Blftip",
 //        "bLengthChange": false,
-//        "searching": false,
+        //        "searching": false,
         "scrollX": true,
         "scrollCollapse": true
     });
@@ -5375,7 +5449,9 @@ if (!Modernizr.inputtypes.date) {
                 /* Allow: Ctrl + X, Command + X */
                 || (e.keyCode === 88 && (e.ctrlKey === true || e.metaKey === true))
                 /* Allow: home, end, left, right, down, up */
-                || (e.keyCode >= 35 && e.keyCode <= 40)) {
+                || (e.keyCode >= 35 && e.keyCode <= 40)
+                /* Allow minus operator*/
+                || (e.keyCode === 189)) {
             /* Let it happen by doing nothing */
             return;
         }
@@ -5394,8 +5470,7 @@ $(function () {
         responsive: true,
         "scrollX": true,
         "scrollY": "200",
-        "scrollCollapse": true,
-        dom: "Blftip",
+        "scrollCollapse": true, dom: "Blftip",
         buttons: [
             {
                 text: 'Upload new document',

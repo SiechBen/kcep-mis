@@ -330,16 +330,16 @@ public class AccessController extends Controller {
                             }
                             break;
 
-                        case "Regional Coordinator":
+                        case "PCU Regional Staff":
                             rightsMaps.clear();
                             rightsMaps.put("regionalCoordinatorSession", true);
                             session.setAttribute("home", "/region");
-                            session.setAttribute("userTitle", "Regional Programme Coordinator");
+                            session.setAttribute("userTitle", "PCU Regional Staff");
                             session.setAttribute("locationLabel", "region");
                             session.setAttribute("regions", RegionDetail.values());
 
                             try {
-                                session.setAttribute("counties", countyService.retrieveCounties(person.getLocation().getCounty().getRegion().getId()));
+                                session.setAttribute("counties", countyService.retrieveCounties(person.getLocation().getRegion().getId()));
                             } catch (Exception ex) {
                                 LOGGER.log(Level.SEVERE, "An error occurred during counties retrieval", ex);
                                 return;
@@ -368,23 +368,33 @@ public class AccessController extends Controller {
                         case "Senior Programme Coordinator":
                         case "Programme Coordinator":
                         case "System Admin":
+                        case "PCU Staff":
 
                             rightsMaps.clear();
                             session.setAttribute("home", "/head");
                             session.setAttribute("regions", RegionDetail.values());
 
-                            if (personRole.getPersonRole().equals("Programme Coordinator")) {
-                                rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", "Programme Coordinator");
-                                session.setAttribute("locationLabel", "country");
-                            } else if (personRole.getPersonRole().equals("Senior Programme Coordinator")) {
-                                rightsMaps.put("nationalOfficerSession", true);
-                                session.setAttribute("userTitle", "Senior Programme Coordinator");
-                                session.setAttribute("locationLabel", "country");
-                            } else {
-                                rightsMaps.put("systemAdminSession", true);
-                                session.setAttribute("userTitle", "System Admin");
-                                session.setAttribute("locationLabel", "country");
+                            switch (personRole.getPersonRole()) {
+                                case "Programme Coordinator":
+                                    rightsMaps.put("nationalOfficerSession", true);
+                                    session.setAttribute("userTitle", "Programme Coordinator");
+                                    session.setAttribute("locationLabel", "country");
+                                    break;
+                                case "Senior Programme Coordinator":
+                                    rightsMaps.put("nationalOfficerSession", true);
+                                    session.setAttribute("userTitle", "Senior Programme Coordinator");
+                                    session.setAttribute("locationLabel", "country");
+                                    break;
+                                case "PCU Staff":
+                                    rightsMaps.put("nationalOfficerSession", true);
+                                    session.setAttribute("userTitle", "PCU Staff");
+                                    session.setAttribute("locationLabel", "country");
+                                    break;
+                                default:
+                                    rightsMaps.put("systemAdminSession", true);
+                                    session.setAttribute("userTitle", "System Admin");
+                                    session.setAttribute("locationLabel", "country");
+                                    break;
                             }
 
                             try {

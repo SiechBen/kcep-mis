@@ -136,6 +136,11 @@ public interface PerformanceIndicatorValuesRequestsLocal {
      */
     public JSONArray getOutputValues() throws MilesException;
 
+    /**
+     *
+     * @return the json array of output indicator values
+     * @throws MilesException when the database is in an incorrect state
+     */
     public JSONArray getOutputValuess() throws MilesException;
 
 }

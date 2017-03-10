@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Account;
 import ke.co.miles.kcep.mis.entities.Contact;
@@ -33,6 +34,7 @@ import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.access.AccessRequestsLocal;
+import ke.co.miles.kcep.mis.requests.account.AccountRequestsLocal;
 import ke.co.miles.kcep.mis.requests.account.eblbranch.EblBranchRequestsLocal;
 import ke.co.miles.kcep.mis.requests.contact.ContactRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
@@ -575,10 +577,9 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     @SuppressWarnings("unchecked")
     public List<PersonDetails> retrievePeople(PersonRoleDetail personRoleDetail)
             throws MilesException {
-        setQ(em.createNamedQuery("UserAccount.findByPersonRoleId"));
-        q.setParameter("personRoleId", personRoleDetail.getId());
-        q.setMaxResults(50);
-        List<UserAccount> userAccounts;
+        setQ(em.createNativeQuery("SELECT * FROM user_account AS u1 JOIN (SELECT CEIL(RAND() * (SELECT MAX(u.id) FROM user_account u INNER JOIN person_role pr ON(pr.id = u.person_role) WHERE pr.id = ?1)) AS max_id) AS u2 WHERE u1.id >= max_id ORDER BY u1.id ASC LIMIT 50", UserAccount.class));
+        q.setParameter(1, personRoleDetail.getId());
+        List<UserAccount> userAccounts = new ArrayList<>();
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
@@ -624,12 +625,11 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public List<PersonDetails> retrieveFarmersAndAgroDealers()
             throws MilesException {
 
-        setQ(em.createNamedQuery("UserAccount.findByPersonRoleIds"));
+        setQ(em.createNativeQuery("SELECT * FROM user_account AS u1 JOIN (SELECT CEIL(RAND() * (SELECT MAX(u.id) FROM user_account u INNER JOIN person_role pr ON(pr.id = u.person_role) WHERE pr.id IN (?1))) AS max_id) AS u2 WHERE u1.id >= max_id ORDER BY u1.id ASC LIMIT 50", UserAccount.class));
         List<Short> personRoleIds = new ArrayList<>();
         personRoleIds.add(PersonRoleDetail.FARMER.getId());
         personRoleIds.add(PersonRoleDetail.AGRO_DEALER.getId());
-        q.setParameter("personRoleIds", personRoleIds);
-        q.setMaxResults(50);
+        q.setParameter(1, personRoleIds);
 
         List<UserAccount> userAccounts;
         try {
@@ -843,7 +843,9 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
         try {
             em.merge(person);
+            em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -855,7 +857,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         } catch (Exception e) {
             throw e;
         }
-
     }
 
     @Override
@@ -884,9 +885,9 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     public void removePerson(int id) throws MilesException {
 
         Person person = em.find(Person.class, id);
-//        contactService.removeContact(person.getContact().getId());
+        contactService.removeContact(person.getContact().getId());
         try {
-//            em.remove(person);
+            em.remove(person);
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -911,7 +912,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         personDetails.setYearOfBirth(person.getYearOfBirth());
         personDetails.setBusinessName(person.getBusinessName());
 
-        if (person.getAge() == null && person.getYearOfBirth() != null) {
+        if (person.getYearOfBirth() != null) {
             LocalDate birthYear = LocalDate.of(person.getYearOfBirth(), 1, 1);
             LocalDate now = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1);
             person.setAge(Short.valueOf(String.valueOf(Period.between(birthYear, now).getYears())));
@@ -921,34 +922,47 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
                 em.flush();
             } catch (Exception e) {
             }
-        } else {
+        } else if (person.getYearOfBirth() == null && person.getAge() != null) {
+            LocalDate now = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1);
+            LocalDate birthYear = now.minusYears(person.getAge());
+            person.setYearOfBirth(Short.valueOf(String.valueOf(birthYear.getYear())));
             personDetails.setAge(person.getAge());
+            personDetails.setYearOfBirth(person.getYearOfBirth());
+            try {
+                em.merge(person);
+                em.flush();
+            } catch (Exception e) {
+            }
         }
-        if (person.getLocation() != null) {
+
+        if (person.getLocation()
+                != null) {
             personDetails.setLocation(locationService.
                     convertLocationToLocationDetails(person.getLocation()));
         }
-        if (person.getContact() != null) {
+
+        if (person.getContact()
+                != null) {
             personDetails.setContact(contactService.convertContactToContactDetails(
                     person.getContact()));
         }
-        if (person.getFarmerGroup() != null) {
+
+        if (person.getFarmerGroup()
+                != null) {
             personDetails.setFarmerGroup(farmerGroupService.
                     convertFarmerGroupToFarmerGroupDetails(
                             person.getFarmerGroup()));
         }
-        if (person.getFarmerSubGroup() != null) {
+
+        if (person.getFarmerSubGroup()
+                != null) {
             personDetails.setFarmerSubGroup(farmerSubGroupService.
                     convertFarmerSubGroupToFarmerSubGroupDetails(
                             person.getFarmerSubGroup()));
         }
+
         try {
             personDetails.setSex(SexDetail.getSexDetail(person.getSex().getId()));
-        } catch (Exception e) {
-        }
-        try {
-            personDetails.setAccount(convertAccountToAccountDetails(personDetails,
-                    person.getAccountList().get(0)));
         } catch (Exception e) {
         }
         try {
@@ -957,12 +971,17 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             }
         } catch (Exception e) {
         }
+        try {
+            personDetails.setAccount(accountService.retrieveAccount(personDetails));
+        } catch (MilesException ex) {
+            MilesDebugger.debug(ex);
+        }
         return personDetails;
 
     }
 
     private List<PersonDetails>
-            convertPeopleToPersonDetailsList(List<Person> people) {
+            convertPeopleToPersonDetailsList(List<Person> people) throws MilesException {
 
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (Person person : people) {
@@ -976,21 +995,28 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     private List<PersonDetails>
-            convertUserAccountsToPeople(List<UserAccount> userAccounts) {
+            convertUserAccountsToPeople(List<UserAccount> userAccounts) throws MilesException {
         List<PersonDetails> personDetailsList = new ArrayList<>();
         for (UserAccount userAccount : userAccounts) {
-            personDetailsList.add(convertUserAccountToPerson(userAccount));
-
+            try {
+                personDetailsList.add(convertUserAccountToPerson(userAccount));
+            } catch (MilesException ex) {
+                throw ex;
+            }
         }
 
         return personDetailsList;
 
     }
 
-    private PersonDetails convertUserAccountToPerson(UserAccount userAccount) {
-
+    private PersonDetails convertUserAccountToPerson(UserAccount userAccount) throws MilesException {
         PersonDetails personDetails
                 = convertPersonToPersonDetails(userAccount.getPerson());
+        try {
+            personDetails.setAccount(accountService.retrieveAccount(personDetails));
+        } catch (MilesException ex) {
+            MilesDebugger.debug(ex);
+        }
         personDetails.setPersonRoleId(PersonRoleDetail.getPersonRoleDetail(userAccount.getPersonRole().getId()).getId());
         personDetails.setPersonRole(PersonRoleDetail.getPersonRoleDetail(userAccount.getPersonRole().getId()).getPersonRole());
         personDetails.setUsername(userAccount.getUsername());
@@ -1035,6 +1061,8 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
 
     }
 //</editor-fold>
+    @EJB
+    private AccountRequestsLocal accountService;
     @EJB
     private ContactRequestsLocal contactService;
     @EJB

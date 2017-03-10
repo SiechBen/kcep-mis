@@ -168,7 +168,7 @@
         </dependency>
         <dependency>
             <groupId>ke.co.miles</groupId>
-            <artifactId>Miles</artifactId>
+            <artifactId>miles</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

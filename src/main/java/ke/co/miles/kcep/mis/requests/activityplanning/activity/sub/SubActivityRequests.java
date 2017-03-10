@@ -31,6 +31,7 @@ import ke.co.miles.kcep.mis.requests.activityplanning.financialyear.FinancialYea
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.AwpbOwnerDetail;
 import ke.co.miles.kcep.mis.utilities.FinancialPlanDetails;
 import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
 import ke.co.miles.kcep.mis.utilities.RegionDetail;
@@ -145,9 +146,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<SubActivityDetails> retrieveHeadSubActivities() throws MilesException {
+    public List<SubActivityDetails> retrieveHeadOrPartnerSubActivities(AwpbOwnerDetail awpbOwnerId) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        setQ(em.createNamedQuery("SubActivity.findHeadSubActivities"));
+        setQ(em.createNamedQuery("SubActivity.findByAwpbOwnerId"));
+        q.setParameter("awpbOwnerId", awpbOwnerId.getId());
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
@@ -188,17 +190,23 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private List<SubActivityDetails> retrieveSubActivitiesOfCategory(PhenomenonDetails expenditureCategoryDetails, short financialYearId, Short countyId) throws MilesException {
+    private List<SubActivityDetails> retrieveSubActivitiesOfCategory(PhenomenonDetails expenditureCategoryDetails, short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        if (countyId == null) {
+        if (countyId == null && regionId == null) {
             setQ(em.createNamedQuery("SubActivity.findByExpenditureCategoryIdAndFinancialYearId"));
             q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
             q.setParameter("financialYearId", financialYearId);
-        } else {
+            q.setParameter("awpbOwnerId", awpbOwner.getId());
+        } else if (countyId != null) {
             setQ(em.createNamedQuery("SubActivity.findOfCountyByExpenditureCategoryIdAndFinancialYearId"));
             q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
             q.setParameter("financialYearId", financialYearId);
             q.setParameter("countyId", countyId);
+        } else if (regionId != null) {
+            setQ(em.createNamedQuery("SubActivity.findOfRegionByExpenditureCategoryIdAndFinancialYearId"));
+            q.setParameter("expenditureCategoryId", expenditureCategoryDetails.getId());
+            q.setParameter("financialYearId", financialYearId);
+            q.setParameter("regionId", regionId);
         }
         try {
             subActivities = q.getResultList();
@@ -225,17 +233,23 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private List<SubActivityDetails> retrieveSubActivitiesOfComponent(PhenomenonDetails componentDetails, short financialYearId, Short countyId) throws MilesException {
+    private List<SubActivityDetails> retrieveSubActivitiesOfComponent(PhenomenonDetails componentDetails, short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException {
         List<SubActivity> subActivities = new ArrayList<>();
-        if (countyId == null) {
+        if (countyId == null && regionId == null) {
             setQ(em.createNamedQuery("SubActivity.findByComponentIdAndFinancialYearId"));
             q.setParameter("componentId", componentDetails.getId());
             q.setParameter("financialYearId", financialYearId);
-        } else {
+            q.setParameter("awpbOwnerId", awpbOwner.getId());
+        } else if (countyId != null) {
             setQ(em.createNamedQuery("SubActivity.findOfCountyByComponentIdAndFinancialYearId"));
             q.setParameter("componentId", componentDetails.getId());
             q.setParameter("financialYearId", financialYearId);
             q.setParameter("countyId", countyId);
+        } else if (regionId != null) {
+            setQ(em.createNamedQuery("SubActivity.findOfRegionByComponentIdAndFinancialYearId"));
+            q.setParameter("componentId", componentDetails.getId());
+            q.setParameter("financialYearId", financialYearId);
+            q.setParameter("regionId", regionId);
         }
         try {
             subActivities = q.getResultList();
@@ -261,28 +275,29 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @SuppressWarnings("unchecked")
-    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveExpenditureCategoriesMap(short financialYearId, Short countyId) throws MilesException {
+    private Map<PhenomenonDetails, List<SubActivityDetails>>
+            retrieveExpenditureCategoriesMap(short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException {
         Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = new HashMap<>();
         List<PhenomenonDetails> expenditureCategoryDetailsList;
 
         expenditureCategoryDetailsList = phenomenonService.retrieveExpenditureCategories();
         for (PhenomenonDetails expenditureCategoryDetails : expenditureCategoryDetailsList) {
             expenditureCategoriesMap.put(expenditureCategoryDetails,
-                    retrieveSubActivitiesOfCategory(expenditureCategoryDetails, financialYearId, countyId));
+                    retrieveSubActivitiesOfCategory(expenditureCategoryDetails, financialYearId, regionId, countyId, awpbOwner));
         }
 
         return expenditureCategoriesMap;
     }
 
     @SuppressWarnings("unchecked")
-    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId, Short countyId) throws MilesException {
+    private Map<PhenomenonDetails, List<SubActivityDetails>> retrieveComponentsMap(short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException {
 
         Map<PhenomenonDetails, List<SubActivityDetails>> componentsMap = new HashMap<>();
         List<PhenomenonDetails> componentDetailsList;
         componentDetailsList = phenomenonService.retrieveComponents();
         for (PhenomenonDetails componentDetails : componentDetailsList) {
             componentsMap.put(componentDetails,
-                    retrieveSubActivitiesOfComponent(componentDetails, financialYearId, countyId));
+                    retrieveSubActivitiesOfComponent(componentDetails, financialYearId, regionId, countyId, awpbOwner));
         }
 
         return componentsMap;
@@ -483,9 +498,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Summarize">
     @Override
-    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId, Short countyId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByCategories(short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException {
 
-        Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId, countyId);
+        Map<PhenomenonDetails, List<SubActivityDetails>> expenditureCategoriesMap = retrieveExpenditureCategoriesMap(financialYearId, regionId, countyId, awpbOwner);
         Map<PhenomenonDetails, FinancialPlanDetails> categoryToFinancialPlansMap = new HashMap<>();
         Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> totalsToCategoryToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;
@@ -854,9 +869,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
     }
 
     @Override
-    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> summarizeFinancialPlanByComponents(short financialYearId, Short countyId) throws MilesException {
+    public Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>>
+            summarizeFinancialPlanByComponents(short financialYearId, Short regionId, Short countyId, AwpbOwnerDetail awpbOwner) throws MilesException {
 
-        Map<PhenomenonDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId, countyId);
+        Map<PhenomenonDetails, List<SubActivityDetails>> componentsMap = retrieveComponentsMap(financialYearId, regionId, countyId, awpbOwner);
         Map<PhenomenonDetails, FinancialPlanDetails> componentToFinancialPlansMap = new HashMap<>();
         Map<FinancialPlanDetails, Map<PhenomenonDetails, FinancialPlanDetails>> totalsToComponentToFinancialPlansMap = new HashMap<>();
         FinancialPlanDetails financialPlanDetails;

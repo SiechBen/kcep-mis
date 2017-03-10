@@ -27,6 +27,7 @@
                                 <th>National ID</th>
                                 <!--                                <th>Farmer group</th>
                                                                 <th>Farmer sub-group</th>-->
+                                <th>Category</th>
                                 <th>County</th>
                                 <th>Sub-county</th>
                                 <th>Ward</th>
@@ -40,7 +41,6 @@
                                 <th>Amount of savings</th>
                                 <th>Loan amount</th>
                                 <th>&nbsp;</th>
-                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -50,15 +50,16 @@
                         </tfoot>
                         <tbody>
                             <c:forEach var="person" items="${sessionScope.farmers}" varStatus="index">
-                                <tr class="farmer-row">
+                                <tr class="farmer-row <c:if test="${person.account.solId == 2}">category2-farmer-row</c:if>">
                                     <td style="display: none">${person.id}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${index.count}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.sex.sex}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.age}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.nationalId}</td>
-<!--                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
+    <!--                                    <td onclick="loadFarmWindow(${person.id})">${person.farmerGroup.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.farmerSubGroup.name}</td>-->
+                                    <td onclick="loadFarmWindow(${person.id})">${person.account.solId}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.county.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.subCounty.name}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.location.ward.name}</td>
@@ -71,11 +72,13 @@
                                     <td onclick="loadFarmWindow(${person.id})">${person.account.accountNumber}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.account.savings}</td>
                                     <td onclick="loadFarmWindow(${person.id})">${person.account.totalLoanAmount}</td>
-                                    <td><button onclick="editFarmer('${person.id}', '${person.name}', '${person.sex.id}', '${person.nationalId}', '${person.personRoleId}',
-                                                    '${person.yearOfBirth}', '${person.businessName}', '${person.farmerGroup.id}', '${person.farmerSubGroup.id}',
-                                                    '${person.location.id}', '${person.location.county.id}', '${person.location.subCounty.id}', '${person.location.ward.id}', '${person.contact.id}',
+                                    <td><button onclick="editFarmer('${person.id}', '${person.name}',
+                                                    '${person.sex.id}', '${person.nationalId}',
+                                                    '${person.yearOfBirth}', '${person.farmerGroup.id}',
+                                                    '${person.farmerSubGroup.id}', '${person.location.id}',
+                                                    '${person.location.county.id}', '${person.location.subCounty.id}',
+                                                    '${person.location.ward.id}', '${person.contact.id}',
                                                     '${person.contact.phone}', '${person.contact.email}')"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                    <td><button onclick="deletePerson(${person.id})"><span class="glyphicon glyphicon-trash"></span></button></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -109,21 +112,18 @@
                             </c:forEach>
                         </select>
                     </div>
-                    <div class="form-group">
-                        Person role
-                        <select id="person-role" class="form-control">
-                            <c:forEach var="personRole" items="${applicationScope.personRoles}" varStatus="index">
-                                <option value="${personRole.id}">${personRole.personRole}</option>
-                            </c:forEach>
-                        </select>
+                    <div>
+                        <input type="hidden" id="person-role" value="1">
                     </div>
                     <div class="form-group">
                         National ID
                         <input id="national-id" name="national-id" class="form-control">
                     </div>
                     <div class="form-group">
-                        Date Of Birth
-                        <input id="year-of-birth" name="year-of-birth" class="form-control datefield" type="date">
+                        Year of birth
+                        <select id="year-of-birth" name="year-of-birth" class="form-control">
+                            <option disabled>Select year</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         Farmer Group
@@ -136,7 +136,7 @@
                     <div class="form-group">
                         County
                         <select id="county" name="person-county" class="form-control" onchange="updateSubCounties()">
-                            <c:forEach var="county" items="${applicationScope.counties}" varStatus="index">
+                            <c:forEach var="county" items="${sessionScope.counties}" varStatus="index">
                                 <option value="${county.id}">${county.name}</option>
                             </c:forEach>
                         </select>
@@ -144,7 +144,7 @@
                     <div class="form-group">
                         Sub-county
                         <select id="sub-county" name="person-sub-county" class="form-control" onchange="updateWards()">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                            <c:forEach var="subCounty" items="${sessionScope.subCounties}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>
@@ -152,7 +152,7 @@
                     <div class="form-group">
                         Ward
                         <select id="ward" name="ward" class="form-control">
-                            <c:forEach var="subCounty" items="${applicationScope.subCounties}" varStatus="index">
+                            <c:forEach var="subCounty" items="${sessionScope.wards}" varStatus="index">
                                 <option value="${subCounty.id}">${subCounty.name}</option>
                             </c:forEach>
                         </select>
@@ -224,3 +224,51 @@
         </div>
     </div>
 </div>
+<!--
+<div class="row" id="sample-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <div id="myWizard3">
+                    <section class="step" data-step-title="page">
+                        <div class="hero-unit">
+                            <h1>Hey !</h1>
+                            <p>Discover my awesome product</p>
+                            <p>
+                                <a class="btn btn-primary btn-large">
+                                    Read more
+                                </a>
+                            </p>
+                        </div>
+                    </section>
+                    <section class="step" data-step-title="page">
+                        <div class="hero-unit">
+                            <h1>Here it is</h1>
+                            <p>Soon this product for you (and only you)</p>
+                        </div>
+                    </section>
+                    <section class="step" data-step-title="page">
+                        <div class="hero-unit">
+                            <h1>Awesome !</h1>
+                            <p>This product is now ready to use</p>
+                            <p>
+                                <a class="btn btn-primary btn-large">
+                                    Get it !
+                                </a>
+                            </p>
+                        </div>
+                    </section>
+                </div>
+                <div id="myWizard3Pager" class="pagination pagination-centered">
+                    <ul>
+                        <li class="previous"><a href="#">&larr; Previous</a></li>
+                        <li class="page"><a href="#" rel="1">1</a></li>
+                        <li class="page"><a href="#" rel="2">2</a></li>
+                        <li class="page"><a href="#" rel="3">3</a></li>
+                        <li class="next"><a href="#">Next &rarr;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

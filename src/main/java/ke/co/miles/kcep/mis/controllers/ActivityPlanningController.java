@@ -33,6 +33,7 @@ import ke.co.miles.kcep.mis.requests.location.county.CountyRequestsLocal;
 import ke.co.miles.kcep.mis.requests.logframe.performanceindicator.PerformanceIndicatorRequestsLocal;
 import ke.co.miles.kcep.mis.requests.measurementunit.MeasurementUnitRequestsLocal;
 import ke.co.miles.kcep.mis.utilities.ActivityNameDetails;
+import ke.co.miles.kcep.mis.utilities.AwpbOwnerDetail;
 import ke.co.miles.kcep.mis.utilities.CategoryDetails;
 import ke.co.miles.kcep.mis.utilities.CountyDetails;
 import ke.co.miles.kcep.mis.utilities.FinancialYearDetails;
@@ -96,7 +97,7 @@ public class ActivityPlanningController extends Controller {
         HttpSession session = request.getSession();
 
         String path = request.getServletPath();
-        String destination = null;
+        String destination;
 
         @SuppressWarnings("unchecked")
         HashMap<String, Boolean> rightsMaps
@@ -211,6 +212,168 @@ public class ActivityPlanningController extends Controller {
                                     break;
                                 case "/addSubActivityName":
                                     path = "/head_addSubActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "kalroSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doAddFinancialYear");
+                            urlPaths.add("/doAddSubActivityName");
+                            urlPaths.add("/updateSubActivityNames");
+                            switch (path) {
+                                case "/changeAWPB":
+                                    destination = "/kalro_sub_activities";
+                                    urlPaths.add("/changeAWPB");
+                                    break;
+                                case "/sub_activities":
+                                    path = "/kalro_sub_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivity":
+                                    path = "/kalro_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/sub_activity_names":
+                                    path = "/kalro_sub_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_names":
+                                    path = "/kalro_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivityName":
+                                    path = "/kalro_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/kalro_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/kalro_addFinancialYear";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityName":
+                                    path = "/kalro_addSubActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "agmarkSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doAddFinancialYear");
+                            urlPaths.add("/doAddSubActivityName");
+                            urlPaths.add("/updateSubActivityNames");
+                            switch (path) {
+                                case "/changeAWPB":
+                                    destination = "/agmark_sub_activities";
+                                    urlPaths.add("/changeAWPB");
+                                    break;
+                                case "/sub_activities":
+                                    path = "/agmark_sub_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivity":
+                                    path = "/agmark_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/sub_activity_names":
+                                    path = "/agmark_sub_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_names":
+                                    path = "/agmark_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivityName":
+                                    path = "/agmark_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/agmark_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/agmark_addFinancialYear";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityName":
+                                    path = "/agmark_addSubActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
+                    case "equityPersonnelSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateSubComponents");
+                            urlPaths.add("/doEditSubActivity");
+                            urlPaths.add("/doAddSubActivity");
+                            urlPaths.add("/doAddPhenomenon");
+                            urlPaths.add("/flyAddActivityName");
+                            urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/doAddActivityName");
+                            urlPaths.add("/doAddFinancialYear");
+                            urlPaths.add("/doAddSubActivityName");
+                            urlPaths.add("/updateSubActivityNames");
+                            switch (path) {
+                                case "/changeAWPB":
+                                    destination = "/equity_sub_activities";
+                                    urlPaths.add("/changeAWPB");
+                                    break;
+                                case "/sub_activities":
+                                    path = "/equity_sub_activities";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivity":
+                                    path = "/equity_addSubActivity";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/sub_activity_names":
+                                    path = "/equity_sub_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/activity_names":
+                                    path = "/equity_activity_names";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addActivityName":
+                                    path = "/equity_addActivityName";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/financial_years":
+                                    path = "/equity_financial_years";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFinancialYear":
+                                    path = "/equity_addFinancialYear";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addSubActivityName":
+                                    path = "/equity_addSubActivityName";
                                     urlPaths.add(path);
                                     break;
                                 default:
@@ -451,6 +614,9 @@ public class ActivityPlanningController extends Controller {
                 case "/head_sub_activity_names":
                 case "/county_sub_activity_names":
                 case "/region_sub_activity_names":
+                case "/kalro_sub_activity_names":
+                case "/agmark_sub_activity_names":
+                case "/equity_sub_activity_names":
                     try {
                         int activityNameId = Integer.valueOf(
                                 request.getParameter("activityNameId"));
@@ -468,6 +634,9 @@ public class ActivityPlanningController extends Controller {
                 case "/head_financial_years":
                 case "/region_financial_years":
                 case "/county_financial_years":
+                case "/kalro_financial_years":
+                case "/agmark_financial_years":
+                case "/equity_financial_years":
                     try {
                         session.setAttribute("financialYears",
                                 financialYearService.retrieveFinancialYears());
@@ -481,6 +650,9 @@ public class ActivityPlanningController extends Controller {
                 case "/head_activity_names":
                 case "/region_activity_names":
                 case "/county_activity_names":
+                case "/kalro_activity_names":
+                case "/agmark_activity_names":
+                case "/equity_activity_names":
                     try {
                         session.setAttribute("activityNames",
                                 activityNameService.retrieveActivityNames());
@@ -662,6 +834,7 @@ public class ActivityPlanningController extends Controller {
                     String awpbUser = request.getParameter("awpbUser");
                     Short countyId = 0;
                     Short regionId = 0;
+                    AwpbOwnerDetail awpbOwner = AwpbOwnerDetail.PCU;
 
                     if (awpbUser.startsWith("county")) {
                         countyId = Short.valueOf(awpbUser.split("-")[1]);
@@ -669,33 +842,35 @@ public class ActivityPlanningController extends Controller {
                     } else if (awpbUser.startsWith("region")) {
                         regionId = Short.valueOf(awpbUser.split("-")[1]);
                         awpbUser = awpbUser.split("-")[0];
-                    } else if (awpbUser.equals("national")) {
+                    } else if (awpbUser.startsWith("awpbOwner")) {
+                        awpbOwner = AwpbOwnerDetail.getAwpbOwnerDetail(Integer.valueOf(awpbUser.split("-")[1]));
+                        awpbUser = awpbUser.split("-")[0];
                     } else {
                         return;
                     }
 
                     try {
                         switch (awpbUser) {
-                            case "national":
-                                session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
-                                session.setAttribute("awpbUser", "National office");
+                            case "awpbOwner":
+                                session.setAttribute("subActivities", subActivityService.retrieveHeadOrPartnerSubActivities(awpbOwner));
+                                session.setAttribute("awpbUser", awpbOwner.getName());
                                 session.setAttribute("awpbRegion", 0);
                                 session.setAttribute("awpbCounty", 0);
-                                session.setAttribute("awpbNational", true);
+                                session.setAttribute("awpbOwner", awpbOwner.getId());
                                 break;
                             case "county":
                                 session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(countyId));
                                 session.setAttribute("awpbUser", countyService.retrieveCounty(countyId).getName() + " county");
                                 session.setAttribute("awpbRegion", 0);
+                                session.setAttribute("awpbOwner", 0);
                                 session.setAttribute("awpbCounty", countyId);
-                                session.setAttribute("awpbNational", false);
                                 break;
                             case "region":
                                 session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(regionId));
                                 session.setAttribute("awpbUser", RegionDetail.getRegionDetail(regionId).getName() + " region");
                                 session.setAttribute("awpbCounty", 0);
+                                session.setAttribute("awpbOwner", 0);
                                 session.setAttribute("awpbRegion", regionId);
-                                session.setAttribute("awpbNational", false);
                                 break;
                         }
                     } catch (MilesException ex) {
@@ -711,6 +886,9 @@ public class ActivityPlanningController extends Controller {
 
                     return;
 
+                case "/kalro_sub_activities":
+                case "/agmark_sub_activities":
+                case "/equity_sub_activities":
                 case "/head_sub_activities":
                 case "/county_sub_activities":
                 case "/region_sub_activities":
@@ -731,30 +909,53 @@ public class ActivityPlanningController extends Controller {
                             return;
                         }
 
+                        session.setAttribute("awpbOwners", AwpbOwnerDetail.values());
+
                         try {
                             switch (path) {
-                                case "/head_sub_activities":
-                                    session.setAttribute("subActivities", subActivityService.retrieveHeadSubActivities());
-                                    session.setAttribute("awpbUser", "National office");
+                                case "/kalro_sub_activities":
+                                    session.setAttribute("subActivities", subActivityService.retrieveHeadOrPartnerSubActivities(AwpbOwnerDetail.KALRO));
+                                    session.setAttribute("awpbUser", AwpbOwnerDetail.KALRO.getName());
                                     session.setAttribute("awpbRegion", 0);
                                     session.setAttribute("awpbCounty", 0);
-                                    session.setAttribute("awpbNational", true);
+                                    session.setAttribute("awpbOwner", AwpbOwnerDetail.KALRO.getId());
+                                    break;
+                                case "/equity_sub_activities":
+                                    session.setAttribute("subActivities", subActivityService.retrieveHeadOrPartnerSubActivities(AwpbOwnerDetail.EQUITY));
+                                    session.setAttribute("awpbUser", AwpbOwnerDetail.EQUITY.getName());
+                                    session.setAttribute("awpbRegion", 0);
+                                    session.setAttribute("awpbCounty", 0);
+                                    session.setAttribute("awpbOwner", AwpbOwnerDetail.EQUITY.getId());
+                                    break;
+                                case "/agmark_sub_activities":
+                                    session.setAttribute("subActivities", subActivityService.retrieveHeadOrPartnerSubActivities(AwpbOwnerDetail.AGMARK));
+                                    session.setAttribute("awpbUser", AwpbOwnerDetail.AGMARK.getName());
+                                    session.setAttribute("awpbRegion", 0);
+                                    session.setAttribute("awpbCounty", 0);
+                                    session.setAttribute("awpbOwner", AwpbOwnerDetail.AGMARK.getId());
+                                    break;
+                                case "/head_sub_activities":
+                                    session.setAttribute("subActivities", subActivityService.retrieveHeadOrPartnerSubActivities(AwpbOwnerDetail.PCU));
+                                    session.setAttribute("awpbUser", AwpbOwnerDetail.PCU.getName());
+                                    session.setAttribute("awpbRegion", 0);
+                                    session.setAttribute("awpbCounty", 0);
+                                    session.setAttribute("awpbOwner", AwpbOwnerDetail.PCU.getId());
                                     break;
                                 default:
                                     countyId = ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getId();
                                     session.setAttribute("subActivities", subActivityService.retrieveCountySubActivities(countyId));
                                     session.setAttribute("awpbUser", ((PersonDetails) session.getAttribute("person")).getLocation().getCounty().getName() + " county");
                                     session.setAttribute("awpbRegion", 0);
+                                    session.setAttribute("awpbOwner", 0);
                                     session.setAttribute("awpbCounty", countyId);
-                                    session.setAttribute("awpbNational", false);
                                     break;
                                 case "/region_sub_activities":
                                     regionId = ((PersonDetails) session.getAttribute("person")).getLocation().getRegion().getId();
                                     session.setAttribute("subActivities", subActivityService.retrieveRegionSubActivities(regionId));
                                     session.setAttribute("awpbUser", ((PersonDetails) session.getAttribute("person")).getLocation().getRegion().getName() + " region");
                                     session.setAttribute("awpbCounty", 0);
+                                    session.setAttribute("awpbOwner", 0);
                                     session.setAttribute("awpbRegion", regionId);
-                                    session.setAttribute("awpbNational", false);
                                     break;
                             }
                         } catch (MilesException ex) {
@@ -1006,7 +1207,7 @@ public class ActivityPlanningController extends Controller {
                     try {
                         if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
                             subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
-                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_REGIONAL_STAFF.getId())) {
                             subActivity.setRegion(RegionDetail.getRegionDetail(accessingPerson.getLocation().getCounty().getRegion().getId()));
                         }
                     } catch (Exception e) {
@@ -1193,7 +1394,7 @@ public class ActivityPlanningController extends Controller {
                     try {
                         if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.COUNTY_OFFICER.getId())) {
                             subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
-                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.REGIONAL_COORDINATOR.getId())) {
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_REGIONAL_STAFF.getId())) {
                             subActivity.setRegion(RegionDetail.getRegionDetail(accessingPerson.getLocation().getCounty().getRegion().getId()));
                         }
                     } catch (Exception e) {

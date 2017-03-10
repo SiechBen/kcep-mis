@@ -42,7 +42,7 @@ public class ExceptionController extends Controller {
             out.println("<title>Servlet ExceptionController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Sorry; requested page '" + request.getContextPath() + "' not found at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Sorry; requested page '" + request.getServletPath() + "' not found at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

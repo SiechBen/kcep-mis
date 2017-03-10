@@ -38,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue")})
 public class PerformanceIndicator implements Serializable {
 
+    @Column(name = "core")
+    private Short core;
+
     @Column(name = "appraisal_target")
     private Double appraisalTarget;
     private static final long serialVersionUID = 1L;
@@ -183,6 +186,14 @@ public class PerformanceIndicator implements Serializable {
      */
     public void setMeasurementUnit(MeasurementUnit measurementUnit) {
         this.measurementUnit = measurementUnit;
+    }
+
+    public Short getCore() {
+        return core;
+    }
+
+    public void setCore(Short core) {
+        this.core = core;
     }
 
 }

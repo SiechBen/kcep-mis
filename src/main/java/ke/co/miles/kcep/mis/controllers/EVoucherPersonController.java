@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
@@ -215,6 +214,51 @@ public class EVoucherPersonController extends Controller {
                             }
                         }
                         break;
+                    case "regionalCoordinatorSession":
+                        if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/updateFilteredIds");
+                            urlPaths.add("/addFarmer");
+                            urlPaths.add("/getLocations");
+                            urlPaths.add("/addAgroDealer");
+                            urlPaths.add("/doAddEVoucher");
+                            switch (path) {
+                                case "/mapAgroDealers":
+                                    path = "/region_view_agro_dealers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/mapFarmers":
+                                    path = "/region_view_farmers_on_map";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/eVouchers":
+                                    path = "/region_eVouchers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addEVoucher":
+                                    path = "/region_addEVoucher";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/farmers":
+                                    path = "/region_farmers";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addFarmer":
+                                    path = "/region_addFarmer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/addAgroDealer":
+                                    path = "/region_addAgroDealer";
+                                    urlPaths.add(path);
+                                    break;
+                                case "/agroDealers":
+                                    path = "/region_agro_dealers";
+                                    urlPaths.add(path);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        break;
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/updateFilteredIds");
@@ -304,11 +348,11 @@ public class EVoucherPersonController extends Controller {
                             urlPaths.add("/addAgroDealer");
                             switch (path) {
                                 case "/mapAgroDealers":
-                                    path = "/wao_view_agro_dealers_on_map";
+                                    path = "/ward_view_agro_dealers_on_map";
                                     urlPaths.add(path);
                                     break;
                                 case "/mapFarmers":
-                                    path = "/wao_view_farmers_on_map";
+                                    path = "/ward_view_farmers_on_map";
                                     urlPaths.add(path);
                                     break;
                                 case "/farmers":
@@ -619,7 +663,6 @@ public class EVoucherPersonController extends Controller {
                             people = (List<PersonDetails>) session.getAttribute("farmers");
                         } else if (personType.equals("AgroDealer")) {
                             people = (List<PersonDetails>) session.getAttribute("agroDealers");
-                            MilesDebugger.debug(people);
                         }
 
                         String[] filterIdsArray = session.getAttribute("filteredIds").toString().split(",");
@@ -633,97 +676,96 @@ public class EVoucherPersonController extends Controller {
                             }
                         }
 
-                        for (PersonDetails person : people) {
-                            if (filterIdsArray == null) {
-                                personInfo = new StringBuilder();
-                                personInfo.append("<strong>");
-                                personInfo.append(person.getName());
-                                personInfo.append("</strong>");
-                                personInfo.append("<br>");
-                                if (person.getLocation() == null) {
-                                    continue;
-                                }
-                                if (person.getLocation().getWard() != null) {
-                                    personInfo.append(person.getLocation().getWard().getName());
-                                    if (person.getLocation().getWard().getName() != null) {
-                                        personInfo.append(", ");
-                                    }
-                                    personInfo.append(person.getLocation().getWard().getSubCounty().getName());
-                                    personInfo.append(", ");
-                                    personInfo.append(person.getLocation().getWard().getSubCounty().getCounty().getName());
+                        if (people != null) {
+                            for (PersonDetails person : people) {
+                                if (filterIdsArray == null) {
+                                    personInfo = new StringBuilder();
+                                    personInfo.append("<strong>");
+                                    personInfo.append(person.getName());
+                                    personInfo.append("</strong>");
                                     personInfo.append("<br>");
-                                }
-                                if (person.getLocation().getVillage() != null) {
-                                    personInfo.append(person.getLocation().getVillage().getName());
-                                    if (person.getLocation().getVillage().getName() != null) {
-                                        personInfo.append(" village");
-                                        if (person.getLocation().getDivisionalLocation() != null) {
-                                            personInfo.append(", ");
-                                            personInfo.append(person.getLocation().getDivisionalLocation().getName());
-                                            personInfo.append(" division");
-                                        }
+                                    if (person.getLocation() == null) {
+                                        continue;
                                     }
-
-                                } else if (person.getLocation().getDivisionalLocation() != null) {
-                                    personInfo.append(person.getLocation().getDivisionalLocation().getName());
-                                }
-                                personInfo.append("<br>");
-                                jsonLocation = new JSONObject();
-                                jsonLocation.put("info", personInfo.toString());
-                                try {
-                                    jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
-                                    jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
-                                } catch (Exception e) {
-                                }
-                                jsonList.add(jsonLocation);
-
-                            } else if (filterIdsList.contains(person.getId())) {
-
-                                personInfo = new StringBuilder();
-                                personInfo.append("<strong>");
-                                personInfo.append(person.getName());
-                                personInfo.append("</strong>");
-                                personInfo.append("<br>");
-                                if (person.getLocation() == null) {
-                                    continue;
-                                }
-                                if (person.getLocation().getWard() != null) {
-                                    personInfo.append(person.getLocation().getWard().getName());
-                                    if (person.getLocation().getWard().getName() != null) {
+                                    if (person.getLocation().getWard() != null) {
+                                        personInfo.append(person.getLocation().getWard().getName());
+                                        if (person.getLocation().getWard().getName() != null) {
+                                            personInfo.append(", ");
+                                        }
+                                        personInfo.append(person.getLocation().getWard().getSubCounty().getName());
                                         personInfo.append(", ");
+                                        personInfo.append(person.getLocation().getWard().getSubCounty().getCounty().getName());
+                                        personInfo.append("<br>");
                                     }
-                                    personInfo.append(person.getLocation().getWard().getSubCounty().getName());
-                                    personInfo.append(", ");
-                                    personInfo.append(person.getLocation().getWard().getSubCounty().getCounty().getName());
-                                    personInfo.append("<br>");
-                                }
-                                if (person.getLocation().getVillage() != null) {
-                                    personInfo.append(person.getLocation().getVillage().getName());
-                                    if (person.getLocation().getVillage().getName() != null) {
-                                        personInfo.append(" village");
-                                        if (person.getLocation().getDivisionalLocation() != null) {
-                                            personInfo.append(", ");
-                                            personInfo.append(person.getLocation().getDivisionalLocation().getName());
-                                            personInfo.append(" division");
+                                    if (person.getLocation().getVillage() != null) {
+                                        personInfo.append(person.getLocation().getVillage().getName());
+                                        if (person.getLocation().getVillage().getName() != null) {
+                                            personInfo.append(" village");
+                                            if (person.getLocation().getDivisionalLocation() != null) {
+                                                personInfo.append(", ");
+                                                personInfo.append(person.getLocation().getDivisionalLocation().getName());
+                                                personInfo.append(" division");
+                                            }
                                         }
+
+                                    } else if (person.getLocation().getDivisionalLocation() != null) {
+                                        personInfo.append(person.getLocation().getDivisionalLocation().getName());
                                     }
+                                    personInfo.append("<br>");
+                                    jsonLocation = new JSONObject();
+                                    jsonLocation.put("info", personInfo.toString());
+                                    try {
+                                        jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
+                                        jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
+                                    } catch (Exception e) {
+                                    }
+                                    jsonList.add(jsonLocation);
 
-                                } else if (person.getLocation().getDivisionalLocation() != null) {
-                                    personInfo.append(person.getLocation().getDivisionalLocation().getName());
+                                } else if (filterIdsList.contains(person.getId())) {
+
+                                    personInfo = new StringBuilder();
+                                    personInfo.append("<strong>");
+                                    personInfo.append(person.getName());
+                                    personInfo.append("</strong>");
+                                    personInfo.append("<br>");
+                                    if (person.getLocation() == null) {
+                                        continue;
+                                    }
+                                    if (person.getLocation().getWard() != null) {
+                                        personInfo.append(person.getLocation().getWard().getName());
+                                        if (person.getLocation().getWard().getName() != null) {
+                                            personInfo.append(", ");
+                                        }
+                                        personInfo.append(person.getLocation().getWard().getSubCounty().getName());
+                                        personInfo.append(", ");
+                                        personInfo.append(person.getLocation().getWard().getSubCounty().getCounty().getName());
+                                        personInfo.append("<br>");
+                                    }
+                                    if (person.getLocation().getVillage() != null) {
+                                        personInfo.append(person.getLocation().getVillage().getName());
+                                        if (person.getLocation().getVillage().getName() != null) {
+                                            personInfo.append(" village");
+                                            if (person.getLocation().getDivisionalLocation() != null) {
+                                                personInfo.append(", ");
+                                                personInfo.append(person.getLocation().getDivisionalLocation().getName());
+                                                personInfo.append(" division");
+                                            }
+                                        }
+
+                                    } else if (person.getLocation().getDivisionalLocation() != null) {
+                                        personInfo.append(person.getLocation().getDivisionalLocation().getName());
+                                    }
+                                    personInfo.append("<br>");
+                                    jsonLocation = new JSONObject();
+                                    jsonLocation.put("info", personInfo.toString());
+                                    try {
+                                        jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
+                                        jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
+                                    } catch (Exception e) {
+                                    }
+                                    jsonList.add(jsonLocation);
+
                                 }
-                                personInfo.append("<br>");
-                                jsonLocation = new JSONObject();
-                                jsonLocation.put("info", personInfo.toString());
-                                try {
-                                    jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
-                                    jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
-                                } catch (Exception e) {
-                                }
-                                jsonList.add(jsonLocation);
-
-                                MilesDebugger.debug(person.getLocation().getLatitude());
-                                MilesDebugger.debug(person.getLocation().getLongitude());
-
                             }
                         }
                         response.setContentType("application/json");
@@ -780,7 +822,10 @@ public class EVoucherPersonController extends Controller {
                 case "/kalro_agro_dealers":
                 case "/agmark_agro_dealers":
                 case "/head_agro_dealers":
-                    if (session.getAttribute("agroDealerSearchFunction") == null || (session.getAttribute("agroDealerSearchFunction") != null && !((Boolean) session.getAttribute("agroDealerSearchFunction")))) {
+
+                    if (session.getAttribute("agroDealerSearchFunction") == null
+                            || (session.getAttribute("agroDealerSearchFunction")
+                            != null && !((Boolean) session.getAttribute("agroDealerSearchFunction")))) {
                         try {
                             HashMap<String, Integer> countMap;
 
@@ -855,7 +900,7 @@ public class EVoucherPersonController extends Controller {
                         if (session.getAttribute("agroDealerSearchTimes") == null) {
                             agroDealerSearchTimes = 1;
                         } else if ((int) session.getAttribute("agroDealerSearchTimes") >= 2) {
-                            session.setAttribute("farmerSearchFunction", false);
+                            session.setAttribute("agroDealerSearchFunction", false);
                             session.setAttribute("agroDealerSearchTimes", null);
                         } else {
                             agroDealerSearchTimes = ((int) session.getAttribute("agroDealerSearchTimes"));
