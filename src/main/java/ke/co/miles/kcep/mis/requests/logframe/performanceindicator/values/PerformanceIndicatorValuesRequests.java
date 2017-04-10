@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicatorValues;
@@ -207,16 +208,9 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             /* cummulative performance indicator values are not stored in the database. They are created on-the-fly */
             cummulativePerformanceIndicatorValues = new PerformanceIndicatorValuesDetails(++index);
 
-            for (PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails : performanceIndicatorValuesDetailsList) {
+            cummulativePerformanceIndicatorValues.setExpectedValue(performanceIndicatorDetails.getAppraisalTarget());
 
-                try {
-                    if (cummulativePerformanceIndicatorValues.getExpectedValue() == null) {
-                        cummulativePerformanceIndicatorValues.setExpectedValue(performanceIndicatorValuesDetails.getExpectedValue());
-                    } else {
-                        cummulativePerformanceIndicatorValues.setExpectedValue(cummulativePerformanceIndicatorValues.getExpectedValue() + performanceIndicatorValuesDetails.getExpectedValue());
-                    }
-                } catch (Exception e) {
-                }
+            for (PerformanceIndicatorValuesDetails performanceIndicatorValuesDetails : performanceIndicatorValuesDetailsList) {
 
                 try {
                     if (cummulativePerformanceIndicatorValues.getActualValue() == null) {
@@ -227,6 +221,11 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 } catch (Exception e) {
                 }
 
+            }
+
+            if (performanceIndicatorDetails.getId() == 70) {
+                MilesDebugger.debug(cummulativePerformanceIndicatorValues.getActualValue());
+                MilesDebugger.debug(cummulativePerformanceIndicatorValues.getExpectedValue());
             }
 
             try {
@@ -336,6 +335,33 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
+        try {
+            performanceIndicators = q.getResultList();
+            setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
+            for (PerformanceIndicator performanceIndicator : performanceIndicators) {
+                orderedList = new ArrayList<>();
+                q.setParameter("performanceIndicatorId", performanceIndicator.getId());
+                for (short projectYear : projectYears) {
+                    q.setParameter("projectYear", projectYear);
+                    try {
+                        orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
+                    } catch (Exception e) {
+                    }
+                }
+                map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
+            }
+        } catch (Exception e) {
+        }
+
+        return map;
+    }
+
+    @SuppressWarnings({"unchecked", "unchecked"})
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> retrieveCorePerformanceIndicators(List<Short> projectYears) throws MilesException {
+
+        HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
+        List<PerformanceIndicator> performanceIndicators;
+        ArrayList<PerformanceIndicatorValuesDetails> orderedList;
         PerformanceIndicatorValues piv;
         PerformanceIndicatorValues temp;
         try {
@@ -395,7 +421,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         q.setParameter(1, "^Output ");
         q.setParameter(2, Boolean.TRUE);
 
-        return retrievePerformanceIndicators(projectYears);
+        return retrieveCorePerformanceIndicators(projectYears);
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})

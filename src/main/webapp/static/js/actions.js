@@ -210,7 +210,7 @@ $("#expected-value").on("input", function () {
     calculateRatio();
 });
 $("#appraisal-target").on("input", function () {
-    var actualValue = parseFloat($("#actual-value").val()) || 0.0;
+    var actualValue = parseFloat($("#appraisal-actual-value").val()) || 0.0;
     var expectedValue = parseFloat($("#appraisal-target").val()) || 1.0;
     $("#appraisal-ratio").val((actualValue / expectedValue * 100).toFixed(2));
 });
@@ -2012,16 +2012,16 @@ $(function () {
 });
 //</editor-fold>
 
-function setOutputAppraisalTarget(id, indicatorId, actualValue, appraisalTarget, description) {
+function setOutputAppraisalTarget(indicatorId, appraisalActualValue, appraisalTarget, description) {
 
-    actualValue = parseFloat(actualValue) || 0;
+    appraisalActualValue = parseFloat(appraisalActualValue) || 0;
     appraisalTarget = parseFloat(appraisalTarget) || 0;
     if (appraisalTarget !== 0.0)
-        $("#ratio").val(((actualValue / appraisalTarget) * 100).toFixed(2) + "%");
+        $("#appraisal-ratio").val(((appraisalActualValue / appraisalTarget) * 100).toFixed(2) + "%");
     if (appraisalTarget !== "")
         $("#appraisal-target").val(appraisalTarget);
-    if (actualValue !== "")
-        $("#actual-value").val(actualValue);
+    if (appraisalActualValue !== "")
+        $("#appraisal-actual-value").val(appraisalActualValue);
     $("#appraisal-dialog").dialog({
         width: 495,
         height: "auto",
@@ -2030,18 +2030,18 @@ function setOutputAppraisalTarget(id, indicatorId, actualValue, appraisalTarget,
         modal: false,
         buttons: {
             "Save": function () {
-                actualValue = parseFloat($("#actual-value").val()) || 0;
+                appraisalActualValue = parseFloat($("#appraisal-actual-value").val()) || 0;
                 appraisalTarget = parseFloat($("#appraisal-target").val()) || 0.0;
                 $.ajax({
                     url: "setAppraisalTarget",
                     type: "POST",
-                    data: "id=" + id +
+                    data: "id=" + indicatorId +
                             "&appraisalTarget=" + appraisalTarget,
                     success: function () {
                         if (appraisalTarget !== 0.0)
-                            $("#output-ratio-" + indicatorId).html(((actualValue / appraisalTarget) * 100).toFixed(2) + "%");
-                        $("#appraisal-target-" + id).html(appraisalTarget);
-                        return;
+                            $("#appraisal-ratio-" + indicatorId).html(((appraisalActualValue / appraisalTarget) * 100).toFixed(2) + "%");
+                        $("#appraisal-target-" + indicatorId).html(appraisalTarget);
+                        loadAjaxWindow("outputLevelReports");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2057,15 +2057,15 @@ function setOutputAppraisalTarget(id, indicatorId, actualValue, appraisalTarget,
     });
 }
 
-function editOutputValue(id, indicatorId, annualActualValue, annualTargetValue, description) {
-    annualActualValue = parseFloat(annualActualValue) || 0;
-    annualTargetValue = parseFloat(annualTargetValue) || 0;
-    if (annualTargetValue !== 0)
-        $("#annual-ratio").val(((annualActualValue / annualTargetValue) * 100).toFixed(2) + "%");
-    if (annualTargetValue !== "")
-        $("#annual-target-value option[value=" + parseInt(annualTargetValue) + "]").attr("selected", "selected");
-    if (annualActualValue !== "")
-        $("#annual-actual-value option[value=" + parseInt(annualActualValue) + "]").attr("selected", "selected");
+function editOutputValue(id, indicatorId, oldAnnualActualValue, oldAnnualTargetValue, description) {
+    oldAnnualActualValue = parseFloat(oldAnnualActualValue) || 0;
+    oldAnnualTargetValue = parseFloat(oldAnnualTargetValue) || 0;
+    if (oldAnnualTargetValue !== 0)
+        $("#annual-ratio").val(((oldAnnualActualValue / oldAnnualTargetValue) * 100).toFixed(2) + "%");
+    if (oldAnnualTargetValue !== "")
+        $("#annual-target-value").val(oldAnnualTargetValue);
+    if (oldAnnualActualValue !== "")
+        $("#annual-actual-value").val(oldAnnualActualValue);
     $("#output-dialog").dialog({
         width: 495,
         height: "auto",
@@ -2074,21 +2074,28 @@ function editOutputValue(id, indicatorId, annualActualValue, annualTargetValue, 
         modal: false,
         buttons: {
             "Save": function () {
-                annualActualValue = parseFloat($("#annual-actual-value").val()) || 0;
-                annualTargetValue = parseFloat($("#annual-target-value").val()) || 0.0;
+                var newAnnualActualValue = parseFloat($("#annual-actual-value").val()) || 0;
+                var newAnnualTargetValue = parseFloat($("#annual-target-value").val()) || 0.0;
                 $.ajax({
                     url: "updateIndicatorValues",
                     type: "POST",
                     data: "id=" + id +
                             "&projectYear=" + $("#project-year").val() +
-                            "&actualValue=" + annualActualValue +
-                            "&expectedValue=" + annualTargetValue,
+                            "&actualValue=" + newAnnualActualValue +
+                            "&expectedValue=" + newAnnualTargetValue,
                     success: function () {
-                        if (annualTargetValue !== 0.0)
-                            $("#output-ratio-" + indicatorId).html(((annualActualValue / annualTargetValue) * 100).toFixed(2) + "%");
-                        $("#annual-target-value-" + id).html(annualTargetValue);
-                        $("#annual-actual-value-" + id).html(annualActualValue);
-                        return;
+                        if (newAnnualTargetValue !== 0.0)
+                            $("#output-ratio-" + id).html(((newAnnualActualValue / newAnnualTargetValue) * 100).toFixed(2) + "%");
+                        $("#annual-target-value-" + id).html(newAnnualTargetValue);
+                        $("#annual-actual-value-" + id).html(newAnnualActualValue);
+                        var cumulativeActualValue = newAnnualActualValue - oldAnnualActualValue + (parseFloat($("#cumulative-actual-" + indicatorId).text()) || 0.0);
+                        var appraisalTargetValue = parseFloat($("#appraisal-target-" + indicatorId).val()) || 0.0;
+                        $("#cumulative-actual-" + indicatorId).html(cumulativeActualValue);
+                        if (appraisalTargetValue !== 0.0) {
+                            $("#appraisal-ratio-" + indicatorId).html(((cumulativeActualValue / appraisalTargetValue) * 100).toFixed(2) + "%");
+                            console.log(((cumulativeActualValue / appraisalTargetValue) * 100).toFixed(2) + "%");
+                        }
+                        loadAjaxWindow("outputLevelReports");
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -2123,7 +2130,6 @@ var exportIndicator = {
         }
     }
 };
-
 $(function () {
     $("#performance-indicator-table").removeAttr('width').DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -2628,7 +2634,6 @@ var Months = {
 
 //<editor-fold defaultstate="collapsed" desc="Person Datatable">
 var filteredIds;
-
 $(function () {
     $("#people-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -2670,7 +2675,6 @@ $(function () {
             }]
     });
 });
-
 $(function () {
     var farmersTable = $("#farmers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -2713,7 +2717,6 @@ $(function () {
             maleTotal = (maleYouth + maleElderly);
             femaleTotal = (femaleYouth + femaleElderly);
             pageTotal = (femaleTotal + maleTotal);
-
             /* update people-summary row*/
             $("#female-youth").html(femaleYouth);
             $("#female-elderly").html(femaleElderly);
@@ -2841,7 +2844,6 @@ $(function () {
                 }
             }]
     });
-
     farmersTable.on('search.dt', function () {
         var filteredFarmers = farmersTable.rows({filter: 'applied'}).data();
         filteredIds = [];
@@ -2849,9 +2851,7 @@ $(function () {
             filteredIds.push(filteredFarmers[i][0]);
         }
     });
-
 });
-
 $(function () {
     var agroDealersTable = $("#agro-dealers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -2894,7 +2894,6 @@ $(function () {
             maleTotal = (maleYouth + maleElderly);
             femaleTotal = (femaleYouth + femaleElderly);
             pageTotal = (femaleTotal + maleTotal);
-
             /* update people-summary row*/
             $("#female-youth").html(femaleYouth);
             $("#female-elderly").html(femaleElderly);
@@ -2985,7 +2984,6 @@ $(function () {
                 }
             }]
     });
-
     agroDealersTable.on('search.dt', function () {
         var filteredAgroDealers = agroDealersTable.rows({filter: 'applied'}).data();
         filteredIds = [];
@@ -2994,7 +2992,6 @@ $(function () {
         }
     });
 });
-
 $(function () {
     $("#partner-farmers-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -4217,7 +4214,6 @@ var exportAWPB = {
         }
     }
 };
-
 $(function () {
     $("#awpb-table").DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],

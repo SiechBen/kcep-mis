@@ -51,7 +51,7 @@
                     <tbody>
                         <c:forEach var="outputIndicator" items="${sessionScope.outputsReport.keySet()}" varStatus="index">
                             <tr>
-                                <td>${index.count}</td>
+                                <td>${outputIndicator.id} </td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outputIndicator.resultHierarchy.description}">${outputIndicator.resultHierarchy.description}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outputIndicator.description}">${outputIndicator.description}</td>
                                 <td>${outputIndicator.performanceIndicatorType.category.name}</td>
@@ -62,10 +62,10 @@
                                     <c:forEach var="outputIndicatorValues" items="${sessionScope.outputsReport.get(outputIndicator).get(cumulativeIndicatorValues)}">
                                         <td id="annual-target-value-${outputIndicatorValues.id}" class="editable pencil" onclick="editOutputValue('${outputIndicatorValues.id}', '${outputIndicator.id}', '${outputIndicatorValues.actualValue}', '${outputIndicatorValues.expectedValue}', '${outputIndicator.description}')">${outputIndicatorValues.expectedValue}</td>
                                         <td id="annual-actual-value-${outputIndicatorValues.id}" class="editable pencil" onclick="editOutputValue('${outputIndicatorValues.id}', '${outputIndicator.id}', '${outputIndicatorValues.actualValue}', '${outputIndicatorValues.expectedValue}', '${outputIndicator.description}')">${outputIndicatorValues.actualValue}</td>
-                                        <td id="output-ratio-${outputIndicator.id}"><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
+                                        <td id="output-ratio-${outputIndicatorValues.id}"><c:if test="${not empty outputIndicatorValues.ratio}">${outputIndicatorValues.ratio}%</c:if></td>
                                     </c:forEach>
                                     <td id="appraisal-target-${outputIndicator.id}" class="editable pencil" onclick="setOutputAppraisalTarget('${outputIndicator.id}', '${cumulativeIndicatorValues.actualValue}', '${outputIndicator.appraisalTarget}', '${outputIndicator.description}')">${outputIndicator.appraisalTarget}</td>
-                                    <td>${cumulativeIndicatorValues.actualValue}</td>
+                                    <td id="cumulative-actual-${outputIndicator.id}">${cumulativeIndicatorValues.actualValue}</td>
                                     <td id="appraisal-ratio-${outputIndicator.id}"><c:if test="${not empty cumulativeIndicatorValues.ratio}">${cumulativeIndicatorValues.ratio}%</c:if></td>
                                 </c:forEach>
                             </tr>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="form-group">
                         Actual value
-                        <input id="actual-value" readonly class="form-control">
+                        <input id="appraisal-actual-value" readonly class="form-control">
                     </div>
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)

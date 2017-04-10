@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ActivityProgressComment.findForRegionByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgressComment a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.subActivity.region.id = :regionId AND a.subActivity.county IS NULL"),
     @NamedQuery(name = "ActivityProgressComment.findForCountyByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgressComment a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.subActivity.county.id = :countyId AND a.subActivity.region IS NULL"),
-    @NamedQuery(name = "ActivityProgressComment.findForHeadByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgressComment a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.subActivity.county IS NULL AND a.subActivity.region IS NULL"),
+    @NamedQuery(name = "ActivityProgressComment.findForHeadOrPartnerByFinancialYearIdAndReferenceCode", query = "SELECT a FROM ActivityProgressComment a WHERE a.subActivity.financialYear.id = :financialYearId AND a.subActivity.annualWorkplanReferenceCode = :awpbReferenceCode AND a.subActivity.awpbOwner.id = :awpbOwnerId"),
     @NamedQuery(name = "ActivityProgressComment.findAll", query = "SELECT a FROM ActivityProgressComment a"),
     @NamedQuery(name = "ActivityProgressComment.findById", query = "SELECT a FROM ActivityProgressComment a WHERE a.id = :id")})
 public class ActivityProgressComment implements Serializable {

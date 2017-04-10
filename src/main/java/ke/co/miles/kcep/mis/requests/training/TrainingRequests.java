@@ -189,6 +189,8 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         try {
             training = (Training) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
+
             throw new InvalidStateException("error_000_01");
         }
 
