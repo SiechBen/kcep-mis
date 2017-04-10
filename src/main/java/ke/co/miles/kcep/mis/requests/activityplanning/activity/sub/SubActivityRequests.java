@@ -70,6 +70,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setBeneficiariesPercentage(subActivityDetails.getBeneficiariesPercentage());
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
+        if (subActivityDetails.getAwpbOwner() != null) {
+            subActivity.setAwpbOwner(em.getReference(Phenomenon.class, subActivityDetails.getAwpbOwner().getId()));
+        }
         if (subActivityDetails.getComponent() != null) {
             subActivity.setComponent(em.getReference(Phenomenon.class, subActivityDetails.getComponent().getId()));
         }
@@ -333,6 +336,9 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         subActivity.setBeneficiariesPercentage(subActivityDetails.getBeneficiariesPercentage());
         subActivity.setEuPercentage(subActivityDetails.getEuPercentage());
         subActivity.setFinancialInstitutionPercentage(subActivityDetails.getFinancialInstitutionPercentage());
+        if (subActivityDetails.getAwpbOwner() != null) {
+            subActivity.setAwpbOwner(em.getReference(Phenomenon.class, subActivityDetails.getAwpbOwner().getId()));
+        }
         if (subActivityDetails.getComponent() != null) {
             subActivity.setComponent(em.getReference(Phenomenon.class, subActivityDetails.getComponent().getId()));
         }
@@ -461,6 +467,10 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         if (subActivity.getImplementingPartner() != null) {
             subActivityDetails.setImplementingPartner(phenomenonService.
                     convertPhenomenonToPhenomenonDetails(subActivity.getImplementingPartner()));
+        }
+        if (subActivity.getAwpbOwner() != null) {
+            subActivityDetails.setAwpbOwner(phenomenonService.
+                    convertPhenomenonToPhenomenonDetails(subActivity.getAwpbOwner()));
         }
         if (subActivity.getSubComponent() != null) {
             subActivityDetails.setSubComponent(phenomenonService.

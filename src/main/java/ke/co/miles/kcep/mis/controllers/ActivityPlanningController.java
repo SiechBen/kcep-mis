@@ -1209,6 +1209,16 @@ public class ActivityPlanningController extends Controller {
                             subActivity.setCounty(new CountyDetails(accessingPerson.getLocation().getCounty().getId()));
                         } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_REGIONAL_STAFF.getId())) {
                             subActivity.setRegion(RegionDetail.getRegionDetail(accessingPerson.getLocation().getCounty().getRegion().getId()));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.KALRO_OFFICER.getId())) {
+                            subActivity.setAwpbOwner(new PhenomenonDetails(175));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.AGMARK_OFFICER.getId())) {
+                            subActivity.setAwpbOwner(new PhenomenonDetails(176));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.EQUITY_OFFICER.getId())) {
+                            subActivity.setAwpbOwner(new PhenomenonDetails(177));
+                        } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_STAFF.getId())
+                                || accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PROGRAMME_COORDINATOR.getId())
+                                || accessingPerson.getPersonRoleId().equals(PersonRoleDetail.SENIOR_PROGRAMME_COORDINATOR.getId())) {
+                            subActivity.setAwpbOwner(new PhenomenonDetails(178));
                         }
                     } catch (Exception e) {
                     }

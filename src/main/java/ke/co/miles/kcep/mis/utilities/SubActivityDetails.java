@@ -342,6 +342,14 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
         this.region = region;
     }
 
+    public PhenomenonDetails getAwpbOwner() {
+        return awpbOwner;
+    }
+
+    public void setAwpbOwner(PhenomenonDetails awpbOwner) {
+        this.awpbOwner = awpbOwner;
+    }
+
     private static final long serialVersionUID = 1L;
     private Integer id;
     private String annualWorkplanReferenceCode;
@@ -376,5 +384,6 @@ public class SubActivityDetails implements Serializable, Comparable<SubActivityD
     private FinancialYearDetails financialYear;
     private CountyDetails county;
     private RegionDetail region;
+    private PhenomenonDetails awpbOwner;
 
 }

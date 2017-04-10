@@ -802,18 +802,21 @@ function editActivityProgress(cell, activityProgressId, valueType, quarter) {
                         }
                     }
 
-                } else {
-
-                    if (valueType === "Budget") {
-                        var cumulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
-                        var appraisalTarget = parseFloat($('td:nth-child(' + (Indices.CUMMULATIVE_BUDGET - 1) + ')', $(cell).parents('tr')).text()) || 0.0;
-                        if ((cumulativeBudget + deltaActivityProgressValue) > appraisalTarget) {
-                            showError("error_label", "Cumulative planned budget[" + (cumulativeBudget + deltaActivityProgressValue) + "] has exceeded the appraisal target[" + appraisalTarget + "].");
-                            return;
-                        }
-                    }
-
                 }
+                //<editor-fold defaultstate="collapsed" desc="no appraisal target budget">
+//                else {
+//
+//                    if (valueType === "Budget") {
+//                        var cumulativeBudget = parseFloat($('td:nth-child(' + Indices.CUMMULATIVE_BUDGET + ')', $(cell).parents('tr')).text()) || 0.0;
+//                        var appraisalTarget = parseFloat($('td:nth-child(' + (Indices.CUMMULATIVE_BUDGET - 1) + ')', $(cell).parents('tr')).text()) || 0.0;
+//                        if ((cumulativeBudget + deltaActivityProgressValue) > appraisalTarget) {
+//                            showError("error_label", "Cumulative planned budget[" + (cumulativeBudget + deltaActivityProgressValue) + "] has exceeded the appraisal target[" + appraisalTarget + "].");
+//                            return;
+//                        }
+//                    }
+//
+//                }
+                //</editor-fold>
 
                 $.ajax({
                     url: "doEditActivityProgress",
