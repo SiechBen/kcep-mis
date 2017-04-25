@@ -34,7 +34,7 @@ import ke.co.miles.kcep.mis.utilities.RegionDetail;
  *
  * @author siech
  */
-@WebServlet(name = "AccessController", urlPatterns = {"/login", "/logout", "/index", "/loginpage", "/home", "/load"})
+@WebServlet(name = "AccessController", urlPatterns = {"/login", "/logout", "/index", "/loginpage", "/home", "/load", "/kcep-mis"})
 public class AccessController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -64,7 +64,6 @@ public class AccessController extends Controller {
         switch (path) {
 
             case "/loginpage":
-                LOGGER.log(Level.SEVERE, "Session is {0}", session);
 
                 boolean loggedIn;
                 try {
@@ -78,7 +77,9 @@ public class AccessController extends Controller {
 
                 break;
 
+            case "/kcep-mis":
             case "/index":
+
                 path = "index.jsp";
                 try {
                     request.getRequestDispatcher(path).forward(request, response);
