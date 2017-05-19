@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PerformanceIndicator.findAll", query = "SELECT p FROM PerformanceIndicator p"),
+    @NamedQuery(name = "PerformanceIndicator.findByPerformanceIndicatorTypeId", query = "SELECT p FROM PerformanceIndicator p WHERE p.performanceIndicatorType.id = :performanceIndicatorTypeId"),
     @NamedQuery(name = "PerformanceIndicator.findById", query = "SELECT p FROM PerformanceIndicator p WHERE p.id = :id"),
     @NamedQuery(name = "PerformanceIndicator.findByDescription", query = "SELECT p FROM PerformanceIndicator p WHERE p.description = :description"),
     @NamedQuery(name = "PerformanceIndicator.findByBaselineDate", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineDate = :baselineDate"),
