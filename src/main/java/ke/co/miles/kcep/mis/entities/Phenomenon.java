@@ -1,6 +1,7 @@
 package ke.co.miles.kcep.mis.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -31,14 +32,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findByPhenomenonTypeId", query = "SELECT p FROM Phenomenon p WHERE p.phenomenonType.id = :phenomenonTypeId"),
     @NamedQuery(name = "Phenomenon.findByRelativeId", query = "SELECT p FROM Phenomenon p WHERE p.category.relative.id = :relativeId"),
     @NamedQuery(name = "Phenomenon.findAll", query = "SELECT p FROM Phenomenon p"),
+    @NamedQuery(name = "Phenomenon.findByTiedValue", query = "SELECT p FROM Phenomenon p WHERE p.tiedValue = :tiedValue"),
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "tied_value")
+    private BigDecimal tiedValue;
     @OneToMany(mappedBy = "component")
     private List<ResultHierarchy> resultHierarchyList;
     @OneToMany(mappedBy = "subComponent")
     private List<ResultHierarchy> resultHierarchyList1;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -311,6 +315,14 @@ public class Phenomenon implements Serializable {
 
     public void setResultHierarchyList1(List<ResultHierarchy> resultHierarchyList1) {
         this.resultHierarchyList1 = resultHierarchyList1;
+    }
+
+    public BigDecimal getTiedValue() {
+        return tiedValue;
+    }
+
+    public void setTiedValue(BigDecimal tiedValue) {
+        this.tiedValue = tiedValue;
     }
 
 }
