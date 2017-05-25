@@ -30,9 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Region.findByName", query = "SELECT r FROM Region r WHERE r.name = :name")})
 public class Region implements Serializable {
 
-    @OneToMany(mappedBy = "region")
-    private List<Location> locationList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +41,10 @@ public class Region implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
     private List<County> countyList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "region")
+    @OneToMany(mappedBy = "region")
     private List<SubActivity> subActivityList;
+    @OneToMany(mappedBy = "region")
+    private List<Location> locationList;
 
     public Region() {
     }
@@ -88,6 +87,15 @@ public class Region implements Serializable {
         this.subActivityList = subActivityList;
     }
 
+    @XmlTransient
+    public List<Location> getLocationList() {
+        return locationList;
+    }
+
+    public void setLocationList(List<Location> locationList) {
+        this.locationList = locationList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,15 +119,6 @@ public class Region implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Region[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Location> getLocationList() {
-        return locationList;
-    }
-
-    public void setLocationList(List<Location> locationList) {
-        this.locationList = locationList;
     }
 
 }

@@ -51,7 +51,7 @@ public class FarmerReader {
             XSSFWorkbook workbook;
             try {
                 workbook = new XSSFWorkbook(fileInputStream);
-            } catch (Exception e) {
+            } catch (Exception e) {MilesDebugger.debug(e);
                 LOGGER.log(Level.WARNING, "Error {0}", e.getMessage());
                 return null;
             }
@@ -109,7 +109,7 @@ public class FarmerReader {
                                     case 2:
                                         try {
                                             farmer.setNationalId(cell.getStringCellValue());
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             try {
                                                 Double d = cell.getNumericCellValue();
                                                 farmer.setNationalId(d.toString());
@@ -124,7 +124,7 @@ public class FarmerReader {
                                         String cellString = "";
                                         try {
                                             cellString = cell.getStringCellValue();
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             Double d = cell.getNumericCellValue();
                                             cellValue = d.intValue();
                                         }
@@ -158,13 +158,13 @@ public class FarmerReader {
                                                     farmer.setYearOfBirth(Short.valueOf(String.valueOf(farmer.getAge() == null ? null : Calendar.getInstance().get(Calendar.YEAR) - farmer.getAge())));
                                                 }
                                             }
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                         }
                                         break;
                                     case 4:
                                         try {
                                             account.setAccountNumber(cell.getStringCellValue());
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             Double d = cell.getNumericCellValue();
                                             account.setAccountNumber(d.toString());
                                         }
@@ -175,7 +175,7 @@ public class FarmerReader {
                                     case 5:
                                         try {
                                             account.setSolId(Short.valueOf(cell.getStringCellValue()));
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             try {
                                                 account.setSolId(new Double(cell.getNumericCellValue()).shortValue());
                                             } catch (Exception ex) {
@@ -185,7 +185,7 @@ public class FarmerReader {
                                     case 6:
                                         try {
                                             eblBranch.setName(cell.getStringCellValue());
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             Double d = cell.getNumericCellValue();
                                             eblBranch.setName(d.toString());
                                         }
@@ -204,7 +204,7 @@ public class FarmerReader {
                                                 divisionalLocation.setName(divisionalLocationName);
                                                 location.setDivisionalLocation(divisionalLocation);
                                             }
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             location.setDivisionalLocation(null);
                                         }
                                         farmer.setLocation(location);
@@ -214,7 +214,7 @@ public class FarmerReader {
                                             ward.setId(new Double(cell.getNumericCellValue()).shortValue());
                                             location.setWard(ward);
                                             farmer.setLocation(location);
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             ward.setId(null);
                                             farmer.setLocation(location);
                                         }
@@ -229,7 +229,7 @@ public class FarmerReader {
                                                 location.setVillage(village);
                                                 farmer.setLocation(location);
                                             }
-                                        } catch (Exception e) {
+                                        } catch (Exception e) {MilesDebugger.debug(e);
                                             location.setVillage(null);
                                         }
                                         break;

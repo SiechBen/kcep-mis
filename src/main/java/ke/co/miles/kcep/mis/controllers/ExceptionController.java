@@ -43,6 +43,10 @@ public class ExceptionController extends Controller {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Sorry; requested page '" + request.getServletPath() + "' not found at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Sorry; requested page '" + request.getPathInfo() + "' not found at " + request.getRequestURL() + "</h1>");
+            out.println("<h1>Sorry; requested page '" + request.getRequestURI() + "' not found at " + request.getRequestURL() + "</h1>");
+            out.println("<h1>Sorry; requested page '" + request.getRemoteUser() + "' not found at " + request.getMethod() + "</h1>");
+            out.println("<h1>Sorry; requested page '" + request.getQueryString() + "' not found at " + request.getUserPrincipal() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

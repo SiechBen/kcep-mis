@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Account;
 import ke.co.miles.kcep.mis.entities.Loan;
@@ -55,6 +56,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
                 q.executeUpdate();
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         Loan loan = new Loan();
@@ -69,6 +71,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
             em.persist(loan);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -87,6 +90,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         try {
             loan = (Loan) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -104,6 +108,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         try {
             loans = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -138,6 +143,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
             em.merge(loan);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -152,6 +158,7 @@ public class LoanRequests extends EntityRequests implements LoanRequestsLocal {
         try {
             em.remove(loan);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 

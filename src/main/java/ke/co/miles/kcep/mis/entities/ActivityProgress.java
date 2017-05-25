@@ -49,7 +49,6 @@ public class ActivityProgress implements Serializable {
     private BigDecimal valueAchievedOrExpense;
     @Column(name = "target_or_budget")
     private BigDecimal targetOrBudget;
-    @Basic(optional = false)
     @Column(name = "quarter")
     private Short quarter;
     @JoinColumn(name = "progress_type", referencedColumnName = "id")
@@ -64,11 +63,6 @@ public class ActivityProgress implements Serializable {
 
     public ActivityProgress(Integer id) {
         this.id = id;
-    }
-
-    public ActivityProgress(Integer id, Short quarter) {
-        this.id = id;
-        this.quarter = quarter;
     }
 
     public Integer getId() {

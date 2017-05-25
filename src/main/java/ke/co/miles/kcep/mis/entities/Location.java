@@ -32,10 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Location.findByLatitude", query = "SELECT l FROM Location l WHERE l.latitude = :latitude")})
 public class Location implements Serializable {
 
-    @JoinColumn(name = "region", referencedColumnName = "id")
-    @ManyToOne
-    private Region region;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +55,9 @@ public class Location implements Serializable {
     @JoinColumn(name = "divisional_location", referencedColumnName = "id")
     @ManyToOne
     private DivisionalLocation divisionalLocation;
+    @JoinColumn(name = "region", referencedColumnName = "id")
+    @ManyToOne
+    private Region region;
     @JoinColumn(name = "sub_county", referencedColumnName = "id")
     @ManyToOne
     private SubCounty subCounty;
@@ -143,6 +142,14 @@ public class Location implements Serializable {
         this.divisionalLocation = divisionalLocation;
     }
 
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     public SubCounty getSubCounty() {
         return subCounty;
     }
@@ -190,14 +197,6 @@ public class Location implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Location[ id=" + id + " ]";
-    }
-
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
     }
 
 }

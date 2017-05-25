@@ -7,12 +7,13 @@ package ke.co.miles.kcep.mis.requests.access;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import javax.ejb.Stateless;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.utilities.AccessCredentials;
@@ -33,6 +34,7 @@ public class AccessRequests extends EntityRequests implements AccessRequestsLoca
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new MilesException("error_016_01");
         }
         String hashedPassword = generateSHAPassword(messageDigest, password);
@@ -100,6 +102,7 @@ public class AccessRequests extends EntityRequests implements AccessRequestsLoca
         try {
             messageDigest = MessageDigest.getInstance("SHA1");
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new MilesException("error_016_01");
         }
 

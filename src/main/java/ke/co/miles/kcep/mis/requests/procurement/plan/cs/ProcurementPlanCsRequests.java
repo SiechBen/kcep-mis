@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.IfadPriorReview;
 import ke.co.miles.kcep.mis.entities.PlanVsActual;
@@ -82,6 +83,7 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
             em.persist(procurementPlanCs);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -99,6 +101,7 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         try {
             procurementPlanCss = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertProcurementPlanCssToProcurementPlanCsDetailsList(procurementPlanCss);
@@ -112,6 +115,7 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         try {
             procurementPlanCs = (ProcurementPlanCs) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -172,6 +176,7 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
             em.merge(procurementPlanCs);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -185,6 +190,7 @@ public class ProcurementPlanCsRequests extends EntityRequests implements Procure
         try {
             em.remove(procurementPlanCs);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

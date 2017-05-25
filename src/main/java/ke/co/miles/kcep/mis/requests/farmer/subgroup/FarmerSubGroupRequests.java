@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.FarmerGroup;
 import ke.co.miles.kcep.mis.entities.FarmerSubGroup;
@@ -44,6 +45,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         try {
             farmerSubGroup = (FarmerSubGroup) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             farmerSubGroup = null;
         }
         if (farmerSubGroup != null) {
@@ -60,6 +62,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
             em.persist(farmerSubGroup);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -76,6 +79,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         try {
             farmerSubGroups = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertCountiesToFarmerSubGroupDetailsList(farmerSubGroups);
@@ -89,6 +93,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         try {
             farmerSubGroup = (FarmerSubGroup) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -117,6 +122,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         try {
             farmerSubGroup = (FarmerSubGroup) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             farmerSubGroup = null;
         }
         if (farmerSubGroup != null) {
@@ -136,6 +142,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
             em.merge(farmerSubGroup);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -149,6 +156,7 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         try {
             em.remove(farmerSubGroup);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -162,14 +170,17 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
         try {
             farmerSubGroupDetails.setId(farmerSubGroup.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             farmerSubGroupDetails.setName(farmerSubGroup.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             farmerSubGroupDetails.setFarmerGroup(farmerGroupService.convertFarmerGroupToFarmerGroupDetails(farmerSubGroup.getFarmerGroup()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return farmerSubGroupDetails;
 
@@ -187,7 +198,6 @@ public class FarmerSubGroupRequests extends EntityRequests implements FarmerSubG
     }
 
 //</editor-fold>
-   
     @EJB
     private FarmerGroupRequestsLocal farmerGroupService;
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.SubCounty;
 import ke.co.miles.kcep.mis.entities.Ward;
@@ -46,6 +47,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             ward = (Ward) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             ward = null;
         }
         if (ward != null) {
@@ -60,6 +62,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
             em.persist(ward);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -77,6 +80,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             wards = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertWardsToWardDetailsList(wards);
@@ -91,6 +95,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             wards = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertWardsToWardDetailsList(wards);
@@ -104,6 +109,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             ward = (Ward) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -134,6 +140,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             ward = (Ward) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             ward = null;
         }
         if (ward != null) {
@@ -151,6 +158,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
             em.merge(ward);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -164,6 +172,7 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             em.remove(ward);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -177,14 +186,17 @@ public class WardRequests extends EntityRequests implements WardRequestsLocal {
         try {
             wardDetails.setId(ward.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             wardDetails.setName(ward.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             wardDetails.setSubCounty(subCountyService.convertSubCountyToSubCountyDetails(ward.getSubCounty()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return wardDetails;
 

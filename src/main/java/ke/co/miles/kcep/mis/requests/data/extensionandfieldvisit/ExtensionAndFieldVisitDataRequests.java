@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.ExtensionAndFieldVisitData;
+import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -49,6 +50,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
             em.persist(extensionAndFieldVisitData);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_00_01");
         }
 
@@ -65,6 +67,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         try {
             extensionAndFieldVisitDatas = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertExtensionAndFieldVisitDatasToExtensionAndFieldVisitDataDetailsList(extensionAndFieldVisitDatas);
@@ -78,6 +81,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         try {
             extensionAndFieldVisitData = (ExtensionAndFieldVisitData) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_00_01");
         }
 
@@ -112,6 +116,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
             em.merge(extensionAndFieldVisitData);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_00_01");
         }
 
@@ -125,6 +130,7 @@ public class ExtensionAndFieldVisitDataRequests extends EntityRequests implement
         try {
             em.remove(extensionAndFieldVisitData);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_00_01");
         }
     }

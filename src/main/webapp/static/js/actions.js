@@ -1472,6 +1472,113 @@ function flyAddSubActivityName() {
     });
 }
 
+function toggleMeasurementUnitInput() {
+    $(".shown-mu").hide();
+    $("#other-measurement-unit").show().focus();
+    return;
+}
+
+function flyAddMeasurementUnit() {
+    $.ajax({
+        url: "flyAddMeasurementUnit",
+        type: "POST",
+        data: "symbol=" + $("#other-measurement-unit").val(),
+        success: function (response) {
+            $("#measurement-unit").append($('<option>', {value: response, text: $("#other-measurement-unit").val()}));
+            $("#measurement-unit option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-mu").show();
+            $("#other-measurement-unit").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleResponsePcuInput() {
+    $(".shown-rp").hide();
+    $("#other-response-pcu").show().focus();
+    return;
+}
+
+function flyAddResponsePcu(phenomenonTypeId) {
+    console.log(phenomenonTypeId);
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-response-pcu").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&phenomenonType=Response PCU",
+        success: function (response) {
+            $("#response-pcu").append($('<option>', {value: response, text: $("#other-response-pcu").val()}));
+            $("#response-pcu option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-rp").show();
+            $("#other-response-pcu").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleImplementingPartnerInput() {
+    $(".shown-ip").hide();
+    $("#other-implementing-partner").show().focus();
+    return;
+}
+
+function flyAddImplementingPartner(phenomenonTypeId) {
+    console.log(phenomenonTypeId);
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-implementing-partner").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&phenomenonType=Implementing partner",
+        success: function (response) {
+            $("#implementing-partner").append($('<option>', {value: response, text: $("#other-implementing-partner").val()}));
+            $("#implementing-partner option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-ip").show();
+            $("#other-implementing-partner").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
+function toggleExpenditureCategoryInput() {
+    $(".shown-ec").hide();
+    $("#other-expenditure-category").show().focus();
+    return;
+}
+
+function flyAddExpenditureCategory(phenomenonTypeId) {
+    console.log(phenomenonTypeId);
+    $.ajax({
+        url: "doAddPhenomenon",
+        type: "POST",
+        data: "name=" + $("#other-expenditure-category").val() + "&phenomenonTypeId=" + phenomenonTypeId + "&phenomenonType=Expenditure category",
+        success: function (response) {
+            $("#expenditure-category").append($('<option>', {value: response, text: $("#other-expenditure-category").val()}));
+            $("#expenditure-category option[value=" + response + "]").attr("selected", "selected");
+            $(".shown-ec").show();
+            $("#other-expenditure-category").hide();
+            return;
+        },
+        error: function (response) {
+            showError("error_label", response.responseText);
+            return;
+        },
+        dataType: "HTML"
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Farm activity">
@@ -1656,6 +1763,41 @@ function saveFeedback() {
         dataType: "HTML"
     });
 }
+
+function deleteFeedback(id) {
+    $("#message").text("Are you sure you want to remove this feedback message/success story?");
+    $("#message-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "delete_feedback",
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Yes": function () {
+                $.ajax({
+                    url: "doDeleteFeedback",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function () {
+                        loadAjaxWindow('feedback');
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            },
+            "No": function () {
+                $(this).dialog("close");
+            }
+        },
+        close: function () {
+        }
+    });
+}
+
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="Financial year">
@@ -1683,7 +1825,7 @@ function deleteFinancialYear(id) {
     $("#message-dialog").dialog({
         width: 495,
         height: "auto",
-        title: "delete_financial_yaer",
+        title: "delete_financial_year",
         modal: true,
         resizable: false,
         buttons: {
@@ -1693,7 +1835,7 @@ function deleteFinancialYear(id) {
                     type: "POST",
                     data: "id=" + id,
                     success: function (response) {
-                        $("table#financial-yaer-table tbody").html(response);
+                        $("table#financial-year-table tbody").html(response);
                     },
                     error: function (response) {
                         showError("error_label", response.responseText);
@@ -4310,7 +4452,7 @@ function addSubActivity() {
                 "&description=" + $("#description").val() +
                 "&valueAchieved=" + $("#value-achieved").val() +
                 "&allocatedBudget=" + $("#allocated-budget").val() +
-                "&expenditureCategory=" + $("#expected-category").val() +
+                "&expenditureCategory=" + $("#expenditure-category").val() +
                 "&gokPercentage=" + $("#gok-percentage").val() +
                 "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
                 "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
@@ -4354,7 +4496,7 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
     if (implementingPartner !== "")
         $("#implementing-partner option[value=" + implementingPartner + "]").attr('selected', 'selected');
     if (expenditureCategory !== "")
-        $("#expected-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
+        $("#expenditure-category option[value=" + expenditureCategory + "]").attr('selected', 'selected');
     $("#annual-workplan-reference-code").val(annualWorkplanReferenceCode);
     $("#expected-outcome").val(expectedOutcome);
     $("#component option[value=" + component + "]").attr('selected', 'selected');
@@ -4429,7 +4571,7 @@ function editSubActivity(id, financialYear, annualWorkplanReferenceCode, gfssCod
                             "&description=" + $("#description").val() +
                             "&valueAchieved=" + $("#value-achieved").val() +
                             "&allocatedBudget=" + $("#allocated-budget").val() +
-                            "&expenditureCategory=" + $("#expected-category").val() +
+                            "&expenditureCategory=" + $("#expenditure-category").val() +
                             "&gokPercentage=" + $("#gok-percentage").val() +
                             "&ifadLoanPercentage=" + $("#ifad-loan-percentage").val() +
                             "&ifadGrantPercentage=" + $("#ifad-grant-percentage").val() +
@@ -4517,7 +4659,7 @@ function clearSubActivityFields() {
     $("#description").val("");
     $("#value-achieved").val("");
     $("#allocated-budget").val("");
-    $("#expected-category").val("");
+    $("#expenditure-category").val("");
     $("#gok-percentage").val("");
     $("#ifad-loan-percentage").val("");
     $("#ifad-grant-percentage").val("");
@@ -5548,4 +5690,41 @@ function deleteDocument(documentId, cell) {
 //                    });
 //                }
 //            }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="Tied value">
+
+function editTiedValue(id, tiedValue) {
+
+    $("#tied-value").val(tiedValue);
+    $("#tied-value-dialog").dialog({
+        width: 495,
+        height: "auto",
+        title: "edit_tied_value",
+        resizable: true,
+        modal: false,
+        buttons: {
+            "Save": function () {
+                tiedValue = $("#tied-value").val();
+                $.ajax({
+                    url: "doEditTiedValue",
+                    type: "POST",
+                    data: "id=" + id +
+                            "&tiedValue=" + tiedValue,
+                    success: function () {
+                        $("#tied-value-" + id).html(parseFloat(tiedValue));
+                        return;
+                    },
+                    error: function (response) {
+                        showError("error_label", response.responseText);
+                        return;
+                    },
+                    dataType: "HTML"
+                });
+                $(this).dialog("close");
+            }
+        }
+    });
+}
+
 //</editor-fold>

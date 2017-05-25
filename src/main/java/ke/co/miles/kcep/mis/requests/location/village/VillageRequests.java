@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.location.village;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Village;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             village = (Village) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             village = null;
         }
         if (village != null) {
@@ -53,6 +55,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
             em.persist(village);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -70,6 +73,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             villages = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertVillagesToVillageDetailsList(villages);
@@ -84,6 +88,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             villages = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertVillagesToVillageDetailsList(villages);
@@ -97,6 +102,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             village = (Village) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -124,6 +130,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             village = (Village) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             village = null;
         }
         if (village != null) {
@@ -140,6 +147,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
             em.merge(village);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -153,6 +161,7 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             em.remove(village);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -166,10 +175,12 @@ public class VillageRequests extends EntityRequests implements VillageRequestsLo
         try {
             villageDetails.setId(village.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             villageDetails.setName(village.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return villageDetails;

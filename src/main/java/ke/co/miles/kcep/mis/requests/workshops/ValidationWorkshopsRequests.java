@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.ValidationWorkshops;
@@ -40,6 +41,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         try {
             validationWorkshops.setKalroOfficer(em.getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             validationWorkshops.setKalroOfficer(null);
         }
 
@@ -47,6 +49,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
             em.persist(validationWorkshops);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -63,6 +66,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         try {
             technologies = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertTechnologiesToValidationWorkshopsDetailsList(technologies);
@@ -76,6 +80,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         try {
             validationWorkshops = (ValidationWorkshops) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -101,6 +106,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         try {
             validationWorkshops.setKalroOfficer(em.getReference(Person.class, validationWorkshopsDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             validationWorkshops.setKalroOfficer(null);
         }
 
@@ -108,6 +114,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
             em.merge(validationWorkshops);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -121,6 +128,7 @@ public class ValidationWorkshopsRequests extends EntityRequests implements Valid
         try {
             em.remove(validationWorkshops);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.StaticInput;
 import ke.co.miles.kcep.mis.entities.Warehouse;
@@ -66,6 +67,7 @@ public class WarehouseOperationRequests extends EntityRequests
             em.persist(warehouseOperation);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -89,6 +91,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             warehouseOperations = convertWarehouseOperationListToWarehouseOperationDetailsList(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -105,6 +108,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             warehouseOperations = convertWarehouseOperationListToWarehouseOperationDetailsList(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -132,6 +136,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             warehouseOperation = (WarehouseOperation) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -151,6 +156,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             warehouseOperations = convertWarehouseOperationListToWarehouseOperationDetailsList(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -225,6 +231,7 @@ public class WarehouseOperationRequests extends EntityRequests
             em.merge(warehouseOperation);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -243,6 +250,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             warehouseOperationList = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         if (!warehouseOperationList.isEmpty()) {
             for (WarehouseOperation warehouseOperation : warehouseOperationList) {
@@ -260,6 +268,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             em.remove(warehouseOperation);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -271,6 +280,7 @@ public class WarehouseOperationRequests extends EntityRequests
         try {
             em.remove(warehouseOperation);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 

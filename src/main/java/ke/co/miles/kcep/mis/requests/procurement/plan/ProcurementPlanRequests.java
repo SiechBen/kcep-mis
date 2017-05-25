@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.IfadPriorReview;
 import ke.co.miles.kcep.mis.entities.PlanVsActual;
@@ -74,6 +75,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
             em.persist(procurementPlan);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -92,6 +94,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         try {
             procurementPlans = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertProcurementPlansToProcurementPlanDetailsList(procurementPlans);
@@ -106,6 +109,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         try {
             procurementPlans = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertProcurementPlansToProcurementPlanDetailsList(procurementPlans);
@@ -119,6 +123,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         try {
             procurementPlan = (ProcurementPlan) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -172,6 +177,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
             em.merge(procurementPlan);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -185,6 +191,7 @@ public class ProcurementPlanRequests extends EntityRequests implements Procureme
         try {
             em.remove(procurementPlan);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

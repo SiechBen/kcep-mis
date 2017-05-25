@@ -182,7 +182,7 @@ public class PopulationController extends Controller {
 
                     try {
                         uploadedFile.setFirstRow(new Short(request.getParameter("first-row")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         uploadedFile.setFirstRow(new Short("0"));
                     }
 
@@ -405,7 +405,7 @@ public class PopulationController extends Controller {
                         subCounty.setCounty(county);
                         person.getLocation().setCounty(county);
                         person.getLocation().setSubCounty(subCounty);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         person.setLocation(null);
                     }
 
@@ -518,7 +518,7 @@ public class PopulationController extends Controller {
 
                 try {
                     person.setYearOfBirth(new Short("2016"));
-                } catch (Exception e) {
+                } catch (Exception e) {MilesDebugger.debug(e);
                 }
 
                 //Set the start date
@@ -564,7 +564,7 @@ public class PopulationController extends Controller {
 
                     LOGGER.log(Level.INFO, ++j + " Agro-dealer " + person.getName() + " saved successfully");
 
-                } catch (Exception e) {
+                } catch (Exception e) {MilesDebugger.debug(e);
                     System.err.println("Agro-dealer record error occurred: " + e);
                 }
             }

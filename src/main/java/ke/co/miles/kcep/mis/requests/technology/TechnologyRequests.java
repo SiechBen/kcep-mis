@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.Technology;
@@ -47,6 +48,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         try {
             technology.setKalroOfficer(em.getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             technology.setKalroOfficer(null);
         }
 
@@ -54,6 +56,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
             em.persist(technology);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -70,6 +73,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         try {
             technologies = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertTechnologiesToTechnologyDetailsList(technologies);
@@ -83,6 +87,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         try {
             technology = (Technology) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -115,6 +120,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         try {
             technology.setKalroOfficer(em.getReference(Person.class, technologyDetails.getKalroOfficer().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             technology.setKalroOfficer(null);
         }
 
@@ -122,6 +128,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
             em.merge(technology);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -135,6 +142,7 @@ public class TechnologyRequests extends EntityRequests implements TechnologyRequ
         try {
             em.remove(technology);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

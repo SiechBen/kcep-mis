@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Account;
 import ke.co.miles.kcep.mis.entities.EblBranch;
@@ -46,6 +48,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             account = (Account) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             account = null;
         }
         if (account != null) {
@@ -65,6 +68,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
             em.persist(account);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -82,6 +86,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             accounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + " findAll: " + e);
         }
 
         return convertCountiesToAccountDetailsList(accounts);
@@ -95,6 +100,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             account = (Account) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + " of farmer id: " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -108,6 +114,8 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         q.setParameter("farmerId", farmer.getId());
         try {
             account = (Account) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         } catch (Exception e) {
             throw new InvalidStateException("error_000_01");
         }
@@ -136,6 +144,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             account = (Account) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             account = null;
         }
 
@@ -159,6 +168,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
             em.merge(account);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -174,6 +184,7 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             em.remove(account);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -187,26 +198,32 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             accountDetails.setId(account.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setAccountNumber(account.getAccountNumber());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setSolId(account.getSolId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setSavings(account.getSavings());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setFarmer(farmer);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setEblBranch((eblBranchService.convertEblBranchToEblBranchDetails(account.getEblBranch())));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return accountDetails;
 
@@ -219,26 +236,32 @@ public class AccountRequests extends EntityRequests implements AccountRequestsLo
         try {
             accountDetails.setId(account.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setAccountNumber(account.getAccountNumber());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setSolId(account.getSolId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setSavings(account.getSavings());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setFarmer((personService.convertPersonToPersonDetails(account.getFarmer())));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             accountDetails.setEblBranch((eblBranchService.convertEblBranchToEblBranchDetails(account.getEblBranch())));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return accountDetails;
 

@@ -36,19 +36,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Phenomenon.findById", query = "SELECT p FROM Phenomenon p WHERE p.id = :id")})
 public class Phenomenon implements Serializable {
 
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "tied_value")
-    private BigDecimal tiedValue;
-    @OneToMany(mappedBy = "component")
-    private List<ResultHierarchy> resultHierarchyList;
-    @OneToMany(mappedBy = "subComponent")
-    private List<ResultHierarchy> resultHierarchyList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "progressType")
+    private List<ActivityProgress> activityProgressList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "tied_value")
+    private BigDecimal tiedValue;
     @OneToMany(mappedBy = "gfssCode")
     private List<SubActivity> subActivityList;
     @OneToMany(mappedBy = "expectedOutcome")
@@ -57,14 +56,18 @@ public class Phenomenon implements Serializable {
     private List<SubActivity> subActivityList2;
     @OneToMany(mappedBy = "responsePcu")
     private List<SubActivity> subActivityList3;
-    @OneToMany(mappedBy = "annualIndicator")
+    @OneToMany(mappedBy = "awpbOwner")
     private List<SubActivity> subActivityList4;
-    @OneToMany(mappedBy = "expenditureCategory")
+    @OneToMany(mappedBy = "annualIndicator")
     private List<SubActivity> subActivityList5;
+    @OneToMany(mappedBy = "expenditureCategory")
+    private List<SubActivity> subActivityList6;
+    @OneToMany(mappedBy = "component")
+    private List<SubActivity> subActivityList7;
+    @OneToMany(mappedBy = "subComponent")
+    private List<SubActivity> subActivityList8;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedbackType")
     private List<Feedback> feedbackList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "progressType")
-    private List<ActivityProgress> activityProgressList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicatorType")
     private List<PerformanceIndicator> performanceIndicatorList;
     @OneToMany(mappedBy = "warehouseOperator")
@@ -89,6 +92,10 @@ public class Phenomenon implements Serializable {
     private List<UploadedFile> uploadedFileList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phenomenon")
     private List<Trainer> trainerList;
+    @OneToMany(mappedBy = "component")
+    private List<ResultHierarchy> resultHierarchyList;
+    @OneToMany(mappedBy = "subComponent")
+    private List<ResultHierarchy> resultHierarchyList1;
 
     public Phenomenon() {
     }
@@ -103,6 +110,14 @@ public class Phenomenon implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public BigDecimal getTiedValue() {
+        return tiedValue;
+    }
+
+    public void setTiedValue(BigDecimal tiedValue) {
+        this.tiedValue = tiedValue;
     }
 
     @XmlTransient
@@ -160,21 +175,39 @@ public class Phenomenon implements Serializable {
     }
 
     @XmlTransient
+    public List<SubActivity> getSubActivityList6() {
+        return subActivityList6;
+    }
+
+    public void setSubActivityList6(List<SubActivity> subActivityList6) {
+        this.subActivityList6 = subActivityList6;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList7() {
+        return subActivityList7;
+    }
+
+    public void setSubActivityList7(List<SubActivity> subActivityList7) {
+        this.subActivityList7 = subActivityList7;
+    }
+
+    @XmlTransient
+    public List<SubActivity> getSubActivityList8() {
+        return subActivityList8;
+    }
+
+    public void setSubActivityList8(List<SubActivity> subActivityList8) {
+        this.subActivityList8 = subActivityList8;
+    }
+
+    @XmlTransient
     public List<Feedback> getFeedbackList() {
         return feedbackList;
     }
 
     public void setFeedbackList(List<Feedback> feedbackList) {
         this.feedbackList = feedbackList;
-    }
-
-    @XmlTransient
-    public List<ActivityProgress> getActivityProgressList() {
-        return activityProgressList;
-    }
-
-    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
-        this.activityProgressList = activityProgressList;
     }
 
     @XmlTransient
@@ -274,6 +307,24 @@ public class Phenomenon implements Serializable {
         this.trainerList = trainerList;
     }
 
+    @XmlTransient
+    public List<ResultHierarchy> getResultHierarchyList() {
+        return resultHierarchyList;
+    }
+
+    public void setResultHierarchyList(List<ResultHierarchy> resultHierarchyList) {
+        this.resultHierarchyList = resultHierarchyList;
+    }
+
+    @XmlTransient
+    public List<ResultHierarchy> getResultHierarchyList1() {
+        return resultHierarchyList1;
+    }
+
+    public void setResultHierarchyList1(List<ResultHierarchy> resultHierarchyList1) {
+        this.resultHierarchyList1 = resultHierarchyList1;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -300,29 +351,12 @@ public class Phenomenon implements Serializable {
     }
 
     @XmlTransient
-    public List<ResultHierarchy> getResultHierarchyList() {
-        return resultHierarchyList;
+    public List<ActivityProgress> getActivityProgressList() {
+        return activityProgressList;
     }
 
-    public void setResultHierarchyList(List<ResultHierarchy> resultHierarchyList) {
-        this.resultHierarchyList = resultHierarchyList;
-    }
-
-    @XmlTransient
-    public List<ResultHierarchy> getResultHierarchyList1() {
-        return resultHierarchyList1;
-    }
-
-    public void setResultHierarchyList1(List<ResultHierarchy> resultHierarchyList1) {
-        this.resultHierarchyList1 = resultHierarchyList1;
-    }
-
-    public BigDecimal getTiedValue() {
-        return tiedValue;
-    }
-
-    public void setTiedValue(BigDecimal tiedValue) {
-        this.tiedValue = tiedValue;
+    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
+        this.activityProgressList = activityProgressList;
     }
 
 }

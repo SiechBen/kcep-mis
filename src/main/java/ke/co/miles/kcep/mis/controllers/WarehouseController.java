@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
@@ -244,12 +245,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    try {
-                        session.setAttribute("people", personService.retrievePeople());
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                        return;
-                    }
                     break;
 
                 case "/ward_warehouses":
@@ -271,12 +266,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    try {
-                        session.setAttribute("people", personService.retrieveWardPeople(waoOfficer.getLocation().getWard().getId()));
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                        return;
-                    }
                     break;
 
                 case "/county_warehouses":
@@ -320,12 +309,6 @@ public class WarehouseController extends Controller {
                         }
                     }
 
-                    try {
-                        session.setAttribute("people", personService.retrieveCountyPeople(countyDeskOfficer.getLocation().getCounty().getId()));
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                        return;
-                    }
                     break;
 
                 case "/sub_county_warehouses":
@@ -355,13 +338,6 @@ public class WarehouseController extends Controller {
                         return;
                     }
 
-                    try {
-                        session.setAttribute("people", personService.retrieveSubCountyPeople(subCountyDeskOfficer.getLocation().getSubCounty().getId()));
-                    } catch (MilesException ex) {
-                        LOGGER.log(Level.SEVERE, "An error occurred during people retrieval", ex);
-                        return;
-                    }
-
                     break;
 
                 case "/doAddWarehouse":
@@ -373,18 +349,21 @@ public class WarehouseController extends Controller {
                         location.setCounty(new CountyDetails(Short.valueOf(
                                 String.valueOf(request.getParameter("county")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setCounty(null);
                     }
                     try {
                         location.setSubCounty(new SubCountyDetails(Short.valueOf(
                                 String.valueOf(request.getParameter("subCounty")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setSubCounty(null);
                     }
                     try {
                         location.setWard(new WardDetails(Short.valueOf(
                                 String.valueOf(request.getParameter("ward")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setWard(null);
                     }
 
@@ -392,6 +371,7 @@ public class WarehouseController extends Controller {
                         warehouse.setUnits(new MeasurementUnitDetails(
                                 Short.valueOf(String.valueOf(request.getParameter("capacityUnits")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     try {
@@ -399,10 +379,12 @@ public class WarehouseController extends Controller {
                         try {
                             location.setLongitude(new BigDecimal(String.valueOf(request.getParameter("longitude"))));
                         } catch (Exception e) {
+                            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                             location.setLatitude(null);
                             location.setLongitude(null);
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setLatitude(null);
                         location.setLongitude(null);
                     }
@@ -411,6 +393,7 @@ public class WarehouseController extends Controller {
                         warehouse.setWarehouseOperator(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("warehouseOperator"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse.setWarehouseOperator(null);
                     }
 
@@ -418,12 +401,14 @@ public class WarehouseController extends Controller {
                         warehouse.setWarehouseType(new PhenomenonDetails(
                                 Integer.valueOf(String.valueOf(request.getParameter("warehouseType")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse.setWarehouseType(null);
                     }
 
                     try {
                         warehouse.setCapacity(Integer.valueOf(String.valueOf(request.getParameter("capacity"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse.setCapacity(null);
                     }
 
@@ -451,11 +436,13 @@ public class WarehouseController extends Controller {
                     try {
                         warehouse = new WarehouseDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse = new WarehouseDetails();
                     }
                     try {
                         location = new LocationDetails(Integer.valueOf(request.getParameter("location")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location = new LocationDetails();
                     }
 
@@ -463,18 +450,21 @@ public class WarehouseController extends Controller {
                         location.setCounty(new CountyDetails(Short.valueOf(
                                 String.valueOf(request.getParameter("county")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setCounty(null);
                     }
                     try {
                         location.setSubCounty(new SubCountyDetails(Short.valueOf(
                                 String.valueOf(request.getParameter("subCounty")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setSubCounty(null);
                     }
                     try {
                         location.setWard(new WardDetails(Short.valueOf(
                                 String.valueOf(request.getParameter("ward")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setWard(null);
                     }
 
@@ -482,6 +472,7 @@ public class WarehouseController extends Controller {
                         warehouse.setUnits(new MeasurementUnitDetails(
                                 Short.valueOf(String.valueOf(request.getParameter("capacityUnits")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     try {
@@ -489,10 +480,12 @@ public class WarehouseController extends Controller {
                         try {
                             location.setLongitude(new BigDecimal(String.valueOf(request.getParameter("longitude"))));
                         } catch (Exception e) {
+                            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                             location.setLatitude(null);
                             location.setLongitude(null);
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         location.setLatitude(null);
                         location.setLongitude(null);
                     }
@@ -501,6 +494,7 @@ public class WarehouseController extends Controller {
                         warehouse.setWarehouseOperator(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("warehouseOperator"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse.setWarehouseOperator(null);
                     }
 
@@ -508,12 +502,14 @@ public class WarehouseController extends Controller {
                         warehouse.setWarehouseType(new PhenomenonDetails(
                                 Integer.valueOf(String.valueOf(request.getParameter("warehouseType")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse.setWarehouseType(null);
                     }
 
                     try {
                         warehouse.setCapacity(Integer.valueOf(String.valueOf(request.getParameter("capacity"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouse.setCapacity(null);
                     }
 

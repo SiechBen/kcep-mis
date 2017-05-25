@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
 import ke.co.miles.kcep.mis.entities.StaticInput;
@@ -46,6 +47,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInput = (StaticInput) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             staticInput = null;
         }
         if (staticInput != null) {
@@ -61,6 +63,7 @@ public class StaticInputRequests extends EntityRequests
             em.persist(staticInput);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -79,6 +82,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInputs = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertStaticInputsToStaticInputDetailsList(staticInputs);
@@ -92,6 +96,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInputs = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertStaticInputsToStaticInputDetailsList(staticInputs);
@@ -107,6 +112,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInputs = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertStaticInputsToStaticInputDetailsList(staticInputs);
@@ -120,6 +126,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInput = (StaticInput) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -149,6 +156,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInput = (StaticInput) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             staticInput = null;
         }
         if (staticInput != null) {
@@ -167,6 +175,7 @@ public class StaticInputRequests extends EntityRequests
             em.merge(staticInput);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -180,6 +189,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             em.remove(staticInput);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -194,6 +204,7 @@ public class StaticInputRequests extends EntityRequests
         try {
             staticInputDetails = new StaticInputDetails(staticInput.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             return null;
         }
         staticInputDetails.setName(staticInput.getName());

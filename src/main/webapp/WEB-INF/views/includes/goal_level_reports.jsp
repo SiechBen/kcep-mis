@@ -61,9 +61,9 @@
                                 <td>${index.count}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${goal.performanceIndicator.resultHierarchy.description}">${goal.performanceIndicator.resultHierarchy.description}</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${goal.performanceIndicator.description}">${goal.performanceIndicator.description}</td>
-                                <td>Rating</td>
-                                <td id="expected-value-${goal.id}" class="editable pencil" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.expectedValue}</td>
-                                <td id="actual-value-${goal.id}" class="editable pencil" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.actualValue}</td>
+                                <td class="editable pencil" onclick="editMeasurementUnit(this, ${goal.performanceIndicator.id}, '${goal.performanceIndicator.measurementUnit.id}', '${goal.performanceIndicator.description}')">${goal.performanceIndicator.measurementUnit.unit}<c:if test="${measurementUnit.symbol}">(${measurementUnit.symbol})</c:if></td>
+                                <td id="expected-value-${goal.id}" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.expectedValue}</td>
+                                <td id="actual-value-${goal.id}" onclick="editGoalValue('${goal.id}', '${goal.actualValue}', '${goal.expectedValue}', '${goal.performanceIndicator.description}')">${goal.actualValue}</td>
                                 <td id="goal-ratio-${goal.id}"><c:if test="${not empty goal.ratio}">${goal.ratio}%</c:if></td>
                                     <td>&nbsp;</td>
                                 </tr>
@@ -99,6 +99,26 @@
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)
                         <input id="ratio" readonly class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="measurement-unit-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Measurement unit
+                        <select id="measurement-unit" class="form-control">
+                            <option disabled>Select measurement unit</option>
+                            <c:forEach var="measurementUnit" items="${sessionScope.measurementUnits}">
+                                <option value="${measurementUnit.id}">${measurementUnit.unit} <c:if test="${measurementUnit.symbol}">(${measurementUnit.symbol})</c:if></option>
+                            </c:forEach>
+                        </select>
                     </div>
                 </form>
             </div>

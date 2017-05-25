@@ -9,14 +9,14 @@
             30
         </session-timeout>
     </session-config>
-    <error-page>
+    <!--    <error-page>
         <error-code>404</error-code>
         <location>/ExceptionController</location>
     </error-page>
     <error-page>
         <exception-type>javax.servlet.ServletException</exception-type>
         <location>/ExceptionController</location>
-    </error-page>
+    </error-page>-->
     <servlet>
         <servlet-name>FileController</servlet-name>
         <servlet-class>ke.co.miles.kcep.mis.controllers.FileController</servlet-class>

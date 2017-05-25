@@ -42,9 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findByApproved", query = "SELECT p FROM Person p WHERE p.approved = :approved")})
 public class Person implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uploader")
-    private List<UploadedFile> uploadedFileList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -107,6 +104,8 @@ public class Person implements Serializable {
     private List<InputsCollection> farmerInputsCollectionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Trainee> traineeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "uploader")
+    private List<UploadedFile> uploadedFileList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
     private List<ValidationWorkshops> validationWorkshopsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "kalroOfficer")
@@ -332,6 +331,15 @@ public class Person implements Serializable {
     }
 
     @XmlTransient
+    public List<UploadedFile> getUploadedFileList() {
+        return uploadedFileList;
+    }
+
+    public void setUploadedFileList(List<UploadedFile> uploadedFileList) {
+        this.uploadedFileList = uploadedFileList;
+    }
+
+    @XmlTransient
     public List<ValidationWorkshops> getValidationWorkshopsList() {
         return validationWorkshopsList;
     }
@@ -417,15 +425,6 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.Person[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<UploadedFile> getUploadedFileList() {
-        return uploadedFileList;
-    }
-
-    public void setUploadedFileList(List<UploadedFile> uploadedFileList) {
-        this.uploadedFileList = uploadedFileList;
     }
 
 }

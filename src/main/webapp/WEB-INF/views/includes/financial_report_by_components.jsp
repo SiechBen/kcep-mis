@@ -19,7 +19,7 @@
                     <thead>
                         <tr>
                             <th colspan="2">Description</th>
-                            <th colspan="18">Sources of Funds</th>
+                            <th colspan="17">Sources of Funds</th>
                         </tr>
                         <tr>
                             <th colspan="2">Component</th>
@@ -30,7 +30,7 @@
                             <th colspan="2">IFAD Grant</th>
                             <th colspan="2">Financial Institution</th>
                             <th colspan="2">Total</th>
-                            <th colspan="2">Total Initial Allocation</th>
+                            <th colspan="1">Total Initial Allocation</th>
                             <th colspan="2">Balance</th>
                         </tr>
                         <tr>
@@ -50,7 +50,6 @@
                             <th>USD '000</th>
                             <th>%</th>
                             <th>USD '000</th>
-                            <th>%</th>
                             <th>USD '000</th>
                             <th>%</th>
                             <th>USD '000</th>
@@ -58,7 +57,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <td colspan="20">List of system users</td>
+                            <td colspan="19">List of system users</td>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -81,8 +80,7 @@
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).financialInstitutionValue}</td>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalsPercentage}</td>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalsValue}</td>
-                                    <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalInitialAllocationPercentage}</td>
-                                    <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).totalInitialAllocationValue}</td>
+                                    <td id="tied-value-${component.id}" class="editable pencil" onclick="editTiedValue(${component.id}, '${component.tiedValue}')">${component.tiedValue}</td>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).balancePercentage}</td>
                                     <td>${financialPlanByComponentMap.get(financialPlanTotals).get(component).balanceValue}</td>
                                 </tr>
@@ -104,7 +102,6 @@
                                 <td>${financialPlanTotals.financialInstitutionValue}</td>
                                 <td>${financialPlanTotals.totalsPercentage}</td>
                                 <td>${financialPlanTotals.totalsValue}</td>
-                                <td>${financialPlanTotals.totalInitialAllocationPercentage}</td>
                                 <td>${financialPlanTotals.totalInitialAllocationValue}</td>
                                 <td>${financialPlanTotals.balancePercentage}</td>
                                 <td>${financialPlanTotals.balanceValue}</td>
@@ -112,6 +109,21 @@
                         </c:forEach>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="tied-value-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Total initial allocation
+                        <input type="number" step="0.01"  id="tied-value" class="form-control">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

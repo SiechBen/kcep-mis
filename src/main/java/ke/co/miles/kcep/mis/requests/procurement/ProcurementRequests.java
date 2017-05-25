@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -61,6 +62,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
             em.persist(procurement);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -78,6 +80,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         try {
             procurements = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertProcurementsToProcurementDetailsList(procurements);
@@ -91,6 +94,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         try {
             procurement = (Procurement) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -134,6 +138,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
             em.merge(procurement);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -147,6 +152,7 @@ public class ProcurementRequests extends EntityRequests implements ProcurementRe
         try {
             em.remove(procurement);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

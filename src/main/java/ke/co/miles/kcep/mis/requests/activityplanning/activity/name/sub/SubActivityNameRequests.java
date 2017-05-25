@@ -45,7 +45,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         q.setParameter("name", subActivityNameDetails.getName());
         try {
             subActivityName = (SubActivityName) q.getSingleResult();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             subActivityName = null;
         }
         if (subActivityName != null) {
@@ -59,7 +59,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         try {
             em.persist(subActivityName);
             em.flush();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -76,7 +76,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         setQ(em.createNamedQuery("SubActivityName.findAll"));
         try {
             activities = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
 
         return convertActivitiesToSubActivityNameDetailsList(activities);
@@ -90,7 +90,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         q.setParameter("activityNameId", activityNameId);
         try {
             activities = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
 
         return convertActivitiesToSubActivityNameDetailsList(activities);
@@ -103,7 +103,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         q.setParameter("id", id);
         try {
             subActivityName = (SubActivityName) q.getSingleResult();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -130,7 +130,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         q.setParameter("name", subActivityNameDetails.getName());
         try {
             subActivityName = (SubActivityName) q.getSingleResult();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             subActivityName = null;
         }
         if (subActivityName != null) {
@@ -145,7 +145,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         try {
             em.merge(subActivityName);
             em.flush();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -159,7 +159,7 @@ public class SubActivityNameRequests extends EntityRequests implements SubActivi
         if (subActivityName.getSubActivityList().isEmpty()) {
             try {
                 em.remove(subActivityName);
-            } catch (Exception e) {
+            } catch (Exception e) {MilesDebugger.debug(e);
                 MilesDebugger.debug(e.toString());
                 throw new InvalidStateException("error_000_01");
             }

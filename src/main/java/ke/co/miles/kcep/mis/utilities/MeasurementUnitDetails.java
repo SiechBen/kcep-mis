@@ -78,8 +78,23 @@ public class MeasurementUnitDetails implements Serializable, Comparable<Measurem
         this.symbol = symbol;
     }
 
+    /**
+     * @return the purpose
+     */
+    public String getPurpose() {
+        return purpose;
+    }
+
+    /**
+     * @param purpose the purpose to set
+     */
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
     private Short id;
     private String unit;
     private String symbol;
+    private String purpose;
 
 }

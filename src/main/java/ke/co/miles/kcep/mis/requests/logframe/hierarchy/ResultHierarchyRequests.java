@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.ResultHierarchy;
@@ -44,6 +45,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         try {
             resultHierarchy = (ResultHierarchy) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             resultHierarchy = null;
         }
         if (resultHierarchy != null) {
@@ -63,6 +65,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
             em.persist(resultHierarchy);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -80,6 +83,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         try {
             resultHierarchies = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertResultHierarchiesToResultHierarchyDetailsList(resultHierarchies);
@@ -93,6 +97,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         try {
             resultHierarchy = (ResultHierarchy) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -120,6 +125,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         try {
             resultHierarchy = (ResultHierarchy) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             resultHierarchy = null;
         }
         if (resultHierarchy != null) {
@@ -141,6 +147,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
             em.merge(resultHierarchy);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -154,6 +161,7 @@ public class ResultHierarchyRequests extends EntityRequests implements ResultHie
         try {
             em.remove(resultHierarchy);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

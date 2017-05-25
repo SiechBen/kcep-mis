@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.farmer.group;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.FarmerGroup;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -41,6 +42,7 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
             em.persist(farmerGroup);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -57,6 +59,7 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
         try {
             farmerGroups = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertFarmerGroupsToFarmerGroupDetailsList(farmerGroups);
@@ -70,6 +73,7 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
         try {
             farmerGroup = (FarmerGroup) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -98,6 +102,7 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
             em.merge(farmerGroup);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -111,6 +116,7 @@ public class FarmerGroupRequests extends EntityRequests implements FarmerGroupRe
         try {
             em.remove(farmerGroup);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

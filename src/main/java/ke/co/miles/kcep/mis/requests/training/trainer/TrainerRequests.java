@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
 import ke.co.miles.kcep.mis.entities.Trainer;
@@ -48,6 +49,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             em.persist(trainer);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -73,6 +75,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainings = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -95,6 +98,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainings = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -117,6 +121,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainings = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -158,6 +163,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainings = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -201,6 +207,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainings = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -255,6 +262,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainers = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertTrainersToTrainerDetailsList(trainers);
@@ -269,6 +277,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainers = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         List<Integer> trainerIds = new ArrayList<>();
@@ -287,6 +296,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             trainer = (Trainer) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -325,6 +335,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
             em.merge(trainer);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -338,6 +349,7 @@ public class TrainerRequests extends EntityRequests implements TrainerRequestsLo
         try {
             em.remove(trainer);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

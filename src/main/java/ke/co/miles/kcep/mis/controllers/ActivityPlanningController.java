@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.activityplanning.activity.name.ActivityNameRequestsLocal;
@@ -77,6 +78,7 @@ import ke.co.miles.kcep.mis.utilities.SubActivityNameDetails;
             "/doAddSubActivityName",
             "/flyAddSubActivityName",
             "/doEditSubActivityName",
+            "/flyAddMeasurementUnit",
             "/updateSubActivityNames",
             "/doDeleteSubActivityName"
         })
@@ -113,6 +115,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/doDeleteSubActivity");
                             urlPaths.add("/doAddActivityName");
@@ -125,7 +128,6 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/changeAWPB":
-                                    destination = "/head_sub_activities";
                                     urlPaths.add("/changeAWPB");
                                     break;
                                 case "/sub_activities":
@@ -173,13 +175,13 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doEditSubActivity");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/changeAWPB":
-                                    destination = "/head_sub_activities";
                                     urlPaths.add("/changeAWPB");
                                     break;
                                 case "/sub_activities":
@@ -227,13 +229,13 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/changeAWPB":
-                                    destination = "/kalro_sub_activities";
                                     urlPaths.add("/changeAWPB");
                                     break;
                                 case "/sub_activities":
@@ -281,13 +283,13 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/changeAWPB":
-                                    destination = "/agmark_sub_activities";
                                     urlPaths.add("/changeAWPB");
                                     break;
                                 case "/sub_activities":
@@ -335,13 +337,13 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/changeAWPB":
-                                    destination = "/equity_sub_activities";
                                     urlPaths.add("/changeAWPB");
                                     break;
                                 case "/sub_activities":
@@ -389,13 +391,13 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doAddFinancialYear");
                             urlPaths.add("/doAddSubActivityName");
                             urlPaths.add("/updateSubActivityNames");
                             switch (path) {
                                 case "/changeAWPB":
-                                    destination = "/region_sub_activities";
                                     urlPaths.add("/changeAWPB");
                                     break;
                                 case "/sub_activities":
@@ -442,6 +444,7 @@ public class ActivityPlanningController extends Controller {
                             urlPaths.add("/doAddPhenomenon");
                             urlPaths.add("/flyAddActivityName");
                             urlPaths.add("/flyAddSubActivityName");
+                            urlPaths.add("/flyAddMeasurementUnit");
                             urlPaths.add("/doAddSubActivity");
                             urlPaths.add("/doAddActivityName");
                             urlPaths.add("/doAddFinancialYear");
@@ -526,6 +529,41 @@ public class ActivityPlanningController extends Controller {
                         subActivityName.setActivityName(activityName);
 
                         out.write(String.valueOf(subActivityNameService.addSubActivityName(subActivityName)));
+
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()));
+                        LOGGER.log(Level.INFO, "", ex);
+                    } catch (NumberFormatException ex) {
+                        LOGGER.log(Level.INFO, "", ex);
+                    }
+                    return;
+
+                case "/flyAddMeasurementUnit":
+
+                    MeasurementUnitDetails measurementUnit;
+
+                    try {
+                        measurementUnit = new MeasurementUnitDetails();
+                        String symbol = request.getParameter("symbol");
+                        if (symbol.contains("(") && symbol.contains(")")) {
+                            measurementUnit.setSymbol(symbol.substring(symbol.indexOf('(') + 1, symbol.indexOf(')')));
+                            measurementUnit.setUnit(symbol.substring(0, symbol.indexOf('(')));
+                            measurementUnit.setPurpose(null);
+                        } else {
+                            measurementUnit.setUnit(symbol);
+                            measurementUnit.setSymbol(null);
+                            measurementUnit.setPurpose(null);
+                        }
+
+                        out.write(String.valueOf(measurementUnitService.addMeasurementUnit(measurementUnit)));
+
+                        try {
+                            session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
+                        } catch (MilesException ex) {
+                            LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
+                            return;
+                        }
 
                     } catch (MilesException ex) {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -994,7 +1032,7 @@ public class ActivityPlanningController extends Controller {
                         }
 
                         try {
-                            session.setAttribute("measurementUnits", measurementUnitService.retrievePlanningMeasurementUnits());
+                            session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
                         } catch (MilesException ex) {
                             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
                             return;
@@ -1086,51 +1124,60 @@ public class ActivityPlanningController extends Controller {
                     try {
                         subActivity.setValueAchieved(new BigDecimal(request.getParameter("valueAchieved")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setValueAchieved(null);
                     }
                     try {
                         subActivity.setAllocatedBudget(new BigDecimal(request.getParameter("allocatedBudget")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setAllocatedBudget(null);
                     }
                     try {
                         subActivity.setGokPercentage(new Double(request.getParameter("gokPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setGokPercentage(null);
                     }
                     try {
                         subActivity.setIfadLoanPercentage(new Double(
                                 request.getParameter("ifadLoanPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setIfadLoanPercentage(null);
                     }
                     try {
                         subActivity.setIfadGrantPercentage(new Double(
                                 request.getParameter("ifadGrantPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setIfadGrantPercentage(null);
                     }
                     try {
                         subActivity.setBeneficiariesPercentage(new Double(
                                 request.getParameter("gokPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setBeneficiariesPercentage(null);
                     }
                     try {
                         subActivity.setEuPercentage(new Double(request.getParameter("euPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setEuPercentage(null);
                     }
                     try {
                         subActivity.setFinancialInstitutionPercentage(new Double(
                                 request.getParameter("financialInstitutionPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setFinancialInstitutionPercentage(null);
                     }
                     try {
                         subActivity.setProgrammeTarget(new BigDecimal(
                                 request.getParameter("programmeTarget")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setProgrammeTarget(null);
                     }
                     try {
@@ -1143,65 +1190,76 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setComponent(new PhenomenonDetails(Integer.valueOf(
                                 request.getParameter("component"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setComponent(null);
                     }
                     try {
                         subActivity.setActivityName(new ActivityNameDetails(
                                 Integer.valueOf(request.getParameter("activityName"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setActivityName(null);
                     }
                     try {
                         subActivity.setSubComponent(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("subComponent"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setSubComponent(null);
                     }
                     try {
                         subActivity.setResponsePcu(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("responsePcu"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setResponsePcu(null);
                     }
                     try {
                         subActivity.setSubActivityName(new SubActivityNameDetails(
                                 Integer.valueOf(request.getParameter("subActivityName"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setSubComponent(null);
                     }
                     try {
                         subActivity.setExpenditureCategory(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("expenditureCategory"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setExpenditureCategory(null);
                     }
                     try {
                         subActivity.setImplementingPartner(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("implementingPartner"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setImplementingPartner(null);
                     }
                     try {
                         subActivity.setPerformanceIndicator(new PerformanceIndicatorDetails(
                                 Short.valueOf(request.getParameter("performanceIndicator"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setPerformanceIndicator(null);
                     }
                     try {
                         subActivity.setMeasurementUnit(new MeasurementUnitDetails(
                                 Short.valueOf(request.getParameter("measurementUnit"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
                         subActivity.setAnnualIndicator(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("annualIndicator"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
                         subActivity.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     PersonDetails accessingPerson = (PersonDetails) session.getAttribute("person");
                     try {
@@ -1216,11 +1274,13 @@ public class ActivityPlanningController extends Controller {
                         } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.EQUITY_OFFICER.getId())) {
                             subActivity.setAwpbOwner(new PhenomenonDetails(177));
                         } else if (accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PCU_STAFF.getId())
+                                || accessingPerson.getPersonRoleId().equals(PersonRoleDetail.SYSTEM_ADMIN.getId())
                                 || accessingPerson.getPersonRoleId().equals(PersonRoleDetail.PROGRAMME_COORDINATOR.getId())
                                 || accessingPerson.getPersonRoleId().equals(PersonRoleDetail.SENIOR_PROGRAMME_COORDINATOR.getId())) {
                             subActivity.setAwpbOwner(new PhenomenonDetails(178));
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("startDate"));
@@ -1253,6 +1313,7 @@ public class ActivityPlanningController extends Controller {
                     try {
                         subActivity.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     subActivity.setProcurementPlan(request.getParameter("procurementPlan"));
                     subActivity.setDescription(request.getParameter("description"));
@@ -1282,51 +1343,60 @@ public class ActivityPlanningController extends Controller {
                     try {
                         subActivity.setValueAchieved(new BigDecimal(request.getParameter("valueAchieved")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setValueAchieved(null);
                     }
                     try {
                         subActivity.setAllocatedBudget(new BigDecimal(request.getParameter("allocatedBudget")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setAllocatedBudget(null);
                     }
                     try {
                         subActivity.setGokPercentage(new Double(request.getParameter("gokPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setGokPercentage(null);
                     }
                     try {
                         subActivity.setIfadLoanPercentage(new Double(
                                 request.getParameter("ifadLoanPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setIfadLoanPercentage(null);
                     }
                     try {
                         subActivity.setIfadGrantPercentage(new Double(
                                 request.getParameter("ifadGrantPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setIfadGrantPercentage(null);
                     }
                     try {
                         subActivity.setBeneficiariesPercentage(new Double(
                                 request.getParameter("gokPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setBeneficiariesPercentage(null);
                     }
                     try {
                         subActivity.setEuPercentage(new Double(request.getParameter("euPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setEuPercentage(null);
                     }
                     try {
                         subActivity.setFinancialInstitutionPercentage(new Double(
                                 request.getParameter("financialInstitutionPercentage")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setFinancialInstitutionPercentage(null);
                     }
                     try {
                         subActivity.setProgrammeTarget(new BigDecimal(
                                 request.getParameter("programmeTarget")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setProgrammeTarget(null);
                     }
                     try {
@@ -1339,66 +1409,77 @@ public class ActivityPlanningController extends Controller {
                         subActivity.setComponent(new PhenomenonDetails(Integer.valueOf(
                                 request.getParameter("component"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setComponent(null);
                     }
                     try {
                         subActivity.setActivityName(new ActivityNameDetails(
                                 Integer.valueOf(request.getParameter("activityName"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setActivityName(null);
                     }
                     try {
                         subActivity.setSubComponent(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("subComponent"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setSubComponent(null);
                     }
                     try {
                         subActivity.setResponsePcu(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("responsePcu"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setResponsePcu(null);
                     }
                     try {
                         subActivity.setSubActivityName(new SubActivityNameDetails(
                                 Integer.valueOf(request.getParameter("subActivityName"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setSubComponent(null);
                     }
                     try {
                         subActivity.setExpenditureCategory(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("expenditureCategory"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setExpenditureCategory(null);
                     }
                     try {
                         subActivity.setImplementingPartner(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("implementingPartner"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setImplementingPartner(null);
                     }
                     try {
                         subActivity.setPerformanceIndicator(new PerformanceIndicatorDetails(
                                 Short.valueOf(request.getParameter("performanceIndicator"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setPerformanceIndicator(null);
                     }
                     try {
                         subActivity.setMeasurementUnit(new MeasurementUnitDetails(
                                 Short.valueOf(request.getParameter("measurementUnit"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
                         subActivity.setAnnualIndicator(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("annualIndicator"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         subActivity.setMeasurementUnit(null);
                     }
                     try {
                         subActivity.setGfssCode(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     accessingPerson = (PersonDetails) session.getAttribute("person");
                     try {
@@ -1408,6 +1489,7 @@ public class ActivityPlanningController extends Controller {
                             subActivity.setRegion(RegionDetail.getRegionDetail(accessingPerson.getLocation().getCounty().getRegion().getId()));
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("startDate"));

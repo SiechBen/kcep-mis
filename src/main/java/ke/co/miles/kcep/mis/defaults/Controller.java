@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
 import ke.co.miles.kcep.mis.requests.farmer.group.FarmerGroupRequestsLocal;
@@ -105,6 +106,7 @@ public abstract class Controller extends HttpServlet {
             feedback.addAll(feedbackService.retrieveFeedback(FeedbackTypeDetail.SUCCESS_STORY));
             getServletContext().setAttribute("feedbackList", feedback);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             LOGGER.log(Level.SEVERE, "An error occurred during feedback records retrieval", e);
             return;
         }
@@ -112,6 +114,7 @@ public abstract class Controller extends HttpServlet {
         try {
             getServletContext().setAttribute("latestFeedbackList", feedbackService.retrieveLatestFeedback());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
             return;
         }
@@ -119,6 +122,7 @@ public abstract class Controller extends HttpServlet {
         try {
             getServletContext().setAttribute("warehouseTypes", phenomenonService.retrieveWarehouseTypes());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of warehouse types", e);
             return;
         }

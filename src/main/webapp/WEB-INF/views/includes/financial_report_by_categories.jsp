@@ -19,7 +19,7 @@
                     <thead>
                         <tr>
                             <th colspan="2">Description</th>
-                            <th colspan="18">Sources of Funds</th>
+                            <th colspan="17">Sources of Funds</th>
                         </tr>
                         <tr>
                             <th colspan="2"> Exenditure category</th>
@@ -30,7 +30,7 @@
                             <th colspan="2">IFAD Grant</th>
                             <th colspan="2">Financial Institution</th>
                             <th colspan="2">Total</th>
-                            <th colspan="2">Total Initial Allocation</th>
+                            <th colspan="1">Total Initial Allocation</th>
                             <th colspan="2">Balance</th>
                         </tr>
                         <tr>
@@ -50,14 +50,13 @@
                             <th>USD '000</th>
                             <th>%</th>
                             <th>USD '000</th>
-                            <th>%</th>
                             <th>USD '000</th>
                             <th>%</th>
                             <th>USD '000</th>
                         </tr>
                     </thead>
                     <tfoot>
-                        <tr><td colspan="20">Financial report by categories for this AWPB</td></tr>
+                        <tr><td colspan="19">Financial report by categories for this AWPB</td></tr>
                     </tfoot>
                     <tbody>
                         <c:forEach var="financialPlanTotals" items="${sessionScope.financialPlanByCategoryMap.keySet()}">
@@ -79,8 +78,7 @@
                                     <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).financialInstitutionValue}</td>
                                     <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalsPercentage}</td>
                                     <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalsValue}</td>
-                                    <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalInitialAllocationPercentage}</td>
-                                    <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).totalInitialAllocationValue}</td>
+                                    <td id="tied-value-${expenditureCategory.id}" class="editable pencil" onclick="editTiedValue(${expenditureCategory.id}, '${expenditureCategory.tiedValue}')">${expenditureCategory.tiedValue}</td>
                                     <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).balancePercentage}</td>
                                     <td>${financialPlanByCategoryMap.get(financialPlanTotals).get(expenditureCategory).balanceValue}</td>
                                 </tr>
@@ -102,7 +100,6 @@
                                 <td>${financialPlanTotals.financialInstitutionValue}</td>
                                 <td>${financialPlanTotals.totalsPercentage}</td>
                                 <td>${financialPlanTotals.totalsValue}</td>
-                                <td>${financialPlanTotals.totalInitialAllocationPercentage}</td>
                                 <td>${financialPlanTotals.totalInitialAllocationValue}</td>
                                 <td>${financialPlanTotals.balancePercentage}</td>
                                 <td>${financialPlanTotals.balanceValue}</td>
@@ -110,6 +107,21 @@
                         </c:forEach>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="tied-value-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Total initial allocation
+                        <input type="number" step="0.01"  id="tied-value" class="form-control">
+                    </div>
+                </form>
             </div>
         </div>
     </div>

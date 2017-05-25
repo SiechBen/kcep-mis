@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Equipment;
 import ke.co.miles.kcep.mis.entities.Warehouse;
@@ -26,7 +27,7 @@ import ke.co.miles.kcep.mis.utilities.WarehouseDetails;
 @Stateless
 public class EquipmentRequests extends EntityRequests implements EquipmentRequestsLocal {
 
-//<editor-fold defaultstate="collapsed" desc="Create">  
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     public int addEquipment(EquipmentDetails equipmentDetails) throws MilesException {
 
@@ -55,6 +56,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
             em.persist(equipment);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -73,6 +75,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         try {
             equipment = (Equipment) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -90,6 +93,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         try {
             equipmentList = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -129,6 +133,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
             em.merge(equipment);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -146,6 +151,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         try {
             equipmentList = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         if (!equipmentList.isEmpty()) {
             for (Equipment equipment : equipmentList) {
@@ -162,6 +168,7 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         try {
             em.remove(equipment);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -172,13 +179,14 @@ public class EquipmentRequests extends EntityRequests implements EquipmentReques
         try {
             em.remove(equipment);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
     }
 
 //</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="Convert"> 
+//<editor-fold defaultstate="collapsed" desc="Convert">
     @Override
     public EquipmentDetails convertEquipmentToEquipmentDetails(Equipment equipment) {
 

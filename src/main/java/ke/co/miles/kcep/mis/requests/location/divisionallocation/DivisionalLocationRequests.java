@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.location.divisionallocation;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.DivisionalLocation;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             divisionalLocation = (DivisionalLocation) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             divisionalLocation = null;
         }
         if (divisionalLocation != null) {
@@ -53,6 +55,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
             em.persist(divisionalLocation);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -70,6 +73,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             divisionalLocations = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertDivisionalLocationsToDivisionalLocationDetailsList(divisionalLocations);
@@ -84,6 +88,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             divisionalLocations = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertDivisionalLocationsToDivisionalLocationDetailsList(divisionalLocations);
@@ -97,6 +102,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             divisionalLocation = (DivisionalLocation) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -124,6 +130,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             divisionalLocation = (DivisionalLocation) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             divisionalLocation = null;
         }
         if (divisionalLocation != null) {
@@ -140,6 +147,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
             em.merge(divisionalLocation);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -153,6 +161,7 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             em.remove(divisionalLocation);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -166,10 +175,12 @@ public class DivisionalLocationRequests extends EntityRequests implements Divisi
         try {
             divisionalLocationDetails.setId(divisionalLocation.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             divisionalLocationDetails.setName(divisionalLocation.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return divisionalLocationDetails;

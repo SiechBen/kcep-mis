@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.PerformanceIndicator;
@@ -63,6 +64,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             em.persist(performanceIndicator);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -80,6 +82,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         try {
             performanceIndicator = (PerformanceIndicator) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -94,6 +97,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         try {
             performanceIndicators = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -119,6 +123,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             em.merge(performanceIndicator);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -164,6 +169,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
             em.merge(performanceIndicator);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -177,6 +183,7 @@ public class PerformanceIndicatorRequests extends EntityRequests implements Perf
         try {
             em.remove(performanceIndicator);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

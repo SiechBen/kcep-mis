@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.descriptors.phenomenon.type;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PhenomenonType;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             phenomenonType = (PhenomenonType) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             phenomenonType = null;
         }
         if (phenomenonType != null) {
@@ -53,6 +55,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
             em.persist(phenomenonType);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -70,6 +73,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             phenomenonTypes = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertPhenomenonTypesToPhenomenonTypeDetailsList(phenomenonTypes);
@@ -83,6 +87,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             phenomenonType = (PhenomenonType) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -97,6 +102,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             phenomenonType = (PhenomenonType) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -124,6 +130,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             phenomenonType = (PhenomenonType) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             phenomenonType = null;
         }
         if (phenomenonType != null) {
@@ -140,6 +147,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
             em.merge(phenomenonType);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -153,6 +161,7 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             em.remove(phenomenonType);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -166,10 +175,12 @@ public class PhenomenonTypeRequests extends EntityRequests implements Phenomenon
         try {
             phenomenonTypeDetails.setId(phenomenonType.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             phenomenonTypeDetails.setName(phenomenonType.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return phenomenonTypeDetails;
 

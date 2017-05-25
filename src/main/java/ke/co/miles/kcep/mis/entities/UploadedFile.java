@@ -38,19 +38,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UploadedFile.findById", query = "SELECT u FROM UploadedFile u WHERE u.id = :id")})
 public class UploadedFile implements Serializable {
 
-    @Column(name = "first_row")
-    private Short firstRow;
-
-    @Column(name = "time_uploaded")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timeUploaded;
-    @JoinColumn(name = "uploader", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Person uploader;
-
-    @Column(name = "populated")
-    private Boolean populated;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,9 +50,21 @@ public class UploadedFile implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "name")
     private String name;
+    @Column(name = "first_row")
+    private Short firstRow;
+    @Column(name = "populated")
+    private Boolean populated;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "time_uploaded")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeUploaded;
     @JoinColumn(name = "purpose", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Phenomenon purpose;
+    @JoinColumn(name = "uploader", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Person uploader;
 
     public UploadedFile() {
     }
@@ -74,9 +73,10 @@ public class UploadedFile implements Serializable {
         this.id = id;
     }
 
-    public UploadedFile(Integer id, String name) {
+    public UploadedFile(Integer id, String name, Date timeUploaded) {
         this.id = id;
         this.name = name;
+        this.timeUploaded = timeUploaded;
     }
 
     public Integer getId() {
@@ -95,12 +95,44 @@ public class UploadedFile implements Serializable {
         this.name = name;
     }
 
+    public Short getFirstRow() {
+        return firstRow;
+    }
+
+    public void setFirstRow(Short firstRow) {
+        this.firstRow = firstRow;
+    }
+
+    public Boolean getPopulated() {
+        return populated;
+    }
+
+    public void setPopulated(Boolean populated) {
+        this.populated = populated;
+    }
+
+    public Date getTimeUploaded() {
+        return timeUploaded;
+    }
+
+    public void setTimeUploaded(Date timeUploaded) {
+        this.timeUploaded = timeUploaded;
+    }
+
     public Phenomenon getPurpose() {
         return purpose;
     }
 
     public void setPurpose(Phenomenon purpose) {
         this.purpose = purpose;
+    }
+
+    public Person getUploader() {
+        return uploader;
+    }
+
+    public void setUploader(Person uploader) {
+        this.uploader = uploader;
     }
 
     @Override
@@ -126,38 +158,6 @@ public class UploadedFile implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.UploadedFile[ id=" + id + " ]";
-    }
-
-    public Boolean getPopulated() {
-        return populated;
-    }
-
-    public void setPopulated(Boolean populated) {
-        this.populated = populated;
-    }
-
-    public Date getTimeUploaded() {
-        return timeUploaded;
-    }
-
-    public void setTimeUploaded(Date timeUploaded) {
-        this.timeUploaded = timeUploaded;
-    }
-
-    public Person getUploader() {
-        return uploader;
-    }
-
-    public void setUploader(Person uploader) {
-        this.uploader = uploader;
-    }
-
-    public Short getFirstRow() {
-        return firstRow;
-    }
-
-    public void setFirstRow(Short firstRow) {
-        this.firstRow = firstRow;
     }
 
 }

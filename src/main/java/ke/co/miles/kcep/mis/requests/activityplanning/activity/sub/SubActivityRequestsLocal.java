@@ -138,4 +138,12 @@ public interface SubActivityRequestsLocal {
      */
     public List<String> retrieveReferenceCodes() throws MilesException;
 
+    /**
+     *
+     * @param phenomenonDetails the details of the phenomenon whose tied value
+     * is to be edited
+     * @throws MilesException when the database is in an incorrect state
+     */
+    public void editTiedValue(PhenomenonDetails phenomenonDetails) throws MilesException;
+
 }

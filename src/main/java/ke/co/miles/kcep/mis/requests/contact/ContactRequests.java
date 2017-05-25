@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.contact;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Contact;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -38,6 +39,7 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
         try {
             em.persist(contact);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -61,6 +63,7 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
         try {
             em.merge(contact);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -74,6 +77,7 @@ public class ContactRequests extends EntityRequests implements ContactRequestsLo
         try {
             em.remove(contact);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

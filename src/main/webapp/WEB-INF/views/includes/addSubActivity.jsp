@@ -112,11 +112,13 @@
                     </div>
                     <div class="form-group">
                         Measurement unit
-                        <select id="measurement-unit" class="form-control">
-                            <c:forEach var="measurementUnit" items="${applicationScope.measurementUnits}" varStatus="counter">
-                                <option value="${measurementUnit.id}">${measurementUnit.unit}</option>
+                        <select id="measurement-unit" class="form-control partial shown-mu">
+                            <c:forEach var="measurementUnit" items="${sessionScope.measurementUnits}" varStatus="counter">
+                                <option value="${measurementUnit.id}">${measurementUnit.unit} <c:if test="${measurementUnit.symbol != null}">(${measurementUnit.symbol})</c:if></option>
                             </c:forEach>
                         </select>
+                        <button class="shown-mu" onclick="toggleMeasurementUnitInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-measurement-unit" class="form-control" onchange="flyAddMeasurementUnit(); return false;" placeholder="Pixels (p)">
                     </div>
                     <div class="form-group">
                         Unit cost
@@ -136,19 +138,23 @@
                     </div>
                     <div class="form-group">
                         Response PCU
-                        <select id="response-pcu" class="form-control">
+                        <select id="response-pcu" class="form-control partial shown-rp">
                             <c:forEach var="responsePcu" items="${sessionScope.responsePCUList}" varStatus="counter">
                                 <option value="${responsePcu.id}">${responsePcu.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-rp" onclick="toggleResponsePcuInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-response-pcu" class="form-control" onchange="flyAddResponsePcu(${sessionScope.responsePCUList[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         Implementing partner
-                        <select id="implementing-partner" class="form-control">
+                        <select id="implementing-partner" class="form-control partial shown-ip">
                             <c:forEach var="implementingPartner" items="${sessionScope.implementingPartners}" varStatus="counter">
                                 <option value="${implementingPartner.id}">${implementingPartner.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-ip" onclick="toggleImplementingPartnerInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-implementing-partner" class="form-control" onchange="flyAddImplementingPartner(${sessionScope.implementingPartners[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         Procurement plan
@@ -161,21 +167,19 @@
                         Description
                         <input id="description" class="form-control">
                     </div>
-                    <!--                    <div class="form-group">
-                                            Expenditure
-                                            <input id="value-achieved" type="number" step="0.01" class="form-control">
-                                        </div>-->
                     <div class="form-group">
                         Allocated budget
                         <input id="allocated-budget" type="number" step="0.01" class="form-control">
                     </div>
                     <div class="form-group">
                         Expenditure category
-                        <select id="expected-category" class="form-control">
+                        <select id="expenditure-category" class="form-control partial shown-ec">
                             <c:forEach var="expenditureCategory" items="${sessionScope.expenditureCategories}" varStatus="counter">
                                 <option value="${expenditureCategory.id}">${expenditureCategory.category.name}</option>
                             </c:forEach>
                         </select>
+                        <button class="shown-ec" onclick="toggleExpenditureCategoryInput(); return false;"><span class="glyphicon glyphicon-plus"></span></button>
+                        <input id="other-expenditure-category" class="form-control" onchange="flyAddExpenditureCategory(${sessionScope.expenditureCategories[0].phenomenonType.id}); return false;">
                     </div>
                     <div class="form-group">
                         GOK percentage

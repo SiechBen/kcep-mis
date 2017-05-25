@@ -67,6 +67,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                                 q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                                 q.executeUpdate();
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                         }
                         try {
@@ -76,6 +77,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                             q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                             q.executeUpdate();
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                         break;
                     case 2:
@@ -86,6 +88,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                             q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                             q.executeUpdate();
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                         break;
                     case 70:
@@ -99,6 +102,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                             q.executeUpdate();
                             MilesDebugger.debug();
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                         break;
                     case 4:
@@ -110,6 +114,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                             q.executeUpdate();
                             MilesDebugger.debug();
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                         try {
                             setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
@@ -118,6 +123,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                             q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                             q.executeUpdate();
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                         try {
                             setQ(em.createNativeQuery("UPDATE performance_indicator_values pv SET actual_value = (CASE WHEN (pv.actual_value IS NULL) THEN ?1 ELSE pv.actual_value + ?1 END) WHERE pv.performance_indicator = ?2 AND pv.project_year = ?3"));
@@ -126,6 +132,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                             q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                             q.executeUpdate();
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                         break;
                     default:
@@ -144,6 +151,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                     q.executeUpdate();
                     MilesDebugger.debug();
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                 }
             }
             if (training.getTopic().getId() == 10) {
@@ -154,6 +162,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                 }
             }
             if (training.getTopic().getModule() != null && training.getTopic().getModule().getId() == 20) {
@@ -164,6 +173,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                 }
             }
         }
@@ -172,6 +182,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             em.persist(training);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -190,6 +201,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             training = (Training) q.getSingleResult();
         } catch (Exception e) {
             MilesDebugger.debug(e);
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
 
             throw new InvalidStateException("error_000_01");
         }
@@ -234,6 +246,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
             em.merge(training);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -247,6 +260,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
         try {
             em.remove(training);
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -281,6 +295,7 @@ public class TrainingRequests extends EntityRequests implements TrainingRequests
                 String fileName = folders[folders.length - 1];
                 trainingDetails.setFileName(fileName);
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
         }
 

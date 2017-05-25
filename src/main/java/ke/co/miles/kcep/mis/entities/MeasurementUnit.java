@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MeasurementUnit.findById", query = "SELECT m FROM MeasurementUnit m WHERE m.id = :id"),
     @NamedQuery(name = "MeasurementUnit.findByUnit", query = "SELECT m FROM MeasurementUnit m WHERE m.unit = :unit"),
     @NamedQuery(name = "MeasurementUnit.findBySymbol", query = "SELECT m FROM MeasurementUnit m WHERE m.symbol = :symbol"),
-    @NamedQuery(name = "MeasurementUnit.findByUse", query = "SELECT m FROM MeasurementUnit m WHERE m.use = :use")})
+    @NamedQuery(name = "MeasurementUnit.findByPurpose", query = "SELECT m FROM MeasurementUnit m WHERE m.purpose = :purpose")})
 public class MeasurementUnit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,8 +47,8 @@ public class MeasurementUnit implements Serializable {
     @Column(name = "symbol")
     private String symbol;
     @Size(max = 45)
-    @Column(name = "use")
-    private String use;
+    @Column(name = "purpose")
+    private String purpose;
     @OneToMany(mappedBy = "measurementUnit")
     private List<SubActivity> subActivityList;
     @OneToMany(mappedBy = "measurementUnit")
@@ -92,12 +92,12 @@ public class MeasurementUnit implements Serializable {
         this.symbol = symbol;
     }
 
-    public String getUse() {
-        return use;
+    public String getPurpose() {
+        return purpose;
     }
 
-    public void setUse(String use) {
-        this.use = use;
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 
     @XmlTransient
@@ -107,6 +107,15 @@ public class MeasurementUnit implements Serializable {
 
     public void setSubActivityList(List<SubActivity> subActivityList) {
         this.subActivityList = subActivityList;
+    }
+
+    @XmlTransient
+    public List<PerformanceIndicator> getPerformanceIndicatorList() {
+        return performanceIndicatorList;
+    }
+
+    public void setPerformanceIndicatorList(List<PerformanceIndicator> performanceIndicatorList) {
+        this.performanceIndicatorList = performanceIndicatorList;
     }
 
     @XmlTransient
@@ -132,29 +141,12 @@ public class MeasurementUnit implements Serializable {
             return false;
         }
         MeasurementUnit other = (MeasurementUnit) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.MeasurementUnit[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the performanceIndicatorList
-     */
-    public List<PerformanceIndicator> getPerformanceIndicatorList() {
-        return performanceIndicatorList;
-    }
-
-    /**
-     * @param performanceIndicatorList the performanceIndicatorList to set
-     */
-    public void setPerformanceIndicatorList(List<PerformanceIndicator> performanceIndicatorList) {
-        this.performanceIndicatorList = performanceIndicatorList;
     }
 
 }

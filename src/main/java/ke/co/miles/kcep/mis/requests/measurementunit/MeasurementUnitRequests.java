@@ -8,6 +8,8 @@ package ke.co.miles.kcep.mis.requests.measurementunit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -32,8 +34,12 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
             throw new InvalidArgumentException("error_007_02");
         } else if (measurementUnitDetails.getUnit().length() > 45) {
             throw new InvalidArgumentException("error_007_03");
-        } else if (measurementUnitDetails.getSymbol().length() > 20) {
+        } else if (measurementUnitDetails.getSymbol() != null
+                && measurementUnitDetails.getSymbol().length() > 20) {
             throw new InvalidArgumentException("error_007_05");
+        } else if (measurementUnitDetails.getPurpose() != null
+                && measurementUnitDetails.getPurpose().length() > 45) {
+            throw new InvalidArgumentException("error_007_07");
         }
 
         MeasurementUnit measurementUnit;
@@ -41,7 +47,7 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         q.setParameter("unit", measurementUnitDetails.getUnit());
         try {
             measurementUnit = (MeasurementUnit) q.getSingleResult();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
             measurementUnit = null;
         }
         if (measurementUnit != null) {
@@ -73,20 +79,7 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         try {
             measurementUnits = q.getResultList();
         } catch (Exception e) {
-        }
-
-        return convertMeasurementUnitsToMeasurementUnitDetailsList(measurementUnits);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<MeasurementUnitDetails> retrievePlanningMeasurementUnits() throws MilesException {
-        List<MeasurementUnit> measurementUnits = new ArrayList<>();
-        setQ(em.createNamedQuery("MeasurementUnit.findByUse"));
-        q.setParameter("use", "Planning");
-        try {
-            measurementUnits = q.getResultList();
-        } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertMeasurementUnitsToMeasurementUnitDetailsList(measurementUnits);
@@ -100,6 +93,7 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         try {
             measurementUnit = (MeasurementUnit) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -117,10 +111,14 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
             throw new InvalidArgumentException("error_007_06");
         } else if (measurementUnitDetails.getUnit() == null) {
             throw new InvalidArgumentException("error_007_02");
-        } else if (measurementUnitDetails.getUnit().length() > 200) {
+        } else if (measurementUnitDetails.getUnit().length() > 45) {
             throw new InvalidArgumentException("error_007_03");
-        } else if (measurementUnitDetails.getSymbol().length() > 20) {
+        } else if (measurementUnitDetails.getSymbol() != null
+                && measurementUnitDetails.getSymbol().length() > 20) {
             throw new InvalidArgumentException("error_007_05");
+        } else if (measurementUnitDetails.getPurpose() != null
+                && measurementUnitDetails.getPurpose().length() > 45) {
+            throw new InvalidArgumentException("error_007_07");
         }
 
         MeasurementUnit measurementUnit;
@@ -128,7 +126,8 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         q.setParameter("unit", measurementUnitDetails.getUnit());
         try {
             measurementUnit = (MeasurementUnit) q.getSingleResult();
-        } catch (Exception e) {
+        } catch (NoResultException e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             measurementUnit = null;
         }
         if (measurementUnit != null) {
@@ -145,6 +144,7 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
             em.merge(measurementUnit);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -158,6 +158,7 @@ public class MeasurementUnitRequests extends EntityRequests implements Measureme
         try {
             em.remove(measurementUnit);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

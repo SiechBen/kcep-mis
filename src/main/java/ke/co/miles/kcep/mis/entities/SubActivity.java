@@ -64,12 +64,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SubActivity.findByFinancialInstitutionPercentage", query = "SELECT s FROM SubActivity s WHERE s.financialInstitutionPercentage = :financialInstitutionPercentage")})
 public class SubActivity implements Serializable {
 
-    @JoinColumn(name = "awpb_owner", referencedColumnName = "id")
-    @ManyToOne
-    private Phenomenon awpbOwner;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
     private List<ActivityProgressComment> activityProgressCommentList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
+    private List<ActivityProgress> activityProgressList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -116,50 +115,51 @@ public class SubActivity implements Serializable {
     private Double euPercentage;
     @Column(name = "financial_institution_percentage")
     private Double financialInstitutionPercentage;
-    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
-    @ManyToOne
-    private MeasurementUnit measurementUnit;
-    @JoinColumn(name = "activity_name", referencedColumnName = "id")
-    @ManyToOne
-    private ActivityName activityName;
-    @JoinColumn(name = "region", referencedColumnName = "id")
-    @ManyToOne
-    private Region region;
-    @JoinColumn(name = "component", referencedColumnName = "id")
-    @ManyToOne
-    private Phenomenon component;
-    @JoinColumn(name = "sub_component", referencedColumnName = "id")
-    @ManyToOne
-    private Phenomenon subComponent;
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ManyToOne
     private County county;
+    @JoinColumn(name = "activity_name", referencedColumnName = "id")
+    @ManyToOne
+    private ActivityName activityName;
+    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
+    @ManyToOne
+    private MeasurementUnit measurementUnit;
     @JoinColumn(name = "gfss_code", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon gfssCode;
     @JoinColumn(name = "expected_outcome", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon expectedOutcome;
-    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
-    @ManyToOne
-    private SubActivityName subActivityName;
     @JoinColumn(name = "implementing_partner", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon implementingPartner;
     @JoinColumn(name = "response_pcu", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon responsePcu;
-    @JoinColumn(name = "annual_indicator", referencedColumnName = "id")
+    @JoinColumn(name = "awpb_owner", referencedColumnName = "id")
     @ManyToOne
-    private Phenomenon annualIndicator;
+    private Phenomenon awpbOwner;
     @JoinColumn(name = "financial_year", referencedColumnName = "id")
     @ManyToOne
     private FinancialYear financialYear;
+    @JoinColumn(name = "annual_indicator", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon annualIndicator;
     @JoinColumn(name = "expenditure_category", referencedColumnName = "id")
     @ManyToOne
     private Phenomenon expenditureCategory;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subActivity")
-    private List<ActivityProgress> activityProgressList;
+    @JoinColumn(name = "component", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon component;
+    @JoinColumn(name = "region", referencedColumnName = "id")
+    @ManyToOne
+    private Region region;
+    @JoinColumn(name = "sub_activity_name", referencedColumnName = "id")
+    @ManyToOne
+    private SubActivityName subActivityName;
+    @JoinColumn(name = "sub_component", referencedColumnName = "id")
+    @ManyToOne
+    private Phenomenon subComponent;
 
     public SubActivity() {
     }
@@ -312,12 +312,12 @@ public class SubActivity implements Serializable {
         this.financialInstitutionPercentage = financialInstitutionPercentage;
     }
 
-    public MeasurementUnit getMeasurementUnit() {
-        return measurementUnit;
+    public County getCounty() {
+        return county;
     }
 
-    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
-        this.measurementUnit = measurementUnit;
+    public void setCounty(County county) {
+        this.county = county;
     }
 
     public ActivityName getActivityName() {
@@ -328,36 +328,12 @@ public class SubActivity implements Serializable {
         this.activityName = activityName;
     }
 
-    public Region getRegion() {
-        return region;
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
-    public Phenomenon getComponent() {
-        return component;
-    }
-
-    public void setComponent(Phenomenon component) {
-        this.component = component;
-    }
-
-    public Phenomenon getSubComponent() {
-        return subComponent;
-    }
-
-    public void setSubComponent(Phenomenon subComponent) {
-        this.subComponent = subComponent;
-    }
-
-    public County getCounty() {
-        return county;
-    }
-
-    public void setCounty(County county) {
-        this.county = county;
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public Phenomenon getGfssCode() {
@@ -376,14 +352,6 @@ public class SubActivity implements Serializable {
         this.expectedOutcome = expectedOutcome;
     }
 
-    public SubActivityName getSubActivityName() {
-        return subActivityName;
-    }
-
-    public void setSubActivityName(SubActivityName subActivityName) {
-        this.subActivityName = subActivityName;
-    }
-
     public Phenomenon getImplementingPartner() {
         return implementingPartner;
     }
@@ -400,12 +368,12 @@ public class SubActivity implements Serializable {
         this.responsePcu = responsePcu;
     }
 
-    public Phenomenon getAnnualIndicator() {
-        return annualIndicator;
+    public Phenomenon getAwpbOwner() {
+        return awpbOwner;
     }
 
-    public void setAnnualIndicator(Phenomenon annualIndicator) {
-        this.annualIndicator = annualIndicator;
+    public void setAwpbOwner(Phenomenon awpbOwner) {
+        this.awpbOwner = awpbOwner;
     }
 
     public FinancialYear getFinancialYear() {
@@ -416,6 +384,14 @@ public class SubActivity implements Serializable {
         this.financialYear = financialYear;
     }
 
+    public Phenomenon getAnnualIndicator() {
+        return annualIndicator;
+    }
+
+    public void setAnnualIndicator(Phenomenon annualIndicator) {
+        this.annualIndicator = annualIndicator;
+    }
+
     public Phenomenon getExpenditureCategory() {
         return expenditureCategory;
     }
@@ -424,13 +400,36 @@ public class SubActivity implements Serializable {
         this.expenditureCategory = expenditureCategory;
     }
 
-    @XmlTransient
-    public List<ActivityProgress> getActivityProgressList() {
-        return activityProgressList;
+    public Phenomenon getComponent() {
+        return component;
     }
 
-    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
-        this.activityProgressList = activityProgressList;
+    public void setComponent(Phenomenon component) {
+        this.component = component;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public SubActivityName getSubActivityName() {
+        return subActivityName;
+    }
+
+    public void setSubActivityName(SubActivityName subActivityName) {
+        this.subActivityName = subActivityName;
+    }
+
+    public Phenomenon getSubComponent() {
+        return subComponent;
+    }
+
+    public void setSubComponent(Phenomenon subComponent) {
+        this.subComponent = subComponent;
     }
 
     @Override
@@ -467,12 +466,13 @@ public class SubActivity implements Serializable {
         this.activityProgressCommentList = activityProgressCommentList;
     }
 
-    public Phenomenon getAwpbOwner() {
-        return awpbOwner;
+    @XmlTransient
+    public List<ActivityProgress> getActivityProgressList() {
+        return activityProgressList;
     }
 
-    public void setAwpbOwner(Phenomenon awpbOwner) {
-        this.awpbOwner = awpbOwner;
+    public void setActivityProgressList(List<ActivityProgress> activityProgressList) {
+        this.activityProgressList = activityProgressList;
     }
 
 }

@@ -50,7 +50,8 @@ import ke.co.miles.kcep.mis.utilities.PhenomenonDetails;
     "/outputLevelReports", "/outcomeLevelReports", "/activity_report",
     "/getActivityProgress", "/setAppraisalTarget", "/getOutputValues",
     "/doEditActivityProgress", "/doEditActivityProgressComment", "/getOutputValuess",
-    "/doEditMeasurementUnit", "/changeQuarter", "/changeFinancialYear"})
+    "/doEditMeasurementUnit", "/changeQuarter", "/changeFinancialYear",
+    "/doEditTiedValue"})
 public class ReportsController extends Controller {
 
     private static final long serialVersionUID = 1L;
@@ -76,6 +77,7 @@ public class ReportsController extends Controller {
                 switch (rightsMap) {
                     case "systemAdminSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doEditTiedValue");
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
@@ -121,6 +123,7 @@ public class ReportsController extends Controller {
                         break;
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doEditTiedValue");
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
@@ -226,6 +229,7 @@ public class ReportsController extends Controller {
                         break;
                     case "regionalCoordinatorSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doEditTiedValue");
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/doEditMeasurementUnit");
@@ -272,6 +276,7 @@ public class ReportsController extends Controller {
 
                     case "countyDeskOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
+                            urlPaths.add("/doEditTiedValue");
                             urlPaths.add("/getActivityProgress");
                             urlPaths.add("/changeQuarter");
                             urlPaths.add("/changeFinancialYear");
@@ -375,19 +380,23 @@ public class ReportsController extends Controller {
                     try {
                         activityProgressService.checkForActivityProgress(null);
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                     try {
                         session.setAttribute("financialYears", financialYearService.retrieveFinancialYears());
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                     try {
                         session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                     Short financialYearId = null;
                     try {
                         financialYearId = (Short) session.getAttribute("financialYear");
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     PersonDetails accessingPerson = (PersonDetails) session.getAttribute("person");
@@ -401,6 +410,7 @@ public class ReportsController extends Controller {
                             previousActivityProgressReports = new HashSet<>();
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         previousActivityProgressReports = new HashSet<>();
                     }
                     try {
@@ -423,6 +433,7 @@ public class ReportsController extends Controller {
                         session.setAttribute("activityProgressReports", newActivityProgressReports);
                     } catch (Exception e) {
                         MilesDebugger.debug(e);
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     break;
@@ -457,11 +468,13 @@ public class ReportsController extends Controller {
                     try {
                         activityProgressService.checkForActivityProgress(null);
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     try {
                         session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     return;
@@ -488,11 +501,13 @@ public class ReportsController extends Controller {
                     try {
                         activityProgressService.checkForActivityProgress(null);
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     try {
                         session.setAttribute("awpbReferenceCodes", subActivityService.retrieveReferenceCodes());
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     return;
@@ -526,6 +541,7 @@ public class ReportsController extends Controller {
                     try {
                         financialYearId = (Short) session.getAttribute("financialYear");
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     newActivityProgressReports = new HashSet<>();
@@ -535,6 +551,7 @@ public class ReportsController extends Controller {
                             previousActivityProgressReports = new HashSet<>();
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         previousActivityProgressReports = new HashSet<>();
                     }
                     try {
@@ -563,6 +580,7 @@ public class ReportsController extends Controller {
                         session.setAttribute("activityProgressReports", newActivityProgressReports);
                     } catch (Exception e) {
                         MilesDebugger.debug(e);
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     return;
@@ -572,15 +590,18 @@ public class ReportsController extends Controller {
                     try {
                         performanceIndicatorValues = new PerformanceIndicatorValuesDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         performanceIndicatorValues = new PerformanceIndicatorValuesDetails();
                     }
                     try {
                         performanceIndicatorValues.setActualValue(Double.valueOf(request.getParameter("actualValue")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                     try {
                         performanceIndicatorValues.setExpectedValue(Double.valueOf(request.getParameter("expectedValue")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     try {
@@ -598,11 +619,13 @@ public class ReportsController extends Controller {
                     try {
                         performanceIndicator = new PerformanceIndicatorDetails(Short.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         performanceIndicator = new PerformanceIndicatorDetails();
                     }
                     try {
                         performanceIndicator.setAppraisalTarget(Double.valueOf(request.getParameter("appraisalTarget")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     try {
@@ -612,7 +635,7 @@ public class ReportsController extends Controller {
                         response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
                         LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
                     } catch (NullPointerException e) {
-                        MilesDebugger.debug(e);
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     return;
@@ -686,7 +709,12 @@ public class ReportsController extends Controller {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
                         return;
                     }
-
+                    try {
+                        session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
+                        return;
+                    }
                     try {
                         session.setAttribute("ratingValues", phenomenonService.retrieveRatingValues());
                     } catch (MilesException ex) {
@@ -698,6 +726,7 @@ public class ReportsController extends Controller {
                         try {
                             projectYear = Short.valueOf(request.getParameter("projectYear"));
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                             projectYear = null;
                         }
                         session.setAttribute("projectYear", projectYear);
@@ -721,7 +750,12 @@ public class ReportsController extends Controller {
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of project years ", ex);
                         return;
                     }
-
+                    try {
+                        session.setAttribute("measurementUnits", measurementUnitService.retrieveMeasurementUnits());
+                    } catch (MilesException ex) {
+                        LOGGER.log(Level.SEVERE, "An error occurred during retrieval of measurement units", ex);
+                        return;
+                    }
                     try {
                         session.setAttribute("ratingValues", phenomenonService.retrieveRatingValues());
                     } catch (MilesException ex) {
@@ -733,6 +767,7 @@ public class ReportsController extends Controller {
                         try {
                             projectYear = Short.valueOf(request.getParameter("projectYear"));
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                             projectYear = null;
                         }
                         session.setAttribute("goalsReport", performanceIndicatorValuesService.reportOnOutcomeIndicators(projectYear));
@@ -914,6 +949,31 @@ public class ReportsController extends Controller {
                     }
 
                     break;
+
+                case "/doEditTiedValue":
+
+                    PhenomenonDetails phenomenonDetails;
+                    try {
+                        phenomenonDetails = new PhenomenonDetails(Integer.valueOf(request.getParameter("id")));
+                    } catch (Exception e) {
+                        return;
+                    }
+                    try {
+                        phenomenonDetails.setTiedValue(new BigDecimal(request.getParameter("tiedValue")));
+                    } catch (Exception e) {
+                        MilesDebugger.debug(e);
+                    }
+
+                    try {
+                        subActivityService.editTiedValue(phenomenonDetails);
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()), ex);
+                    } catch (NullPointerException e) {
+                    }
+
+                    return;
 
                 default:
                     break;

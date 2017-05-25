@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityProgressComment;
 import ke.co.miles.kcep.mis.entities.SubActivity;
@@ -46,6 +47,7 @@ public class ActivityProgressCommentRequests extends EntityRequests implements A
             em.persist(activityProgressComment);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -63,6 +65,7 @@ public class ActivityProgressCommentRequests extends EntityRequests implements A
         try {
             activityProgressComments = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertActivityProgressCommentsToActivityProgressCommentDetailsList(activityProgressComments);
@@ -76,6 +79,7 @@ public class ActivityProgressCommentRequests extends EntityRequests implements A
         try {
             activityProgressComment = (ActivityProgressComment) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -103,6 +107,7 @@ public class ActivityProgressCommentRequests extends EntityRequests implements A
             em.merge(activityProgressComment);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -116,6 +121,7 @@ public class ActivityProgressCommentRequests extends EntityRequests implements A
         try {
             em.remove(activityProgressComment);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -129,11 +135,13 @@ public class ActivityProgressCommentRequests extends EntityRequests implements A
         try {
             activityProgressCommentDetails.setId(activityProgressComment.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             activityProgressCommentDetails.setSubActivity(subActivityService.
                     convertSubActivityToSubActivityDetails(activityProgressComment.getSubActivity()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         activityProgressCommentDetails.setComment(activityProgressComment.getComment());
         return activityProgressCommentDetails;

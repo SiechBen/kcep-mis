@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.descriptors.phenomenon.PhenomenonRequestsLocal;
@@ -142,10 +143,12 @@ public class ProcurementController extends Controller {
                     try {
                         procurement.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         procurement.setSubCounty(new SubCountyDetails(Short.valueOf(request.getParameter("sub-county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     if (procurement.getItem().equals("null")) {
@@ -169,11 +172,13 @@ public class ProcurementController extends Controller {
                     try {
                         procurement.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurement.setCost(null);
                     }
                     try {
                         procurement.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     ServletContext context = getServletContext();
@@ -246,6 +251,7 @@ public class ProcurementController extends Controller {
                     try {
                         procurement = new ProcurementDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurement = new ProcurementDetails();
                     }
                     procurement.setDescription(request.getParameter("description"));
@@ -266,10 +272,12 @@ public class ProcurementController extends Controller {
                     try {
                         procurement.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         procurement.setSubCounty(new SubCountyDetails(Short.valueOf(request.getParameter("sub-county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     if (procurement.getItem().equals("null")) {
@@ -293,11 +301,13 @@ public class ProcurementController extends Controller {
                     try {
                         procurement.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurement.setCost(null);
                     }
                     try {
                         procurement.setGfssCode(new PhenomenonDetails(Integer.valueOf(request.getParameter("gfssCode"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     try {

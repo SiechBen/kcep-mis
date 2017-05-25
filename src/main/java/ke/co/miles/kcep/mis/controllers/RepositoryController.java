@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.uploadedfile.UploadedFileRequestsLocal;
@@ -252,6 +253,7 @@ public class RepositoryController extends Controller {
                         uploadedFiles.remove(new UploadedFileDetails(documentId));
                         session.setAttribute("documents", uploadedFiles);
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     return;
 
@@ -327,6 +329,7 @@ public class RepositoryController extends Controller {
                         uploadedFiles.add(0, uploadedFile);
                         session.setAttribute("documents", uploadedFiles);
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     path = destination;

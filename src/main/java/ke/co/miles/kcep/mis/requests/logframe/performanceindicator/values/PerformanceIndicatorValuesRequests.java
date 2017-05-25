@@ -50,6 +50,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         } catch (NoResultException ex) {
             performanceIndicatorValuesList = null;
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         if (performanceIndicatorValuesList != null && !performanceIndicatorValuesList.isEmpty()) {
@@ -70,6 +71,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 try {
                     em.persist(performanceIndicatorValues);
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                     throw new InvalidStateException("error_000_01");
                 }
                 outcomeIndicatorValues = new PerformanceIndicatorValues();
@@ -79,6 +81,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 try {
                     em.persist(outcomeIndicatorValues);
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                     throw new InvalidStateException("error_000_01");
                 }
             }
@@ -86,6 +89,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             em.flush();
 
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
     }
@@ -104,6 +108,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             resultHierarchies = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
@@ -121,6 +126,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                         try {
                             orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                     }
                     performanceIndicatorDetails.setPerformanceIndicatorValuesList(orderedList);
@@ -130,6 +136,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 resultHierarchyDetailsList.add(resultHierarchyDetails);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return resultHierarchyDetailsList;
@@ -149,6 +156,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             resultHierarchies = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
@@ -166,6 +174,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                         try {
                             orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                     }
                     performanceIndicatorDetails.setPerformanceIndicatorValuesList(orderedList);
@@ -175,6 +184,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 resultHierarchyDetailsList.add(resultHierarchyDetails);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return resultHierarchyDetailsList;
@@ -198,6 +208,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             index = (int) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         for (PerformanceIndicatorDetails performanceIndicatorDetails : performanceIndicatorToValuesMap.keySet()) {
@@ -219,6 +230,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                         cummulativePerformanceIndicatorValues.setActualValue(cummulativePerformanceIndicatorValues.getActualValue() + performanceIndicatorValuesDetails.getActualValue());
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
                 }
 
             }
@@ -231,6 +243,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             try {
                 cummulativePerformanceIndicatorValues.setRatio(Double.parseDouble(decimalFormat.format(cummulativePerformanceIndicatorValues.getActualValue() / cummulativePerformanceIndicatorValues.getExpectedValue() * 100)));
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
 
             cummulativeValuesToValuesMap = new HashMap<>();
@@ -253,7 +266,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             projectYears.add(Short.valueOf(String.valueOf(year - i)));
         }
 
-        performanceIndicatorToValuesMap = retrieveCoreOutputIndicators(projectYears);
+        performanceIndicatorToValuesMap = retrieveProgramOutputIndicators(projectYears);
 
         JSONObject jsonOutputValues;
         JSONArray jsonList = new JSONArray();
@@ -266,10 +279,12 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             try {
                 jsonOutputValues.put("targetValue", performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getExpectedValue());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
             try {
                 jsonOutputValues.put("actualValue", performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getActualValue());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
             jsonList.add(jsonOutputValues);
 
@@ -288,7 +303,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         List<Short> projectYears = new ArrayList<>();
         projectYears.add(year);
 
-        performanceIndicatorToValuesMap = retrieveCoreOutputIndicators(projectYears);
+        performanceIndicatorToValuesMap = retrieveProgramOutputIndicators(projectYears);
 
         JSONObject jsonOutputValues = new JSONObject();
         JSONArray jsonList = new JSONArray();
@@ -299,10 +314,12 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             try {
                 jsonTargetList.add(performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getExpectedValue());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
             try {
                 jsonActualList.add(performanceIndicatorToValuesMap.get(performanceIndicatorDetails).get(0).getActualValue());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
         }
         jsonOutputValues.put("target", jsonTargetList);
@@ -324,6 +341,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             projectYears = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return projectYears;
@@ -346,11 +364,13 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                     try {
                         orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult()));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                 }
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return map;
@@ -362,8 +382,8 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> map = new HashMap<>();
         List<PerformanceIndicator> performanceIndicators;
         ArrayList<PerformanceIndicatorValuesDetails> orderedList;
-        PerformanceIndicatorValues piv;
-        PerformanceIndicatorValues temp;
+        PerformanceIndicatorValuesDetails piv;
+        PerformanceIndicatorValuesDetails temp;
         try {
             performanceIndicators = q.getResultList();
             setQ(em.createNamedQuery("PerformanceIndicatorValues.findByPerformanceIndicatorIdAndProjectYearAndPurpose"));
@@ -375,20 +395,23 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                     q.setParameter("projectYear", projectYear);
                     try {
                         if (piv == null) {
-                            piv = (PerformanceIndicatorValues) q.getSingleResult();
+                            piv = convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult());
                         } else {
-                            temp = (PerformanceIndicatorValues) q.getSingleResult();
+                            temp = convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails((PerformanceIndicatorValues) q.getSingleResult());
                             if (temp.getActualValue() != null || temp.getExpectedValue() != null) {
-                                piv = temp;
+                                piv.setActualValue(piv.getActualValue() + temp.getActualValue());
+                                piv.setExpectedValue(piv.getExpectedValue() + temp.getExpectedValue());
                             }
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                 }
-                orderedList.add(convertPerformanceIndicatorValuesToPerformanceIndicatorValuesDetails(piv));
+                orderedList.add(piv);
                 map.put(performanceIndicatorService.convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicator), orderedList);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return map;
@@ -425,6 +448,17 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
     }
 
     @SuppressWarnings({"unchecked", "unchecked"})
+    private HashMap<PerformanceIndicatorDetails, ArrayList<PerformanceIndicatorValuesDetails>> retrieveProgramOutputIndicators(List<Short> projectYears) throws MilesException {
+        setQ(em.createNativeQuery("SELECT * FROM performance_indicator p INNER "
+                + "JOIN result_hierarchy r ON (p.result_hierarchy = r.id) WHERE "
+                + "r.description REGEXP ?1 AND p.performance_indicator_type = ?2", PerformanceIndicator.class));
+        q.setParameter(1, "^Output ");
+        q.setParameter(2, 18);//Where type is programme
+
+        return retrieveCorePerformanceIndicators(projectYears);
+    }
+
+    @SuppressWarnings({"unchecked", "unchecked"})
     @Override
     public List<PerformanceIndicatorValuesDetails> reportOnOutcomeIndicators(Short projectYear) throws MilesException {
 
@@ -446,6 +480,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 }
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         for (PerformanceIndicatorValuesDetails performanceIndicatorValues : orderedList) {
@@ -456,6 +491,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             try {
                 performanceIndicatorValues.getPerformanceIndicator().setAccumulatedActual((double) q.getSingleResult());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
             try {
                 performanceIndicatorValues.getPerformanceIndicator().setCumulativeActualValue(
@@ -465,13 +501,14 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                 performanceIndicatorValues.getPerformanceIndicator().setCumulativeActualValue(
                         performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue() == 0 ? null : performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue());
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
 //            try {
 //                performanceIndicatorValues.setRatio(
 //                        Double.parseDouble(decimalFormat.format(
 //                                (null == performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue() ? 0 : performanceIndicatorValues.getPerformanceIndicator().getCumulativeActualValue())
 //                                / performanceIndicatorValues.getExpectedValue() * 100)));
-//            } catch (Exception e) {
+//            } catch (Exception e) {MilesDebugger.debug(e);
 //            }
         }
 
@@ -492,6 +529,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             orderedList = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(orderedList);
@@ -505,6 +543,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             performanceIndicatorValuesList = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         return convertPerformanceIndicatorValuesListToPerformanceIndicatorValuesDetailsList(performanceIndicatorValuesList);
@@ -518,6 +557,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             performanceIndicatorValues = (PerformanceIndicatorValues) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -544,6 +584,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
             em.merge(performanceIndicatorValues);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -557,6 +598,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
         try {
             em.remove(performanceIndicatorValues);
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -578,6 +620,7 @@ public class PerformanceIndicatorValuesRequests extends EntityRequests implement
                     )));
 
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
         performanceIndicatorValuesDetails.setPerformanceIndicator(performanceIndicatorService.
                 convertPerformanceIndicatorToPerformanceIndicatorDetails(performanceIndicatorValues.getPerformanceIndicator())

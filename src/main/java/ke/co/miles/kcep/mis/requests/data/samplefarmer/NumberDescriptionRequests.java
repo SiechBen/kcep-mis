@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.data.samplefarmer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.NumberDescription;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         try {
             numberDescription = (NumberDescription) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             numberDescription = null;
         }
         if (numberDescription != null) {
@@ -53,6 +55,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
             em.persist(numberDescription);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -69,6 +72,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         try {
             numberDescriptions = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertNumberDescriptionsToNumberDescriptionDetailsList(numberDescriptions);
@@ -82,6 +86,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         try {
             numberDescription = (NumberDescription) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -109,6 +114,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         try {
             numberDescription = (NumberDescription) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             numberDescription = null;
         }
         if (numberDescription != null) {
@@ -124,6 +130,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
             em.merge(numberDescription);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -137,6 +144,7 @@ public class NumberDescriptionRequests extends EntityRequests implements NumberD
         try {
             em.remove(numberDescription);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

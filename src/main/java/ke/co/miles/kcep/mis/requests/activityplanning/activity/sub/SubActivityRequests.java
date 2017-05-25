@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.entities.County;
@@ -96,11 +97,13 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 q.setParameter("currentYear", Boolean.TRUE);
                 subActivity.setFinancialYear(em.getReference(FinancialYear.class, ((FinancialYear) q.getSingleResult()).getId()));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
         }
         try {
             subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         if (subActivityDetails.getExpenditureCategory() != null) {
             subActivity.setExpenditureCategory(em.getReference(Phenomenon.class, subActivityDetails.getExpenditureCategory().getId()));
@@ -124,6 +127,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             em.persist(subActivity);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -141,6 +145,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             referenceCodes = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -156,6 +161,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -171,6 +177,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -186,6 +193,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -214,6 +222,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -229,6 +238,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -257,6 +267,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -271,6 +282,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             subActivity = (SubActivity) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -362,11 +374,13 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 q.setParameter("currentYear", Boolean.TRUE);
                 subActivity.setFinancialYear(em.getReference(FinancialYear.class, ((FinancialYear) q.getSingleResult()).getId()));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
         }
         try {
             subActivity.setSubActivityName(em.getReference(SubActivityName.class, subActivityDetails.getSubActivityName().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         if (subActivityDetails.getExpenditureCategory() != null) {
             subActivity.setExpenditureCategory(em.getReference(Phenomenon.class, subActivityDetails.getExpenditureCategory().getId()));
@@ -391,6 +405,32 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
             em.merge(subActivity);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
+            throw new InvalidStateException("error_000_01");
+        }
+
+    }
+
+    @Override
+    public void editTiedValue(PhenomenonDetails phenomenonDetails) throws MilesException {
+
+        if (phenomenonDetails == null) {
+            throw new InvalidArgumentException("error_028_01");
+        } else if (phenomenonDetails.getId() == null) {
+            throw new InvalidArgumentException("error_028_04");
+        } else if (phenomenonDetails.getTiedValue() == null) {
+            throw new InvalidArgumentException("error_028_05");
+        }
+
+        Phenomenon phenomenon = em.getReference(Phenomenon.class, phenomenonDetails.getId());
+        phenomenon.setId(phenomenonDetails.getId());
+        phenomenon.setTiedValue(phenomenonDetails.getTiedValue());
+
+        try {
+            em.merge(phenomenon);
+            em.flush();
+        } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -404,6 +444,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
         try {
             em.remove(subActivity);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -529,6 +570,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -539,6 +581,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -549,6 +592,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -559,6 +603,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -569,6 +614,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -579,6 +625,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -588,26 +635,19 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
-                try {
-                    if (financialPlanDetails.getTotalInitialAllocationValue() == null) {
-                        financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
-                    } else {
-                        financialPlanDetails.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue().add(subActivity.getAllocatedBudget()));
-                    }
-                } catch (Exception e) {
-                }
             }
 
             try {
-                if (financialPlanTotals.getTotalInitialAllocationValue() != null && financialPlanDetails.getTotalInitialAllocationValue() != null) {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
-                } else if (financialPlanTotals.getTotalInitialAllocationValue() == null && financialPlanDetails.getTotalInitialAllocationValue() != null) {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
+                if (financialPlanDetails.getTotalInitialAllocationValue() == null) {
+                    financialPlanDetails.setTotalInitialAllocationValue(expenditureCategory.getTiedValue());
                 } else {
+                    financialPlanDetails.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue().add(expenditureCategory.getTiedValue()));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -618,6 +658,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -628,6 +669,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -638,6 +680,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -648,6 +691,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -658,6 +702,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -668,6 +713,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -678,6 +724,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -688,41 +735,50 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
                 financialPlanDetails.setBalanceValue(financialPlanDetails.getTotalInitialAllocationValue().subtract(financialPlanDetails.getTotalsValue()));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             //Rounding off
             try {
                 financialPlanDetails.setBalanceValue(financialPlanDetails.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             //Calaculating percentages
@@ -731,91 +787,121 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     financialPlanDetails.setTotalInitialAllocationPercentage(financialPlanDetails.getTotalInitialAllocationValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setTotalsPercentage(financialPlanDetails.getTotalsValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setBalancePercentage(financialPlanDetails.getBalanceValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setGokPercentage(financialPlanDetails.getGokValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setBeneficiariesPercentage(financialPlanDetails.getBeneficiariesValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setIfadLoanPercentage(financialPlanDetails.getIfadLoanValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setEuPercentage(financialPlanDetails.getEuValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setIfadGrantPercentage(financialPlanDetails.getIfadGrantValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setFinancialInstitutionPercentage(financialPlanDetails.getFinancialInstitutionValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
+            }
+
+            try {
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null && expenditureCategory.getTiedValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(expenditureCategory.getTiedValue()));
+                } else if (financialPlanTotals.getTotalInitialAllocationValue() == null && expenditureCategory.getTiedValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(expenditureCategory.getTiedValue());
+                } else {
+                }
+            } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             categoryToFinancialPlansMap.put(expenditureCategory, financialPlanDetails);
+
         }
 
+        //Financial plan totals
         try {
             financialPlanTotals.setBalanceValue(financialPlanTotals.getTotalInitialAllocationValue().subtract(financialPlanTotals.getTotalsValue()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         try {
             financialPlanTotals.setBalanceValue(financialPlanTotals.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         try {
@@ -823,54 +909,63 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 financialPlanTotals.setTotalInitialAllocationPercentage(financialPlanTotals.getTotalInitialAllocationValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setTotalsPercentage(financialPlanTotals.getTotalsValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setBalancePercentage(financialPlanTotals.getBalanceValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setGokPercentage(financialPlanTotals.getGokValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setBeneficiariesPercentage(financialPlanTotals.getBeneficiariesValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setIfadLoanPercentage(financialPlanTotals.getIfadLoanValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setEuPercentage(financialPlanTotals.getEuValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setIfadGrantPercentage(financialPlanTotals.getIfadGrantValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setFinancialInstitutionPercentage(financialPlanTotals.getFinancialInstitutionValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         totalsToCategoryToFinancialPlansMap.put(financialPlanTotals, categoryToFinancialPlansMap);
@@ -901,6 +996,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getGokPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -911,6 +1007,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getBeneficiariesPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -921,6 +1018,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getIfadLoanPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -931,6 +1029,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getEuPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -941,6 +1040,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getIfadGrantPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -951,6 +1051,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                                 new BigDecimal(((subActivity.getFinancialInstitutionPercentage()) / 100.0)).multiply(subActivity.getAllocatedBudget())));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
                 try {
@@ -960,26 +1061,19 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                         financialPlanDetails.setTotalsValue(financialPlanDetails.getTotalsValue().add(subActivity.getTotals()));
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
 
-                try {
-                    if (financialPlanDetails.getTotalInitialAllocationValue() == null) {
-                        financialPlanDetails.setTotalInitialAllocationValue(subActivity.getAllocatedBudget());
-                    } else {
-                        financialPlanDetails.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue().add(subActivity.getAllocatedBudget()));
-                    }
-                } catch (Exception e) {
-                }
             }
 
             try {
-                if (financialPlanTotals.getTotalInitialAllocationValue() != null && financialPlanDetails.getTotalInitialAllocationValue() != null) {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(financialPlanDetails.getTotalInitialAllocationValue()));
-                } else if (financialPlanTotals.getTotalInitialAllocationValue() == null && financialPlanDetails.getTotalInitialAllocationValue() != null) {
-                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue());
+                if (financialPlanDetails.getTotalInitialAllocationValue() == null) {
+                    financialPlanDetails.setTotalInitialAllocationValue(component.getTiedValue());
                 } else {
+                    financialPlanDetails.setTotalInitialAllocationValue(financialPlanDetails.getTotalInitialAllocationValue().add(component.getTiedValue()));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -990,6 +1084,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1000,6 +1095,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1010,6 +1106,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1020,6 +1117,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1030,6 +1128,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1040,6 +1139,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1050,6 +1150,7 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
@@ -1060,41 +1161,50 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 } else {
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             try {
                 financialPlanDetails.setBalanceValue(financialPlanDetails.getTotalInitialAllocationValue().subtract(financialPlanDetails.getTotalsValue()));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             //Rounding off
             try {
                 financialPlanDetails.setBalanceValue(financialPlanDetails.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setGokValue(financialPlanDetails.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setBeneficiariesValue(financialPlanDetails.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setIfadLoanValue(financialPlanDetails.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setEuValue(financialPlanDetails.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setIfadGrantValue(financialPlanDetails.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 financialPlanDetails.setFinancialInstitutionValue(financialPlanDetails.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             //Calaculating percentages
@@ -1103,91 +1213,120 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                     financialPlanDetails.setTotalInitialAllocationPercentage(financialPlanDetails.getTotalInitialAllocationValue().divide(financialPlanDetails.getTotalInitialAllocationValue()).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setTotalsPercentage(financialPlanDetails.getTotalsValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setBalancePercentage(financialPlanDetails.getBalanceValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setGokPercentage(financialPlanDetails.getGokValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setBeneficiariesPercentage(financialPlanDetails.getBeneficiariesValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setIfadLoanPercentage(financialPlanDetails.getIfadLoanValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setEuPercentage(financialPlanDetails.getEuValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setIfadGrantPercentage(financialPlanDetails.getIfadGrantValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
             try {
                 if (financialPlanDetails.getTotalInitialAllocationValue() != null && !financialPlanDetails.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                     financialPlanDetails.setFinancialInstitutionPercentage(financialPlanDetails.getFinancialInstitutionValue().divide(financialPlanDetails.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
+            }
+
+            try {
+                if (financialPlanTotals.getTotalInitialAllocationValue() != null && component.getTiedValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(financialPlanTotals.getTotalInitialAllocationValue().add(component.getTiedValue()));
+                } else if (financialPlanTotals.getTotalInitialAllocationValue() == null && component.getTiedValue() != null) {
+                    financialPlanTotals.setTotalInitialAllocationValue(component.getTiedValue());
+                } else {
+                }
+            } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             }
 
             componentToFinancialPlansMap.put(component, financialPlanDetails);
         }
 
+        //Financial plan totals
         try {
             financialPlanTotals.setBalanceValue(financialPlanTotals.getTotalInitialAllocationValue().subtract(financialPlanTotals.getTotalsValue()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         try {
             financialPlanTotals.setBalanceValue(financialPlanTotals.getBalanceValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setGokValue(financialPlanTotals.getGokValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setBeneficiariesValue(financialPlanTotals.getBeneficiariesValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setIfadLoanValue(financialPlanTotals.getIfadLoanValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setEuValue(financialPlanTotals.getEuValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setIfadGrantValue(financialPlanTotals.getIfadGrantValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setFinancialInstitutionValue(financialPlanTotals.getFinancialInstitutionValue().setScale(2, RoundingMode.HALF_EVEN));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         try {
@@ -1195,52 +1334,61 @@ public class SubActivityRequests extends EntityRequests implements SubActivityRe
                 financialPlanTotals.setTotalInitialAllocationPercentage(financialPlanTotals.getTotalInitialAllocationValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setTotalsPercentage(financialPlanTotals.getTotalsValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setBalancePercentage(financialPlanTotals.getBalanceValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setGokPercentage(financialPlanTotals.getGokValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setBeneficiariesPercentage(financialPlanTotals.getBeneficiariesValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setIfadLoanPercentage(financialPlanTotals.getIfadLoanValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setEuPercentage(financialPlanTotals.getEuValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             if (financialPlanTotals.getTotalInitialAllocationValue() != null && !financialPlanTotals.getTotalInitialAllocationValue().equals(new BigDecimal("0.00"))) {
                 financialPlanTotals.setIfadGrantPercentage(financialPlanTotals.getIfadGrantValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             financialPlanTotals.setFinancialInstitutionPercentage(financialPlanTotals.getFinancialInstitutionValue().divide(financialPlanTotals.getTotalInitialAllocationValue(), 2, RoundingMode.HALF_EVEN).multiply(new BigDecimal("100")));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         totalsToComponentToFinancialPlansMap.put(financialPlanTotals, componentToFinancialPlansMap);

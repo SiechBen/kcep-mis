@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import ke.co.miles.debugger.MilesDebugger;
 
 /**
  *
@@ -46,6 +47,7 @@ public class PopulationTimer {
                 printWriter.flush();
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
     }
 

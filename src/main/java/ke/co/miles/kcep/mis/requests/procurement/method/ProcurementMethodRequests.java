@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.procurement.method;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ProcurementMethod;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         try {
             procurementMethod = (ProcurementMethod) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             procurementMethod = null;
         }
         if (procurementMethod != null) {
@@ -53,6 +55,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
             em.persist(procurementMethod);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -69,6 +72,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         try {
             procurementMethods = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertProcurementMethodsToProcurementMethodDetailsList(procurementMethods);
@@ -82,6 +86,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         try {
             procurementMethod = (ProcurementMethod) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -109,6 +114,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         try {
             procurementMethod = (ProcurementMethod) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             procurementMethod = null;
         }
         if (procurementMethod != null) {
@@ -125,6 +131,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
             em.merge(procurementMethod);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -138,6 +145,7 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         try {
             em.remove(procurementMethod);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -151,10 +159,12 @@ public class ProcurementMethodRequests extends EntityRequests implements Procure
         try {
             procurementMethodDetails.setId(procurementMethod.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             procurementMethodDetails.setMethod(procurementMethod.getMethod());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return procurementMethodDetails;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.FarmActivity;
 import ke.co.miles.kcep.mis.entities.Person;
@@ -54,6 +55,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
             em.persist(farmActivity);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -72,6 +74,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         try {
             farmActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertFarmActivitiesToFarmActivityDetailsList(farmActivities);
@@ -85,6 +88,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         try {
             farmActivity = (FarmActivity) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -104,7 +108,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
             throw new InvalidArgumentException("error_040_02");
         } else if (farmActivityDetails.getName() != null && farmActivityDetails.getName().trim().length() > 45) {
             throw new InvalidArgumentException("error_040_03");
-        } else if (farmActivityDetails.getYield()!= null && farmActivityDetails.getYield().trim().length() > 45) {
+        } else if (farmActivityDetails.getYield() != null && farmActivityDetails.getYield().trim().length() > 45) {
             throw new InvalidArgumentException("error_040_04");
         }
 
@@ -124,6 +128,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
             em.merge(farmActivity);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -137,6 +142,7 @@ public class FarmActivityRequests extends EntityRequests implements FarmActivity
         try {
             em.remove(farmActivity);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

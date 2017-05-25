@@ -32,8 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "InputsCollection.findByQuantity", query = "SELECT i FROM InputsCollection i WHERE i.quantity = :quantity")})
 public class InputsCollection implements Serializable {
 
-    @Column(name = "quantity")
-    private Short quantity;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +41,8 @@ public class InputsCollection implements Serializable {
     @Column(name = "date_collected")
     @Temporal(TemporalType.DATE)
     private Date dateCollected;
+    @Column(name = "quantity")
+    private Short quantity;
     @JoinColumn(name = "input_type", referencedColumnName = "id")
     @ManyToOne
     private InputType inputType;
@@ -80,6 +80,14 @@ public class InputsCollection implements Serializable {
 
     public void setDateCollected(Date dateCollected) {
         this.dateCollected = dateCollected;
+    }
+
+    public Short getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Short quantity) {
+        this.quantity = quantity;
     }
 
     public InputType getInputType() {
@@ -145,14 +153,6 @@ public class InputsCollection implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.InputsCollection[ id=" + id + " ]";
-    }
-
-    public Short getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Short quantity) {
-        this.quantity = quantity;
     }
 
 }

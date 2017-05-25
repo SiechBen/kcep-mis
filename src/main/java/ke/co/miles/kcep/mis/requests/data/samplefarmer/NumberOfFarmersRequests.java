@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
+import ke.co.miles.kcep.mis.entities.AgeBracket;
 import ke.co.miles.kcep.mis.entities.NumberDescription;
 import ke.co.miles.kcep.mis.entities.NumberOfFarmers;
-import ke.co.miles.kcep.mis.entities.AgeBracket;
 import ke.co.miles.kcep.mis.entities.SampledFarmerData;
 import ke.co.miles.kcep.mis.entities.Sex;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -20,9 +21,9 @@ import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.agebracket.AgeBracketRequestsLocal;
 import ke.co.miles.kcep.mis.requests.location.LocationRequestsLocal;
+import ke.co.miles.kcep.mis.utilities.AgeBracketDetails;
 import ke.co.miles.kcep.mis.utilities.NumberDescriptionDetails;
 import ke.co.miles.kcep.mis.utilities.NumberOfFarmersDetails;
-import ke.co.miles.kcep.mis.utilities.AgeBracketDetails;
 import ke.co.miles.kcep.mis.utilities.SampledFarmerDataDetails;
 import ke.co.miles.kcep.mis.utilities.SexDetail;
 
@@ -33,7 +34,7 @@ import ke.co.miles.kcep.mis.utilities.SexDetail;
 @Stateless
 public class NumberOfFarmersRequests extends EntityRequests implements NumberOfFarmersRequestsLocal {
 
-//<editor-fold defaultstate="collapsed" desc="Create">  
+//<editor-fold defaultstate="collapsed" desc="Create">
     @Override
     public int addNumberOfFarmers(NumberOfFarmersDetails numberOfFarmersDetails) throws MilesException {
 
@@ -63,6 +64,7 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
             em.persist(numberOfFarmers);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -81,6 +83,7 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
         try {
             numberOfFarmers = (NumberOfFarmers) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -96,6 +99,7 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
         try {
             people = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -137,6 +141,7 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
             em.merge(numberOfFarmers);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -151,13 +156,14 @@ public class NumberOfFarmersRequests extends EntityRequests implements NumberOfF
         try {
             em.remove(numberOfFarmers);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
     }
 
 //</editor-fold>
-//<editor-fold defaultstate="collapsed" desc="Convert"> 
+//<editor-fold defaultstate="collapsed" desc="Convert">
     @Override
     public NumberOfFarmersDetails convertNumberOfFarmersToNumberOfFarmersDetails(NumberOfFarmers numberOfFarmers) {
 

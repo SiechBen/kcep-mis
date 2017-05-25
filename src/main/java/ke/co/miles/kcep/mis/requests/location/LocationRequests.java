@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.DivisionalLocation;
@@ -68,21 +69,25 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         try {
             location.setCounty(em.getReference(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setCounty(null);
         }
         try {
             location.setSubCounty(em.getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setSubCounty(null);
         }
         try {
             location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setWard(null);
         }
         try {
             location.setRegion(em.getReference(Region.class, locationDetails.getRegion().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setRegion(null);
         }
 
@@ -91,9 +96,11 @@ public class LocationRequests extends EntityRequests implements LocationRequests
             try {
                 location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 location.setWard(null);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -111,6 +118,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         try {
             locations = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertLocationsToLocationDetailsList(locations);
@@ -124,6 +132,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         try {
             location = (Location) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -165,37 +174,44 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         try {
             location.setCounty(em.getReference(County.class, locationDetails.getCounty().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setCounty(null);
         }
         try {
             location.setSubCounty(em.getReference(SubCounty.class, locationDetails.getSubCounty().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setSubCounty(null);
         }
         try {
             location.setWard(em.getReference(Ward.class, locationDetails.getWard().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setWard(null);
         }
         try {
             location.setDivisionalLocation(em.getReference(DivisionalLocation.class, locationDetails.getDivisionalLocation().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setDivisionalLocation(null);
         }
         try {
             location.setVillage(em.getReference(Village.class, locationDetails.getVillage().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setVillage(null);
         }
         try {
             location.setRegion(em.getReference(Region.class, locationDetails.getRegion().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             location.setRegion(null);
         }
 
         try {
             em.merge(location);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -211,6 +227,7 @@ public class LocationRequests extends EntityRequests implements LocationRequests
         try {
             em.remove(location);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

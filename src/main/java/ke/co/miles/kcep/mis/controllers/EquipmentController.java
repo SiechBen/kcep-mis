@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.input.staticinput.StaticInputRequestsLocal;
@@ -150,6 +151,7 @@ public class EquipmentController extends Controller {
             try {
                 warehouse = (WarehouseDetails) session.getAttribute("warehouse");
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().write(getBundle().getString("error_008_05"));
@@ -233,6 +235,7 @@ public class EquipmentController extends Controller {
                     try {
                         newEquipment.setTotalCount(Integer.valueOf(request.getParameter("equipmentTotalCount")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     try {
@@ -251,6 +254,7 @@ public class EquipmentController extends Controller {
                     try {
                         newEquipment.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     newEquipment.setWarehouse(warehouse);
                     newEquipment.setStatus(request.getParameter("equipmentStatus"));
@@ -268,6 +272,7 @@ public class EquipmentController extends Controller {
                     try {
                         newEquipment.setTotalCount(Integer.valueOf(request.getParameter("equipmentTotalCount")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     try {
@@ -304,28 +309,33 @@ public class EquipmentController extends Controller {
                         warehouseOperation.setQuantityBrought(Double.valueOf(
                                 request.getParameter("quantityBrought")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setQuantitySold(Double.valueOf(
                                 request.getParameter("quantitySold")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setSellingPrice(new BigDecimal(
                                 request.getParameter("sellingPrice")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setProduceTypeBrought(
                                 new StaticInputDetails(Integer.valueOf(
                                         request.getParameter("produceTypeBrought"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setProduceTypeSold(
                                 new StaticInputDetails(Integer.valueOf(
                                         request.getParameter("produceTypeSold"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("sellingDate"));
@@ -355,6 +365,7 @@ public class EquipmentController extends Controller {
                         warehouseOperation = new WarehouseOperationDetails(
                                 Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         warehouseOperation = new WarehouseOperationDetails();
                     }
                     warehouseOperation.setWarehouse(warehouse);
@@ -366,28 +377,33 @@ public class EquipmentController extends Controller {
                         warehouseOperation.setQuantityBrought(Double.valueOf(
                                 request.getParameter("quantityBrought")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setQuantitySold(Double.valueOf(
                                 request.getParameter("quantitySold")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setSellingPrice(new BigDecimal(
                                 request.getParameter("sellingPrice")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setProduceTypeBrought(
                                 new StaticInputDetails(Integer.valueOf(
                                         request.getParameter("produceTypeBrought"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         warehouseOperation.setProduceTypeSold(
                                 new StaticInputDetails(Integer.valueOf(
                                         request.getParameter("produceTypeSold"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("sellingDate"));

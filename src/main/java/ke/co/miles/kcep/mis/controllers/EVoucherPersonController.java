@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.evoucher.EVoucherRequestsLocal;
@@ -636,6 +637,7 @@ public class EVoucherPersonController extends Controller {
                             try {
                                 jsonPeopleCount.put("data", countMap.get(countType));
                             } catch (Exception e) {
+                                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                             }
                             jsonList.add(jsonPeopleCount);
                         }
@@ -718,6 +720,7 @@ public class EVoucherPersonController extends Controller {
                                         jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
                                         jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
                                     } catch (Exception e) {
+                                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                                     }
                                     jsonList.add(jsonLocation);
 
@@ -762,6 +765,7 @@ public class EVoucherPersonController extends Controller {
                                         jsonLocation.put("lat", person.getLocation().getLatitude().doubleValue());
                                         jsonLocation.put("long", person.getLocation().getLongitude().doubleValue());
                                     } catch (Exception e) {
+                                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                                     }
                                     jsonList.add(jsonLocation);
 
@@ -934,6 +938,7 @@ public class EVoucherPersonController extends Controller {
                                     String fileName = folders[folders.length - 1];
                                     eVoucherDetails.setFileName(fileName);
                                 } catch (Exception e) {
+                                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                                 }
                             }
                         }
@@ -957,6 +962,7 @@ public class EVoucherPersonController extends Controller {
                     try {
                         person.setId(Integer.valueOf(String.valueOf(request.getParameter("person"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         person = null;
                     }
 
@@ -964,6 +970,7 @@ public class EVoucherPersonController extends Controller {
                     try {
                         inputType.setId(Short.valueOf(String.valueOf(request.getParameter("input-type"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         inputType = null;
                     }
 
@@ -971,6 +978,7 @@ public class EVoucherPersonController extends Controller {
                     try {
                         eVoucher.setAmount(String.valueOf(request.getParameter("amount")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         eVoucher.setAmount(null);
                     }
 
@@ -1049,6 +1057,7 @@ public class EVoucherPersonController extends Controller {
                     try {
                         person.setId(Integer.valueOf(String.valueOf(request.getParameter("person"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         person = null;
                     }
 
@@ -1056,17 +1065,20 @@ public class EVoucherPersonController extends Controller {
                     try {
                         inputType.setId(Short.valueOf(String.valueOf(request.getParameter("inputType"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         inputType = null;
                     }
 
                     try {
                         eVoucher = new EVoucherDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         eVoucher = new EVoucherDetails();
                     }
                     try {
                         eVoucher.setAmount(String.valueOf(request.getParameter("amount")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         eVoucher.setAmount(null);
                     }
 

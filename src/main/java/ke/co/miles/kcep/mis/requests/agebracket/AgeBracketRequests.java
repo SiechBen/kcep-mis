@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.agebracket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.AgeBracket;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         try {
             ageBracket = (AgeBracket) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             ageBracket = null;
         }
         if (ageBracket != null) {
@@ -53,6 +55,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
             em.persist(ageBracket);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -69,6 +72,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         try {
             ageBrackets = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertAgeBracketsToAgeBracketDetailsList(ageBrackets);
@@ -82,6 +86,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         try {
             ageBracket = (AgeBracket) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -109,6 +114,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         try {
             ageBracket = (AgeBracket) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             ageBracket = null;
         }
         if (ageBracket != null) {
@@ -124,6 +130,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
             em.merge(ageBracket);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -137,6 +144,7 @@ public class AgeBracketRequests extends EntityRequests implements AgeBracketRequ
         try {
             em.remove(ageBracket);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

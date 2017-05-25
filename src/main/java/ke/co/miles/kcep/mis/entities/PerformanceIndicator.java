@@ -39,11 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "PerformanceIndicator.findByBaselineValue", query = "SELECT p FROM PerformanceIndicator p WHERE p.baselineValue = :baselineValue")})
 public class PerformanceIndicator implements Serializable {
 
-    @Column(name = "core")
-    private Short core;
-
-    @Column(name = "appraisal_target")
-    private Double appraisalTarget;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,17 +56,21 @@ public class PerformanceIndicator implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "baseline_value")
     private Double baselineValue;
+    @Column(name = "appraisal_target")
+    private Double appraisalTarget;
+    @Column(name = "core")
+    private Short core;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "performanceIndicator")
     private List<PerformanceIndicatorValues> performanceIndicatorValuesList;
+    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
+    @ManyToOne
+    private MeasurementUnit measurementUnit;
     @JoinColumn(name = "performance_indicator_type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Phenomenon performanceIndicatorType;
     @JoinColumn(name = "result_hierarchy", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ResultHierarchy resultHierarchy;
-    @JoinColumn(name = "measurement_unit", referencedColumnName = "id")
-    @ManyToOne(optional = true)
-    private MeasurementUnit measurementUnit;
 
     public PerformanceIndicator() {
     }
@@ -117,6 +116,22 @@ public class PerformanceIndicator implements Serializable {
         this.baselineValue = baselineValue;
     }
 
+    public Double getAppraisalTarget() {
+        return appraisalTarget;
+    }
+
+    public void setAppraisalTarget(Double appraisalTarget) {
+        this.appraisalTarget = appraisalTarget;
+    }
+
+    public Short getCore() {
+        return core;
+    }
+
+    public void setCore(Short core) {
+        this.core = core;
+    }
+
     @XmlTransient
     public List<PerformanceIndicatorValues> getPerformanceIndicatorValuesList() {
         return performanceIndicatorValuesList;
@@ -124,6 +139,14 @@ public class PerformanceIndicator implements Serializable {
 
     public void setPerformanceIndicatorValuesList(List<PerformanceIndicatorValues> performanceIndicatorValuesList) {
         this.performanceIndicatorValuesList = performanceIndicatorValuesList;
+    }
+
+    public MeasurementUnit getMeasurementUnit() {
+        return measurementUnit;
+    }
+
+    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public Phenomenon getPerformanceIndicatorType() {
@@ -165,36 +188,6 @@ public class PerformanceIndicator implements Serializable {
     @Override
     public String toString() {
         return "ke.co.miles.kcep.mis.entities.PerformanceIndicator[ id=" + id + " ]";
-    }
-
-    public Double getAppraisalTarget() {
-        return appraisalTarget;
-    }
-
-    public void setAppraisalTarget(Double appraisalTarget) {
-        this.appraisalTarget = appraisalTarget;
-    }
-
-    /**
-     * @return the measurementUnit
-     */
-    public MeasurementUnit getMeasurementUnit() {
-        return measurementUnit;
-    }
-
-    /**
-     * @param measurementUnit the measurementUnit to set
-     */
-    public void setMeasurementUnit(MeasurementUnit measurementUnit) {
-        this.measurementUnit = measurementUnit;
-    }
-
-    public Short getCore() {
-        return core;
-    }
-
-    public void setCore(Short core) {
-        this.core = core;
     }
 
 }

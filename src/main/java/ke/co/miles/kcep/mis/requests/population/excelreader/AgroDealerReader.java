@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Generator;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -47,6 +48,7 @@ public class AgroDealerReader {
             try {
                 workbook = new XSSFWorkbook(file);
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 LOGGER.log(Level.WARNING, "Error {0}", e.getMessage());
                 return null;
             }
@@ -97,6 +99,7 @@ public class AgroDealerReader {
                                             location.setWard(ward);
                                             agroDealer.setLocation(location);
                                         } catch (Exception e) {
+                                            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                                             ward.setId(null);
                                             agroDealer.setLocation(location);
                                         }

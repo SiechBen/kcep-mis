@@ -299,7 +299,7 @@ public class FarmerController extends Controller {
                     LoanDetails loan = new LoanDetails();
                     try {
                         loan.setAmount(new BigDecimal(request.getParameter("amount")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         loan.setAmount(null);
                     }
                     loan.setType(request.getParameter("type"));
@@ -309,13 +309,13 @@ public class FarmerController extends Controller {
                     AccountDetails account = (AccountDetails) session.getAttribute("account");
                     try {
                         loan.setAccount(new AccountDetails(account.getId()));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         loan.setAccount(null);
                     }
                     try {
                         loan.setIssuingBank(new PhenomenonDetails(
                                 Integer.valueOf(request.getParameter("issuingBank"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         loan.setAccount(null);
                     }
 
@@ -338,22 +338,22 @@ public class FarmerController extends Controller {
                     account = (AccountDetails) session.getAttribute("account");
                     try {
                         account.setAccountNumber((request.getParameter("accountNumber")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         account.setAccountNumber(null);
                     }
                     try {
                         account.setEblBranch(new EblBranchDetails(Short.valueOf(request.getParameter("eblBranch"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         account.setEblBranch(null);
                     }
                     try {
                         account.setSavings(new BigDecimal(request.getParameter("savings")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         account.setEblBranch(null);
                     }
                     try {
                         account.setSolId(Short.valueOf(request.getParameter("solId")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         account.setSolId(null);
                     }
 
@@ -377,41 +377,41 @@ public class FarmerController extends Controller {
                         if (inputsCollection.getQuantity().equals("null")) {
                             inputsCollection.setQuantity(null);
                         }
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setQuantity(null);
                     }
                     try {
                         inputsCollection.setAgroDealer(new PersonDetails(Integer.valueOf(request.getParameter("agroDealerId"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setAgroDealer(null);
                     }
                     PersonDetails farmer = new PersonDetails();
                     try {
                         farmer = (PersonDetails) session.getAttribute("farmer");
                         inputsCollection.setFarmer(farmer);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setFarmer(null);
                     }
                     try {
                         inputsCollection.setInputType(new InputTypeDetails(Short.valueOf(request.getParameter("inputTypeId"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setInputType(null);
                     }
                     try {
                         inputsCollection.setStaticInput(new StaticInputDetails(Integer.valueOf(request.getParameter("staticInputId"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setInputType(null);
                     }
                     try {
                         inputsCollection.setInputVariety(new InputVarietyDetails(Integer.valueOf(request.getParameter("inputVarietyId"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setInputVariety(null);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("dateCollected"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         inputsCollection.setDateCollected(date);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         inputsCollection.setDateCollected(null);
                     }
 
@@ -445,39 +445,39 @@ public class FarmerController extends Controller {
                     try {
                         farmer = (PersonDetails) session.getAttribute("farmer");
                         farmActivity.setFarmer(farmer);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setFarmer(null);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("farmActivityDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         farmActivity.setDateDone(date);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setDateDone(null);
                     }
                     try {
                         farmActivity.setQuantitySold(new Double(request.getParameter("quantitySold")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setQuantitySold(null);
                     }
                     try {
                         farmActivity.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setQuantityHarvested(null);
                     }
                     try {
                         farmActivity.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setFamilyConsumption(null);
                     }
                     try {
                         farmActivity.setPostHarvestLoss(new Double(request.getParameter("farmActivity")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setPostHarvestLoss(null);
                     }
                     try {
                         farmActivity.setAverageSellingPrice(new BigDecimal(request.getParameter("averageSellingPrice")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setAverageSellingPrice(null);
                     }
 
@@ -499,7 +499,7 @@ public class FarmerController extends Controller {
                 case "/doEditFarmActivity":
                     try {
                         farmActivity = new FarmActivityDetails(Integer.valueOf(request.getParameter("id")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity = new FarmActivityDetails();
                     }
                     farmActivity.setYield(request.getParameter("yield"));
@@ -514,39 +514,39 @@ public class FarmerController extends Controller {
                     try {
                         farmer = (PersonDetails) session.getAttribute("farmer");
                         farmActivity.setFarmer(farmer);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setFarmer(null);
                     }
                     try {
                         date = userDateFormat.parse(request.getParameter("farmActivityDate"));
                         date = databaseDateFormat.parse(databaseDateFormat.format(date));
                         farmActivity.setDateDone(date);
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setDateDone(null);
                     }
                     try {
                         farmActivity.setQuantitySold(new Double(request.getParameter("quantitySold")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setQuantitySold(null);
                     }
                     try {
                         farmActivity.setQuantityHarvested(new Double(request.getParameter("quantityHarvested")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setQuantityHarvested(null);
                     }
                     try {
                         farmActivity.setFamilyConsumption(new Double(request.getParameter("familyConsumption")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setFamilyConsumption(null);
                     }
                     try {
                         farmActivity.setPostHarvestLoss(new Double(request.getParameter("farmActivity")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setPostHarvestLoss(null);
                     }
                     try {
                         farmActivity.setAverageSellingPrice(new BigDecimal(request.getParameter("averageSellingPrice")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmActivity.setAverageSellingPrice(null);
                     }
 
@@ -584,55 +584,55 @@ public class FarmerController extends Controller {
                 case "/doEditFarm":
                     try {
                         farmer = new PersonDetails(Integer.valueOf(request.getParameter("farmerId")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmer = new PersonDetails();
                     }
                     try {
                         farmer.setPlotSize(new Double(request.getParameter("plotSize")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         farmer.setPlotSize(null);
                     }
 
                     LocationDetails location;
                     try {
                         location = new LocationDetails(Integer.valueOf(request.getParameter("locationId")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location = new LocationDetails();
                     }
 
                     try {
                         location.setCounty(new CountyDetails(Short.valueOf(request.getParameter("county"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setCounty(null);
                     }
                     try {
                         location.setSubCounty(new SubCountyDetails(Short.valueOf(request.getParameter("subCounty"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setSubCounty(null);
                     }
                     try {
                         location.setWard(new WardDetails(Short.valueOf(request.getParameter("ward"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setWard(null);
                     }
                     try {
                         location.setDivisionalLocation(new DivisionalLocationDetails(Short.valueOf(request.getParameter("divisionalLocation"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setDivisionalLocation(null);
                     }
                     try {
                         location.setVillage(new VillageDetails(Integer.valueOf(request.getParameter("village"))));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setVillage(null);
                     }
                     try {
                         location.setLatitude(new BigDecimal(request.getParameter("latitude")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setLatitude(null);
                     }
                     try {
                         location.setLongitude(new BigDecimal(request.getParameter("longitude")));
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                         location.setLongitude(null);
                     }
 
@@ -867,17 +867,17 @@ public class FarmerController extends Controller {
             out.write("<td>" + inputsCollection.getAgroDealer().getBusinessName() + "</td>");
             try {
                 out.write("<td>" + inputsCollection.getInputType().getType() + "</td>");
-            } catch (Exception e) {
+            } catch (Exception e) {MilesDebugger.debug(e);
                 out.write("<td></td>");
             }
             try {
                 out.write("<td>" + inputsCollection.getStaticInput().getName() + "</td>");
-            } catch (Exception e) {
+            } catch (Exception e) {MilesDebugger.debug(e);
                 out.write("<td></td>");
             }
             try {
                 out.write("<td>" + inputsCollection.getInputVariety().getVariety() + "</td>");
-            } catch (Exception e) {
+            } catch (Exception e) {MilesDebugger.debug(e);
                 out.write("<td></td>");
             }
             out.write("<td>" + inputsCollection.getQuantity() + "</td>");

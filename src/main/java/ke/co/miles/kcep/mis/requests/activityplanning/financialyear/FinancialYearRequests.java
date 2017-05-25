@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.activityplanning.financialyear;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.FinancialYear;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         try {
             financialYear = (FinancialYear) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             financialYear = null;
         }
         if (financialYear != null) {
@@ -52,6 +54,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
             try {
                 financialYear = (FinancialYear) q.getSingleResult();
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 financialYear = null;
             }
             if (financialYear != null) {
@@ -67,6 +70,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
             em.persist(financialYear);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -84,6 +88,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         try {
             financialYears = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertFinancialYearsToFinancialYearDetailsList(financialYears);
@@ -98,6 +103,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         try {
             financialYear = (FinancialYear) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertFinancialYearToFinancialYearDetails(financialYear);
@@ -111,6 +117,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         try {
             financialYear = (FinancialYear) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -138,6 +145,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         try {
             financialYear = (FinancialYear) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             financialYear = null;
         }
         if (financialYear != null) {
@@ -152,6 +160,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
             try {
                 financialYear = (FinancialYear) q.getSingleResult();
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 financialYear = null;
             }
             if (financialYear != null) {
@@ -167,6 +176,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
             em.merge(financialYear);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -180,6 +190,7 @@ public class FinancialYearRequests extends EntityRequests implements FinancialYe
         try {
             em.remove(financialYear);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

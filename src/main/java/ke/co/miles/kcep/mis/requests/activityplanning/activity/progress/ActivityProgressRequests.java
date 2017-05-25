@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityProgress;
 import ke.co.miles.kcep.mis.entities.ActivityProgressComment;
@@ -52,6 +53,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
             em.persist(activityProgress);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -69,6 +71,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         try {
             subActivities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -100,6 +103,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                         try {
                             em.persist(activityProgress);
                         } catch (Exception e) {
+                            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                             throw new InvalidStateException("error_000_01");
                         }
                         activityProgress = new ActivityProgress();
@@ -109,6 +113,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                         try {
                             em.persist(activityProgress);
                         } catch (Exception e) {
+                            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                             throw new InvalidStateException("error_000_01");
                         }
                     }
@@ -119,6 +124,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     try {
                         em.persist(activityProgress);
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         throw new InvalidStateException("error_000_01");
                     }
                     activityProgress = new ActivityProgress();
@@ -128,6 +134,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     try {
                         em.persist(activityProgress);
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         throw new InvalidStateException("error_000_01");
                     }
                     /* persist activity progress comment */
@@ -136,6 +143,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                     try {
                         em.persist(activityProgressComment);
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         throw new InvalidStateException("error_000_01");
                     }
                 }
@@ -200,6 +208,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                         break;
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 throw new InvalidStateException("error_000_01");
             }
 
@@ -248,6 +257,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                         break;
                 }
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 throw new InvalidStateException("error_000_01");
             }
         }
@@ -352,6 +362,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 activityProgressDetails.setTargetOrBudget(null);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         try {
@@ -365,6 +376,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 activityProgressDetails.setValueAchievedOrExpense(null);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         activityProgressReport.setCumulativePhysicalProgress(activityProgressDetails);
@@ -381,6 +393,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 activityProgressDetails.setTargetOrBudget(null);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         try {
@@ -394,6 +407,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
                 activityProgressDetails.setValueAchievedOrExpense(null);
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         activityProgressReport.setCumulativeFinancialProgress(activityProgressDetails);
@@ -412,6 +426,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         try {
             activityProgress = (ActivityProgress) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -427,6 +442,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         try {
             activityProgressList = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -456,6 +472,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
             em.merge(activityProgress);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -469,6 +486,7 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         try {
             em.remove(activityProgress);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -483,16 +501,19 @@ public class ActivityProgressRequests extends EntityRequests implements Activity
         try {
             activityProgressDetails.setId(activityProgress.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         activityProgressDetails.setTargetOrBudget(activityProgress.getTargetOrBudget());
         activityProgressDetails.setValueAchievedOrExpense(activityProgress.getValueAchievedOrExpense());
         try {
             activityProgressDetails.setSubActivity(subActivityService.convertSubActivityToSubActivityDetails(activityProgress.getSubActivity()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             activityProgressDetails.setProgressType(ProgressTypeDetail.getProgressTypeDetail(activityProgress.getSubActivity().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return activityProgressDetails;
 

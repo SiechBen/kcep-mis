@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputVariety;
 import ke.co.miles.kcep.mis.entities.StaticInput;
@@ -45,6 +46,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
             em.persist(inputVariety);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -62,6 +64,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
         try {
             inputVarieties = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertInputVarietiesToInputVarietyDetailsList(inputVarieties);
@@ -76,6 +79,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
         try {
             inputVarieties = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertInputVarietiesToInputVarietyDetailsList(inputVarieties);
@@ -89,6 +93,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
         try {
             inputVariety = (InputVariety) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -119,6 +124,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
             em.merge(inputVariety);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -132,6 +138,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
         try {
             em.remove(inputVariety);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -145,6 +152,7 @@ public class InputVarietyRequests extends EntityRequests implements InputVariety
         try {
             inputVarietyDetails = new InputVarietyDetails(inputVariety.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             return null;
         }
         inputVarietyDetails.setVariety(inputVariety.getVariety());

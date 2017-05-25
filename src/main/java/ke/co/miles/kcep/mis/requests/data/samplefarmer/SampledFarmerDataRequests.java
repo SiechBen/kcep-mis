@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
-import ke.co.miles.kcep.mis.entities.SampledFarmerData;
 import ke.co.miles.kcep.mis.entities.Person;
+import ke.co.miles.kcep.mis.entities.SampledFarmerData;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
 import ke.co.miles.kcep.mis.exceptions.InvalidStateException;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
@@ -48,6 +49,7 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
             em.persist(sampledFarmerData);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -64,6 +66,7 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
         try {
             sampledFarmerDatas = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertSampledFarmerDatasToSampledFarmerDataDetailsList(sampledFarmerDatas);
@@ -77,6 +80,7 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
         try {
             sampledFarmerData = (SampledFarmerData) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -109,6 +113,7 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
             em.merge(sampledFarmerData);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -122,6 +127,7 @@ public class SampledFarmerDataRequests extends EntityRequests implements Sampled
         try {
             em.remove(sampledFarmerData);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

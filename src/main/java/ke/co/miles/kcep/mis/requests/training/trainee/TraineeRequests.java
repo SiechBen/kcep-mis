@@ -70,7 +70,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
                         q.setParameter(2, 30);
                         q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                         q.executeUpdate();
-                    } catch (Exception e) {
+                    } catch (Exception e) {MilesDebugger.debug(e);
                     }
                 }
             }
@@ -89,14 +89,14 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
                     q.setParameter(2, 77);
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
-                } catch (Exception e) {
+                } catch (Exception e) {MilesDebugger.debug(e);
                 }
             }
         }
 
         try {
             em.persist(trainee);
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -126,7 +126,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(3, personRoleDetail.getId());
         try {
             femaleYouth = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -137,7 +137,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(3, personRoleDetail.getId());
         try {
             maleYouth = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -148,7 +148,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(3, personRoleDetail.getId());
         try {
             femaleElderly = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -159,7 +159,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(3, personRoleDetail.getId());
         try {
             maleElderly = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -188,7 +188,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(2, SexDetail.FEMALE.getId());
         try {
             femaleYouth = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -198,7 +198,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(2, SexDetail.MALE.getId());
         try {
             maleYouth = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -208,7 +208,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(2, SexDetail.FEMALE.getId());
         try {
             femaleElderly = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -218,7 +218,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter(2, SexDetail.MALE.getId());
         try {
             maleElderly = ((Number) q.getSingleResult()).intValue();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -243,7 +243,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter("wardId", wardId);
         try {
             trainings = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -265,7 +265,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter("countyId", countyId);
         try {
             trainings = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -287,7 +287,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter("subCountyId", subCountyId);
         try {
             trainings = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -308,7 +308,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         setQ(em.createNamedQuery("Training.findAll"));
         try {
             trainings = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -329,7 +329,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter("trainingId", trainingId);
         try {
             trainees = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
 
         return convertTraineesToTraineeDetailsList(trainees);
@@ -342,7 +342,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         q.setParameter("id", id);
         try {
             trainee = (Trainee) q.getSingleResult();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -380,7 +380,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         try {
             em.merge(trainee);
             em.flush();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -393,7 +393,7 @@ public class TraineeRequests extends EntityRequests implements TraineeRequestsLo
         Trainee trainee = em.find(Trainee.class, id);
         try {
             em.remove(trainee);
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
     }

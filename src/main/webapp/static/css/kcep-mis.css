@@ -430,6 +430,11 @@ table.dataTable thead .sorting:after{
     overflow:auto;
 }
 
+.table-wrapped th, td{
+    white-space: normal;
+    overflow:auto;
+}
+
 .reports-table th, td{
     overflow:auto;
 }
@@ -463,7 +468,9 @@ table.dataTable thead .sorting:after{
 #other-village, #other-divisional-location,
 #other-expected-outcome, #other-component,
 #other-sub-component, #other-annual-indicator,
-#other-activity-name, #other-sub-activity-name{
+#other-activity-name, #other-sub-activity-name,
+#other-measurement-unit, #other-response-pcu,
+#other-implementing-partner, #other-expenditure-category {
     display: none;
 }
 

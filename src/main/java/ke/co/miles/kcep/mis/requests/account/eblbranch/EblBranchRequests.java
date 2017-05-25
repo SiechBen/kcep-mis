@@ -8,6 +8,8 @@ package ke.co.miles.kcep.mis.requests.account.eblbranch;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.EblBranch;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +42,7 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         try {
             eblBranch = (EblBranch) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             eblBranch = null;
         }
         if (eblBranch != null) {
@@ -53,6 +56,7 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
             em.persist(eblBranch);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -96,7 +100,10 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         q.setParameter("id", id);
         try {
             eblBranch = (EblBranch) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + " of id: " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -124,6 +131,7 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         try {
             eblBranch = (EblBranch) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             eblBranch = null;
         }
         if (eblBranch != null) {
@@ -140,6 +148,7 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
             em.merge(eblBranch);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -153,6 +162,7 @@ public class EblBranchRequests extends EntityRequests implements EblBranchReques
         try {
             em.remove(eblBranch);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

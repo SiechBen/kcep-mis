@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.training.topic;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Topic;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             topic = (Topic) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             topic = null;
         }
         if (topic != null) {
@@ -53,6 +55,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
             em.persist(topic);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -74,6 +77,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             trainingModules = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertTopicsToTopicDetailsList(trainingModules);
@@ -87,6 +91,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             trainingModules = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertTopicsToTopicDetailsList(trainingModules);
@@ -101,6 +106,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             topics = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertTopicsToTopicDetailsList(topics);
@@ -114,6 +120,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             topic = (Topic) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -141,6 +148,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             topic = (Topic) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             topic = null;
         }
         if (topic != null) {
@@ -157,6 +165,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
             em.merge(topic);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -170,6 +179,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             em.remove(topic);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -188,6 +198,7 @@ public class TopicRequests extends EntityRequests implements TopicRequestsLocal 
         try {
             topicDetails.setModule(convertTopicToTopicDetails(topic.getModule()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return topicDetails;

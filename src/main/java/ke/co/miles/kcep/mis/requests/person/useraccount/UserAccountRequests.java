@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Person;
 import ke.co.miles.kcep.mis.entities.PersonRole;
@@ -73,6 +74,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         } catch (NoResultException e) {
             userAccount = null;
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         if (userAccount != null) {
@@ -103,6 +105,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             em.persist(userAccount);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new MilesException("error_000_01");
         }
 
@@ -143,6 +146,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
                 filteredPeople.add(person);
             } catch (NoResultException e) {
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 LOGGER.log(Level.SEVERE, "", e);
                 throw new InvalidStateException("error_000_01");
             }
@@ -167,6 +171,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
                 filteredPeople.add(person);
             } catch (NoResultException e) {
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 LOGGER.log(Level.SEVERE, "", e);
                 throw new InvalidStateException("error_000_01");
             }
@@ -198,6 +203,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         } catch (NoResultException e) {
             throw new LoginException("error_015_10");
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -219,6 +225,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         } catch (NoResultException e) {
             throw new InvalidStateException("error_015_11");
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -233,6 +240,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -259,6 +267,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             userAccount.setPersonRole(em.getReference(PersonRole.class, userAccountDetails.getPersonRole().getId()));
             em.merge(userAccount);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -296,6 +305,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         } catch (NoResultException e) {
             userAccount = null;
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         if (userAccount != null) {
@@ -316,6 +326,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
             em.merge(userAccount);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -339,6 +350,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         try {
             userAccount = (UserAccount) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -346,6 +358,7 @@ public class UserAccountRequests extends EntityRequests implements UserAccountRe
         try {
             em.merge(userAccount);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 

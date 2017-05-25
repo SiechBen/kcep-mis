@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.EVoucher;
 import ke.co.miles.kcep.mis.entities.InputType;
@@ -43,11 +44,13 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         try {
             eVoucher.setInputType(em.getReference(InputType.class, eVoucherDetails.getInputType().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             eVoucher.setInputType(null);
         }
         try {
             eVoucher.setPerson(em.getReference(Person.class, eVoucherDetails.getPerson().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             eVoucher.setPerson(null);
         }
 
@@ -55,6 +58,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
             em.persist(eVoucher);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -71,6 +75,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         try {
             eVouchers = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertEVouchersToEVoucherDetailsList(eVouchers);
@@ -84,6 +89,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         try {
             eVoucher = (EVoucher) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -111,11 +117,13 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         try {
             eVoucher.setInputType(em.getReference(InputType.class, eVoucherDetails.getInputType().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             eVoucher.setInputType(null);
         }
         try {
             eVoucher.setPerson(em.getReference(Person.class, eVoucherDetails.getPerson().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             eVoucher.setPerson(null);
         }
 
@@ -123,6 +131,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
             em.merge(eVoucher);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -136,6 +145,7 @@ public class EVoucherRequests extends EntityRequests implements EVoucherRequests
         try {
             em.remove(eVoucher);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.SubCounty;
@@ -46,6 +47,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             subCounty = (SubCounty) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             subCounty = null;
         }
         if (subCounty != null) {
@@ -60,6 +62,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
             em.persist(subCounty);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -77,6 +80,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             subCountys = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertSubCountysToSubCountyDetailsList(subCountys);
@@ -91,6 +95,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             subCountys = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertSubCountysToSubCountyDetailsList(subCountys);
@@ -104,6 +109,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             subCounty = (SubCounty) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -134,6 +140,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             subCounty = (SubCounty) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             subCounty = null;
         }
         if (subCounty != null) {
@@ -151,6 +158,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
             em.merge(subCounty);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -164,6 +172,7 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             em.remove(subCounty);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -177,14 +186,17 @@ public class SubCountyRequests extends EntityRequests implements SubCountyReques
         try {
             subCountyDetails.setId(subCounty.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             subCountyDetails.setName(subCounty.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             subCountyDetails.setCounty(countyService.convertCountyToCountyDetails(subCounty.getCounty()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return subCountyDetails;
 

@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.location.county;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.County;
 import ke.co.miles.kcep.mis.entities.Region;
@@ -44,6 +45,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             county = (County) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             county = null;
         }
         if (county != null) {
@@ -58,6 +60,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
             em.persist(county);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -76,6 +79,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             countys = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertCountiesToCountyDetailsList(countys);
@@ -89,6 +93,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             countys = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertCountiesToCountyDetailsList(countys);
@@ -102,6 +107,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             county = (County) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -131,6 +137,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             county = (County) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             county = null;
         }
         if (county != null) {
@@ -148,6 +155,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
             em.merge(county);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -161,6 +169,7 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             em.remove(county);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -174,14 +183,17 @@ public class CountyRequests extends EntityRequests implements CountyRequestsLoca
         try {
             countyDetails.setId(county.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             countyDetails.setName(county.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             countyDetails.setRegion(RegionDetail.getRegionDetail(county.getRegion().getId()));
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return countyDetails;
 

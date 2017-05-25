@@ -36,9 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Account.findBySolId", query = "SELECT a FROM Account a WHERE a.solId = :solId")})
 public class Account implements Serializable {
 
-    @Column(name = "sol_id")
-    private Short solId;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,13 +48,15 @@ public class Account implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "savings")
     private BigDecimal savings;
+    @Column(name = "sol_id")
+    private Short solId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private List<Loan> loanList;
     @JoinColumn(name = "farmer", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Person farmer;
     @JoinColumn(name = "ebl_branch", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private EblBranch eblBranch;
 
     public Account() {
@@ -138,7 +137,10 @@ public class Account implements Serializable {
             return false;
         }
         Account other = (Account) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

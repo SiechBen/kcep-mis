@@ -187,8 +187,10 @@ public class TrainingController extends Controller {
                     return;
 
                 case "/head_training":
+
                     availTrainingMap(response, session, level);
                     availSessionAttributes(session, response);
+
                     break;
 
                 case "/kalro_training":
@@ -237,20 +239,6 @@ public class TrainingController extends Controller {
                 case "/agmark_addTraining":
                 case "/kalro_addTraining":
                 case "/ward_addTraining":
-
-                    List<PersonDetails> people;
-                    try {
-                        people = personService.retrievePeople();
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
 
                     List<PhenomenonDetails> traineeCategories;
                     try {
@@ -366,19 +354,6 @@ public class TrainingController extends Controller {
                     }
 
                     try {
-                        people = personService.retrievePeople();
-                    } catch (MilesException ex) {
-                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write(getBundle().getString(ex.getCode()));
-                        LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-                        return;
-                    }
-
-                    if (people != null) {
-                        session.setAttribute("people", people);
-                    }
-
-                    try {
                         traineeCategories = phenomenonService.retrieveTraineeCategories();
                         session.setAttribute("traineeCategories", traineeCategories);
                     } catch (MilesException ex) {
@@ -406,6 +381,7 @@ public class TrainingController extends Controller {
                     try {
                         categoryOfTrainees = new PhenomenonDetails(Integer.valueOf(request.getParameter("category-of-trainees")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         categoryOfTrainees = null;
                     }
 
@@ -413,6 +389,7 @@ public class TrainingController extends Controller {
                     try {
                         subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("sub-county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         subCounty = null;
                     }
 
@@ -420,6 +397,7 @@ public class TrainingController extends Controller {
                     try {
                         county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         county = null;
                     }
 
@@ -427,6 +405,7 @@ public class TrainingController extends Controller {
                     try {
                         topic.setId(Short.valueOf(String.valueOf(request.getParameter("topic"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         try {
                             topic.setId(Short.valueOf(String.valueOf(request.getParameter("training-module"))));
                         } catch (Exception ex) {
@@ -437,6 +416,7 @@ public class TrainingController extends Controller {
                     try {
                         ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         ward = null;
                     }
 
@@ -449,6 +429,7 @@ public class TrainingController extends Controller {
                     try {
                         training.setNumberOfTrainees(Integer.valueOf(String.valueOf(request.getParameter("number-of-trainees"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         training.setNumberOfTrainees(null);
                     }
                     training.setTopic(topic);
@@ -531,6 +512,7 @@ public class TrainingController extends Controller {
                             trainerRecord.setPhenomenon(trainerCategory);
                             trainerRecords.add(trainerRecord);
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                     }
 
@@ -545,6 +527,7 @@ public class TrainingController extends Controller {
                             traineeRecord.setPerson(traineePerson);
                             traineeRecords.add(traineeRecord);
                         } catch (Exception e) {
+                            MilesDebugger.debug(e);
                         }
                     }
 
@@ -581,6 +564,7 @@ public class TrainingController extends Controller {
                         subCounty.setId(Short.valueOf(String.valueOf(
                                 request.getParameter("subCounty"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         subCounty = null;
                     }
 
@@ -589,12 +573,14 @@ public class TrainingController extends Controller {
                         county.setId(Short.valueOf(String.valueOf(
                                 request.getParameter("county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         county = null;
                     }
 
                     try {
                         topic = new TopicDetails(Short.valueOf(String.valueOf(request.getParameter("topic"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         try {
                             topic = new TopicDetails(Short.valueOf(String.valueOf(request.getParameter("training-module"))));
                         } catch (Exception ex) {
@@ -606,12 +592,14 @@ public class TrainingController extends Controller {
                     try {
                         ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         ward = null;
                     }
 
                     try {
                         venue = new LocationDetails(Integer.valueOf(request.getParameter("venue")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         venue = new LocationDetails();
                     }
                     venue.setSubCounty(subCounty);
@@ -622,12 +610,14 @@ public class TrainingController extends Controller {
                     try {
                         training.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
 
                     try {
                         training.setNumberOfTrainees(Integer.valueOf(
                                 String.valueOf(request.getParameter("numberOfTrainees"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         training.setNumberOfTrainees(null);
                     }
                     training.setTopic(topic);
@@ -981,7 +971,6 @@ public class TrainingController extends Controller {
                 case "agmark":
                 case "equity":
                 case "kalro":
-                    MilesDebugger.debug(level);
                     trainingMap = trainerService.retrieveTrainerTrainings(level);
                     break;
                 default:
@@ -1003,6 +992,7 @@ public class TrainingController extends Controller {
                         String fileName = folders[folders.length - 1];
                         trainingDetails.setFileName(fileName);
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                     }
                 }
             }
@@ -1015,14 +1005,19 @@ public class TrainingController extends Controller {
             HttpServletResponse response) throws IOException {
 
         try {
-            session.setAttribute("trainingModules", topicService.retrieveTrainingModules());
+            if (session.getAttribute("trainingModules") == null) {
+                session.setAttribute("trainingModules", topicService.retrieveTrainingModules());
+            }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             LOGGER.log(Level.SEVERE, "An error occurred during retrieval of training modules", e);
             return;
         }
 
         try {
-            session.setAttribute("people", personService.retrievePeople());
+            if (session.getAttribute("traineeCategories") == null) {
+                session.setAttribute("traineeCategories", phenomenonService.retrieveTraineeCategories());
+            }
         } catch (MilesException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(getBundle().getString(ex.getCode()));
@@ -1031,16 +1026,9 @@ public class TrainingController extends Controller {
         }
 
         try {
-            session.setAttribute("traineeCategories", phenomenonService.retrieveTraineeCategories());
-        } catch (MilesException ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(getBundle().getString(ex.getCode()));
-            LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
-            return;
-        }
-
-        try {
-            session.setAttribute("trainerCategories", phenomenonService.retrieveTrainerCategories());
+            if (session.getAttribute("trainerCategories") == null) {
+                session.setAttribute("trainerCategories", phenomenonService.retrieveTrainerCategories());
+            }
         } catch (MilesException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(getBundle().getString(ex.getCode()));

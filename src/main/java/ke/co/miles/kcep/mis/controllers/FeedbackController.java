@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.feedback.FeedbackRequestsLocal;
@@ -39,7 +40,7 @@ import ke.co.miles.kcep.mis.utilities.PersonDetails;
  * @author siech
  */
 @WebServlet(name = "FeedbackController", urlPatterns = {"/feedback",
-    "/saveFeedback", "/saveSuccessStory", "/success_stories"})
+    "/saveFeedback", "/saveSuccessStory", "/success_stories", "/doDeleteFeedback"})
 @MultipartConfig
 public class FeedbackController extends Controller {
 
@@ -64,6 +65,7 @@ public class FeedbackController extends Controller {
                     case "nationalOfficerSession":
                         if (rightsMaps.get(rightsMap)) {
                             urlPaths.add("/saveSuccessStory");
+                            urlPaths.add("/doDeleteFeedback");
                             destination = "/head_success_stories";
                             if (path.equals("/feedback")) {
                                 path = "/head_feedback";
@@ -323,8 +325,21 @@ public class FeedbackController extends Controller {
                     try {
                         getServletContext().setAttribute("latestFeedbackList", feedbackService.retrieveLatestFeedback());
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
                         return;
+                    }
+
+                    return;
+
+                case "/doDeleteFeedback":
+
+                    try {
+                        feedbackService.removeFeedback(Integer.valueOf(request.getParameter("id")));
+                    } catch (MilesException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(getBundle().getString(ex.getCode()) + "<br>");
+                        LOGGER.log(Level.INFO, "", ex);
                     }
 
                     return;
@@ -396,6 +411,7 @@ public class FeedbackController extends Controller {
                     try {
                         getServletContext().setAttribute("latestFeedbackList", feedbackService.retrieveLatestFeedback());
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         LOGGER.log(Level.SEVERE, "An error occurred during retrieval of latest feedback records", e);
                         return;
                     }
@@ -428,8 +444,7 @@ public class FeedbackController extends Controller {
     }
 
 //</editor-fold>
-    private static final Logger LOGGER = Logger.getLogger(EVoucherPersonController.class
-            .getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(EVoucherPersonController.class.getSimpleName());
     @EJB
     private FeedbackRequestsLocal feedbackService;
 

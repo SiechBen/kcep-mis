@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.person.role;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.PersonRole;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         try {
             personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             personRole = null;
         }
         if (personRole != null) {
@@ -53,6 +55,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
             em.persist(personRole);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -78,6 +81,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
             for (PersonRole pd : personRoles) {
             }
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertPersonRolesToPersonRoleDetailList(personRoles);
@@ -91,6 +95,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         try {
             personRoles = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertPersonRolesToPersonRoleDetailList(personRoles);
@@ -104,6 +109,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         try {
             personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -131,6 +137,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         try {
             personRole = (PersonRole) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             personRole = null;
         }
         if (personRole != null) {
@@ -147,6 +154,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
             em.merge(personRole);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -160,6 +168,7 @@ public class PersonRoleRequests extends EntityRequests implements PersonRoleRequ
         try {
             em.remove(personRole);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }

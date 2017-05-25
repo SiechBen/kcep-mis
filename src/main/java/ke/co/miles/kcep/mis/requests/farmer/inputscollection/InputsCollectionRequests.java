@@ -61,7 +61,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
                 MilesDebugger.debug("C4 charges set, ready to blow");
                 MilesDebugger.debug();
             }
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
 
         InputsCollection inputsCollection = new InputsCollection();
@@ -82,7 +82,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         try {
             em.persist(inputsCollection);
             em.flush();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -100,7 +100,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         q.setParameter("farmerId", farmerId);
         try {
             inputsCollection = q.getResultList();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -141,7 +141,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         try {
             em.merge(inputsCollection);
             em.flush();
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -154,7 +154,7 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         InputsCollection inputsCollection = em.find(InputsCollection.class, id);
         try {
             em.remove(inputsCollection);
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -168,23 +168,23 @@ public class InputsCollectionRequests extends EntityRequests implements InputsCo
         InputsCollectionDetails inputsCollectionDetails = new InputsCollectionDetails(inputsCollection.getId());
         try {
             inputsCollectionDetails.setStaticInput(staticInputService.convertStaticInputToStaticInputDetails(inputsCollection.getStaticInput()));
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
         try {
             inputsCollectionDetails.setInputType(inputTypeService.convertInputTypeToInputTypeDetails(inputsCollection.getInputType()));
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
         try {
             inputsCollectionDetails.setInputVariety(inputVarietyService.convertInputVarietyToInputVarietyDetails(inputsCollection.getInputVariety()));
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
         try {
             inputsCollectionDetails.setAgroDealer((personService.convertPersonToPersonDetails(inputsCollection.getAgroDealer())));
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
         try {
             inputsCollectionDetails.setFarmer((personService.convertPersonToPersonDetails(inputsCollection.getFarmer())));
-        } catch (Exception e) {
+        } catch (Exception e) {MilesDebugger.debug(e);
         }
         inputsCollectionDetails.setDateCollected(inputsCollection.getDateCollected());
         inputsCollectionDetails.setQuantity(inputsCollection.getQuantity());

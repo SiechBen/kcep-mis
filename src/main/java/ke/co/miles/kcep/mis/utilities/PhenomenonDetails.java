@@ -6,6 +6,7 @@
 package ke.co.miles.kcep.mis.utilities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -44,6 +45,14 @@ public class PhenomenonDetails implements Serializable, Comparable<PhenomenonDet
         this.phenomenonType = phenomenonType;
     }
 
+    public BigDecimal getTiedValue() {
+        return tiedValue;
+    }
+
+    public void setTiedValue(BigDecimal tiedValue) {
+        this.tiedValue = tiedValue;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -73,6 +82,7 @@ public class PhenomenonDetails implements Serializable, Comparable<PhenomenonDet
 
     private static final long serialVersionUID = 1L;
     private Integer id;
+    private BigDecimal tiedValue;
     private CategoryDetails category;
     private PhenomenonTypeDetails phenomenonType;
 

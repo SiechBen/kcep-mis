@@ -630,6 +630,7 @@ public class PersonController extends Controller {
                     try {
                         farmerGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerGroup"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         farmerGroup = null;
                     }
 
@@ -637,6 +638,7 @@ public class PersonController extends Controller {
                     try {
                         farmerSubGroup.setId(Integer.valueOf(String.valueOf(request.getParameter("farmerSubGroup"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         farmerSubGroup = null;
                     }
 
@@ -644,6 +646,7 @@ public class PersonController extends Controller {
                     try {
                         subCounty.setId(Short.valueOf(String.valueOf(request.getParameter("subCounty"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         subCounty = null;
                     }
 
@@ -651,6 +654,7 @@ public class PersonController extends Controller {
                     try {
                         county.setId(Short.valueOf(String.valueOf(request.getParameter("county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         county = null;
                     }
 
@@ -658,6 +662,7 @@ public class PersonController extends Controller {
                     try {
                         ward.setId(Short.valueOf(String.valueOf(request.getParameter("ward"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         ward = null;
                     }
 
@@ -665,6 +670,7 @@ public class PersonController extends Controller {
                     try {
                         region = RegionDetail.getRegionDetail(Short.valueOf(String.valueOf(request.getParameter("region"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         region = null;
                     }
 
@@ -691,6 +697,7 @@ public class PersonController extends Controller {
                             location.setRegion(region);
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         personRole = null;
                     }
 
@@ -724,11 +731,13 @@ public class PersonController extends Controller {
                     try {
                         person.setSex(SexDetail.getSexDetail(Short.valueOf(request.getParameter("sex"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         person.setSex(null);
                     }
                     try {
                         person.setYearOfBirth(Short.valueOf(request.getParameter("yearOfBirth")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         person.setYearOfBirth(null);
                     }
 
@@ -748,6 +757,7 @@ public class PersonController extends Controller {
                         contact = new ContactDetails(Integer.valueOf(
                                 request.getParameter("contactId")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         contact = new ContactDetails();
                     }
                     contact.setEmail(String.valueOf(
@@ -762,6 +772,7 @@ public class PersonController extends Controller {
                         farmerGroup.setId(Integer.valueOf(String.valueOf(
                                 request.getParameter("farmerGroup"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         farmerGroup = null;
                     }
 
@@ -770,6 +781,7 @@ public class PersonController extends Controller {
                         farmerSubGroup.setId(Integer.valueOf(String.valueOf(
                                 request.getParameter("farmerSubGroup"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         farmerSubGroup = null;
                     }
 
@@ -778,6 +790,7 @@ public class PersonController extends Controller {
                         subCounty.setId(Short.valueOf(String.valueOf(
                                 request.getParameter("subCounty"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         subCounty = null;
                     }
 
@@ -786,6 +799,7 @@ public class PersonController extends Controller {
                         county.setId(Short.valueOf(String.valueOf(
                                 request.getParameter("county"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         county = null;
                     }
 
@@ -794,6 +808,7 @@ public class PersonController extends Controller {
                         ward.setId(Short.valueOf(String.valueOf(
                                 request.getParameter("ward"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         ward = null;
                     }
 
@@ -801,6 +816,7 @@ public class PersonController extends Controller {
                         location = new LocationDetails(Integer.valueOf(
                                 request.getParameter("locationId")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         location = new LocationDetails();
                     }
                     location.setSubCounty(subCounty);
@@ -811,16 +827,19 @@ public class PersonController extends Controller {
                         region = RegionDetail.getRegionDetail(Short.valueOf(
                                 String.valueOf(request.getParameter("region"))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         region = null;
                     }
                     try {
                         location.setLatitude(new BigDecimal(request.getParameter("latitude")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         location.setLatitude(null);
                     }
                     try {
                         location.setLongitude(new BigDecimal(request.getParameter("longitude")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         location.setLongitude(null);
                     }
 
@@ -841,12 +860,14 @@ public class PersonController extends Controller {
                             location.setRegion(region);
                         }
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         personRole = null;
                     }
 
                     try {
                         person = new PersonDetails(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         person = new PersonDetails();
                     }
                     person.setBusinessName(String.valueOf(
@@ -882,11 +903,13 @@ public class PersonController extends Controller {
                         person.setSex(SexDetail.getSexDetail(
                                 Short.valueOf(String.valueOf(request.getParameter("sex")))));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         person.setSex(null);
                     }
                     try {
                         person.setYearOfBirth(Short.valueOf(request.getParameter("yearOfBirth")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(e);
                         person.setYearOfBirth(null);
                     }
 

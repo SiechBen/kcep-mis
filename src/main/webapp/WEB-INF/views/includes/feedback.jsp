@@ -31,7 +31,10 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>${successStory.submitter.name} ${successStory.timePosted}</th>
+                                        <th>
+                                            ${successStory.submitter.name} ${successStory.timePosted}
+                                            <span class="glyphicon glyphicon-trash" onclick="deleteFeedback(${successStory.id})" style="float: right;"></span>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,7 +56,10 @@
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>${feedback.submitter.name} ${feedback.timePosted}</th>
+                                        <th>
+                                            ${feedback.submitter.name} ${feedback.timePosted}
+                                            <span class="glyphicon glyphicon-trash" onclick="deleteFeedback(${feedback.id})" style="float: right;"></span>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>

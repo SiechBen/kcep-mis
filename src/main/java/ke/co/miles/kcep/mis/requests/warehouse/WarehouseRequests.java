@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.MeasurementUnit;
 import ke.co.miles.kcep.mis.entities.Phenomenon;
@@ -69,6 +70,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
             }
         }
@@ -83,6 +85,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
                     q.setParameter(4, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
             } else if (warehouse.getWarehouseType().getId() == 21) {
                 try {
@@ -92,6 +95,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
             }
         }
@@ -100,6 +104,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             em.persist(warehouse);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -121,6 +126,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             certifiedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -131,6 +137,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             certifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -141,6 +148,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             unCertifiedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -151,6 +159,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             unCertifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -163,6 +172,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehousesOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -173,6 +183,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             collectionCentresOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -183,6 +194,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehousesNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -193,6 +205,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             collectionCentresNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -205,6 +218,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             farmerOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -215,6 +229,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             farmerOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -225,6 +240,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             privatelyOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -235,6 +251,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             privatelyOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -245,6 +262,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             total = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -254,6 +272,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -263,6 +282,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             collectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -302,6 +322,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             certifiedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -313,6 +334,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             certifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -324,6 +346,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             unCertifiedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -335,6 +358,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             unCertifiedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -348,6 +372,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehousesOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -359,6 +384,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             collectionCentresOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -370,6 +396,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehousesNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -381,6 +408,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             collectionCentresNotOfferingWrs = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -394,6 +422,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             farmerOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -405,6 +434,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             farmerOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -416,6 +446,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             privatelyOwnedWarehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -427,6 +458,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             privatelyOwnedCollectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -438,6 +470,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             total = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -448,6 +481,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouses = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -458,6 +492,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             collectionCentres = ((Number) q.getSingleResult()).intValue();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
         //</editor-fold>
@@ -493,6 +528,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouse = (Warehouse) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -511,6 +547,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouses = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -529,6 +566,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouses = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -545,6 +583,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouses = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -560,6 +599,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             warehouses = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -607,6 +647,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
                         q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                         q.executeUpdate();
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
                 }
             } else if (warehouseDetails.getCertified() != null && warehouseDetails.getCertified()) {
@@ -617,6 +658,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
                     q.setParameter(3, Calendar.getInstance().get(Calendar.YEAR));
                     q.executeUpdate();
                 } catch (Exception e) {
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 }
             }
         }
@@ -627,6 +669,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
             em.merge(warehouse);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -642,6 +685,7 @@ public class WarehouseRequests extends EntityRequests implements WarehouseReques
         try {
             em.remove(warehouse);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 

@@ -40,7 +40,7 @@
 //        q.setParameter("technologyTargetTechnologyTargetCounty", technologyTargetTechnologyTargetCountyDetails.getName());
 //        try {
 //            technologyTargetTechnologyTargetCounty = (TechnologyTargetCounty) q.getSingleResult();
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //            technologyTargetTechnologyTargetCounty = null;
 //        }
 //        if (technologyTargetTechnologyTargetCounty != null) {
@@ -53,7 +53,7 @@
 //        try {
 //            em.persist(technologyTargetTechnologyTargetCounty);
 //            em.flush();
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //            throw new InvalidStateException("error_000_01");
 //        }
 //
@@ -69,7 +69,7 @@
 //        q = em.createNamedQuery("TechnologyTargetCounty.findAll");
 //        try {
 //            technologyTargetTechnologyTargetCountys = q.getResultList();
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //        }
 //
 //        return convertCountiesToTechnologyTargetCountyDetailsList(technologyTargetTechnologyTargetCountys);
@@ -82,7 +82,7 @@
 //        q.setParameter("id", id);
 //        try {
 //            technologyTargetTechnologyTargetCounty = (TechnologyTargetCounty) q.getSingleResult();
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //            throw new InvalidStateException("error_000_01");
 //        }
 //
@@ -109,7 +109,7 @@
 //        q.setParameter("technologyTargetTechnologyTargetCounty", technologyTargetTechnologyTargetCountyDetails.getName());
 //        try {
 //            technologyTargetTechnologyTargetCounty = (TechnologyTargetCounty) q.getSingleResult();
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //            technologyTargetTechnologyTargetCounty = null;
 //        }
 //        if (technologyTargetTechnologyTargetCounty != null) {
@@ -125,7 +125,7 @@
 //        try {
 //            em.merge(technologyTargetTechnologyTargetCounty);
 //            em.flush();
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //            throw new InvalidStateException("error_000_01");
 //        }
 //
@@ -138,7 +138,7 @@
 //        TechnologyTargetCounty technologyTargetTechnologyTargetCounty = em.find(TechnologyTargetCounty.class, id);
 //        try {
 //            em.remove(technologyTargetTechnologyTargetCounty);
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //            throw new InvalidStateException("error_000_01");
 //        }
 //    }
@@ -151,11 +151,11 @@
 //        TechnologyTargetCountyDetails technologyTargetTechnologyTargetCountyDetails = new TechnologyTargetCountyDetails();
 //        try {
 //            technologyTargetTechnologyTargetCountyDetails.setId(technologyTargetTechnologyTargetCounty.getId());
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //        }
 //        try {
 //            technologyTargetTechnologyTargetCountyDetails.setName(technologyTargetTechnologyTargetCounty.getName());
-//        } catch (Exception e) {
+//        } catch (Exception e) {MilesDebugger.debug(e);
 //        }
 //        return technologyTargetTechnologyTargetCountyDetails;
 //

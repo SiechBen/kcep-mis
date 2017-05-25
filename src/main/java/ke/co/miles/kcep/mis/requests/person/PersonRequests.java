@@ -68,6 +68,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             person = (Person) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             person = null;
         }
         if (person != null) {
@@ -96,6 +97,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             em.persist(person);
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -111,6 +113,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccountService.addUserAccount(userAccountDetails);
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw e;
         }
 
@@ -133,6 +136,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -142,6 +146,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -151,6 +156,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -160,6 +166,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -190,6 +197,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -202,6 +210,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -214,6 +223,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -226,6 +236,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -256,6 +267,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -267,6 +279,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -278,6 +291,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -289,6 +303,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -322,6 +337,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -332,6 +348,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -342,6 +359,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -352,6 +370,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -382,6 +401,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -392,6 +412,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleYouth = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -402,6 +423,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             femaleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -412,6 +434,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             maleElderly = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -438,6 +461,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             counties = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -450,6 +474,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
                 peopleDetailsList.addAll(
                         convertUserAccountsToPeople(q.getResultList()));
             } catch (Exception e) {
+                MilesDebugger.debug(e);
                 throw new InvalidStateException("error_000_01");
             }
         }
@@ -469,6 +494,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             peopleDetailsList
                     = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -485,6 +511,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             peopleDetailsList = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -502,6 +529,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             peopleDetailsList = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -520,6 +548,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             peopleDetailsList = convertUserAccountsToPeople(q.getResultList());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -583,6 +612,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -598,6 +628,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccount = (UserAccount) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -635,6 +666,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -656,6 +688,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -678,6 +711,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -706,6 +740,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -734,6 +769,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -761,6 +797,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -781,6 +818,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             userAccounts = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -813,6 +851,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             person = (Person) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             person = null;
         }
         if (person != null) {
@@ -846,6 +885,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             em.flush();
         } catch (Exception e) {
             MilesDebugger.debug(e);
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -855,6 +895,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             userAccountService.editUserAccount(userAccountDetails);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw e;
         }
     }
@@ -874,6 +915,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
             locationService.editLocation(farmerDetails.getLocation());
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw e;
         }
 
@@ -889,6 +931,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             em.remove(person);
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -903,6 +946,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             personDetails = new PersonDetails(person.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
             return null;
         }
 
@@ -921,6 +965,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
                 em.merge(person);
                 em.flush();
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
         } else if (person.getYearOfBirth() == null && person.getAge() != null) {
             LocalDate now = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), 1, 1);
@@ -932,6 +977,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
                 em.merge(person);
                 em.flush();
             } catch (Exception e) {
+                MilesDebugger.debug(e);
             }
         }
 
@@ -954,8 +1000,7 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
                             person.getFarmerGroup()));
         }
 
-        if (person.getFarmerSubGroup()
-                != null) {
+        if (person.getFarmerSubGroup() != null) {
             personDetails.setFarmerSubGroup(farmerSubGroupService.
                     convertFarmerSubGroupToFarmerSubGroupDetails(
                             person.getFarmerSubGroup()));
@@ -974,7 +1019,6 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             personDetails.setAccount(accountService.retrieveAccount(personDetails));
         } catch (MilesException ex) {
-            MilesDebugger.debug(ex);
         }
         return personDetails;
 
@@ -1010,12 +1054,10 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
     }
 
     private PersonDetails convertUserAccountToPerson(UserAccount userAccount) throws MilesException {
-        PersonDetails personDetails
-                = convertPersonToPersonDetails(userAccount.getPerson());
+        PersonDetails personDetails = convertPersonToPersonDetails(userAccount.getPerson());
         try {
             personDetails.setAccount(accountService.retrieveAccount(personDetails));
         } catch (MilesException ex) {
-            MilesDebugger.debug(ex);
         }
         personDetails.setPersonRoleId(PersonRoleDetail.getPersonRoleDetail(userAccount.getPersonRole().getId()).getId());
         personDetails.setPersonRole(PersonRoleDetail.getPersonRoleDetail(userAccount.getPersonRole().getId()).getPersonRole());
@@ -1031,28 +1073,34 @@ public class PersonRequests extends EntityRequests implements PersonRequestsLoca
         try {
             accountDetails.setId(account.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
         try {
             accountDetails.setAccountNumber(account.getAccountNumber());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
         try {
             accountDetails.setSolId(account.getSolId());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
         try {
             accountDetails.setSavings(account.getSavings());
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
         try {
             accountDetails.setEblBranch((eblBranchService.convertEblBranchToEblBranchDetails(account.getEblBranch())));
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
         try {
             for (Loan loan : account.getLoanList()) {
                 accountDetails.setTotalLoanAmount((accountDetails.getTotalLoanAmount() == null ? loan.getAmount() : accountDetails.getTotalLoanAmount().add(loan.getAmount())));
             }
         } catch (Exception e) {
+            MilesDebugger.debug(e);
         }
 
         accountDetails.setFarmer(farmer);

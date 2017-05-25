@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.descriptors.category;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.Category;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         try {
             category = (Category) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             category = null;
         }
         if (category != null) {
@@ -56,6 +58,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
             em.persist(category);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -73,6 +76,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         try {
             categorys = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertCategoriesToCategoryDetailsList(categorys);
@@ -86,6 +90,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         try {
             category = (Category) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -113,6 +118,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         try {
             category = (Category) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             category = null;
         }
         if (category != null) {
@@ -129,6 +135,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
             em.merge(category);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -142,6 +149,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         try {
             em.remove(category);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
     }
@@ -156,6 +164,7 @@ public class CategoryRequests extends EntityRequests implements CategoryRequests
         try {
             categoryDetails.setId(category.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             categoryDetails.setRelative(convertCategoryToCategoryDetails(category.getRelative()));

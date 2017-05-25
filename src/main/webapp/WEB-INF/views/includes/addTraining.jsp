@@ -90,7 +90,7 @@
                         Trainees
                         <select id="trainee" name="trainee" class="form-control" onchange="addToTrainees()">
                             <option selected>Select trainees</option>
-                            <c:forEach var="training" items="${sessionScope.people}" varStatus="index">
+                            <c:forEach var="training" items="${sessionScope.traineePeople}" varStatus="index">
                                 <option value="${training.id}">${training.name}</option>
                             </c:forEach>
                         </select>

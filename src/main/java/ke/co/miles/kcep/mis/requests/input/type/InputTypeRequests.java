@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.input.type;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.InputType;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -37,6 +38,7 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
             em.persist(inputType);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -55,6 +57,7 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
         try {
             inputType = (InputType) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -70,6 +73,7 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
         try {
             inputTypes = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -95,6 +99,7 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
             em.merge(inputType);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -109,6 +114,7 @@ public class InputTypeRequests extends EntityRequests implements InputTypeReques
         try {
             em.remove(inputType);
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 

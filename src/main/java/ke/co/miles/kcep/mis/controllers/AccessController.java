@@ -38,6 +38,7 @@ import ke.co.miles.kcep.mis.utilities.RegionDetail;
 public class AccessController extends Controller {
 
     private static final long serialVersionUID = 1L;
+    private HttpSession session;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,10 +56,8 @@ public class AccessController extends Controller {
 
         Locale locale = request.getLocale();
         setBundle(ResourceBundle.getBundle("text", locale));
-
-        HttpSession session = request.getSession(false);
-
         String path = request.getServletPath();
+        session = request.getSession(false);
         String destination;
 
         switch (path) {
@@ -72,6 +71,8 @@ public class AccessController extends Controller {
                         path = (String) session.getAttribute("home");
                     }
                 } catch (Exception e) {
+                    MilesDebugger.debug(e);
+                    MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     break;
                 }
 
@@ -161,6 +162,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -194,6 +196,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -227,6 +230,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -260,6 +264,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -293,6 +298,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -328,6 +334,7 @@ public class AccessController extends Controller {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                                 MilesDebugger.debug(session.getAttribute("personRoles"));
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -363,6 +370,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -422,6 +430,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", PersonRoleDetail.values());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
 
                             break;
@@ -456,6 +465,7 @@ public class AccessController extends Controller {
                             try {
                                 session.setAttribute("personRoles", personRoleService.retrievePersonRolesNotAdminOrPcu());
                             } catch (Exception e) {
+                                MilesDebugger.debug(e);
                             }
                             break;
 
@@ -464,6 +474,9 @@ public class AccessController extends Controller {
                     }
 
                 }
+
+//               s new PeopleLoader().start();
+                LOGGER.log(Level.INFO, "PersonLoader started successfully");
 
                 session.setAttribute("rightsMaps", rightsMaps);
 
@@ -509,6 +522,26 @@ public class AccessController extends Controller {
             response.getWriter().write(getBundle().getString("redirection_failed") + "<br>");
             LOGGER.log(Level.INFO, getBundle().getString("redirection_failed"));
         }
+    }
+
+    private class PeopleLoader extends Thread {
+
+        @Override
+        public void run() {
+
+            try {
+                if (session != null) {
+                    MilesDebugger.debug("Starting t");
+                    if (session.getAttribute("traineePeople") == null) {
+                        session.setAttribute("traineePeople", personService.retrievePeople());
+                    }
+                }
+            } catch (MilesException ex) {
+                LOGGER.log(Level.INFO, getBundle().getString(ex.getCode()));
+                return;
+            }
+        }
+
     }
 
     private static final Logger LOGGER = Logger.getLogger(AccessController.class.getSimpleName());

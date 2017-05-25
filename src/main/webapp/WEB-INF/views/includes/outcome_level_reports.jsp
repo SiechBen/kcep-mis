@@ -63,7 +63,7 @@
                                 <td>${index.count}</td>
                                 <td>&nbsp;</td>
                                 <td class="tooltipped" data-toggle="tooltip" data-placement="auto bottom" title="${outcome.performanceIndicator.description}">${outcome.performanceIndicator.description}</td>
-                                <td>Rating</td>
+                                <td class="editable pencil" onclick="editMeasurementUnit(this, ${outcome.performanceIndicator.id}, '${outcome.performanceIndicator.measurementUnit.id}', '${outcome.performanceIndicator.description}')">${outcome.performanceIndicator.measurementUnit.unit}<c:if test="${measurementUnit.symbol}">(${measurementUnit.symbol})</c:if></td>
                                 <td id="appraisal-target-${outcome.performanceIndicator.id}" class="editable pencil" onclick="setOutcomeAppraisalTarget('${outcome.performanceIndicator.id}', '${outcome.performanceIndicator.appraisalTarget}', '${outcome.performanceIndicator.description}')">${outcome.performanceIndicator.appraisalTarget}</td>
                                 <td>${outcome.performanceIndicator.accumulatedActual}</td>
                                 <td id="expected-value-${outcome.id}" class="editable pencil" onclick="editOutcomeValue('${outcome.id}', '${outcome.actualValue}', '${outcome.performanceIndicator.accumulatedActual}', '${outcome.performanceIndicator.cumulativeActualValue}', '${outcome.expectedValue}', '${outcome.performanceIndicator.description}')">${outcome.expectedValue}</td>
@@ -86,19 +86,11 @@
                 <form role="form">
                     <div class="form-group">
                         End of year target value
-                        <select id="expected-value" class="form-control">
-                            <c:forEach var="ratingValue" items="${sessionScope.ratingValues}" varStatus="index">
-                                <option value="${ratingValue.category.name}">${ratingValue.category.name}</option>
-                            </c:forEach>
-                        </select>
+                        <input type="number" step="0.01"  id="expected-value" class="form-control">
                     </div>
                     <div class="form-group">
                         End of year actual value
-                        <select id="actual-value" class="form-control">
-                            <c:forEach var="ratingValue" items="${sessionScope.ratingValues}" varStatus="index">
-                                <option value="${ratingValue.category.name}">${ratingValue.category.name}</option>
-                            </c:forEach>
-                        </select>
+                        <input type="number" step="0.01"  id="actual-value" class="form-control">
                     </div>
                     <div class="form-group">
                         Ratio( = (AV/EV) * 100)
@@ -133,6 +125,26 @@
                     <div class="form-group">
                         Appraisal target
                         <input type="number" step="0.01"  id="appraisal-target" class="form-control">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row dialog" id="measurement-unit-dialog">
+    <div class="col-lg-12">
+        <div class="panel-default">
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        Measurement unit
+                        <select id="measurement-unit" class="form-control">
+                            <option disabled>Select measurement unit</option>
+                            <c:forEach var="measurementUnit" items="${sessionScope.measurementUnits}">
+                                <option value="${measurementUnit.id}">${measurementUnit.unit} <c:if test="${measurementUnit.symbol}">(${measurementUnit.symbol})</c:if></option>
+                            </c:forEach>
+                        </select>
                     </div>
                 </form>
             </div>

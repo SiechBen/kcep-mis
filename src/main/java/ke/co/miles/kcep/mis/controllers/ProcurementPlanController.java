@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.Controller;
 import ke.co.miles.kcep.mis.exceptions.MilesException;
 import ke.co.miles.kcep.mis.requests.procurement.method.ProcurementMethodRequestsLocal;
@@ -218,6 +219,7 @@ public class ProcurementPlanController extends Controller {
                     try {
                         procurementPlan.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurementPlan.setCost(null);
                     }
 
@@ -341,6 +343,7 @@ public class ProcurementPlanController extends Controller {
                         planVsActual = PlanVsActualDetail.getPlanVsActualDetail(Short
                                 .valueOf(request.getParameter("planVsActual")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         planVsActual = null;
                     }
 
@@ -348,6 +351,7 @@ public class ProcurementPlanController extends Controller {
                     try {
                         ifadPriorReview = IfadPriorReviewDetail.getIfadPriorReviewDetail(Short.valueOf(request.getParameter("ifadPriorReview")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         ifadPriorReview = null;
                     }
 
@@ -355,6 +359,7 @@ public class ProcurementPlanController extends Controller {
                     try {
                         procurementPlanType = ProcurementPlanTypeDetail.getProcurementPlanTypeDetail(Short.valueOf(request.getParameter("procurementPlanType")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurementPlanType = null;
                     }
 
@@ -362,6 +367,7 @@ public class ProcurementPlanController extends Controller {
                     try {
                         procurementMethod = new ProcurementMethodDetails(Short.valueOf(request.getParameter("procurementMethod")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurementMethod = null;
                     }
 
@@ -387,11 +393,13 @@ public class ProcurementPlanController extends Controller {
                     try {
                         procurementPlan.setId(Integer.valueOf(request.getParameter("id")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                     }
 
                     try {
                         procurementPlan.setCost(new BigDecimal(request.getParameter("cost")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurementPlan.setCost(null);
                     }
 
@@ -514,24 +522,28 @@ public class ProcurementPlanController extends Controller {
                         planVsActual = PlanVsActualDetail.getPlanVsActualDetail(Short
                                 .valueOf(request.getParameter("planVsActual")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         planVsActual = null;
                     }
 
                     try {
                         ifadPriorReview = IfadPriorReviewDetail.getIfadPriorReviewDetail(Short.valueOf(request.getParameter("ifadPriorReview")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         ifadPriorReview = null;
                     }
 
                     try {
                         procurementPlanType = ProcurementPlanTypeDetail.getProcurementPlanTypeDetail(Short.valueOf(request.getParameter("procurementPlanType")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurementPlanType = null;
                     }
 
                     try {
                         procurementMethod = new ProcurementMethodDetails(Short.valueOf(request.getParameter("procurementMethod")));
                     } catch (Exception e) {
+                        MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                         procurementMethod = null;
                     }
 

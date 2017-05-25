@@ -8,6 +8,7 @@ package ke.co.miles.kcep.mis.requests.activityplanning.activity.name;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import ke.co.miles.debugger.MilesDebugger;
 import ke.co.miles.kcep.mis.defaults.EntityRequests;
 import ke.co.miles.kcep.mis.entities.ActivityName;
 import ke.co.miles.kcep.mis.exceptions.InvalidArgumentException;
@@ -40,6 +41,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         try {
             activityName = (ActivityName) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             activityName = null;
         }
         if (activityName != null) {
@@ -53,6 +55,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
             em.persist(activityName);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -70,6 +73,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         try {
             activities = q.getResultList();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
 
         return convertActivitiesToActivityNameDetailsList(activities);
@@ -83,6 +87,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         try {
             activityName = (ActivityName) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -110,6 +115,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         try {
             activityName = (ActivityName) q.getSingleResult();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             activityName = null;
         }
         if (activityName != null) {
@@ -126,6 +132,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
             em.merge(activityName);
             em.flush();
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
             throw new InvalidStateException("error_000_01");
         }
 
@@ -142,6 +149,7 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
             try {
                 em.remove(activityName);
             } catch (Exception e) {
+                MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
                 throw new InvalidStateException("error_000_01");
             }
         } else {
@@ -159,10 +167,12 @@ public class ActivityNameRequests extends EntityRequests implements ActivityName
         try {
             activityNameDetails.setId(activityName.getId());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         try {
             activityNameDetails.setName(activityName.getName());
         } catch (Exception e) {
+            MilesDebugger.debug(this.getClass().getSimpleName() + ": " + e);
         }
         return activityNameDetails;
 
